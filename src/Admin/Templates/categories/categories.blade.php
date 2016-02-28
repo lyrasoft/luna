@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app      \Windwalker\Web\Application                 Global Application
- * @var $package  \Lyrasoft\Merlin\Admin\AdminPackage                 Package object.
+ * @var $package  \Windwalker\Core\Package\AbstractPackage    Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
  * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
@@ -23,6 +23,7 @@
  * @var $item          \Windwalker\Data\Data
  * @var $i             integer
  * @var $pagination    \Windwalker\Core\Pagination\Pagination
+ * @var $ordering      array
  */
 ?>
 
@@ -67,7 +68,7 @@
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($langPrefix . 'category.field.ordering', 'category.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($langPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- AUTHOR --}}
@@ -95,9 +96,12 @@
                 <tbody>
                 @foreach ($items as $i => $item)
                     <?php
+                    $order = array_search($item->id, $ordering[$item->parent_id]) + 1;
+                    $item->ordering = $order;
+
                     $grid->setItem($item, $i);
                     ?>
-                    <tr>
+                    <tr data-order-group="{{ $item->parent_id }}">
                         {{-- CHECKBOX --}}
                         <td>
                             {!! $grid->checkbox() !!}
@@ -120,7 +124,7 @@
 
                         {{-- TITLE --}}
                         <td>
-                            {{ str_repeat('—', $item->level) }}
+                            {{ str_repeat('—', $item->level - 1) }}
                             <a href="{{ $router->html('category', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>

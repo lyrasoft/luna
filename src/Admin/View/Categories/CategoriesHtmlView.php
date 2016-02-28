@@ -50,7 +50,7 @@ class CategoriesHtmlView extends GridView
 	 * @var  array
 	 */
 	protected $gridConfig = array(
-		'order_column' => 'category.ordering'
+		'order_column' => 'category.lft'
 	);
 
 	/**
@@ -62,6 +62,18 @@ class CategoriesHtmlView extends GridView
 	 */
 	protected function prepareData($data)
 	{
+		$grid = $this->getGridHelper();
+
+		$data->ordering = array();
+
+		if ($data->state->get('list.saveorder'))
+		{
+			foreach ($data->items as $i => $item)
+			{
+				$data->ordering[$item->parent_id][] = $item->id;
+			}
+		}
+
 		$this->prepareScripts();
 	}
 

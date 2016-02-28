@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Merlin\Admin\Model;
 
+use Lyrasoft\Merlin\Admin\Record\CategoryRecord;
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;
 use Windwalker\Record\Record;
@@ -32,6 +33,24 @@ class CategoryModel extends AdminModel
 	 * @var  array
 	 */
 	protected $reorderConditions = array();
+
+	/**
+	 * reorder
+	 *
+	 * @param array  $conditions
+	 * @param string $orderField
+	 *
+	 * @return bool
+	 */
+	public function reorderAll($conditions = array(), $orderField = null)
+	{
+		/** @var CategoryRecord $record */
+		$record = $this->getRecord();
+
+		$record->rebuild();
+
+		return true;
+	}
 
 	/**
 	 * postGetItem

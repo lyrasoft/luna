@@ -9,6 +9,7 @@
 namespace Lyrasoft\Merlin\Admin\Model;
 
 use Lyrasoft\Merlin\Admin\Table\Table;
+use Lyrasoft\Merlin\Helper\MerlinHelper;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
@@ -49,6 +50,14 @@ class CategoriesModel extends ListModel
 	protected function configureTables()
 	{
 		$this->addTable('category', Table::CATEGORIES);
+
+		$merlin = MerlinHelper::getPackage();
+		$userTable = $merlin->get('table.users', 'users');
+
+		if ($this->db->getTable($userTable)->exists())
+		{
+			$this->addTable('user', $userTable, 'category.created_by = user.id');
+		}
 	}
 
 	/**
@@ -72,7 +81,7 @@ class CategoriesModel extends ListModel
 	 */
 	protected function postGetQuery(Query $query)
 	{
-		// Add your logic
+		$query->where('parent_id != 0')->where('level >= 1');
 	}
 
 	/**

@@ -40,6 +40,28 @@ class CategoryRecord extends NestedRecord
 	}
 
 	/**
+	 * Method to store a node in the database table.
+	 *
+	 * @param   boolean $updateNulls True to update null values as well.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.0
+	 */
+	public function store($updateNulls = false)
+	{
+		// Auto set location for batch copy
+		$key = $this->getKeyName();
+
+		if (!$this->$key && !$this->locationId)
+		{
+			$this->setLocation($this->parent_id, static::LOCATION_LAST_CHILD);
+		}
+
+		return parent::store($updateNulls);
+	}
+
+	/**
 	 * onAfterStore
 	 *
 	 * @param Event $event
@@ -48,7 +70,7 @@ class CategoryRecord extends NestedRecord
 	 */
 	public function onAfterStore(Event $event)
 	{
-		// Add your logic
+		$this->rebuildPath();
 	}
 
 	/**
