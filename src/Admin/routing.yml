@@ -1,0 +1,43 @@
+# Category
+category:
+    pattern: /category(/id)
+    controller: Category
+    extra:
+        layout: category
+        active:
+            mainmenu: categories
+
+# Categories
+categories:
+    pattern: /categories(/page)
+    controller: Categories
+    action:
+        post: CopyController
+        patch: BatchController
+        put: FilterController
+    extra:
+        layout: categories
+        active:
+            mainmenu: categories
+
+# Article
+article:
+    pattern: /article(/id)
+    controller: Article
+    extra:
+        layout: article
+        active:
+            mainmenu: articles
+
+# Articles
+articles:
+    pattern: /articles(/page)
+    controller: Articles
+    action:
+        post: CopyController
+        patch: BatchController
+        put: FilterController
+    extra:
+        layout: articles
+        active:
+            mainmenu: articles
