@@ -10,6 +10,7 @@ namespace Lyrasoft\Merlin\Admin\Field\Category;
 
 use Lyrasoft\Merlin\Admin\Table\Table;
 use Phoenix\Field\ItemListField;
+use Windwalker\Query\Query;
 
 /**
  * The CategoryField class.
@@ -30,5 +31,37 @@ class CategoryListField extends ItemListField
 	 *
 	 * @var  string
 	 */
-	protected $ordering = null;
+	protected $ordering = 'lft';
+
+	/**
+	 * postQuery
+	 *
+	 * @param Query $query
+	 *
+	 * @return  void
+	 */
+	protected function postQuery(Query $query)
+	{
+		$type = $this->get('type');
+
+		if ($type)
+		{
+			$query->where('type = ' . $query->quote($type));
+		}
+
+		if (!$this->get('show_root', false))
+		{
+			$query->where('parent_id != 0');
+		}
+
+		if ($level = $this->get('max_level'))
+		{
+			$query->where('level <= ' . $level);
+		}
+
+		if ($level = $this->get('min_level'))
+		{
+			$query->where('level >= ' . $level);
+		}
+	}
 }

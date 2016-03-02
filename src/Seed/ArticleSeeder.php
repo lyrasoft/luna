@@ -14,6 +14,7 @@ use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 use Windwalker\Filter\OutputFilter;
+use Windwalker\Warder\Admin\DataMapper\UserMapper;
 
 /**
  * The ArticleSeeder class.
@@ -36,6 +37,17 @@ class ArticleSeeder extends AbstractSeeder
 
 		$categories = $catMapper->findAll();
 
+		$userMapper = new UserMapper;
+
+		if ($this->db->getTable($userMapper->getTable())->exists())
+		{
+			$userIds = $userMapper->findAll()->id;
+		}
+		else
+		{
+			$userIds = range(1, 50);
+		}
+
 		foreach ($categories as $category)
 		{
 			foreach (range(7, 15) as $i)
@@ -51,9 +63,9 @@ class ArticleSeeder extends AbstractSeeder
 				$data['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
 				$data['version']     = rand(1, 50);
 				$data['created']     = $faker->dateTime->format(DateTime::FORMAT_SQL);
-				$data['created_by']  = rand(20, 100);
+				$data['created_by']  = $faker->randomElement($userIds);
 				$data['modified']    = $faker->dateTime->format(DateTime::FORMAT_SQL);
-				$data['modified_by'] = rand(20, 100);
+				$data['modified_by'] = $faker->randomElement($userIds);
 				$data['ordering']    = $i;
 				$data['language']    = 'en-GB';
 				$data['params']      = '';

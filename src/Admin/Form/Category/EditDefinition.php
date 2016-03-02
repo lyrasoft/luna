@@ -10,7 +10,10 @@ namespace Lyrasoft\Merlin\Admin\Form\Category;
 
 use Lyrasoft\Merlin\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Merlin\Admin\Field\Category\CategoryModalField;
+use Lyrasoft\Merlin\Field\SummernoteEditorField;
+use Lyrasoft\Merlin\Helper\MerlinHelper;
 use Phoenix;
+use Windwalker\Core\Ioc;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Filter\InputFilter;
 use Windwalker\Form\Field;
@@ -35,85 +38,75 @@ class EditDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = MerlinHelper::getPackage()->get('admin.language.prefix', 'merlin.');
+
 		// Basic fieldset
-		$form->wrap('basic', null, function(Form $form)
+		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
+			$config = Ioc::getConfig();
+			$type = $config->get('route.extra.category.type');
+
 			// ID
 			$form->add('id', new Field\HiddenField);
 
 			// Title
 			$form->add('title', new Field\TextField)
-				->label(Translator::translate('admin.category.field.title'))
+				->label(Translator::translate($langPrefix . 'category.field.title'))
 				->setFilter('trim')
 				->required(true);
 
 			// Alias
 			$form->add('alias', new Field\TextField)
-				->label(Translator::translate('admin.category.field.alias'));
+				->label(Translator::translate($langPrefix . 'category.field.alias'));
+
+			// Parent
+			$form->add('parent_id', new CategoryListField)
+				->label(Translator::translate($langPrefix . 'category.field.parent'))
+				->set('type', $type);
 
 			// Images
-			$form->add('images', new Field\TextField)
-				->label(Translator::translate('admin.category.field.images'));
-
-			// URL
-			$form->add('url', new Field\TextField)
-				->label(Translator::translate('admin.category.field.url'))
-				->setValidator(new Rule\UrlValidator)
-				->set('class', 'validate-url');
-
-			// Example: Category List
-			$form->add('category_list', new CategoryListField)
-				->label('List Example');
-
-			// Example: Category Modal
-			$form->add('category_modal', new CategoryModalField)
-				->label('Modal Example');
+			$form->add('image', new Field\TextField)
+				->label(Translator::translate($langPrefix . 'category.field.images'));
 		});
 
 		// Text Fieldset
-		$form->wrap('text', null, function(Form $form)
+		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
-			// Introtext
-			$form->add('introtext', new Field\TextareaField)
-				->label(Translator::translate('admin.category.field.introtext'))
-				->set('rows', 10);
-
-			// Fulltext
-			$form->add('fulltext', new Field\TextareaField)
-				->label(Translator::translate('admin.category.field.fulltext'))
+			// Description
+			$form->add('description', new SummernoteEditorField)
+				->label(Translator::translate($langPrefix . 'category.field.description'))
+				->set('options', array(
+					'height' => 350
+				))
 				->set('rows', 10);
 		});
 
 		// Created fieldset
-		$form->wrap('created', null, function(Form $form)
+		$form->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
 			$form->add('state', new Field\RadioField)
-				->label(Translator::translate('admin.category.field.state'))
+				->label(Translator::translate($langPrefix . 'category.field.state'))
 				->set('class', 'btn-group')
 				->set('default', 1)
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
 
-			// Version
-			$form->add('version', new Field\TextField)
-				->label(Translator::translate('admin.category.field.version'));
-
 			// Created
 			$form->add('created', new Phoenix\Field\CalendarField)
-				->label(Translator::translate('admin.category.field.created'));
+				->label(Translator::translate($langPrefix . 'category.field.created'));
 
 			// Modified
 			$form->add('modified', new Phoenix\Field\CalendarField)
-				->label(Translator::translate('admin.category.field.modified'));
+				->label(Translator::translate($langPrefix . 'category.field.modified'));
 
 			// Author
 			$form->add('created_by', new Field\TextField)
-				->label(Translator::translate('admin.category.field.author'));
+				->label(Translator::translate($langPrefix . 'category.field.author'));
 
 			// Modified User
 			$form->add('modified_by', new Field\TextField)
-				->label(Translator::translate('admin.category.field.modifiedby'));
+				->label(Translator::translate($langPrefix . 'category.field.modifiedby'));
 		});
 	}
 }

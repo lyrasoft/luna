@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app      \Windwalker\Web\Application                 Global Application
- * @var $package  \Lyrasoft\Merlin\Admin\AdminPackage                 Package object.
+ * @var $package  \Windwalker\Core\Package\AbstractPackage    Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
  * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
@@ -19,7 +19,7 @@
  */
 ?>
 
-@extends('_global.admin.admin-edit')
+@extends($merlinExtends . '-edit')
 
 @section('toolbar')
     @include('toolbar')
@@ -31,20 +31,20 @@
     <div class="row">
         <div class="col-md-7">
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.category.edit.fieldset.basic')</legend>
+                <legend>@translate($merlinPrefix . 'category.edit.fieldset.basic')</legend>
 
                 {!! $form->renderFields('basic') !!}
             </fieldset>
 
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.category.edit.fieldset.text')</legend>
+                <legend>@translate($merlinPrefix . 'category.edit.fieldset.text')</legend>
 
-                {!! $form->renderFields('text') !!}
+                {!! $form->getField('description')->renderInput() !!}
             </fieldset>
         </div>
         <div class="col-md-5">
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.category.edit.fieldset.created')</legend>
+                <legend>@translate($merlinPrefix . 'category.edit.fieldset.created')</legend>
 
                 {!! $form->renderFields('created') !!}
             </fieldset>

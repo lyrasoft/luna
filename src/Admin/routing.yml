@@ -6,6 +6,8 @@ category:
         layout: category
         active:
             mainmenu: categories
+        category:
+            type: article
 
 # Categories
 categories:
@@ -19,6 +21,8 @@ categories:
         layout: categories
         active:
             mainmenu: categories
+        category:
+            type: article
 
 # Article
 article:

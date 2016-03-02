@@ -53,6 +53,20 @@ class CategoryModel extends AdminModel
 	}
 
 	/**
+	 * postSaveHook
+	 *
+	 * @param Record $record
+	 *
+	 * @return  void
+	 */
+	protected function postSaveHook(Record $record)
+	{
+		/** @var CategoryRecord $record */
+		$record->rebuild();
+		$record->rebuildPath();
+	}
+
+	/**
 	 * postGetItem
 	 *
 	 * @param Data $item

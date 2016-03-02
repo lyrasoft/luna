@@ -105,8 +105,8 @@ class MerlinListener
 		if ($this->merlin->isFrontend())
 		{
 			// Extends
-			$view['parentTemplate'] = $this->merlin->get('frontend.view.extends', '_global.html');
-			$view['langPrefix'] = $this->merlin->get('frontend.language.prefix', 'warder.');
+			$view['merlinExtends'] = $this->merlin->get('frontend.view.extends', '_global.html');
+			$view['merlinPrefix'] = $this->merlin->get('frontend.language.prefix', 'warder.');
 			$view['warder'] = $this->merlin;
 
 			// Paths
@@ -117,8 +117,8 @@ class MerlinListener
 		elseif ($this->merlin->isAdmin())
 		{
 			// Extends
-			$view['parentTemplate'] = $this->merlin->get('admin.view.extends', '_global.html');
-			$view['langPrefix'] = $this->merlin->get('admin.language.prefix', 'warder.');
+			$view['merlinExtends'] = $this->merlin->get('admin.view.extends', '_global.html');
+			$view['merlinPrefix'] = $this->merlin->get('admin.language.prefix', 'warder.');
 			$view['warder'] = $this->merlin;
 
 			// Paths

@@ -27,7 +27,7 @@
  */
 ?>
 
-@extends($parentTemplate)
+@extends($merlinExtends)
 
 @section('toolbar')
     @include('toolbar')
@@ -58,37 +58,37 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;">
-                        {!! $grid->sortTitle($langPrefix . 'category.field.state', 'category.state') !!}
+                        {!! $grid->sortTitle($merlinPrefix . 'category.field.state', 'category.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($langPrefix . 'category.field.title', 'category.title') !!}
+                        {!! $grid->sortTitle($merlinPrefix . 'category.field.title', 'category.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($langPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($merlinPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle($langPrefix . 'category.field.author', 'category.created_by') !!}
+                        {!! $grid->sortTitle($merlinPrefix . 'category.field.author', 'category.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle($langPrefix . 'category.field.created', 'category.created') !!}
+                        {!! $grid->sortTitle($merlinPrefix . 'category.field.created', 'category.created') !!}
                     </th>
 
                     {{-- LANGUAGE --}}
-                    <th>
-                        {!! $grid->sortTitle($langPrefix . 'category.field.language', 'category.language') !!}
-                    </th>
+                    {{--<th>--}}
+                        {{--{!! $grid->sortTitle($merlinPrefix . 'category.field.language', 'category.language') !!}--}}
+                    {{--</th>--}}
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($langPrefix . 'category.field.id', 'category.id') !!}
+                        {!! $grid->sortTitle($merlinPrefix . 'category.field.id', 'category.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -137,7 +137,7 @@
 
                         {{-- AUTHOR --}}
                         <td>
-                            {{ $item->created_by }}
+                            {{ $item->user_name }}
                         </td>
 
                         {{-- CREATED --}}
@@ -146,9 +146,9 @@
                         </td>
 
                         {{-- LANGUAGE --}}
-                        <td>
-                            {{ $item->language }}
-                        </td>
+                        {{--<td>--}}
+                            {{--{{ $item->language }}--}}
+                        {{--</td>--}}
 
                         {{-- ID --}}
                         <td>

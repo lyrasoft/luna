@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Merlin\Admin\View\Categories;
 
+use Lyrasoft\Merlin\Helper\MerlinHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
@@ -101,6 +102,9 @@ class CategoriesHtmlView extends GridView
 	 */
 	public function setTitle($title = null)
 	{
+		$type = $this->getPackage()->app->get('route.extra.category.type');
+		$this->langPrefix = MerlinHelper::getPackage()->get('admin.language.prefix', 'merlin.') . $type . '.';
+
 		return parent::setTitle($title);
 	}
 }

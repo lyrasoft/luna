@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Merlin\Admin\Form\Categories;
 
+use Lyrasoft\Merlin\Helper\MerlinHelper;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
@@ -31,13 +32,15 @@ class FilterDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = MerlinHelper::getPackage()->get('admin.language.prefix', 'merlin.');
+
 		/*
 		 * Search Control
 		 * -------------------------------------------------
 		 * Add search fields as options, by default, model will search all columns.
 		 * If you hop that user can choose a field to search, change "display" to true.
 		 */
-		$form->wrap(null, 'search', function (Form $form)
+		$form->wrap(null, 'search', function (Form $form) use ($langPrefix)
 		{
 			// Search Field
 			$form->add('field', new ListField)
@@ -45,8 +48,8 @@ class FilterDefinition implements FieldDefinitionInterface
 				->set('display', false)
 				->defaultValue('*')
 				->addOption(new Option(Translator::translate('phoenix.core.all'), '*'))
-				->addOption(new Option(Translator::translate('admin.category.field.title'), 'category.title'))
-				->addOption(new Option(Translator::translate('admin.category.field.alias'), 'category.alias'));
+				->addOption(new Option(Translator::translate($langPrefix . 'category.field.title'), 'category.title'))
+				->addOption(new Option(Translator::translate($langPrefix . 'category.field.alias'), 'category.alias'));
 
 			// Search Content
 			$form->add('content', new TextField)
@@ -62,14 +65,14 @@ class FilterDefinition implements FieldDefinitionInterface
 		 *
 		 * You can override filter actions in CategoriesModel::configureFilters()
 		 */
-		$form->wrap(null, 'filter', function(Form $form)
+		$form->wrap(null, 'filter', function(Form $form) use ($langPrefix)
 		{
 			// State
 			$form->add('category.state', new ListField)
-				->label('State')
+				->label(Translator::translate($langPrefix . 'category.field.state'))
 				// Add empty option to support single deselect button
 				->addOption(new Option('', ''))
-				->addOption(new Option(Translator::translate('admin.category.filter.state.select'), ''))
+				->addOption(new Option(Translator::translate($langPrefix . 'category.filter.state.select'), ''))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'))
 				->set('onchange', 'this.form.submit()');
