@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-namespace Lyrasoft\Merlin\Admin\Controller\Articles\Batch;
+namespace Lyrasoft\Luna\Admin\Controller\Articles\Batch;
 
 use Phoenix\Controller\Batch\AbstractTrashController;
 

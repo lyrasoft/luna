@@ -6,31 +6,31 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin;
+namespace Lyrasoft\Luna;
 
-use Lyrasoft\Merlin\Helper\MerlinHelper;
-use Lyrasoft\Merlin\Listener\MerlinListener;
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Listener\LunaListener;
 use Phoenix\Language\TranslatorHelper;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Event\Dispatcher;
 
-define('MERLIN_ROOT', dirname(__DIR__));
-define('MERLIN_SOURCE', MERLIN_ROOT . '/src');
-define('MERLIN_SOURCE_ADMIN', MERLIN_SOURCE . '/Admin');
+define('LUNA_ROOT', dirname(__DIR__));
+define('LUNA_SOURCE', LUNA_ROOT . '/src');
+define('LUNA_SOURCE_ADMIN', LUNA_SOURCE . '/Admin');
 
 /**
- * The MerlinPackage class.
+ * The LunaPackage class.
  *
  * @since  {DEPLOY_VERSION}
  */
-class MerlinPackage extends AbstractPackage
+class LunaPackage extends AbstractPackage
 {
 	/**
 	 * WarderPackage constructor.
 	 */
 	public function __construct()
 	{
-		MerlinHelper::setPackage($this);
+		LunaHelper::setPackage($this);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class MerlinPackage extends AbstractPackage
 	{
 		parent::registerListeners($dispatcher);
 
-		$dispatcher->addListener(new MerlinListener($this));
+		$dispatcher->addListener(new LunaListener($this));
 	}
 
 	/**

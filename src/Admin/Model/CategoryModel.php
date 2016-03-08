@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Merlin\Admin\Record\CategoryRecord;
+use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;
 use Windwalker\Record\Record;

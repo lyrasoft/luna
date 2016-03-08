@@ -10,11 +10,11 @@ frontend:
     view:
         extends: _global.html
     language:
-        prefix: merlin.
+        prefix: luna.
 
 admin:
     package: admin
     view:
         extends: _global.admin.admin
     language:
-        prefix: merlin.
+        prefix: luna.

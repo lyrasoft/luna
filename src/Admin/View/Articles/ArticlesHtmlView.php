@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\View\Articles;
+namespace Lyrasoft\Luna\Admin\View\Articles;
 
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;

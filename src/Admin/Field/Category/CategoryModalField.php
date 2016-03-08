@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Field\Category;
+namespace Lyrasoft\Luna\Admin\Field\Category;
 
-use Lyrasoft\Merlin\Admin\Table\Table;
+use Lyrasoft\Luna\Admin\Table\Table;
 use Phoenix\Field\ModalField;
 
 /**

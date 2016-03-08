@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-namespace Lyrasoft\Merlin\Admin\Form\Articles;
+namespace Lyrasoft\Luna\Admin\Form\Articles;
 
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;

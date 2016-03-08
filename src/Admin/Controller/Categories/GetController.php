@@ -6,10 +6,10 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Controller\Categories;
+namespace Lyrasoft\Luna\Admin\Controller\Categories;
 
-use Lyrasoft\Merlin\Admin\Model\CategoriesModel;
-use Lyrasoft\Merlin\Admin\View\Categories\CategoriesHtmlView;
+use Lyrasoft\Luna\Admin\Model\CategoriesModel;
+use Lyrasoft\Luna\Admin\View\Categories\CategoriesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Windwalker\Core\Model\Model;
 

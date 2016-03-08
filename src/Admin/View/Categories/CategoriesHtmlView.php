@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\View\Categories;
+namespace Lyrasoft\Luna\Admin\View\Categories;
 
-use Lyrasoft\Merlin\Helper\MerlinHelper;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
@@ -103,7 +103,7 @@ class CategoriesHtmlView extends GridView
 	public function setTitle($title = null)
 	{
 		$type = $this->getPackage()->app->get('route.extra.category.type');
-		$this->langPrefix = MerlinHelper::getPackage()->get('admin.language.prefix', 'merlin.') . $type . '.';
+		$this->langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.') . $type . '.';
 
 		return parent::setTitle($title);
 	}

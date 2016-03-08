@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $helper \Lyrasoft\Merlin\Admin\Helper\MenuHelper
+ * @var $helper \Lyrasoft\Luna\Admin\Helper\MenuHelper
  * @var $router \Windwalker\Core\Router\PackageRouter
  */
 ?>

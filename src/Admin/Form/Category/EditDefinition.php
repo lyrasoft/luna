@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Form\Category;
+namespace Lyrasoft\Luna\Admin\Form\Category;
 
-use Lyrasoft\Merlin\Admin\Field\Category\CategoryListField;
-use Lyrasoft\Merlin\Admin\Field\Category\CategoryModalField;
-use Lyrasoft\Merlin\Field\SummernoteEditorField;
-use Lyrasoft\Merlin\Helper\MerlinHelper;
+use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
+use Lyrasoft\Luna\Admin\Field\Category\CategoryModalField;
+use Lyrasoft\Luna\Field\SummernoteEditorField;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix;
 use Windwalker\Core\Ioc;
 use Windwalker\Core\Language\Translator;
@@ -38,7 +38,7 @@ class EditDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
-		$langPrefix = MerlinHelper::getPackage()->get('admin.language.prefix', 'merlin.');
+		$langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.');
 
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form) use ($langPrefix)

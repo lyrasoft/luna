@@ -6,10 +6,10 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Form\Article;
+namespace Lyrasoft\Luna\Admin\Form\Article;
 
-use Lyrasoft\Merlin\Admin\Field\Article\ArticleListField;
-use Lyrasoft\Merlin\Admin\Field\Article\ArticleModalField;
+use Lyrasoft\Luna\Admin\Field\Article\ArticleListField;
+use Lyrasoft\Luna\Admin\Field\Article\ArticleModalField;
 use Phoenix;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Filter\InputFilter;

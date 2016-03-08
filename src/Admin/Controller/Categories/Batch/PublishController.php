@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-namespace Lyrasoft\Merlin\Admin\Controller\Categories\Batch;
+namespace Lyrasoft\Luna\Admin\Controller\Categories\Batch;
 
 use Phoenix\Controller\Batch\AbstractPublishController;
 

@@ -6,10 +6,10 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Controller\Category;
+namespace Lyrasoft\Luna\Admin\Controller\Category;
 
-use Lyrasoft\Merlin\Admin\Model\CategoryModel;
-use Lyrasoft\Merlin\Admin\View\Category\CategoryHtmlView;
+use Lyrasoft\Luna\Admin\Model\CategoryModel;
+use Lyrasoft\Luna\Admin\View\Category\CategoryHtmlView;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\Data;
 

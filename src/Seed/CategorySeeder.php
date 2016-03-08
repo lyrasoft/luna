@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-use Lyrasoft\Merlin\Admin\DataMapper\CategoryMapper;
-use Lyrasoft\Merlin\Admin\Record\CategoryRecord;
-use Lyrasoft\Merlin\Admin\Table\Table;
+use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
+use Lyrasoft\Luna\Admin\Record\CategoryRecord;
+use Lyrasoft\Luna\Admin\Table\Table;
 use Faker\Factory;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;

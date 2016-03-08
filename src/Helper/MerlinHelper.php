@@ -6,41 +6,41 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Helper;
+namespace Lyrasoft\Luna\Helper;
 
-use Lyrasoft\Merlin\MerlinPackage;
+use Lyrasoft\Luna\LunaPackage;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * The MerlinHelper class.
+ * The LunaHelper class.
  *
  * @since  {DEPLOY_VERSION}
  */
-abstract class MerlinHelper
+abstract class LunaHelper
 {
 	/**
 	 * Property package.
 	 *
-	 * @var  MerlinPackage
+	 * @var  LunaPackage
 	 */
 	protected static $package;
 
 	/**
 	 * setPackage
 	 *
-	 * @param   MerlinPackage $merlin
+	 * @param   LunaPackage $luna
 	 *
 	 * @return  void
 	 */
-	public static function setPackage(MerlinPackage $merlin)
+	public static function setPackage(LunaPackage $luna)
 	{
-		static::$package = $merlin;
+		static::$package = $luna;
 	}
 
 	/**
 	 * Method to get property Package
 	 *
-	 * @return  MerlinPackage
+	 * @return  LunaPackage
 	 */
 	public static function getPackage()
 	{
@@ -78,7 +78,7 @@ abstract class MerlinHelper
 	 */
 	public static function getFrontendRouting()
 	{
-		return Yaml::parse(MERLIN_SOURCE . '/routing.yml');
+		return Yaml::parse(LUNA_SOURCE . '/routing.yml');
 	}
 
 	/**
@@ -88,6 +88,6 @@ abstract class MerlinHelper
 	 */
 	public static function getAdminRouting()
 	{
-		return Yaml::parse(MERLIN_SOURCE_ADMIN . '/routing.yml');
+		return Yaml::parse(LUNA_SOURCE_ADMIN . '/routing.yml');
 	}
 }

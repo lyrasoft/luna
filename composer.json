@@ -1,7 +1,7 @@
 {
-    "name": "lyrasoft/merlin",
+    "name": "lyrasoft/luna",
     "description": "A CMF package for Windwalker.",
-    "homepage": "https://github.com/lyrasoft/merlin",
+    "homepage": "https://github.com/lyrasoft/luna",
     "license": "LGPL-2.0+",
     "minimum-stability": "beta",
     "require": {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Lyrasoft\\Merlin\\": "src/"
+            "Lyrasoft\\Luna\\": "src/"
         }
     },
     "extra": {

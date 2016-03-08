@@ -19,7 +19,7 @@
  */
 ?>
 
-@extends($merlinExtends . '-edit')
+@extends($lunaExtends . '-edit')
 
 @section('toolbar')
     @include('toolbar')
@@ -31,20 +31,20 @@
     <div class="row">
         <div class="col-md-7">
             <fieldset class="form-horizontal">
-                <legend>@translate($merlinPrefix . 'category.edit.fieldset.basic')</legend>
+                <legend>@translate($lunaPrefix . 'category.edit.fieldset.basic')</legend>
 
                 {!! $form->renderFields('basic') !!}
             </fieldset>
 
             <fieldset class="form-horizontal">
-                <legend>@translate($merlinPrefix . 'category.edit.fieldset.text')</legend>
+                <legend>@translate($lunaPrefix . 'category.edit.fieldset.text')</legend>
 
                 {!! $form->getField('description')->renderInput() !!}
             </fieldset>
         </div>
         <div class="col-md-5">
             <fieldset class="form-horizontal">
-                <legend>@translate($merlinPrefix . 'category.edit.fieldset.created')</legend>
+                <legend>@translate($lunaPrefix . 'category.edit.fieldset.created')</legend>
 
                 {!! $form->renderFields('created') !!}
             </fieldset>

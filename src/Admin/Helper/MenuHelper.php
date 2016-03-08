@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-namespace Lyrasoft\Merlin\Admin\Helper;
+namespace Lyrasoft\Luna\Admin\Helper;
 
 use Windwalker\Core\Language\Translator;
 use Windwalker\Core\View\Helper\AbstractHelper;

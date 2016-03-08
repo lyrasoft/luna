@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Record;
+namespace Lyrasoft\Luna\Admin\Record;
 
-use Lyrasoft\Merlin\Admin\Table\Table;
+use Lyrasoft\Luna\Admin\Table\Table;
 use Windwalker\Event\Event;
 use Windwalker\Record\Record;
 

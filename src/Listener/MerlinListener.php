@@ -6,10 +6,10 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Listener;
+namespace Lyrasoft\Luna\Listener;
 
-use Lyrasoft\Merlin\Helper\MerlinHelper;
-use Lyrasoft\Merlin\MerlinPackage;
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\LunaPackage;
 use Phoenix\DataMapper\DataMapperResolver;
 use Phoenix\Form\FieldDefinitionResolver;
 use Phoenix\Record\RecordResolver;
@@ -21,27 +21,27 @@ use Windwalker\Utilities\Queue\Priority;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
- * The MerlinListener class.
+ * The LunaListener class.
  *
  * @since  {DEPLOY_VERSION}
  */
-class MerlinListener
+class LunaListener
 {
 	/**
 	 * Property package.
 	 *
-	 * @var  MerlinPackage
+	 * @var  LunaPackage
 	 */
-	protected $merlin;
+	protected $luna;
 
 	/**
 	 * UserListener constructor.
 	 *
-	 * @param MerlinPackage $merlin
+	 * @param LunaPackage $luna
 	 */
-	public function __construct(MerlinPackage $merlin = null)
+	public function __construct(LunaPackage $luna = null)
 	{
-		$this->merlin = $merlin ? : MerlinHelper::getPackage();
+		$this->luna = $luna ? : LunaHelper::getPackage();
 	}
 
 	/**
@@ -58,26 +58,26 @@ class MerlinListener
 		$package = $app->getPackage();
 
 		// In Warder
-		if ($this->merlin->isEnabled())
+		if ($this->luna->isEnabled())
 		{
-			RecordResolver::addNamespace(ReflectionHelper::getNamespaceName($this->merlin) . '/Admin/Record', Priority::LOW);
-			DataMapperResolver::addNamespace(ReflectionHelper::getNamespaceName($this->merlin) . '/Admin/DataMapper', Priority::LOW);
+			RecordResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/Record', Priority::LOW);
+			DataMapperResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/DataMapper', Priority::LOW);
 		}
 
 		// Frontend
-		if ($this->merlin->isFrontend())
+		if ($this->luna->isFrontend())
 		{
 			$package->getMvcResolver()
-				->addNamespace(ReflectionHelper::getNamespaceName($this->merlin));
+				->addNamespace(ReflectionHelper::getNamespaceName($this->luna));
 
-			FieldDefinitionResolver::addNamespace((ReflectionHelper::getNamespaceName($this->merlin) . '\Form'));
+			FieldDefinitionResolver::addNamespace((ReflectionHelper::getNamespaceName($this->luna) . '\Form'));
 		}
-		elseif ($this->merlin->isAdmin())
+		elseif ($this->luna->isAdmin())
 		{
 			$package->getMvcResolver()
-				->addNamespace(ReflectionHelper::getNamespaceName($this->merlin) . '\Admin');
+				->addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '\Admin');
 
-			FieldDefinitionResolver::addNamespace(ReflectionHelper::getNamespaceName($this->merlin) . '\Admin\Form');
+			FieldDefinitionResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '\Admin\Form');
 		}
 	}
 
@@ -102,29 +102,29 @@ class MerlinListener
 		$app = $view->getPackage()->app;
 
 		// Prepare View data
-		if ($this->merlin->isFrontend())
+		if ($this->luna->isFrontend())
 		{
 			// Extends
-			$view['merlinExtends'] = $this->merlin->get('frontend.view.extends', '_global.html');
-			$view['merlinPrefix'] = $this->merlin->get('frontend.language.prefix', 'warder.');
-			$view['warder'] = $this->merlin;
+			$view['lunaExtends'] = $this->luna->get('frontend.view.extends', '_global.html');
+			$view['lunaPrefix'] = $this->luna->get('frontend.language.prefix', 'warder.');
+			$view['warder'] = $this->luna;
 
 			// Paths
 //			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.locale'), Priority::LOW - 25);
 //			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.default'), Priority::LOW - 25);
-			$renderer->addPath(MERLIN_SOURCE . '/Templates/' . $name, Priority::LOW - 25);
+			$renderer->addPath(LUNA_SOURCE . '/Templates/' . $name, Priority::LOW - 25);
 		}
-		elseif ($this->merlin->isAdmin())
+		elseif ($this->luna->isAdmin())
 		{
 			// Extends
-			$view['merlinExtends'] = $this->merlin->get('admin.view.extends', '_global.html');
-			$view['merlinPrefix'] = $this->merlin->get('admin.language.prefix', 'warder.');
-			$view['warder'] = $this->merlin;
+			$view['lunaExtends'] = $this->luna->get('admin.view.extends', '_global.html');
+			$view['lunaPrefix'] = $this->luna->get('admin.language.prefix', 'warder.');
+			$view['warder'] = $this->luna;
 
 			// Paths
 //			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.locale'), Priority::LOW - 25);
 //			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.default'), Priority::LOW - 25);
-			$renderer->addPath(MERLIN_SOURCE_ADMIN . '/Templates/' . $name, Priority::LOW - 25);
+			$renderer->addPath(LUNA_SOURCE_ADMIN . '/Templates/' . $name, Priority::LOW - 25);
 		}
 	}
 }

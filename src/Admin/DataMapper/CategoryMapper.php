@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\DataMapper;
+namespace Lyrasoft\Luna\Admin\DataMapper;
 
-use Lyrasoft\Merlin\Admin\Table\Table;
+use Lyrasoft\Luna\Admin\Table\Table;
 use Windwalker\DataMapper\DataMapper;
 use Windwalker\Event\Event;
 

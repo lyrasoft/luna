@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-namespace Lyrasoft\Merlin\Admin\Form\Categories;
+namespace Lyrasoft\Luna\Admin\Form\Categories;
 
-use Lyrasoft\Merlin\Helper\MerlinHelper;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
@@ -32,7 +32,7 @@ class FilterDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
-		$langPrefix = MerlinHelper::getPackage()->get('admin.language.prefix', 'merlin.');
+		$langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.');
 
 		/*
 		 * Search Control

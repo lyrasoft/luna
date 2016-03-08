@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Merlin\Admin\Table\Table;
+use Lyrasoft\Luna\Admin\Table\Table;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;

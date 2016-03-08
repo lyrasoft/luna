@@ -6,10 +6,10 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Merlin\Admin\Table\Table;
-use Lyrasoft\Merlin\Helper\MerlinHelper;
+use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
@@ -51,8 +51,8 @@ class CategoriesModel extends ListModel
 	{
 		$this->addTable('category', Table::CATEGORIES);
 
-		$merlin = MerlinHelper::getPackage();
-		$userTable = $merlin->get('table.users', 'users');
+		$luna = LunaHelper::getPackage();
+		$userTable = $luna->get('table.users', 'users');
 
 		if ($this->db->getTable($userTable)->exists())
 		{

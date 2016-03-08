@@ -27,7 +27,7 @@
  */
 ?>
 
-@extends($merlinExtends)
+@extends($lunaExtends)
 
 @section('toolbar')
     @include('toolbar')
@@ -58,37 +58,37 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;">
-                        {!! $grid->sortTitle($merlinPrefix . 'category.field.state', 'category.state') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'category.field.state', 'category.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($merlinPrefix . 'category.field.title', 'category.title') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'category.field.title', 'category.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($merlinPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle($merlinPrefix . 'category.field.author', 'category.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'category.field.author', 'category.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle($merlinPrefix . 'category.field.created', 'category.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'category.field.created', 'category.created') !!}
                     </th>
 
                     {{-- LANGUAGE --}}
                     {{--<th>--}}
-                        {{--{!! $grid->sortTitle($merlinPrefix . 'category.field.language', 'category.language') !!}--}}
+                        {{--{!! $grid->sortTitle($lunaPrefix . 'category.field.language', 'category.language') !!}--}}
                     {{--</th>--}}
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($merlinPrefix . 'category.field.id', 'category.id') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'category.field.id', 'category.id') !!}
                     </th>
                 </tr>
                 </thead>

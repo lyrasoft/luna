@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Model;
 
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;

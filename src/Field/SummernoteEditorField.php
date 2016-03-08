@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Field;
+namespace Lyrasoft\Luna\Field;
 
-use Lyrasoft\Merlin\Script\MerlinScript;
+use Lyrasoft\Luna\Script\LunaScript;
 use Windwalker\Form\Field\TextareaField;
 
 /**
@@ -66,6 +66,6 @@ class SummernoteEditorField extends TextareaField
 }
 JS;
 
-		MerlinScript::summernote('#' . $attrs['id'], $options);
+		LunaScript::summernote('#' . $attrs['id'], $options);
 	}
 }

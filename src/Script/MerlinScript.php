@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Script;
+namespace Lyrasoft\Luna\Script;
 
-use Lyrasoft\Merlin\Helper\MerlinHelper;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\AbstractScriptManager;
 use Windwalker\Utilities\ArrayHelper;
 
@@ -17,7 +17,7 @@ use Windwalker\Utilities\ArrayHelper;
  *
  * @since  {DEPLOY_VERSION}
  */
-class MerlinScript extends AbstractScriptManager
+class LunaScript extends AbstractScriptManager
 {
 	/**
 	 * fontAwesome
@@ -30,8 +30,8 @@ class MerlinScript extends AbstractScriptManager
 
 		if (!static::inited(__METHOD__))
 		{
-			$merlin = MerlinHelper::getPackage();
-			$asset->addStyle($merlin->name . '/css/font-awesome.min.css');
+			$luna = LunaHelper::getPackage();
+			$asset->addStyle($luna->name . '/css/font-awesome.min.css');
 		}
 	}
 
@@ -51,10 +51,10 @@ class MerlinScript extends AbstractScriptManager
 		{
 			static::fontAwesome();
 
-			$merlin = MerlinHelper::getPackage();
-			$asset->addScript($merlin->name . '/js/summernote/summernote.min.js');
-			$asset->addStyle($merlin->name . '/css/summernote/summernote.min.css');
-			$asset->addStyle($merlin->name . '/css/summernote/summernote-bs3.min.css');
+			$luna = LunaHelper::getPackage();
+			$asset->addScript($luna->name . '/js/summernote/summernote.min.js');
+			$asset->addStyle($luna->name . '/css/summernote/summernote.min.css');
+			$asset->addStyle($luna->name . '/css/summernote/summernote-bs3.min.css');
 
 			$asset->internalStyle(".note-editor {border: 1px solid #ccc;}");
 		}
@@ -63,7 +63,7 @@ class MerlinScript extends AbstractScriptManager
 		{
 			$defaultOptions = array();
 
-			$url = MerlinHelper::getPackage()->getCurrentPackage()->router->html('merlin_img_upload');
+			$url = LunaHelper::getPackage()->getCurrentPackage()->router->html('luna_img_upload');
 
 			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
 

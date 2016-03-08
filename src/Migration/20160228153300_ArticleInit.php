@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-use Lyrasoft\Merlin\Admin\Table\Table;
+use Lyrasoft\Luna\Admin\Table\Table;
 use Windwalker\Core\Migration\AbstractMigration;
 use Windwalker\Core\Migration\Schema;
 use Windwalker\Database\Schema\Column;

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Controller\Categories;
+namespace Lyrasoft\Luna\Admin\Controller\Categories;
 
 use Phoenix\Controller\Batch\AbstractCopyController;
 

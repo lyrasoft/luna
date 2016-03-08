@@ -6,10 +6,10 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Merlin\Admin\Controller\Article;
+namespace Lyrasoft\Luna\Admin\Controller\Article;
 
-use Lyrasoft\Merlin\Admin\Model\ArticleModel;
-use Lyrasoft\Merlin\Admin\View\Article\ArticleHtmlView;
+use Lyrasoft\Luna\Admin\Model\ArticleModel;
+use Lyrasoft\Luna\Admin\View\Article\ArticleHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
 use Windwalker\Core\Model\Model;
 
