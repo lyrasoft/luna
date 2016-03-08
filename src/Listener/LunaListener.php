@@ -107,7 +107,7 @@ class LunaListener
 			// Extends
 			$view['lunaExtends'] = $this->luna->get('frontend.view.extends', '_global.html');
 			$view['lunaPrefix'] = $this->luna->get('frontend.language.prefix', 'warder.');
-			$view['warder'] = $this->luna;
+			$view['luna'] = $this->luna;
 
 			// Paths
 //			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.locale'), Priority::LOW - 25);
@@ -119,7 +119,7 @@ class LunaListener
 			// Extends
 			$view['lunaExtends'] = $this->luna->get('admin.view.extends', '_global.html');
 			$view['lunaPrefix'] = $this->luna->get('admin.language.prefix', 'warder.');
-			$view['warder'] = $this->luna;
+			$view['luna'] = $this->luna;
 
 			// Paths
 //			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.locale'), Priority::LOW - 25);
