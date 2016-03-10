@@ -45,3 +45,10 @@ articles:
         layout: articles
         active:
             mainmenu: articles
+
+# Luna
+_luna_img_upload:
+    pattern: /_luna/image/upload
+    controller: Luna
+    action:
+        post|put|patch: ImageUploadController

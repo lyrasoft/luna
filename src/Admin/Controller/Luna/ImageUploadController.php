@@ -1,0 +1,58 @@
+<?php
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @license    GNU General Public License version 2 or later.
+ */
+
+namespace Lyrasoft\Luna\Admin\Controller\Luna;
+
+use Lyrasoft\Luna\Helper\ImageStorageHelper;
+use Lyrasoft\Unidev\Controller\AbstractAjaxController;
+use Lyrasoft\Unidev\Image\ImageUploader;
+use Windwalker\Debugger\Helper\DebuggerHelper;
+use Windwalker\Filesystem\File;
+use Windwalker\Filesystem\Folder;
+
+/**
+ * The ImageUploadController class.
+ *
+ * @since  {DEPLOY_VERSION}
+ */
+class ImageUploadController extends AbstractAjaxController
+{
+	/**
+	 * doAjax
+	 *
+	 * @return  mixed
+	 */
+	protected function doAjax()
+	{
+		DebuggerHelper::disableConsole();
+
+		$file = $this->input->files->get('file');
+
+		if ($file['error'])
+		{
+			return $this->responseFailure('Upload fail', $file['error']);
+		}
+
+		$id = md5(uniqid(rand(0, 999)));
+		$temp = ImageStorageHelper::getTempFile($id, File::getExtension($file['name']));
+
+		if (!is_dir(dirname($temp)))
+		{
+			Folder::create(dirname($temp));
+		}
+
+		File::upload($file['tmp_name'], $temp);
+
+		if (!is_file($temp))
+		{
+			return $this->responseFailure('Move to temp fail', $file['error']);
+		}
+
+		ImageUploader::getInstance()
+	}
+}

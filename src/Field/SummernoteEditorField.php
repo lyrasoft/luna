@@ -62,7 +62,7 @@ class SummernoteEditorField extends TextareaField
 
 		$options['onImageUpload'] = <<<JS
 \\function(files) {
-	sendFile(files[0], $(this));
+	SummernoteLunaEditor.getInstance('#{$this->getId()}').sendFile(files[0]);
 }
 JS;
 

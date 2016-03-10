@@ -53,47 +53,78 @@ class LunaScript extends AbstractScriptManager
 
 			$luna = LunaHelper::getPackage();
 			$asset->addScript($luna->name . '/js/summernote/summernote.min.js');
+			$asset->addScript($luna->name . '/js/summernote/summernote-luna.min.js');
+
 			$asset->addStyle($luna->name . '/css/summernote/summernote.min.css');
 			$asset->addStyle($luna->name . '/css/summernote/summernote-bs3.min.css');
 
 			$asset->internalStyle(".note-editor {border: 1px solid #ccc;}");
+
+			$js = <<<JS
+;(function($) {
+    var SummernoteLunaEditor = function(editor, options) {
+		this.editor = editor;
+		this.options = options;
+	};
+
+	SummernoteLunaEditor.instances = {};
+
+	SummernoteLunaEditor.getInstance = function(selector, options) {
+		if (!this.instances[selector]) {
+			// Start Summernote
+			var editor = $(selector).summernote(options);
+
+			this.instances[selector] = new SummernoteLunaEditor(editor, options);
+		}
+
+		return this.instances[selector];
+	}
+
+	SummernoteLunaEditor.prototype = {
+		sendFile: function(file) {
+			data = new FormData();
+			data.append("file", file);
+			$.ajax({
+				data: data,
+				type: "POST",
+				url: this.options.image_upload_url,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(json) {
+					json = jQuery.parseJSON(json);
+
+					if (json.state)
+					{
+						editor.summernote("insertImage", json.url);
+					}
+					else
+					{
+						alert('Image upload fail!!!');
+					}
+				}
+			});
+		}
+	}
+
+	window.SummernoteLunaEditor = SummernoteLunaEditor;
+})(jQuery);
+JS;
+
+			$asset->internalScript($js);
 		}
 
 		if (!static::inited(__METHOD__, func_get_args()))
 		{
 			$defaultOptions = array();
 
-			$url = LunaHelper::getPackage()->getCurrentPackage()->router->html('luna_img_upload');
+			$options['image_upload_url'] = LunaHelper::getPackage()->getCurrentPackage()->router->html('_luna_img_upload');
 
 			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
 
 			$js = <<<JS
 jQuery(document).ready(function($) {
-	$('$selector').summernote($options);
-
-	function sendFile(file, editor) {
-		data = new FormData();
-		data.append("file", file);
-		$.ajax({
-			data: data,
-			type: "POST",
-			url: "$url",
-			cache: false,
-			contentType: false,
-			processData: false,
-			success: function(json) {
-				json = jQuery.parseJSON(json);
-				if (json.state)
-				{
-					editor.summernote("insertImage", json.url);
-				}
-				else
-				{
-					alert('Image upload fail!!!');
-				}
-			}
-		});
-	}
+	SummernoteLunaEditor.getInstance('$selector', $options);
 });
 JS;
 
