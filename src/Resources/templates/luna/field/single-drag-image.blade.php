@@ -24,7 +24,8 @@
         <input type="text" id="{{ $attrs['id'] }}-data" name="{{ $attrs['id'] }}-data" value="" />
     </div>
 
-
+    {{-- Push this modal to page bottom --}}
+    @assetTemplate('single-image-upload@' . $attrs['id'])
     <div class="modal fade" id="{{ $attrs['id'] }}-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -58,4 +59,5 @@
             </div>
         </div>
     </div>
+    @endTemplate()
 </div>
