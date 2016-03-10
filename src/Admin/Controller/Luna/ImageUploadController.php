@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Luna;
 
+use Imgur\Client;
 use Lyrasoft\Luna\Helper\ImageStorageHelper;
 use Lyrasoft\Unidev\Controller\AbstractAjaxController;
 use Lyrasoft\Unidev\Image\ImageUploader;
@@ -32,6 +33,8 @@ class ImageUploadController extends AbstractAjaxController
 		DebuggerHelper::disableConsole();
 
 		$file = $this->input->files->get('file');
+		$folder = $this->input->getPath('folder');
+		$folder = ltrim($folder . '/', '/');
 
 		if ($file['error'])
 		{
@@ -39,7 +42,7 @@ class ImageUploadController extends AbstractAjaxController
 		}
 
 		$id = md5(uniqid(rand(0, 999)));
-		$temp = ImageStorageHelper::getTempFile($id, File::getExtension($file['name']));
+		$temp = ImageStorageHelper::getTempFile($folder . $id, File::getExtension($file['name']));
 
 		if (!is_dir(dirname($temp)))
 		{
@@ -53,6 +56,10 @@ class ImageUploadController extends AbstractAjaxController
 			return $this->responseFailure('Move to temp fail', $file['error']);
 		}
 
-		ImageUploader::getInstance()
+		$url = ImageUploader::upload($temp, ImageStorageHelper::getPath($folder . $id));
+
+		return $this->responseSuccess('Upload success', array(
+			'url' => $url
+		));
 	}
 }

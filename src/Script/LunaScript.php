@@ -63,7 +63,7 @@ class LunaScript extends AbstractScriptManager
 			$js = <<<JS
 ;(function($) {
     var SummernoteLunaEditor = function(editor, options) {
-		this.editor = editor;
+		this.editor = $(editor);
 		this.options = options;
 	};
 
@@ -84,6 +84,8 @@ class LunaScript extends AbstractScriptManager
 		sendFile: function(file) {
 			data = new FormData();
 			data.append("file", file);
+			var self = this;
+
 			$.ajax({
 				data: data,
 				type: "POST",
@@ -91,12 +93,10 @@ class LunaScript extends AbstractScriptManager
 				cache: false,
 				contentType: false,
 				processData: false,
-				success: function(json) {
-					json = jQuery.parseJSON(json);
-
-					if (json.state)
+				success: function(response) {
+					if (response.success)
 					{
-						editor.summernote("insertImage", json.url);
+						self.editor.summernote("insertImage", response.data.url);
 					}
 					else
 					{
