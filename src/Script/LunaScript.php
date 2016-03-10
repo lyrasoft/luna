@@ -344,6 +344,26 @@ jQuery(document).ready(function($)
 
         reader.readAsDataURL(files[0]);
 	});
+
+	// Selector
+	fileSelector.on('change', function(e) {
+
+		var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
+
+		if (!SingleImageUpload.checkFile(files[0]))
+		{
+			return;
+		}
+
+	    reader = new FileReader;
+
+        reader.onload = function (event)
+        {
+        	$('$selector-cropper').cropit('imageSrc', event.target.result);
+        };
+
+        reader.readAsDataURL(files[0]);
+	});
 });
 JS
 			);
