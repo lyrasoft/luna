@@ -12,6 +12,8 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\AbstractScriptManager;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
+use Windwalker\Core\Ioc;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Utilities\ArrayHelper;
 
 /**
@@ -105,6 +107,9 @@ JS;
 	{
 		$asset = static::getAsset();
 
+		$config = Ioc::getConfig();
+		$locale = $config->get('language.locale') ? : $config->get('language.default', 'en-GB');
+
 		if (!static::inited(__METHOD__))
 		{
 			$luna = LunaHelper::getPackage();
@@ -112,6 +117,8 @@ JS;
 			$asset->addScript($luna->name . '/js/summernote/summernote-luna.min.js');
 
 			$asset->addStyle($luna->name . '/css/summernote/summernote.min.css');
+
+			$asset->addScript($luna->name . '/js/summernote/lang/summernote-' . $locale . '.min.js');
 
 			$css = <<<CSS
 .note-editor {
@@ -137,7 +144,9 @@ CSS;
 
 		if (!static::inited(__METHOD__, func_get_args()))
 		{
-			$defaultOptions = array();
+			$defaultOptions = array(
+				'lang' => $locale
+			);
 
 			$options['image_upload_url'] = LunaHelper::getPackage()->getCurrentPackage()->router->html('_luna_img_upload');
 
