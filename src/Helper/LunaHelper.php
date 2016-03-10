@@ -90,4 +90,14 @@ abstract class LunaHelper
 	{
 		return Yaml::parse(LUNA_SOURCE_ADMIN . '/routing.yml');
 	}
+
+	/**
+	 * getLangPrefix
+	 *
+	 * @return  string
+	 */
+	public static function getLangPrefix()
+	{
+		return static::getPackage()->getLangPrefix();
+	}
 }

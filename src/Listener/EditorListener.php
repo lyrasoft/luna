@@ -44,7 +44,7 @@ class EditorListener extends AbstractEditorButtonListener
 	 */
 	protected function readmore(Event $event)
 	{
-		$html = WidgetHelper::render('luna.editor.readmore-button', array(
+		$html = WidgetHelper::render('luna.editor.button.readmore', array(
 			'id' => $event['field']->getId()
 		), WidgetHelper::ENGINE_BLADE);
 

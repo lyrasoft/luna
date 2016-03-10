@@ -130,4 +130,23 @@ class LunaPackage extends AbstractPackage
 
 		return $this->container->get('current.package');
 	}
+
+	/**
+	 * getLangPrefix
+	 *
+	 * @return  string
+	 */
+	public function getLangPrefix()
+	{
+		if ($this->isAdmin())
+		{
+			$langPrefix = $this->get('admin.language.prefix', 'luna.');
+		}
+		else
+		{
+			$langPrefix = $this->get('frontend.language.prefix', 'luna.');
+		}
+
+		return $langPrefix;
+	}
 }

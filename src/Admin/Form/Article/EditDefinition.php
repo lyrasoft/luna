@@ -10,6 +10,9 @@ namespace Lyrasoft\Luna\Admin\Form\Article;
 
 use Lyrasoft\Luna\Admin\Field\Article\ArticleListField;
 use Lyrasoft\Luna\Admin\Field\Article\ArticleModalField;
+use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
+use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
+use Lyrasoft\Luna\Field\Image\SingleImageDragField;
 use Phoenix;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Filter\InputFilter;
@@ -18,6 +21,7 @@ use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
+use Windwalker\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The ArticleEditDefinition class.
@@ -51,36 +55,27 @@ class EditDefinition implements FieldDefinitionInterface
 			$form->add('alias', new Field\TextField)
 				->label(Translator::translate('admin.article.field.alias'));
 
+			// Category
+			$form->add('category_id', new CategoryListField)
+				->label(Translator::translate('luna.category.title'));
+
 			// Images
-			$form->add('images', new Field\TextField)
-				->label(Translator::translate('admin.article.field.images'));
-
-			// URL
-			$form->add('url', new Field\TextField)
-				->label(Translator::translate('admin.article.field.url'))
-				->setValidator(new Rule\UrlValidator)
-				->set('class', 'validate-url');
-
-			// Example: Article List
-			$form->add('article_list', new ArticleListField)
-				->label('List Example');
-
-			// Example: Article Modal
-			$form->add('article_modal', new ArticleModalField)
-				->label('Modal Example');
+			$form->add('image', new SingleImageDragField)
+				->label(Translator::translate('admin.article.field.images'))
+				->set('width', 400)
+				->set('height', 300);
 		});
 
 		// Text Fieldset
 		$form->wrap('text', null, function(Form $form)
 		{
 			// Introtext
-			$form->add('introtext', new Field\TextareaField)
+			$form->add('text', new SummernoteEditorField)
 				->label(Translator::translate('admin.article.field.introtext'))
-				->set('rows', 10);
-
-			// Fulltext
-			$form->add('fulltext', new Field\TextareaField)
-				->label(Translator::translate('admin.article.field.fulltext'))
+				->set('options', array(
+					'height' => 450
+				))
+				->set('includes', 'readmore')
 				->set('rows', 10);
 		});
 
@@ -105,15 +100,17 @@ class EditDefinition implements FieldDefinitionInterface
 
 			// Modified
 			$form->add('modified', new Phoenix\Field\CalendarField)
-				->label(Translator::translate('admin.article.field.modified'));
+				->label(Translator::translate('admin.article.field.modified'))
+				->disabled();
 
 			// Author
-			$form->add('created_by', new Field\TextField)
+			$form->add('created_by', new UserModalField)
 				->label(Translator::translate('admin.article.field.author'));
 
 			// Modified User
-			$form->add('modified_by', new Field\TextField)
-				->label(Translator::translate('admin.article.field.modifiedby'));
+			$form->add('modified_by', new UserModalField)
+				->label(Translator::translate('admin.article.field.modifiedby'))
+				->readonly();
 		});
 	}
 }

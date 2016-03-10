@@ -42,7 +42,7 @@ class ArticleModel extends AdminModel
 	 */
 	protected function postGetItem(Data $item)
 	{
-		// Do some stuff
+		$item->text = $item->introtext . ($item->introtext ? '<hr id="luna-readmore">' . $item->introtext : null);
 	}
 
 	/**

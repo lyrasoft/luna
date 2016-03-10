@@ -29,7 +29,7 @@
 <form name="admin-form" id="admin-form" action="{{ $router->html('article') }}" method="POST" enctype="multipart/form-data">
 
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-8">
             <fieldset class="form-horizontal">
                 <legend>@translate('admin.article.edit.fieldset.basic')</legend>
 
@@ -39,10 +39,10 @@
             <fieldset class="form-horizontal">
                 <legend>@translate('admin.article.edit.fieldset.text')</legend>
 
-                {!! $form->renderFields('text') !!}
+                {!! $form->getField('text')->renderInput() !!}
             </fieldset>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
             <fieldset class="form-horizontal">
                 <legend>@translate('admin.article.edit.fieldset.created')</legend>
 

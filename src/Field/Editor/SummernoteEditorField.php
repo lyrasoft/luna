@@ -54,11 +54,14 @@ class SummernoteEditorField extends AbstractEditorField
 
 		if ($this->get('image_upload', true))
 		{
-			$options['callbacks']['onImageUpload'] = <<<JS
+			if (!isset($options['callbacks']['onImageUpload']))
+			{
+				$options['callbacks']['onImageUpload'] = <<<JS
 \\function(files) {
 	SummernoteLunaEditor.getInstance('#{$this->getId()}').sendFile(files[0]);
 }
 JS;
+			}
 		}
 
 		LunaScript::summernote('#' . $attrs['id'], $options);

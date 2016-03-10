@@ -34,10 +34,10 @@
                 return editor.summernote('insertNode', $(text)[0]);
             },
             getValue: function() {
-                return editor.code();
+                return editor.summernote('code');
             },
             setValue: function(text) {
-                return editor.code(text);
+                return editor.summernote('code', text);
             }
         };
     };

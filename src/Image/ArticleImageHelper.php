@@ -16,7 +16,7 @@ use Lyrasoft\Unidev\Storage\AbstractStorageHelper;
  *
  * @since  {DEPLOY_VERSION}
  */
-class CategoryImageHelper extends AbstractStorageHelper
+class ArticleImageHelper extends AbstractStorageHelper
 {
 	/**
 	 * Get base folder name.
@@ -25,7 +25,7 @@ class CategoryImageHelper extends AbstractStorageHelper
 	 */
 	public static function getBaseFolder()
 	{
-		return 'images/category/';
+		return 'images/article/';
 	}
 
 	/**

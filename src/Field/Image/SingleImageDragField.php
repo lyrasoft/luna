@@ -9,9 +9,14 @@
 namespace Lyrasoft\Luna\Field\Image;
 
 use Lyrasoft\Luna\Script\LunaScript;
+use Lyrasoft\Unidev\Image\Base64Image;
 use Phoenix\Asset\Asset;
+use Phoenix\Controller\AbstractSaveController;
+use Windwalker\Core\Controller\Controller;
 use Windwalker\Core\Widget\WidgetHelper;
+use Windwalker\Data\Data;
 use Windwalker\Form\Field\TextField;
+use Windwalker\Test\TestHelper;
 
 /**
  * The SingleImageField class.
@@ -46,7 +51,7 @@ class SingleImageDragField extends TextField
 	{
 		$this->prepareScript($attrs);
 
-		return WidgetHelper::render('luna.field.single-drag-image', [
+		return WidgetHelper::render('luna.form.field.single-drag-image', [
 			'attrs' => $attrs
 		], WidgetHelper::ENGINE_BLADE);
 	}
@@ -67,5 +72,37 @@ class SingleImageDragField extends TextField
 		$options['height'] = $exportZoom * $this->get('height', 300);
 
 		LunaScript::singleImageDragUpload($selector, $options);
+	}
+
+	/**
+	 * uploadFromController
+	 *
+	 * @param AbstractSaveController $controller
+	 * @param string                 $field
+	 * @param Data                   $data
+	 * @param string                 $uri
+	 *
+	 * @return  boolean|string
+	 */
+	public static function uploadFromController(AbstractSaveController $controller, $field, Data $data, $uri)
+	{
+		// formControl is protected, we get it by TestHelper
+		$base64 = $controller->input->post->getRaw('input-' . TestHelper::getValue($controller, 'formControl') . '-' . $field . '-data');
+		$delete = $controller->input->post->get('input-' . TestHelper::getValue($controller, 'formControl') . '-' . $field . '-delete-image');
+
+		if ($base64 && $url = Base64Image::quickUpload($base64, $uri))
+		{
+			$data->image = $url;
+
+			return $url;
+		}
+		elseif ($delete)
+		{
+			$data->image = null;
+
+			return true;
+		}
+
+		return false;
 	}
 }

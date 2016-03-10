@@ -8,15 +8,12 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Category;
 
-use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Admin\Model\CategoryModel;
 use Lyrasoft\Luna\Admin\View\Category\CategoryHtmlView;
+use Lyrasoft\Luna\Field\Image\SingleImageDragField;
 use Lyrasoft\Luna\Image\CategoryImageHelper;
-use Lyrasoft\Unidev\Image\Base64Image;
-use Lyrasoft\Unidev\Image\ImageUploader;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\Data;
-use Windwalker\Filesystem\File;
 
 /**
  * The SaveController class.
@@ -98,19 +95,11 @@ class SaveController extends AbstractSaveController
 	 */
 	protected function postSave(Data $data)
 	{
-		$image = $this->input->post->getRaw('input-item-image-data');
-		$delete = $this->input->post->getRaw('input-item-image-delete-image');
-
-		if ($image && $url = Base64Image::quickUpload($image, CategoryImageHelper::getPath($data->id)))
+		// Save base64 from single upload field
+		if (false !== SingleImageDragField::uploadFromController($this, 'image', $data, CategoryImageHelper::getPath($data->id)));
 		{
-			$data->image = $url;
+			$this->model->save($data);
 		}
-		elseif ($delete)
-		{
-			$data->image = null;
-		}
-
-		$this->model->save($data);
 	}
 
 	/**

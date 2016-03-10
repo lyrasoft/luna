@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Script;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\AbstractScriptManager;
 use Phoenix\Script\JQueryScript;
+use Phoenix\Script\PhoenixScript;
 use Windwalker\Utilities\ArrayHelper;
 
 /**
@@ -31,6 +32,19 @@ class LunaScript extends AbstractScriptManager
 
 		if (!static::inited(__METHOD__))
 		{
+			$luna = LunaHelper::getPackage();
+
+			if ($luna->isAdmin())
+			{
+				$langPrefix = $luna->get('admin.language.prefix');
+			}
+			else
+			{
+				$langPrefix = $luna->get('frontend.language.prefix');
+			}
+
+			PhoenixScript::translate($langPrefix . 'editor.button.readmore.message.exists');
+
 			$js = <<<JS
 var Luna;
 (function(Luna) {
@@ -64,7 +78,8 @@ var Luna;
 			var content = this.getValue(selector);
 
 			if (content.match(/<hr\s+id=("|')luna-readmore("|')\s*\/*>/i)) {
-				alert('There is already a Read more ... link that has been inserted. Only one link is permitted.');
+				// There is already a Read more ... link that has been inserted. Only one link is permitted.
+				alert(Phoenix.Translator.translate('{$langPrefix}editor.button.readmore.message.exists'));
 				return false;
 			}
 
