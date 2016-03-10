@@ -72,8 +72,9 @@
          */
         sendFile: function(file) {
             var data = new FormData;
+            var folder = this.options.image.folder || '';
             data.append("file", file);
-            data.append('folder', this.options.image.folder);
+            data.append('folder', folder);
 
             var self = this;
 

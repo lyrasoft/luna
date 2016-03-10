@@ -6,24 +6,18 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Helper;
+namespace Lyrasoft\Luna\Image;
 
-use Lyrasoft\Unidev\Storage\StorageHelperInterface;
+use Lyrasoft\Unidev\Image\ImageUploader;
+use Lyrasoft\Unidev\Storage\AbstractStorageHelper;
 
 /**
  * The ImageStorageHelper class.
  *
  * @since  {DEPLOY_VERSION}
  */
-class ImageStorageHelper implements StorageHelperInterface
+class EditorImageHelper extends AbstractStorageHelper
 {
-	/**
-	 * Property base.
-	 *
-	 * @var  string
-	 */
-	protected static $base = 'image';
-
 	/**
 	 * Get file temp path.
 	 *
@@ -34,7 +28,7 @@ class ImageStorageHelper implements StorageHelperInterface
 	 */
 	public static function getTempFile($identify, $ext = 'jpg')
 	{
-		return WINDWALKER_TEMP . '/' . static::$base . '/' . $identify . '.' . static::getRealExtension($ext);
+		return WINDWALKER_TEMP . '/' . static::getPath($identify, $ext);
 	}
 
 	/**
@@ -47,7 +41,7 @@ class ImageStorageHelper implements StorageHelperInterface
 	 */
 	public static function getPath($identify, $ext = 'jpg')
 	{
-		return static::$base . '/' . $identify . '.' . static::getRealExtension($ext);
+		return static::getBaseFolder() . $identify . '.' . static::getRealExtension($ext);
 	}
 
 	/**
@@ -60,25 +54,16 @@ class ImageStorageHelper implements StorageHelperInterface
 	 */
 	public static function getRemoteUrl($identify, $ext = 'jpg')
 	{
-		return null;
+		return ImageUploader::getAdapter()->getHost() . '/' . static::getPath($identify, $ext);
 	}
 
 	/**
-	 * getRealExtension
-	 *
-	 * @param   string  $ext
+	 * Get base folder name.
 	 *
 	 * @return  string
 	 */
-	public static function getRealExtension($ext)
+	public static function getBaseFolder()
 	{
-		$ext = strtolower($ext);
-
-		if ($ext == 'jpeg')
-		{
-			$ext = 'jpg';
-		}
-
-		return $ext;
+		return 'images/upload/' .gmdate('Y/m/d') . '/';
 	}
 }

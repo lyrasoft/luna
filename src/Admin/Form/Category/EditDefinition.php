@@ -10,7 +10,8 @@ namespace Lyrasoft\Luna\Admin\Form\Category;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Category\CategoryModalField;
-use Lyrasoft\Luna\Field\SummernoteEditorField;
+use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
+use Lyrasoft\Luna\Field\Image\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix;
 use Windwalker\Core\Ioc;
@@ -62,11 +63,15 @@ class EditDefinition implements FieldDefinitionInterface
 			// Parent
 			$form->add('parent_id', new CategoryListField)
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
+				->addOption(new Option(Translator::translate($langPrefix . 'category.root'), 1))
 				->set('type', $type);
 
 			// Images
-			$form->add('image', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'category.field.images'));
+			$form->add('image', new SingleImageDragField)
+				->label(Translator::translate($langPrefix . 'category.field.images'))
+				->set('export_zoom', 2)
+				->set('width', 300)
+				->set('height', 300);
 		});
 
 		// Text Fieldset

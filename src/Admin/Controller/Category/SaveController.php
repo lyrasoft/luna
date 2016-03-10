@@ -8,10 +8,15 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Category;
 
+use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Admin\Model\CategoryModel;
 use Lyrasoft\Luna\Admin\View\Category\CategoryHtmlView;
+use Lyrasoft\Luna\Image\CategoryImageHelper;
+use Lyrasoft\Unidev\Image\Base64Image;
+use Lyrasoft\Unidev\Image\ImageUploader;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\Data;
+use Windwalker\Filesystem\File;
 
 /**
  * The SaveController class.
@@ -93,7 +98,41 @@ class SaveController extends AbstractSaveController
 	 */
 	protected function postSave(Data $data)
 	{
-		parent::postSave($data);
+		$image = $this->input->post->getRaw('input-item-image-data');
+		$delete = $this->input->post->getRaw('input-item-image-delete-image');
+
+		if ($image)
+		{
+			$type = Base64Image::getTypeFromBase64($image);
+
+			if ($type)
+			{
+				$tempFile = CategoryImageHelper::getTempFile($data->id);
+
+				Base64Image::toFile($image, $tempFile);
+
+				// Upload to S3
+				$url = ImageUploader::upload($tempFile, CategoryImageHelper::getPath($data->id));
+
+				if (is_file($tempFile))
+				{
+					File::delete($tempFile);
+				}
+
+				$data->image = $url;
+
+				$this->model->save($data);
+			}
+		}
+		elseif ($delete)
+		{
+			$data->image = '';
+
+			$mapper = new CategoryMapper;
+			$user = $mapper->findOne($data->id);
+			$user->image = '';
+			$mapper->updateOne($user, 'id', true);
+		}
 	}
 
 	/**

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Field;
+namespace Lyrasoft\Luna\Field\Editor;
 
 use Lyrasoft\Luna\Script\LunaScript;
 use Windwalker\Dom\HtmlElement;
