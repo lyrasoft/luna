@@ -16,24 +16,17 @@ use Windwalker\Form\Field\TextareaField;
  *
  * @since  {DEPLOY_VERSION}
  */
-class SummernoteEditorField extends TextareaField
+class SummernoteEditorField extends AbstractEditorField
 {
 	const TOOLBAR_SIMPLE = 'simple';
 	const TOOLBAR_FULL = 'full';
 
 	/**
-	 * buildInput
+	 * Property editorName.
 	 *
-	 * @param array $attrs
-	 *
-	 * @return  mixed
+	 * @var  string
 	 */
-	public function buildInput($attrs)
-	{
-		$this->prepareScipt($attrs);
-
-		return parent::buildInput($attrs);
-	}
+	protected $editorName = null;
 
 	/**
 	 * prepareScipt
@@ -44,7 +37,7 @@ class SummernoteEditorField extends TextareaField
 	 *
 	 * @return  void
 	 */
-	protected function prepareScipt($attrs)
+	protected function prepareScript($attrs)
 	{
 		$options = (array) $this->get('options', array());
 

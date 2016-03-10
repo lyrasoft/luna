@@ -32,7 +32,7 @@ class ImageUploadController extends AbstractAjaxController
 	{
 		DebuggerHelper::disableConsole();
 
-		if (!$this->app->get('unidev.storage'))
+		if (!$this->app->get('unidev.image.storage'))
 		{
 			return $this->responseFailure('No image storage set', 500, array('mute' => true));
 		}

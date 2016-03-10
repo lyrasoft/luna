@@ -9,9 +9,12 @@
 namespace Lyrasoft\Luna;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Listener\EditorListener;
 use Lyrasoft\Luna\Listener\LunaListener;
+use Lyrasoft\Luna\Provider\LunaProvider;
 use Phoenix\Language\TranslatorHelper;
 use Windwalker\Core\Package\AbstractPackage;
+use Windwalker\DI\Container;
 use Windwalker\Event\Dispatcher;
 
 define('LUNA_ROOT', dirname(__DIR__));
@@ -47,6 +50,18 @@ class LunaPackage extends AbstractPackage
 	}
 
 	/**
+	 * registerProviders
+	 *
+	 * @param Container $container
+	 *
+	 * @return  void
+	 */
+	public function registerProviders(Container $container)
+	{
+		$container->registerServiceProvider(new LunaProvider($this));
+	}
+
+	/**
 	 * registerListeners
 	 *
 	 * @param Dispatcher $dispatcher
@@ -57,7 +72,8 @@ class LunaPackage extends AbstractPackage
 	{
 		parent::registerListeners($dispatcher);
 
-		$dispatcher->addListener(new LunaListener($this));
+		$dispatcher->addListener(new LunaListener($this))
+			->addListener(new EditorListener);
 	}
 
 	/**

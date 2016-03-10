@@ -77,7 +77,9 @@ class EditDefinition implements FieldDefinitionInterface
 				->label(Translator::translate($langPrefix . 'category.field.description'))
 				->set('options', array(
 					'height' => 350,
+					'iconPrefix' => 'luna-icon luna-icon-',
 				))
+//				->set('includes', 'readmore')
 				->set('rows', 10);
 		});
 

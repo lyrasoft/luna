@@ -24,14 +24,74 @@ class LunaScript extends AbstractScriptManager
 	 *
 	 * @return  void
 	 */
-	public static function fontAwesome()
+	public static function lunaIcon()
 	{
 		$asset = static::getAsset();
 
 		if (!static::inited(__METHOD__))
 		{
 			$luna = LunaHelper::getPackage();
-			$asset->addStyle($luna->name . '/css/font-awesome.min.css');
+			$asset->addStyle($luna->name . '/css/luna-icon.min.css');
+		}
+	}
+
+	/**
+	 * editor
+	 *
+	 * @return  void
+	 */
+	public static function editor()
+	{
+		$asset = static::getAsset();
+
+		if (!static::inited(__METHOD__))
+		{
+			$js = <<<JS
+var Luna;
+(function(Luna) {
+	Luna.Editor = {
+		editors: {},
+
+		// Core methods
+		$: function(selector) {
+			if (!this.editors[selector]) {
+				console.log('Editor element: ' + selector + ' not found.');
+			}
+
+		    return this.editors[selector];
+		},
+		getEditor: function(selector) {
+		    return this.$(selector);
+		},
+		insert: function(selector, text) {
+		    return Luna.Editor.getEditor(selector).insert(text);
+		},
+		getValue: function(selector) {
+		    return Luna.Editor.getEditor(selector).getValue();
+		},
+		setValue: function(selector, text) {
+		    return Luna.Editor.getEditor(selector).setValue(text);
+		},
+
+		// MISC methods
+		addReadmore: function(selector) {
+
+			var content = this.getValue(selector);
+			
+			console.log(content, content.match(/<hr\s+id=("|')luna-readmore("|')\s*\/*>/i));
+
+			if (content.match(/<hr\s+id=("|')luna-readmore("|')\s*\/*>/i)) {
+				alert('There is already a Read more ... link that has been inserted. Only one link is permitted.');
+				return false;
+			}
+
+		    return this.getEditor(selector).insert('<hr id="luna-readmore" />');
+		}
+	};
+})(Luna || (Luna = {}));
+JS;
+
+			$asset->internalScript($js);
 		}
 	}
 
@@ -49,7 +109,7 @@ class LunaScript extends AbstractScriptManager
 
 		if (!static::inited(__METHOD__))
 		{
-			static::fontAwesome();
+			static::lunaIcon();
 
 			$luna = LunaHelper::getPackage();
 			$asset->addScript($luna->name . '/js/summernote/summernote.min.js');
@@ -58,76 +118,26 @@ class LunaScript extends AbstractScriptManager
 			$asset->addStyle($luna->name . '/css/summernote/summernote.min.css');
 			$asset->addStyle($luna->name . '/css/summernote/summernote-bs3.min.css');
 
-			$asset->internalStyle(".note-editor {border: 1px solid #ccc;}");
+			$css = <<<CSS
+.note-editor {
+	border: 1px solid #ccc;
+}
 
-			$js = <<<JS
-;(function($) {
-	var defaultOptions = {
-		image: {
-			folder: null
-		}
-	};
+.note-editor hr#luna-readmore {
+	background: #eee;
+    content: "READMORE";
+    height: 20px;
+    display: block;
+    text-align: center;
+}
 
-    /**
-     * Constructor.
-     *
-     * @param {HtmlElement} editor
-     * @param {Object}      options
-     *
-     * @constructor
-     */
-    var SummernoteLunaEditor = function(editor, options) {
-		this.editor = $(editor);
-		this.options = $.extend(true, {}, defaultOptions, options);
-	};
+.note-editor hr#luna-readmore::before {
+	content: "READMORE";
+	color: #999;
+}
+CSS;
 
-	SummernoteLunaEditor.instances = {};
-
-	SummernoteLunaEditor.getInstance = function(selector, options) {
-		if (!this.instances[selector]) {
-			// Start Summernote
-			var editor = $(selector).summernote(options);
-
-			this.instances[selector] = new SummernoteLunaEditor(editor, options);
-		}
-
-		return this.instances[selector];
-	}
-
-	SummernoteLunaEditor.prototype = {
-		sendFile: function(file) {
-			data = new FormData;
-			data.append("file", file);
-			data.append('folder', this.options.image.folder);
-
-			var self = this;
-
-			$.ajax({
-				data: data,
-				type: "POST",
-				url: this.options.image_upload_url,
-				cache: false,
-				contentType: false,
-				processData: false,
-				success: function(response) {
-					if (response.success) {
-						self.editor.summernote("insertImage", response.data.url);
-					} else {
-						alert('Image upload fail!!!');
-					}
-				},
-				error: function(error) {
-				    console.log(error.responseJSON.message);
-				}
-			});
-		}
-	}
-
-	window.SummernoteLunaEditor = SummernoteLunaEditor;
-})(jQuery);
-JS;
-
-			$asset->internalScript($js);
+			$asset->internalStyle($css);
 		}
 
 		if (!static::inited(__METHOD__, func_get_args()))
