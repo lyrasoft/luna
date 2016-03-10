@@ -28,7 +28,7 @@ class EditorImageHelper extends AbstractStorageHelper
 	 */
 	public static function getTempFile($identify, $ext = 'jpg')
 	{
-		return WINDWALKER_TEMP . '/' . static::getPath($identify, $ext);
+		return static::getTempPath() . '/' . static::getPath($identify, $ext);
 	}
 
 	/**

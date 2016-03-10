@@ -27,7 +27,7 @@ class CategoryImageHelper extends AbstractStorageHelper
 	 */
 	public static function getTempFile($identify)
 	{
-		return WINDWALKER_TEMP . '/' . static::getPath($identify);
+		return static::getTempPath() . '/' . static::getPath($identify);
 	}
 
 	/**

@@ -101,38 +101,16 @@ class SaveController extends AbstractSaveController
 		$image = $this->input->post->getRaw('input-item-image-data');
 		$delete = $this->input->post->getRaw('input-item-image-delete-image');
 
-		if ($image)
+		if ($image && $url = Base64Image::quickUpload($image, CategoryImageHelper::getPath($data->id)))
 		{
-			$type = Base64Image::getTypeFromBase64($image);
-
-			if ($type)
-			{
-				$tempFile = CategoryImageHelper::getTempFile($data->id);
-
-				Base64Image::toFile($image, $tempFile);
-
-				// Upload to S3
-				$url = ImageUploader::upload($tempFile, CategoryImageHelper::getPath($data->id));
-
-				if (is_file($tempFile))
-				{
-					File::delete($tempFile);
-				}
-
-				$data->image = $url;
-
-				$this->model->save($data);
-			}
+			$data->image = $url;
 		}
 		elseif ($delete)
 		{
-			$data->image = '';
-
-			$mapper = new CategoryMapper;
-			$user = $mapper->findOne($data->id);
-			$user->image = '';
-			$mapper->updateOne($user, 'id', true);
+			$data->image = null;
 		}
+
+		$this->model->save($data);
 	}
 
 	/**

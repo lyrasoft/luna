@@ -70,7 +70,7 @@ class EditDefinition implements FieldDefinitionInterface
 			$form->add('image', new SingleImageDragField)
 				->label(Translator::translate($langPrefix . 'category.field.images'))
 				->set('export_zoom', 2)
-				->set('width', 300)
+				->set('width', 400)
 				->set('height', 300);
 		});
 
