@@ -21,6 +21,7 @@
     </div>
 
     <div style="display: none;">
+        <input type="file" id="{{ $attrs['id'] }}-selector" class="cropit-image-input" style="display: none;" />
         <input type="text" id="{{ $attrs['id'] }}-data" name="{{ $attrs['id'] }}-data" value="" />
     </div>
 
@@ -35,8 +36,6 @@
                 </div>
                 <div class="modal-body">
                     <div id="{{ $attrs['id'] }}-cropper">
-
-                        <input type="file" id="{{ $attrs['id'] }}-selector" class="cropit-image-input" style="display: none;" />
 
                         <!-- This is where the preview image is displayed -->
                         <div class="cropit-image-preview-container center-block" style="width: {{ $attrs['width'] }}px; height: {{ $attrs['height'] }}px;">
