@@ -62,9 +62,23 @@ class LunaScript extends AbstractScriptManager
 
 			$js = <<<JS
 ;(function($) {
+	var defaultOptions = {
+		image: {
+			folder: null
+		}
+	};
+
+    /**
+     * Constructor.
+     *
+     * @param {HtmlElement} editor
+     * @param {Object}      options
+     *
+     * @constructor
+     */
     var SummernoteLunaEditor = function(editor, options) {
 		this.editor = $(editor);
-		this.options = options;
+		this.options = $.extend(true, {}, defaultOptions, options);
 	};
 
 	SummernoteLunaEditor.instances = {};
@@ -82,8 +96,10 @@ class LunaScript extends AbstractScriptManager
 
 	SummernoteLunaEditor.prototype = {
 		sendFile: function(file) {
-			data = new FormData();
+			data = new FormData;
 			data.append("file", file);
+			data.append('folder', this.options.image.folder);
+
 			var self = this;
 
 			$.ajax({
@@ -94,14 +110,14 @@ class LunaScript extends AbstractScriptManager
 				contentType: false,
 				processData: false,
 				success: function(response) {
-					if (response.success)
-					{
+					if (response.success) {
 						self.editor.summernote("insertImage", response.data.url);
-					}
-					else
-					{
+					} else {
 						alert('Image upload fail!!!');
 					}
+				},
+				error: function(error) {
+				    console.log(error.responseJSON.message);
 				}
 			});
 		}

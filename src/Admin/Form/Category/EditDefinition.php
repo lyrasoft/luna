@@ -76,7 +76,7 @@ class EditDefinition implements FieldDefinitionInterface
 			$form->add('description', new SummernoteEditorField)
 				->label(Translator::translate($langPrefix . 'category.field.description'))
 				->set('options', array(
-					'height' => 350
+					'height' => 350,
 				))
 				->set('rows', 10);
 		});

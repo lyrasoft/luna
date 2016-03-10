@@ -38,33 +38,36 @@ class SummernoteEditorField extends TextareaField
 	/**
 	 * prepareScipt
 	 *
-	 * @param   array  $attrs
+	 * @link  http://summernote.org/deep-dive/
 	 *
-	 * @see  http://summernote.org/deep-dive/
+	 * @param   array  $attrs
 	 *
 	 * @return  void
 	 */
 	protected function prepareScipt($attrs)
 	{
-		$options = (array) $this->get('options', []);
+		$options = (array) $this->get('options', array());
 
 		if ($this->get('toolbar') == static::TOOLBAR_SIMPLE)
 		{
-			$options['toolbar'] = [
-				['size', ['fontsize']],
-				['color', ['color']],
-				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
-				['layout', ['ul', 'ol', 'paragraph']],
-				['insert', ['link']],
-				['misc', ['fullscreen', 'undo', 'redo', 'help']]
-			];
+			$options['toolbar'] = array(
+				array('size', array('fontsize')),
+				array('color', array('color')),
+				array('style', array('bold', 'italic', 'underline', 'strikethrough', 'clear')),
+				array('layout', array('ul', 'ol', 'paragraph')),
+				array('insert', array('link')),
+				array('misc', array('fullscreen', 'undo', 'redo', 'help'))
+			);
 		}
 
-		$options['onImageUpload'] = <<<JS
+		if ($this->get('image_upload', true))
+		{
+			$options['onImageUpload'] = <<<JS
 \\function(files) {
 	SummernoteLunaEditor.getInstance('#{$this->getId()}').sendFile(files[0]);
 }
 JS;
+		}
 
 		LunaScript::summernote('#' . $attrs['id'], $options);
 	}

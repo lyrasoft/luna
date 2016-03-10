@@ -32,6 +32,11 @@ class ImageUploadController extends AbstractAjaxController
 	{
 		DebuggerHelper::disableConsole();
 
+		if (!$this->app->get('unidev.storage'))
+		{
+			return $this->responseFailure('No image storage set', 500, array('mute' => true));
+		}
+
 		$file = $this->input->files->get('file');
 		$folder = $this->input->getPath('folder');
 		$folder = ltrim($folder . '/', '/');

@@ -8,7 +8,6 @@
 
 namespace Lyrasoft\Luna\Helper;
 
-use Lyrasoft\Unidev\Image\ImageUploader;
 use Lyrasoft\Unidev\Storage\StorageHelperInterface;
 
 /**
@@ -23,7 +22,7 @@ class ImageStorageHelper implements StorageHelperInterface
 	 *
 	 * @var  string
 	 */
-	protected static $base = 'luna/image';
+	protected static $base = 'image';
 
 	/**
 	 * Get file temp path.
