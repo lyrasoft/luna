@@ -19,5 +19,15 @@ abstract class Table
 
 	const ARTICLES = 'articles';
 
+	const TAGS = 'tags';
+
+	const TAG_MAPS = 'tag_maps';
+
+	const LANGUAGES = 'languages';
+
+	const COMMENTS = 'comments';
+
+	const MODULES = 'modules';
+
 	// @muse-placeholder  db-table  Do not remove this.
 }

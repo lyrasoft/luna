@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app      \Windwalker\Web\Application                 Global Application
- * @var $package  \Lyrasoft\Luna\Admin\AdminPackage                 Package object.
+ * @var $package  \Lyrasoft\Luna\LunaPackage                 Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
  * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
@@ -57,42 +57,42 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;">
-                        {!! $grid->sortTitle('admin.article.field.state', 'article.state') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'article.field.state', 'article.state') !!}
                     </th>
 
                     {{-- CATEGORY --}}
-                    <th>
-                        {!! $grid->sortTitle('luna.category.title', 'category.id') !!}
-                    </th>
+                    {{--<th>--}}
+                        {{--{!! $grid->sortTitle('luna.category.title', 'category.id') !!}--}}
+                    {{--</th>--}}
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.article.field.title', 'article.title') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'article.field.title', 'article.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle('admin.article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle('admin.article.field.author', 'article.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'article.field.author', 'article.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle('admin.article.field.created', 'article.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'article.field.created', 'article.created') !!}
                     </th>
 
                     {{-- LANGUAGE --}}
                     {{--<th>--}}
-                        {{--{!! $grid->sortTitle('admin.article.field.language', 'article.language') !!}--}}
+                        {{--{!! $grid->sortTitle($lunaPrefix . 'article.field.language', 'article.language') !!}--}}
                     {{--</th>--}}
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle('admin.article.field.id', 'article.id') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'article.field.id', 'article.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -124,15 +124,19 @@
                         </td>
 
                         {{-- CATEGORY --}}
-                        <td>
-                            {{ $item->category_title }}
-                        </td>
+                        {{--<td>--}}
+                            {{--{{ $item->category_title }}--}}
+                        {{--</td>--}}
 
                         {{-- TITLE --}}
                         <td>
                             <a href="{{ $router->html('article', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>
+                            <div class="text-small">
+                                <small class="text-muted">@translate($lunaPrefix . 'category.title'):</small>
+                                <small>{{ $item->category_title }}</small>
+                            </div>
                         </td>
 
                         {{-- ORDERING --}}

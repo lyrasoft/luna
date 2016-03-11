@@ -8,6 +8,8 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Articles;
 
+use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
@@ -31,13 +33,15 @@ class FilterDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.');
+
 		/*
 		 * Search Control
 		 * -------------------------------------------------
 		 * Add search fields as options, by default, model will search all columns.
 		 * If you hop that user can choose a field to search, change "display" to true.
 		 */
-		$form->wrap(null, 'search', function (Form $form)
+		$form->wrap(null, 'search', function (Form $form) use ($langPrefix)
 		{
 			// Search Field
 			$form->add('field', new ListField)
@@ -45,8 +49,9 @@ class FilterDefinition implements FieldDefinitionInterface
 				->set('display', false)
 				->defaultValue('*')
 				->addOption(new Option(Translator::translate('phoenix.core.all'), '*'))
-				->addOption(new Option(Translator::translate('admin.article.field.title'), 'article.title'))
-				->addOption(new Option(Translator::translate('admin.article.field.alias'), 'article.alias'));
+				->addOption(new Option(Translator::translate($langPrefix . 'article.field.title'), 'article.title'))
+				->addOption(new Option(Translator::translate($langPrefix . 'article.field.alias'), 'article.alias'))
+				->addOption(new Option(Translator::translate($langPrefix . 'category.title'), 'category.title'));
 
 			// Search Content
 			$form->add('content', new TextField)
@@ -62,16 +67,22 @@ class FilterDefinition implements FieldDefinitionInterface
 		 *
 		 * You can override filter actions in ArticlesModel::configureFilters()
 		 */
-		$form->wrap(null, 'filter', function(Form $form)
+		$form->wrap(null, 'filter', function(Form $form) use ($langPrefix)
 		{
 			// State
 			$form->add('article.state', new ListField)
 				->label('State')
 				// Add empty option to support single deselect button
 				->addOption(new Option('', ''))
-				->addOption(new Option(Translator::translate('admin.article.filter.state.select'), ''))
+				->addOption(new Option(Translator::translate($langPrefix . 'article.filter.state.select'), ''))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'))
+				->set('onchange', 'this.form.submit()');
+
+			$form->add('article.category_id', new CategoryListField)
+				->label(Translator::translate($langPrefix . 'field.category'))
+				->addOption(new Option('', ''))
+				->addOption(new Option(Translator::translate($langPrefix . 'article.filter.category.select'), ''))
 				->set('onchange', 'this.form.submit()');
 		});
 	}

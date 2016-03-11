@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Admin\Field\Article\ArticleModalField;
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Lyrasoft\Luna\Field\Image\SingleImageDragField;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Filter\InputFilter;
@@ -39,21 +40,23 @@ class EditDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.');
+
 		// Basic fieldset
-		$form->wrap('basic', null, function(Form $form)
+		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			// ID
 			$form->add('id', new Field\HiddenField);
 
 			// Title
 			$form->add('title', new Field\TextField)
-				->label(Translator::translate('admin.article.field.title'))
+				->label(Translator::translate($langPrefix . 'article.field.title'))
 				->setFilter('trim')
 				->required(true);
 
 			// Alias
 			$form->add('alias', new Field\TextField)
-				->label(Translator::translate('admin.article.field.alias'));
+				->label(Translator::translate($langPrefix . 'article.field.alias'));
 
 			// Category
 			$form->add('category_id', new CategoryListField)
@@ -61,17 +64,17 @@ class EditDefinition implements FieldDefinitionInterface
 
 			// Images
 			$form->add('image', new SingleImageDragField)
-				->label(Translator::translate('admin.article.field.images'))
+				->label(Translator::translate($langPrefix . 'article.field.images'))
 				->set('width', 400)
 				->set('height', 300);
 		});
 
 		// Text Fieldset
-		$form->wrap('text', null, function(Form $form)
+		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
 			// Introtext
 			$form->add('text', new SummernoteEditorField)
-				->label(Translator::translate('admin.article.field.introtext'))
+				->label(Translator::translate($langPrefix . 'article.field.introtext'))
 				->set('options', array(
 					'height' => 450
 				))
@@ -80,11 +83,11 @@ class EditDefinition implements FieldDefinitionInterface
 		});
 
 		// Created fieldset
-		$form->wrap('created', null, function(Form $form)
+		$form->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
 			$form->add('state', new Field\RadioField)
-				->label(Translator::translate('admin.article.field.state'))
+				->label(Translator::translate($langPrefix . 'article.field.state'))
 				->set('class', 'btn-group')
 				->set('default', 1)
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
@@ -92,24 +95,24 @@ class EditDefinition implements FieldDefinitionInterface
 
 			// Version
 			$form->add('version', new Field\TextField)
-				->label(Translator::translate('admin.article.field.version'));
+				->label(Translator::translate($langPrefix . 'article.field.version'));
 
 			// Created
 			$form->add('created', new Phoenix\Field\CalendarField)
-				->label(Translator::translate('admin.article.field.created'));
+				->label(Translator::translate($langPrefix . 'article.field.created'));
 
 			// Modified
 			$form->add('modified', new Phoenix\Field\CalendarField)
-				->label(Translator::translate('admin.article.field.modified'))
+				->label(Translator::translate($langPrefix . 'article.field.modified'))
 				->disabled();
 
 			// Author
 			$form->add('created_by', new UserModalField)
-				->label(Translator::translate('admin.article.field.author'));
+				->label(Translator::translate($langPrefix . 'article.field.author'));
 
 			// Modified User
 			$form->add('modified_by', new UserModalField)
-				->label(Translator::translate('admin.article.field.modifiedby'))
+				->label(Translator::translate($langPrefix . 'article.field.modifiedby'))
 				->readonly();
 		});
 	}

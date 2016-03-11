@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app      \Windwalker\Web\Application                 Global Application
- * @var $package  \Lyrasoft\Luna\Admin\AdminPackage                 Package object.
+ * @var $package  \Lyrasoft\Luna\LunaPackage                  Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
  * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
@@ -31,20 +31,20 @@
     <div class="row">
         <div class="col-md-8">
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.article.edit.fieldset.basic')</legend>
+                <legend>@translate($lunaPrefix . 'article.edit.fieldset.basic')</legend>
 
                 {!! $form->renderFields('basic') !!}
             </fieldset>
 
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.article.edit.fieldset.text')</legend>
+                <legend>@translate($lunaPrefix . 'article.edit.fieldset.text')</legend>
 
                 {!! $form->getField('text')->renderInput() !!}
             </fieldset>
         </div>
         <div class="col-md-4">
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.article.edit.fieldset.created')</legend>
+                <legend>@translate($lunaPrefix . 'article.edit.fieldset.created')</legend>
 
                 {!! $form->renderFields('created') !!}
             </fieldset>

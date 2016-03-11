@@ -8,11 +8,14 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Articles;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
+use Windwalker\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The ArticlesFilterDefinition class.
@@ -30,25 +33,27 @@ class BatchDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.');
+
 		/*
 		 * This is batch form definition.
 		 * -----------------------------------------------
 		 * Every field is a table column.
 		 * For example, you can add a 'category_id' field to update item category.
 		 */
-		$form->wrap(null, 'batch', function (Form $form)
+		$form->wrap(null, 'batch', function (Form $form) use ($langPrefix)
 		{
 			// Language
-			$form->add('language', new ListField)
-				->label('Language')
-				->set('class', 'col-md-12')
-				->addOption(new Option('-- Select Language --', ''))
-				->addOption(new Option('English', 'en-GB'))
-				->addOption(new Option('Chinese Traditional', 'zh-TW'));
+//			$form->add('language', new ListField)
+//				->label('Language')
+//				->set('class', 'col-md-12')
+//				->addOption(new Option('-- Select Language --', ''))
+//				->addOption(new Option('English', 'en-GB'))
+//				->addOption(new Option('Chinese Traditional', 'zh-TW'));
 
 			// Author
-			$form->add('created_by', new TextField)
-				->label('Author');
+			$form->add('created_by', new UserModalField)
+				->label(Translator::translate($langPrefix . 'article.field.author'));
 		});
 	}
 }
