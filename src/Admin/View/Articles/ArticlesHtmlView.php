@@ -50,7 +50,7 @@ class ArticlesHtmlView extends GridView
 	 * @var  array
 	 */
 	protected $gridConfig = array(
-		'order_column' => 'article.ordering'
+		'order_column' => 'category.id, article.ordering'
 	);
 
 	/**

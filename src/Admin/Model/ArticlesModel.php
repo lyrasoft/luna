@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\Table\Table;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
+use Windwalker\Warder\Helper\WarderHelper;
 
 /**
  * The ArticlesModel class.
@@ -48,7 +49,11 @@ class ArticlesModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('article', Table::ARTICLES);
+		$userTable = WarderHelper::getPackage()->get('table.users', 'users');
+
+		$this->addTable('article', Table::ARTICLES)
+			->addTable('category', Table::CATEGORIES, 'category.id = article.category_id')
+			->addTable('user', $userTable, 'user.id = article.created_by');
 	}
 
 	/**

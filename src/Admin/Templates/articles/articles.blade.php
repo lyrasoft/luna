@@ -60,6 +60,11 @@
                         {!! $grid->sortTitle('admin.article.field.state', 'article.state') !!}
                     </th>
 
+                    {{-- CATEGORY --}}
+                    <th>
+                        {!! $grid->sortTitle('luna.category.title', 'category.id') !!}
+                    </th>
+
                     {{-- TITLE --}}
                     <th>
                         {!! $grid->sortTitle('admin.article.field.title', 'article.title') !!}
@@ -67,7 +72,7 @@
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle('admin.article.field.ordering', 'article.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle('admin.article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- AUTHOR --}}
@@ -81,9 +86,9 @@
                     </th>
 
                     {{-- LANGUAGE --}}
-                    <th>
-                        {!! $grid->sortTitle('admin.article.field.language', 'article.language') !!}
-                    </th>
+                    {{--<th>--}}
+                        {{--{!! $grid->sortTitle('admin.article.field.language', 'article.language') !!}--}}
+                    {{--</th>--}}
 
                     {{-- ID --}}
                     <th>
@@ -97,7 +102,7 @@
                     <?php
                     $grid->setItem($item, $i);
                     ?>
-                    <tr>
+                    <tr data-order-group="{{ $item->category_id }}">
                         {{-- CHECKBOX --}}
                         <td>
                             {!! $grid->checkbox() !!}
@@ -118,6 +123,11 @@
                             </span>
                         </td>
 
+                        {{-- CATEGORY --}}
+                        <td>
+                            {{ $item->category_title }}
+                        </td>
+
                         {{-- TITLE --}}
                         <td>
                             <a href="{{ $router->html('article', array('id' => $item->id)) }}">
@@ -132,18 +142,18 @@
 
                         {{-- AUTHOR --}}
                         <td>
-                            {{ $item->created_by }}
+                            {!! $grid->foreignLink($item->user_name, $router->html('user', array('id' => $item->user_id))) !!}
                         </td>
 
                         {{-- CREATED --}}
                         <td>
-                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}
+                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
                         {{-- LANGUAGE --}}
-                        <td>
-                            {{ $item->language }}
-                        </td>
+                        {{--<td>--}}
+                            {{--{{ $item->language }}--}}
+                        {{--</td>--}}
 
                         {{-- ID --}}
                         <td>

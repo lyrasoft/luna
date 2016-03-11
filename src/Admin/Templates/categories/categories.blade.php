@@ -142,7 +142,7 @@
 
                         {{-- CREATED --}}
                         <td>
-                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}
+                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
                         {{-- LANGUAGE --}}
