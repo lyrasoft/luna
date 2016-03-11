@@ -101,15 +101,13 @@ class SaveController extends AbstractSaveController
 		{
 			$this->model->save($data);
 		}
-
+		
 		// Tag
-		$tagIds = $data->tags;
-
 		$tagMapMapper = new TagMapMapper;
 
 		$tagMapMapper->delete(array('target_id' => $data->id, 'type' => 'article'));
 
-		foreach ($tagIds as $tagId)
+		foreach ($data->tags as $tagId)
 		{
 			$tagMapMapper->createOne(array('tag_id' => $tagId, 'target_id' => $data->id, 'type' => 'article'));
 		}

@@ -9,6 +9,8 @@
 namespace Lyrasoft\Luna\Admin\Field\Tag;
 
 use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Script\Select2Script;
 use Phoenix\Field\ItemListField;
 
 /**
@@ -31,4 +33,20 @@ class TagListField extends ItemListField
 	 * @var  string
 	 */
 	protected $ordering = null;
+
+	/**
+	 * buildInput
+	 *
+	 * @param array $attrs
+	 *
+	 * @return  string
+	 */
+	public function buildInput($attrs)
+	{
+		$id = $attrs['id'];
+
+		Select2Script::tag('#' . $id);
+
+		return parent::buildInput($attrs);
+	}
 }
