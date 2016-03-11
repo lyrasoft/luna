@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.title', 'comment.title') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.title', 'comment.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.state', 'comment.state') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.state', 'comment.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.author', 'comment.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.author', 'comment.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.created', 'comment.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.created', 'comment.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.id', 'comment.id') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.id', 'comment.id') !!}
                     </th>
                 </tr>
                 </thead>

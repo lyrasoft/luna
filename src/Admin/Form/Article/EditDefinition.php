@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Form\Article;
 use Lyrasoft\Luna\Admin\Field\Article\ArticleListField;
 use Lyrasoft\Luna\Admin\Field\Article\ArticleModalField;
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
+use Lyrasoft\Luna\Admin\Field\Tag\TagListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Lyrasoft\Luna\Field\Image\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
@@ -40,7 +41,7 @@ class EditDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
-		$langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.');
+		$langPrefix = LunaHelper::getLangPrefix();
 
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
@@ -60,7 +61,12 @@ class EditDefinition implements FieldDefinitionInterface
 
 			// Category
 			$form->add('category_id', new CategoryListField)
-				->label(Translator::translate('luna.category.title'));
+				->label(Translator::translate($langPrefix . 'category.title'));
+
+			// Tags
+			$form->add('tags', new TagListField)
+				->label(Translator::translate($langPrefix . 'tag.title'))
+				->set('multiple', true);
 
 			// Images
 			$form->add('image', new SingleImageDragField)

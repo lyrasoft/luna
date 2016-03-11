@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.title', 'language.title') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.title', 'language.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.state', 'language.state') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.state', 'language.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.author', 'language.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.author', 'language.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.created', 'language.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.created', 'language.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.id', 'language.id') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.id', 'language.id') !!}
                     </th>
                 </tr>
                 </thead>

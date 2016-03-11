@@ -57,37 +57,37 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;">
-                        {!! $grid->sortTitle('admin.comment.field.state', 'comment.state') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.state', 'comment.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.title', 'comment.title') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.title', 'comment.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle('admin.comment.field.ordering', 'comment.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.ordering', 'comment.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.author', 'comment.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.author', 'comment.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.created', 'comment.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.created', 'comment.created') !!}
                     </th>
 
                     {{-- LANGUAGE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.language', 'comment.language') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.language', 'comment.language') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle('admin.comment.field.id', 'comment.id') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.id', 'comment.id') !!}
                     </th>
                 </tr>
                 </thead>

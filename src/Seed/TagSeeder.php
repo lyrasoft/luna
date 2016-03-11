@@ -48,7 +48,7 @@ class TagSeeder extends AbstractSeeder
 		{
 			$data = new Data;
 
-			$data['title']       = $faker->word;
+			$data['title']       = ucfirst($faker->word);
 			$data['alias']       = OutputFilter::stringURLSafe($data['title']);
 			$data['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
 			$data['created']     = $faker->dateTime->format(DateTime::FORMAT_SQL);

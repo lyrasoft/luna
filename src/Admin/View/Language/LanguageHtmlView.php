@@ -48,6 +48,13 @@ class LanguageHtmlView extends EditView
 	protected $formLoadData = true;
 
 	/**
+	 * Property langPrefix.
+	 *
+	 * @var  string
+	 */
+	protected $langPrefix = 'luna.';
+
+	/**
 	 * prepareData
 	 *
 	 * @param \Windwalker\Data\Data $data

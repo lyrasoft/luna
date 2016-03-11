@@ -31,20 +31,20 @@
     <div class="row">
         <div class="col-md-7">
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.language.edit.fieldset.basic')</legend>
+                <legend>@translate($lunaPrefix . 'language.edit.fieldset.basic')</legend>
 
                 {!! $form->renderFields('basic') !!}
             </fieldset>
 
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.language.edit.fieldset.text')</legend>
+                <legend>@translate($lunaPrefix . 'language.edit.fieldset.text')</legend>
 
                 {!! $form->renderFields('text') !!}
             </fieldset>
         </div>
         <div class="col-md-5">
             <fieldset class="form-horizontal">
-                <legend>@translate('admin.language.edit.fieldset.created')</legend>
+                <legend>@translate($lunaPrefix . 'language.edit.fieldset.created')</legend>
 
                 {!! $form->renderFields('created') !!}
             </fieldset>

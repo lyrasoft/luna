@@ -39,7 +39,7 @@ class EditDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
-		$langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.');
+		$langPrefix = LunaHelper::getLangPrefix();
 
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form) use ($langPrefix)

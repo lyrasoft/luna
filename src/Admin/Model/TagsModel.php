@@ -9,9 +9,11 @@
 namespace Lyrasoft\Luna\Admin\Model;
 
 use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
+use Windwalker\Warder\Helper\WarderHelper;
 
 /**
  * The TagsModel class.
@@ -49,6 +51,14 @@ class TagsModel extends ListModel
 	protected function configureTables()
 	{
 		$this->addTable('tag', Table::TAGS);
+
+		$warder = WarderHelper::getPackage();
+		$userTable = $warder->get('table.users', 'users');
+
+		if ($this->db->getTable($userTable)->exists())
+		{
+			$this->addTable('user', $userTable, 'tag.created_by = user.id');
+		}
 	}
 
 	/**

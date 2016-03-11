@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.admin.admin')
+@extends($lunaExtends)
 
 @section('toolbar')
     @include('toolbar')
@@ -51,43 +51,38 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th>
+                    <th width="1%">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;">
-                        {!! $grid->sortTitle('admin.tag.field.state', 'tag.state') !!}
+                    <th style="min-width: 90px;" width="10%">
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.state', 'tag.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.tag.field.title', 'tag.title') !!}
-                    </th>
-
-                    {{-- ORDERING --}}
-                    <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle('admin.tag.field.ordering', 'tag.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.title', 'tag.title') !!}
                     </th>
 
                     {{-- AUTHOR --}}
-                    <th>
-                        {!! $grid->sortTitle('admin.tag.field.author', 'tag.created_by') !!}
+                    <th width="20%">
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.author', 'tag.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
-                    <th>
-                        {!! $grid->sortTitle('admin.tag.field.created', 'tag.created') !!}
+                    <th width="10%">
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.created', 'tag.created') !!}
                     </th>
 
                     {{-- LANGUAGE --}}
-                    <th>
-                        {!! $grid->sortTitle('admin.tag.field.language', 'tag.language') !!}
-                    </th>
+                    {{--<th>--}}
+                        {{--{!! $grid->sortTitle($lunaPrefix . 'tag.field.language', 'tag.language') !!}--}}
+                    {{--</th>--}}
 
                     {{-- ID --}}
-                    <th>
-                        {!! $grid->sortTitle('admin.tag.field.id', 'tag.id') !!}
+                    <th width="1%">
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.id', 'tag.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -123,27 +118,27 @@
                             <a href="{{ $router->html('tag', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>
-                        </td>
 
-                        {{-- ORDERING --}}
-                        <td>
-                            {!! $grid->orderButton() !!}
+                            <small class="text-muted">
+                                ( {{ $item->alias }} )
+                            </small>
+
                         </td>
 
                         {{-- AUTHOR --}}
                         <td>
-                            {{ $item->created_by }}
+                            {{ $item->user_name }}
                         </td>
 
                         {{-- CREATED --}}
                         <td>
-                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}
+                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
                         {{-- LANGUAGE --}}
-                        <td>
-                            {{ $item->language }}
-                        </td>
+                        {{--<td>--}}
+                            {{--{{ $item->language }}--}}
+                        {{--</td>--}}
 
                         {{-- ID --}}
                         <td>

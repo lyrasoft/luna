@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Tags;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
@@ -30,13 +31,15 @@ class BatchDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = LunaHelper::getLangPrefix();
+
 		/*
 		 * This is batch form definition.
 		 * -----------------------------------------------
 		 * Every field is a table column.
 		 * For example, you can add a 'category_id' field to update item category.
 		 */
-		$form->wrap(null, 'batch', function (Form $form)
+		$form->wrap(null, 'batch', function (Form $form) use ($langPrefix)
 		{
 			// Language
 			$form->add('language', new ListField)

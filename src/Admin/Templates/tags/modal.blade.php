@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.admin.pure')
+@extends('_global.' . $luna->get('admin.package') . '.pure')
 
 @section('toolbar')
     @include('toolbar')
@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.tag.field.title', 'tag.title') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.title', 'tag.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.tag.field.state', 'tag.state') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.state', 'tag.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle('admin.tag.field.author', 'tag.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.author', 'tag.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle('admin.tag.field.created', 'tag.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.created', 'tag.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle('admin.tag.field.id', 'tag.id') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.id', 'tag.id') !!}
                     </th>
                 </tr>
                 </thead>

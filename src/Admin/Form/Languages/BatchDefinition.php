@@ -30,6 +30,8 @@ class BatchDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
+
 		/*
 		 * This is batch form definition.
 		 * -----------------------------------------------

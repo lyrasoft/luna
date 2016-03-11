@@ -31,6 +31,8 @@ class FilterDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
+
 		/*
 		 * Search Control
 		 * -------------------------------------------------
@@ -45,8 +47,8 @@ class FilterDefinition implements FieldDefinitionInterface
 				->set('display', false)
 				->defaultValue('*')
 				->addOption(new Option(Translator::translate('phoenix.core.all'), '*'))
-				->addOption(new Option(Translator::translate('admin.module.field.title'), 'module.title'))
-				->addOption(new Option(Translator::translate('admin.module.field.alias'), 'module.alias'));
+				->addOption(new Option(Translator::translate($langPrefix . 'module.field.title'), 'module.title'))
+				->addOption(new Option(Translator::translate($langPrefix . 'module.field.alias'), 'module.alias'));
 
 			// Search Content
 			$form->add('content', new TextField)
@@ -69,7 +71,7 @@ class FilterDefinition implements FieldDefinitionInterface
 				->label('State')
 				// Add empty option to support single deselect button
 				->addOption(new Option('', ''))
-				->addOption(new Option(Translator::translate('admin.module.filter.state.select'), ''))
+				->addOption(new Option(Translator::translate($langPrefix . 'module.filter.state.select'), ''))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'))
 				->set('onchange', 'this.form.submit()');

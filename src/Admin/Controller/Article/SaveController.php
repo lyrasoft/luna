@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Article;
 
+use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\Model\ArticleModel;
 use Lyrasoft\Luna\Admin\View\Article\ArticleHtmlView;
 use Lyrasoft\Luna\Field\Image\SingleImageDragField;
@@ -95,9 +96,22 @@ class SaveController extends AbstractSaveController
 	 */
 	protected function postSave(Data $data)
 	{
+		// Image
 		if (false !== SingleImageDragField::uploadFromController($this, 'image', $data, ArticleImageHelper::getPath($data->id)));
 		{
 			$this->model->save($data);
+		}
+
+		// Tag
+		$tagIds = $data->tags;
+
+		$tagMapMapper = new TagMapMapper;
+
+		$tagMapMapper->delete(array('target_id' => $data->id, 'type' => 'article'));
+
+		foreach ($tagIds as $tagId)
+		{
+			$tagMapMapper->createOne(array('tag_id' => $tagId, 'target_id' => $data->id, 'type' => 'article'));
 		}
 	}
 

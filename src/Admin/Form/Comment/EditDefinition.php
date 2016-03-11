@@ -35,6 +35,8 @@ class EditDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
+		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
+
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form)
 		{
@@ -43,21 +45,21 @@ class EditDefinition implements FieldDefinitionInterface
 
 			// Title
 			$form->add('title', new Field\TextField)
-				->label(Translator::translate('admin.comment.field.title'))
+				->label(Translator::translate($langPrefix . 'comment.field.title'))
 				->setFilter('trim')
 				->required(true);
 
 			// Alias
 			$form->add('alias', new Field\TextField)
-				->label(Translator::translate('admin.comment.field.alias'));
+				->label(Translator::translate($langPrefix . 'comment.field.alias'));
 
 			// Images
 			$form->add('images', new Field\TextField)
-				->label(Translator::translate('admin.comment.field.images'));
+				->label(Translator::translate($langPrefix . 'comment.field.images'));
 
 			// URL
 			$form->add('url', new Field\TextField)
-				->label(Translator::translate('admin.comment.field.url'))
+				->label(Translator::translate($langPrefix . 'comment.field.url'))
 				->setValidator(new Rule\UrlValidator)
 				->set('class', 'validate-url');
 
@@ -75,12 +77,12 @@ class EditDefinition implements FieldDefinitionInterface
 		{
 			// Introtext
 			$form->add('introtext', new Field\TextareaField)
-				->label(Translator::translate('admin.comment.field.introtext'))
+				->label(Translator::translate($langPrefix . 'comment.field.introtext'))
 				->set('rows', 10);
 
 			// Fulltext
 			$form->add('fulltext', new Field\TextareaField)
-				->label(Translator::translate('admin.comment.field.fulltext'))
+				->label(Translator::translate($langPrefix . 'comment.field.fulltext'))
 				->set('rows', 10);
 		});
 
@@ -89,7 +91,7 @@ class EditDefinition implements FieldDefinitionInterface
 		{
 			// State
 			$form->add('state', new Field\RadioField)
-				->label(Translator::translate('admin.comment.field.state'))
+				->label(Translator::translate($langPrefix . 'comment.field.state'))
 				->set('class', 'btn-group')
 				->set('default', 1)
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
@@ -97,23 +99,23 @@ class EditDefinition implements FieldDefinitionInterface
 
 			// Version
 			$form->add('version', new Field\TextField)
-				->label(Translator::translate('admin.comment.field.version'));
+				->label(Translator::translate($langPrefix . 'comment.field.version'));
 
 			// Created
 			$form->add('created', new Phoenix\Field\CalendarField)
-				->label(Translator::translate('admin.comment.field.created'));
+				->label(Translator::translate($langPrefix . 'comment.field.created'));
 
 			// Modified
 			$form->add('modified', new Phoenix\Field\CalendarField)
-				->label(Translator::translate('admin.comment.field.modified'));
+				->label(Translator::translate($langPrefix . 'comment.field.modified'));
 
 			// Author
 			$form->add('created_by', new Field\TextField)
-				->label(Translator::translate('admin.comment.field.author'));
+				->label(Translator::translate($langPrefix . 'comment.field.author'));
 
 			// Modified User
 			$form->add('modified_by', new Field\TextField)
-				->label(Translator::translate('admin.comment.field.modifiedby'));
+				->label(Translator::translate($langPrefix . 'comment.field.modifiedby'));
 		});
 	}
 }

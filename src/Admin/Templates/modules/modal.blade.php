@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.module.field.title', 'module.title') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.title', 'module.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.module.field.state', 'module.state') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.state', 'module.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle('admin.module.field.author', 'module.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.author', 'module.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle('admin.module.field.created', 'module.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.created', 'module.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle('admin.module.field.id', 'module.id') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.id', 'module.id') !!}
                     </th>
                 </tr>
                 </thead>

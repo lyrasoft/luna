@@ -33,7 +33,7 @@ class BatchDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
-		$langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.');
+		$langPrefix = LunaHelper::getLangPrefix();
 
 		/*
 		 * This is batch form definition.

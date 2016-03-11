@@ -12,19 +12,19 @@
 <ul class="nav nav-stacked nav-pills">
     <li class="{{ $helper->menu->active('categories') }}">
         <a href="#">
-            @translate('admin.categories.title')
+            @translate($lunaPrefix . 'categories.title')
         </a>
     </li>
 
     <li class="{{ $helper->menu->active('categories') }}">
         <a href="{{ $router->html('categories') }}">
-            @translate('admin.categories.title')
+            @translate($lunaPrefix . 'categories.title')
         </a>
     </li>
 
 	<li class="{{ $helper->menu->active('articles') }}">
 		<a href="{{ $router->html('articles') }}">
-			@translate('admin.articles.title')
+			@translate($lunaPrefix . 'articles.title')
 		</a>
 	</li>
 

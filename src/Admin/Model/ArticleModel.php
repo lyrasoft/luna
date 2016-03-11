@@ -8,8 +8,10 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
+use Lyrasoft\Luna\Admin\Table\Table;
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;
+use Windwalker\DataMapper\RelationDataMapper;
 use Windwalker\Record\Record;
 
 /**
@@ -44,7 +46,16 @@ class ArticleModel extends AdminModel
 	 */
 	protected function postGetItem(Data $item)
 	{
+		// Readmore line
 		$item->text = $item->introtext . ($item->introtext ? '<hr id="luna-readmore">' . $item->introtext : null);
+
+		// tags
+		$tags = RelationDataMapper::getInstance('tag', Table::TAGS)
+			->addTable('map',     Table::TAG_MAPS, 'map.tag_id    = tag.id')
+			->addTable('article', Table::ARTICLES, 'map.target_id = article.id')
+			->find(array('article.id' => $item->id));
+
+		$item->tags = $tags->id;
 	}
 
 	/**

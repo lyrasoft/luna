@@ -57,37 +57,37 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;">
-                        {!! $grid->sortTitle('admin.language.field.state', 'language.state') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.state', 'language.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.title', 'language.title') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.title', 'language.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle('admin.language.field.ordering', 'language.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.ordering', 'language.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.author', 'language.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.author', 'language.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.created', 'language.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.created', 'language.created') !!}
                     </th>
 
                     {{-- LANGUAGE --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.language', 'language.language') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.language', 'language.language') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle('admin.language.field.id', 'language.id') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.id', 'language.id') !!}
                     </th>
                 </tr>
                 </thead>

@@ -55,6 +55,13 @@ class CategoriesHtmlView extends GridView
 	);
 
 	/**
+	 * Property langPrefix.
+	 *
+	 * @var  string
+	 */
+	protected $langPrefix = 'luna.';
+
+	/**
 	 * prepareData
 	 *
 	 * @param \Windwalker\Data\Data $data
