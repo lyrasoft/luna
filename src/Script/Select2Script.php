@@ -82,7 +82,7 @@ jQuery(document).ready(function($) {
 	var element = $('$selector');
 
 	if (element.chosen) {
-		element.chosen('distroy');
+		element.chosen('destroy');
 	}
 
     element.select2($options);
@@ -117,34 +117,10 @@ JS;
 jQuery(document).ready(function($) {
 	$('$selector').on('select2:selecting', function(event) {
         var data = event.params.args.data;
-        var self = $(this);
 
         if (data.id == data.text) {
-			$.ajax({
-				type: "POST",
-				url: '{$package->router->html('_luna_ajax_tag')}',
-				data: {
-					title: data.text
-				},
-				success: function(response) {
-				    if (response.success) {
-
-				        var val = self.val();
-				        console.log(val);
-				        val.push(response.data.id);
-				        console.log(val);
-				        self.val(val);
-				        console.log(self.val());
-
-				        //var option = self.find('option[value=' + response.data.title + ']');
-				        //option.val(response.data.id);
-				    }
-				},
-				error: function (error) {
-					console.log(error);
-				}
-			});
-		}
+            data.id = 'new#' + data.id;
+        }
     });
 });
 JS;

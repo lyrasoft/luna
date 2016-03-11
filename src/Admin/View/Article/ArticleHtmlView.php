@@ -74,7 +74,7 @@ class ArticleHtmlView extends EditView
 	protected function prepareScripts()
 	{
 		PhoenixScript::core();
-//		PhoenixScript::chosen();
+		PhoenixScript::chosen();
 		PhoenixScript::formValidation();
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::buttonRadio();

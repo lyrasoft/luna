@@ -10,9 +10,11 @@ namespace Lyrasoft\Luna\Admin\Controller\Article;
 
 use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\Model\ArticleModel;
+use Lyrasoft\Luna\Admin\Model\TagModel;
 use Lyrasoft\Luna\Admin\View\Article\ArticleHtmlView;
 use Lyrasoft\Luna\Field\Image\SingleImageDragField;
 use Lyrasoft\Luna\Image\ArticleImageHelper;
+use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\Data;
 
@@ -103,14 +105,9 @@ class SaveController extends AbstractSaveController
 		}
 		
 		// Tag
-		$tagMapMapper = new TagMapMapper;
-
-		$tagMapMapper->delete(array('target_id' => $data->id, 'type' => 'article'));
-
-		foreach ($data->tags as $tagId)
-		{
-			$tagMapMapper->createOne(array('tag_id' => $tagId, 'target_id' => $data->id, 'type' => 'article'));
-		}
+		/** @var TagModel $model */
+		$model = $this->getModel('Tag');
+		$model->saveTagMaps('article', $data->id, $data->tags);
 	}
 
 	/**
