@@ -46,6 +46,94 @@ articles:
         active:
             mainmenu: articles
 
+# Tag
+tag:
+    pattern: /tag(/id)
+    controller: Tag
+    extra:
+        layout: tag
+        active:
+            mainmenu: tags
+
+# Tags
+tags:
+    pattern: /tags(/page)
+    controller: Tags
+    action:
+        post: CopyController
+        patch: BatchController
+        put: FilterController
+    extra:
+        layout: tags
+        active:
+            mainmenu: tags
+
+# Comment
+comment:
+    pattern: /comment(/id)
+    controller: Comment
+    extra:
+        layout: comment
+        active:
+            mainmenu: comments
+
+# Comments
+comments:
+    pattern: /comments(/page)
+    controller: Comments
+    action:
+        post: CopyController
+        patch: BatchController
+        put: FilterController
+    extra:
+        layout: comments
+        active:
+            mainmenu: comments
+
+# Language
+language:
+    pattern: /language(/id)
+    controller: Language
+    extra:
+        layout: language
+        active:
+            mainmenu: languages
+
+# Languages
+languages:
+    pattern: /languages(/page)
+    controller: Languages
+    action:
+        post: CopyController
+        patch: BatchController
+        put: FilterController
+    extra:
+        layout: languages
+        active:
+            mainmenu: languages
+
+# Module
+module:
+    pattern: /module(/id)
+    controller: Module
+    extra:
+        layout: module
+        active:
+            mainmenu: modules
+
+# Modules
+modules:
+    pattern: /modules(/page)
+    controller: Modules
+    action:
+        post: CopyController
+        patch: BatchController
+        put: FilterController
+    extra:
+        layout: modules
+        active:
+            mainmenu: modules
+
 # Luna
 _luna_img_upload:
     pattern: /_luna/image/upload

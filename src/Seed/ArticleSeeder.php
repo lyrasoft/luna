@@ -8,6 +8,8 @@
 
 use Lyrasoft\Luna\Admin\DataMapper\ArticleMapper;
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
+use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
+use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Admin\Table\Table;
 use Faker\Factory;
 use Windwalker\Core\DateTime\DateTime;
@@ -34,6 +36,8 @@ class ArticleSeeder extends AbstractSeeder
 
 		$mapper = new ArticleMapper;
 		$catMapper = new CategoryMapper;
+		$tagMapper = new TagMapper;
+		$tagMapMapper = new TagMapMapper;
 
 		$categories = $catMapper->findAll();
 
@@ -47,6 +51,8 @@ class ArticleSeeder extends AbstractSeeder
 		{
 			$userIds = range(1, 50);
 		}
+
+		$tags = $tagMapper->findAll()->dump();
 
 		foreach ($categories as $category)
 		{
@@ -71,6 +77,17 @@ class ArticleSeeder extends AbstractSeeder
 				$data['params']      = '';
 
 				$mapper->createOne($data);
+
+				foreach ($faker->randomElements($tags, rand(5, 7)) as $tag)
+				{
+					$map = new Data;
+
+					$map->tag_id = $tag->id;
+					$map->target_id = $data->id;
+					$map->type = 'article';
+
+					$tagMapMapper->createOne($map);
+				}
 
 				$this->command->out('.', false);
 			}
