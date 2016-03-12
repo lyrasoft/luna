@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Language;
 
+use Lyrasoft\Luna\Admin\Field\Language\FlagListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageModalField;
 use Phoenix;
@@ -38,7 +39,7 @@ class EditDefinition implements FieldDefinitionInterface
 		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
 		// Basic fieldset
-		$form->wrap('basic', null, function(Form $form)
+		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			// ID
 			$form->add('id', new Field\HiddenField);
@@ -49,45 +50,38 @@ class EditDefinition implements FieldDefinitionInterface
 				->setFilter('trim')
 				->required(true);
 
+			// Title Native
+			$form->add('title_native', new Field\TextField)
+				->label(Translator::translate($langPrefix . 'language.field.titlenative'))
+				->setFilter('trim')
+				->required(true);
+
+			// Code
+			$form->add('code', new Field\TextField)
+				->label(Translator::translate($langPrefix . 'language.field.code'))
+				->setFilter('trim')
+				->required(true);
+
 			// Alias
 			$form->add('alias', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'language.field.alias'));
 
-			// Images
-			$form->add('images', new Field\TextField)
+			// Image
+			$form->add('image', new FlagListField)
 				->label(Translator::translate($langPrefix . 'language.field.images'));
-
-			// URL
-			$form->add('url', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'language.field.url'))
-				->setValidator(new Rule\UrlValidator)
-				->set('class', 'validate-url');
-
-			// Example: Language List
-			$form->add('language_list', new LanguageListField)
-				->label('List Example');
-
-			// Example: Language Modal
-			$form->add('language_modal', new LanguageModalField)
-				->label('Modal Example');
 		});
 
 		// Text Fieldset
-		$form->wrap('text', null, function(Form $form)
+		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
 			// Introtext
-			$form->add('introtext', new Field\TextareaField)
-				->label(Translator::translate($langPrefix . 'language.field.introtext'))
-				->set('rows', 10);
-
-			// Fulltext
-			$form->add('fulltext', new Field\TextareaField)
-				->label(Translator::translate($langPrefix . 'language.field.fulltext'))
+			$form->add('description', new Field\TextareaField)
+				->label(Translator::translate($langPrefix . 'language.field.description'))
 				->set('rows', 10);
 		});
 
 		// Created fieldset
-		$form->wrap('created', null, function(Form $form)
+		$form->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
 			$form->add('state', new Field\RadioField)
@@ -97,25 +91,15 @@ class EditDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
 
-			// Version
-			$form->add('version', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'language.field.version'));
+			// Metakey
+			$form->add('metakey', new Field\TextareaField)
+				->label(Translator::translate($langPrefix . 'language.field.metakey'))
+				->set('rows', 5);
 
-			// Created
-			$form->add('created', new Phoenix\Field\CalendarField)
-				->label(Translator::translate($langPrefix . 'language.field.created'));
-
-			// Modified
-			$form->add('modified', new Phoenix\Field\CalendarField)
-				->label(Translator::translate($langPrefix . 'language.field.modified'));
-
-			// Author
-			$form->add('created_by', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'language.field.author'));
-
-			// Modified User
-			$form->add('modified_by', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'language.field.modifiedby'));
+			// Meta Description
+			$form->add('metadesc', new Field\TextareaField)
+				->label(Translator::translate($langPrefix . 'language.field.metadesc'))
+				->set('rows', 5);
 		});
 	}
 }

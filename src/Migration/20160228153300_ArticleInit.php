@@ -34,7 +34,6 @@ class ArticleInit extends AbstractMigration
 			$sc->addColumn('fulltext',    new Column\Longtext)->comment('Full Text');
 			$sc->addColumn('state',       new Column\Tinyint)->signed(true)->comment('0: unpublished, 1:published');
 			$sc->addColumn('ordering',    new Column\Integer)->comment('Ordering');
-			$sc->addColumn('version',     new Column\Integer)->comment('Version');
 			$sc->addColumn('created',     new Column\Datetime)->comment('Created Date');
 			$sc->addColumn('created_by',  new Column\Integer)->comment('Author');
 			$sc->addColumn('modified',    new Column\Datetime)->comment('Modified Date');

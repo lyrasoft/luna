@@ -38,7 +38,7 @@ class BatchDefinition implements FieldDefinitionInterface
 		 * Every field is a table column.
 		 * For example, you can add a 'category_id' field to update item category.
 		 */
-		$form->wrap(null, 'batch', function (Form $form)
+		$form->wrap(null, 'batch', function (Form $form) use ($langPrefix)
 		{
 			// Language
 			$form->add('language', new ListField)

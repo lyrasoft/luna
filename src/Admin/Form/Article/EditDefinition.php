@@ -99,10 +99,6 @@ class EditDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
 
-			// Version
-			$form->add('version', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'article.field.version'));
-
 			// Created
 			$form->add('created', new Phoenix\Field\CalendarField)
 				->label(Translator::translate($langPrefix . 'article.field.created'));

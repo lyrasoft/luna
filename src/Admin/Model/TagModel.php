@@ -108,6 +108,7 @@ class TagModel extends AdminModel
 
 		foreach ($tags as $tagId)
 		{
+			// If has new# prefix, create tag.
 			if (strpos($tagId, 'new#') === 0)
 			{
 				$data = new Data;

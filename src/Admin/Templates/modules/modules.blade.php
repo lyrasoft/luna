@@ -47,7 +47,7 @@
         </p>
 
         <div class="grid-table table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}

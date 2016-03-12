@@ -48,7 +48,7 @@
         </p>
 
         <div class="grid-table table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
@@ -96,8 +96,7 @@
                 <tbody>
                 @foreach ($items as $i => $item)
                     <?php
-                    $order = array_search($item->id, $ordering[$item->parent_id]) + 1;
-                    $item->ordering = $order;
+                    $item->ordering = $ordering ? array_search($item->id, $ordering[$item->parent_id]) + 1 : '-';
 
                     $grid->setItem($item, $i);
                     ?>
@@ -131,7 +130,7 @@
                         </td>
 
                         {{-- ORDERING --}}
-                        <td>
+                        <td class="text-center">
                             {!! $grid->orderButton() !!}
                         </td>
 

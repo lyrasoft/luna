@@ -9,11 +9,13 @@
 namespace Lyrasoft\Luna\Admin\Form\Tags;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
+use Windwalker\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The TagsFilterDefinition class.
@@ -42,16 +44,16 @@ class BatchDefinition implements FieldDefinitionInterface
 		$form->wrap(null, 'batch', function (Form $form) use ($langPrefix)
 		{
 			// Language
-			$form->add('language', new ListField)
-				->label('Language')
-				->set('class', 'col-md-12')
-				->addOption(new Option('-- Select Language --', ''))
-				->addOption(new Option('English', 'en-GB'))
-				->addOption(new Option('Chinese Traditional', 'zh-TW'));
+//			$form->add('language', new ListField)
+//				->label('Language')
+//				->set('class', 'col-md-12')
+//				->addOption(new Option('-- Select Language --', ''))
+//				->addOption(new Option('English', 'en-GB'))
+//				->addOption(new Option('Chinese Traditional', 'zh-TW'));
 
 			// Author
-			$form->add('created_by', new TextField)
-				->label('Author');
+			$form->add('created_by', new UserModalField)
+				->label(Translator::translate($langPrefix . 'tag.field.author'));
 		});
 	}
 }

@@ -47,7 +47,7 @@
         </p>
 
         <div class="grid-table table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
@@ -130,17 +130,27 @@
 
                         {{-- TITLE --}}
                         <td>
-                            <a href="{{ $router->html('article', array('id' => $item->id)) }}">
+                            <a class="lead" href="{{ $router->html('article', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>
-                            <div class="text-small">
-                                <small class="text-muted">@translate($lunaPrefix . 'category.title'):</small>
-                                <small>{{ $item->category_title }}</small>
+                            <div class="article-alias-field" style="padding-left: 10px">
+                                <small class="text-muted">
+                                    <span class="glyphicon glyphicon-globe"></span>
+                                    {{ $item->alias }}
+                                </small>
+                            </div>
+                            <div class="article-category-field" style="padding-left: 10px">
+                                <small class="text-muted">
+                                    <span class="glyphicon glyphicon-folder-close"></span>
+                                    <a class="text-muted" href="{{ $router->html('articles', array('filter' => array('article.category_id' => $item->category_id))) }}">
+                                        {{ $item->category_title }}
+                                    </a>
+                                </small>
                             </div>
                         </td>
 
                         {{-- ORDERING --}}
-                        <td>
+                        <td class="text-center">
                             {!! $grid->orderButton() !!}
                         </td>
 

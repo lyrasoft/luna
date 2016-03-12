@@ -38,6 +38,42 @@ class Select2Script extends AbstractScriptManager
 	}
 
 	/**
+	 * select2
+	 *
+	 * @param string $selector
+	 * @param array  $options
+	 *
+	 * @return  void
+	 */
+	public static function select2($selector, $options = array())
+	{
+		$asset = static::getAsset();
+
+		static::core();
+
+		if (!static::inited(__METHOD__, func_get_args()))
+		{
+			$defaultOptions = array();
+
+			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
+
+			$js = <<<JS
+jQuery(document).ready(function($) {
+	var element = $('$selector');
+
+	if (element.chosen) {
+		element.chosen('destroy');
+	}
+
+    element.select2($options);
+});
+JS;
+
+			$asset->internalScript($js);
+		}
+	}
+
+	/**
 	 * ajaxChosen
 	 *
 	 * @param string $selector
@@ -86,8 +122,6 @@ jQuery(document).ready(function($) {
 	}
 
     element.select2($options);
-
-    window.se = element;
 });
 JS;
 

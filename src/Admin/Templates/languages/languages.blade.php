@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.admin.admin')
+@extends($lunaExtends)
 
 @section('toolbar')
     @include('toolbar')
@@ -47,7 +47,7 @@
         </p>
 
         <div class="grid-table table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
@@ -60,9 +60,19 @@
                         {!! $grid->sortTitle($lunaPrefix . 'language.field.state', 'language.state') !!}
                     </th>
 
+                    {{-- FLAG --}}
+                    <th width="1%">
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.image', 'language.image') !!}
+                    </th>
+
                     {{-- TITLE --}}
                     <th>
                         {!! $grid->sortTitle($lunaPrefix . 'language.field.title', 'language.title') !!}
+                    </th>
+
+                    {{-- TITLE --}}
+                    <th>
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.titlenative', 'language.title_native') !!}
                     </th>
 
                     {{-- ORDERING --}}
@@ -70,19 +80,19 @@
                         {!! $grid->sortTitle($lunaPrefix . 'language.field.ordering', 'language.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
-                    {{-- AUTHOR --}}
+                    {{-- CODE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.author', 'language.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.code', 'language.code') !!}
                     </th>
 
-                    {{-- CREATED --}}
+                    {{-- URL --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.created', 'language.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'language.field.alias', 'language.alias') !!}
                     </th>
 
-                    {{-- LANGUAGE --}}
+                    {{-- DELETE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.language', 'language.language') !!}
+                        @translate('phoenix.toolbar.delete')
                     </th>
 
                     {{-- ID --}}
@@ -104,18 +114,17 @@
                         </td>
 
                         {{-- STATE --}}
-                        <td>
+                        <td class="text-center">
                             <span class="btn-group">
                                 {!! $grid->published($item->state) !!}
-                                <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.copyRow({{ $i }});"
-                                    title="@translate('phoenix.toolbar.duplicate')">
-                                    <span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>
-                                </button>
-                                <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
-                                    title="@translate('phoenix.toolbar.delete')">
-                                    <span class="glyphicon glyphicon-trash fa fa-trash"></span>
-                                </button>
                             </span>
+                        </td>
+
+                        {{-- FLAG --}}
+                        <td class="text-center">
+                            @if ($item->image)
+                                <span class="{{ \Lyrasoft\Luna\Language\LanguageHelper::getFlagIconClass($item->image) }}"></span>
+                            @endif
                         </td>
 
                         {{-- TITLE --}}
@@ -125,24 +134,31 @@
                             </a>
                         </td>
 
+                        {{-- TITLE NATIVE --}}
+                        <td>
+                            {{ $item->title_native }}
+                        </td>
+
                         {{-- ORDERING --}}
                         <td>
                             {!! $grid->orderButton() !!}
                         </td>
 
-                        {{-- AUTHOR --}}
+                        {{-- CODE --}}
                         <td>
-                            {{ $item->created_by }}
+                            {{ $item->code }}
                         </td>
 
-                        {{-- CREATED --}}
+                        {{-- URL --}}
                         <td>
-                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}
+                            {{ $item->alias }}
                         </td>
 
-                        {{-- LANGUAGE --}}
-                        <td>
-                            {{ $item->language }}
+                        <td class="text-center">
+                            <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
+                                title="@translate('phoenix.toolbar.delete')">
+                                <span class="glyphicon glyphicon-trash fa fa-trash"></span>
+                            </button>
                         </td>
 
                         {{-- ID --}}

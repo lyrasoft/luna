@@ -39,7 +39,7 @@ class FilterDefinition implements FieldDefinitionInterface
 		 * Add search fields as options, by default, model will search all columns.
 		 * If you hop that user can choose a field to search, change "display" to true.
 		 */
-		$form->wrap(null, 'search', function (Form $form)
+		$form->wrap(null, 'search', function (Form $form) use ($langPrefix)
 		{
 			// Search Field
 			$form->add('field', new ListField)
@@ -64,7 +64,7 @@ class FilterDefinition implements FieldDefinitionInterface
 		 *
 		 * You can override filter actions in LanguagesModel::configureFilters()
 		 */
-		$form->wrap(null, 'filter', function(Form $form)
+		$form->wrap(null, 'filter', function(Form $form) use ($langPrefix)
 		{
 			// State
 			$form->add('language.state', new ListField)

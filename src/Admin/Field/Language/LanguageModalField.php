@@ -52,4 +52,33 @@ class LanguageModalField extends ModalField
 	 * @var  string
 	 */
 	protected $keyField = 'id';
+
+	/**
+	 * prepareAttributes
+	 *
+	 * @return  array
+	 */
+	public function prepareAttributes()
+	{
+		return parent::prepareAttributes();
+	}
+
+	/**
+	 * getUrl
+	 *
+	 * @return  string
+	 */
+	protected function getUrl()
+	{
+		if ($this->get('published', false))
+		{
+			$query = (array) $this->get('query');
+
+			$query['filter']['language.state'] = 1;
+
+			$this->set('query', $query);
+		}
+
+		return parent::getUrl();
+	}
 }

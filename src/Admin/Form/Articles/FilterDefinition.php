@@ -82,7 +82,7 @@ class FilterDefinition implements FieldDefinitionInterface
 			$form->add('article.category_id', new CategoryListField)
 				->label(Translator::translate($langPrefix . 'field.category'))
 				->addOption(new Option('', ''))
-				->addOption(new Option(Translator::translate($langPrefix . 'article.filter.category.select'), ''))
+				->addOption(new Option(Translator::translate($langPrefix . 'filter.category.select'), ''))
 				->set('onchange', 'this.form.submit()');
 		});
 	}

@@ -33,10 +33,10 @@
     @translate('phoenix.toolbar.unpublish')
 </button>
 
-<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">
-    <span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>
-    @translate('phoenix.toolbar.batch')
-</button>
+{{--<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">--}}
+    {{--<span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>--}}
+    {{--@translate('phoenix.toolbar.batch')--}}
+{{--</button>--}}
 
 <button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked().deleteList();">
     <span class="glyphicon glyphicon-trash fa fa-trash"></span>

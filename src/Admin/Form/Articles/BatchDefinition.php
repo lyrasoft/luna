@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Articles;
 
+use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
@@ -50,6 +51,11 @@ class BatchDefinition implements FieldDefinitionInterface
 //				->addOption(new Option('-- Select Language --', ''))
 //				->addOption(new Option('English', 'en-GB'))
 //				->addOption(new Option('Chinese Traditional', 'zh-TW'));
+
+			// Category
+			$form->add('category_id', new CategoryListField)
+				->label(Translator::translate($langPrefix . 'category.title'))
+				->addOption(new Option(Translator::translate($langPrefix . 'filter.category.select'), ''));
 
 			// Author
 			$form->add('created_by', new UserModalField)

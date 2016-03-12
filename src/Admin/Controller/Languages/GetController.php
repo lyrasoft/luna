@@ -70,6 +70,13 @@ class GetController extends ListDisplayController
 	protected $defaultDirection = null;
 
 	/**
+	 * Property limit.
+	 *
+	 * @var  int
+	 */
+	protected $limit = 100;
+
+	/**
 	 * prepareExecute
 	 *
 	 * @return  void
