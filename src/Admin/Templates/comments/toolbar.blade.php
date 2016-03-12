@@ -18,10 +18,10 @@
     @translate('phoenix.toolbar.new')
 </a>
 
-<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked();Phoenix.post();">
-    <span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>
-    @translate('phoenix.toolbar.duplicate')
-</button>
+{{--<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked();Phoenix.post();">--}}
+    {{--<span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>--}}
+    {{--@translate('phoenix.toolbar.duplicate')--}}
+{{--</button>--}}
 
 <button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked().batch('publish');">
     <span class="glyphicon glyphicon-ok fa fa-check text-success"></span>
@@ -33,10 +33,10 @@
     @translate('phoenix.toolbar.unpublish')
 </button>
 
-<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">
-    <span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>
-    @translate('phoenix.toolbar.batch')
-</button>
+{{--<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">--}}
+    {{--<span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>--}}
+    {{--@translate('phoenix.toolbar.batch')--}}
+{{--</button>--}}
 
 <button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked().deleteList();">
     <span class="glyphicon glyphicon-trash fa fa-trash"></span>

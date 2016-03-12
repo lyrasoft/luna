@@ -11,7 +11,9 @@ namespace Lyrasoft\Luna\Admin\Model;
 use Lyrasoft\Luna\Admin\Table\Table;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
+use Windwalker\Core\Ioc;
 use Windwalker\Query\Query;
+use Windwalker\Warder\Helper\WarderHelper;
 
 /**
  * The CommentsModel class.
@@ -49,6 +51,15 @@ class CommentsModel extends ListModel
 	protected function configureTables()
 	{
 		$this->addTable('comment', Table::COMMENTS);
+
+		$warder = WarderHelper::getPackage();
+		$userTable = $warder->get('table.users', 'users');
+
+		if ($this->db->getTable($userTable)->exists())
+		{
+			$this->addTable('user', $userTable, 'comment.user_id = user.id')
+				->addTable('replyer', $userTable, 'comment.reply_user_id = replyer.id');
+		}
 	}
 
 	/**
@@ -60,7 +71,11 @@ class CommentsModel extends ListModel
 	 */
 	protected function prepareGetQuery(Query $query)
 	{
-		// Add your logic
+		Ioc::getDispatcher()->triggerEvent('onCommentModelPrepareGetQuery', array(
+			'model' => $this,
+			'query' => $query,
+			'type'  => $this['comment.type']
+		));
 	}
 
 	/**

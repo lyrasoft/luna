@@ -50,7 +50,7 @@ class CommentsHtmlView extends GridView
 	 * @var  array
 	 */
 	protected $gridConfig = array(
-		'order_column' => 'comment.ordering'
+		'order_column' => 'comment.type, comment.target_id, comment.ordering'
 	);
 
 	/**

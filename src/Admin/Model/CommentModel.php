@@ -31,7 +31,9 @@ class CommentModel extends AdminModel
 	 *
 	 * @var  array
 	 */
-	protected $reorderConditions = array();
+	protected $reorderConditions = array(
+		'type', 'target_id'
+	);
 
 	/**
 	 * postGetItem

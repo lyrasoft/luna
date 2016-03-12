@@ -8,6 +8,8 @@
 
 namespace Lyrasoft\Luna\Listener;
 
+use Lyrasoft\Luna\Admin\Model\CommentsModel;
+use Lyrasoft\Luna\Admin\Table\Table;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\LunaPackage;
 use Phoenix\DataMapper\DataMapperResolver;
@@ -125,6 +127,24 @@ class LunaListener
 //			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.locale'), Priority::LOW - 25);
 //			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.default'), Priority::LOW - 25);
 			$renderer->addPath(LUNA_SOURCE_ADMIN . '/Templates/' . $name, Priority::LOW - 25);
+		}
+	}
+
+	/**
+	 * onCommentModelPrepareGetQuery
+	 *
+	 * @param Event $event
+	 *
+	 * @return  void
+	 */
+	public function onCommentModelPrepareGetQuery(Event $event)
+	{
+		if ($event['type'] == 'article')
+		{
+			/** @var CommentsModel $model */
+			$model = $event['model'];
+
+			$model->addTable('target', Table::ARTICLES, 'target.id = comment.target_id');
 		}
 	}
 }

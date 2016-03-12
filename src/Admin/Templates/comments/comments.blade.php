@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.admin.admin')
+@extends($lunaExtends)
 
 @section('toolbar')
     @include('toolbar')
@@ -34,7 +34,7 @@
 
 @section('admin-body')
 <div id="phoenix-admin" class="comments-container grid-container">
-    <form name="admin-form" id="admin-form" action="{{ $router->html('comments') }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->html('comments', array('type' => $type)) }}" method="POST" enctype="multipart/form-data">
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
@@ -60,19 +60,37 @@
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.state', 'comment.state') !!}
                     </th>
 
-                    {{-- TITLE --}}
+                    {{-- EDIT --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.title', 'comment.title') !!}
+                        @translate($lunaPrefix . 'comment.button.edit')
+                    </th>
+
+                    <th>
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.target.title', 'comment.target_id') !!}
+                    </th>
+
+                    {{-- TITLE --}}
+                    {{--<th>--}}
+                        {{--{!! $grid->sortTitle($lunaPrefix . 'comment.field.title', 'comment.title') !!}--}}
+                    {{--</th>--}}
+
+                    {{-- CONTENT --}}
+                    <th>
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.author', 'comment.created_by') !!}
+                        /
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.content', 'comment.content') !!}
+                    </th>
+
+                    {{-- REPLY --}}
+                    <th>
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
+                        /
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.reply', 'comment.reply') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.ordering', 'comment.ordering') !!} {!! $grid->saveorderButton() !!}
-                    </th>
-
-                    {{-- AUTHOR --}}
-                    <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.author', 'comment.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.ordering', 'comment.type, comment.target_id, comment.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- CREATED --}}
@@ -81,9 +99,9 @@
                     </th>
 
                     {{-- LANGUAGE --}}
-                    <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.language', 'comment.language') !!}
-                    </th>
+                    {{--<th>--}}
+                        {{--{!! $grid->sortTitle($lunaPrefix . 'comment.field.language', 'comment.language') !!}--}}
+                    {{--</th>--}}
 
                     {{-- ID --}}
                     <th>
@@ -97,7 +115,7 @@
                     <?php
                     $grid->setItem($item, $i);
                     ?>
-                    <tr>
+                    <tr data-order-group="{{ $item->type }}-{{ $item->target_id }}">
                         {{-- CHECKBOX --}}
                         <td>
                             {!! $grid->checkbox() !!}
@@ -107,10 +125,6 @@
                         <td>
                             <span class="btn-group">
                                 {!! $grid->published($item->state) !!}
-                                <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.copyRow({{ $i }});"
-                                    title="@translate('phoenix.toolbar.duplicate')">
-                                    <span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>
-                                </button>
                                 <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
                                     title="@translate('phoenix.toolbar.delete')">
                                     <span class="glyphicon glyphicon-trash fa fa-trash"></span>
@@ -118,21 +132,45 @@
                             </span>
                         </td>
 
-                        {{-- TITLE --}}
+                        {{-- EDIT --}}
                         <td>
-                            <a href="{{ $router->html('comment', array('id' => $item->id)) }}">
-                                {{ $item->title }}
+                            <a class="btn btn-default btn-xs" href="{{ $router->html('comment', array('id' => $item->id, 'type' => $type)) }}">
+                                <span class="glyphicon glyphicon-edit fa fa-pencil"></span>
                             </a>
+                        </td>
+
+                        <td>
+                            {{ $item->target_title }}
+                        </td>
+
+                        {{-- TITLE --}}
+                        {{--<td>--}}
+                            {{--<a href="{{ $router->html('comment', array('id' => $item->id)) }}">--}}
+                                {{--{{ $item->title }}--}}
+                            {{--</a>--}}
+                        {{--</td>--}}
+
+                        <td>
+                            <strong>
+                                {{ $item->user_name }} :
+                            </strong>
+                            <br />
+                            {!! \Windwalker\String\Utf8String::substr(e($item->content), 0, 150) !!}...
+                        </td>
+
+                        <td>
+                            @if ($item->reply)
+                                <strong>
+                                    {{ $item->replyer_name }} :
+                                </strong>
+                                <br />
+                                {!! \Windwalker\String\Utf8String::substr(e($item->reply), 0, 150) !!}...
+                            @endif
                         </td>
 
                         {{-- ORDERING --}}
                         <td>
                             {!! $grid->orderButton() !!}
-                        </td>
-
-                        {{-- AUTHOR --}}
-                        <td>
-                            {{ $item->created_by }}
                         </td>
 
                         {{-- CREATED --}}
@@ -141,9 +179,9 @@
                         </td>
 
                         {{-- LANGUAGE --}}
-                        <td>
-                            {{ $item->language }}
-                        </td>
+                        {{--<td>--}}
+                            {{--{{ $item->language }}--}}
+                        {{--</td>--}}
 
                         {{-- ID --}}
                         <td>
@@ -157,7 +195,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@comments', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->render($package->getName() . '@@comments', array('type' => $type), 'windwalker.pagination.phoenix') !!}
                     </td>
                 </tr>
                 </tfoot>

@@ -121,7 +121,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . ':modules', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->render($package->getName() . '@modules', 'windwalker.pagination.phoenix') !!}
                     </td>
                 </tr>
                 </tfoot>

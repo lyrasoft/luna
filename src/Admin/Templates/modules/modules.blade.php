@@ -33,6 +33,11 @@
 @stop
 
 @section('admin-body')
+    <style>
+        .tooltip-inner {
+            max-width: 600px;
+        }
+    </style>
 <div id="phoenix-admin" class="modules-container grid-container">
     <form name="admin-form" id="admin-form" action="{{ $router->html('modules') }}" method="POST" enctype="multipart/form-data">
 
@@ -65,9 +70,19 @@
                         {!! $grid->sortTitle($lunaPrefix . 'module.field.title', 'module.title') !!}
                     </th>
 
+                    {{-- MODULE --}}
+                    <th>
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.module', 'module.class') !!}
+                    </th>
+
+                    {{-- POSITION --}}
+                    <th>
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.position', 'module.position') !!}
+                    </th>
+
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($lunaPrefix . 'module.field.ordering', 'module.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.ordering', 'module.position, module.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- AUTHOR --}}
@@ -76,14 +91,14 @@
                     </th>
 
                     {{-- CREATED --}}
-                    <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'module.field.created', 'module.created') !!}
-                    </th>
+                    {{--<th>--}}
+                        {{--{!! $grid->sortTitle($lunaPrefix . 'module.field.created', 'module.created') !!}--}}
+                    {{--</th>--}}
 
                     {{-- LANGUAGE --}}
-                    <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'module.field.language', 'module.language') !!}
-                    </th>
+                    {{--<th>--}}
+                        {{--{!! $grid->sortTitle($lunaPrefix . 'module.field.language', 'module.language') !!}--}}
+                    {{--</th>--}}
 
                     {{-- ID --}}
                     <th>
@@ -125,25 +140,39 @@
                             </a>
                         </td>
 
-                        {{-- ORDERING --}}
+                        {{-- MODULE --}}
                         <td>
+                            <span class="hasTooltip" title="{{ $item->class }}">
+                                {{ $item->name }}
+                            </span>
+                        </td>
+
+                        {{-- POSITION --}}
+                        <td>
+                            <span class="{{ $item->labelClass }}">
+                                {{ $item->position }}
+                            </span>
+                        </td>
+
+                        {{-- ORDERING --}}
+                        <td class="text-center">
                             {!! $grid->orderButton() !!}
                         </td>
 
                         {{-- AUTHOR --}}
                         <td>
-                            {{ $item->created_by }}
+                            {{ $item->user_name }}
                         </td>
 
                         {{-- CREATED --}}
-                        <td>
-                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}
-                        </td>
+                        {{--<td>--}}
+                            {{--{{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}--}}
+                        {{--</td>--}}
 
                         {{-- LANGUAGE --}}
-                        <td>
-                            {{ $item->language }}
-                        </td>
+                        {{--<td>--}}
+                            {{--{{ $item->language }}--}}
+                        {{--</td>--}}
 
                         {{-- ID --}}
                         <td>
@@ -173,6 +202,8 @@
         </div>
 
         @include('batch')
+
+        @include('create_modal')
     </form>
 </div>
 @stop

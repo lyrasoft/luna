@@ -17,7 +17,9 @@ use Windwalker\Form\Field;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
+use Windwalker\Ioc;
 use Windwalker\Validator\Rule;
+use Windwalker\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The CommentEditDefinition class.
@@ -38,56 +40,48 @@ class EditDefinition implements FieldDefinitionInterface
 		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
 		// Basic fieldset
-		$form->wrap('basic', null, function(Form $form)
+		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			// ID
 			$form->add('id', new Field\HiddenField);
 
 			// Title
-			$form->add('title', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'comment.field.title'))
-				->setFilter('trim')
-				->required(true);
+//			$form->add('title', new Field\TextField)
+//				->label(Translator::translate($langPrefix . 'comment.field.title'))
+//				->setFilter('trim')
+//				->required(true);
 
-			// Alias
-			$form->add('alias', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'comment.field.alias'));
+			// Type
+			$form->add('type', new Field\HiddenField)
+				->label(Translator::translate($langPrefix . 'comment.field.type'));
 
-			// Images
-			$form->add('images', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'comment.field.images'));
-
-			// URL
-			$form->add('url', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'comment.field.url'))
-				->setValidator(new Rule\UrlValidator)
-				->set('class', 'validate-url');
-
-			// Example: Comment List
-			$form->add('comment_list', new CommentListField)
-				->label('List Example');
-
-			// Example: Comment Modal
-			$form->add('comment_modal', new CommentModalField)
-				->label('Modal Example');
+			// Target ID
+			$form->add('target_id', new Field\TextField)
+				->label(Translator::translate($langPrefix . 'comment.field.target.id'));
 		});
 
 		// Text Fieldset
-		$form->wrap('text', null, function(Form $form)
+		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
-			// Introtext
-			$form->add('introtext', new Field\TextareaField)
+			$form->add('user_id', new UserModalField)
+				->label(Translator::translate($langPrefix . 'comment.field.author'));
+
+			// Content
+			$form->add('content', new Field\TextareaField)
 				->label(Translator::translate($langPrefix . 'comment.field.introtext'))
 				->set('rows', 10);
 
-			// Fulltext
-			$form->add('fulltext', new Field\TextareaField)
+			$form->add('reply_user_id', new UserModalField)
+				->label(Translator::translate($langPrefix . 'comment.field.replyer'));
+
+			// Reply
+			$form->add('reply', new Field\TextareaField)
 				->label(Translator::translate($langPrefix . 'comment.field.fulltext'))
 				->set('rows', 10);
 		});
 
 		// Created fieldset
-		$form->wrap('created', null, function(Form $form)
+		$form->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
 			$form->add('state', new Field\RadioField)
@@ -96,26 +90,6 @@ class EditDefinition implements FieldDefinitionInterface
 				->set('default', 1)
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
-
-			// Version
-			$form->add('version', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'comment.field.version'));
-
-			// Created
-			$form->add('created', new Phoenix\Field\CalendarField)
-				->label(Translator::translate($langPrefix . 'comment.field.created'));
-
-			// Modified
-			$form->add('modified', new Phoenix\Field\CalendarField)
-				->label(Translator::translate($langPrefix . 'comment.field.modified'));
-
-			// Author
-			$form->add('created_by', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'comment.field.author'));
-
-			// Modified User
-			$form->add('modified_by', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'comment.field.modifiedby'));
 		});
 	}
 }

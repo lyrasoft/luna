@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Comments;
 use Lyrasoft\Luna\Admin\Model\CommentsModel;
 use Lyrasoft\Luna\Admin\View\Comments\CommentsHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
+use Phoenix\Model\ListModel;
 use Windwalker\Core\Model\Model;
 
 /**
@@ -90,6 +91,14 @@ class GetController extends ListDisplayController
 	 */
 	protected function prepareUserState(Model $model)
 	{
+		/** @var ListModel $model */
 		parent::prepareUserState($model);
+
+		$type = $this->input->get('type');
+
+		$model['comment.type'] = $type;
+		$model->addFilter('comment.type', $type);
+
+		$this->view['type'] = $type;
 	}
 }

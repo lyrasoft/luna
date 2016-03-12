@@ -31,7 +31,9 @@ class ModuleModel extends AdminModel
 	 *
 	 * @var  array
 	 */
-	protected $reorderConditions = array();
+	protected $reorderConditions = array(
+		'position'
+	);
 
 	/**
 	 * postGetItem

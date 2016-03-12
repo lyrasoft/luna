@@ -28,6 +28,10 @@ class DatabaseSeeder extends AbstractSeeder
 
 		$this->execute(new ArticleSeeder);
 
+		$this->execute(new CommentSeeder);
+
+		$this->execute(new ModuleSeeder);
+
 		// @muse-placeholder  seeder-execute  Do not remove this.
 	}
 
@@ -43,6 +47,10 @@ class DatabaseSeeder extends AbstractSeeder
 		$this->clean(new CategorySeeder);
 
 		$this->clean(new ArticleSeeder);
+
+		$this->clean(new CommentSeeder);
+
+		$this->clean(new ModuleSeeder);
 
 		// @muse-placeholder  seeder-clean  Do not remove this.
 	}

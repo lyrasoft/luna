@@ -70,7 +70,7 @@ tags:
 
 # Comment
 comment:
-    pattern: /comment(/id)
+    pattern: /comment/(type)(/id)
     controller: Comment
     extra:
         layout: comment
@@ -79,7 +79,7 @@ comment:
 
 # Comments
 comments:
-    pattern: /comments(/page)
+    pattern: /comments/(type)(/page)
     controller: Comments
     action:
         post: CopyController

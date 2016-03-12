@@ -100,4 +100,17 @@ abstract class LunaHelper
 	{
 		return static::getPackage()->getLangPrefix();
 	}
+
+	/**
+	 * getTypeTable
+	 *
+	 * @param string $type
+	 * @param string $default
+	 *
+	 * @return  string
+	 */
+	public static function getTypeTable($type, $default = null)
+	{
+		return (string) static::getPackage()->get('type_table_map.' . $type, $default);
+	}
 }

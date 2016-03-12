@@ -8,9 +8,15 @@
 
 namespace Lyrasoft\Luna\Admin\View\Modules;
 
+use Lyrasoft\Luna\Module\AbstractModule;
+use Lyrasoft\Luna\Module\ModuleHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
+use Windwalker\Core\Language\Translator;
+use Windwalker\Data\Data;
+use Windwalker\Data\DataSet;
+use Windwalker\Filter\InputFilter;
 
 /**
  * The ModulesHtmlView class.
@@ -50,7 +56,7 @@ class ModulesHtmlView extends GridView
 	 * @var  array
 	 */
 	protected $gridConfig = array(
-		'order_column' => 'module.ordering'
+		'order_column' => 'module.position, module.ordering'
 	);
 
 	/**
@@ -59,6 +65,18 @@ class ModulesHtmlView extends GridView
 	 * @var  string
 	 */
 	protected $langPrefix = 'luna.';
+
+	/**
+	 * Property labels.
+	 *
+	 * @var  array
+	 */
+	protected $labels = array(
+		'label label-primary',
+		'label label-warning',
+		'label label-info',
+		'label label-success',
+	);
 
 	/**
 	 * prepareData
@@ -70,6 +88,53 @@ class ModulesHtmlView extends GridView
 	protected function prepareData($data)
 	{
 		$this->prepareScripts();
+
+		$positions = array_values(array_unique($data->items->position));
+
+		$nums = array();
+
+		$filter = new InputFilter;
+
+		foreach ($positions as $position)
+		{
+			$nums[$position] = $filter->clean(md5($position), InputFilter::UINT) + 1;
+		}
+
+		foreach ($data->items as $item)
+		{
+			/** @var AbstractModule $class */
+			$class = $item->class;
+
+			if (class_exists($class))
+			{
+				$item->name = Translator::translate($class::getName());
+				$item->description = Translator::translate($class::getDescription());
+			}
+			else
+			{
+				$item->name = Translator::translate($this->langPrefix . 'module.not.found');
+				$item->description = '-';
+			}
+
+			// Label Color
+			$index = $nums[$item->position] % count($this->labels);
+			$item->labelClass = $this->labels[$index];
+		}
+
+		// Find Classes
+		$data->modules = new DataSet;
+
+		/** @var AbstractModule $moduleClass */
+		foreach (ModuleHelper::findModuleClasses() as $moduleClass)
+		{
+			$module = new Data;
+			$module->class       = $moduleClass;
+			$module->name        = $moduleClass::getName();
+			$module->description = $moduleClass::getDescription();
+			$module->icon        = $moduleClass::getIcon();
+
+			$data->modules[] = $module;
+		}
 	}
 
 	/**

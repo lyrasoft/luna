@@ -19,14 +19,14 @@
  */
 ?>
 
-@extends('_global.admin.admin-edit')
+@extends($lunaExtends . '-edit')
 
 @section('toolbar')
     @include('toolbar')
 @stop
 
 @section('admin-body')
-<form name="admin-form" id="admin-form" action="{{ $router->html('comment') }}" method="POST" enctype="multipart/form-data">
+<form name="admin-form" id="admin-form" action="{{ $router->html('comment', array('type' => $type)) }}" method="POST" enctype="multipart/form-data">
 
     <div class="row">
         <div class="col-md-7">

@@ -38,7 +38,7 @@ class EditDefinition implements FieldDefinitionInterface
 		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
 		// Basic fieldset
-		$form->wrap('basic', null, function(Form $form)
+		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			// ID
 			$form->add('id', new Field\HiddenField);
@@ -73,7 +73,7 @@ class EditDefinition implements FieldDefinitionInterface
 		});
 
 		// Text Fieldset
-		$form->wrap('text', null, function(Form $form)
+		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
 			// Introtext
 			$form->add('introtext', new Field\TextareaField)
@@ -87,7 +87,7 @@ class EditDefinition implements FieldDefinitionInterface
 		});
 
 		// Created fieldset
-		$form->wrap('created', null, function(Form $form)
+		$form->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
 			$form->add('state', new Field\RadioField)

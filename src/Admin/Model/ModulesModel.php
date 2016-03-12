@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\Table\Table;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
+use Windwalker\Warder\Helper\WarderHelper;
 
 /**
  * The ModulesModel class.
@@ -49,6 +50,14 @@ class ModulesModel extends ListModel
 	protected function configureTables()
 	{
 		$this->addTable('module', Table::MODULES);
+
+		$warder = WarderHelper::getPackage();
+		$userTable = $warder->get('table.users', 'users');
+
+		if ($this->db->getTable($userTable)->exists())
+		{
+			$this->addTable('user', $userTable, 'module.created_by = user.id');
+		}
 	}
 
 	/**

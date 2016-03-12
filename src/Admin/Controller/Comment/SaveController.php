@@ -70,6 +70,10 @@ class SaveController extends AbstractSaveController
 	protected function prepareExecute()
 	{
 		parent::prepareExecute();
+
+		$type = $this->input->get('type');
+
+		$this->model['comment.type'] = $type;
 	}
 
 	/**
@@ -106,5 +110,40 @@ class SaveController extends AbstractSaveController
 	protected function postExecute($result = null)
 	{
 		return parent::postExecute($result);
+	}
+
+	/**
+	 * getFailRedirect
+	 *
+	 * @param  Data $data
+	 *
+	 * @return  string
+	 */
+	protected function getFailRedirect(Data $data = null)
+	{
+		$pk = $data->{$this->pkName} ? : $this->model['item.pk'];
+
+		return $this->router->http($this->getName(), array($this->pkName => $pk, 'type' => $this->input->get('type')));
+	}
+
+	/**
+	 * getSuccessRedirect
+	 *
+	 * @param  Data $data
+	 *
+	 * @return  string
+	 */
+	protected function getSuccessRedirect(Data $data = null)
+	{
+		switch ($this->task)
+		{
+			case 'save2close':
+				return $this->router->http($this->config['list_name'], array('type' => $this->input->get('type')));
+
+			default:
+				$pk = $this->model['item.pk'];
+
+				return $this->router->http($this->getName(), array($this->pkName => $pk, 'type' => $this->input->get('type')));
+		}
 	}
 }

@@ -23,17 +23,17 @@
     @translate('phoenix.toolbar.save2close')
 </button>
 
-<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.post(null, {task: 'save2copy'});">
-    <span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>
-    @translate('phoenix.toolbar.save2copy')
-</button>
+{{--<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.post(null, {task: 'save2copy'});">--}}
+    {{--<span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>--}}
+    {{--@translate('phoenix.toolbar.save2copy')--}}
+{{--</button>--}}
 
-<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.post(null, {task: 'save2new'});">
-    <span class="glyphicon glyphicon-plus fa fa-plus text-primary"></span>
-    @translate('phoenix.toolbar.save2new')
-</button>
+{{--<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.post(null, {task: 'save2new'});">--}}
+    {{--<span class="glyphicon glyphicon-plus fa fa-plus text-primary"></span>--}}
+    {{--@translate('phoenix.toolbar.save2new')--}}
+{{--</button>--}}
 
-<a type="button" class="btn btn-default btn-sm" href="{{ $router->html('comments') }}">
+<a type="button" class="btn btn-default btn-sm" href="{{ $router->html('comments', array('type' => $type)) }}">
     <span class="glyphicon glyphicon-remove fa fa-remove text-danger"></span>
     @translate('phoenix.toolbar.cancel')
 </a>
