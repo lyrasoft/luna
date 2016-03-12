@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.admin.pure')
+@extends('_global.' . $luna->get('admin.package') . '.pure')
 
 @section('toolbar')
     @include('toolbar')
@@ -96,7 +96,7 @@
 
                         {{-- STATE --}}
                         <td class="text-center">
-                            {!! $grid->state($item->state, array('only_icon' => true)) !!}
+                            {!! $grid->published($item->state, array('only_icon' => true)) !!}
                         </td>
 
                         {{-- AUTHOR --}}

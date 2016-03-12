@@ -19,7 +19,7 @@
  */
 ?>
 
-@extends('_global.admin.admin-edit')
+@extends($lunaExtends . '-edit')
 
 @section('toolbar')
     @include('toolbar')

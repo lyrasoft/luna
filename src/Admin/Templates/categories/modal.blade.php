@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.admin.pure')
+@extends('_global.' . $luna->get('admin.package') . '.pure')
 
 @section('toolbar')
     @include('toolbar')
@@ -89,14 +89,16 @@
                     <tr>
                         {{-- CHECKBOX --}}
                         <td>
+                            <span class="glyphicon glyphicon-menu-left fa fa-angle-right text-muted"></span>
+                            <span class="text-muted">{{ str_repeat('—', $item->level - 1) }}</span>
                             <a href="#" onclick="parent.{{ $function }}('{{ $selector }}', '{{ $item->id }}', '{{ $item->title }}');">
-                                <span class="glyphicon glyphicon-menu-left fa fa-angle-right text-muted"></span> {{ $item->title }}
+                                {{ $item->title }}
                             </a>
                         </td>
 
                         {{-- STATE --}}
                         <td class="text-center">
-                            {!! $grid->state($item->state, array('only_icon' => true)) !!}
+                            {!! $grid->published($item->state, array('only_icon' => true)) !!}
                         </td>
 
                         {{-- AUTHOR --}}
