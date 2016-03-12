@@ -63,6 +63,15 @@ class SaveController extends AbstractSaveController
 	protected $view;
 
 	/**
+	 * Property redirectQueryFields.
+	 *
+	 * @var  array
+	 */
+	protected $redirectQueryFields = array(
+		'type'
+	);
+
+	/**
 	 * prepareExecute
 	 *
 	 * @return  void
@@ -123,27 +132,6 @@ class SaveController extends AbstractSaveController
 	{
 		$pk = $data->{$this->pkName} ? : $this->model['item.pk'];
 
-		return $this->router->http($this->getName(), array($this->pkName => $pk, 'type' => $this->input->get('type')));
-	}
-
-	/**
-	 * getSuccessRedirect
-	 *
-	 * @param  Data $data
-	 *
-	 * @return  string
-	 */
-	protected function getSuccessRedirect(Data $data = null)
-	{
-		switch ($this->task)
-		{
-			case 'save2close':
-				return $this->router->http($this->config['list_name'], array('type' => $this->input->get('type')));
-
-			default:
-				$pk = $this->model['item.pk'];
-
-				return $this->router->http($this->getName(), array($this->pkName => $pk, 'type' => $this->input->get('type')));
-		}
+		return $this->router->http($this->getName(), array($this->pkName => $pk));
 	}
 }

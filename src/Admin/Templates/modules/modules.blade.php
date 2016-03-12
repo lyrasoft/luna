@@ -112,7 +112,7 @@
                     <?php
                     $grid->setItem($item, $i);
                     ?>
-                    <tr>
+                    <tr data-order-group="{{ $item->position }}">
                         {{-- CHECKBOX --}}
                         <td>
                             {!! $grid->checkbox() !!}
