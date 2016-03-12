@@ -8,10 +8,10 @@
 
 namespace Lyrasoft\Luna\Module;
 
+use Windwalker\Data\DataSet;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Filesystem\Path\PathCollection;
 use Windwalker\String\StringNormalise;
-use Windwalker\Utilities\Queue\PriorityQueue;
 
 /**
  * The ModuleResolver class.
@@ -26,6 +26,85 @@ class ModuleHelper
 	 * @var  array
 	 */
 	protected static $paths = null;
+
+	/**
+	 * Property classes.
+	 *
+	 * @var  array
+	 */
+	protected static $classes = null;
+
+	/**
+	 * getModuleTypes
+	 *
+	 * @return  array
+	 */
+	public static function getModuleClasses()
+	{
+		if (static::$classes === null)
+		{
+			static::$classes = static::findModuleClasses();
+		}
+
+		return static::$classes;
+	}
+
+	/**
+	 * getModuleTypes
+	 *
+	 * @return  DataSet
+	 */
+	public static function getModuleTypes()
+	{
+		$classes = static::getModuleClasses();
+
+		$types = new DataSet;
+
+		/** @var AbstractModule $class */
+		foreach ($classes as $class)
+		{
+			$types[$class::getType()] = static::bindModuleType($class);
+		}
+
+		return $types;
+	}
+
+	/**
+	 * getModuleType
+	 *
+	 * @param   string  $type
+	 *
+	 * @return  AbstractModule
+	 */
+	public static function getModuleType($type)
+	{
+		$classes = static::getModuleTypes();
+
+		if (isset($classes[$type]))
+		{
+			return $classes[$type];
+		}
+
+		return null;
+	}
+
+	/**
+	 * bindModuleType
+	 *
+	 * @param   string|AbstractModule  $class
+	 *
+	 * @return  ModuleType
+	 */
+	public static function bindModuleType($class)
+	{
+		return new ModuleType(array(
+			'name' => $class::getName(),
+			'type' => $class::getType(),
+			'icon' => $class::getIcon(),
+			'description' => $class::getDescription(),
+			'class' => $class,
+		));
+	}
 
 	/**
 	 * findModuleClasses
@@ -56,7 +135,7 @@ class ModuleHelper
 
 					if ($class::$isEnabled)
 					{
-						$classes[] = $class;
+						$classes[$class::getType()] = $class;
 					}
 				}
 			}

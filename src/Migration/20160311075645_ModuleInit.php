@@ -27,7 +27,8 @@ class ModuleInit extends AbstractMigration
 		{
 			$sc->addColumn('id',          new Column\Primary)->comment('Primary Key');
 			$sc->addColumn('title',       new Column\Varchar)->comment('Title');
-			$sc->addColumn('class',       new Column\Varchar)->comment('Module Class');
+			$sc->addColumn('type',        new Column\Varchar)->comment('Module Type');
+//			$sc->addColumn('class',       new Column\Varchar)->comment('Module Class');
 			$sc->addColumn('position',    new Column\Varchar)->comment('Position');
 			$sc->addColumn('note',        new Column\Varchar)->comment('Note');
 			$sc->addColumn('content',     new Column\Longtext)->comment('Content');

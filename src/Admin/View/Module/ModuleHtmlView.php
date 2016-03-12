@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\View\Module;
 
+use Lyrasoft\Luna\Module\ModuleHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
@@ -64,6 +65,10 @@ class ModuleHtmlView extends EditView
 	protected function prepareData($data)
 	{
 		$this->prepareScripts();
+
+		$data->type       = $data->item->type ? : $data->state->get('module.type');
+		$data->moduleType = ModuleHelper::getModuleType($data->type);;
+		$data->module     = $data->moduleType->createInstance($data->item);
 	}
 
 	/**

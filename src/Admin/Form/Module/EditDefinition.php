@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Module;
 
 use Lyrasoft\Luna\Admin\Field\Module\ModuleListField;
 use Lyrasoft\Luna\Admin\Field\Module\ModuleModalField;
+use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Phoenix;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Filter\InputFilter;
@@ -18,6 +19,7 @@ use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
+use Windwalker\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The ModuleEditDefinition class.
@@ -37,53 +39,38 @@ class EditDefinition implements FieldDefinitionInterface
 	{
 		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
+		// Title
+		$form->add('title', new Field\TextField)
+			->label(Translator::translate($langPrefix . 'module.field.title'))
+			->setFilter('trim')
+			->set('labelClass', 'hide')
+			->required(true);
+
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			// ID
 			$form->add('id', new Field\HiddenField);
 
-			// Title
-			$form->add('title', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'module.field.title'))
-				->setFilter('trim')
-				->required(true);
-
-			// Alias
-			$form->add('alias', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'module.field.alias'));
-
-			// Images
-			$form->add('images', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'module.field.images'));
-
-			// URL
-			$form->add('url', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'module.field.url'))
-				->setValidator(new Rule\UrlValidator)
-				->set('class', 'validate-url');
-
 			// Example: Module List
-			$form->add('module_list', new ModuleListField)
-				->label('List Example');
-
-			// Example: Module Modal
-			$form->add('module_modal', new ModuleModalField)
-				->label('Modal Example');
+//			$form->add('module_list', new ModuleListField)
+//				->label('List Example');
+//
+//			// Example: Module Modal
+//			$form->add('module_modal', new ModuleModalField)
+//				->label('Modal Example');
 		});
 
 		// Text Fieldset
 		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
-			// Introtext
-			$form->add('introtext', new Field\TextareaField)
-				->label(Translator::translate($langPrefix . 'module.field.introtext'))
-				->set('rows', 10);
-
-			// Fulltext
-			$form->add('fulltext', new Field\TextareaField)
-				->label(Translator::translate($langPrefix . 'module.field.fulltext'))
-				->set('rows', 10);
+			// Content
+			$form->add('content', new SummernoteEditorField)
+				->label(Translator::translate($langPrefix . 'module.field.content'))
+				->set('rows', 10)
+				->set('options', array(
+					'height' => 400
+				));
 		});
 
 		// Created fieldset
@@ -97,25 +84,18 @@ class EditDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
 
-			// Version
-			$form->add('version', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'module.field.version'));
+			// Type
+			$form->add('type', new Field\TextField)
+				->label(Translator::translate($langPrefix . 'module.field.type'))
+				->readonly();
 
 			// Created
 			$form->add('created', new Phoenix\Field\CalendarField)
 				->label(Translator::translate($langPrefix . 'module.field.created'));
 
-			// Modified
-			$form->add('modified', new Phoenix\Field\CalendarField)
-				->label(Translator::translate($langPrefix . 'module.field.modified'));
-
 			// Author
-			$form->add('created_by', new Field\TextField)
+			$form->add('created_by', new UserModalField)
 				->label(Translator::translate($langPrefix . 'module.field.author'));
-
-			// Modified User
-			$form->add('modified_by', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'module.field.modifiedby'));
 		});
 	}
 }

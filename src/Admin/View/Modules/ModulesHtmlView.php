@@ -102,13 +102,11 @@ class ModulesHtmlView extends GridView
 
 		foreach ($data->items as $item)
 		{
-			/** @var AbstractModule $class */
-			$class = $item->class;
+			$item->module = ModuleHelper::getModuleType($item->type);
 
-			if (class_exists($class))
+			if ($item->module)
 			{
-				$item->name = Translator::translate($class::getName());
-				$item->description = Translator::translate($class::getDescription());
+				$item->bind($item->module);
 			}
 			else
 			{
@@ -122,19 +120,7 @@ class ModulesHtmlView extends GridView
 		}
 
 		// Find Classes
-		$data->modules = new DataSet;
-
-		/** @var AbstractModule $moduleClass */
-		foreach (ModuleHelper::findModuleClasses() as $moduleClass)
-		{
-			$module = new Data;
-			$module->class       = $moduleClass;
-			$module->name        = $moduleClass::getName();
-			$module->description = $moduleClass::getDescription();
-			$module->icon        = $moduleClass::getIcon();
-
-			$data->modules[] = $module;
-		}
+		$data->modules = ModuleHelper::getModuleTypes();
 	}
 
 	/**

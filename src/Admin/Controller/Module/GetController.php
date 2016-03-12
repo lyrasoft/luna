@@ -75,6 +75,8 @@ class GetController extends EditDisplayController
 	protected function prepareUserState(Model $model)
 	{
 		parent::prepareUserState($model);
+
+		$model['module.type'] = $this->input->get('type');
 	}
 
 	/**

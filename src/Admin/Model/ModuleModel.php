@@ -44,7 +44,6 @@ class ModuleModel extends AdminModel
 	 */
 	protected function postGetItem(Data $item)
 	{
-		// Do some stuff
 	}
 
 	/**

@@ -32,16 +32,22 @@ class ModuleSeeder extends AbstractSeeder
 		$faker = Factory::create();
 
 		$mapper = new ModuleMapper;
-		$userIds = with(new UserMapper)->findAll();
+		$userIds = with(new UserMapper)->findAll()->id;
 
 		$positions = array('flower', 'sakura', 'rose', 'olive');
+
+		$types = \Lyrasoft\Luna\Module\ModuleHelper::getModuleTypes()->dump();
 
 		foreach (range(1, 30) as $i)
 		{
 			$data = new Data;
 
+			/** @var \Lyrasoft\Luna\Module\ModuleType $module */
+			$module = $faker->randomElement($types);
+
 			$data['title']       = $faker->sentence(rand(3, 5));
-			$data['class']       = 'Lyrasoft\Luna\Module\Custom\CustomModule';
+			$data['type']        = $module->type;
+			$data['class']       = $module->class;
 			$data['position']    = $faker->randomElement($positions);
 			$data['note']        = $faker->sentence(5);
 			$data['content']     = $faker->paragraph(5);

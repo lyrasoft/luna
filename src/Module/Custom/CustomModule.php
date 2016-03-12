@@ -19,18 +19,11 @@ use Windwalker\Data\Data;
 class CustomModule extends AbstractModule
 {
 	/**
-	 * Property name.
+	 * Property type.
 	 *
 	 * @var  string
 	 */
-	protected static $name = 'luna.module.custom.title';
-
-	/**
-	 * Property description.
-	 *
-	 * @var  string
-	 */
-	protected static $description = 'luna.module.custom.desc';
+	protected static $type = 'custom';
 
 	/**
 	 * Property icon.

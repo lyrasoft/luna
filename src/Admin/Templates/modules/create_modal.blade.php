@@ -18,7 +18,7 @@
                                 <span class="{{ $module->icon }}" style="font-size: 2em"></span>
                             </td>
                             <td>
-                                <a class="lead" href="{{ $router->html('module', array('new' => true, 'class' => $module->class)) }}">
+                                <a class="lead" href="{{ $router->html('module', array('new' => true, 'type' => $module->type)) }}">
                                     {{ $module->name }}
                                 </a>
                                 <div class="hasTooltip" title="{{ $module->class }}">
