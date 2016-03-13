@@ -224,7 +224,7 @@ abstract class AbstractModule
 	 */
 	public static function getForm($data = null)
 	{
-		$form = new Form;
+		$form = new Form('params');
 
 		$form->setFieldRenderHandler(array('Phoenix\Form\Renderer\InputRenderer', 'render'));
 
@@ -341,6 +341,6 @@ abstract class AbstractModule
 	 */
 	public static function getDir()
 	{
-		return ReflectionHelper::getPath(get_called_class());
+		return dirname(ReflectionHelper::getPath(get_called_class()));
 	}
 }

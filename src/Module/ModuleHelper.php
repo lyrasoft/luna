@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Module;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Data\DataSet;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Filesystem\Path\PathCollection;
@@ -35,9 +36,16 @@ class ModuleHelper
 	protected static $classes = null;
 
 	/**
+	 * Property types.
+	 *
+	 * @var  DataSet|ModuleType[]
+	 */
+	protected static $types = null;
+
+	/**
 	 * getModuleTypes
 	 *
-	 * @return  array
+	 * @return  array|AbstractModule[]
 	 */
 	public static function getModuleClasses()
 	{
@@ -52,21 +60,44 @@ class ModuleHelper
 	/**
 	 * getModuleTypes
 	 *
-	 * @return  DataSet
+	 * @return  DataSet|ModuleType[]
 	 */
 	public static function getModuleTypes()
 	{
-		$classes = static::getModuleClasses();
-
-		$types = new DataSet;
-
-		/** @var AbstractModule $class */
-		foreach ($classes as $class)
+		if (static::$types === null)
 		{
-			$types[$class::getType()] = static::bindModuleType($class);
+			$classes = static::getModuleClasses();
+
+			static::$types = new DataSet;
+
+			$luna = LunaHelper::getPackage();
+			$includes = (array) $luna->get('module.includes');
+			$excludes = (array) $luna->get('module.excludes');
+
+			/** @var AbstractModule $class */
+			foreach ($classes as $class)
+			{
+				$type = $class::getType();
+				$accept = true;
+
+				if ($includes && !in_array($type, $includes) && !in_array('*', $includes))
+				{
+					$accept = false;
+				}
+
+				if ($excludes && (in_array($type, $excludes) || in_array('*', $excludes)))
+				{
+					$accept = false;
+				}
+
+				if ($accept)
+				{
+					static::$types[$type] = static::bindModuleType($class);
+				}
+			}
 		}
 
-		return $types;
+		return static::$types;
 	}
 
 	/**
@@ -74,15 +105,15 @@ class ModuleHelper
 	 *
 	 * @param   string  $type
 	 *
-	 * @return  AbstractModule
+	 * @return  ModuleType
 	 */
 	public static function getModuleType($type)
 	{
-		$classes = static::getModuleTypes();
+		$types = static::getModuleTypes();
 
-		if (isset($classes[$type]))
+		if (isset($types[$type]))
 		{
-			return $classes[$type];
+			return $types[$type];
 		}
 
 		return null;
@@ -102,6 +133,7 @@ class ModuleHelper
 			'type' => $class::getType(),
 			'icon' => $class::getIcon(),
 			'description' => $class::getDescription(),
+			'langPrefix'  => $class::getLangPrefix(),
 			'class' => $class,
 		));
 	}
@@ -145,14 +177,14 @@ class ModuleHelper
 	}
 
 	/**
-	 * addNamespace
+	 * addPath
 	 *
 	 * @param   string  $namespace
 	 * @param   string  $path
 	 *
 	 * @return  void
 	 */
-	public static function addNamespace($namespace, $path)
+	public static function addPath($namespace, $path)
 	{
 		static::$paths[$path] = StringNormalise::toClassNamespace($namespace);
 	}
@@ -183,8 +215,19 @@ class ModuleHelper
 	 *
 	 * @return  void
 	 */
-	public static function reset()
+	public static function resetPath()
 	{
 		static::$paths = array();
+	}
+
+	/**
+	 * reset
+	 *
+	 * @return  void
+	 */
+	public static function reset()
+	{
+		static::$types = null;
+		static::$classes = null;
 	}
 }

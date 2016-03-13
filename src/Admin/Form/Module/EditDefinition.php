@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Module;
 
 use Lyrasoft\Luna\Admin\Field\Module\ModuleListField;
 use Lyrasoft\Luna\Admin\Field\Module\ModuleModalField;
+use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Phoenix;
 use Windwalker\Core\Language\Translator;
@@ -49,16 +50,7 @@ class EditDefinition implements FieldDefinitionInterface
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
-			// ID
-			$form->add('id', new Field\HiddenField);
 
-			// Example: Module List
-//			$form->add('module_list', new ModuleListField)
-//				->label('List Example');
-//
-//			// Example: Module Modal
-//			$form->add('module_modal', new ModuleModalField)
-//				->label('Modal Example');
 		});
 
 		// Text Fieldset
@@ -84,10 +76,22 @@ class EditDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
 
+			// Position
+			$form->add('position', new PositionListField)
+				->label(Translator::translate($langPrefix . 'module.field.position'))
+				->addOption(new Option(Translator::translate($langPrefix . 'field.position.select'), ''))
+				->set('allow_add', true);
+
+			// Node
+			$form->add('note', new Field\TextareaField)
+				->label(Translator::translate($langPrefix . 'module.field.note'))
+				->set('rows', 5);
+
 			// Type
 			$form->add('type', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'module.field.type'))
-				->readonly();
+				->readonly()
+				->required();
 
 			// Created
 			$form->add('created', new Phoenix\Field\CalendarField)
@@ -96,6 +100,9 @@ class EditDefinition implements FieldDefinitionInterface
 			// Author
 			$form->add('created_by', new UserModalField)
 				->label(Translator::translate($langPrefix . 'module.field.author'));
+
+			// ID
+			$form->add('id', new Field\HiddenField);
 		});
 	}
 }

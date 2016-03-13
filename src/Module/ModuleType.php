@@ -19,6 +19,7 @@ use Windwalker\Data\Data;
  * @property-read  string  description
  * @property-read  string  icon
  * @property-read  string  class
+ * @property-read  string  langPrefix
  *
  * @since  {DEPLOY_VERSION}
  */

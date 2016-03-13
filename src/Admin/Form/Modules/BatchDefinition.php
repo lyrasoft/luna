@@ -8,11 +8,14 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Modules;
 
+use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
+use Windwalker\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The ModulesFilterDefinition class.
@@ -48,9 +51,15 @@ class BatchDefinition implements FieldDefinitionInterface
 				->addOption(new Option('English', 'en-GB'))
 				->addOption(new Option('Chinese Traditional', 'zh-TW'));
 
+			// Position
+			$form->add('position', new PositionListField)
+				->label(Translator::translate($langPrefix . 'module.field.position'))
+				->addOption(new Option(Translator::translate($langPrefix . 'module.field.position.select')))
+				->set('allow_add', true);
+
 			// Author
-			$form->add('created_by', new TextField)
-				->label('Author');
+			$form->add('created_by', new UserModalField)
+				->label(Translator::translate($langPrefix . 'module.field.author'));
 		});
 	}
 }

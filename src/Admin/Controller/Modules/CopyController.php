@@ -37,4 +37,13 @@ class CopyController extends AbstractCopyController
 	 * @var  string
 	 */
 	protected $listName = 'modules';
+
+	/**
+	 * Property data.
+	 *
+	 * @var  array
+	 */
+	protected $data = array(
+		'state' => 0
+	);
 }

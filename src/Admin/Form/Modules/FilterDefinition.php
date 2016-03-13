@@ -8,6 +8,8 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Modules;
 
+use Lyrasoft\Luna\Admin\Field\Module\ModuleTypeListField;
+use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
@@ -74,6 +76,18 @@ class FilterDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate($langPrefix . 'module.filter.state.select'), ''))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'))
+				->set('onchange', 'this.form.submit()');
+
+			// Position
+			$form->add('module.position', new PositionListField)
+				->label(Translator::translate($langPrefix . 'module.field.position'))
+				->addOption(new Option(Translator::translate($langPrefix . 'module.field.position.select')))
+				->set('onchange', 'this.form.submit()');
+
+			// Position
+			$form->add('module.type', new ModuleTypeListField)
+				->label(Translator::translate($langPrefix . 'module.field.type'))
+				->addOption(new Option(Translator::translate($langPrefix . 'module.field.type.select')))
 				->set('onchange', 'this.form.submit()');
 		});
 	}

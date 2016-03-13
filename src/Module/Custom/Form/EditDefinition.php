@@ -37,7 +37,8 @@ class EditDefinition implements FieldDefinitionInterface
 		$form->wrap('abc', null, function (Form $form)
 		{
 			$form->add('qwetest', new TextField)
-				->label('qwe');
+				->label('qwe')
+				->defaultValue('Default');
 		});
 	}
 }

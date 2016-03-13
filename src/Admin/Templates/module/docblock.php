@@ -21,11 +21,19 @@ defined('WINDWALKER') or die('Forbidden');
  *
  * View variables
  * --------------------------------------------------------------
- * @var $item  \Windwalker\Data\Data
- * @var $state \Windwalker\Registry\Registry
- * @var $form  \Windwalker\Form\Form
+ * @var $item        \Windwalker\Data\Data
+ * @var $state       \Windwalker\Registry\Registry
+ * @var $form        \Windwalker\Form\Form
+ * @var $type        string
+ * @var $module      \Lyrasoft\Luna\Module\AbstractModule
+ * @var $moduleForm  \Windwalker\Form\Form
+ * @var $moduleType  \Lyrasoft\Luna\Module\ModuleType
  */
 
 $state = null;
 $item  = null;
 $form  = null;
+$type  = null;
+$module = null;
+$moduleType = null;
+$moduleForm = null;

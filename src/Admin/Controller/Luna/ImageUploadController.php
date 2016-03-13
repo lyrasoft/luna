@@ -61,9 +61,9 @@ class ImageUploadController extends AbstractAjaxController
 			return $this->responseFailure('Move to temp fail', $file['error']);
 		}
 
-		File::delete($temp);
-
 		$url = ImageUploader::upload($temp, EditorImageHelper::getPath($folder . $id));
+
+		File::delete($temp);
 
 		return $this->responseSuccess('Upload success', array(
 			'url' => $url

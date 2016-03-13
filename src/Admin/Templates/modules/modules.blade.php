@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app      \Windwalker\Web\Application                 Global Application
- * @var $package  \Admin\AdminPackage                 Package object.
+ * @var $package  \Windwalker\Core\Package\AbstractPackage    Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
  * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
@@ -85,11 +85,6 @@
                         {!! $grid->sortTitle($lunaPrefix . 'module.field.ordering', 'module.position, module.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
-                    {{-- AUTHOR --}}
-                    <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'module.field.author', 'module.created_by') !!}
-                    </th>
-
                     {{-- CREATED --}}
                     {{--<th>--}}
                         {{--{!! $grid->sortTitle($lunaPrefix . 'module.field.created', 'module.created') !!}--}}
@@ -150,18 +145,13 @@
                         {{-- POSITION --}}
                         <td>
                             <span class="{{ $item->labelClass }}">
-                                {{ $item->position }}
+                                {{ $item->positionName }}
                             </span>
                         </td>
 
                         {{-- ORDERING --}}
                         <td class="text-center">
                             {!! $grid->orderButton() !!}
-                        </td>
-
-                        {{-- AUTHOR --}}
-                        <td>
-                            {{ $item->user_name }}
                         </td>
 
                         {{-- CREATED --}}

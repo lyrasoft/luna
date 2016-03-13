@@ -64,14 +64,14 @@
                         {!! $grid->sortTitle($lunaPrefix . 'module.field.state', 'module.state') !!}
                     </th>
 
-                    {{-- AUTHOR --}}
+                    {{-- TYPE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'module.field.author', 'module.created_by') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.type', 'module.type') !!}
                     </th>
 
-                    {{-- CREATED --}}
+                    {{-- POSITION --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'module.field.created', 'module.created') !!}
+                        {!! $grid->sortTitle($lunaPrefix . 'module.field.position', 'module.position') !!}
                     </th>
 
                     {{-- ID --}}
@@ -99,14 +99,16 @@
                             {!! $grid->published($item->state, array('only_icon' => true)) !!}
                         </td>
 
-                        {{-- AUTHOR --}}
+                        {{-- TYPE --}}
                         <td>
-                            {{ $item->user_name ? : $item->created_by }}
+                            {{ $item->module->name }}
                         </td>
 
-                        {{-- CREATED --}}
+                        {{-- POSITION --}}
                         <td>
-                            {{ \Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}
+                            <span class="{{ $item->labelClass }}">
+                                {{ $item->positionName }}
+                            </span>
                         </td>
 
                         {{-- ID --}}

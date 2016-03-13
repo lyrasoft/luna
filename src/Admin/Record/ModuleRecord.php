@@ -35,7 +35,25 @@ class ModuleRecord extends Record
 	 */
 	public function onAfterLoad(Event $event)
 	{
-		// Add your logic
+		if ($this->params && is_string($this->params))
+		{
+			$this->params = json_decode($this->params);
+		}
+	}
+
+	/**
+	 * onBeforeStore
+	 *
+	 * @param Event $event
+	 *
+	 * @return  void
+	 */
+	public function onBeforeStore(Event $event)
+	{
+		if ($this->params && !is_string($this->params))
+		{
+			$this->params = json_encode($this->params);
+		}
 	}
 
 	/**

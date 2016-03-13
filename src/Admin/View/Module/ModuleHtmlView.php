@@ -12,6 +12,9 @@ use Lyrasoft\Luna\Module\ModuleHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
+use Windwalker\Core\Frontend\Bootstrap;
+use Windwalker\Core\Language\Translator;
+use Windwalker\Utilities\Queue\Priority;
 
 /**
  * The ModuleHtmlView class.
@@ -66,9 +69,24 @@ class ModuleHtmlView extends EditView
 	{
 		$this->prepareScripts();
 
-		$data->type       = $data->item->type ? : $data->state->get('module.type');
+		$data->type       = $data->item->type ? : $data->state->get('module.type', $data->form->getField('type')->getValue());
+
+		if (!$data->type)
+		{
+			$this->package->app->addFlash(Translator::translate($this->langPrefix . 'module.edit.message.no.type'), Bootstrap::MSG_WARNING)
+				->redirect($this->router->http('modules'));
+		}
+
 		$data->moduleType = ModuleHelper::getModuleType($data->type);;
 		$data->module     = $data->moduleType->createInstance($data->item);
+
+		// Add layout path
+		$this->addPath($data->module->getDir() . '/Templates', Priority::BELOW_NORMAL);
+
+		$this->setTitle(
+			Translator::sprintf('phoenix.title.edit', Translator::translate($this->langPrefix . $this->getName() . '.title')) .
+			': ' . $data->moduleType->name
+		);
 	}
 
 	/**
@@ -84,17 +102,5 @@ class ModuleHtmlView extends EditView
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::buttonRadio();
 		BootstrapScript::tooltip();
-	}
-
-	/**
-	 * setTitle
-	 *
-	 * @param string $title
-	 *
-	 * @return  static
-	 */
-	public function setTitle($title = null)
-	{
-		return parent::setTitle($title);
 	}
 }

@@ -34,11 +34,11 @@ class ModuleSeeder extends AbstractSeeder
 		$mapper = new ModuleMapper;
 		$userIds = with(new UserMapper)->findAll()->id;
 
-		$positions = array('flower', 'sakura', 'rose', 'olive');
+		$positions = $faker->words(20);
 
 		$types = \Lyrasoft\Luna\Module\ModuleHelper::getModuleTypes()->dump();
 
-		foreach (range(1, 30) as $i)
+		foreach (range(1, 75) as $i)
 		{
 			$data = new Data;
 

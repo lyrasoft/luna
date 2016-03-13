@@ -63,6 +63,22 @@ class SaveController extends AbstractSaveController
 	protected $view;
 
 	/**
+	 * Property params.
+	 *
+	 * @var  array
+	 */
+	protected $params;
+
+	/**
+	 * Property redirectQueryFields.
+	 *
+	 * @var  array
+	 */
+	protected $redirectQueryFields = array(
+		'type'
+	);
+
+	/**
 	 * prepareExecute
 	 *
 	 * @return  void
@@ -70,6 +86,9 @@ class SaveController extends AbstractSaveController
 	protected function prepareExecute()
 	{
 		parent::prepareExecute();
+		
+		$this->params = $this->input->getRaw('params');
+		$this->data['params'] = $this->params;
 	}
 
 	/**
@@ -106,5 +125,27 @@ class SaveController extends AbstractSaveController
 	protected function postExecute($result = null)
 	{
 		return parent::postExecute($result);
+	}
+
+	/**
+	 * getSuccessRedirect
+	 *
+	 * @param  Data $data
+	 *
+	 * @return  string
+	 */
+	protected function getSuccessRedirect(Data $data = null)
+	{
+		if ($this->task == 'save2new')
+		{
+			$this->input->set('type', $data->type);
+		}
+
+		if ($this->task == 'save2copy')
+		{
+			$data->state = 0;
+		}
+
+		return parent::getSuccessRedirect($data);
 	}
 }

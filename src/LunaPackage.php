@@ -49,7 +49,7 @@ class LunaPackage extends AbstractPackage
 
 		TranslatorHelper::loadAll($this);
 
-		ModuleHelper::addNamespace(__NAMESPACE__ . '\Module', $this->getDir() . '/Module');
+		ModuleHelper::addPath(__NAMESPACE__ . '\Module', $this->getDir() . '/Module');
 	}
 
 	/**

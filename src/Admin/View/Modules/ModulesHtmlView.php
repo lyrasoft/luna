@@ -8,14 +8,12 @@
 
 namespace Lyrasoft\Luna\Admin\View\Modules;
 
-use Lyrasoft\Luna\Module\AbstractModule;
 use Lyrasoft\Luna\Module\ModuleHelper;
+use Phoenix\Asset\Asset;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataSet;
 use Windwalker\Filter\InputFilter;
 
 /**
@@ -74,9 +72,25 @@ class ModulesHtmlView extends GridView
 	protected $labels = array(
 		'label label-primary',
 		'label label-warning',
-		'label label-info',
 		'label label-success',
+		'label label-danger',
+		'label label-extend-primary',
+		'label label-extend-success',
+		'label label-extend-info',
+		'label label-extend-warning',
+		'label label-extend-danger',
+		'label label-purple',
+		'label label-dark-purple',
+		'label label-green',
+		'label label-pink',
 	);
+
+	/**
+	 * Property defaultLabelClass.
+	 *
+	 * @var  string
+	 */
+	protected $defaultLabelClass = 'label label-default';
 
 	/**
 	 * prepareData
@@ -97,7 +111,7 @@ class ModulesHtmlView extends GridView
 
 		foreach ($positions as $position)
 		{
-			$nums[$position] = $filter->clean(md5($position), InputFilter::UINT) + 1;
+			$nums[$position] = abs($filter->clean(md5($position . '-Luna-Label'), InputFilter::UINT) - 32767);
 		}
 
 		foreach ($data->items as $item)
@@ -115,8 +129,17 @@ class ModulesHtmlView extends GridView
 			}
 
 			// Label Color
-			$index = $nums[$item->position] % count($this->labels);
-			$item->labelClass = $this->labels[$index];
+			if ($item->position)
+			{
+				$item->positionName = $item->position;
+				$index = $nums[$item->position] % count($this->labels);
+				$item->labelClass = $this->labels[$index];
+			}
+			else
+			{
+				$item->positionName = Translator::translate($this->langPrefix . 'module.position.none');
+				$item->labelClass = $this->defaultLabelClass;
+			}
 		}
 
 		// Find Classes
@@ -136,6 +159,39 @@ class ModulesHtmlView extends GridView
 		PhoenixScript::multiSelect('#admin-form table', array('duration' => 100));
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::tooltip();
+
+		$css = <<<CSS
+/* Color from Ubold */
+.label-extend-primary {
+	background-color: #15395A;
+}
+.label-extend-success {
+	background-color: #006767;
+}
+.label-extend-info {
+	background-color: #348FE2;
+}
+.label-extend-warning {
+	background-color: #e08f18;
+}
+.label-extend-danger {
+	background-color: #993734;
+}
+.label-purple {
+	background-color: #7266ba;
+}
+.label-dark-purple {
+	background-color: #454B6D;
+}
+.label-green {
+	background-color: #00ACAC;
+}
+.label-pink {
+	background-color: #fb6d9d;
+}
+CSS;
+
+		Asset::internalStyle($css);
 	}
 
 	/**

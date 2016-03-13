@@ -4,8 +4,7 @@
  * @var $batchForm \Windwalker\Form\Form
  */
 ?>
-
-<div class="modal fade" id="batch-modal" tabindex="-1" role="dialog" aria-labelledby="batch-modal-title">
+<div class="modal fade" id="batch-modal" role="dialog" aria-labelledby="batch-modal-title">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
