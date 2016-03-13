@@ -60,14 +60,14 @@ class GetController extends ListDisplayController
 	 *
 	 * @var  string
 	 */
-	protected $defaultOrdering = null;
+	protected $defaultOrdering = 'language.ordering';
 
 	/**
 	 * Property direction.
 	 *
 	 * @var  string
 	 */
-	protected $defaultDirection = null;
+	protected $defaultDirection = 'ASC';
 
 	/**
 	 * Property limit.

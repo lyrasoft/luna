@@ -48,7 +48,7 @@ class LanguageHelper
 	{
 		$config = Ioc::getConfig();
 
-		return $config->get('language.locale') !== false;
+		return (bool) $config->get('language.enabled');
 	}
 
 	/**

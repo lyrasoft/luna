@@ -78,8 +78,7 @@ class LunaPackage extends AbstractPackage
 
 		$dispatcher->addListener(new LunaListener($this))
 			->addListener(new EditorListener)
-//			->addListener(new LanguageListener)
-		;
+			->addListener(new LanguageListener);
 	}
 
 	/**

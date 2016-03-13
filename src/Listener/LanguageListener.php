@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Listener;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\LanguageHelper;
 use Windwalker\Core\Ioc;
 use Windwalker\Event\Event;
@@ -65,6 +66,29 @@ class LanguageListener
 
 		// Backup the base route that we can use it later.
 		$uri['base_route'] = implode('/', $segments);
+	}
+
+	/**
+	 * onRouterAfterRouteMatch
+	 *
+	 * @param Event $event
+	 *
+	 * @return  void
+	 */
+	public function onAfterRouting(Event $event)
+	{
+		$config = Ioc::getConfig();
+
+		$luna = LunaHelper::getPackage();
+
+		if ($luna->isFrontend())
+		{
+			$config->set('language.enabled', $luna->get('frontend.language.enabled', false));
+		}
+		elseif ($luna->isAdmin())
+		{
+			$config->set('frontend.enabled', $luna->get('frontend.language.enabled', false));
+		}
 	}
 
 	/**
