@@ -85,6 +85,8 @@ class CommentsHtmlView extends GridView
 		PhoenixScript::multiSelect('#admin-form table', array('duration' => 100));
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::tooltip();
+
+		\Phoenix\Script\JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
 	}
 
 	/**

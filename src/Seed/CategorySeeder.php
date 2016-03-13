@@ -51,7 +51,7 @@ class CategorySeeder extends AbstractSeeder
 		{
 			$record->reset();
 
-			$record['title']       = $faker->sentence(rand(3, 5));
+			$record['title']       = $faker->sentence(rand(1, 3));
 			$record['alias']       = OutputFilter::stringURLSafe($record['title']);
 			$record['type']        = 'article';
 			$record['description'] = $faker->paragraph(5);

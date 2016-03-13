@@ -129,7 +129,7 @@
                         {{--</td>--}}
 
                         {{-- TITLE --}}
-                        <td>
+                        <td class="hasHighlight">
                             <a class="lead" href="{{ $router->html('article', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>

@@ -160,6 +160,8 @@ class ModulesHtmlView extends GridView
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::tooltip();
 
+		\Phoenix\Script\JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
+
 		$css = <<<CSS
 /* Color from Ubold */
 .label-extend-primary {

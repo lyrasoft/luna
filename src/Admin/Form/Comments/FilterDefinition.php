@@ -48,7 +48,12 @@ class FilterDefinition implements FieldDefinitionInterface
 				->defaultValue('*')
 				->addOption(new Option(Translator::translate('phoenix.core.all'), '*'))
 				->addOption(new Option(Translator::translate($langPrefix . 'comment.field.title'), 'comment.title'))
-				->addOption(new Option(Translator::translate($langPrefix . 'comment.field.alias'), 'comment.alias'));
+				->addOption(new Option('User Name', 'user.name'))
+				->addOption(new Option('Replyer Name', 'replyer.name'))
+				->addOption(new Option('Content', 'comment.content'))
+				->addOption(new Option('Reply', 'comment.reply'))
+				->addOption(new Option('Target Title', 'target.title'))
+				;
 
 			// Search Content
 			$form->add('content', new TextField)

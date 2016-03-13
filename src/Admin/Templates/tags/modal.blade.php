@@ -87,8 +87,8 @@
                     $grid->setItem($item, $i);
                     ?>
                     <tr>
-                        {{-- CHECKBOX --}}
-                        <td>
+                        {{-- TITLE --}}
+                        <td class="hasHighlight">
                             <a href="#" onclick="parent.{{ $function }}('{{ $selector }}', '{{ $item->id }}', '{{ $item->title }}');">
                                 <span class="glyphicon glyphicon-menu-left fa fa-angle-right text-muted"></span> {{ $item->title }}
                             </a>

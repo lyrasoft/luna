@@ -8,7 +8,12 @@
 
 namespace Lyrasoft\Luna\Language;
 
+use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\LanguageScript;
+use Windwalker\Data\Data;
+use Windwalker\Data\DataSet;
+use Windwalker\Ioc;
 
 /**
  * The LanguageHelper class.
@@ -19,6 +24,143 @@ class LanguageHelper
 {
 	const FLAG_NORMAL = 1;
 	const FLAG_SQUARE = 2;
+
+	/**
+	 * Property languages.
+	 *
+	 * @var  DataSet
+	 */
+	protected static $languages = [];
+
+	/**
+	 * Property sessionKey.
+	 *
+	 * @var  string
+	 */
+	protected static $sessionKey = 'locale';
+
+	/**
+	 * isLocaleEnabled
+	 *
+	 * @return  boolean
+	 */
+	public static function isLocaleEnabled()
+	{
+		$config = Ioc::getConfig();
+
+		return $config->get('language.locale') !== false;
+	}
+
+	/**
+	 * getAvailableLanguages
+	 *
+	 * @return  DataSet
+	 */
+	public static function getAvailableLanguages()
+	{
+		if (!static::$languages)
+		{
+			$mapper = new LanguageMapper;
+
+			$languages = $mapper->find(['state' => 1], 'ordering');
+
+			static::$languages = new DataSet;
+
+			foreach ($languages as $language)
+			{
+				static::$languages[$language->code] = $language;
+			}
+		}
+
+		return static::$languages;
+	}
+
+	/**
+	 * getLanguage
+	 *
+	 * @param   string  $code
+	 *
+	 * @return  Data
+	 */
+	public static function getLanguage($code)
+	{
+		$languages = static::getAvailableLanguages();
+
+		return $languages[$code];
+	}
+
+	/**
+	 * getLanguageByAlias
+	 *
+	 * @param   string  $alias
+	 *
+	 * @return  Data
+	 */
+	public static function getLanguageByAlias($alias)
+	{
+		$languages = static::getAvailableLanguages();
+
+		foreach ($languages as $language)
+		{
+			if ($language->alias == $alias)
+			{
+				return $language;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * getCurrentLanguage
+	 *
+	 * @return  Data
+	 */
+	public static function getCurrentLanguage()
+	{
+		return static::getLanguage(static::getLocale());
+	}
+
+	/**
+	 * getLocale
+	 *
+	 * @return  string
+	 */
+	public static function getLocale()
+	{
+		$luna = LunaHelper::getPackage();
+		$config = Ioc::getConfig();
+		$session = Ioc::getSession();
+
+		$locale = $session->get(static::$sessionKey);
+
+		if (!$locale)
+		{
+			$locale = $config->get('language.locale', $config->get('language.default', 'en-GB'));
+
+			$session->set(static::$sessionKey, $locale);
+		}
+
+		return $locale;
+	}
+
+	/**
+	 * setLocale
+	 *
+	 * @param   string  $code
+	 *
+	 * @return  void
+	 */
+	public static function setLocale($code)
+	{
+		$session = Ioc::getSession();
+
+		$session->set(static::$sessionKey, $code);
+
+		$config = Ioc::getConfig();
+
+		$config->set('language.locale', $code);
+	}
 
 	/**
 	 * getFlagIconClass

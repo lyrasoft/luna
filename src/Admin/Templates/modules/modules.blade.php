@@ -129,7 +129,7 @@
                         </td>
 
                         {{-- TITLE --}}
-                        <td>
+                        <td class="hasHighlight">
                             <a href="{{ $router->html('module', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>

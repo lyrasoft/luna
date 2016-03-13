@@ -139,7 +139,7 @@
                             </a>
                         </td>
 
-                        <td>
+                        <td class="hasHighlight">
                             {{ $item->target_title }}
                         </td>
 
@@ -150,7 +150,7 @@
                             {{--</a>--}}
                         {{--</td>--}}
 
-                        <td>
+                        <td class="hasHighlight">
                             <strong>
                                 {{ $item->user_name }} :
                             </strong>
@@ -158,7 +158,7 @@
                             {!! \Windwalker\String\Utf8String::substr(e($item->content), 0, 150) !!}...
                         </td>
 
-                        <td>
+                        <td class="hasHighlight">
                             @if ($item->reply)
                                 <strong>
                                     {{ $item->replyer_name }} :

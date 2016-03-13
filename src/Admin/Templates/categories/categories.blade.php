@@ -122,7 +122,7 @@
                         </td>
 
                         {{-- TITLE --}}
-                        <td>
+                        <td class="hasHighlight">
                             {{ str_repeat('—', $item->level - 1) }}
                             <a href="{{ $router->html('category', array('id' => $item->id)) }}">
                                 {{ $item->title }}

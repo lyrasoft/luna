@@ -48,7 +48,12 @@ class FilterDefinition implements FieldDefinitionInterface
 				->defaultValue('*')
 				->addOption(new Option(Translator::translate('phoenix.core.all'), '*'))
 				->addOption(new Option(Translator::translate($langPrefix . 'language.field.title'), 'language.title'))
-				->addOption(new Option(Translator::translate($langPrefix . 'language.field.alias'), 'language.alias'));
+				->addOption(new Option(Translator::translate($langPrefix . 'language.field.alias'), 'language.alias'))
+				->addOption(new Option(Translator::translate($langPrefix . 'language.field.titlenative'), 'language.title_native'))
+				->addOption(new Option(Translator::translate($langPrefix . 'language.field.code'), 'language.code'))
+				->addOption(new Option(Translator::translate($langPrefix . 'language.field.metakey'), 'language.metakey'))
+				->addOption(new Option(Translator::translate($langPrefix . 'language.field.metadesc'), 'language.metadesc'))
+				->addOption(new Option(Translator::translate($langPrefix . 'language.field.sitename'), 'language.sitename'));
 
 			// Search Content
 			$form->add('content', new TextField)

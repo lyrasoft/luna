@@ -88,7 +88,7 @@
                     ?>
                     <tr>
                         {{-- CHECKBOX --}}
-                        <td>
+                        <td class="hasHighlight">
                             <span class="glyphicon glyphicon-menu-left fa fa-angle-right text-muted"></span>
                             <span class="text-muted">{{ str_repeat('—', $item->level - 1) }}</span>
                             <a href="#" onclick="parent.{{ $function }}('{{ $selector }}', '{{ $item->id }}', '{{ $item->title }}');">

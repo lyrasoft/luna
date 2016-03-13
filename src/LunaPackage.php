@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Listener\EditorListener;
+use Lyrasoft\Luna\Listener\LanguageListener;
 use Lyrasoft\Luna\Listener\LunaListener;
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Lyrasoft\Luna\Provider\LunaProvider;
@@ -76,7 +77,9 @@ class LunaPackage extends AbstractPackage
 		parent::registerListeners($dispatcher);
 
 		$dispatcher->addListener(new LunaListener($this))
-			->addListener(new EditorListener);
+			->addListener(new EditorListener)
+//			->addListener(new LanguageListener)
+		;
 	}
 
 	/**

@@ -128,14 +128,14 @@
                         </td>
 
                         {{-- TITLE --}}
-                        <td>
+                        <td class="hasHighlight">
                             <a href="{{ $router->html('language', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>
                         </td>
 
                         {{-- TITLE NATIVE --}}
-                        <td>
+                        <td class="hasHighlight">
                             {{ $item->title_native }}
                         </td>
 
@@ -145,12 +145,12 @@
                         </td>
 
                         {{-- CODE --}}
-                        <td>
+                        <td class="hasHighlight">
                             {{ $item->code }}
                         </td>
 
                         {{-- URL --}}
-                        <td>
+                        <td class="hasHighlight">
                             {{ $item->alias }}
                         </td>
 

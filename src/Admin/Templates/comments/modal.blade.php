@@ -88,7 +88,7 @@
                     ?>
                     <tr>
                         {{-- CHECKBOX --}}
-                        <td>
+                        <td class="hasHighlight">
                             <a href="#" onclick="parent.{{ $function }}('{{ $selector }}', '{{ $item->id }}', '{{ $item->title }}');">
                                 <span class="glyphicon glyphicon-menu-left fa fa-angle-right text-muted"></span> {{ $item->title }}
                             </a>
@@ -100,7 +100,7 @@
                         </td>
 
                         {{-- AUTHOR --}}
-                        <td>
+                        <td class="hasHighlight">
                             {{ $item->user_name ? : $item->created_by }}
                         </td>
 

@@ -114,7 +114,7 @@
                         </td>
 
                         {{-- TITLE --}}
-                        <td>
+                        <td class="hasHighlight">
                             <a href="{{ $router->html('tag', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>

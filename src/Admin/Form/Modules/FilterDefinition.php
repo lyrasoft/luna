@@ -49,8 +49,7 @@ class FilterDefinition implements FieldDefinitionInterface
 				->set('display', false)
 				->defaultValue('*')
 				->addOption(new Option(Translator::translate('phoenix.core.all'), '*'))
-				->addOption(new Option(Translator::translate($langPrefix . 'module.field.title'), 'module.title'))
-				->addOption(new Option(Translator::translate($langPrefix . 'module.field.alias'), 'module.alias'));
+				->addOption(new Option(Translator::translate($langPrefix . 'module.field.title'), 'module.title'));
 
 			// Search Content
 			$form->add('content', new TextField)
@@ -81,13 +80,13 @@ class FilterDefinition implements FieldDefinitionInterface
 			// Position
 			$form->add('module.position', new PositionListField)
 				->label(Translator::translate($langPrefix . 'module.field.position'))
-				->addOption(new Option(Translator::translate($langPrefix . 'module.field.position.select')))
+				->addOption(new Option(Translator::translate($langPrefix . 'module.field.position.select'), ''))
 				->set('onchange', 'this.form.submit()');
 
 			// Position
 			$form->add('module.type', new ModuleTypeListField)
 				->label(Translator::translate($langPrefix . 'module.field.type'))
-				->addOption(new Option(Translator::translate($langPrefix . 'module.field.type.select')))
+				->addOption(new Option(Translator::translate($langPrefix . 'module.field.type.select'), ''))
 				->set('onchange', 'this.form.submit()');
 		});
 	}
