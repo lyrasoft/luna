@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna;
 
+use Lyrasoft\Luna\Listener\ErrorListener;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Listener\EditorListener;
 use Lyrasoft\Luna\Listener\LanguageListener;
@@ -78,7 +79,8 @@ class LunaPackage extends AbstractPackage
 
 		$dispatcher->addListener(new LunaListener($this))
 			->addListener(new EditorListener)
-			->addListener(new LanguageListener);
+			->addListener(new LanguageListener)
+			->addListener(new ErrorListener);
 	}
 
 	/**

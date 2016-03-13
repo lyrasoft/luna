@@ -29,6 +29,12 @@ class LanguageListener
 	 */
 	public function onRouterBeforeRouteMatch(Event $event)
 	{
+		// Workaround when languages table not exists
+		if (!LanguageHelper::isLocaleEnabled())
+		{
+			return;
+		}
+
 		$uri = Ioc::get('uri');
 		$route = $event['route'];
 
