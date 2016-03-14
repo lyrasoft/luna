@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Listener;
 
 use Lyrasoft\Luna\Error\ErrorHandler;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Windwalker\Ioc;
 
 /**
  * The ErrorListener class.
@@ -25,7 +26,10 @@ class ErrorListener
 	 */
 	public function onAfterInitialise()
 	{
-		ErrorHandler::register(true);
+		if (!Ioc::getConfig()->get('system.debug'))
+		{
+			ErrorHandler::register(true);
+		}
 	}
 
 	/**
@@ -37,7 +41,7 @@ class ErrorListener
 	{
 		if (LunaHelper::isAdmin())
 		{
-			ErrorHandler::setPackage(LunaHelper::getPackage()->get('admin.package', 'admin'));
+			ErrorHandler::setPackage(LunaHelper::getAdminPackage());
 		}
 	}
 }

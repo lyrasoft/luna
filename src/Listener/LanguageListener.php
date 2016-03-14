@@ -12,6 +12,8 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\LanguageHelper;
 use Windwalker\Core\Ioc;
 use Windwalker\Event\Event;
+use Windwalker\String\StringHelper;
+use Windwalker\String\Utf8String;
 
 /**
  * The LanguageListener class.
@@ -111,6 +113,25 @@ class LanguageListener
 			return;
 		}
 
+		$route = $event['route'];
+		
+		list($package, $route) = StringHelper::explode('@', $route, 2, 'array_unshift');
+		
+		if (!$package)
+		{
+			return;
+		}
+		
+		if (LunaHelper::isFrontend() && !LunaHelper::isFrontend($package))
+		{
+			return;
+		}
+
+		if (LunaHelper::isAdmin() && !LunaHelper::isAdmin($package))
+		{
+			return;
+		}
+		
 		$url = $event['url'];
 
 		// Add language key to every route when building.

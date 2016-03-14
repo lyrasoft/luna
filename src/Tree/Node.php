@@ -13,7 +13,7 @@ namespace Lyrasoft\Luna\Tree;
  *
  * @since  {DEPLOY_VERSION}
  */
-class Node implements NodeInterface
+class Node implements NodeInterface, \IteratorAggregate
 {
 	/**
 	 * @var mixed
@@ -32,6 +32,13 @@ class Node implements NodeInterface
 	 * @var NodeInterface[]
 	 */
 	protected $children = array();
+
+	/**
+	 * Property key.
+	 *
+	 * @var  integer
+	 */
+	protected $key = 0;
 
 	/**
 	 * @param mixed $value
@@ -108,6 +115,23 @@ class Node implements NodeInterface
 		$child->setParent(null);
 
 		return $this;
+	}
+
+	/**
+	 * Get a child by key.
+	 *
+	 * @param   string|int $key
+	 *
+	 * @return  static
+	 */
+	public function getChild($key)
+	{
+		if (isset($this->children[$key]))
+		{
+			return $this->children[$key];
+		}
+
+		return null;
 	}
 
 	/**
@@ -345,5 +369,15 @@ class Node implements NodeInterface
 	{
 		foreach ($this->getChildren() as $child)
 			$child->setParent(null);
+	}
+
+	/**
+	 * Retrieve an external iterator
+	 *
+	 * @return \Traversable An instance of an object implementing Iterator.
+	 */
+	public function getIterator()
+	{
+		return new \RecursiveIteratorIterator(new RecursiveNodeIterator($this->children));
 	}
 }

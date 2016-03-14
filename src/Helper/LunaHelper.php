@@ -113,4 +113,32 @@ abstract class LunaHelper
 	{
 		return (string) static::getPackage()->get('type_table_map.' . $type, $default);
 	}
+
+	/**
+	 * getFrontendPackage
+	 *
+	 * @param bool $main
+	 *
+	 * @return  array|string
+	 */
+	public static function getFrontendPackage($main = false)
+	{
+		$packages = (array) static::getPackage()->get('frontend.package');
+
+		return $main ? $packages[0] : $packages;
+	}
+
+	/**
+	 * getFrontendPackage
+	 *
+	 * @param bool $main
+	 *
+	 * @return  array|string
+	 */
+	public static function getAdminPackage($main = false)
+	{
+		$packages = (array) static::getPackage()->get('admin.package');
+
+		return $main ? $packages[0] : $packages;
+	}
 }

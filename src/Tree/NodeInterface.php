@@ -66,6 +66,15 @@ interface NodeInterface
 	public function getChildren();
 
 	/**
+	 * Get a child by key.
+	 *
+	 * @param   string|int  $key
+	 *
+	 * @return  mixed
+	 */
+	public function getChild($key);
+
+	/**
 	 * Replace the children set with the given one
 	 *
 	 * @param static[] $children
