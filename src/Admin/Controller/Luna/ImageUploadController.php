@@ -8,7 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Luna;
 
+use Gregwar\Image\Image;
 use Imgur\Client;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Image\EditorImageHelper;
 use Lyrasoft\Unidev\Controller\AbstractAjaxController;
 use Lyrasoft\Unidev\Image\ImageUploader;
@@ -56,7 +58,7 @@ class ImageUploadController extends AbstractAjaxController
 
 		File::upload($file['tmp_name'], $temp);
 
-		$this->resize($file);
+		$this->resize($temp);
 
 		if (!is_file($temp))
 		{
@@ -72,8 +74,45 @@ class ImageUploadController extends AbstractAjaxController
 		));
 	}
 
+	/**
+	 * resize
+	 *
+	 * @link  https://github.com/Gregwar/Image
+	 *
+	 * @param   string  $file
+	 *
+	 * @return  void
+	 */
 	protected function resize($file)
 	{
-		$image = 
+		if (!$this->app->get('image_upload.resize.enabled', true))
+		{
+			return;
+		}
+
+		$luna = LunaHelper::getPackage();
+
+		$width   = $luna->get('image_upload.resize.width', 1200);
+		$height  = $luna->get('image_upload.resize.height', 1200);
+		$quality = $luna->get('image_upload.resize.quality', 85);
+		$crop    = $luna->get('image_upload.resize.crop', false);
+
+		$image = Image::open($file);
+
+		if ($image->width() < $width && $image->height() < $height)
+		{
+			return;
+		}
+
+		if ($crop)
+		{
+			$image->zoomCrop($width, $height);
+		}
+		else
+		{
+			$image->cropResize($width, $height);
+		}
+
+		$image->save($file, 'guess', $quality);
 	}
 }
