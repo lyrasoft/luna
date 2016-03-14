@@ -51,12 +51,12 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th>
+                    <th width="1%">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;">
+                    <th style="min-width: 90px;" width="7%">
                         {!! $grid->sortTitle($lunaPrefix . 'language.field.state', 'language.state') !!}
                     </th>
 
@@ -81,22 +81,22 @@
                     </th>
 
                     {{-- CODE --}}
-                    <th>
+                    <th class="5%">
                         {!! $grid->sortTitle($lunaPrefix . 'language.field.code', 'language.code') !!}
                     </th>
 
                     {{-- URL --}}
-                    <th>
+                    <th class="5%">
                         {!! $grid->sortTitle($lunaPrefix . 'language.field.alias', 'language.alias') !!}
                     </th>
 
                     {{-- DELETE --}}
-                    <th>
+                    <th class="3%">
                         @translate('phoenix.toolbar.delete')
                     </th>
 
                     {{-- ID --}}
-                    <th>
+                    <th class="5%">
                         {!! $grid->sortTitle($lunaPrefix . 'language.field.id', 'language.id') !!}
                     </th>
                 </tr>

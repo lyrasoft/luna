@@ -56,12 +56,12 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th>
+                    <th width="1%">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;">
+                    <th style="min-width: 90px;" width="7%">
                         {!! $grid->sortTitle($lunaPrefix . 'module.field.state', 'module.state') !!}
                     </th>
 
@@ -71,12 +71,12 @@
                     </th>
 
                     {{-- MODULE --}}
-                    <th>
+                    <th width="15%">
                         {!! $grid->sortTitle($lunaPrefix . 'module.field.module', 'module.class') !!}
                     </th>
 
                     {{-- POSITION --}}
-                    <th>
+                    <th width="10%">
                         {!! $grid->sortTitle($lunaPrefix . 'module.field.position', 'module.position') !!}
                     </th>
 
@@ -92,13 +92,13 @@
 
                     @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
                         {{-- LANGUAGE --}}
-                        <th>
+                        <th width="15%">
                             {!! $grid->sortTitle($lunaPrefix . 'module.field.language', 'module.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
-                    <th>
+                    <th width="5%">
                         {!! $grid->sortTitle($lunaPrefix . 'module.field.id', 'module.id') !!}
                     </th>
                 </tr>

@@ -68,7 +68,7 @@ class CommentsModel extends ListModel
 	 */
 	protected function prepareGetQuery(Query $query)
 	{
-		Ioc::getDispatcher()->triggerEvent('onCommentModelPrepareGetQuery', array(
+		Ioc::getDispatcher()->triggerEvent('onLunaCommentModelPrepareGetQuery', array(
 			'model' => $this,
 			'query' => $query,
 			'type'  => $this['comment.type']

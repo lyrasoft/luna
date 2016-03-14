@@ -131,13 +131,13 @@ class LunaListener
 	}
 
 	/**
-	 * onCommentModelPrepareGetQuery
+	 * onLunaCommentModelPrepareGetQuery
 	 *
 	 * @param Event $event
 	 *
 	 * @return  void
 	 */
-	public function onCommentModelPrepareGetQuery(Event $event)
+	public function onLunaCommentModelPrepareGetQuery(Event $event)
 	{
 		if ($event['type'] == 'article')
 		{

@@ -45,8 +45,7 @@ class EditDefinition implements FieldDefinitionInterface
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
-			$config = Ioc::getConfig();
-			$type = $config->get('route.extra.category.type');
+			$type = Ioc::getInput()->get('type');
 
 			// ID
 			$form->add('id', new Field\HiddenField);
@@ -73,6 +72,9 @@ class EditDefinition implements FieldDefinitionInterface
 				->set('export_zoom', 2)
 				->set('width', 400)
 				->set('height', 300);
+
+			$form->add('type', new Field\HiddenField)
+				->label(Translator::translate($langPrefix . 'category.field.type'));
 		});
 
 		// Text Fieldset

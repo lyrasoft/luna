@@ -8,8 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Luna\Admin\Record\CategoryRecord;
-use Phoenix\Model\AdminModel;
+use Phoenix\Model\NestedAdminModel;
 use Windwalker\Data\Data;
 use Windwalker\Record\Record;
 
@@ -18,7 +17,7 @@ use Windwalker\Record\Record;
  * 
  * @since  1.0
  */
-class CategoryModel extends AdminModel
+class CategoryModel extends NestedAdminModel
 {
 	/**
 	 * Property name.
@@ -33,38 +32,6 @@ class CategoryModel extends AdminModel
 	 * @var  array
 	 */
 	protected $reorderConditions = array();
-
-	/**
-	 * reorder
-	 *
-	 * @param array  $conditions
-	 * @param string $orderField
-	 *
-	 * @return bool
-	 */
-	public function reorderAll($conditions = array(), $orderField = null)
-	{
-		/** @var CategoryRecord $record */
-		$record = $this->getRecord();
-
-		$record->rebuild();
-
-		return true;
-	}
-
-	/**
-	 * postSaveHook
-	 *
-	 * @param Record $record
-	 *
-	 * @return  void
-	 */
-	protected function postSaveHook(Record $record)
-	{
-		/** @var CategoryRecord $record */
-		$record->rebuild();
-		$record->rebuildPath();
-	}
 
 	/**
 	 * postGetItem
@@ -87,6 +54,8 @@ class CategoryModel extends AdminModel
 	 */
 	protected function prepareRecord(Record $record)
 	{
+		$record->type = $this['category.type'];
+
 		parent::prepareRecord($record);
 	}
 

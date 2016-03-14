@@ -46,8 +46,7 @@ class BatchDefinition implements FieldDefinitionInterface
 		 */
 		$form->wrap(null, 'batch', function (Form $form) use ($langPrefix)
 		{
-			$config = Ioc::getConfig();
-			$type = $config->get('route.extra.category.type');
+			$type = Ioc::getInput()->get('type');
 
 			// Parent
 			$form->add('parent_id', new CategoryListField)

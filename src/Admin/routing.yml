@@ -1,17 +1,15 @@
 # Category
 category:
-    pattern: /category(/id)
+    pattern: /category/(type)(/id)
     controller: Category
     extra:
         layout: category
         active:
             mainmenu: categories
-        category:
-            type: article
 
 # Categories
 categories:
-    pattern: /categories(/page)
+    pattern: /categories/(type)(/page)
     controller: Categories
     action:
         post: CopyController
@@ -21,8 +19,6 @@ categories:
         layout: categories
         active:
             mainmenu: categories
-        category:
-            type: article
 
 # Article
 article:

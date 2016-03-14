@@ -51,12 +51,12 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th>
+                    <th width="1%">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;">
+                    <th style="min-width: 90px;" width="7%">
                         {!! $grid->sortTitle($lunaPrefix . 'article.field.state', 'article.state') !!}
                     </th>
 
@@ -83,19 +83,19 @@
                     @endif
 
                     {{-- CREATED --}}
-                    <th>
+                    <th width="8%">
                         {!! $grid->sortTitle($lunaPrefix . 'article.field.created', 'article.created') !!}
                     </th>
 
                     @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
                         {{-- LANGUAGE --}}
-                        <th>
+                        <th width="15%">
                             {!! $grid->sortTitle($lunaPrefix . 'article.field.language', 'article.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
-                    <th>
+                    <th width="5%">
                         {!! $grid->sortTitle($lunaPrefix . 'article.field.id', 'article.id') !!}
                     </th>
                 </tr>

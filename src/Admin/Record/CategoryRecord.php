@@ -50,14 +50,6 @@ class CategoryRecord extends NestedRecord
 	 */
 	public function store($updateNulls = false)
 	{
-		// Auto set location for batch copy
-		$key = $this->getKeyName();
-
-		if (!$this->$key && !$this->locationId)
-		{
-			$this->setLocation($this->parent_id, static::LOCATION_LAST_CHILD);
-		}
-
 		return parent::store($updateNulls);
 	}
 

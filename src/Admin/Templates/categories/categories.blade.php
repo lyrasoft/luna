@@ -35,7 +35,7 @@
 
 @section('admin-body')
 <div id="phoenix-admin" class="categories-container grid-container">
-    <form name="admin-form" id="admin-form" action="{{ $router->html('categories') }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->html('categories', array('type' => $type)) }}" method="POST" enctype="multipart/form-data">
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
@@ -52,12 +52,12 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th>
+                    <th width="1%">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;">
+                    <th style="min-width: 90px;" width="7%">
                         {!! $grid->sortTitle($lunaPrefix . 'category.field.state', 'category.state') !!}
                     </th>
 
@@ -79,19 +79,19 @@
                     @endif
 
                     {{-- CREATED --}}
-                    <th>
+                    <th width="8%">
                         {!! $grid->sortTitle($lunaPrefix . 'category.field.created', 'category.created') !!}
                     </th>
 
                     @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
                         {{-- LANGUAGE --}}
-                        <th>
+                        <th width="15%">
                             {!! $grid->sortTitle($lunaPrefix . 'category.field.language', 'category.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
-                    <th>
+                    <th width="3%">
                         {!! $grid->sortTitle($lunaPrefix . 'category.field.id', 'category.id') !!}
                     </th>
                 </tr>
@@ -128,7 +128,7 @@
                         {{-- TITLE --}}
                         <td class="hasHighlight">
                             {{ str_repeat('—', $item->level - 1) }}
-                            <a href="{{ $router->html('category', array('id' => $item->id)) }}">
+                            <a href="{{ $router->html('category', array('id' => $item->id, 'type' => $type)) }}">
                                 {{ $item->title }}
                             </a>
                         </td>
@@ -177,7 +177,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@categories', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->render($package->getName() . '@categories', array('type' => $type), 'windwalker.pagination.phoenix') !!}
                     </td>
                 </tr>
                 </tfoot>

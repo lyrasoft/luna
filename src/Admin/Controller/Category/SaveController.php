@@ -65,6 +65,15 @@ class SaveController extends AbstractSaveController
 	protected $view;
 
 	/**
+	 * Property redirectQueryFields.
+	 *
+	 * @var  array
+	 */
+	protected $redirectQueryFields = array(
+		'type'
+	);
+
+	/**
 	 * prepareExecute
 	 *
 	 * @return  void
@@ -72,6 +81,10 @@ class SaveController extends AbstractSaveController
 	protected function prepareExecute()
 	{
 		parent::prepareExecute();
+
+		$type = $this->input->get('type');
+
+		$this->model['category.type'] = $type;
 	}
 
 	/**

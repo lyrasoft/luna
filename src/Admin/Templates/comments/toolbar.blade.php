@@ -13,10 +13,10 @@
  */
 ?>
 
-<a type="button" class="btn btn-success btn-sm" href="{{ $router->html('comment', array('new' => true)) }}">
-    <span class="glyphicon glyphicon-plus fa fa-plus"></span>
-    @translate('phoenix.toolbar.new')
-</a>
+{{--<a type="button" class="btn btn-success btn-sm" href="{{ $router->html('comment', array('new' => true)) }}">--}}
+    {{--<span class="glyphicon glyphicon-plus fa fa-plus"></span>--}}
+    {{--@translate('phoenix.toolbar.new')--}}
+{{--</a>--}}
 
 {{--<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked();Phoenix.post();">--}}
     {{--<span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>--}}

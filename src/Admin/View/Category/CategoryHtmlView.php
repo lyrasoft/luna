@@ -91,7 +91,7 @@ class CategoryHtmlView extends EditView
 	 */
 	public function setTitle($title = null)
 	{
-		$type = $this->getPackage()->app->get('route.extra.category.type');
+		$type = $this->data->state->get('category.type');
 		$this->langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.') . $type . '.';
 
 		return parent::setTitle($title);
