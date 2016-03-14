@@ -45,7 +45,8 @@ class Select2Script extends AbstractScriptManager
 .select2-container--default .select2-selection--single .select2-selection__arrow {
 	height: 34px;
 }
-.modal .select2-container {
+.modal .select2-container,
+.filter-container .select2-container {
 	min-width: 100%;
 }
 CSS

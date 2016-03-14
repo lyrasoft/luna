@@ -45,7 +45,7 @@ class FlagListField extends ListField
 	{
 		$options = array();
 
-		$attribs = (array) $this->getAttribute('attribs');
+		$attribs = (array) $this->getAttribute('option_attribs');
 
 		$files = Folder::files(LUNA_ROOT . '/src/Resources/media/flags/4x3');
 

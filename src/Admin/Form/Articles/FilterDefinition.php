@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Form\Articles;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
+use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
@@ -84,6 +85,16 @@ class FilterDefinition implements FieldDefinitionInterface
 				->addOption(new Option('', ''))
 				->addOption(new Option(Translator::translate($langPrefix . 'filter.category.select'), ''))
 				->set('onchange', 'this.form.submit()');
+
+			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			{
+				// Language
+				$form->add('article.language', new LanguageListField)
+					->label(Translator::translate($langPrefix . 'article.field.language'))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.select'), ''))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'))
+					->set('onchange', 'this.form.submit()');
+			}
 		});
 	}
 }

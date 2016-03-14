@@ -76,14 +76,17 @@ class EditDefinition implements FieldDefinitionInterface
 				->label(Translator::translate($langPrefix . 'tag.field.modified'))
 				->disabled();
 
-			// Author
-			$form->add('created_by', new UserModalField)
-				->label(Translator::translate($langPrefix . 'tag.field.author'));
+			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			{
+				// Author
+				$form->add('created_by', new UserModalField)
+					->label(Translator::translate($langPrefix . 'tag.field.author'));
 
-			// Modified User
-			$form->add('modified_by', new UserModalField)
-				->label(Translator::translate($langPrefix . 'tag.field.modifiedby'))
-				->disabled();
+				// Modified User
+				$form->add('modified_by', new UserModalField)
+					->label(Translator::translate($langPrefix . 'tag.field.modifiedby'))
+					->disabled();
+			}
 		});
 	}
 }

@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Form\Categories;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
+use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
@@ -48,15 +49,27 @@ class BatchDefinition implements FieldDefinitionInterface
 			$config = Ioc::getConfig();
 			$type = $config->get('route.extra.category.type');
 
-			// Language
+			// Parent
 			$form->add('parent_id', new CategoryListField)
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
 				->set('class', 'col-md-12')
 				->addOption(new Option(Translator::translate($langPrefix . 'category.batch.parent.select'), ''));
 
-			// Author
-			$form->add('created_by', new UserModalField)
-				->label(Translator::translate($langPrefix . 'category.batch.author.select'));
+			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			{
+				// Language
+				$form->add('language', new LanguageListField)
+					->label(Translator::translate($langPrefix . 'category.field.language'))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.select'), ''))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
+			}
+
+			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			{
+				// Author
+				$form->add('created_by', new UserModalField)
+					->label(Translator::translate($langPrefix . 'category.batch.author.select'));
+			}
 		});
 	}
 }

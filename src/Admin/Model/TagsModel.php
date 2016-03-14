@@ -52,12 +52,9 @@ class TagsModel extends ListModel
 	{
 		$this->addTable('tag', Table::TAGS);
 
-		$warder = WarderHelper::getPackage();
-		$userTable = $warder->get('table.users', 'users');
-
-		if ($this->db->getTable($userTable)->exists())
+		if (WarderHelper::tableExists('users'))
 		{
-			$this->addTable('user', $userTable, 'tag.created_by = user.id');
+			$this->addTable('user', WarderHelper::getTable('users'), 'tag.created_by = user.id');
 		}
 	}
 

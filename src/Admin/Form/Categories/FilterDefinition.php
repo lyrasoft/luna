@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Categories;
 
+use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
@@ -76,6 +77,16 @@ class FilterDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'))
 				->set('onchange', 'this.form.submit()');
+
+			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			{
+				// Language
+				$form->add('article.language', new LanguageListField)
+					->label(Translator::translate($langPrefix . 'category.field.language'))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.select'), ''))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'))
+					->set('onchange', 'this.form.submit()');
+			}
 		});
 	}
 }

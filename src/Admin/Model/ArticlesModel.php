@@ -9,6 +9,8 @@
 namespace Lyrasoft\Luna\Admin\Model;
 
 use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Language\LanguageHelper;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
@@ -49,11 +51,18 @@ class ArticlesModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$userTable = WarderHelper::getPackage()->get('table.users', 'users');
-
 		$this->addTable('article', Table::ARTICLES)
-			->addTable('category', Table::CATEGORIES, 'category.id = article.category_id')
-			->addTable('user', $userTable, 'user.id = article.created_by');
+			->addTable('category', Table::CATEGORIES, 'category.id = article.category_id');
+
+		if (WarderHelper::tableExists('users'))
+		{
+			$this->addTable('user', WarderHelper::getTable('users'), 'user.id = article.created_by');
+		}
+
+		if (LanguageHelper::canSelectLanguage() && LunaHelper::tableExists('languages'))
+		{
+			$this->addTable('lang', LunaHelper::getTable('languages'), 'lang.code = article.language');
+		}
 	}
 
 	/**

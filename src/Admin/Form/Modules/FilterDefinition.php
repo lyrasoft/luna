@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Modules;
 
+use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Module\ModuleTypeListField;
 use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Windwalker\Core\Language\Translator;
@@ -88,6 +89,16 @@ class FilterDefinition implements FieldDefinitionInterface
 				->label(Translator::translate($langPrefix . 'module.field.type'))
 				->addOption(new Option(Translator::translate($langPrefix . 'module.field.type.select'), ''))
 				->set('onchange', 'this.form.submit()');
+
+			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			{
+				// Language
+				$form->add('article.language', new LanguageListField)
+					->label(Translator::translate($langPrefix . 'module.field.language'))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.select'), ''))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'))
+					->set('onchange', 'this.form.submit()');
+			}
 		});
 	}
 }

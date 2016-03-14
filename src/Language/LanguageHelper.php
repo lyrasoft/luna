@@ -52,6 +52,18 @@ class LanguageHelper
 	}
 
 	/**
+	 * canSelectLanguage
+	 *
+	 * @return  boolean
+	 */
+	public static function canSelectLanguage()
+	{
+		$luna = LunaHelper::getPackage();
+
+		return $luna->get('frontend.language.enabled') || $luna->get('admin.language.enabled');
+	}
+
+	/**
 	 * getAvailableLanguages
 	 *
 	 * @return  DataSet
@@ -128,7 +140,6 @@ class LanguageHelper
 	 */
 	public static function getLocale()
 	{
-		$luna = LunaHelper::getPackage();
 		$config = Ioc::getConfig();
 		$session = Ioc::getSession();
 
@@ -136,7 +147,7 @@ class LanguageHelper
 
 		if (!$locale)
 		{
-			$locale = $config->get('language.locale', $config->get('language.default', 'en-GB'));
+			$locale = $config->get('language.locale') ? : $config->get('language.default', 'en-GB');
 
 			$session->set(static::$sessionKey, $locale);
 		}

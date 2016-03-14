@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Form\Article;
 use Lyrasoft\Luna\Admin\Field\Article\ArticleListField;
 use Lyrasoft\Luna\Admin\Field\Article\ArticleModalField;
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
+use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Tag\TagListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Lyrasoft\Luna\Field\Image\SingleImageDragField;
@@ -24,6 +25,7 @@ use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
 use Windwalker\Warder\Admin\Field\User\UserModalField;
+use Windwalker\Warder\Helper\WarderHelper;
 
 /**
  * The ArticleEditDefinition class.
@@ -99,6 +101,14 @@ class EditDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
 
+			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			{
+				// Language
+				$form->add('language', new LanguageListField)
+					->label(Translator::translate($langPrefix . 'article.field.language'))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
+			}
+
 			// Created
 			$form->add('created', new Phoenix\Field\CalendarField)
 				->label(Translator::translate($langPrefix . 'article.field.created'));
@@ -108,14 +118,17 @@ class EditDefinition implements FieldDefinitionInterface
 				->label(Translator::translate($langPrefix . 'article.field.modified'))
 				->disabled();
 
-			// Author
-			$form->add('created_by', new UserModalField)
-				->label(Translator::translate($langPrefix . 'article.field.author'));
+			if (WarderHelper::tableExists('users'))
+			{
+				// Author
+				$form->add('created_by', new UserModalField)
+					->label(Translator::translate($langPrefix . 'article.field.author'));
 
-			// Modified User
-			$form->add('modified_by', new UserModalField)
-				->label(Translator::translate($langPrefix . 'article.field.modifiedby'))
-				->readonly();
+				// Modified User
+				$form->add('modified_by', new UserModalField)
+					->label(Translator::translate($langPrefix . 'article.field.modifiedby'))
+					->readonly();
+			}
 		});
 	}
 }

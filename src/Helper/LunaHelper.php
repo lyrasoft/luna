@@ -115,6 +115,40 @@ abstract class LunaHelper
 	}
 
 	/**
+	 * getTable
+	 *
+	 * @param string $alias
+	 * @param string $default
+	 *
+	 * @return  string
+	 */
+	public static function getTable($alias, $default = null)
+	{
+		$default = $default ? : $alias;
+
+		return static::getPackage()->get('table.' . $alias, $default);
+	}
+
+	/**
+	 * tableExists
+	 *
+	 * @param   string  $alias
+	 *
+	 * @return  boolean
+	 */
+	public static function tableExists($alias)
+	{
+		if (!static::$package)
+		{
+			return false;
+		}
+
+		$table = static::getTable($alias);
+
+		return static::getPackage()->getContainer()->get('db')->getTable($table)->exists();
+	}
+
+	/**
 	 * getFrontendPackage
 	 *
 	 * @param bool $main

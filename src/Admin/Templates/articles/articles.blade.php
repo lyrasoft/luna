@@ -75,20 +75,24 @@
                         {!! $grid->sortTitle($lunaPrefix . 'article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
-                    {{-- AUTHOR --}}
-                    <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.author', 'article.created_by') !!}
-                    </th>
+                    @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                        {{-- AUTHOR --}}
+                        <th>
+                            {!! $grid->sortTitle($lunaPrefix . 'article.field.author', 'article.created_by') !!}
+                        </th>
+                    @endif
 
                     {{-- CREATED --}}
                     <th>
                         {!! $grid->sortTitle($lunaPrefix . 'article.field.created', 'article.created') !!}
                     </th>
 
-                    {{-- LANGUAGE --}}
-                    {{--<th>--}}
-                        {{--{!! $grid->sortTitle($lunaPrefix . 'article.field.language', 'article.language') !!}--}}
-                    {{--</th>--}}
+                    @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+                        {{-- LANGUAGE --}}
+                        <th>
+                            {!! $grid->sortTitle($lunaPrefix . 'article.field.language', 'article.language') !!}
+                        </th>
+                    @endif
 
                     {{-- ID --}}
                     <th>
@@ -154,20 +158,32 @@
                             {!! $grid->orderButton() !!}
                         </td>
 
-                        {{-- AUTHOR --}}
-                        <td>
-                            {!! $grid->foreignLink($item->user_name, $router->html('user', array('id' => $item->user_id))) !!}
-                        </td>
+                        @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                            {{-- AUTHOR --}}
+                            <td>
+                                {!! $grid->foreignLink($item->user_name, $router->html('user', array('id' => $item->user_id))) !!}
+                            </td>
+                        @endif
 
                         {{-- CREATED --}}
                         <td>
                             {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
-                        {{-- LANGUAGE --}}
-                        {{--<td>--}}
-                            {{--{{ $item->language }}--}}
-                        {{--</td>--}}
+                        @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+                            {{-- LANGUAGE --}}
+                            <td>
+                                @if ($item->language == '*')
+                                    <span class="glyphicon glyphicon-globe fa fa-globe"></span>
+                                    @translate($lunaPrefix . 'language.field.all')
+                                @else
+                                    <span class="hasTooltip" title="{{ $item->lang_code }}">
+                                        <span class="{{ \Lyrasoft\Luna\Language\LanguageHelper::getFlagIconClass($item->lang_image) }}"></span>
+                                        {{ $item->lang_title }}
+                                    </span>
+                                @endif
+                            </td>
+                        @endif
 
                         {{-- ID --}}
                         <td>

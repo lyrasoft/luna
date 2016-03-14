@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Category;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Category\CategoryModalField;
+use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Lyrasoft\Luna\Field\Image\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
@@ -99,6 +100,14 @@ class EditDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
 
+			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			{
+				// Language
+				$form->add('language', new LanguageListField)
+					->label(Translator::translate($langPrefix . 'category.field.language'))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
+			}
+
 			// Created
 			$form->add('created', new Phoenix\Field\CalendarField)
 				->label(Translator::translate($langPrefix . 'category.field.created'));
@@ -107,13 +116,16 @@ class EditDefinition implements FieldDefinitionInterface
 			$form->add('modified', new Phoenix\Field\CalendarField)
 				->label(Translator::translate($langPrefix . 'category.field.modified'));
 
-			// Author
-			$form->add('created_by', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'category.field.author'));
+			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			{
+				// Author
+				$form->add('created_by', new Field\TextField)
+					->label(Translator::translate($langPrefix . 'category.field.author'));
 
-			// Modified User
-			$form->add('modified_by', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'category.field.modifiedby'));
+				// Modified User
+				$form->add('modified_by', new Field\TextField)
+					->label(Translator::translate($langPrefix . 'category.field.modifiedby'));
+			}
 		});
 	}
 }

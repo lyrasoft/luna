@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Module;
 
+use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Module\ModuleListField;
 use Lyrasoft\Luna\Admin\Field\Module\ModuleModalField;
 use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
@@ -82,24 +83,35 @@ class EditDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate($langPrefix . 'field.position.select'), ''))
 				->set('allow_add', true);
 
-			// Node
-			$form->add('note', new Field\TextareaField)
-				->label(Translator::translate($langPrefix . 'module.field.note'))
-				->set('rows', 5);
-
 			// Type
 			$form->add('type', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'module.field.type'))
 				->readonly()
 				->required();
 
-			// Created
-			$form->add('created', new Phoenix\Field\CalendarField)
-				->label(Translator::translate($langPrefix . 'module.field.created'));
+			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			{
+				// Language
+				$form->add('language', new LanguageListField)
+					->label(Translator::translate($langPrefix . 'module.field.language'))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
+			}
 
-			// Author
-			$form->add('created_by', new UserModalField)
-				->label(Translator::translate($langPrefix . 'module.field.author'));
+			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			{
+				// Created
+				$form->add('created', new Phoenix\Field\CalendarField)
+					->label(Translator::translate($langPrefix . 'module.field.created'));
+
+				// Author
+				$form->add('created_by', new UserModalField)
+					->label(Translator::translate($langPrefix . 'module.field.author'));
+			}
+
+			// Note
+			$form->add('note', new Field\TextareaField)
+				->label(Translator::translate($langPrefix . 'module.field.note'))
+				->set('rows', 5);
 
 			// ID
 			$form->add('id', new Field\HiddenField);

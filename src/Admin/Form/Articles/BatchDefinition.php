@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Form\Articles;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
+use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field\ListField;
@@ -17,6 +18,7 @@ use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Warder\Admin\Field\User\UserModalField;
+use Windwalker\Warder\Helper\WarderHelper;
 
 /**
  * The ArticlesFilterDefinition class.
@@ -44,22 +46,26 @@ class BatchDefinition implements FieldDefinitionInterface
 		 */
 		$form->wrap(null, 'batch', function (Form $form) use ($langPrefix)
 		{
-			// Language
-//			$form->add('language', new ListField)
-//				->label('Language')
-//				->set('class', 'col-md-12')
-//				->addOption(new Option('-- Select Language --', ''))
-//				->addOption(new Option('English', 'en-GB'))
-//				->addOption(new Option('Chinese Traditional', 'zh-TW'));
+			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			{
+				// Language
+				$form->add('language', new LanguageListField)
+					->label(Translator::translate($langPrefix . 'article.field.language'))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.select'), ''))
+					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
+			}
 
 			// Category
 			$form->add('category_id', new CategoryListField)
 				->label(Translator::translate($langPrefix . 'category.title'))
 				->addOption(new Option(Translator::translate($langPrefix . 'filter.category.select'), ''));
 
-			// Author
-			$form->add('created_by', new UserModalField)
-				->label(Translator::translate($langPrefix . 'article.field.author'));
+			if (WarderHelper::tableExists('users'))
+			{
+				// Author
+				$form->add('created_by', new UserModalField)
+					->label(Translator::translate($langPrefix . 'article.field.author'));
+			}
 		});
 	}
 }

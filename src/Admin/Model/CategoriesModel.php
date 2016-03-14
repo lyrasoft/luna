@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Model;
 
 use Lyrasoft\Luna\Admin\Table\Table;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Language\LanguageHelper;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
@@ -52,12 +53,14 @@ class CategoriesModel extends ListModel
 	{
 		$this->addTable('category', Table::CATEGORIES);
 
-		$warder = WarderHelper::getPackage();
-		$userTable = $warder->get('table.users', 'users');
-
-		if ($this->db->getTable($userTable)->exists())
+		if (WarderHelper::tableExists('users'))
 		{
-			$this->addTable('user', $userTable, 'category.created_by = user.id');
+			$this->addTable('user', WarderHelper::getTable('users'), 'category.created_by = user.id');
+		}
+
+		if (LanguageHelper::canSelectLanguage() && LunaHelper::tableExists('languages'))
+		{
+			$this->addTable('lang', LunaHelper::getTable('languages'), 'lang.code = category.language');
 		}
 	}
 

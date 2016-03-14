@@ -90,10 +90,12 @@
                         {{--{!! $grid->sortTitle($lunaPrefix . 'module.field.created', 'module.created') !!}--}}
                     {{--</th>--}}
 
-                    {{-- LANGUAGE --}}
-                    {{--<th>--}}
-                        {{--{!! $grid->sortTitle($lunaPrefix . 'module.field.language', 'module.language') !!}--}}
-                    {{--</th>--}}
+                    @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+                        {{-- LANGUAGE --}}
+                        <th>
+                            {!! $grid->sortTitle($lunaPrefix . 'module.field.language', 'module.language') !!}
+                        </th>
+                    @endif
 
                     {{-- ID --}}
                     <th>
@@ -159,10 +161,20 @@
                             {{--{{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}--}}
                         {{--</td>--}}
 
-                        {{-- LANGUAGE --}}
-                        {{--<td>--}}
-                            {{--{{ $item->language }}--}}
-                        {{--</td>--}}
+                        @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+                            {{-- LANGUAGE --}}
+                            <td>
+                                @if ($item->language == '*')
+                                    <span class="glyphicon glyphicon-globe fa fa-globe"></span>
+                                    @translate($lunaPrefix . 'language.field.all')
+                                @else
+                                    <span class="hasTooltip" title="{{ $item->lang_code }}">
+                                        <span class="{{ \Lyrasoft\Luna\Language\LanguageHelper::getFlagIconClass($item->lang_image) }}"></span>
+                                        {{ $item->lang_title }}
+                                    </span>
+                                @endif
+                            </td>
+                        @endif
 
                         {{-- ID --}}
                         <td>

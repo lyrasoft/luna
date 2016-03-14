@@ -71,20 +71,24 @@
                         {!! $grid->sortTitle($lunaPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
-                    {{-- AUTHOR --}}
-                    <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'category.field.author', 'category.created_by') !!}
-                    </th>
+                    @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                        {{-- AUTHOR --}}
+                        <th>
+                            {!! $grid->sortTitle($lunaPrefix . 'category.field.author', 'category.created_by') !!}
+                        </th>
+                    @endif
 
                     {{-- CREATED --}}
                     <th>
                         {!! $grid->sortTitle($lunaPrefix . 'category.field.created', 'category.created') !!}
                     </th>
 
-                    {{-- LANGUAGE --}}
-                    {{--<th>--}}
-                        {{--{!! $grid->sortTitle($lunaPrefix . 'category.field.language', 'category.language') !!}--}}
-                    {{--</th>--}}
+                    @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+                        {{-- LANGUAGE --}}
+                        <th>
+                            {!! $grid->sortTitle($lunaPrefix . 'category.field.language', 'category.language') !!}
+                        </th>
+                    @endif
 
                     {{-- ID --}}
                     <th>
@@ -134,20 +138,32 @@
                             {!! $grid->orderButton() !!}
                         </td>
 
-                        {{-- AUTHOR --}}
-                        <td>
-                            {{ $item->user_name }}
-                        </td>
+                        @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                            {{-- AUTHOR --}}
+                            <td>
+                                {{ $item->user_name }}
+                            </td>
+                        @endif
 
                         {{-- CREATED --}}
                         <td>
                             {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
-                        {{-- LANGUAGE --}}
-                        {{--<td>--}}
-                            {{--{{ $item->language }}--}}
-                        {{--</td>--}}
+                        @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+                            {{-- LANGUAGE --}}
+                            <td>
+                                @if ($item->language == '*')
+                                    <span class="glyphicon glyphicon-globe fa fa-globe"></span>
+                                    @translate($lunaPrefix . 'language.field.all')
+                                @else
+                                    <span class="hasTooltip" title="{{ $item->lang_code }}">
+                                        <span class="{{ \Lyrasoft\Luna\Language\LanguageHelper::getFlagIconClass($item->lang_image) }}"></span>
+                                        {{ $item->lang_title }}
+                                    </span>
+                                @endif
+                            </td>
+                        @endif
 
                         {{-- ID --}}
                         <td>

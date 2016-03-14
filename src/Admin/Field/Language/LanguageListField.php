@@ -36,6 +36,13 @@ class LanguageListField extends ItemListField
 	protected $ordering = null;
 
 	/**
+	 * Property valueField.
+	 *
+	 * @var  string
+	 */
+	protected $valueField = 'code';
+
+	/**
 	 * prepareAttributes
 	 *
 	 * @return  array

@@ -52,13 +52,10 @@ class CommentsModel extends ListModel
 	{
 		$this->addTable('comment', Table::COMMENTS);
 
-		$warder = WarderHelper::getPackage();
-		$userTable = $warder->get('table.users', 'users');
-
-		if ($this->db->getTable($userTable)->exists())
+		if (WarderHelper::tableExists('users'))
 		{
-			$this->addTable('user', $userTable, 'comment.user_id = user.id')
-				->addTable('replyer', $userTable, 'comment.reply_user_id = replyer.id');
+			$this->addTable('user',   WarderHelper::getTable('users'), 'comment.user_id = user.id')
+				->addTable('replyer', WarderHelper::getTable('users'), 'comment.reply_user_id = replyer.id');
 		}
 	}
 

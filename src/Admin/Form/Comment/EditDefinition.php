@@ -63,16 +63,22 @@ class EditDefinition implements FieldDefinitionInterface
 		// Text Fieldset
 		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
-			$form->add('user_id', new UserModalField)
-				->label(Translator::translate($langPrefix . 'comment.field.author'));
+			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			{
+				$form->add('user_id', new UserModalField)
+					->label(Translator::translate($langPrefix . 'comment.field.author'));
+			}
 
 			// Content
 			$form->add('content', new Field\TextareaField)
 				->label(Translator::translate($langPrefix . 'comment.field.introtext'))
 				->set('rows', 10);
 
-			$form->add('reply_user_id', new UserModalField)
-				->label(Translator::translate($langPrefix . 'comment.field.replyer'));
+			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			{
+				$form->add('reply_user_id', new UserModalField)
+					->label(Translator::translate($langPrefix . 'comment.field.replyer'));
+			}
 
 			// Reply
 			$form->add('reply', new Field\TextareaField)

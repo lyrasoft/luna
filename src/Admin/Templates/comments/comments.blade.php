@@ -76,15 +76,19 @@
 
                     {{-- CONTENT --}}
                     <th>
+                        @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.author', 'comment.created_by') !!}
                         /
+                        @endif
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.content', 'comment.content') !!}
                     </th>
 
                     {{-- REPLY --}}
                     <th>
+                        @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
                         /
+                        @endif
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.reply', 'comment.reply') !!}
                     </th>
 
@@ -151,19 +155,23 @@
                         {{--</td>--}}
 
                         <td class="hasHighlight">
+                            @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
                             <strong>
                                 {{ $item->user_name }} :
                             </strong>
                             <br />
+                            @endif
                             {!! \Windwalker\String\Utf8String::substr(e($item->content), 0, 150) !!}...
                         </td>
 
                         <td class="hasHighlight">
                             @if ($item->reply)
+                                @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
                                 <strong>
                                     {{ $item->replyer_name }} :
                                 </strong>
                                 <br />
+                                @endif
                                 {!! \Windwalker\String\Utf8String::substr(e($item->reply), 0, 150) !!}...
                             @endif
                         </td>
