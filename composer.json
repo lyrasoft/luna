@@ -6,7 +6,10 @@
     "minimum-stability": "beta",
     "require": {
         "windwalker/phoenix": "1.*",
-        "windwalker/warder": "1.*"
+        "windwalker/warder": "1.*",
+        "lyrasoft/unidev": "1.*",
+
+        "gregwar/image": "2.*"
     },
     "require-dev": {
         "lyrasoft/unidev": "1.*"

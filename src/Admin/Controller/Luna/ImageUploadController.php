@@ -56,9 +56,11 @@ class ImageUploadController extends AbstractAjaxController
 
 		File::upload($file['tmp_name'], $temp);
 
+		$this->resize($file);
+
 		if (!is_file($temp))
 		{
-			return $this->responseFailure('Move to temp fail', $file['error']);
+			return $this->responseFailure('Temp file not exists', $file['error']);
 		}
 
 		$url = ImageUploader::upload($temp, EditorImageHelper::getPath($folder . $id));
@@ -68,5 +70,10 @@ class ImageUploadController extends AbstractAjaxController
 		return $this->responseSuccess('Upload success', array(
 			'url' => $url
 		));
+	}
+
+	protected function resize($file)
+	{
+		$image = 
 	}
 }
