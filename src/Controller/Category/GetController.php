@@ -127,8 +127,10 @@ class GetController extends ListDisplayController
 
 			$catModel = $this->getModel('Category');
 
+			$type = $this->app->get('route.extra.category.type');
+
 			/** @var Data $category */
-			$category = $catModel->getItem(['path' => $path, 'state' => 1]);
+			$category = $catModel->getItem(['path' => $path, 'state' => 1, 'type' => $type]);
 
 			if ($category->isNull())
 			{
@@ -151,8 +153,10 @@ class GetController extends ListDisplayController
 		{
 			$tagModel = $this->getModel('Tag');
 
+			$type = $this->app->get('route.extra.category.type');
+
 			/** @var Data $tag */
-			$tag = $tagModel->getItem(array('alias' => $tagAlias, 'state' => 1));
+			$tag = $tagModel->getItem(array('alias' => $tagAlias, 'state' => 1, 'type' => $type));
 
 			if ($tag->isNull())
 			{

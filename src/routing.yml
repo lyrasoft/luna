@@ -8,6 +8,8 @@ article:
             \d+
     extra:
         layout: article
+        category:
+            type: article
         active:
             manimenu: articles
 
@@ -19,6 +21,8 @@ category:
         page: \d+
     extra:
         layout: category
+        category:
+            type: article
         active:
             manimenu: category
 

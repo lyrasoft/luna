@@ -39,7 +39,10 @@ class ArticleSeeder extends AbstractSeeder
 		$tagMapper = new TagMapper;
 		$tagMapMapper = new TagMapMapper;
 
-		$categories = $catMapper->findAll();
+		$categories = $catMapper->find(array(
+			'parent_id != 0',
+			'type' => 'article'
+		));
 
 		if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
 		{

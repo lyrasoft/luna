@@ -19,6 +19,7 @@ use Windwalker\Core\Application\WebApplication;
 use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Core\View\BladeHtmlView;
 use Windwalker\Event\Event;
+use Windwalker\Test\TestHelper;
 use Windwalker\Utilities\Queue\Priority;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 

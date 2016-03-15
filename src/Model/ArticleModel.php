@@ -27,9 +27,7 @@ class ArticleModel extends ItemModel
 	 */
 	protected function postGetItem(Data $item)
 	{
-		$item->category = $this->getRecord('Category');
-
-		$item->category->load($item->category_id);
+		$item->category = $this->getDataMapper('Category')->findOne($item->category_id);
 
 		$tagsModel = new TagsModel;
 

@@ -54,7 +54,7 @@ class CategoryModel extends NestedAdminModel
 	 */
 	protected function prepareRecord(Record $record)
 	{
-		$record->type = $this['category.type'];
+		$record->type = $record->type ? : $this['category.type'];
 
 		parent::prepareRecord($record);
 	}
