@@ -1,0 +1,39 @@
+
+# Article
+article:
+    pattern: /post/(id)-(alias)
+    controller: Article
+    requirement:
+        id:
+            \d+
+    extra:
+        layout: article
+        active:
+            manimenu: articles
+
+# Category
+category:
+    pattern: /category/(*path)
+    controller: Category
+    requirements:
+        page: \d+
+    extra:
+        layout: category
+        active:
+            manimenu: category
+
+# Tag
+article_tag:
+    pattern: /article-tag/(tag)(/page)
+    controller: Category
+    extra:
+        layout: category
+        active:
+            manimenu: tag
+
+# Language
+change_language:
+    pattern: /language/checkout/(lang)
+    controller: Language
+    action:
+        '*': ChangeController

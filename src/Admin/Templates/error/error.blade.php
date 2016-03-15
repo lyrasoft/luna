@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app      \Windwalker\Web\Application                 Global Application
- * @var $package  \Front\FrontPackage                   Package object.
+ * @var $package  \Lyrasoft\Luna\LunaPackage                   Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
  * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
@@ -19,7 +19,7 @@
  */
 ?>
 
-@extends('_global.admin.html')
+@extends($lunaExtends)
 
 @section('content')
 <style>

@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.admin.admin')
+@extends($lunaExtends)
 
 @section('toolbar')
     @include('toolbar')

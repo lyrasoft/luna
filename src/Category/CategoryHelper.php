@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Category;
 
-use Front\Model\CategoriesModel;
+use Lyrasoft\Luna\Model\CategoriesModel;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Windwalker\Data\Data;
