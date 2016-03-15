@@ -17,71 +17,7 @@ use Phoenix\Controller\AbstractPhoenixController;
  *
  * @since  {DEPLOY_VERSION}
  */
-class ChangeController extends AbstractPhoenixController
+class ChangeController extends \Lyrasoft\Luna\Admin\Controller\Language\ChangeController
 {
-	/**
-	 * doExecute
-	 *
-	 * @return  mixed
-	 */
-	protected function doExecute()
-	{
-		$lang = $this->input->get('lang');
 
-		$return = $this->input->getBase64('return');
-
-		$uri = $this->container->get('uri');
-
-		$luna = LunaHelper::getPackage();
-
-		if ($luna->isFrontend())
-		{
-			$redirect = $luna->get('frontend.redirect.language', 'home');
-		}
-		else
-		{
-			$redirect = $luna->get('admin.redirect.language', 'home');
-		}
-
-		try
-		{
-			if (!$lang)
-			{
-				throw new \InvalidArgumentException('No language', 404);
-			}
-
-			$language = LanguageHelper::getLanguage($lang);
-
-			if (!$language)
-			{
-				throw new \RangeException('Language ' . $lang . ' not exists.', 404);
-			}
-
-			LanguageHelper::setLocale($lang);
-		}
-		catch (\Exception $e)
-		{
-			if (WINDWALKER_DEBUG)
-			{
-				throw $e;
-			}
-
-			$this->setRedirect($this->router->http($redirect));
-
-			return false;
-		}
-
-		if ($return)
-		{
-			$return = $uri['base.path'] . ltrim($uri->get('script') . '/', '/') . $language->alias . '/' . base64_decode($return);
-		}
-		else
-		{
-			$return = $this->router->http($redirect);
-		}
-
-		$this->setRedirect($return);
-
-		return true;
-	}
 }
