@@ -90,7 +90,7 @@ class FilterDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate($langPrefix . 'module.field.type.select'), ''))
 				->set('onchange', 'this.form.submit()');
 
-			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
 			{
 				// Language
 				$form->add('article.language', new LanguageListField)

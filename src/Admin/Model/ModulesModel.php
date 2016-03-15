@@ -58,7 +58,7 @@ class ModulesModel extends ListModel
 			$this->addTable('user', WarderHelper::getTable('users'), 'module.created_by = user.id');
 		}
 
-		if (LanguageHelper::canSelectLanguage() && LunaHelper::tableExists('languages'))
+		if (LanguageHelper::isEnabled() && LunaHelper::tableExists('languages'))
 		{
 			$this->addTable('lang', LunaHelper::getTable('languages'), 'lang.code = module.language');
 		}

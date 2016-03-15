@@ -89,7 +89,7 @@ class EditDefinition implements FieldDefinitionInterface
 				->readonly()
 				->required();
 
-			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
 			{
 				// Language
 				$form->add('language', new LanguageListField)

@@ -59,7 +59,7 @@ class ArticlesModel extends ListModel
 			$this->addTable('user', WarderHelper::getTable('users'), 'user.id = article.created_by');
 		}
 
-		if (LanguageHelper::canSelectLanguage() && LunaHelper::tableExists('languages'))
+		if (LanguageHelper::isEnabled() && LunaHelper::tableExists('languages'))
 		{
 			$this->addTable('lang', LunaHelper::getTable('languages'), 'lang.code = article.language');
 		}

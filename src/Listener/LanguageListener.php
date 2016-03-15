@@ -32,7 +32,7 @@ class LanguageListener
 	public function onRouterBeforeRouteMatch(Event $event)
 	{
 		// Workaround when languages table not exists
-		if (!LanguageHelper::isLocaleEnabled())
+		if (!LanguageHelper::isEnabled())
 		{
 			return;
 		}

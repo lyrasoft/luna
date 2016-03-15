@@ -58,7 +58,7 @@ class CategoriesModel extends ListModel
 			$this->addTable('user', WarderHelper::getTable('users'), 'category.created_by = user.id');
 		}
 
-		if (LanguageHelper::canSelectLanguage() && LunaHelper::tableExists('languages'))
+		if (LanguageHelper::isEnabled() && LunaHelper::tableExists('languages'))
 		{
 			$this->addTable('lang', LunaHelper::getTable('languages'), 'lang.code = category.language');
 		}

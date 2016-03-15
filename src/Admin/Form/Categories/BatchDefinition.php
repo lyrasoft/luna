@@ -54,7 +54,7 @@ class BatchDefinition implements FieldDefinitionInterface
 				->set('class', 'col-md-12')
 				->addOption(new Option(Translator::translate($langPrefix . 'category.batch.parent.select'), ''));
 
-			if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+			if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
 			{
 				// Language
 				$form->add('language', new LanguageListField)

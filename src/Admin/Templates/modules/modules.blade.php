@@ -90,7 +90,7 @@
                         {{--{!! $grid->sortTitle($lunaPrefix . 'module.field.created', 'module.created') !!}--}}
                     {{--</th>--}}
 
-                    @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+                    @if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
                         {{-- LANGUAGE --}}
                         <th width="15%">
                             {!! $grid->sortTitle($lunaPrefix . 'module.field.language', 'module.language') !!}
@@ -161,7 +161,7 @@
                             {{--{{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}--}}
                         {{--</td>--}}
 
-                        @if (\Lyrasoft\Luna\Language\LanguageHelper::canSelectLanguage())
+                        @if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
                             {{-- LANGUAGE --}}
                             <td>
                                 @if ($item->language == '*')

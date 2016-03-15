@@ -46,17 +46,17 @@ class LanguageHelper
 	 */
 	public static function isLocaleEnabled()
 	{
-		$config = Ioc::getConfig();
+		$luna = LunaHelper::getPackage();
 
-		return (bool) $config->get('language.enabled');
+		return (bool) $luna->get('frontend.language.enabled') || $luna->get('admin.language.enabled');
 	}
 
 	/**
-	 * canSelectLanguage
+	 * isEnabled
 	 *
 	 * @return  boolean
 	 */
-	public static function canSelectLanguage()
+	public static function isEnabled()
 	{
 		$luna = LunaHelper::getPackage();
 
