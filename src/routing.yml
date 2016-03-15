@@ -32,6 +32,8 @@ article_tag:
     controller: Category
     extra:
         layout: category
+        category:
+            type: article
         active:
             manimenu: tag
 

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\View\Articles;
+namespace Lyrasoft\Luna\View\Category;
 
 use Phoenix\View\ListView;
 use Windwalker\Data\Data;
@@ -16,7 +16,7 @@ use Windwalker\Data\Data;
  * 
  * @since  1.0
  */
-class ArticlesHtmlView extends ListView
+class CategoryHtmlView extends ListView
 {
 	/**
 	 * Property name.

@@ -46,7 +46,7 @@
 
                 <br />
                 <p class="module-description">
-                    @translate($moduleType->description)
+                    {{ $moduleType->description }}
                 </p>
             </div>
             {{--<fieldset class="form-horizontal">--}}

@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Controller\Category;
 
 use Lyrasoft\Luna\Model\ArticlesModel;
-use Lyrasoft\Luna\View\Articles\ArticlesHtmlView;
+use Lyrasoft\Luna\View\Category\CategoryHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Windwalker\Core\Model\Model;
 use Windwalker\Core\View\BladeHtmlView;
@@ -54,16 +54,9 @@ class GetController extends ListDisplayController
 	/**
 	 * Property view.
 	 *
-	 * @var  ArticlesHtmlView
+	 * @var  CategoryHtmlView
 	 */
 	protected $view;
-
-	/**
-	 * Property layout.
-	 *
-	 * @var  string
-	 */
-	protected $layout = 'articles';
 
 	/**
 	 * Property ordering.
@@ -212,7 +205,7 @@ class GetController extends ListDisplayController
 	 *
 	 * @return  BladeHtmlView
 	 */
-	public function getView($name = 'Articles', $type = 'html', $forceNew = false)
+	public function getView($name = 'Category', $type = 'html', $forceNew = false)
 	{
 		return parent::getView($name, $type, $forceNew);
 	}
