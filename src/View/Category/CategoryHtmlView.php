@@ -8,8 +8,10 @@
 
 namespace Lyrasoft\Luna\View\Category;
 
+use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ListView;
 use Windwalker\Data\Data;
+use Windwalker\String\Utf8String;
 
 /**
  * The CategoryHtmlView class.
@@ -52,6 +54,26 @@ class CategoryHtmlView extends ListView
 
 			$item->tags = $tags;
 		}
+
+		$this->prepareHeader($data);
+	}
+
+	/**
+	 * prepareHeader
+	 *
+	 * @param Data $data
+	 *
+	 * @return  void
+	 */
+	protected function prepareHeader(Data $data)
+	{
+		$this->setTitle($data->category->title);
+
+		$desc = Utf8String::substr(strip_tags($data->category->description), 0, 150);
+
+		HtmlHeader::addOpenGraph('og:image', $data->category->image);
+		HtmlHeader::addOpenGraph('og:description', $desc);
+		HtmlHeader::addMetadata('description', $desc);
 	}
 
 	/**
