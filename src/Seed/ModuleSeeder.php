@@ -32,7 +32,17 @@ class ModuleSeeder extends AbstractSeeder
 		$faker = Factory::create();
 
 		$mapper = new ModuleMapper;
-		$userIds = with(new UserMapper)->findAll()->id;
+
+		if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+		{
+			$userMapper = new UserMapper;
+
+			$userIds = $userMapper->findAll()->id;
+		}
+		else
+		{
+			$userIds = range(1, 50);
+		}
 
 		$positions = $faker->words(20);
 

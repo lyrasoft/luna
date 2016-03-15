@@ -34,10 +34,19 @@ class CommentSeeder extends AbstractSeeder
 
 		$mapper = new CommentMapper;
 		$articleMapper = new ArticleMapper;
-		$userMapper = new UserMapper;
 
 		$articleIds = $articleMapper->findAll()->id;
-		$userIds = $userMapper->findAll()->id;
+
+		if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+		{
+			$userMapper = new UserMapper;
+
+			$userIds = $userMapper->findAll()->id;
+		}
+		else
+		{
+			$userIds = range(1, 50);
+		}
 
 		foreach ($articleIds as $articleId)
 		{

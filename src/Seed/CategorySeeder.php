@@ -34,10 +34,11 @@ class CategorySeeder extends AbstractSeeder
 
 		$mapper = new CategoryMapper;
 		$record = new CategoryRecord;
-		$userMapper = new UserMapper;
 
-		if ($this->db->getTable($userMapper->getTable())->exists())
+		if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
 		{
+			$userMapper = new UserMapper;
+
 			$userIds = $userMapper->findAll()->id;
 		}
 		else

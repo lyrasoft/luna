@@ -33,10 +33,10 @@ class TagSeeder extends AbstractSeeder
 
 		$mapper = new TagMapper;
 
-		$userMapper = new UserMapper;
-
-		if ($this->db->getTable($userMapper->getTable())->exists())
+		if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
 		{
+			$userMapper = new UserMapper;
+
 			$userIds = $userMapper->findAll()->id;
 		}
 		else

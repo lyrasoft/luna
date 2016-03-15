@@ -24,7 +24,7 @@ $fieldsets = $moduleForm->getFieldsets();
 
 <div class="tab-content">
     @foreach ($fieldsets as $i => $fieldset)
-        <div role="tabpanel" class="tab-pane fade {{ $i != 0 ? null : 'active' }}" id="fieldset-{{ $fieldset }}">
+        <div role="tabpanel" class="tab-pane fade {{ $i != 0 ? null : 'in active' }}" id="fieldset-{{ $fieldset }}">
             <div class="form-horizontal" style="margin-top: 40px; margin-bottom: 40px;">
                 {!! $moduleForm->renderFields($fieldset) !!}
             </div>
