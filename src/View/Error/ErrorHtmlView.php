@@ -58,6 +58,8 @@ class ErrorHtmlView extends ItemView
 		{
 			$data->msg = Translator::translate($this->langPrefix . 'error.internal');
 		}
+
+		$this->setTitle($data->msg);
 	}
 
 	/**
