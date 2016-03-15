@@ -69,7 +69,12 @@ class ModuleHtmlView extends EditView
 	{
 		$this->prepareScripts();
 
-		$data->type       = $data->item->type ? : $data->state->get('module.type', $data->form->getField('type')->getValue());
+		$data->type = $data->item->type ? : $data->state->get('module.type', $data->form->getField('type')->getValue());
+
+		if ($data->type)
+		{
+			$data->form->getField('type')->setValue($data->type);
+		}
 
 		if (!$data->type)
 		{
