@@ -7,12 +7,10 @@
     "require": {
         "windwalker/phoenix": "1.*",
         "windwalker/warder": "1.*",
-        "lyrasoft/unidev": "1.*",
-
-        "gregwar/image": "2.*"
+        "gregwar/image": "2.*",
+        "lyrasoft/unidev": "1.*"
     },
     "require-dev": {
-        "lyrasoft/unidev": "1.*"
     },
     "suggest": {
     },
