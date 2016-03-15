@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\View\Category;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ListView;
 use Windwalker\Data\Data;
@@ -26,6 +27,16 @@ class CategoryHtmlView extends ListView
 	 * @var  string
 	 */
 	protected $name = 'category';
+
+	/**
+	 * initialise
+	 *
+	 * @return  void
+	 */
+	protected function initialise()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+	}
 
 	/**
 	 * prepareData

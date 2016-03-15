@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\View\Article;
 
-use Lyrasoft\Luna\Module\ModuleHelper;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Data\Data;
@@ -27,6 +27,16 @@ class ArticleHtmlView extends ItemView
 	 * @var  string
 	 */
 	protected $name = 'article';
+
+	/**
+	 * initialise
+	 *
+	 * @return  void
+	 */
+	protected function initialise()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+	}
 
 	/**
 	 * prepareData

@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\View\Error;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Language\Translator;
 
@@ -24,6 +25,16 @@ class ErrorHtmlView extends ItemView
 	 * @var  string
 	 */
 	protected $name = 'error';
+
+	/**
+	 * initialise
+	 *
+	 * @return  void
+	 */
+	protected function initialise()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+	}
 
 	/**
 	 * prepareData

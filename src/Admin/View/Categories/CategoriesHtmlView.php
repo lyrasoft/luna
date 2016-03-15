@@ -55,11 +55,14 @@ class CategoriesHtmlView extends GridView
 	);
 
 	/**
-	 * Property langPrefix.
+	 * initialise
 	 *
-	 * @var  string
+	 * @return  void
 	 */
-	protected $langPrefix = 'luna.';
+	protected function initialise()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+	}
 
 	/**
 	 * prepareData
