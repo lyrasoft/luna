@@ -37,7 +37,7 @@ class ArticleHtmlView extends ItemView
 	 */
 	protected function prepareData($data)
 	{
-		$data->item->text = $data->introtext . $data->item->fulltext;
+		$data->item->text = $data->item->introtext . $data->item->fulltext;
 
 		$this->prepareHeader($data);
 	}
