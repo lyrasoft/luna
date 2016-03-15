@@ -47,7 +47,7 @@ class ArticleModel extends AdminModel
 	protected function postGetItem(Data $item)
 	{
 		// Readmore line
-		$item->text = $item->introtext . ($item->introtext ? '<hr id="luna-readmore">' . $item->introtext : null);
+		$item->text = $item->introtext . ($item->fulltext ? '<hr id="luna-readmore">' . $item->fulltext : null);
 
 		// tags
 		$tags = RelationDataMapper::getInstance('tag', Table::TAGS)

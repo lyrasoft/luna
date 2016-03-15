@@ -39,6 +39,42 @@ class ArticleRecord extends Record
 	}
 
 	/**
+	 * bind
+	 *
+	 * @param array $src
+	 * @param array $ignore
+	 *
+	 * @return  static
+	 */
+	public function bind($src, $ignore = array())
+	{
+		$result = parent::bind($src, $ignore);
+
+		if (is_object($src))
+		{
+			$src = get_object_vars($src);
+		}
+
+		if (isset($src['text']) && $src['text'] !== '')
+		{
+			$pattern = '/<hr\s+id=("|\')luna-readmore("|\')\s*\/*>/i';
+			$tagPos = preg_match($pattern, $src['text']);
+
+			if ($tagPos == 0)
+			{
+				$this->introtext = $src['text'];
+				$this->fulltext = '';
+			}
+			else
+			{
+				list ($this->introtext, $this->fulltext) = preg_split($pattern, $src['text'], 2);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * onAfterStore
 	 *
 	 * @param Event $event

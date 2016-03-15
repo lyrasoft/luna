@@ -14,7 +14,7 @@ article:
             manimenu: articles
 
 # Category
-category:
+article_category:
     pattern: /category/(*path)
     controller: Category
     requirements:

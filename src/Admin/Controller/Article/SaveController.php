@@ -18,6 +18,7 @@ use Lyrasoft\Luna\Image\ArticleImageHelper;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\Data;
+use Windwalker\Filter\InputFilter;
 
 /**
  * The SaveController class.
@@ -88,6 +89,8 @@ class SaveController extends AbstractSaveController
 	protected function preSave(Data $data)
 	{
 		parent::preSave($data);
+
+		$data->text = $this->input->getByPath($this->formControl . '.text', null, InputFilter::RAW);
 	}
 
 	/**

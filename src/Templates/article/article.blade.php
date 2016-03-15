@@ -25,7 +25,7 @@
     <h1>{{ $item->title }}</h1>
     
     <p>
-        <a class="btn btn-default" href="{{ $router->html('category', array('path' => $item->category->path)) }}">
+        <a class="btn btn-default" href="{{ $router->html('article_category', array('path' => $item->category->path)) }}">
             <span class="glyphicon glyphicon-chevron-left fa fa-chervon-left"></span>
             Back to List
         </a>

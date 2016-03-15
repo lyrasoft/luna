@@ -73,7 +73,7 @@
 
                     @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
                         {{-- AUTHOR --}}
-                        <th>
+                        <th width="15%">
                             {!! $grid->sortTitle($lunaPrefix . 'category.field.author', 'category.created_by') !!}
                         </th>
                     @endif
