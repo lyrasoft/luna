@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Controller\Language;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Language\LanguageHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Controller\AbstractPhoenixController;
 
 /**

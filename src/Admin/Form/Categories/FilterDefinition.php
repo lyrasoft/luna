@@ -78,7 +78,7 @@ class FilterDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'))
 				->set('onchange', 'this.form.submit()');
 
-			if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
+			if (\Lyrasoft\Luna\Language\Locale::isEnabled())
 			{
 				// Language
 				$form->add('article.language', new LanguageListField)

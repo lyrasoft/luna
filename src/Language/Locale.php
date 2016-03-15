@@ -20,10 +20,16 @@ use Windwalker\Ioc;
  *
  * @since  {DEPLOY_VERSION}
  */
-class LanguageHelper
+class Locale
 {
 	const FLAG_NORMAL = 1;
 	const FLAG_SQUARE = 2;
+
+	const CLIENT_FRONTEND = 1;
+	const CLIENT_ADMIN    = 2;
+	const CLIENT_EITHER   = 4;
+	const CLIENT_BOTH     = 8;
+	const CLIENT_CURRENT  = 16;
 
 	/**
 	 * Property languages.
@@ -40,27 +46,46 @@ class LanguageHelper
 	protected static $sessionKey = 'locale';
 
 	/**
-	 * isLocaleEnabled
-	 *
-	 * @return  boolean
-	 */
-	public static function isLocaleEnabled()
-	{
-		$luna = LunaHelper::getPackage();
-
-		return (bool) $luna->get('frontend.language.enabled') || $luna->get('admin.language.enabled');
-	}
-
-	/**
 	 * isEnabled
 	 *
-	 * @return  boolean
+	 * @param int $client
+	 *
+	 * @return boolean
 	 */
-	public static function isEnabled()
+	public static function isEnabled($client = self::CLIENT_EITHER)
 	{
 		$luna = LunaHelper::getPackage();
 
-		return $luna->get('frontend.language.enabled') || $luna->get('admin.language.enabled');
+		switch ($client)
+		{
+			case static::CLIENT_FRONTEND:
+				return $luna->get('frontend.language.enabled');
+				break;
+
+			case static::CLIENT_ADMIN:
+				return $luna->get('admin.language.enabled');
+				break;
+
+			case static::CLIENT_BOTH:
+				return $luna->get('frontend.language.enabled') && $luna->get('admin.language.enabled');
+				break;
+
+			case static::CLIENT_EITHER:
+				return $luna->get('frontend.language.enabled') || $luna->get('admin.language.enabled');
+				break;
+
+			case static::CLIENT_CURRENT:
+				if (LunaHelper::isFrontend())
+				{
+					return $luna->get('frontend.language.enabled');
+				}
+				elseif (LunaHelper::isAdmin())
+				{
+					return $luna->get('admin.language.enabled');
+				}
+		}
+
+		return false;
 	}
 
 	/**

@@ -51,7 +51,7 @@
         </div>
         <hr />
         <div class="pagination">
-            {!! $pagination->render($package->name . '@@category') !!}
+            {!! $pagination->render($package->name . '@@article_category') !!}
         </div>
     </div>
 @stop

@@ -10,9 +10,11 @@ namespace Lyrasoft\Luna\Model;
 
 use Lyrasoft\Luna\Admin\Table\Table;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
+use Windwalker\Query\QueryElement;
 
 /**
  * The ArticlesModel class.
@@ -33,7 +35,9 @@ class ArticlesModel extends ListModel
 	 *
 	 * @var  array
 	 */
-	protected $allowFields = array();
+	protected $allowFields = array(
+		'locale', 'category_keys'
+	);
 
 	/**
 	 * Property fieldMapping.
@@ -52,9 +56,7 @@ class ArticlesModel extends ListModel
 		$this->addTable('article', LunaHelper::getTable('articles'))
 			->addTable('category', LunaHelper::getTable('categories'), 'category.id = article.category_id')
 			->addTable('map',      LunaHelper::getTable('tag_maps'),   'map.target_id = article.id AND map.type = "article"')
-			->addTable('mapping',  LunaHelper::getTable('tag_maps'),   'mapping.target_id = article.id AND mapping.type = "article"')
-			->addTable('tag',      LunaHelper::getTable('tags'),       'tag.id = map.tag_id')
-			->addTable('comment',  LunaHelper::getTable('comments'),   'comment.target_id = article.id AND comment.type = "article"');
+			->addTable('tag',      LunaHelper::getTable('tags'),       'tag.id = map.tag_id AND tag.state = 1');
 	}
 
 	/**
@@ -66,7 +68,23 @@ class ArticlesModel extends ListModel
 	 */
 	protected function prepareGetQuery(Query $query)
 	{
-		// Add your logic
+		$this->set('query.select', array(
+			'article.*',
+			'category.id AS category_id',
+			'category.title AS category_title',
+			'category.alias AS category_alias',
+			'category.path AS category_path',
+			'tag.title AS tag_title',
+			'tag.alias AS tag_alias',
+		));
+
+		$subQuery = $this->db->getQuery(true)
+			->select('tag_id, target_id')
+			->from(LunaHelper::getTable('tag_maps'))
+			->where('type = "article"')
+			->group('tag_id');
+
+		$query->leftJoin(sprintf('(%s) AS mapping', $subQuery), 'mapping.target_id = article.id');
 	}
 
 	/**
@@ -78,13 +96,20 @@ class ArticlesModel extends ListModel
 	 */
 	protected function postGetQuery(Query $query)
 	{
-		$query->select('COUNT(DISTINCT comment.id) AS comments');
+//		$query->select('COUNT(DISTINCT comment.id) AS comments');
+
+		$subQuery = $this->db->getQuery(true);
+
+		$subQuery->select(array('COUNT(id)', 'target_id'))
+			->from(LunaHelper::getTable('comments'))
+			->where('type = "article"')
+			->where('state = 1')
+			->group('id');
+
+		$query->leftJoin(sprintf('(%s) AS comment', $subQuery), 'comment.target_id = article.id');
 
 		$query->group('article.id')
 			->select('GROUP_CONCAT(DISTINCT CONCAT(tag.title, ":" , tag.alias) SEPARATOR "||") AS tags');
-
-		$query->where('tag.state = 1')
-			->where('comment.state = 1');
 	}
 
 	/**
@@ -107,7 +132,39 @@ class ArticlesModel extends ListModel
 	 */
 	protected function configureFilters(FilterHelperInterface $filterHelper)
 	{
-		// Add your logic
+		$filterHelper->setHandler('locale', function(Query $query, $field, $value)
+		{
+			if ('' !== (string) $value)
+			{
+				$langs = array(
+					$query->quote('*'),
+					$query->quote($value),
+				);
+
+				$query->where('article.language ' . new QueryElement('IN()', $langs));
+			}
+		});
+
+		$filterHelper->setHandler('category_keys', function(Query $query, $field, $value)
+		{
+			if (!$value)
+			{
+				return;
+			}
+
+			if (!is_array($value))
+			{
+				$value = array_map('trim', explode(',', $value, 2));
+			}
+
+			if (count($value) < 2)
+			{
+				throw new \LogicException('Need category lft & rgt keys to search tree node.');
+			}
+
+			$query->where('category.lft >= ' . $value[0])
+				->where('category.rgt <= ' . $value[1]);
+		});
 	}
 
 	/**

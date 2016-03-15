@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Admin\Model;
 
 use Lyrasoft\Luna\Admin\Table\Table;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Language\LanguageHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
@@ -58,7 +58,7 @@ class ModulesModel extends ListModel
 			$this->addTable('user', WarderHelper::getTable('users'), 'module.created_by = user.id');
 		}
 
-		if (LanguageHelper::isEnabled() && LunaHelper::tableExists('languages'))
+		if (Locale::isEnabled() && LunaHelper::tableExists('languages'))
 		{
 			$this->addTable('lang', LunaHelper::getTable('languages'), 'lang.code = module.language');
 		}

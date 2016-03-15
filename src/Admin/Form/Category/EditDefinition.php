@@ -102,7 +102,7 @@ class EditDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
 
-			if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
+			if (\Lyrasoft\Luna\Language\Locale::isEnabled())
 			{
 				// Language
 				$form->add('language', new LanguageListField)

@@ -44,7 +44,7 @@ class BatchDefinition implements FieldDefinitionInterface
 		 */
 		$form->wrap(null, 'batch', function (Form $form) use ($langPrefix)
 		{
-			if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
+			if (\Lyrasoft\Luna\Language\Locale::isEnabled())
 			{
 				// Language
 				$form->add('language', new LanguageListField)

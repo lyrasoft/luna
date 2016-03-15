@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Language;
 
-use Lyrasoft\Luna\Language\LanguageHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Script\Select2Script;
 use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Folder;
@@ -53,7 +53,7 @@ class FlagListField extends ListField
 		{
 			$name = File::getFilename(File::stripExtension($file));
 
-			$attribs['data-flag-class'] = LanguageHelper::getFlagIconClass($name);
+			$attribs['data-flag-class'] = Locale::getFlagIconClass($name);
 			
 			$options[] = new Option($name, $name, $attribs);
 		}

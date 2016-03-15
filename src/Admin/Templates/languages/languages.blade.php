@@ -123,7 +123,7 @@
                         {{-- FLAG --}}
                         <td class="text-center">
                             @if ($item->image)
-                                <span class="{{ \Lyrasoft\Luna\Language\LanguageHelper::getFlagIconClass($item->image) }}"></span>
+                                <span class="{{ \Lyrasoft\Luna\Language\Locale::getFlagIconClass($item->image) }}"></span>
                             @endif
                         </td>
 

@@ -87,7 +87,7 @@
                         {!! $grid->sortTitle($lunaPrefix . 'article.field.created', 'article.created') !!}
                     </th>
 
-                    @if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
+                    @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                         {{-- LANGUAGE --}}
                         <th width="15%">
                             {!! $grid->sortTitle($lunaPrefix . 'article.field.language', 'article.language') !!}
@@ -170,7 +170,7 @@
                             {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
-                        @if (\Lyrasoft\Luna\Language\LanguageHelper::isEnabled())
+                        @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                             {{-- LANGUAGE --}}
                             <td>
                                 @if ($item->language == '*')
@@ -178,7 +178,7 @@
                                     @translate($lunaPrefix . 'language.field.all')
                                 @else
                                     <span class="hasTooltip" title="{{ $item->lang_code }}">
-                                        <span class="{{ \Lyrasoft\Luna\Language\LanguageHelper::getFlagIconClass($item->lang_image) }}"></span>
+                                        <span class="{{ \Lyrasoft\Luna\Language\Locale::getFlagIconClass($item->lang_image) }}"></span>
                                         {{ $item->lang_title }}
                                     </span>
                                 @endif

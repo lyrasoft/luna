@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Controller\Category;
 
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Model\ArticlesModel;
 use Lyrasoft\Luna\View\Category\CategoryHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
@@ -73,6 +74,13 @@ class GetController extends ListDisplayController
 	protected $defaultDirection = null;
 
 	/**
+	 * Property deep.
+	 *
+	 * @var  boolean
+	 */
+	protected $deep = true;
+
+	/**
 	 * prepareExecute
 	 *
 	 * @return  void
@@ -135,7 +143,19 @@ class GetController extends ListDisplayController
 			$this->checkAccess($category);
 
 			// Set article filters
-			$this->model->addFilter('article.category_id', $category->id);
+			if ($this->deep)
+			{
+				$this->model->addFilter('category_keys', $category->lft . ',' . $category->rgt);
+			}
+			else
+			{
+				$this->model->addFilter('article.category_id', $category->id);
+			}
+
+			if (Locale::isEnabled(Locale::CLIENT_FRONTEND))
+			{
+				$this->model->addFilter('locale', Locale::getLocale());
+			}
 		}
 		else
 		{
@@ -146,10 +166,8 @@ class GetController extends ListDisplayController
 		{
 			$tagModel = $this->getModel('Tag');
 
-			$type = $this->app->get('route.extra.category.type');
-
 			/** @var Data $tag */
-			$tag = $tagModel->getItem(array('alias' => $tagAlias, 'state' => 1, 'type' => $type));
+			$tag = $tagModel->getItem(array('alias' => $tagAlias, 'state' => 1));
 
 			if ($tag->isNull())
 			{

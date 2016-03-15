@@ -41,13 +41,14 @@ class TagHelper
 	/**
 	 * getTags
 	 *
-	 * @param string   $type
-	 * @param integer  $targetId
-	 * @param array    $conditions
+	 * @param string  $type
+	 * @param integer $targetId
+	 * @param array   $conditions
+	 * @param array   $fields
 	 *
 	 * @return DataSet
 	 */
-	public static function getTags($type = null, $targetId = null, $conditions = array())
+	public static function getTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
 	{
 		if (!$type && !$targetId)
 		{
@@ -74,6 +75,7 @@ class TagHelper
 		return RelationDataMapper::getInstance('tag', Table::TAGS)
 			->addTable('map', Table::TAG_MAPS, 'map.tag_id = tag.id')
 			->group('tag.id')
+			->setSelectFields($fields)
 			->find($conditions);
 	}
 }

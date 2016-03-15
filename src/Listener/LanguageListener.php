@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Listener;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Language\LanguageHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Windwalker\Core\Ioc;
 use Windwalker\Event\Event;
 use Windwalker\String\StringHelper;
@@ -32,7 +32,7 @@ class LanguageListener
 	public function onRouterBeforeRouteMatch(Event $event)
 	{
 		// Workaround when languages table not exists
-		if (!LanguageHelper::isEnabled())
+		if (!Locale::isEnabled())
 		{
 			return;
 		}
@@ -53,18 +53,18 @@ class LanguageListener
 		// Check first segment is language key or not
 		$alias = strtolower($segments[0]);
 
-		$language = LanguageHelper::getLanguageByAlias($alias);
+		$language = Locale::getLanguageByAlias($alias);
 
 		if (!$language)
 		{
 			// Language not found, return and use default language.
-			LanguageHelper::setLocale(LanguageHelper::getLocale());
+			Locale::setLocale(Locale::getLocale());
 
 			return;
 		}
 
 		// Set current language
-		LanguageHelper::setLocale($language->code);
+		Locale::setLocale($language->code);
 
 		// Remove first segment and store back to Uri object
 		array_shift($segments);
@@ -108,7 +108,7 @@ class LanguageListener
 	 */
 	public function onRouterAfterRouteBuild(Event $event)
 	{
-		if (!LanguageHelper::isLocaleEnabled())
+		if (!Locale::isEnabled(Locale::CLIENT_CURRENT))
 		{
 			return;
 		}
@@ -135,6 +135,6 @@ class LanguageListener
 		$url = $event['url'];
 
 		// Add language key to every route when building.
-		$event['url'] = LanguageHelper::getCurrentLanguage()->alias . '/' . $url;
+		$event['url'] = Locale::getCurrentLanguage()->alias . '/' . $url;
 	}
 }

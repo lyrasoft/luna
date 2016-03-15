@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Controller\Language;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Language\LanguageHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Controller\AbstractPhoenixController;
 
 /**
@@ -50,14 +50,14 @@ class ChangeController extends AbstractPhoenixController
 				throw new \InvalidArgumentException('No language', 404);
 			}
 
-			$language = LanguageHelper::getLanguage($lang);
+			$language = Locale::getLanguage($lang);
 
 			if (!$language)
 			{
 				throw new \RangeException('Language ' . $lang . ' not exists.', 404);
 			}
 
-			LanguageHelper::setLocale($lang);
+			Locale::setLocale($lang);
 		}
 		catch (\Exception $e)
 		{

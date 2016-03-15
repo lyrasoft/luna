@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Module;
 use Lyrasoft\Luna\Admin\DataMapper\ModuleMapper;
 use Lyrasoft\Luna\Admin\Model\ModulesModel;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Language\LanguageHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Windwalker\Cache\Cache;
 use Windwalker\Cache\DataHandler\RawDataHandler;
 use Windwalker\Cache\Storage\RuntimeStorage;
@@ -80,9 +80,9 @@ class ModuleHelper
 				$conditions['position'] = $position;
 			}
 
-			if (LanguageHelper::isEnabled())
+			if (Locale::isEnabled())
 			{
-				$conditions['language'] = array(LanguageHelper::getLocale(), '*');
+				$conditions['language'] = array(Locale::getLocale(), '*');
 			}
 
 			$conditions['state'] = 1;

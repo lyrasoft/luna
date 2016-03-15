@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Field\Language;
 
 use Lyrasoft\Luna\Admin\Table\Table;
-use Lyrasoft\Luna\Language\LanguageHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Script\Select2Script;
 use Phoenix\Field\ItemListField;
 use Windwalker\Html\Option;
@@ -83,7 +83,7 @@ class LanguageListField extends ItemListField
 				$level = 0;
 			}
 
-			$attribs['data-flag-class'] = LanguageHelper::getFlagIconClass($item->image);
+			$attribs['data-flag-class'] = Locale::getFlagIconClass($item->image);
 
 			$options[] = new Option(str_repeat('- ', $level) . $text, $value, $attribs);
 		}
