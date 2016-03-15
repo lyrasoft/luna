@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\View\Article;
 
+use Lyrasoft\Luna\Module\ModuleHelper;
 use Phoenix\View\ItemView;
 
 /**

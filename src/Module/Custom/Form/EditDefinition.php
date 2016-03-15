@@ -28,17 +28,10 @@ class EditDefinition implements FieldDefinitionInterface
 	 */
 	public function define(Form $form)
 	{
-		$form->wrap('basic', null, function (Form $form)
-		{
-			$form->add('test', new TextField)
-				->label('Test');
-		});
-
-		$form->wrap('abc', null, function (Form $form)
-		{
-			$form->add('qwetest', new TextField)
-				->label('qwe')
-				->defaultValue('Default');
-		});
+//		$form->wrap('basic', null, function (Form $form)
+//		{
+//			$form->add('test', new TextField)
+//				->label('Test');
+//		});
 	}
 }

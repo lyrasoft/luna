@@ -15,11 +15,21 @@ use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Core\View\Helper\ViewHelper;
 use Windwalker\Data\Data;
 use Windwalker\Form\Form;
+use Windwalker\Registry\Registry;
 use Windwalker\Utilities\Queue\Priority;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The AbstractModule class.
+ *
+ * @property  string    title
+ * @property  string    content
+ * @property  string    type
+ * @property  string    position
+ * @property  string    state
+ * @property  string    ordering
+ * @property  string    language
+ * @property  Registry  params
  *
  * @since  {DEPLOY_VERSION}
  */
@@ -75,6 +85,13 @@ abstract class AbstractModule
 	protected $renderer;
 
 	/**
+	 * Property data.
+	 *
+	 * @var  array|Data
+	 */
+	protected $data;
+
+	/**
 	 * getInstance
 	 *
 	 * @param array         $data
@@ -96,6 +113,7 @@ abstract class AbstractModule
 	public function __construct($data = array(), BladeRenderer $renderer = null)
 	{
 		$this->data = $data instanceof Data ? $data : new Data($data);
+		$this->params = $this->data->params;
 		$this->renderer = $renderer ? : RendererHelper::getBladeRenderer(array('cache_path' => WINDWALKER_TEMP . '/modules'));;
 	}
 
@@ -185,7 +203,7 @@ abstract class AbstractModule
 
 		$this->registerPaths();
 
-		return $this->renderer->render(static::$type, $data);
+		return $this->renderer->render(static::getType(), $data);
 	}
 
 	/**
@@ -203,7 +221,7 @@ abstract class AbstractModule
 
 		$paths->insert($package->getDir() . '/modules/' . static::$type, Priority::LOW);
 
-		$paths->insert(ReflectionHelper::getPath($this) . '/Templates', Priority::LOW);
+		$paths->insert(dirname(ReflectionHelper::getPath($this)) . '/Templates', Priority::LOW);
 	}
 
 	/**
@@ -342,5 +360,41 @@ abstract class AbstractModule
 	public static function getDir()
 	{
 		return dirname(ReflectionHelper::getPath(get_called_class()));
+	}
+
+	/**
+	 * __get
+	 *
+	 * @param   string  $name
+	 *
+	 * @return  mixed
+	 */
+	public function __get($name)
+	{
+		return $this->data->item[$name];
+	}
+
+	/**
+	 * Method to get property Data
+	 *
+	 * @return  array|Data
+	 */
+	public function getData()
+	{
+		return $this->data;
+	}
+
+	/**
+	 * Method to set property data
+	 *
+	 * @param   array|Data $data
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setData($data)
+	{
+		$this->data = $data;
+
+		return $this;
 	}
 }

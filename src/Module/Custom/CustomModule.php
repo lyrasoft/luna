@@ -41,6 +41,5 @@ class CustomModule extends AbstractModule
 	 */
 	protected function prepareData(Data $data)
 	{
-		show($data);
 	}
 }

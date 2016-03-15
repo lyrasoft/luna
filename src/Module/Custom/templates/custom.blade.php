@@ -2,4 +2,4 @@
 
 Custom
 
-{{ $data->content }}
+{{ $item->content }}

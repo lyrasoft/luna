@@ -8,10 +8,20 @@
 
 namespace Lyrasoft\Luna\Module;
 
+use Lyrasoft\Luna\Admin\DataMapper\ModuleMapper;
+use Lyrasoft\Luna\Admin\Model\ModulesModel;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Language\LanguageHelper;
+use Windwalker\Cache\Cache;
+use Windwalker\Cache\DataHandler\RawDataHandler;
+use Windwalker\Cache\Storage\RuntimeStorage;
+use Windwalker\Core\Cache\CacheFactory;
+use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Filesystem\Path\PathCollection;
+use Windwalker\Ioc;
+use Windwalker\Registry\Registry;
 use Windwalker\String\StringNormalise;
 
 /**
@@ -41,6 +51,76 @@ class ModuleHelper
 	 * @var  DataSet|ModuleType[]
 	 */
 	protected static $types = null;
+
+	/**
+	 * Property modules.
+	 *
+	 * @var  array
+	 */
+	protected static $modules = array();
+
+	/**
+	 * getModules
+	 *
+	 * @param   string  $position
+	 * @param   string  $language
+	 *
+	 * @return DataSet
+	 */
+	public static function getModules($position = null, $language = null)
+	{
+		$cache = static::getCache();
+
+		return $cache->call('position.' . $position, function() use ($position, $language)
+		{
+			$conditions = array();
+
+			if ('' !== (string) $position)
+			{
+				$conditions['position'] = $position;
+			}
+
+			if (LanguageHelper::isEnabled())
+			{
+				$conditions['language'] = array(LanguageHelper::getLocale(), '*');
+			}
+
+			$conditions['state'] = 1;
+
+			$items = static::findModules($conditions, 'position, ordering');
+
+			$modules = array();
+
+			foreach ($items as $item)
+			{
+				$type = static::getModuleType($item->type);
+				$class = $type->class;
+
+				$modules[] = new $class(array('item' => $item, 'params' => new Registry($item->params)));
+			}
+
+			return $modules;
+		});
+	}
+
+	/**
+	 * findModules
+	 *
+	 * @param array    $conditions
+	 * @param string   $order
+	 * @param integer  $start
+	 * @param integer  $limit
+	 *
+	 * @return  DataSet|Data[]
+	 */
+	public static function findModules($conditions = array(), $order = null, $start = null, $limit = null)
+	{
+		$mapper = new ModuleMapper;
+
+		$modules = $mapper->find($conditions, $order, $start, $limit);
+
+		return $modules;
+	}
 
 	/**
 	 * getModuleTypes
@@ -229,5 +309,49 @@ class ModuleHelper
 	{
 		static::$types = null;
 		static::$classes = null;
+	}
+
+	/**
+	 * getModel
+	 *
+	 * @param bool $forceNew
+	 *
+	 * @return  ModulesModel
+	 */
+	public static function getModel($forceNew = false)
+	{
+		$key = 'modules.helper.model';
+
+		if (!Ioc::exists($key))
+		{
+			Ioc::getContainer()->share($key, function()
+			{
+				return new ModulesModel;
+			});
+		}
+
+		return Ioc::get($key, $forceNew);
+	}
+
+	/**
+	 * getCache
+	 *
+	 * @param bool $forceNew
+	 *
+	 * @return  Cache
+	 */
+	public static function getCache($forceNew = false)
+	{
+		$key = 'modules.helper.cache';
+
+		if (!Ioc::exists($key))
+		{
+			Ioc::getContainer()->share($key, function()
+			{
+				return new Cache(new RuntimeStorage, new RawDataHandler);
+			});
+		}
+
+		return Ioc::get($key, $forceNew);
 	}
 }
