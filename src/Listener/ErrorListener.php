@@ -10,7 +10,10 @@ namespace Lyrasoft\Luna\Listener;
 
 use Lyrasoft\Luna\Error\ErrorHandler;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Windwalker\Core\Mvc\MvcResolver;
 use Windwalker\Ioc;
+use Windwalker\Utilities\Queue\Priority;
+use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The ErrorListener class.
@@ -28,6 +31,11 @@ class ErrorListener
 	{
 		if (!Ioc::getConfig()->get('system.debug'))
 		{
+			/** @var MvcResolver $resolver */
+			$resolver = Ioc::getContainer()->get('mvc.resolver');
+
+			$resolver->addNamespace(ReflectionHelper::getNamespaceName(LunaHelper::getPackage()), Priority::LOW - 100);
+
 			ErrorHandler::register(true);
 		}
 	}

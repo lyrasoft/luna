@@ -54,7 +54,7 @@ class LunaListener
 	 *
 	 * @return  void
 	 */
-	public function onAfterRouting(Event $event)
+	public function onRouterAfterRouteMatch(Event $event)
 	{
 		/** @var WebApplication $app */
 		$app     = $event['app'];

@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\View\Language;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
@@ -48,11 +49,14 @@ class LanguageHtmlView extends EditView
 	protected $formLoadData = true;
 
 	/**
-	 * Property langPrefix.
+	 * initialise
 	 *
-	 * @var  string
+	 * @return  void
 	 */
-	protected $langPrefix = 'luna.';
+	protected function initialise()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+	}
 
 	/**
 	 * prepareData

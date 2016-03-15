@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\View\Modules;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Phoenix\Asset\Asset;
 use Phoenix\Script\BootstrapScript;
@@ -58,11 +59,14 @@ class ModulesHtmlView extends GridView
 	);
 
 	/**
-	 * Property langPrefix.
+	 * initialise
 	 *
-	 * @var  string
+	 * @return  void
 	 */
-	protected $langPrefix = 'luna.';
+	protected function initialise()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+	}
 
 	/**
 	 * Property labels.
