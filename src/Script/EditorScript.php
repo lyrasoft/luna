@@ -115,7 +115,9 @@ JS;
 //			$asset->addScript($luna->name . '/js/summernote/lang/summernote-' . $locale . '.min.js');
 
 			$css = <<<CSS
-
+div.mce-fullscreen {
+	z-index: 1500;
+}
 CSS;
 
 			$asset->internalStyle($css);

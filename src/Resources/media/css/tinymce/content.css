@@ -137,6 +137,7 @@ textarea {
 	background: 0 0
 }
 
+/* Luna Hack */
 .mce-content-body hr#luna-readmore {
 	background: #eee;
 	content: "READMORE";
@@ -148,4 +149,7 @@ textarea {
 .mce-content-body hr#luna-readmore::before {
 	content: "READMORE";
 	color: #999;
+}
+.mce-content-body img {
+	max-width: 100%;
 }

@@ -57,6 +57,9 @@ class TinymceEditorField extends AbstractEditorField
 				'emoticons template paste textcolor colorpicker textpattern imagetools'
 			);
 
+			$options['toolbar1'] = 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' .
+				'bullist numlist outdent indent | link image media | table code | fullscreen';
+
 			$options['image_advtab'] = true;
 		}
 
