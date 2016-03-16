@@ -137,6 +137,12 @@ _luna_img_upload:
     action:
         post|put|patch: ImageUploadController
 
+_luna_tinymce_proxy:
+    pattern: /_luna/image/tinymce/proxy
+    controller: Luna
+    action:
+        '*': TinymceProxyController
+
 _luna_ajax_tags:
     pattern: /_luna/ajax/tags
     controller: Luna\Ajax

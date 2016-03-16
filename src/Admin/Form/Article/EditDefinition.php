@@ -14,6 +14,7 @@ use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Tag\TagListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
+use Lyrasoft\Luna\Field\Editor\TinymceEditorField;
 use Lyrasoft\Luna\Field\Image\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix;
@@ -83,7 +84,7 @@ class EditDefinition implements FieldDefinitionInterface
 		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
 			// Introtext
-			$form->add('text', new SummernoteEditorField)
+			$form->add('text', new TinymceEditorField)
 				->label(Translator::translate($langPrefix . 'article.field.introtext'))
 				->set('options', array(
 					'height' => 450

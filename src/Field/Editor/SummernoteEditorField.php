@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Field\Editor;
 
+use Lyrasoft\Luna\Script\EditorScript;
 use Lyrasoft\Luna\Script\LunaScript;
 
 /**
@@ -64,6 +65,6 @@ JS;
 			}
 		}
 
-		LunaScript::summernote('#' . $attrs['id'], $options);
+		EditorScript::summernote('#' . $attrs['id'], $options);
 	}
 }
