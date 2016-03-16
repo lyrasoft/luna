@@ -43,6 +43,8 @@
 
                     <hr />
 
+                    {{ $item->comments }} Comment(s)
+
                     @foreach ($item->tags as $tagItem)
                         <a class="label label-info" href="{{ $router->html('article_tag', array('tag' => $tagItem->alias)) }}">
                             {{ $tagItem->title }}

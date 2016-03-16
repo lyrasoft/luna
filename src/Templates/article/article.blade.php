@@ -21,6 +21,13 @@
 @extends('_global.html')
 
 @section('content')
+    <style>
+        .comment-user-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+        }
+    </style>
 <div class="container article-item">
     <p style="margin-top: 40px">
         <a class="btn btn-default" href="{{ $router->html('article_category', array('path' => $item->category->path)) }}">
@@ -47,6 +54,33 @@
         @endforeach
 
     @endif
+
+    <hr />
+
+    <div id="comments">
+        <h4>
+            {{ count($item->comments) }} Comment(s)
+        </h4>
+
+        @foreach ($item->comments as $comment)
+            <div class="row">
+                <div class="col-xs-1 text-center">
+                    <img class="comment-user-avatar" src="{{ $comment->user_avatar }}" alt="Avatar">
+                </div>
+                <div class="col-xs-11">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{ $comment->user_name }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            {!! nl2br(e($comment->content)) !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
 
 </div>
 @stop

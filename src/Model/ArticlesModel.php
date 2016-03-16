@@ -35,7 +35,7 @@ class ArticlesModel extends ListModel
 	 * @var  array
 	 */
 	protected $allowFields = array(
-		'locale', 'category_keys'
+		'locale', 'category_keys', 'mapping.target_id', 'mapping.tag_id'
 	);
 
 	/**
@@ -80,8 +80,7 @@ class ArticlesModel extends ListModel
 		$subQuery = $this->db->getQuery(true)
 			->select('tag_id, target_id')
 			->from(LunaTable::TAG_MAPS)
-			->where('type = "article"')
-			->group('tag_id');
+			->where('type = "article"');
 
 		$query->leftJoin(sprintf('(%s) AS mapping', $subQuery), 'mapping.target_id = article.id');
 	}
@@ -99,13 +98,14 @@ class ArticlesModel extends ListModel
 
 		$subQuery = $this->db->getQuery(true);
 
-		$subQuery->select(array('COUNT(id)', 'target_id'))
+		$subQuery->select(array('COUNT(target_id) AS count', 'target_id'))
 			->from(LunaTable::COMMENTS)
 			->where('type = "article"')
 			->where('state = 1')
-			->group('id');
+			->group('target_id');
 
-		$query->leftJoin(sprintf('(%s) AS comment', $subQuery), 'comment.target_id = article.id');
+		$query->select('comment.count AS comments')
+			->leftJoin(sprintf('(%s) AS comment', $subQuery), 'comment.target_id = article.id');
 
 		$query->group('article.id')
 			->select('GROUP_CONCAT(DISTINCT CONCAT(tag.title, ":" , tag.alias) SEPARATOR "||") AS tags');

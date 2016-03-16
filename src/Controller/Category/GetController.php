@@ -171,6 +171,7 @@ class GetController extends ListDisplayController
 
 			$this->view['tag'] = $tag;
 
+
 			$this->checkAccess($tag);
 
 			// Set article filters

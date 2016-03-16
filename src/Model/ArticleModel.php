@@ -31,5 +31,14 @@ class ArticleModel extends ItemModel
 		$item->category = $this->getDataMapper('Category')->findOne($item->category_id);
 
 		$item->tags = TagHelper::getAvailableTags('article', $item->id);
+
+		$commentsModel = new CommentsModel;
+
+		$commentsModel->addFilter('comment.state', 1);
+		$commentsModel->addFilter('comment.target_id', $item->id);
+		$commentsModel->addFilter('comment.type', 'article');
+		$commentsModel['list.ordering'] = 'ordering';
+
+		$item->comments = $commentsModel->getItems();
 	}
 }

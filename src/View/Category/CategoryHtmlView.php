@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ListView;
 use Windwalker\Data\Data;
+use Windwalker\String\StringHelper;
 use Windwalker\String\Utf8String;
 
 /**
@@ -51,11 +52,13 @@ class CategoryHtmlView extends ListView
 		{
 			$tags = (array) explode('||', $item->tags);
 
+			$tags = array_filter($tags, 'strlen');
+
 			sort($tags);
 
 			$tags = array_map(function ($value)
 			{
-				list($title, $alias) = explode(':', $value);
+				list($title, $alias) = StringHelper::explode(':', $value);
 
 				return new Data(array(
 					'title' => $title,
