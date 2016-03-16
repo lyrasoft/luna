@@ -26,7 +26,7 @@
 @stop
 
 @section('admin-body')
-<form name="admin-form" id="admin-form" action="{{ $router->html('tag') }}" method="POST" enctype="multipart/form-data">
+<form name="admin-form" id="admin-form" action="{{ $router->html('tag', array('id' => $item->id)) }}" method="POST" enctype="multipart/form-data">
 
     <div class="row">
         <div class="col-md-7">

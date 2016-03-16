@@ -7,6 +7,7 @@
  */
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
+use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Table\LunaTable;
 use Faker\Factory;
@@ -34,6 +35,10 @@ class CategorySeeder extends AbstractSeeder
 
 		$mapper = new CategoryMapper;
 		$record = new CategoryRecord;
+		$langMapper = new LanguageMapper;
+
+		$languages = $langMapper->find(array('state' => 1))->code;
+		$languages[] = '*';
 
 		if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
 		{
@@ -52,7 +57,9 @@ class CategorySeeder extends AbstractSeeder
 		{
 			$record->reset();
 
-			$record['title']       = $faker->sentence(rand(1, 3));
+			$lang = $faker->randomElement($languages);
+
+			$record['title']       = $faker->sentence(rand(1, 3)) . ' - [' . $lang . ']';
 			$record['alias']       = OutputFilter::stringURLSafe($record['title']);
 			$record['type']        = 'article';
 			$record['description'] = $faker->paragraph(5);
@@ -63,7 +70,7 @@ class CategorySeeder extends AbstractSeeder
 			$record['created_by']  = $faker->randomElement($userIds);
 			$record['modified']    = $faker->dateTime->format(DateTime::FORMAT_SQL);
 			$record['modified_by'] = $faker->randomElement($userIds);
-			$record['language']    = 'en-GB';
+			$record['language']    = $lang;
 			$record['params']      = '';
 
 			$record->setLocation($faker->randomElement($existsRecordIds), $record::LOCATION_LAST_CHILD);

@@ -22,9 +22,7 @@
 
 @section('content')
 <div class="container article-item">
-    <h1>{{ $item->title }}</h1>
-    
-    <p>
+    <p style="margin-top: 40px">
         <a class="btn btn-default" href="{{ $router->html('article_category', array('path' => $item->category->path)) }}">
             <span class="glyphicon glyphicon-chevron-left fa fa-chervon-left"></span>
             Back to List

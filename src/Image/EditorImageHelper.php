@@ -19,19 +19,6 @@ use Lyrasoft\Unidev\Storage\AbstractStorageHelper;
 class EditorImageHelper extends AbstractStorageHelper
 {
 	/**
-	 * Get file temp path.
-	 *
-	 * @param   mixed   $identify The identify of this file or item.
-	 * @param   string  $ext      Image ext.
-	 *
-	 * @return string Identify path.
-	 */
-	public static function getTempFile($identify, $ext = 'jpg')
-	{
-		return static::getTempPath() . '/' . static::getPath($identify, $ext);
-	}
-
-	/**
 	 * Get remote uri path.
 	 *
 	 * @param   mixed   $identify The identify of this file or item.
@@ -42,19 +29,6 @@ class EditorImageHelper extends AbstractStorageHelper
 	public static function getPath($identify, $ext = 'jpg')
 	{
 		return static::getBaseFolder() . $identify . '.' . static::getRealExtension($ext);
-	}
-
-	/**
-	 * Get remote url.
-	 *
-	 * @param   mixed   $identify The identify of this file or item.
-	 * @param   string  $ext      Image ext.
-	 *
-	 * @return  string  Identify URL.
-	 */
-	public static function getRemoteUrl($identify, $ext = 'jpg')
-	{
-		return ImageUploader::getAdapter()->getHost() . '/' . static::getPath($identify, $ext);
 	}
 
 	/**

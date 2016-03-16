@@ -26,7 +26,7 @@
 @stop
 
 @section('admin-body')
-<form name="admin-form" id="admin-form" action="{{ $router->html('language') }}" method="POST" enctype="multipart/form-data">
+<form name="admin-form" id="admin-form" action="{{ $router->html('language', array('id' => $item->id)) }}" method="POST" enctype="multipart/form-data">
 
     @include('luna.form.title-bar')
 

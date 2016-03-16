@@ -12,6 +12,8 @@ use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
+use Windwalker\Query\QueryElement;
+use Windwalker\Utilities\ArrayHelper;
 use Windwalker\Warder\Helper\WarderHelper;
 use Windwalker\Warder\Table\WarderTable;
 
@@ -34,14 +36,18 @@ class CategoriesModel extends ListModel
 	 *
 	 * @var  array
 	 */
-	protected $allowFields = array();
+	protected $allowFields = array(
+		'locale', 'category.locale'
+	);
 
 	/**
 	 * Property fieldMapping.
 	 *
 	 * @var  array
 	 */
-	protected $fieldMapping = array();
+	protected $fieldMapping = array(
+		'locale' => 'category.locale'
+	);
 
 	/**
 	 * configureTables
@@ -101,7 +107,18 @@ class CategoriesModel extends ListModel
 	 */
 	protected function configureFilters(FilterHelperInterface $filterHelper)
 	{
-		// Add your logic
+		$filterHelper->setHandler('category.locale', function(Query $query, $field, $value)
+		{
+			if ('' !== (string) $value)
+			{
+				$langs = array(
+					$query->quote('*'),
+					$query->quote($value),
+				);
+
+				$query->where('category.language ' . new QueryElement('IN()', $langs));
+			}
+		});
 	}
 
 	/**

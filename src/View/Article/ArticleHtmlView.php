@@ -56,7 +56,7 @@ class ArticleHtmlView extends ItemView
 
 		if (Locale::isEnabled() && $data->item->id)
 		{
-			if (Locale::getLocale() != $data->language)
+			if (Locale::getLocale() != $data->item->language && $data->item->language != '*')
 			{
 				throw new RouteNotFoundException(sprintf('Language %s not support for this article', Locale::getLocale()), 404);
 			}

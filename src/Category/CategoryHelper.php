@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Category;
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Model\CategoriesModel;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
@@ -65,7 +66,7 @@ class CategoryHelper
 	 * @param int              $maxLevel
 	 * @param array            $conditions
 	 *
-	 * @return  mixed|DataSet
+	 * @return  Data[]|DataSet
 	 */
 	public static function getCategories($type, $parent = 1, $maxLevel = 1, $conditions = array())
 	{
@@ -100,6 +101,28 @@ class CategoryHelper
 	}
 
 	/**
+	 * getAvailableCategories
+	 *
+	 * @param string $type
+	 * @param int    $parent
+	 * @param int    $maxLevel
+	 * @param array  $conditions
+	 *
+	 * @return  DataSet|Data[]
+	 */
+	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 1, $conditions = array())
+	{
+		$conditions['category.state'] = 1;
+
+		if (Locale::isEnabled(Locale::CLIENT_CURRENT))
+		{
+			$conditions['category.locale'] = Locale::getLocale();
+		}
+
+		return static::getCategories($type, $parent, $maxLevel, $conditions);
+	}
+
+	/**
 	 * getCategories
 	 *
 	 * @param array  $conditions
@@ -107,15 +130,10 @@ class CategoryHelper
 	 * @param int    $start
 	 * @param int    $limit
 	 *
-	 * @return  mixed|DataSet
+	 * @return  Data[]|DataSet
 	 */
 	public static function find($conditions = array(), $order = 'lft', $start = null, $limit = null)
 	{
-		if (!isset($conditions['category.state']))
-		{
-			$conditions['category.state'] = 1;
-		}
-
 		$model = static::getModel();
 
 		foreach ($conditions as $key => $condition)

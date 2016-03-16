@@ -37,7 +37,7 @@
         margin: 30px 0;
     }
 </style>
-<form name="admin-form" id="admin-form" action="{{ $router->html('module') }}" method="POST" enctype="multipart/form-data">
+<form name="admin-form" id="admin-form" action="{{ $router->html('module', array('id' => $item->id)) }}" method="POST" enctype="multipart/form-data">
 
     @include('luna.form.title-bar')
 

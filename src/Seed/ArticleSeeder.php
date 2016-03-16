@@ -42,6 +42,7 @@ class ArticleSeeder extends AbstractSeeder
 		$langMapper = new LanguageMapper;
 
 		$languages = $langMapper->find(array('state' => 1))->code;
+		$languages[] = '*';
 
 		$categories = $catMapper->find(array(
 			'parent_id != 0',

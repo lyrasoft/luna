@@ -1,11 +1,13 @@
 {{-- Part of virtualset project. --}}
-
+<?php
+$defaultImage = isset($defaultImage) ? $defaultImage : $uri['media.path'] . \Lyrasoft\Luna\Helper\LunaHelper::getPackage()->name . '/images/default-img.png';
+?>
 <div id="{{ $attrs['id'] }}-wrap">
 
     <div class="row">
         <div class="col-md-4">
             <img id="{{ $attrs['id'] }}-preview" class="img-responsive"
-                src="{{ $attrs['value'] ? $attrs['value'] . '?' . uniqid() : $uri['media.path'] . \Lyrasoft\Luna\Helper\LunaHelper::getPackage()->name . '/images/default-img.png' }}"
+                src="{{ $attrs['value'] ? $attrs['value'] . '?' . uniqid() : $defaultImage }}"
                 alt="Preview">
         </div>
         <div class="col-md-8">

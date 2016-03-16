@@ -52,7 +52,8 @@ class SingleImageDragField extends TextField
 		$this->prepareScript($attrs);
 
 		return WidgetHelper::render('luna.form.field.single-drag-image', [
-			'attrs' => $attrs
+			'attrs' => $attrs,
+			'defaultImage' => $this->get('default_image')
 		], WidgetHelper::ENGINE_BLADE);
 	}
 
@@ -92,13 +93,13 @@ class SingleImageDragField extends TextField
 
 		if ($base64 && $url = Base64Image::quickUpload($base64, $uri))
 		{
-			$data->image = $url;
+			$data->$field = $url;
 
 			return $url;
 		}
 		elseif ($delete)
 		{
-			$data->image = null;
+			$data->$field = '';
 
 			return true;
 		}

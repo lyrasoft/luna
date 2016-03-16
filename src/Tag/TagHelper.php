@@ -36,7 +36,7 @@ class TagHelper
 	{
 		$model = new TagModel;
 
-		$model->saveTagMaps($type, $targetId, $tags);
+		$model->saeTagMaps($type, $targetId, $tags);
 	}
 
 	/**
@@ -67,11 +67,6 @@ class TagHelper
 			$conditions['map.target_id'] = $targetId;
 		}
 
-		if (!array_key_exists('tag.state', $conditions))
-		{
-			$conditions['tag.state'] = 1;
-		}
-
 		return RelationDataMapper::getInstance('tag', LunaTable::TAGS)
 			->addTable('map', LunaTable::TAG_MAPS, 'map.tag_id = tag.id')
 			->group('tag.id')
@@ -80,18 +75,18 @@ class TagHelper
 	}
 
 	/**
-	 * getAllTags
+	 * getTags
 	 *
 	 * @param string  $type
 	 * @param integer $targetId
 	 * @param array   $conditions
 	 * @param array   $fields
 	 *
-	 * @return  DataSet|Data[]
+	 * @return DataSet|Data[]
 	 */
-	public static function getAllTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
+	public static function getAvailableTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
 	{
-		$conditions['state'] = array(1, 0);
+		$conditions['state'] = 1;
 
 		return static::getTags($type, $targetId, $conditions, $fields);
 	}

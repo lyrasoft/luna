@@ -30,6 +30,6 @@ class ArticleModel extends ItemModel
 	{
 		$item->category = $this->getDataMapper('Category')->findOne($item->category_id);
 
-		$item->tags = TagHelper::getAllTags('article', $item->id);
+		$item->tags = TagHelper::getAvailableTags('article', $item->id);
 	}
 }

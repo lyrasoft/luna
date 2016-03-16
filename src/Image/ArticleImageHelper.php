@@ -29,18 +29,6 @@ class ArticleImageHelper extends AbstractStorageHelper
 	}
 
 	/**
-	 * Get file temp path.
-	 *
-	 * @param   mixed $identify The identify of this file or item.
-	 *
-	 * @return  string  Identify path.
-	 */
-	public static function getTempFile($identify)
-	{
-		return static::getTempPath() . '/' . static::getPath($identify);
-	}
-
-	/**
 	 * Get remote uri path.
 	 *
 	 * @param   mixed $identify The identify of this file or item.
@@ -50,17 +38,5 @@ class ArticleImageHelper extends AbstractStorageHelper
 	public static function getPath($identify)
 	{
 		return static::getBaseFolder() . md5($identify) . '.jpg';
-	}
-
-	/**
-	 * Get remote url.
-	 *
-	 * @param   mixed $identify The identify of this file or item.
-	 *
-	 * @return  string  Identify URL.
-	 */
-	public static function getRemoteUrl($identify)
-	{
-		return ImageUploader::getAdapter()->getHost() . '/' . static::getPath($identify);
 	}
 }
