@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Category;
 
+use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Model\CategoriesModel;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
@@ -76,8 +77,8 @@ class CategoryHelper
 		}
 		else
 		{
-			$model = static::getModel();
-			$root = $model->getDataMapper('Category')->findOne($parent);
+			$mapper = new CategoryMapper;
+			$root = $mapper->findOne($parent);
 
 			if ($root->isNull())
 			{

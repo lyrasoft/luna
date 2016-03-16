@@ -50,7 +50,7 @@ class TagsModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('tag', LunaTable::TAG_MAPS)
+		$this->addTable('tag', LunaTable::TAGS)
 			->addTable('map', LunaTable::TAG_MAPS, 'tag.id = map.tag_id');
 	}
 

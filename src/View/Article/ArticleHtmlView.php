@@ -9,9 +9,11 @@
 namespace Lyrasoft\Luna\View\Article;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Data\Data;
+use Windwalker\Router\Exception\RouteNotFoundException;
 use Windwalker\String\Utf8String;
 
 /**
@@ -47,6 +49,19 @@ class ArticleHtmlView extends ItemView
 	 */
 	protected function prepareData($data)
 	{
+		if ($data->item->isNull())
+		{
+			throw new RouteNotFoundException('Article not found', 404);
+		}
+
+		if (Locale::isEnabled() && $data->item->id)
+		{
+			if (Locale::getLocale() != $data->language)
+			{
+				throw new RouteNotFoundException(sprintf('Language %s not support for this article', Locale::getLocale()), 404);
+			}
+		}
+
 		$data->item->text = $data->item->introtext . $data->item->fulltext;
 
 		$this->prepareHeader($data);

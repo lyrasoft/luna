@@ -64,14 +64,14 @@ class GetController extends ListDisplayController
 	 *
 	 * @var  string
 	 */
-	protected $defaultOrdering = null;
+	protected $defaultOrdering = 'article.created';
 
 	/**
 	 * Property direction.
 	 *
 	 * @var  string
 	 */
-	protected $defaultDirection = null;
+	protected $defaultDirection = 'DESC';
 
 	/**
 	 * Property deep.
@@ -151,11 +151,6 @@ class GetController extends ListDisplayController
 			{
 				$this->model->addFilter('article.category_id', $category->id);
 			}
-
-			if (Locale::isEnabled(Locale::CLIENT_FRONTEND))
-			{
-				$this->model->addFilter('locale', Locale::getLocale());
-			}
 		}
 		else
 		{
@@ -184,6 +179,11 @@ class GetController extends ListDisplayController
 		else
 		{
 			$this->view['tag'] = new Data;
+		}
+
+		if (Locale::isEnabled(Locale::CLIENT_FRONTEND))
+		{
+			$this->model->addFilter('locale', Locale::getLocale());
 		}
 
 		$this->model->addFilter('article.state', 1);

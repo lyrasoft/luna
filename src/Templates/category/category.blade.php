@@ -33,15 +33,19 @@
                         </a>
                     </h2>
 
+                    <span class="text-muted">
+                        {{ $item->created }}
+                    </span>
+
                     <div class="article-content">
                         {!! $item->introtext !!}
                     </div>
 
                     <hr />
 
-                    @foreach ($item->tags as $tag)
-                        <a class="label label-info" href="{{ $router->html('article_tag', array('tag' => $tag->alias)) }}">
-                            {{ $tag->title }}
+                    @foreach ($item->tags as $tagItem)
+                        <a class="label label-info" href="{{ $router->html('article_tag', array('tag' => $tagItem->alias)) }}">
+                            {{ $tagItem->title }}
                         </a>
                         &nbsp;
                     @endforeach
@@ -51,7 +55,13 @@
         </div>
         <hr />
         <div class="pagination">
-            {!! $pagination->render($package->name . '@@article_category') !!}
+            @if ($category->notNull())
+                {!! $pagination->render($package->name . '@article_category', array('path' => $category->path)) !!}
+            @elseif ($tag->notNull())
+                {!! $pagination->render($package->name . '@article_tag', array('tag' => $tag->alias)) !!}
+            @else
+                {{-- Home route --}}
+            @endif
         </div>
     </div>
 @stop

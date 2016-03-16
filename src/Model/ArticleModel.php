@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Model;
 
+use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Model\ItemModel;
 use Windwalker\Data\Data;
 
@@ -29,13 +30,6 @@ class ArticleModel extends ItemModel
 	{
 		$item->category = $this->getDataMapper('Category')->findOne($item->category_id);
 
-		$tagsModel = new TagsModel;
-
-		$tagsModel->addFilter('tag.state', 1);
-		$tagsModel->addFilter('map.type', 'article');
-		$tagsModel->addFilter('map.target_id', $item->id);
-		$tagsModel['list.ordering'] = 'tag.title';
-
-		$item->tags = $tagsModel->getItems();
+		$item->tags = TagHelper::getAllTags('article', $item->id);
 	}
 }

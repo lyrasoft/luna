@@ -56,11 +56,9 @@ class ErrorHandler extends \Windwalker\Core\Error\ErrorHandler
 	 */
 	protected static function respond($exception)
 	{
-		$luna = LunaHelper::getPackage();
-
 		if (!$package = static::getPackage())
 		{
-			$package = $luna->get('frontend.package', 'front');
+			$package = LunaHelper::getFrontendPackage(true);
 		}
 
 		$package = PackageHelper::getPackage($package);

@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Admin\Model\TagModel;
 use Lyrasoft\Luna\Table\LunaTable;
+use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
 use Windwalker\DataMapper\RelationDataMapper;
 
@@ -46,7 +47,7 @@ class TagHelper
 	 * @param array   $conditions
 	 * @param array   $fields
 	 *
-	 * @return DataSet
+	 * @return DataSet|Data[]
 	 */
 	public static function getTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
 	{
@@ -57,13 +58,7 @@ class TagHelper
 			return $tagMapper->find($conditions);
 		}
 
-		foreach ($conditions as &$condition)
-		{
-			if (strpos($condition, '.') === false)
-			{
-				$condition = 'tag.' . $condition;
-			}
-		}
+		$conditions = static::addPrefix($conditions);
 
 		$conditions['map.type'] = $type;
 
@@ -72,10 +67,61 @@ class TagHelper
 			$conditions['map.target_id'] = $targetId;
 		}
 
+		if (!array_key_exists('tag.state', $conditions))
+		{
+			$conditions['tag.state'] = 1;
+		}
+
 		return RelationDataMapper::getInstance('tag', LunaTable::TAGS)
 			->addTable('map', LunaTable::TAG_MAPS, 'map.tag_id = tag.id')
 			->group('tag.id')
 			->setSelectFields($fields)
-			->find($conditions);
+			->find($conditions, 'tag.title');
+	}
+
+	/**
+	 * getAllTags
+	 *
+	 * @param string  $type
+	 * @param integer $targetId
+	 * @param array   $conditions
+	 * @param array   $fields
+	 *
+	 * @return  DataSet|Data[]
+	 */
+	public static function getAllTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
+	{
+		$conditions['state'] = array(1, 0);
+
+		return static::getTags($type, $targetId, $conditions, $fields);
+	}
+
+	/**
+	 * addPrefix
+	 *
+	 * @param   array  &$conditions
+	 *
+	 * @return  array
+	 */
+	public static function addPrefix($conditions)
+	{
+		foreach ($conditions as $condition => $value)
+		{
+			if (is_array($condition))
+			{
+				$conditions[$condition] = static::addPrefix($condition);
+
+				continue;
+			}
+
+			if (strpos($condition, '.') === false)
+			{
+				unset($conditions[$condition]);
+
+				$conditions['tag.' . $condition] = $value;
+			}
+		}
+
+		return $conditions;
 	}
 }

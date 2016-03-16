@@ -22,6 +22,8 @@ class DatabaseSeeder extends AbstractSeeder
 	 */
 	public function doExecute()
 	{
+		$this->execute(new LanguageSeeder);
+
 		$this->execute(new TagSeeder);
 
 		$this->execute(new CategorySeeder);
@@ -42,6 +44,8 @@ class DatabaseSeeder extends AbstractSeeder
 	 */
 	public function doClean()
 	{
+		$this->clean(new LanguageSeeder);
+
 		$this->clean(new TagSeeder);
 
 		$this->clean(new CategorySeeder);
