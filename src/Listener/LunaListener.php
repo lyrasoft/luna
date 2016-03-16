@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Listener;
 
 use Lyrasoft\Luna\Admin\Model\CommentsModel;
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\LunaPackage;
 use Phoenix\DataMapper\DataMapperResolver;
@@ -145,7 +145,7 @@ class LunaListener
 			/** @var CommentsModel $model */
 			$model = $event['model'];
 
-			$model->addTable('target', Table::ARTICLES, 'target.id = comment.target_id');
+			$model->addTable('target', LunaTable::ARTICLES, 'target.id = comment.target_id');
 		}
 	}
 }

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Migration\AbstractMigration;
 use Windwalker\Core\Migration\Schema;
 use Windwalker\Database\Schema\Column;
@@ -23,7 +23,7 @@ class CommentInit extends AbstractMigration
 	 */
 	public function up()
 	{
-		$this->getTable(Table::COMMENTS, function(Schema $sc)
+		$this->getTable(LunaTable::COMMENTS, function(Schema $sc)
 		{
 			$sc->addColumn('id',          new Column\Primary)->comment('Primary Key');
 			$sc->addColumn('target_id',   new Column\Integer)->comment('Target ID');
@@ -52,6 +52,6 @@ class CommentInit extends AbstractMigration
 	 */
 	public function down()
 	{
-		$this->drop(Table::COMMENTS);
+		$this->drop(LunaTable::COMMENTS);
 	}
 }

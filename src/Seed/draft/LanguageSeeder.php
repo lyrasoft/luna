@@ -7,7 +7,7 @@
  */
 
 use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Faker\Factory;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
@@ -67,6 +67,6 @@ class LanguageSeeder extends AbstractSeeder
 	 */
 	public function doClean()
 	{
-		$this->truncate(Table::LANGUAGES);
+		$this->truncate(LunaTable::LANGUAGES);
 	}
 }

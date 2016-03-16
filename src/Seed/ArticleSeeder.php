@@ -10,7 +10,7 @@ use Lyrasoft\Luna\Admin\DataMapper\ArticleMapper;
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Faker\Factory;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
@@ -106,6 +106,6 @@ class ArticleSeeder extends AbstractSeeder
 	 */
 	public function doClean()
 	{
-		$this->truncate(Table::ARTICLES);
+		$this->truncate(LunaTable::ARTICLES);
 	}
 }

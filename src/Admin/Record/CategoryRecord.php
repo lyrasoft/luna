@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Record;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Event\Event;
 use Windwalker\Record\NestedRecord;
 use Windwalker\Record\Record;
@@ -25,7 +25,7 @@ class CategoryRecord extends NestedRecord
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::CATEGORIES;
+	protected $table = LunaTable::CATEGORIES;
 
 	/**
 	 * onAfterLoad

@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Model;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
@@ -50,8 +50,8 @@ class TagsModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('tag', LunaHelper::getTable('tags'))
-			->addTable('map', LunaHelper::getTable('tag_maps'), 'tag.id = map.tag_id');
+		$this->addTable('tag', LunaTable::TAG_MAPS)
+			->addTable('map', LunaTable::TAG_MAPS, 'tag.id = map.tag_id');
 	}
 
 	/**

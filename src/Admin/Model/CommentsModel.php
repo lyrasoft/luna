@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Core\Ioc;
@@ -50,7 +50,7 @@ class CommentsModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('comment', Table::COMMENTS);
+		$this->addTable('comment', LunaTable::COMMENTS);
 
 		if (WarderHelper::tableExists('users'))
 		{

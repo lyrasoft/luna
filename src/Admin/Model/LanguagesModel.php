@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
@@ -48,7 +48,7 @@ class LanguagesModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('language', Table::LANGUAGES);
+		$this->addTable('language', LunaTable::LANGUAGES);
 	}
 
 	/**

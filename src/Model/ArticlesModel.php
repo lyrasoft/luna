@@ -8,9 +8,8 @@
 
 namespace Lyrasoft\Luna\Model;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
@@ -53,10 +52,10 @@ class ArticlesModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('article', LunaHelper::getTable('articles'))
-			->addTable('category', LunaHelper::getTable('categories'), 'category.id = article.category_id')
-			->addTable('map',      LunaHelper::getTable('tag_maps'),   'map.target_id = article.id AND map.type = "article"')
-			->addTable('tag',      LunaHelper::getTable('tags'),       'tag.id = map.tag_id AND tag.state = 1');
+		$this->addTable('article', LunaTable::ARTICLES)
+			->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id')
+			->addTable('map',      LunaTable::TAG_MAPS,   'map.target_id = article.id AND map.type = "article"')
+			->addTable('tag',      LunaTable::TAGS,       'tag.id = map.tag_id AND tag.state = 1');
 	}
 
 	/**
@@ -80,7 +79,7 @@ class ArticlesModel extends ListModel
 
 		$subQuery = $this->db->getQuery(true)
 			->select('tag_id, target_id')
-			->from(LunaHelper::getTable('tag_maps'))
+			->from(LunaTable::TAG_MAPS)
 			->where('type = "article"')
 			->group('tag_id');
 
@@ -101,7 +100,7 @@ class ArticlesModel extends ListModel
 		$subQuery = $this->db->getQuery(true);
 
 		$subQuery->select(array('COUNT(id)', 'target_id'))
-			->from(LunaHelper::getTable('comments'))
+			->from(LunaTable::COMMENTS)
 			->where('type = "article"')
 			->where('state = 1')
 			->group('id');

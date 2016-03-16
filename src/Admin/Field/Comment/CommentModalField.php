@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Comment;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
 /**
@@ -23,7 +23,7 @@ class CommentModalField extends ModalField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::COMMENTS;
+	protected $table = LunaTable::COMMENTS;
 
 	/**
 	 * Property view.

@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Record;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Event\Event;
 use Windwalker\Record\Record;
 
@@ -24,7 +24,7 @@ class ModuleRecord extends Record
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::MODULES;
+	protected $table = LunaTable::MODULES;
 
 	/**
 	 * onAfterLoad

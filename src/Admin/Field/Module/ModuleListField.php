@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Module;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Admin\Table\LunaTable;
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Phoenix\Field\ItemListField;
 use Windwalker\Core\Language\Translator;
@@ -26,7 +26,7 @@ class ModuleListField extends ItemListField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::MODULES;
+	protected $table = LunaTable::MODULES;
 
 	/**
 	 * Property ordering.

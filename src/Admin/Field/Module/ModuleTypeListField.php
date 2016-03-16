@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Module;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Html\Option;
@@ -25,7 +25,7 @@ class ModuleTypeListField extends ListField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::MODULES;
+	protected $table = LunaTable::MODULES;
 
 	/**
 	 * Property ordering.

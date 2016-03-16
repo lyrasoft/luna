@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Migration\AbstractMigration;
 use Windwalker\Core\Migration\Schema;
 use Windwalker\Database\Schema\Column;
@@ -23,7 +23,7 @@ class TagInit extends AbstractMigration
 	 */
 	public function up()
 	{
-		$this->getTable(Table::TAGS, function(Schema $sc)
+		$this->getTable(LunaTable::TAGS, function(Schema $sc)
 		{
 			$sc->addColumn('id',          new Column\Primary)->comment('Primary Key');
 			$sc->addColumn('title',       new Column\Varchar)->comment('Title');
@@ -41,7 +41,7 @@ class TagInit extends AbstractMigration
 			$sc->addIndex(Key::TYPE_INDEX, 'idx_tags_created_by', 'created_by');
 		})->create(true);
 
-		$this->getTable(Table::TAG_MAPS, function(Schema $sc)
+		$this->getTable(LunaTable::TAG_MAPS, function(Schema $sc)
 		{
 			$sc->addColumn('tag_id',    new Column\Integer)->comment('Tag ID');
 			$sc->addColumn('target_id', new Column\Integer)->comment('Target ID');
@@ -58,6 +58,6 @@ class TagInit extends AbstractMigration
 	 */
 	public function down()
 	{
-		$this->drop(Table::TAGS)->drop(Table::TAG_MAPS);
+		$this->drop(LunaTable::TAGS)->drop(LunaTable::TAG_MAPS);
 	}
 }

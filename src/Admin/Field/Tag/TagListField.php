@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Tag;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\Select2Script;
 use Phoenix\Field\ItemListField;
@@ -25,7 +25,7 @@ class TagListField extends ItemListField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::TAGS;
+	protected $table = LunaTable::TAGS;
 
 	/**
 	 * Property ordering.

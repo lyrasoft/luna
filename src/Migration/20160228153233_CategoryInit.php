@@ -7,7 +7,7 @@
  */
 
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Migration\AbstractMigration;
 use Windwalker\Core\Migration\Schema;
 use Windwalker\Database\Schema\Column;
@@ -24,7 +24,7 @@ class CategoryInit extends AbstractMigration
 	 */
 	public function up()
 	{
-		$this->getTable(Table::CATEGORIES, function(Schema $sc)
+		$this->getTable(LunaTable::CATEGORIES, function(Schema $sc)
 		{
 			$sc->addColumn('id',          new Column\Primary)->comment('Primary Key');
 			$sc->addColumn('parent_id',   new Column\Integer)->comment('Parent ID');
@@ -61,6 +61,6 @@ class CategoryInit extends AbstractMigration
 	 */
 	public function down()
 	{
-		$this->drop(Table::CATEGORIES);
+		$this->drop(LunaTable::CATEGORIES);
 	}
 }

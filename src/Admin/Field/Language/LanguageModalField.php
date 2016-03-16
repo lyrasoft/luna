@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Language;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
 /**
@@ -23,7 +23,7 @@ class LanguageModalField extends ModalField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::LANGUAGES;
+	protected $table = LunaTable::LANGUAGES;
 
 	/**
 	 * Property view.

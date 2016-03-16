@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Category;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
 /**
@@ -23,7 +23,7 @@ class CategoryModalField extends ModalField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::CATEGORIES;
+	protected $table = LunaTable::CATEGORIES;
 
 	/**
 	 * Property view.

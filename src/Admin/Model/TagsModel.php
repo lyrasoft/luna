@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
@@ -50,7 +50,7 @@ class TagsModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('tag', Table::TAGS);
+		$this->addTable('tag', LunaTable::TAGS);
 
 		if (WarderHelper::tableExists('users'))
 		{

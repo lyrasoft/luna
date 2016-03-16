@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\DataMapper;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\DataMapper\DataMapper;
 use Windwalker\Event\Event;
 
@@ -24,7 +24,7 @@ class TagMapper extends DataMapper
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::TAGS;
+	protected $table = LunaTable::TAGS;
 
 	/**
 	 * onAfterFind

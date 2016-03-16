@@ -8,7 +8,7 @@
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Faker\Factory;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
@@ -87,6 +87,6 @@ class CategorySeeder extends AbstractSeeder
 	 */
 	public function doClean()
 	{
-		$this->truncate(Table::CATEGORIES);
+		$this->truncate(LunaTable::CATEGORIES);
 	}
 }

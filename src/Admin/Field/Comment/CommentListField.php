@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Comment;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
 
 /**
@@ -23,7 +23,7 @@ class CommentListField extends ItemListField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::COMMENTS;
+	protected $table = LunaTable::COMMENTS;
 
 	/**
 	 * Property ordering.

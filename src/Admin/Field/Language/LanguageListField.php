@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Language;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Script\Select2Script;
 use Phoenix\Field\ItemListField;
@@ -26,7 +26,7 @@ class LanguageListField extends ItemListField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::LANGUAGES;
+	protected $table = LunaTable::LANGUAGES;
 
 	/**
 	 * Property ordering.

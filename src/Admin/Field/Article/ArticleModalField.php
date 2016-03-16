@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Article;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
 /**
@@ -23,7 +23,7 @@ class ArticleModalField extends ModalField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::ARTICLES;
+	protected $table = LunaTable::ARTICLES;
 
 	/**
 	 * Property view.

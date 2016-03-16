@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Tag;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
 /**
@@ -23,7 +23,7 @@ class TagModalField extends ModalField
 	 *
 	 * @var  string
 	 */
-	protected $table = Table::TAGS;
+	protected $table = LunaTable::TAGS;
 
 	/**
 	 * Property view.

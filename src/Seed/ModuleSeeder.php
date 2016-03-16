@@ -7,7 +7,7 @@
  */
 
 use Lyrasoft\Luna\Admin\DataMapper\ModuleMapper;
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Faker\Factory;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
@@ -85,6 +85,6 @@ class ModuleSeeder extends AbstractSeeder
 	 */
 	public function doClean()
 	{
-		$this->truncate(Table::MODULES);
+		$this->truncate(LunaTable::MODULES);
 	}
 }

@@ -7,7 +7,7 @@
  */
 
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Faker\Factory;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
@@ -73,6 +73,6 @@ class TagSeeder extends AbstractSeeder
 	 */
 	public function doClean()
 	{
-		$this->truncate(Table::TAGS);
+		$this->truncate(LunaTable::TAGS);
 	}
 }

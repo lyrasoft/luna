@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Model\ListModel;
@@ -51,7 +51,7 @@ class ModulesModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('module', Table::MODULES);
+		$this->addTable('module', LunaTable::MODULES);
 
 		if (WarderHelper::tableExists('users'))
 		{
@@ -60,7 +60,7 @@ class ModulesModel extends ListModel
 
 		if (Locale::isEnabled() && LunaHelper::tableExists('languages'))
 		{
-			$this->addTable('lang', LunaHelper::getTable('languages'), 'lang.code = module.language');
+			$this->addTable('lang', LunaTable::LANGUAGES, 'lang.code = module.language');
 		}
 	}
 

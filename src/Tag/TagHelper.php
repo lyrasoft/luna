@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Tag;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Admin\Model\TagModel;
-use Lyrasoft\Luna\Admin\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Data\DataSet;
 use Windwalker\DataMapper\RelationDataMapper;
 
@@ -72,8 +72,8 @@ class TagHelper
 			$conditions['map.target_id'] = $targetId;
 		}
 
-		return RelationDataMapper::getInstance('tag', Table::TAGS)
-			->addTable('map', Table::TAG_MAPS, 'map.tag_id = tag.id')
+		return RelationDataMapper::getInstance('tag', LunaTable::TAGS)
+			->addTable('map', LunaTable::TAG_MAPS, 'map.tag_id = tag.id')
 			->group('tag.id')
 			->setSelectFields($fields)
 			->find($conditions);
