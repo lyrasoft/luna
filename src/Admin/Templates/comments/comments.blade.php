@@ -51,12 +51,12 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th>
+                    <th width="1%">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;">
+                    <th style="min-width: 70px;" width="4%">
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.state', 'comment.state') !!}
                     </th>
 
@@ -65,8 +65,10 @@
                         @translate($lunaPrefix . 'comment.button.edit')
                     </th>
 
-                    <th>
+                    <th width="20%">
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.target.title', 'comment.target_id') !!}
+                        /
+                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.created', 'comment.created') !!}
                     </th>
 
                     {{-- TITLE --}}
@@ -93,14 +95,9 @@
                     </th>
 
                     {{-- ORDERING --}}
-                    <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.ordering', 'comment.type, comment.target_id, comment.ordering') !!} {!! $grid->saveorderButton() !!}
-                    </th>
-
-                    {{-- CREATED --}}
-                    <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.created', 'comment.created') !!}
-                    </th>
+                    {{--<th width="5%" class="nowrap">--}}
+                        {{--{!! $grid->sortTitle($lunaPrefix . 'comment.field.ordering', 'comment.type, comment.target_id, comment.ordering') !!} {!! $grid->saveorderButton() !!}--}}
+                    {{--</th>--}}
 
                     {{-- LANGUAGE --}}
                     {{--<th>--}}
@@ -144,7 +141,12 @@
                         </td>
 
                         <td class="hasHighlight">
-                            {{ $item->target_title }}
+                            <p>
+                                {{ $item->target_title }}
+                            </p>
+                            <small class="text-muted">
+                                {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}
+                            </small>
                         </td>
 
                         {{-- TITLE --}}
@@ -177,14 +179,9 @@
                         </td>
 
                         {{-- ORDERING --}}
-                        <td>
-                            {!! $grid->orderButton() !!}
-                        </td>
-
-                        {{-- CREATED --}}
-                        <td>
-                            {{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}
-                        </td>
+                        {{--<td>--}}
+                            {{--{!! $grid->orderButton() !!}--}}
+                        {{--</td>--}}
 
                         {{-- LANGUAGE --}}
                         {{--<td>--}}
