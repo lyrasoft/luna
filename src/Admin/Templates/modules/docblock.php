@@ -31,6 +31,7 @@ defined('WINDWALKER') or die('Forbidden');
  * @var $item          \Windwalker\Data\Data
  * @var $i             integer
  * @var $pagination    \Windwalker\Core\Pagination\Pagination
+ * @var $module        \Lyrasoft\Luna\Module\ModuleType
  */
 
 $filterBar     = null;
@@ -41,3 +42,4 @@ $state         = null;
 $items         = null;
 $item          = null;
 $pagination    = null;
+$module        = null;

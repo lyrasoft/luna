@@ -1,4 +1,21 @@
 {{-- Part of earth project. --}}
+<?php
+/**
+ * Global variables
+ * --------------------------------------------------------------
+ * @var $app      \Windwalker\Web\Application                 Global Application
+ * @var $package  \Windwalker\Core\Package\AbstractPackage    Package object.
+ * @var $view     \Windwalker\Data\Data                       Some information of this view.
+ * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
+ * @var $datetime \DateTime                                   PHP DateTime object of current time.
+ * @var $helper   \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
+ * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
+ *
+ * View variables
+ * --------------------------------------------------------------
+ * @var  $module  \Lyrasoft\Luna\Module\ModuleType
+ */
+?>
 
 <div id="module-create-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -6,7 +23,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
-                    @translate('phoenix.toolbar.create')
+                    @translate('phoenix.toolbar.new')
                 </h4>
             </div>
             <div class="modal-body">

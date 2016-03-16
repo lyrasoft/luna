@@ -8,7 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Categories\Batch;
 
+use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Phoenix\Controller\Batch\AbstractPublishController;
+use Windwalker\Data\Data;
 
 /**
  * The PublishController class.
@@ -17,5 +19,26 @@ use Phoenix\Controller\Batch\AbstractPublishController;
  */
 class PublishController extends AbstractPublishController
 {
+	/**
+	 * save
+	 *
+	 * @param int|string $pk
+	 * @param Data       $data
+	 *
+	 * @return  void
+	 */
+	protected function save($pk, Data $data)
+	{
+		parent::save($pk, clone $data);
 
+		// Find Children
+		$mapper = new CategoryMapper;
+
+		$parent = $mapper->findOne($pk);
+
+		$mapper->updateAll($data, array(
+			'lft > ' . $parent->lft,
+			'rgt < ' . $parent->rgt
+		));
+	}
 }
