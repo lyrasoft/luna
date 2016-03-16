@@ -95,5 +95,8 @@ class CategorySeeder extends AbstractSeeder
 	public function doClean()
 	{
 		$this->truncate(LunaTable::CATEGORIES);
+
+		$record = new CategoryRecord;
+		$record->createRoot();
 	}
 }
