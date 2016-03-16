@@ -36,11 +36,3 @@ admin:
 module:
     includes: []
     excludes: []
-
-image_upload:
-    resize:
-        enabled: true
-        width: 1200
-        height: 1200
-        crop: true
-        quality: 85
