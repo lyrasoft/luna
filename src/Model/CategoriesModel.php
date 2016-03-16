@@ -13,6 +13,7 @@ use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
 use Windwalker\Warder\Helper\WarderHelper;
+use Windwalker\Warder\Table\WarderTable;
 
 /**
  * The CategoriesModel class.
@@ -53,7 +54,7 @@ class CategoriesModel extends ListModel
 
 		if (WarderHelper::tableExists('users'))
 		{
-			$this->addTable('user', WarderHelper::getTable('users'), 'user.id = category.created_by');
+			$this->addTable('user', WarderTable::USERS, 'user.id = category.created_by');
 		}
 	}
 

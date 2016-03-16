@@ -15,6 +15,7 @@ use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
 use Windwalker\Warder\Helper\WarderHelper;
+use Windwalker\Warder\Table\WarderTable;
 
 /**
  * The CategoriesModel class.
@@ -55,7 +56,7 @@ class CategoriesModel extends ListModel
 
 		if (WarderHelper::tableExists('users'))
 		{
-			$this->addTable('user', WarderHelper::getTable('users'), 'category.created_by = user.id');
+			$this->addTable('user', WarderTable::USERS, 'category.created_by = user.id');
 		}
 
 		if (Locale::isEnabled() && LunaHelper::tableExists('languages'))

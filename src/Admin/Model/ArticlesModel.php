@@ -15,6 +15,7 @@ use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
 use Windwalker\Warder\Helper\WarderHelper;
+use Windwalker\Warder\Table\WarderTable;
 
 /**
  * The ArticlesModel class.
@@ -56,7 +57,7 @@ class ArticlesModel extends ListModel
 
 		if (WarderHelper::tableExists('users'))
 		{
-			$this->addTable('user', WarderHelper::getTable('users'), 'user.id = article.created_by');
+			$this->addTable('user', WarderTable::USERS, 'user.id = article.created_by');
 		}
 
 		if (Locale::isEnabled() && LunaHelper::tableExists('languages'))

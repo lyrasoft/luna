@@ -14,6 +14,7 @@ use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Core\Ioc;
 use Windwalker\Query\Query;
 use Windwalker\Warder\Helper\WarderHelper;
+use Windwalker\Warder\Table\WarderTable;
 
 /**
  * The CommentsModel class.
@@ -54,8 +55,8 @@ class CommentsModel extends ListModel
 
 		if (WarderHelper::tableExists('users'))
 		{
-			$this->addTable('user',   WarderHelper::getTable('users'), 'comment.user_id = user.id')
-				->addTable('replyer', WarderHelper::getTable('users'), 'comment.reply_user_id = replyer.id');
+			$this->addTable('user',   WarderTable::USERS, 'comment.user_id = user.id')
+				->addTable('replyer', WarderTable::USERS, 'comment.reply_user_id = replyer.id');
 		}
 	}
 

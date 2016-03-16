@@ -14,6 +14,7 @@ use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
 use Windwalker\Warder\Helper\WarderHelper;
+use Windwalker\Warder\Table\WarderTable;
 
 /**
  * The TagsModel class.
@@ -54,7 +55,7 @@ class TagsModel extends ListModel
 
 		if (WarderHelper::tableExists('users'))
 		{
-			$this->addTable('user', WarderHelper::getTable('users'), 'tag.created_by = user.id');
+			$this->addTable('user', WarderTable::USERS, 'tag.created_by = user.id');
 		}
 	}
 
