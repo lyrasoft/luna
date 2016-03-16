@@ -89,7 +89,7 @@ class SaveController extends AbstractSaveController
 	protected function preSave(Data $data)
 	{
 		parent::preSave($data);
-show($this->input, $this->input->files);exit(' @Checkpoint');
+
 		$data->text = $this->input->getByPath($this->formControl . '.text', null, InputFilter::RAW);
 	}
 

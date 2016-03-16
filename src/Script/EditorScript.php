@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Script;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\AbstractScriptManager;
 use Phoenix\Script\PhoenixScript;
+use Phoenix\Uri\Uri;
 use Windwalker\Core\Ioc;
 use Windwalker\Utilities\ArrayHelper;
 
@@ -100,31 +101,21 @@ JS;
 		$config = Ioc::getConfig();
 		$locale = $config->get('language.locale') ?: $config->get('language.default', 'en-GB');
 
+		$luna = LunaHelper::getPackage();
+
 		if (!static::inited(__METHOD__))
 		{
 			static::editor();
 
-			$luna = LunaHelper::getPackage();
 			$asset->addScript($luna->name . '/js/tinymce/tinymce.min.js');
-			$asset->addScript($luna->name . '/js/summernote/tinymce-luna.min.js');
+			$asset->addScript($luna->name . '/js/tinymce/tinymce-luna.min.js');
 
 //			$asset->addStyle($luna->name . '/css/summernote/summernote.min.css');
 //
 //			$asset->addScript($luna->name . '/js/summernote/lang/summernote-' . $locale . '.min.js');
 
 			$css = <<<CSS
-#tinymce hr#luna-readmore {
-	background: #eee;
-    content: "READMORE";
-    height: 20px;
-    display: block;
-    text-align: center;
-}
 
-#tinymce hr#luna-readmore::before {
-	content: "READMORE";
-	color: #999;
-}
 CSS;
 
 			$asset->internalStyle($css);
@@ -132,9 +123,7 @@ CSS;
 
 		if (!static::inited(__METHOD__, func_get_args()))
 		{
-			$defaultOptions = array(
-//				'lang' => $locale
-			);
+			$defaultOptions = array();
 
 			$options['image_upload_url'] = LunaHelper::getPackage()
 				->getCurrentPackage()->router->html('_luna_img_upload');
@@ -145,7 +134,7 @@ CSS;
 
 			$js = <<<JS
 jQuery(document).ready(function($) {
-	tinymce.init($options);
+	TinymceLunaEditor.getInstance('$selector', $options);
 });
 JS;
 
