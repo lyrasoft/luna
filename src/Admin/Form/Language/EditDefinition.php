@@ -38,17 +38,23 @@ class EditDefinition implements FieldDefinitionInterface
 	{
 		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
+		// Title
+		$form->add('title', new Field\TextField)
+			->label(Translator::translate($langPrefix . 'language.field.title'))
+			->set('placeholder', Translator::translate($langPrefix . 'language.field.title'))
+			->setFilter('trim')
+			->required(true);
+
+		// Alias
+		$form->add('alias', new Field\TextField)
+			->label(Translator::translate($langPrefix . 'language.field.alias'))
+			->set('placeholder', Translator::translate($langPrefix . 'language.field.alias'));
+
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			// ID
 			$form->add('id', new Field\HiddenField);
-
-			// Title
-			$form->add('title', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'language.field.title'))
-				->setFilter('trim')
-				->required(true);
 
 			// Title Native
 			$form->add('title_native', new Field\TextField)
@@ -61,10 +67,6 @@ class EditDefinition implements FieldDefinitionInterface
 				->label(Translator::translate($langPrefix . 'language.field.code'))
 				->setFilter('trim')
 				->required(true);
-
-			// Alias
-			$form->add('alias', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'language.field.alias'));
 
 			// Image
 			$form->add('image', new FlagListField)

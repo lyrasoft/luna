@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
+use Windwalker\Core\Language\Translator;
 
 /**
  * The CategoryHtmlView class.
@@ -95,7 +96,11 @@ class CategoryHtmlView extends EditView
 	public function setTitle($title = null)
 	{
 		$type = $this->data->state->get('category.type');
-		$this->langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.') . $type . '.';
+
+		$title = Translator::sprintf(
+			$this->langPrefix . 'category.edit.title',
+			Translator::translate($this->langPrefix . $type . '.title')
+		);
 
 		return parent::setTitle($title);
 	}

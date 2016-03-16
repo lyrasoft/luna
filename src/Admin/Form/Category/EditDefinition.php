@@ -42,6 +42,18 @@ class EditDefinition implements FieldDefinitionInterface
 	{
 		$langPrefix = LunaHelper::getLangPrefix();
 
+		// Title
+		$form->add('title', new Field\TextField)
+			->label(Translator::translate($langPrefix . 'category.field.title'))
+			->set('placeholder', Translator::translate($langPrefix . 'category.field.title'))
+			->setFilter('trim')
+			->required(true);
+
+		// Alias
+		$form->add('alias', new Field\TextField)
+			->label(Translator::translate($langPrefix . 'category.field.alias'))
+			->set('placeholder', Translator::translate($langPrefix . 'category.field.alias'));
+
 		// Basic fieldset
 		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
@@ -49,16 +61,6 @@ class EditDefinition implements FieldDefinitionInterface
 
 			// ID
 			$form->add('id', new Field\HiddenField);
-
-			// Title
-			$form->add('title', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'category.field.title'))
-				->setFilter('trim')
-				->required(true);
-
-			// Alias
-			$form->add('alias', new Field\TextField)
-				->label(Translator::translate($langPrefix . 'category.field.alias'));
 
 			// Parent
 			$form->add('parent_id', new CategoryListField)

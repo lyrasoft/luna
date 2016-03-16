@@ -39,12 +39,11 @@
 </style>
 <form name="admin-form" id="admin-form" action="{{ $router->html('module') }}" method="POST" enctype="multipart/form-data">
 
+    @include('luna.form.title-bar')
+
     <div class="row">
         <div class="col-md-8">
             <div id="module-title-block" class="form-horizontal">
-                {!! $form->renderField('title') !!}
-
-                <br />
                 <p class="module-description">
                     {{ $moduleType->description }}
                 </p>

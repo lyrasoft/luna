@@ -28,6 +28,8 @@
 @section('admin-body')
 <form name="admin-form" id="admin-form" action="{{ $router->html('article') }}" method="POST" enctype="multipart/form-data">
 
+    @include('luna.form.title-bar')
+
     <div class="row">
         <div class="col-md-8">
             <fieldset class="form-horizontal">

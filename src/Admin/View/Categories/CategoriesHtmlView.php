@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
+use Windwalker\Core\Language\Translator;
 
 /**
  * The CategoriesHtmlView class.
@@ -115,7 +116,11 @@ class CategoriesHtmlView extends GridView
 	public function setTitle($title = null)
 	{
 		$type = $this->data->state->get('category.type');
-		$this->langPrefix = LunaHelper::getPackage()->get('admin.language.prefix', 'luna.') . $type . '.';
+
+		$title = Translator::sprintf(
+			$this->langPrefix . 'category.manager.title',
+			Translator::translate($this->langPrefix . $type . '.title')
+		);
 
 		return parent::setTitle($title);
 	}
