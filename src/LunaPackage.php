@@ -94,7 +94,7 @@ class LunaPackage extends AbstractPackage
 	{
 		$name = $name ? : $this->getCurrentPackage()->getName();
 
-		return in_array($name, (array) $this->get('frontend.package'));
+		return in_array($name, (array) $this->get('frontend.package', 'front'));
 	}
 
 	/**
@@ -108,7 +108,7 @@ class LunaPackage extends AbstractPackage
 	{
 		$name = $name ? : $this->getCurrentPackage()->getName();
 
-		return in_array($name, (array) $this->get('admin.package'));
+		return in_array($name, (array) $this->get('admin.package', 'admin'));
 	}
 
 	/**
