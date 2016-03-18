@@ -7,7 +7,7 @@ $defaultImage = isset($defaultImage) ? $defaultImage : $uri['media.path'] . \Lyr
     <div class="row">
         <div class="col-md-4">
             <img id="{{ $attrs['id'] }}-preview" class="img-responsive"
-                src="{{ $attrs['value'] ? $attrs['value'] . '?' . uniqid() : $defaultImage }}"
+                src="{{ $attrs['value'] ? $attrs['value'] . '#' . uniqid() : $defaultImage }}"
                 alt="Preview">
         </div>
         <div class="col-md-8">
