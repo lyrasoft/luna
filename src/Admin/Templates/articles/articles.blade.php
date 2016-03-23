@@ -137,20 +137,26 @@
                             <a class="lead" href="{{ $router->html('article', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>
-                            <div class="article-alias-field" style="padding-left: 10px">
-                                <small class="text-muted">
-                                    <span class="glyphicon glyphicon-globe"></span>
-                                    {{ $item->alias }}
-                                </small>
-                            </div>
-                            <div class="article-category-field" style="padding-left: 10px">
-                                <small class="text-muted">
-                                    <span class="glyphicon glyphicon-folder-close"></span>
-                                    <a class="text-muted" href="{{ $router->html('articles', array('filter' => array('article.category_id' => $item->category_id))) }}">
-                                        {{ $item->category_title }}
-                                    </a>
-                                </small>
-                            </div>
+
+                            @if (property_exists($item, 'alias'))
+                                <div class="article-alias-field" style="padding-left: 10px">
+                                    <small class="text-muted">
+                                        <span class="glyphicon glyphicon-globe"></span>
+                                        {{ $item->alias }}
+                                    </small>
+                                </div>
+                            @endif
+
+                            @if ($item->category_title)
+                                <div class="article-category-field" style="padding-left: 10px">
+                                    <small class="text-muted">
+                                        <span class="glyphicon glyphicon-folder-close"></span>
+                                        <a class="text-muted" href="{{ $router->html('articles', array('filter' => array('article.category_id' => $item->category_id))) }}">
+                                            {{ $item->category_title }}
+                                        </a>
+                                    </small>
+                                </div>
+                            @endif
                         </td>
 
                         {{-- ORDERING --}}

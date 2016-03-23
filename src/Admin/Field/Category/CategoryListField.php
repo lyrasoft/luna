@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Category;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
 use Windwalker\Query\Query;
@@ -63,5 +64,20 @@ class CategoryListField extends ItemListField
 		{
 			$query->where('level >= ' . $level);
 		}
+	}
+
+	/**
+	 * prepareOptions
+	 *
+	 * @return  array|\Windwalker\Html\Option[]
+	 */
+	protected function prepareOptions()
+	{
+		if (!LunaHelper::tableExists('categories'))
+		{
+			return array();
+		}
+
+		return parent::prepareOptions();
 	}
 }

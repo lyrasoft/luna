@@ -80,11 +80,14 @@ class FilterDefinition implements FieldDefinitionInterface
 				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'))
 				->set('onchange', 'this.form.submit()');
 
-			$form->add('article.category_id', new CategoryListField)
-				->label(Translator::translate($langPrefix . 'field.category'))
-				->addOption(new Option('', ''))
-				->addOption(new Option(Translator::translate($langPrefix . 'filter.category.select'), ''))
-				->set('onchange', 'this.form.submit()');
+			if (LunaHelper::tableExists('categories'))
+			{
+				$form->add('article.category_id', new CategoryListField)
+					->label(Translator::translate($langPrefix . 'field.category'))
+					->addOption(new Option('', ''))
+					->addOption(new Option(Translator::translate($langPrefix . 'filter.category.select'), ''))
+					->set('onchange', 'this.form.submit()');
+			}
 
 			if (\Lyrasoft\Luna\Language\Locale::isEnabled())
 			{

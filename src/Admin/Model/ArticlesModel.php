@@ -52,8 +52,12 @@ class ArticlesModel extends ListModel
 	 */
 	protected function configureTables()
 	{
-		$this->addTable('article', LunaTable::ARTICLES)
-			->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
+		$this->addTable('article', LunaTable::ARTICLES);
+
+		if (LunaHelper::tableExists('categories') && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id')))
+		{
+			$this->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
+		}
 
 		if (WarderHelper::tableExists('users'))
 		{

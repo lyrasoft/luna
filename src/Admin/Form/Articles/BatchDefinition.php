@@ -55,10 +55,13 @@ class BatchDefinition implements FieldDefinitionInterface
 					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
 			}
 
-			// Category
-			$form->add('category_id', new CategoryListField)
-				->label(Translator::translate($langPrefix . 'category.title'))
-				->addOption(new Option(Translator::translate($langPrefix . 'filter.category.select'), ''));
+			if (LunaHelper::tableExists('categories'))
+			{
+				// Category
+				$form->add('category_id', new CategoryListField)
+					->label(Translator::translate($langPrefix . 'category.title'))
+					->addOption(new Option(Translator::translate($langPrefix . 'filter.category.select'), ''));
+			}
 
 			if (WarderHelper::tableExists('users'))
 			{

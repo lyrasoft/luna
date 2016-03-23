@@ -64,14 +64,20 @@ class EditDefinition implements FieldDefinitionInterface
 			// ID
 			$form->add('id', new Field\HiddenField);
 
-			// Category
-			$form->add('category_id', new CategoryListField)
-				->label(Translator::translate($langPrefix . 'category.title'));
+			if (LunaHelper::tableExists('categories'))
+			{
+				// Category
+				$form->add('category_id', new CategoryListField)
+					->label(Translator::translate($langPrefix . 'category.title'));
+			}
 
-			// Tags
-			$form->add('tags', new TagListField)
-				->label(Translator::translate($langPrefix . 'tag.title'))
-				->set('multiple', true);
+			if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps'))
+			{
+				// Tags
+				$form->add('tags', new TagListField)
+					->label(Translator::translate($langPrefix . 'tag.title'))
+					->set('multiple', true);
+			}
 
 			// Images
 			$form->add('image', new SingleImageDragField)
