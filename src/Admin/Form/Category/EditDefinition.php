@@ -23,6 +23,7 @@ use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
+use Windwalker\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The CategoryEditDefinition class.
@@ -123,12 +124,13 @@ class EditDefinition implements FieldDefinitionInterface
 			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
 			{
 				// Author
-				$form->add('created_by', new Field\TextField)
+				$form->add('created_by', new UserModalField)
 					->label(Translator::translate($langPrefix . 'category.field.author'));
 
 				// Modified User
-				$form->add('modified_by', new Field\TextField)
-					->label(Translator::translate($langPrefix . 'category.field.modifiedby'));
+				$form->add('modified_by', new UserModalField)
+					->label(Translator::translate($langPrefix . 'category.field.modifiedby'))
+					->disabled();
 			}
 		});
 	}
