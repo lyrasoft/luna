@@ -55,7 +55,7 @@ class ArticlesModel extends ListModel
 		$this->addTable('article', LunaTable::ARTICLES)
 			->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
 
-		if (LunaHelper::tableExists(LunaTable::TAGS) && LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps'))
 		{
 			$this->addTable('map', LunaTable::TAG_MAPS,   'map.target_id = article.id AND map.type = "article"')
 				->addTable('tag', LunaTable::TAGS,       'tag.id = map.tag_id AND tag.state = 1');
@@ -80,7 +80,7 @@ class ArticlesModel extends ListModel
 			'category.path AS category_path',
 		);
 
-		if (LunaHelper::tableExists(LunaTable::TAGS) && LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps'))
 		{
 			$select = $select + array(
 				'tag.title AS tag_title',
@@ -109,7 +109,7 @@ class ArticlesModel extends ListModel
 	{
 		$query->group('article.id');
 
-		if (LunaHelper::tableExists(LunaTable::COMMENTS))
+		if (LunaHelper::tableExists('comments'))
 		{
 			$subQuery = $this->db->getQuery(true);
 
@@ -123,7 +123,7 @@ class ArticlesModel extends ListModel
 				->leftJoin(sprintf('(%s) AS comment', $subQuery), 'comment.target_id = article.id');
 		}
 
-		if (LunaHelper::tableExists(LunaTable::TAGS) && LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps'))
 		{
 			$query->select('GROUP_CONCAT(DISTINCT CONCAT(tag.title, ":" , tag.alias) SEPARATOR "||") AS tags');
 		}

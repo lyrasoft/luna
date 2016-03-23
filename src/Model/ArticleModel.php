@@ -34,7 +34,7 @@ class ArticleModel extends ItemModel
 
 		$item->tags = TagHelper::getAvailableTags('article', $item->id);
 
-		if (LunaHelper::tableExists(LunaTable::COMMENTS))
+		if (LunaHelper::tableExists('comments'))
 		{
 			$commentsModel = new CommentsModel;
 

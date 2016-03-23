@@ -52,7 +52,7 @@ class TagHelper
 	 */
 	public static function getTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
 	{
-		if (!LunaHelper::tableExists(LunaTable::TAGS) || !LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		if (!LunaHelper::tableExists('tags') || !LunaHelper::tableExists('tag_maps'))
 		{
 			return new DataSet;
 		}
