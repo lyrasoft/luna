@@ -200,7 +200,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@@comments', array('type' => $type), 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->render($package->getName() . '@' . 'comments', array('type' => $type), 'windwalker.pagination.phoenix') !!}
                     </td>
                 </tr>
                 </tfoot>
