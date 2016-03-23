@@ -53,9 +53,13 @@ class ArticlesModel extends ListModel
 	protected function configureTables()
 	{
 		$this->addTable('article', LunaTable::ARTICLES)
-			->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id')
-			->addTable('map',      LunaTable::TAG_MAPS,   'map.target_id = article.id AND map.type = "article"')
-			->addTable('tag',      LunaTable::TAGS,       'tag.id = map.tag_id AND tag.state = 1');
+			->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
+
+		if (LunaHelper::tableExists(LunaTable::TAGS) && LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		{
+			$this->addTable('map', LunaTable::TAG_MAPS,   'map.target_id = article.id AND map.type = "article"')
+				->addTable('tag', LunaTable::TAGS,       'tag.id = map.tag_id AND tag.state = 1');
+		}
 	}
 
 	/**
@@ -67,22 +71,31 @@ class ArticlesModel extends ListModel
 	 */
 	protected function prepareGetQuery(Query $query)
 	{
-		$this->set('query.select', array(
+
+		$select = array(
 			'article.*',
 			'category.id AS category_id',
 			'category.title AS category_title',
 			'category.alias AS category_alias',
 			'category.path AS category_path',
-			'tag.title AS tag_title',
-			'tag.alias AS tag_alias',
-		));
+		);
 
-		$subQuery = $this->db->getQuery(true)
-			->select('tag_id, target_id')
-			->from(LunaTable::TAG_MAPS)
-			->where('type = "article"');
+		if (LunaHelper::tableExists(LunaTable::TAGS) && LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		{
+			$select = $select + array(
+				'tag.title AS tag_title',
+				'tag.alias AS tag_alias',
+			);
 
-		$query->leftJoin(sprintf('(%s) AS mapping', $subQuery), 'mapping.target_id = article.id');
+			$subQuery = $this->db->getQuery(true)
+				->select('tag_id, target_id')
+				->from(LunaTable::TAG_MAPS)
+				->where('type = "article"');
+
+			$query->leftJoin(sprintf('(%s) AS mapping', $subQuery), 'mapping.target_id = article.id');
+		}
+
+		$this->set('query.select', $select);
 	}
 
 	/**
@@ -94,21 +107,26 @@ class ArticlesModel extends ListModel
 	 */
 	protected function postGetQuery(Query $query)
 	{
-//		$query->select('COUNT(DISTINCT comment.id) AS comments');
+		$query->group('article.id');
 
-		$subQuery = $this->db->getQuery(true);
+		if (LunaHelper::tableExists(LunaTable::COMMENTS))
+		{
+			$subQuery = $this->db->getQuery(true);
 
-		$subQuery->select(array('COUNT(target_id) AS count', 'target_id'))
-			->from(LunaTable::COMMENTS)
-			->where('type = "article"')
-			->where('state = 1')
-			->group('target_id');
+			$subQuery->select(array('COUNT(target_id) AS count', 'target_id'))
+				->from(LunaTable::COMMENTS)
+				->where('type = "article"')
+				->where('state = 1')
+				->group('target_id');
 
-		$query->select('comment.count AS comments')
-			->leftJoin(sprintf('(%s) AS comment', $subQuery), 'comment.target_id = article.id');
+			$query->select('comment.count AS comments')
+				->leftJoin(sprintf('(%s) AS comment', $subQuery), 'comment.target_id = article.id');
+		}
 
-		$query->group('article.id')
-			->select('GROUP_CONCAT(DISTINCT CONCAT(tag.title, ":" , tag.alias) SEPARATOR "||") AS tags');
+		if (LunaHelper::tableExists(LunaTable::TAGS) && LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		{
+			$query->select('GROUP_CONCAT(DISTINCT CONCAT(tag.title, ":" , tag.alias) SEPARATOR "||") AS tags');
+		}
 	}
 
 	/**

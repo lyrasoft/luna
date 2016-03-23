@@ -43,14 +43,16 @@
 
                     <hr />
 
-                    {{ $item->comments }} Comment(s)
+                    @if (property_exists($item, 'comments'))
+                        {{ $item->comments }} Comment(s)
 
-                    @foreach ($item->tags as $tagItem)
-                        <a class="label label-info" href="{{ $router->html('article_tag', array('tag' => $tagItem->alias)) }}">
-                            {{ $tagItem->title }}
-                        </a>
-                        &nbsp;
-                    @endforeach
+                        @foreach ($item->tags as $tagItem)
+                            <a class="label label-info" href="{{ $router->html('article_tag', array('tag' => $tagItem->alias)) }}">
+                                {{ $tagItem->title }}
+                            </a>
+                            &nbsp;
+                        @endforeach
+                    @endif
 
                 </div>
             @endforeach

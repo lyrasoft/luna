@@ -49,4 +49,19 @@ class TagListField extends ItemListField
 
 		return parent::buildInput($attrs);
 	}
+
+	/**
+	 * prepareOptions
+	 *
+	 * @return  array|\Windwalker\Html\Option[]
+	 */
+	protected function prepareOptions()
+	{
+		if (!LunaHelper::tableExists(LunaTable::TAGS) || !LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		{
+			return array();
+		}
+
+		return parent::prepareOptions();
+	}
 }

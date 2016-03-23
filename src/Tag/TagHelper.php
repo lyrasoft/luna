@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Tag;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Admin\Model\TagModel;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
@@ -51,6 +52,11 @@ class TagHelper
 	 */
 	public static function getTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
 	{
+		if (!LunaHelper::tableExists(LunaTable::TAGS) || !LunaHelper::tableExists(LunaTable::TAG_MAPS))
+		{
+			return new DataSet;
+		}
+
 		if (!$type && !$targetId)
 		{
 			$tagMapper = new TagMapper;

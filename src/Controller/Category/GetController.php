@@ -188,6 +188,7 @@ class GetController extends ListDisplayController
 		}
 
 		$this->model->addFilter('article.state', 1);
+		$this->model->addFilter('category.state', 1);
 	}
 
 	/**

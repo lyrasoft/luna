@@ -8,6 +8,8 @@
 
 namespace Lyrasoft\Luna\Model;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Model\ItemModel;
 use Windwalker\Data\Data;
@@ -32,13 +34,16 @@ class ArticleModel extends ItemModel
 
 		$item->tags = TagHelper::getAvailableTags('article', $item->id);
 
-		$commentsModel = new CommentsModel;
+		if (LunaHelper::tableExists(LunaTable::COMMENTS))
+		{
+			$commentsModel = new CommentsModel;
 
-		$commentsModel->addFilter('comment.state', 1);
-		$commentsModel->addFilter('comment.target_id', $item->id);
-		$commentsModel->addFilter('comment.type', 'article');
-		$commentsModel['list.ordering'] = 'ordering';
+			$commentsModel->addFilter('comment.state', 1);
+			$commentsModel->addFilter('comment.target_id', $item->id);
+			$commentsModel->addFilter('comment.type', 'article');
+			$commentsModel['list.ordering'] = 'ordering';
 
-		$item->comments = $commentsModel->getItems();
+			$item->comments = $commentsModel->getItems();
+		}
 	}
 }

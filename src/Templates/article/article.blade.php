@@ -55,6 +55,7 @@
 
     @endif
 
+    @if (property_exists($item, 'comments'))
     <hr />
 
     <div id="comments">
@@ -80,7 +81,7 @@
             </div>
         @endforeach
     </div>
-
+    @endif
 
 </div>
 @stop
