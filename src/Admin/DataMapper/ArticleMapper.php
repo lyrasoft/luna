@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Admin\DataMapper;
 
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\DataMapper\DataMapper;
+use Windwalker\Core\DataMapper\AbstractDataMapperProxy;
 use Windwalker\Event\Event;
 
 /**
@@ -17,14 +17,14 @@ use Windwalker\Event\Event;
  * 
  * @since  1.0
  */
-class ArticleMapper extends DataMapper
+class ArticleMapper extends AbstractDataMapperProxy
 {
 	/**
 	 * Property table.
 	 *
 	 * @var  string
 	 */
-	protected $table = LunaTable::ARTICLES;
+	protected static $table = LunaTable::ARTICLES;
 
 	/**
 	 * onAfterFind
