@@ -50,7 +50,7 @@ class ErrorListener
 	{
 		if (LunaHelper::isAdmin())
 		{
-			ErrorHandler::setPackage(LunaHelper::getAdminPackage());
+			ErrorHandler::setPackage(LunaHelper::getAdminPackage(true));
 		}
 	}
 }
