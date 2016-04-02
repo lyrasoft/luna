@@ -15,6 +15,7 @@ use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Core\Controller\Controller;
 use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Data\Data;
+use Windwalker\Dom\HtmlElement;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Test\TestHelper;
 
@@ -105,5 +106,20 @@ class SingleImageDragField extends TextField
 		}
 
 		return false;
+	}
+
+	/**
+	 * renderView
+	 *
+	 * @return  string
+	 */
+	public function renderView()
+	{
+		$attribs = array(
+			'src' => $this->getValue(),
+			'id' => $this->getId() . '-view'
+		);
+
+		return (string) new HtmlElement('img', null, $attribs);
 	}
 }
