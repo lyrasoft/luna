@@ -53,7 +53,7 @@ class CategoryHelper
 	 *
 	 * @return  Node|Node[]
 	 */
-	public static function getCategoryAsTree($type, $parent = 1, $maxLevel = 1, $conditions = array())
+	public static function getCategoryAsTree($type, $parent = 1, $maxLevel = 0, $conditions = array())
 	{
 		return static::createTree(static::getCategories($type, $parent, $maxLevel, $conditions));
 	}
@@ -68,7 +68,7 @@ class CategoryHelper
 	 *
 	 * @return  Data[]|DataSet
 	 */
-	public static function getCategories($type, $parent = 1, $maxLevel = 1, $conditions = array())
+	public static function getCategories($type, $parent = 1, $maxLevel = 0, $conditions = array())
 	{
 		if (is_object($parent) || is_array($parent))
 		{
@@ -93,9 +93,13 @@ class CategoryHelper
 
 		$conditions[] = 'category.lft > ' . $lft;
 		$conditions[] = 'category.rgt < ' . $rgt;
-		$conditions[] = 'category.level >= ' . ($level + $maxLevel);
 		$conditions[] = 'category.parent_id > 0';
 		$conditions['category.type'] = $type;
+
+		if ($maxLevel)
+		{
+			$conditions[] = 'category.level <= ' . ($level + $maxLevel);
+		}
 
 		return static::find($conditions);
 	}
@@ -110,7 +114,7 @@ class CategoryHelper
 	 *
 	 * @return  DataSet|Data[]
 	 */
-	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 1, $conditions = array())
+	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 0, $conditions = array())
 	{
 		$conditions['category.state'] = 1;
 
