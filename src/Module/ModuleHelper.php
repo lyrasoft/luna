@@ -80,7 +80,11 @@ class ModuleHelper
 				$conditions['position'] = $position;
 			}
 
-			if (Locale::isEnabled())
+			if ($language)
+			{
+				$conditions['language'] = (array) $language;
+			}
+			elseif (Locale::isEnabled())
 			{
 				$conditions['language'] = array(Locale::getLocale(), '*');
 			}
