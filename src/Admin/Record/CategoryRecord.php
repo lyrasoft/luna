@@ -62,7 +62,6 @@ class CategoryRecord extends NestedRecord
 	 */
 	public function onAfterStore(Event $event)
 	{
-		$this->rebuildPath();
 	}
 
 	/**

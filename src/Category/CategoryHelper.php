@@ -161,7 +161,7 @@ class CategoryHelper
 	 */
 	public static function find($conditions = array(), $order = 'lft', $start = null, $limit = null)
 	{
-		$model = static::getModel();
+		$model = static::getModel(true);
 
 		if (is_object($conditions))
 		{
@@ -221,13 +221,21 @@ class CategoryHelper
 	/**
 	 * getModel
 	 *
-	 * @return  CategoriesModel
+	 * @param bool $reset
+	 *
+	 * @return CategoriesModel
 	 */
-	public static function getModel()
+	public static function getModel($reset = false)
 	{
 		if (!static::$model)
 		{
 			static::$model = new CategoriesModel;
+		}
+
+		if ($reset)
+		{
+			static::$model->reset();
+			static::$model->resetCache();
 		}
 
 		return static::$model;
