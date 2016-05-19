@@ -37,7 +37,20 @@ class TagHelper
 	{
 		$model = new TagModel;
 
-		$model->saeTagMaps($type, $targetId, $tags);
+		$model->saveTagMaps($type, $targetId, $tags);
+	}
+
+	/**
+	 * getTag
+	 *
+	 * @param mixed  $conditions
+	 * @param string $order
+	 *
+	 * @return  Data
+	 */
+	public static function getTag($conditions, $order = null)
+	{
+		return TagMapper::findOne($conditions, $order);
 	}
 
 	/**

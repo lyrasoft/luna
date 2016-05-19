@@ -50,12 +50,15 @@ class CategoryHelper
 	 * @param int|array|object $parent
 	 * @param int              $maxLevel
 	 * @param array            $conditions
+	 * @param string           $order
+	 * @param int              $start
+	 * @param int              $limit
 	 *
 	 * @return  Node|Node[]
 	 */
-	public static function getCategoryAsTree($type, $parent = 1, $maxLevel = 0, $conditions = array())
+	public static function getCategoryAsTree($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
 	{
-		return static::createTree(static::getCategories($type, $parent, $maxLevel, $conditions));
+		return static::createTree(static::getCategories($type, $parent, $maxLevel, $conditions, $order, $start, $limit));
 	}
 
 	/**
@@ -65,10 +68,13 @@ class CategoryHelper
 	 * @param int|array|object $parent
 	 * @param int              $maxLevel
 	 * @param array            $conditions
+	 * @param string           $order
+	 * @param int              $start
+	 * @param int              $limit
 	 *
 	 * @return  Data[]|DataSet
 	 */
-	public static function getCategories($type, $parent = 1, $maxLevel = 0, $conditions = array())
+	public static function getCategories($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
 	{
 		if (is_object($parent) || is_array($parent))
 		{
@@ -101,20 +107,37 @@ class CategoryHelper
 			$conditions[] = 'category.level <= ' . ($level + $maxLevel);
 		}
 
-		return static::find($conditions);
+		return static::find($conditions, $order, $start, $limit);
+	}
+
+	/**
+	 * getCategory
+	 *
+	 * @param   int|array  $conditions
+	 *
+	 * @return  Data
+	 */
+	public static function getCategory($conditions)
+	{
+		$cats = static::find($conditions, null, 0, 1);
+
+		return $cats[0];
 	}
 
 	/**
 	 * getAvailableCategories
 	 *
-	 * @param string $type
-	 * @param int    $parent
-	 * @param int    $maxLevel
-	 * @param array  $conditions
+	 * @param string           $type
+	 * @param int|array|object $parent
+	 * @param int              $maxLevel
+	 * @param array            $conditions
+	 * @param string           $order
+	 * @param int              $start
+	 * @param int              $limit
 	 *
 	 * @return  DataSet|Data[]
 	 */
-	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 0, $conditions = array())
+	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
 	{
 		$conditions['category.state'] = 1;
 
@@ -123,7 +146,7 @@ class CategoryHelper
 			$conditions['category.locale'] = Locale::getLocale();
 		}
 
-		return static::getCategories($type, $parent, $maxLevel, $conditions);
+		return static::getCategories($type, $parent, $maxLevel, $conditions, $order, $start, $limit);
 	}
 
 	/**
@@ -139,6 +162,16 @@ class CategoryHelper
 	public static function find($conditions = array(), $order = 'lft', $start = null, $limit = null)
 	{
 		$model = static::getModel();
+
+		if (is_object($conditions))
+		{
+			$conditions = get_object_vars($conditions);
+		}
+
+		if (!is_array($conditions))
+		{
+			$conditions = array($model->getRecord()->getKeyName() => $conditions);
+		}
 
 		foreach ($conditions as $key => $condition)
 		{
@@ -157,24 +190,28 @@ class CategoryHelper
 			}
 		}
 
-		if (strpos($order, '.') === false)
+		if ($order)
 		{
-			$order = 'category.' . $order;
+			if (strpos($order, '.') === false)
+			{
+				$order = 'category.' . $order;
+			}
+
+			$order = explode(' ', trim($order));
+			$dir = strtoupper(array_pop($order));
+
+			if ($dir == 'ASC' || $dir == 'DESC')
+			{
+				$model['list.direction'] = $dir;
+			}
+			else
+			{
+				array_push($order, $dir);
+			}
+
+			$model['list.ordering'] = implode(' ', $order);
 		}
 
-		$order = explode(' ', trim($order));
-		$dir = strtoupper(array_pop($order));
-
-		if ($dir == 'ASC' || $dir == 'DESC')
-		{
-			$model['list.direction'] = $dir;
-		}
-		else
-		{
-			array_push($order, $dir);
-		}
-
-		$model['list.ordering'] = implode(' ', $order);
 		$model['list.start'] = $start;
 		$model['list.limit'] = $limit;
 
