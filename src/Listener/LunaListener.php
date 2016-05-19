@@ -65,6 +65,7 @@ class LunaListener
 		{
 			RecordResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/Record', Priority::LOW);
 			DataMapperResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/DataMapper', Priority::LOW);
+			FieldDefinitionResolver::addNamespace(ReflectionHelper::getNamespaceName($package) . '/Form', Priority::NORMAL + 1); // TODO: Rewrite priority of form fields
 		}
 
 		// Frontend
