@@ -6,7 +6,7 @@
  * @var $app      \Windwalker\Web\Application                 Global Application
  * @var $package  \Windwalker\Core\Package\AbstractPackage    Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
- * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
+ * @var $uri      \Windwalker\Uri\UriData               Uri information, example: $uri->path
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
  * @var $helper   \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
  * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
@@ -35,7 +35,7 @@
 
 @section('admin-body')
 <div id="phoenix-admin" class="categories-container grid-container">
-    <form name="admin-form" id="admin-form" action="{{ $router->html('categories', array('type' => $type)) }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->route('categories', array('type' => $type)) }}" method="POST" enctype="multipart/form-data">
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
@@ -128,7 +128,7 @@
                         {{-- TITLE --}}
                         <td class="hasHighlight">
                             {{ str_repeat('—', $item->level - 1) }}
-                            <a href="{{ $router->html('category', array('id' => $item->id, 'type' => $type)) }}">
+                            <a href="{{ $router->route('category', array('id' => $item->id, 'type' => $type)) }}">
                                 {{ $item->title }}
                             </a>
                         </td>

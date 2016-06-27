@@ -6,7 +6,7 @@
  * @var $app      \Windwalker\Web\Application                 Global Application
  * @var $package  \Lyrasoft\Luna\LunaPackage                Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
- * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
+ * @var $uri      \Windwalker\Uri\UriData               Uri information, example: $uri->path
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
  * @var $helper   \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
  * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
@@ -34,7 +34,7 @@
 
 @section('admin-body')
 <div id="phoenix-admin" class="languages-container grid-container">
-    <form name="admin-form" id="admin-form" action="{{ $router->html('languages') }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->route('languages') }}" method="POST" enctype="multipart/form-data">
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
@@ -129,7 +129,7 @@
 
                         {{-- TITLE --}}
                         <td class="hasHighlight">
-                            <a href="{{ $router->html('language', array('id' => $item->id)) }}">
+                            <a href="{{ $router->route('language', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>
                         </td>

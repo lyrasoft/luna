@@ -13,6 +13,7 @@ use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Windwalker\Core\Language\Translator;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The CategoryHtmlView class.
@@ -27,6 +28,13 @@ class CategoryHtmlView extends EditView
 	 * @var  string
 	 */
 	protected $name = 'category';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * Property formDefinition.

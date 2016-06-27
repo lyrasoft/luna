@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The ArticlesHtmlView class.
@@ -26,6 +27,13 @@ class ArticlesHtmlView extends GridView
 	 * @var  string
 	 */
 	protected $name = 'articles';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * The fields mapper.

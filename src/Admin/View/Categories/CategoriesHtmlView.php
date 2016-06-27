@@ -13,6 +13,7 @@ use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
 use Windwalker\Core\Language\Translator;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The CategoriesHtmlView class.
@@ -27,6 +28,13 @@ class CategoriesHtmlView extends GridView
 	 * @var  string
 	 */
 	protected $name = 'categories';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * The fields mapper.

@@ -9,9 +9,8 @@
 namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Phoenix\Script\AbstractScriptManager;
 use Phoenix\Script\PhoenixScript;
-use Phoenix\Uri\Uri;
+use Windwalker\Core\Asset\AbstractScript;
 use Windwalker\Core\Ioc;
 use Windwalker\Utilities\ArrayHelper;
 
@@ -20,7 +19,7 @@ use Windwalker\Utilities\ArrayHelper;
  *
  * @since  {DEPLOY_VERSION}
  */
-class EditorScript extends AbstractScriptManager
+class EditorScript extends AbstractScript
 {
 	/**
 	 * editor
@@ -128,7 +127,7 @@ CSS;
 			$defaultOptions = array();
 
 			$options['image_upload_url'] = LunaHelper::getPackage()
-				->getCurrentPackage()->router->html('_luna_img_upload');
+				->getCurrentPackage()->router->route('_luna_img_upload');
 
 			$options['selector'] = $selector;
 
@@ -200,7 +199,7 @@ CSS;
 			);
 
 			$options['image_upload_url'] = LunaHelper::getPackage()
-				->getCurrentPackage()->router->html('_luna_img_upload');
+				->getCurrentPackage()->router->route('_luna_img_upload');
 
 			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
 

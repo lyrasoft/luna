@@ -30,7 +30,7 @@ class ErrorListener
 	 */
 	public function onAfterInitialise()
 	{
-		if (!Ioc::getConfig()->get('system.debug') && Ioc::getApplication() instanceof WebApplication)
+		if (!Ioc::getConfig()->get('debug') && Ioc::getApplication() instanceof WebApplication)
 		{
 			/** @var MvcResolver $resolver */
 			$resolver = Ioc::getContainer()->get('mvc.resolver');

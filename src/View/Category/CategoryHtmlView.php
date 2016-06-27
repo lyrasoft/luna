@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\View\Category;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ListView;
+use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\Data;
 use Windwalker\String\StringHelper;
 use Windwalker\String\Utf8String;
@@ -28,6 +29,13 @@ class CategoryHtmlView extends ListView
 	 * @var  string
 	 */
 	protected $name = 'category';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * initialise

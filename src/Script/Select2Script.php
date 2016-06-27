@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Phoenix\Script\AbstractScriptManager;
+use Windwalker\Core\Asset\AbstractScript;
 use Windwalker\Utilities\ArrayHelper;
 
 /**
@@ -17,7 +17,7 @@ use Windwalker\Utilities\ArrayHelper;
  *
  * @since  {DEPLOY_VERSION}
  */
-class Select2Script extends AbstractScriptManager
+class Select2Script extends AbstractScript
 {
 	/**
 	 * select2
@@ -162,7 +162,7 @@ JS;
 		{
 			$package = LunaHelper::getPackage()->getCurrentPackage();
 
-			static::ajaxSelect2($selector, $package->router->html('_luna_ajax_tags'), $options);
+			static::ajaxSelect2($selector, $package->router->route('_luna_ajax_tags'), $options);
 
 			$js = <<<JS
 jQuery(document).ready(function($) {

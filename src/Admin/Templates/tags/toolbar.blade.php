@@ -6,14 +6,14 @@
  * @var $app      \Windwalker\Web\Application            Global Application
  * @var $package  \Lyrasoft\Luna\LunaPackage           Package object.
  * @var $view     \Windwalker\Data\Data                  Some information of this view.
- * @var $uri      \Windwalker\Registry\Registry          Uri information, example: $uri['media.path']
+ * @var $uri      \Windwalker\Uri\UriData          Uri information, example: $uri->path
  * @var $datetime \DateTime                              PHP DateTime object of current time.
  * @var $helper   \Admin\Helper\MenuHelper        The Windwalker HelperSet object.
  * @var $router   \Windwalker\Core\Router\PackageRouter  Router object.
  */
 ?>
 
-<a type="button" class="btn btn-success btn-sm" href="{{ $router->html('tag', array('new' => true)) }}">
+<a type="button" class="btn btn-success btn-sm" href="{{ $router->route('tag', array('new' => true)) }}">
     <span class="glyphicon glyphicon-plus fa fa-plus"></span>
     @translate('phoenix.toolbar.new')
 </a>

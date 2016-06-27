@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The LanguagesHtmlView class.
@@ -26,6 +27,13 @@ class LanguagesHtmlView extends GridView
 	 * @var  string
 	 */
 	protected $name = 'languages';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * The fields mapper.

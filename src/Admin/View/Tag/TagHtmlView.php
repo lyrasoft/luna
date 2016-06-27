@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The TagHtmlView class.
@@ -26,6 +27,13 @@ class TagHtmlView extends EditView
 	 * @var  string
 	 */
 	protected $name = 'tag';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * Property formDefinition.

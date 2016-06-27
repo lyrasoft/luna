@@ -10,9 +10,7 @@ namespace Lyrasoft\Luna\Field\Editor;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\EditorScript;
-use Lyrasoft\Luna\Script\LunaScript;
-use Phoenix\Asset\Asset;
-use Phoenix\Uri\Uri;
+use Windwalker\Core\Asset\Asset;
 
 /**
  * The SummernoteEditorField class.
@@ -46,7 +44,7 @@ class TinymceEditorField extends AbstractEditorField
 		$options = (array) $this->get('options', array());
 
 		$options['plugins']     = array();
-		$options['content_css'] = Uri::media(Uri::ABSOLUTE) . $luna->name . '/css/tinymce/content.css';
+		$options['content_css'] = Asset::root() . '/' . $luna->name . '/css/tinymce/content.css';
 
 		if ($this->get('toolbar', static::TOOLBAR_FULL) == static::TOOLBAR_FULL)
 		{
@@ -68,7 +66,7 @@ class TinymceEditorField extends AbstractEditorField
 		 */
 		if ($this->get('image_upload', true))
 		{
-			$url = $luna->getCurrentPackage()->router->html('_luna_img_upload');
+			$url = $luna->getCurrentPackage()->router->route('_luna_img_upload');
 
 			$options['paste_data_images'] = true;
 

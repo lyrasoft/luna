@@ -9,11 +9,10 @@
 namespace Lyrasoft\Luna\Provider;
 
 use Lyrasoft\Luna\LunaPackage;
-use Windwalker\Core\Console\WindwalkerConsole;
-use Windwalker\Core\Renderer\RendererFactory;
+use Windwalker\Core\Renderer\RendererManager;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
-use Windwalker\Utilities\Queue\Priority;
+use Windwalker\Utilities\Queue\PriorityQueue;
 
 /**
  * The LunaProvider class.
@@ -48,14 +47,14 @@ class LunaProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		if ($container->get('system.application') instanceof WindwalkerConsole)
+		if ($container->get('application')->isConsole())
 		{
 			return;
 		}
 
-		/** @var RendererFactory $factory */
-		$factory = $container->get('renderer.factory');
+		/** @var RendererManager $factory */
+		$factory = $container->get('renderer.manager');
 
-		$factory->addGlobalPath($this->luna->getDir() . '/Resources/templates', Priority::LOW - 25);
+		$factory->addGlobalPath($this->luna->getDir() . '/Resources/templates', PriorityQueue::LOW - 25);
 	}
 }

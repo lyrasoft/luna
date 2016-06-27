@@ -15,6 +15,7 @@ use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Windwalker\Core\Frontend\Bootstrap;
 use Windwalker\Core\Language\Translator;
+use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Utilities\Queue\Priority;
 
 /**
@@ -30,6 +31,13 @@ class ModuleHtmlView extends EditView
 	 * @var  string
 	 */
 	protected $name = 'module';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * Property formDefinition.
@@ -83,7 +91,7 @@ class ModuleHtmlView extends EditView
 		if (!$data->type)
 		{
 			$this->package->app->addFlash(Translator::translate($this->langPrefix . 'module.edit.message.no.type'), Bootstrap::MSG_WARNING)
-				->redirect($this->router->http('modules'));
+				->redirect($this->router->route('modules'));
 		}
 
 		$data->moduleType = ModuleHelper::getModuleType($data->type);;

@@ -20,7 +20,7 @@ use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Core\View\BladeHtmlView;
 use Windwalker\Event\Event;
 use Windwalker\Test\TestHelper;
-use Windwalker\Utilities\Queue\Priority;
+use Windwalker\Utilities\Queue\PriorityQueue;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
@@ -63,9 +63,9 @@ class LunaListener
 		// In Warder
 		if ($this->luna->isEnabled())
 		{
-			RecordResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/Record', Priority::LOW);
-			DataMapperResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/DataMapper', Priority::LOW);
-			FieldDefinitionResolver::addNamespace(ReflectionHelper::getNamespaceName($package) . '/Form', Priority::NORMAL + 1); // TODO: Rewrite priority of form fields
+			RecordResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/Record', PriorityQueue::LOW);
+			DataMapperResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/DataMapper', PriorityQueue::LOW);
+			FieldDefinitionResolver::addNamespace(ReflectionHelper::getNamespaceName($package) . '/Form', PriorityQueue::NORMAL + 1); // TODO: Rewrite PriorityQueue of form fields
 		}
 
 		// Frontend
@@ -114,9 +114,9 @@ class LunaListener
 			$view['luna'] = $this->luna;
 
 			// Paths
-//			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.locale'), Priority::LOW - 25);
-//			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.default'), Priority::LOW - 25);
-			$renderer->addPath(LUNA_SOURCE . '/Templates/' . $name, Priority::LOW - 25);
+//			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.locale'), PriorityQueue::LOW - 25);
+//			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.default'), PriorityQueue::LOW - 25);
+			$renderer->addPath(LUNA_SOURCE . '/Templates/' . $name, PriorityQueue::LOW - 25);
 		}
 		elseif ($this->luna->isAdmin())
 		{
@@ -126,9 +126,9 @@ class LunaListener
 			$view['luna'] = $this->luna;
 
 			// Paths
-//			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.locale'), Priority::LOW - 25);
-//			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.default'), Priority::LOW - 25);
-			$renderer->addPath(LUNA_SOURCE_ADMIN . '/Templates/' . $name, Priority::LOW - 25);
+//			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.locale'), PriorityQueue::LOW - 25);
+//			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.default'), PriorityQueue::LOW - 25);
+			$renderer->addPath(LUNA_SOURCE_ADMIN . '/Templates/' . $name, PriorityQueue::LOW - 25);
 		}
 	}
 

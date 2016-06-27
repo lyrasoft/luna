@@ -15,6 +15,7 @@ use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
 use Windwalker\Core\Language\Translator;
+use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Filter\InputFilter;
 
 /**
@@ -30,6 +31,13 @@ class ModulesHtmlView extends GridView
 	 * @var  string
 	 */
 	protected $name = 'modules';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * The fields mapper.

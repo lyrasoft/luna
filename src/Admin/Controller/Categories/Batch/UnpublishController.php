@@ -36,7 +36,7 @@ class UnpublishController extends AbstractUnpublishController
 
 		$parent = $mapper->findOne($pk);
 
-		$mapper->updateAll($data, array(
+		$mapper->updateBatch($data, array(
 			'lft > ' . $parent->lft,
 			'rgt < ' . $parent->rgt
 		));

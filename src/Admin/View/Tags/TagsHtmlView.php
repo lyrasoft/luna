@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The TagsHtmlView class.
@@ -26,6 +27,13 @@ class TagsHtmlView extends GridView
 	 * @var  string
 	 */
 	protected $name = 'tags';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * The fields mapper.

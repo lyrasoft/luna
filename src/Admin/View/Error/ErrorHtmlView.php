@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\View\Error;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Language\Translator;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The ErrorHtmlView class.
@@ -25,6 +26,13 @@ class ErrorHtmlView extends ItemView
 	 * @var  string
 	 */
 	protected $name = 'error';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * initialise

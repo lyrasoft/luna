@@ -77,9 +77,9 @@ class CategorySeeder extends AbstractSeeder
 			$record['image']       = $faker->imageUrl();
 			$record['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
 			$record['version']     = rand(1, 50);
-			$record['created']     = $faker->dateTime->format(DateTime::FORMAT_SQL);
+			$record['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
 			$record['created_by']  = $faker->randomElement($userIds);
-			$record['modified']    = $faker->dateTime->format(DateTime::FORMAT_SQL);
+			$record['modified']    = $faker->dateTime->format(DateTime::getSqlFormat());
 			$record['modified_by'] = $faker->randomElement($userIds);
 			$record['language']    = $lang;
 			$record['params']      = '';
@@ -92,10 +92,8 @@ class CategorySeeder extends AbstractSeeder
 
 			$existsRecordIds[$record['type']][] = $record->id;
 
-			$this->command->out('.', false);
+			$this->outCounting();
 		}
-
-		$this->command->out();
 	}
 
 	/**

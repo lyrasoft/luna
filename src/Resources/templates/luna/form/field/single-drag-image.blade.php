@@ -1,6 +1,6 @@
 {{-- Part of virtualset project. --}}
 <?php
-$defaultImage = isset($defaultImage) ? $defaultImage : $uri['media.path'] . \Lyrasoft\Luna\Helper\LunaHelper::getPackage()->name . '/images/default-img.png';
+$defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . \Lyrasoft\Luna\Helper\LunaHelper::getPackage()->name . '/images/default-img.png';
 ?>
 <div id="{{ $attrs['id'] }}-wrap">
 
@@ -13,7 +13,7 @@ $defaultImage = isset($defaultImage) ? $defaultImage : $uri['media.path'] . \Lyr
         <div class="col-md-8">
             <div id="{{ $attrs['id'] . '-area' }}" class="filedrag">
                 <button class="btn btn-success btn-xs" type="button" onclick="$('{{ '#' . $attrs['id'] }}-selector').click();">Select File</button> or drop files here
-                <img src="{{ $uri['media.path'] . \Lyrasoft\Luna\Helper\LunaHelper::getPackage()->name }}/images/ajax-loader.gif" id="{{ $attrs['id'] . '-loader' }}" alt="Lading" style="display: none;">
+                <img src="{{ $asset->path . '/' . \Lyrasoft\Luna\Helper\LunaHelper::getPackage()->name }}/images/ajax-loader.gif" id="{{ $attrs['id'] . '-loader' }}" alt="Lading" style="display: none;">
             </div>
             <div class="checkbox checkbox-primary">
                 <input type="checkbox" name="{{ $attrs['id'] }}-delete-image" id="{{ $attrs['id'] }}-delete-image" />

@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
+use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\Data;
 use Windwalker\Router\Exception\RouteNotFoundException;
 use Windwalker\String\Utf8String;
@@ -29,6 +30,13 @@ class ArticleHtmlView extends ItemView
 	 * @var  string
 	 */
 	protected $name = 'article';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * initialise

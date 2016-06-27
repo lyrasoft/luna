@@ -10,27 +10,30 @@ namespace Lyrasoft\Luna\Admin\Controller\Luna\Ajax;
 
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Unidev\Controller\AbstractAjaxController;
+use Windwalker\Core\Controller\AbstractController;
+use Windwalker\Core\Controller\Traits\JsonApiTrait;
 
 /**
- * The TagsGeetController class.
+ * The TagsGetController class.
  *
  * @since  {DEPLOY_VERSION}
  */
-class TagsGetController extends AbstractAjaxController
+class TagsGetController extends AbstractController
 {
+	use JsonApiTrait;
+
 	/**
 	 * doAjax
 	 *
 	 * @return  mixed
 	 */
-	protected function doAjax()
+	protected function doExecute()
 	{
 		$q = $this->input->getString('q');
 
-		$mapper = new TagMapper;
-		$tags = $mapper->find(["title LIKE '{$q}%'"]);
+		$tags = TagMapper::find(["title LIKE '{$q}%'"]);
 
-		$data = array();
+		$data = [];
 
 		foreach ($tags as $tag)
 		{
@@ -40,6 +43,6 @@ class TagsGetController extends AbstractAjaxController
 			);
 		}
 
-		return $this->responseSuccess(null, $data);
+		return $data;
 	}
 }

@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The LanguageHtmlView class.
@@ -26,6 +27,13 @@ class LanguageHtmlView extends EditView
 	 * @var  string
 	 */
 	protected $name = 'language';
+
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 
 	/**
 	 * Property formDefinition.

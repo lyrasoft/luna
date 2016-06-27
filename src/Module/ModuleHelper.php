@@ -15,7 +15,6 @@ use Lyrasoft\Luna\Language\Locale;
 use Windwalker\Cache\Cache;
 use Windwalker\Cache\DataHandler\RawDataHandler;
 use Windwalker\Cache\Storage\RuntimeStorage;
-use Windwalker\Core\Cache\CacheFactory;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
 use Windwalker\Filesystem\Folder;
@@ -36,7 +35,7 @@ class ModuleHelper
 	 *
 	 * @var  array
 	 */
-	protected static $paths = null;
+	protected static $paths = [];
 
 	/**
 	 * Property classes.
@@ -119,9 +118,7 @@ class ModuleHelper
 	 */
 	public static function findModules($conditions = array(), $order = null, $start = null, $limit = null)
 	{
-		$mapper = new ModuleMapper;
-
-		$modules = $mapper->find($conditions, $order, $start, $limit);
+		$modules = ModuleMapper::find($conditions, $order, $start, $limit);
 
 		return $modules;
 	}
@@ -233,7 +230,7 @@ class ModuleHelper
 
 		$classes = array();
 
-		foreach ($paths as $path => $namespace)
+		foreach ((array) $paths as $path => $namespace)
 		{
 			$folders = Folder::folders($path, false, Folder::PATH_BASENAME);
 
@@ -244,9 +241,9 @@ class ModuleHelper
 
 				if (class_exists($class))
 				{
-					if (!is_subclass_of($class, 'Lyrasoft\Luna\Module\AbstractModule'))
+					if (!is_subclass_of($class, AbstractModule::class))
 					{
-						throw new \LogicException('Class: ' . $class . ' must be sub class of: Lyrasoft\Luna\Module\AbstractModule');
+						throw new \LogicException('Class: ' . $class . ' must be sub class of: ' . AbstractModule::class);
 					}
 
 					if ($class::$isEnabled)
@@ -290,7 +287,7 @@ class ModuleHelper
 	 *
 	 * @return  void
 	 */
-	public static function setPaths($paths)
+	public static function setPaths(array $paths)
 	{
 		static::$paths = $paths;
 	}
@@ -301,7 +298,7 @@ class ModuleHelper
 	 */
 	public static function resetPath()
 	{
-		static::$paths = array();
+		static::$paths = [];
 	}
 
 	/**

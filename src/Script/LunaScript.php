@@ -9,11 +9,8 @@
 namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Phoenix\Script\AbstractScriptManager;
 use Phoenix\Script\JQueryScript;
-use Phoenix\Script\PhoenixScript;
-use Windwalker\Core\Ioc;
-use Windwalker\Core\Language\Translator;
+use Windwalker\Core\Asset\AbstractScript;
 use Windwalker\Utilities\ArrayHelper;
 
 /**
@@ -21,7 +18,7 @@ use Windwalker\Utilities\ArrayHelper;
  *
  * @since  {DEPLOY_VERSION}
  */
-class LunaScript extends AbstractScriptManager
+class LunaScript extends AbstractScript
 {
 	/**
 	 * singleDrapUpload

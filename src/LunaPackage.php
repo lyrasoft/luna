@@ -45,42 +45,13 @@ class LunaPackage extends AbstractPackage
 	 * @throws  \LogicException
 	 * @return  void
 	 */
-	public function initialise()
+	public function boot()
 	{
-		parent::initialise();
+		parent::boot();
 
 		TranslatorHelper::loadAll($this);
 
 		ModuleHelper::addPath(__NAMESPACE__ . '\Module', $this->getDir() . '/Module');
-	}
-
-	/**
-	 * registerProviders
-	 *
-	 * @param Container $container
-	 *
-	 * @return  void
-	 */
-	public function registerProviders(Container $container)
-	{
-		$container->registerServiceProvider(new LunaProvider($this));
-	}
-
-	/**
-	 * registerListeners
-	 *
-	 * @param Dispatcher $dispatcher
-	 *
-	 * @return  void
-	 */
-	public function registerListeners(Dispatcher $dispatcher)
-	{
-		parent::registerListeners($dispatcher);
-
-		$dispatcher->addListener(new LunaListener($this))
-			->addListener(new EditorListener)
-			->addListener(new LanguageListener)
-			->addListener(new ErrorListener);
 	}
 
 	/**

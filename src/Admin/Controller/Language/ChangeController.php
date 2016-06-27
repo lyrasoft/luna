@@ -66,18 +66,18 @@ class ChangeController extends AbstractPhoenixController
 				throw $e;
 			}
 
-			$this->setRedirect($this->router->http($redirect));
+			$this->setRedirect($this->router->route($redirect));
 
 			return false;
 		}
 
 		if ($return)
 		{
-			$return = $uri['base.path'] . ltrim($uri->get('script') . '/', '/') . $language->alias . '/' . base64_decode($return);
+			$return = $uri->path . ltrim($uri->script . '/', '/') . $language->alias . '/' . base64_decode($return);
 		}
 		else
 		{
-			$return = $this->router->http($redirect);
+			$return = $this->router->route($redirect);
 		}
 
 		$this->setRedirect($return);

@@ -6,7 +6,7 @@
  * @var $app      \Windwalker\Web\Application                 Global Application
  * @var $package  \Lyrasoft\Luna\LunaPackage                  Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
- * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
+ * @var $uri      \Windwalker\Uri\UriData               Uri information, example: $uri->path
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
  * @var $helper   \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
  * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
@@ -26,7 +26,7 @@
 @stop
 
 @section('admin-body')
-<form name="admin-form" id="admin-form" action="{{ $router->html('article', array('id' => $item->id)) }}" method="POST" enctype="multipart/form-data">
+<form name="admin-form" id="admin-form" action="{{ $router->route('article', array('id' => $item->id)) }}" method="POST" enctype="multipart/form-data">
 
     @include('luna.form.title-bar')
 

@@ -132,6 +132,6 @@ class SaveController extends AbstractSaveController
 	{
 		$pk = $data->{$this->pkName} ? : $this->model['item.pk'];
 
-		return $this->router->http($this->getName(), array($this->pkName => $pk));
+		return $this->router->route($this->getName(), array($this->pkName => $pk));
 	}
 }

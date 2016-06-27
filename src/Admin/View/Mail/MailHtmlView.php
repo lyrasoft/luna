@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\View\Mail;
 
 use Phoenix\View\AbstractPhoenixHtmView;
+use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The MailHtmlView class.
@@ -17,5 +18,10 @@ use Phoenix\View\AbstractPhoenixHtmView;
  */
 class MailHtmlView extends AbstractPhoenixHtmView
 {
-
+	/**
+	 * Property renderer.
+	 *
+	 * @var  string
+	 */
+	protected $renderer = RendererHelper::EDGE;
 }

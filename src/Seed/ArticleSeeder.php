@@ -18,6 +18,7 @@ use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 use Windwalker\Filter\OutputFilter;
 use Windwalker\Warder\Admin\DataMapper\UserMapper;
+use Windwalker\Warder\Helper\WarderHelper;
 
 /**
  * The ArticleSeeder class.
@@ -35,32 +36,24 @@ class ArticleSeeder extends AbstractSeeder
 	{
 		$faker = Factory::create();
 
-		$mapper = new ArticleMapper;
-		$catMapper = new CategoryMapper;
-		$tagMapper = new TagMapper;
-		$tagMapMapper = new TagMapMapper;
-		$langMapper = new LanguageMapper;
-
-		$languages = $langMapper->find(array('state' => 1))->code;
+		$languages = LanguageMapper::find(array('state' => 1))->code;
 		$languages[] = '*';
 
-		$categories = $catMapper->find(array(
+		$categories = CategoryMapper::find(array(
 			'parent_id != 0',
 			'type' => 'article'
 		));
 
-		if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+		if (WarderHelper::tableExists('users'))
 		{
-			$userMapper = new UserMapper;
-
-			$userIds = $userMapper->findAll()->id;
+			$userIds = UserMapper::findAll()->id;
 		}
 		else
 		{
 			$userIds = range(1, 50);
 		}
 
-		$tags = $tagMapper->findAll()->dump();
+		$tags = TagMapper::findAll()->dump();
 
 		foreach ($categories as $category)
 		{
@@ -78,15 +71,15 @@ class ArticleSeeder extends AbstractSeeder
 				$data['image']       = $faker->imageUrl();
 				$data['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
 				$data['version']     = rand(1, 50);
-				$data['created']     = $faker->dateTime->format(DateTime::FORMAT_SQL);
+				$data['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
 				$data['created_by']  = $faker->randomElement($userIds);
-				$data['modified']    = $faker->dateTime->format(DateTime::FORMAT_SQL);
+				$data['modified']    = $faker->dateTime->format(DateTime::getSqlFormat());
 				$data['modified_by'] = $faker->randomElement($userIds);
 				$data['ordering']    = $i;
 				$data['language']    = $lang;
 				$data['params']      = '';
 
-				$mapper->createOne($data);
+				ArticleMapper::createOne($data);
 
 				foreach ($faker->randomElements($tags, rand(5, 7)) as $tag)
 				{
@@ -96,14 +89,12 @@ class ArticleSeeder extends AbstractSeeder
 					$map->target_id = $data->id;
 					$map->type = 'article';
 
-					$tagMapMapper->createOne($map);
+					TagMapMapper::createOne($map);
 				}
 
-				$this->command->out('.', false);
+				$this->outCounting();
 			}
 		}
-
-		$this->command->out();
 	}
 
 	/**

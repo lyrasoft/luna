@@ -6,7 +6,7 @@
  * @var $app      \Windwalker\Web\Application                 Global Application
  * @var $package  \Lyrasoft\Luna\LunaPackage                 Package object.
  * @var $view     \Windwalker\Data\Data                       Some information of this view.
- * @var $uri      \Windwalker\Registry\Registry               Uri information, example: $uri['media.path']
+ * @var $uri      \Windwalker\Uri\UriData               Uri information, example: $uri->path
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
  * @var $helper   \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
  * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
@@ -34,7 +34,7 @@
 
 @section('admin-body')
 <div id="phoenix-admin" class="articles-container grid-container">
-    <form name="admin-form" id="admin-form" action="{{ $router->html('articles') }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->route('articles') }}" method="POST" enctype="multipart/form-data">
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
@@ -134,7 +134,7 @@
 
                         {{-- TITLE --}}
                         <td class="hasHighlight">
-                            <a class="lead" href="{{ $router->html('article', array('id' => $item->id)) }}">
+                            <a class="lead" href="{{ $router->route('article', array('id' => $item->id)) }}">
                                 {{ $item->title }}
                             </a>
 
@@ -151,7 +151,7 @@
                                 <div class="article-category-field" style="padding-left: 10px">
                                     <small class="text-muted">
                                         <span class="glyphicon glyphicon-folder-close"></span>
-                                        <a class="text-muted" href="{{ $router->html('articles', array('filter' => array('article.category_id' => $item->category_id))) }}">
+                                        <a class="text-muted" href="{{ $router->route('articles', array('filter' => array('article.category_id' => $item->category_id))) }}">
                                             {{ $item->category_title }}
                                         </a>
                                     </small>
@@ -167,7 +167,7 @@
                         @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
                             {{-- AUTHOR --}}
                             <td>
-                                {!! $grid->foreignLink($item->user_name, $router->html('user', array('id' => $item->user_id))) !!}
+                                {!! $grid->foreignLink($item->user_name, $router->route('user', array('id' => $item->user_id))) !!}
                             </td>
                         @endif
 
