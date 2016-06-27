@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Record;
 
+use Lyrasoft\Luna\Admin\Record\Traits\CommentDataTrait;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Event\Event;
 use Windwalker\Record\Record;
@@ -19,6 +20,8 @@ use Windwalker\Record\Record;
  */
 class CommentRecord extends Record
 {
+	use CommentDataTrait;
+	
 	/**
 	 * Property table.
 	 *

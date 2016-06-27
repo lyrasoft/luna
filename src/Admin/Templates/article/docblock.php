@@ -21,7 +21,7 @@ defined('WINDWALKER') or die('Forbidden');
  *
  * View variables
  * --------------------------------------------------------------
- * @var $item  \Windwalker\Data\Data
+ * @var $item  \Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait;
  * @var $state \Windwalker\Registry\Registry
  * @var $form  \Windwalker\Form\Form
  */
