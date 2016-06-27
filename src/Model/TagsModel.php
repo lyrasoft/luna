@@ -13,7 +13,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
-use Windwalker\Warder\Helper\WarderHelper;
+use Lyrasoft\Warder\Helper\WarderHelper;
 
 /**
  * The CategoriesModel class.

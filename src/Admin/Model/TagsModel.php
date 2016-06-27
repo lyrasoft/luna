@@ -13,8 +13,8 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Windwalker\Query\Query;
-use Windwalker\Warder\Helper\WarderHelper;
-use Windwalker\Warder\Table\WarderTable;
+use Lyrasoft\Warder\Helper\WarderHelper;
+use Lyrasoft\Warder\Table\WarderTable;
 
 /**
  * The TagsModel class.

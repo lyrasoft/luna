@@ -21,7 +21,7 @@ use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
-use Windwalker\Warder\Admin\Field\User\UserModalField;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The ModuleEditDefinition class.
@@ -97,7 +97,7 @@ class EditDefinition implements FieldDefinitionInterface
 					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
 			}
 
-			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
 			{
 				// Created
 				$form->add('created', new Phoenix\Field\CalendarField)

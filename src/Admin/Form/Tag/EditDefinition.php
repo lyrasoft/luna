@@ -19,7 +19,7 @@ use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
-use Windwalker\Warder\Admin\Field\User\UserModalField;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The TagEditDefinition class.
@@ -76,7 +76,7 @@ class EditDefinition implements FieldDefinitionInterface
 				->label(Translator::translate($langPrefix . 'tag.field.modified'))
 				->disabled();
 
-			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
 			{
 				// Author
 				$form->add('created_by', new UserModalField)

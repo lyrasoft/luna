@@ -14,8 +14,8 @@ use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
 use Windwalker\Query\QueryElement;
 use Windwalker\Utilities\ArrayHelper;
-use Windwalker\Warder\Helper\WarderHelper;
-use Windwalker\Warder\Table\WarderTable;
+use Lyrasoft\Warder\Helper\WarderHelper;
+use Lyrasoft\Warder\Table\WarderTable;
 
 /**
  * The CategoriesModel class.

@@ -14,8 +14,8 @@ use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 use Windwalker\Filter\OutputFilter;
-use Windwalker\Warder\Admin\DataMapper\UserMapper;
-use Windwalker\Warder\Helper\WarderHelper;
+use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
+use Lyrasoft\Warder\Helper\WarderHelper;
 
 /**
  * The CommentSeeder class.

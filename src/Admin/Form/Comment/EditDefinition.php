@@ -19,7 +19,7 @@ use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Ioc;
 use Windwalker\Validator\Rule;
-use Windwalker\Warder\Admin\Field\User\UserModalField;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The CommentEditDefinition class.
@@ -63,7 +63,7 @@ class EditDefinition implements FieldDefinitionInterface
 		// Text Fieldset
 		$form->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
-			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
 			{
 				$form->add('user_id', new UserModalField)
 					->label(Translator::translate($langPrefix . 'comment.field.author'));
@@ -74,7 +74,7 @@ class EditDefinition implements FieldDefinitionInterface
 				->label(Translator::translate($langPrefix . 'comment.field.introtext'))
 				->set('rows', 10);
 
-			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
 			{
 				$form->add('reply_user_id', new UserModalField)
 					->label(Translator::translate($langPrefix . 'comment.field.replyer'));

@@ -25,8 +25,8 @@ use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
-use Windwalker\Warder\Admin\Field\User\UserModalField;
-use Windwalker\Warder\Helper\WarderHelper;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
+use Lyrasoft\Warder\Helper\WarderHelper;
 
 /**
  * The ArticleEditDefinition class.

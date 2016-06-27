@@ -18,7 +18,7 @@ use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Html\Option;
 use Windwalker\Ioc;
-use Windwalker\Warder\Admin\Field\User\UserModalField;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The CategoriesFilterDefinition class.
@@ -63,7 +63,7 @@ class BatchDefinition implements FieldDefinitionInterface
 					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
 			}
 
-			if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
 			{
 				// Author
 				$form->add('created_by', new UserModalField)

@@ -65,7 +65,7 @@
                         {!! $grid->sortTitle($lunaPrefix . 'tag.field.title', 'tag.title') !!}
                     </th>
 
-                    @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                    @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                     {{-- AUTHOR --}}
                         <th width="20%">
                             {!! $grid->sortTitle($lunaPrefix . 'tag.field.author', 'tag.created_by') !!}
@@ -127,7 +127,7 @@
 
                         </td>
 
-                        @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                        @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                             {{-- AUTHOR --}}
                             <td>
                                 {{ $item->user_name }}

@@ -75,7 +75,7 @@
                         {!! $grid->sortTitle($lunaPrefix . 'article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
-                    @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                    @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {{-- AUTHOR --}}
                         <th width="15%">
                             {!! $grid->sortTitle($lunaPrefix . 'article.field.author', 'article.created_by') !!}
@@ -164,7 +164,7 @@
                             {!! $grid->orderButton() !!}
                         </td>
 
-                        @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                        @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                             {{-- AUTHOR --}}
                             <td>
                                 {!! $grid->foreignLink($item->user_name, $router->route('user', array('id' => $item->user_id))) !!}

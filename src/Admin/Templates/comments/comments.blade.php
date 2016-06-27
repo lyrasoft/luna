@@ -78,7 +78,7 @@
 
                     {{-- CONTENT --}}
                     <th>
-                        @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                        @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.author', 'comment.created_by') !!}
                         /
                         @endif
@@ -87,7 +87,7 @@
 
                     {{-- REPLY --}}
                     <th>
-                        @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                        @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {!! $grid->sortTitle($lunaPrefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
                         /
                         @endif
@@ -157,7 +157,7 @@
                         {{--</td>--}}
 
                         <td class="hasHighlight">
-                            @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                            @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                             <strong>
                                 {{ $item->user_name }} :
                             </strong>
@@ -168,7 +168,7 @@
 
                         <td class="hasHighlight">
                             @if ($item->reply)
-                                @if (\Windwalker\Warder\Helper\WarderHelper::tableExists('users'))
+                                @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                                 <strong>
                                     {{ $item->replyer_name }} :
                                 </strong>
