@@ -39,13 +39,12 @@ $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . \Lyr
                 <div class="modal-body">
                     <div id="{{ $attrs['id'] }}-cropper">
 
-                        <!-- This is where the preview image is displayed -->
+                        <!-- preview image -->
                         <div class="cropit-image-preview-container center-block" style="width: {{ $attrs['width'] }}px; height: {{ $attrs['height'] }}px;">
                             <div class="cropit-image-preview" style="width: {{ $attrs['width'] }}px; height: {{ $attrs['height'] }}px;"></div>
                         </div>
 
                         <!-- This range input controls zoom -->
-                        <!-- You can add additional elements here, e.g. the image icons -->
                         <div class="slider-wrapper text-center" style="margin-top: 25px;">
                             <span class="fa fa-picture-o small-image" style="font-size: 15px"></span>
                             <input type="range" class="cropit-image-zoom-input custom" style="width: 130px; display: inline;">

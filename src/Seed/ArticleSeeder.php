@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Faker\Factory;
+use Lyrasoft\Unidev\Helper\UnsplashHelper;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
@@ -68,7 +69,7 @@ class ArticleSeeder extends AbstractSeeder
 				$data['alias']       = OutputFilter::stringURLSafe($data['title']);
 				$data['introtext']   = '(' . $lang . ') ' . $faker->paragraph(5);
 				$data['fulltext']    = $faker->paragraph(5);
-				$data['image']       = $faker->imageUrl();
+				$data['image']       = UnsplashHelper::getImageUrl();
 				$data['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
 				$data['version']     = rand(1, 50);
 				$data['created']     = $faker->dateTime->format(DateTime::getSqlFormat());

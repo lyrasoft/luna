@@ -8,11 +8,10 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Luna\Table\LunaTable;
+use Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;
-use Windwalker\DataMapper\RelationDataMapper;
 use Windwalker\Record\Record;
 
 /**
@@ -41,7 +40,7 @@ class ArticleModel extends AdminModel
 	/**
 	 * postGetItem
 	 *
-	 * @param Data $item
+	 * @param Data|ArticleDataTrait $item
 	 *
 	 * @return  void
 	 */

@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\Model\ModuleModel;
 use Lyrasoft\Luna\Admin\View\Module\ModuleHtmlView;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\Data;
+use Windwalker\DataMapper\Entity\Entity;
 
 /**
  * The SaveController class.
@@ -130,7 +131,7 @@ class SaveController extends AbstractSaveController
 	/**
 	 * getSuccessRedirect
 	 *
-	 * @param  Data $data
+	 * @param  Data|Entity $data
 	 *
 	 * @return  string
 	 */

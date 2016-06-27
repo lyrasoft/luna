@@ -11,6 +11,7 @@ use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Table\LunaTable;
 use Faker\Factory;
+use Lyrasoft\Unidev\Helper\UnsplashHelper;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
@@ -74,7 +75,7 @@ class CategorySeeder extends AbstractSeeder
 			$record['alias']       = OutputFilter::stringURLSafe($record['title']);
 			$record['type']        = $faker->randomElement($this->types);
 			$record['description'] = $faker->paragraph(5);
-			$record['image']       = $faker->imageUrl();
+			$record['image']       = UnsplashHelper::getImageUrl();
 			$record['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
 			$record['version']     = rand(1, 50);
 			$record['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
