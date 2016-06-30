@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Admin\DataMapper;
 
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Core\DataMapper\AbstractDataMapperProxy;
+use Windwalker\Core\DataMapper\CoreDataMapper;
 use Windwalker\Event\Event;
 
 /**
@@ -17,7 +17,7 @@ use Windwalker\Event\Event;
  * 
  * @since  1.0
  */
-class ModuleMapper extends AbstractDataMapperProxy
+class ModuleMapper extends CoreDataMapper
 {
 	/**
 	 * Property table.
