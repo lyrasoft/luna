@@ -9,14 +9,16 @@
 namespace Lyrasoft\Luna\Module;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Phoenix\Form\Renderer\InputRenderer;
 use Windwalker\Core\Language\Translator;
+use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Core\View\Helper\ViewHelper;
 use Windwalker\Data\Data;
 use Windwalker\Form\Form;
 use Windwalker\Registry\Registry;
-use Windwalker\Utilities\Queue\Priority;
+use Windwalker\Utilities\Queue\PriorityQueue;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
@@ -94,27 +96,27 @@ abstract class AbstractModule
 	/**
 	 * getInstance
 	 *
-	 * @param array         $data
-	 * @param BladeRenderer $renderer
+	 * @param array  $data
+	 * @param string $engine
 	 *
-	 * @return  static
+	 * @return static
 	 */
-	public static function getInstance($data = array(), BladeRenderer $renderer = null)
+	public static function getInstance($data = array(), $engine = 'edge')
 	{
-		return new static($data, $renderer);
+		return new static($data, $engine);
 	}
 
 	/**
 	 * AbstractModule constructor.
 	 *
-	 * @param  array          $data
-	 * @param  BladeRenderer  $renderer
+	 * @param  array $data
+	 * @param string $engine
 	 */
-	public function __construct($data = array(), BladeRenderer $renderer = null)
+	public function __construct($data = array(), $engine = 'edge')
 	{
 		$this->data = $data instanceof Data ? $data : new Data($data);
 		$this->params = $this->data->params;
-		$this->renderer = $renderer ? : RendererHelper::getBladeRenderer(array('cache_path' => WINDWALKER_TEMP . '/modules'));;
+		$this->renderer = RendererHelper::getRenderer($engine);
 	}
 
 	/**
@@ -217,11 +219,11 @@ abstract class AbstractModule
 
 		$paths = $this->getRenderer()->getPaths();
 
-		$paths->insert(WINDWALKER_TEMPLATES . '/luna/modules/' . static::$type, Priority::LOW);
+		$paths->insert(WINDWALKER_TEMPLATES . '/luna/modules/' . static::$type, PriorityQueue::LOW);
 
-		$paths->insert($package->getDir() . '/modules/' . static::$type, Priority::LOW);
+		$paths->insert($package->getDir() . '/modules/' . static::$type, PriorityQueue::LOW);
 
-		$paths->insert(dirname(ReflectionHelper::getPath($this)) . '/Templates', Priority::LOW);
+		$paths->insert(dirname(ReflectionHelper::getPath($this)) . '/Templates', PriorityQueue::LOW);
 	}
 
 	/**
@@ -244,7 +246,7 @@ abstract class AbstractModule
 	{
 		$form = new Form('params');
 
-		$form->setFieldRenderHandler(array('Phoenix\Form\Renderer\InputRenderer', 'render'));
+		$form->setRenderer(new InputRenderer);
 
 		$class = ReflectionHelper::getNamespaceName(get_called_class()) . '\Form\EditDefinition';
 
@@ -347,7 +349,10 @@ abstract class AbstractModule
 	{
 		$package = LunaHelper::getPackage()->getCurrentPackage();
 
-		$globals = ViewHelper::getGlobalVariables($package);
+		$globals = RendererHelper::getGlobalPaths();
+
+		$globals['router'] = $package->router;
+		$globals['package'] = PackageHelper::getCurrentPackage();
 
 		$data->bind($globals);
 	}

@@ -31,9 +31,7 @@ $fieldsets = $moduleForm->getFieldsets();
 <div id="module-param-block" class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="fieldset-text">
         {{-- EDITOR --}}
-        @if ($type == 'custom')
-            {!! $form->getField('content')->renderInput() !!}
-        @endif
+        {!! $form->getField('content')->renderInput() !!}
     </div>
 
     @foreach ($fieldsets as $fieldset)

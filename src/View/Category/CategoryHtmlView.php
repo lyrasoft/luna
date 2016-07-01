@@ -38,11 +38,11 @@ class CategoryHtmlView extends ListView
 	protected $renderer = RendererHelper::EDGE;
 
 	/**
-	 * initialise
+	 * init
 	 *
 	 * @return  void
 	 */
-	protected function initialise()
+	protected function init()
 	{
 		$this->langPrefix = LunaHelper::getLangPrefix();
 	}
@@ -56,6 +56,8 @@ class CategoryHtmlView extends ListView
 	 */
 	protected function prepareData($data)
 	{
+		parent::prepareData($data);
+		
 		foreach ($data->items as $item)
 		{
 			$tags = (array) explode('||', $item->tags);

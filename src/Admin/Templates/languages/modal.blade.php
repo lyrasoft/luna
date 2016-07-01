@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.' . $luna->get('admin.package') . '.pure')
+@extends('_global.' . \Lyrasoft\Luna\Helper\LunaHelper::getAdminPackage(true) . '.pure')
 
 @section('toolbar')
     @include('toolbar')
@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.title', 'language.title') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.title', 'language.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.state', 'language.state') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.state', 'language.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.author', 'language.created_by') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.author', 'language.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.created', 'language.created') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.created', 'language.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.id', 'language.id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.id', 'language.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -121,7 +121,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@languages', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->route($view->name, [])->render() !!}
                     </td>
                 </tr>
                 </tfoot>
@@ -133,7 +133,7 @@
             <input type="hidden" name="_method" value="PUT" />
 
             {{-- TOKEN --}}
-            {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+            @formToken()
         </div>
 
         @include('batch')

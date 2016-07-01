@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Controller\Article;
 use Lyrasoft\Luna\Model\ArticleModel;
 use Lyrasoft\Luna\View\Article\ArticleHtmlView;
 use Phoenix\Controller\Display\ItemDisplayController;
-use Windwalker\Core\Model\Model;
+use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.
@@ -68,11 +68,11 @@ class GetController extends ItemDisplayController
 	/**
 	 * prepareUserState
 	 *
-	 * @param   Model $model
+	 * @param   ModelRepository $model
 	 *
 	 * @return  void
 	 */
-	protected function prepareUserState(Model $model)
+	protected function prepareUserState(ModelRepository $model)
 	{
 		parent::prepareUserState($model);
 	}

@@ -19,7 +19,7 @@
  */
 ?>
 
-@extends($lunaExtends . '-edit')
+@extends($luna->extends)
 
 @section('toolbar')
     @include('toolbar')
@@ -33,20 +33,20 @@
     <div class="row">
         <div class="col-md-7">
             <fieldset class="form-horizontal">
-                <legend>@translate($lunaPrefix . 'category.edit.fieldset.basic')</legend>
+                <legend>@translate($luna->prefix . 'category.edit.fieldset.basic')</legend>
 
                 {!! $form->renderFields('basic') !!}
             </fieldset>
 
             <fieldset class="form-horizontal">
-                <legend>@translate($lunaPrefix . 'category.edit.fieldset.text')</legend>
+                <legend>@translate($luna->prefix . 'category.edit.fieldset.text')</legend>
 
                 {!! $form->getField('description')->renderInput() !!}
             </fieldset>
         </div>
         <div class="col-md-5">
             <fieldset class="form-horizontal">
-                <legend>@translate($lunaPrefix . 'category.edit.fieldset.created')</legend>
+                <legend>@translate($luna->prefix . 'category.edit.fieldset.created')</legend>
 
                 {!! $form->renderFields('created') !!}
             </fieldset>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="hidden-inputs">
-        {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+        @formToken()
     </div>
 
 </form>

@@ -17,6 +17,7 @@ use Windwalker\Core\Frontend\Bootstrap;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Utilities\Queue\Priority;
+use Windwalker\Utilities\Queue\PriorityQueue;
 
 /**
  * The ModuleHtmlView class.
@@ -61,11 +62,11 @@ class ModuleHtmlView extends EditView
 	protected $formLoadData = true;
 
 	/**
-	 * initialise
+	 * init
 	 *
 	 * @return  void
 	 */
-	protected function initialise()
+	protected function init()
 	{
 		$this->langPrefix = LunaHelper::getLangPrefix();
 	}
@@ -79,6 +80,8 @@ class ModuleHtmlView extends EditView
 	 */
 	protected function prepareData($data)
 	{
+		parent::prepareData($data);
+		
 		$this->prepareScripts();
 
 		$data->type = $data->item->type ? : $data->state->get('module.type', $data->form->getField('type')->getValue());
@@ -90,7 +93,7 @@ class ModuleHtmlView extends EditView
 
 		if (!$data->type)
 		{
-			$this->package->app->addFlash(Translator::translate($this->langPrefix . 'module.edit.message.no.type'), Bootstrap::MSG_WARNING)
+			$this->package->app->addMessage(Translator::translate($this->langPrefix . 'module.edit.message.no.type'), Bootstrap::MSG_WARNING)
 				->redirect($this->router->route('modules'));
 		}
 
@@ -98,7 +101,7 @@ class ModuleHtmlView extends EditView
 		$data->module     = $data->moduleType->createInstance($data->item);
 
 		// Add layout path
-		$this->addPath($data->module->getDir() . '/Templates', Priority::BELOW_NORMAL);
+		$this->addPath($data->module->getDir() . '/Templates', PriorityQueue::BELOW_NORMAL);
 
 		$this->setTitle(
 			Translator::sprintf('phoenix.title.edit', Translator::translate($this->langPrefix . $this->getName() . '.title')) .

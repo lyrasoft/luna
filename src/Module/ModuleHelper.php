@@ -126,11 +126,13 @@ class ModuleHelper
 	/**
 	 * getModuleTypes
 	 *
-	 * @return  array|AbstractModule[]
+	 * @param bool $refresh
+	 *
+	 * @return array|AbstractModule[]
 	 */
-	public static function getModuleClasses()
+	public static function getModuleClasses($refresh = false)
 	{
-		if (static::$classes === null)
+		if (static::$classes === null || $refresh)
 		{
 			static::$classes = static::findModuleClasses();
 		}
@@ -141,13 +143,15 @@ class ModuleHelper
 	/**
 	 * getModuleTypes
 	 *
-	 * @return  DataSet|ModuleType[]
+	 * @param bool $refresh
+	 *
+	 * @return ModuleType[]|DataSet
 	 */
-	public static function getModuleTypes()
+	public static function getModuleTypes($refresh = false)
 	{
-		if (static::$types === null)
+		if (static::$types === null || $refresh)
 		{
-			$classes = static::getModuleClasses();
+			$classes = static::getModuleClasses($refresh);
 
 			static::$types = new DataSet;
 

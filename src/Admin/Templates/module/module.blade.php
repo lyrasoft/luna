@@ -21,7 +21,7 @@
 \Phoenix\Script\BootstrapScript::tabState();
 ?>
 
-@extends($lunaExtends . '-edit')
+@extends($luna->extends)
 
 @section('toolbar')
     @include('toolbar')
@@ -49,7 +49,7 @@
                 </p>
             </div>
             {{--<fieldset class="form-horizontal">--}}
-                {{--<legend>@translate($lunaPrefix . 'module.edit.fieldset.basic')</legend>--}}
+                {{--<legend>@translate($luna->prefix . 'module.edit.fieldset.basic')</legend>--}}
 
                 {{--{!! $form->renderFields('basic') !!}--}}
             {{--</fieldset>--}}
@@ -58,7 +58,7 @@
         </div>
         <div class="col-md-4">
             <fieldset class="form-horizontal">
-                <legend>@translate($lunaPrefix . 'module.edit.fieldset.created')</legend>
+                <legend>@translate($luna->prefix . 'module.edit.fieldset.created')</legend>
 
                 {!! $form->renderFields('created') !!}
             </fieldset>
@@ -66,7 +66,7 @@
     </div>
 
     <div class="hidden-inputs">
-        {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+        @formToken()
     </div>
 
 </form>

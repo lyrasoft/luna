@@ -30,6 +30,13 @@ class CommentRecord extends Record
 	protected $table = LunaTable::COMMENTS;
 
 	/**
+	 * Property keys.
+	 *
+	 * @var  string
+	 */
+	protected $keys = 'id';
+
+	/**
 	 * onAfterLoad
 	 *
 	 * @param Event $event

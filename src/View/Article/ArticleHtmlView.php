@@ -39,11 +39,11 @@ class ArticleHtmlView extends ItemView
 	protected $renderer = RendererHelper::EDGE;
 
 	/**
-	 * initialise
+	 * init
 	 *
 	 * @return  void
 	 */
-	protected function initialise()
+	protected function init()
 	{
 		$this->langPrefix = LunaHelper::getLangPrefix();
 	}
@@ -57,6 +57,8 @@ class ArticleHtmlView extends ItemView
 	 */
 	protected function prepareData($data)
 	{
+		parent::prepareData($data);
+		
 		if ($data->item->isNull())
 		{
 			throw new RouteNotFoundException('Article not found', 404);

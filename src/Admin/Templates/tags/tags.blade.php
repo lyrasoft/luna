@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends($lunaExtends)
+@extends($luna->extends)
 
 @section('toolbar')
     @include('toolbar')
@@ -57,34 +57,34 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;" width="10%">
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.state', 'tag.state') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.state', 'tag.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.title', 'tag.title') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.title', 'tag.title') !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                     {{-- AUTHOR --}}
                         <th width="20%">
-                            {!! $grid->sortTitle($lunaPrefix . 'tag.field.author', 'tag.created_by') !!}
+                            {!! $grid->sortTitle($luna->prefix . 'tag.field.author', 'tag.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
                     <th width="10%">
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.created', 'tag.created') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.created', 'tag.created') !!}
                     </th>
 
                     {{-- LANGUAGE --}}
                     {{--<th>--}}
-                        {{--{!! $grid->sortTitle($lunaPrefix . 'tag.field.language', 'tag.language') !!}--}}
+                        {{--{!! $grid->sortTitle($luna->prefix . 'tag.field.language', 'tag.language') !!}--}}
                     {{--</th>--}}
 
                     {{-- ID --}}
                     <th width="1%">
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.id', 'tag.id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.id', 'tag.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -156,7 +156,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@tags', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->route($view->name, [])->render() !!}
                     </td>
                 </tr>
                 </tfoot>
@@ -168,7 +168,7 @@
             <input type="hidden" name="_method" value="PUT" />
 
             {{-- TOKEN --}}
-            {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+            @formToken()
         </div>
 
         @include('batch')

@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.' . $luna->get('admin.package') . '.pure')
+@extends('_global.' . \Lyrasoft\Luna\Helper\LunaHelper::getAdminPackage(true) . '.pure')
 
 @section('toolbar')
     @include('toolbar')
@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.title', 'tag.title') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.title', 'tag.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.state', 'tag.state') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.state', 'tag.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.author', 'tag.created_by') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.author', 'tag.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.created', 'tag.created') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.created', 'tag.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'tag.field.id', 'tag.id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'tag.field.id', 'tag.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -121,7 +121,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@tags', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->route($view->name, [])->render() !!}
                     </td>
                 </tr>
                 </tfoot>
@@ -133,7 +133,7 @@
             <input type="hidden" name="_method" value="PUT" />
 
             {{-- TOKEN --}}
-            {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+            @formToken()
         </div>
 
         @include('batch')

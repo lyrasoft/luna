@@ -10,12 +10,14 @@ namespace Lyrasoft\Luna\Admin\View\Modules;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Module\ModuleHelper;
-use Phoenix\Asset\Asset;
 use Phoenix\Script\BootstrapScript;
+use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
+use Windwalker\Core\Asset\Asset;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Data\Data;
 use Windwalker\Filter\InputFilter;
 
 /**
@@ -67,11 +69,11 @@ class ModulesHtmlView extends GridView
 	);
 
 	/**
-	 * initialise
+	 * init
 	 *
 	 * @return  void
 	 */
-	protected function initialise()
+	protected function init()
 	{
 		$this->langPrefix = LunaHelper::getLangPrefix();
 	}
@@ -113,11 +115,28 @@ class ModulesHtmlView extends GridView
 	 */
 	protected function prepareData($data)
 	{
+		parent::prepareData($data);
+		
 		$this->prepareScripts();
 
-		$positions = array_values(array_unique($data->items->position));
+		// Process module position colors
+		$this->preparePositionsColor($data);
 
-		$nums = array();
+		// Find Classes
+		$data->modules = ModuleHelper::getModuleTypes();
+	}
+
+	/**
+	 * preparePositionsColor
+	 *
+	 * @param   Data $data
+	 *
+	 * @return  void
+	 */
+	protected function preparePositionsColor($data)
+	{
+		$positions = array_values(array_unique($data->items->position));
+		$nums = [];
 
 		$filter = new InputFilter;
 
@@ -153,9 +172,6 @@ class ModulesHtmlView extends GridView
 				$item->labelClass = $this->defaultLabelClass;
 			}
 		}
-
-		// Find Classes
-		$data->modules = ModuleHelper::getModuleTypes();
 	}
 
 	/**
@@ -172,7 +188,7 @@ class ModulesHtmlView extends GridView
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::tooltip();
 
-		\Phoenix\Script\JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
+		JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
 
 		$css = <<<CSS
 /* Color from Ubold */
@@ -205,7 +221,7 @@ class ModulesHtmlView extends GridView
 }
 CSS;
 
-		Asset::internalStyle($css);
+		Asset::internalCSS($css);
 	}
 
 	/**

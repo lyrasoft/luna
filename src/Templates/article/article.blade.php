@@ -74,7 +74,7 @@
                             <h3 class="panel-title">{{ $comment->user_name }}</h3>
                         </div>
                         <div class="panel-body">
-                            {!! nl2br(e($comment->content)) !!}
+                            {!! nl2br($this->escape($comment->content)) !!}
                         </div>
                     </div>
                 </div>

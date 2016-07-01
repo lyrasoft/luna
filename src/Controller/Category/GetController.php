@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Model\ArticlesModel;
 use Lyrasoft\Luna\View\Category\CategoryHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Windwalker\Core\Model\Model;
+use Windwalker\Core\Model\ModelRepository;
 use Windwalker\Core\View\BladeHtmlView;
 use Windwalker\Data\Data;
 use Windwalker\Filter\InputFilter;
@@ -50,7 +50,7 @@ class GetController extends ListDisplayController
 	 *
 	 * @var  ArticlesModel
 	 */
-	protected $model;
+	protected $model = 'Articles';
 
 	/**
 	 * Property view.
@@ -93,11 +93,11 @@ class GetController extends ListDisplayController
 	/**
 	 * prepareUserState
 	 *
-	 * @param   Model $model
+	 * @param   ModelRepository $model
 	 *
 	 * @return  void
 	 */
-	protected function prepareUserState(Model $model)
+	protected function prepareUserState(ModelRepository $model)
 	{
 		parent::prepareUserState($model);
 
@@ -201,33 +201,6 @@ class GetController extends ListDisplayController
 	protected function postExecute($result = null)
 	{
 		return parent::postExecute($result);
-	}
-
-	/**
-	 * getModel
-	 *
-	 * @param string $name
-	 * @param bool   $forceNew
-	 *
-	 * @return  mixed
-	 */
-	public function getModel($name = 'Articles', $forceNew = false)
-	{
-		return parent::getModel($name, $forceNew);
-	}
-
-	/**
-	 * getView
-	 *
-	 * @param string $name
-	 * @param string $type
-	 * @param bool   $forceNew
-	 *
-	 * @return  BladeHtmlView
-	 */
-	public function getView($name = 'Category', $type = 'html', $forceNew = false)
-	{
-		return parent::getView($name, $type, $forceNew);
 	}
 
 	/**

@@ -57,11 +57,11 @@ class TagHtmlView extends EditView
 	protected $formLoadData = true;
 
 	/**
-	 * initialise
+	 * init
 	 *
 	 * @return  void
 	 */
-	protected function initialise()
+	protected function init()
 	{
 		$this->langPrefix = LunaHelper::getLangPrefix();
 	}
@@ -75,6 +75,8 @@ class TagHtmlView extends EditView
 	 */
 	protected function prepareData($data)
 	{
+		parent::prepareData($data);
+		
 		$this->prepareScripts();
 	}
 

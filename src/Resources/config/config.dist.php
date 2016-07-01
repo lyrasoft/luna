@@ -56,7 +56,7 @@ return [
 			"extends" => "_global.admin.admin"
 		],
 		"redirect" => [
-			"language" => "home"
+			"language" => "articles"
 		],
 		"language" => [
 			"prefix" => "luna.",
@@ -78,4 +78,15 @@ return [
 
 		]
 	],
+
+	'providers' => [
+		'luna' => \Lyrasoft\Luna\Provider\LunaProvider::class,
+	],
+
+	'listeners' => [
+		'luna' => \Lyrasoft\Luna\Listener\LunaListener::class,
+		'editor' => \Lyrasoft\Luna\Listener\EditorListener::class,
+		'language' => \Lyrasoft\Luna\Listener\LanguageListener::class,
+		//		'error' => \Lyrasoft\Luna\Listener\ErrorListener::class,
+	]
 ];

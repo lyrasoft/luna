@@ -30,6 +30,13 @@ class ModuleRecord extends Record
 	protected $table = LunaTable::MODULES;
 
 	/**
+	 * Property keys.
+	 *
+	 * @var  string
+	 */
+	protected $keys = 'id';
+
+	/**
 	 * onAfterLoad
 	 *
 	 * @param Event $event

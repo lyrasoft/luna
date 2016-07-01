@@ -17,9 +17,10 @@ use Windwalker\Core\Package\Resolver\FieldDefinitionResolver;
 use Windwalker\Core\Package\Resolver\RecordResolver;
 use Windwalker\Core\Application\WebApplication;
 use Windwalker\Core\Renderer\BladeRenderer;
-use Windwalker\Core\View\BladeHtmlView;
+use Windwalker\Core\View\HtmlView;
+use Windwalker\Data\Data;
 use Windwalker\Event\Event;
-use Windwalker\Test\TestHelper;
+use Windwalker\Renderer\AbstractRenderer;
 use Windwalker\Utilities\Queue\PriorityQueue;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
@@ -97,8 +98,8 @@ class LunaListener
 		$view = $event['view'];
 
 		/**
-		 * @var BladeHtmlView $view
-		 * @var BladeRenderer $renderer
+		 * @var HtmlView $view
+		 * @var AbstractRenderer $renderer
 		 */
 		$name = $view->getName();
 		$renderer = $view->getRenderer();
@@ -109,9 +110,11 @@ class LunaListener
 		if ($this->luna->isFrontend())
 		{
 			// Extends
-			$view['lunaExtends'] = $this->luna->get('frontend.view.extends', '_global.html');
-			$view['lunaPrefix'] = $this->luna->get('frontend.language.prefix', 'warder.');
-			$view['luna'] = $this->luna;
+			$view['luna'] = new Data([
+				'extends' => $this->luna->get('frontend.view.extends', '_global.html'),
+				'langPrefix' => $this->luna->get('frontend.language.prefix', 'luna.'),
+				'package' => $this->luna
+			]);
 
 			// Paths
 //			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.locale'), PriorityQueue::LOW - 25);
@@ -121,9 +124,11 @@ class LunaListener
 		elseif ($this->luna->isAdmin())
 		{
 			// Extends
-			$view['lunaExtends'] = $this->luna->get('admin.view.extends', '_global.html');
-			$view['lunaPrefix'] = $this->luna->get('admin.language.prefix', 'warder.');
-			$view['luna'] = $this->luna;
+			$view['luna'] = new Data([
+				'extends' => $this->luna->get('admin.view.extends', '_global.html'),
+				'langPrefix' => $this->luna->get('admin.language.prefix', 'luna.'),
+				'package' => $this->luna
+			]);
 
 			// Paths
 //			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.locale'), PriorityQueue::LOW - 25);

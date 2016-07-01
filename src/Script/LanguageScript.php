@@ -9,14 +9,14 @@
 namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Phoenix\Script\AbstractScriptManager;
+use Windwalker\Core\Asset\AbstractScript;
 
 /**
  * The LanguageScript class.
  *
  * @since  {DEPLOY_VERSION}
  */
-class LanguageScript extends AbstractScriptManager
+class LanguageScript extends AbstractScript
 {
 	/**
 	 * flagIcon

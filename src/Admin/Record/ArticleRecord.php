@@ -30,6 +30,13 @@ class ArticleRecord extends Record
 	protected $table = LunaTable::ARTICLES;
 
 	/**
+	 * Property keys.
+	 *
+	 * @var  string
+	 */
+	protected $keys = 'id';
+
+	/**
 	 * onAfterLoad
 	 *
 	 * @param Event $event

@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends('_global.' . $luna->get('admin.package') . '.pure')
+@extends('_global.' . \Lyrasoft\Luna\Helper\LunaHelper::getAdminPackage(true) . '.pure')
 
 @section('toolbar')
     @include('toolbar')
@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.title', 'article.title') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.title', 'article.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.state', 'article.state') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.state', 'article.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.author', 'article.created_by') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.author', 'article.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.created', 'article.created') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.created', 'article.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.id', 'article.id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.id', 'article.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -121,7 +121,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@articles', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->route($view->name, [])->render() !!}
                     </td>
                 </tr>
                 </tfoot>
@@ -133,7 +133,7 @@
             <input type="hidden" name="_method" value="PUT" />
 
             {{-- TOKEN --}}
-            {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+            @formToken()
         </div>
 
         @include('batch')

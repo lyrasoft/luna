@@ -31,6 +31,13 @@ class CategoryRecord extends NestedRecord
 	protected $table = LunaTable::CATEGORIES;
 
 	/**
+	 * Property keys.
+	 *
+	 * @var  string
+	 */
+	protected $keys = 'id';
+
+	/**
 	 * onAfterLoad
 	 *
 	 * @param Event $event

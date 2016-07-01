@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends($lunaExtends)
+@extends($luna->extends)
 
 @section('toolbar')
     @include('toolbar')
@@ -57,7 +57,7 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;" width="7%">
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.state', 'article.state') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.state', 'article.state') !!}
                     </th>
 
                     {{-- CATEGORY --}}
@@ -67,36 +67,36 @@
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.title', 'article.title') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.title', 'article.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {{-- AUTHOR --}}
                         <th width="15%">
-                            {!! $grid->sortTitle($lunaPrefix . 'article.field.author', 'article.created_by') !!}
+                            {!! $grid->sortTitle($luna->prefix . 'article.field.author', 'article.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
                     <th width="8%">
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.created', 'article.created') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.created', 'article.created') !!}
                     </th>
 
                     @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                         {{-- LANGUAGE --}}
                         <th width="15%">
-                            {!! $grid->sortTitle($lunaPrefix . 'article.field.language', 'article.language') !!}
+                            {!! $grid->sortTitle($luna->prefix . 'article.field.language', 'article.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
                     <th width="5%">
-                        {!! $grid->sortTitle($lunaPrefix . 'article.field.id', 'article.id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'article.field.id', 'article.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -181,7 +181,7 @@
                             <td>
                                 @if ($item->language == '*')
                                     <span class="glyphicon glyphicon-globe fa fa-globe"></span>
-                                    @translate($lunaPrefix . 'language.field.all')
+                                    @translate($luna->prefix . 'language.field.all')
                                 @else
                                     <span class="hasTooltip" title="{{ $item->lang_code }}">
                                         <span class="{{ \Lyrasoft\Luna\Language\Locale::getFlagIconClass($item->lang_image) }}"></span>
@@ -203,7 +203,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@articles', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->route($view->name, [])->render() !!}
                     </td>
                 </tr>
                 </tfoot>
@@ -215,7 +215,7 @@
             <input type="hidden" name="_method" value="PUT" />
 
             {{-- TOKEN --}}
-            {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+            @formToken()
         </div>
 
         @include('batch')

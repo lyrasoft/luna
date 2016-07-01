@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends($lunaExtends)
+@extends($luna->extends)
 
 @section('toolbar')
     @include('toolbar')
@@ -57,56 +57,56 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 70px;" width="4%">
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.state', 'comment.state') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'comment.field.state', 'comment.state') !!}
                     </th>
 
                     {{-- EDIT --}}
                     <th>
-                        @translate($lunaPrefix . 'comment.button.edit')
+                        @translate($luna->prefix . 'comment.button.edit')
                     </th>
 
                     <th width="20%">
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.target.title', 'comment.target_id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'comment.field.target.title', 'comment.target_id') !!}
                         /
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.created', 'comment.created') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'comment.field.created', 'comment.created') !!}
                     </th>
 
                     {{-- TITLE --}}
                     {{--<th>--}}
-                        {{--{!! $grid->sortTitle($lunaPrefix . 'comment.field.title', 'comment.title') !!}--}}
+                        {{--{!! $grid->sortTitle($luna->prefix . 'comment.field.title', 'comment.title') !!}--}}
                     {{--</th>--}}
 
                     {{-- CONTENT --}}
                     <th>
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.author', 'comment.created_by') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'comment.field.author', 'comment.created_by') !!}
                         /
                         @endif
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.content', 'comment.content') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'comment.field.content', 'comment.content') !!}
                     </th>
 
                     {{-- REPLY --}}
                     <th>
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
                         /
                         @endif
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.reply', 'comment.reply') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'comment.field.reply', 'comment.reply') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     {{--<th width="5%" class="nowrap">--}}
-                        {{--{!! $grid->sortTitle($lunaPrefix . 'comment.field.ordering', 'comment.type, comment.target_id, comment.ordering') !!} {!! $grid->saveorderButton() !!}--}}
+                        {{--{!! $grid->sortTitle($luna->prefix . 'comment.field.ordering', 'comment.type, comment.target_id, comment.ordering') !!} {!! $grid->saveorderButton() !!}--}}
                     {{--</th>--}}
 
                     {{-- LANGUAGE --}}
                     {{--<th>--}}
-                        {{--{!! $grid->sortTitle($lunaPrefix . 'comment.field.language', 'comment.language') !!}--}}
+                        {{--{!! $grid->sortTitle($luna->prefix . 'comment.field.language', 'comment.language') !!}--}}
                     {{--</th>--}}
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'comment.field.id', 'comment.id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'comment.field.id', 'comment.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -200,7 +200,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@' . 'comments', array('type' => $type), 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->route($view->name, [])->render() !!}
                     </td>
                 </tr>
                 </tfoot>
@@ -212,7 +212,7 @@
             <input type="hidden" name="_method" value="PUT" />
 
             {{-- TOKEN --}}
-            {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+            @formToken()
         </div>
 
         @include('batch')

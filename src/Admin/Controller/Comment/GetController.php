@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Comment;
 use Lyrasoft\Luna\Admin\Model\CommentModel;
 use Lyrasoft\Luna\Admin\View\Comment\CommentHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
-use Windwalker\Core\Model\Model;
+use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.
@@ -68,11 +68,11 @@ class GetController extends EditDisplayController
 	/**
 	 * prepareExecute
 	 *
-	 * @param Model $model
+	 * @param ModelRepository $model
 	 *
 	 * @return void
 	 */
-	protected function prepareUserState(Model $model)
+	protected function prepareUserState(ModelRepository $model)
 	{
 		parent::prepareUserState($model);
 

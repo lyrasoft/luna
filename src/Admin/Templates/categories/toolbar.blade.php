@@ -34,9 +34,9 @@
 </button>
 
 <button type="button" class="btn btn-default btn-sm hasTooltip" onclick="Phoenix.Grid.batch('rebuild');"
-    title="@translate($lunaPrefix . 'toolbar.rebuild.desc')">
+    title="@translate($luna->prefix . 'toolbar.rebuild.desc')">
     <span class="glyphicon glyphicon-refresh fa fa-refresh text-info"></span>
-    @translate($lunaPrefix . 'toolbar.rebuild')
+    @translate($luna->prefix . 'toolbar.rebuild')
 </button>
 
 <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">

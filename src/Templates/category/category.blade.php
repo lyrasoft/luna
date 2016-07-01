@@ -60,9 +60,9 @@
         <hr />
         <div class="pagination">
             @if ($category->notNull())
-                {!! $pagination->render($package->name . '@article_category', array('path' => $category->path)) !!}
+                {!! $pagination->route('article_category', ['path' => $category->path])->render() !!}
             @elseif ($tag->notNull())
-                {!! $pagination->render($package->name . '@article_tag', array('tag' => $tag->alias)) !!}
+                {!! $pagination->route('article_tag', ['tag' => $tag->alias])->render() !!}
             @else
                 {{-- Home route --}}
             @endif

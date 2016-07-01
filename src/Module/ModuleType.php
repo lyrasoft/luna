@@ -28,15 +28,15 @@ class ModuleType extends Data
 	/**
 	 * createInstance
 	 *
-	 * @param   array          $data
-	 * @param   BladeRenderer  $renderer
+	 * @param   array $data
+	 * @param string  $engine
 	 *
-	 * @return  AbstractModule
+	 * @return AbstractModule
 	 */
-	public function createInstance($data = array(), BladeRenderer $renderer = null)
+	public function createInstance($data = array(), $engine = 'edge')
 	{
 		$class = $this->class;
 
-		return new $class($data, $renderer);
+		return new $class($data, $engine);
 	}
 }

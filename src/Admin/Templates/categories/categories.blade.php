@@ -27,7 +27,7 @@
  */
 ?>
 
-@extends($lunaExtends)
+@extends($luna->extends)
 
 @section('toolbar')
     @include('toolbar')
@@ -58,41 +58,41 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;" width="7%">
-                        {!! $grid->sortTitle($lunaPrefix . 'category.field.state', 'category.state') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'category.field.state', 'category.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'category.field.title', 'category.title') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'category.field.title', 'category.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($lunaPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($luna->prefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {{-- AUTHOR --}}
                         <th width="15%">
-                            {!! $grid->sortTitle($lunaPrefix . 'category.field.author', 'category.created_by') !!}
+                            {!! $grid->sortTitle($luna->prefix . 'category.field.author', 'category.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
                     <th width="8%">
-                        {!! $grid->sortTitle($lunaPrefix . 'category.field.created', 'category.created') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'category.field.created', 'category.created') !!}
                     </th>
 
                     @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                         {{-- LANGUAGE --}}
                         <th width="15%">
-                            {!! $grid->sortTitle($lunaPrefix . 'category.field.language', 'category.language') !!}
+                            {!! $grid->sortTitle($luna->prefix . 'category.field.language', 'category.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
                     <th width="3%">
-                        {!! $grid->sortTitle($lunaPrefix . 'category.field.id', 'category.id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'category.field.id', 'category.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -155,7 +155,7 @@
                             <td>
                                 @if ($item->language == '*')
                                     <span class="glyphicon glyphicon-globe fa fa-globe"></span>
-                                    @translate($lunaPrefix . 'language.field.all')
+                                    @translate($luna->prefix . 'language.field.all')
                                 @else
                                     <span class="hasTooltip" title="{{ $item->lang_code }}">
                                         <span class="{{ \Lyrasoft\Luna\Language\Locale::getFlagIconClass($item->lang_image) }}"></span>
@@ -177,7 +177,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@categories', array('type' => $type), 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->route($view->name, [])->render() !!}
                     </td>
                 </tr>
                 </tfoot>
@@ -189,7 +189,7 @@
             <input type="hidden" name="_method" value="PUT" />
 
             {{-- TOKEN --}}
-            {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+            @formToken()
         </div>
 
         @include('batch')

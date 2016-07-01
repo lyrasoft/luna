@@ -30,6 +30,13 @@ class TagRecord extends Record
 	protected $table = LunaTable::TAGS;
 
 	/**
+	 * Property keys.
+	 *
+	 * @var  string
+	 */
+	protected $keys = 'id';
+
+	/**
 	 * onAfterLoad
 	 *
 	 * @param Event $event

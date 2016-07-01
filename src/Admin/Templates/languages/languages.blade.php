@@ -26,7 +26,7 @@
  */
 ?>
 
-@extends($lunaExtends)
+@extends($luna->extends)
 
 @section('toolbar')
     @include('toolbar')
@@ -57,37 +57,37 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;" width="7%">
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.state', 'language.state') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.state', 'language.state') !!}
                     </th>
 
                     {{-- FLAG --}}
                     <th width="1%">
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.image', 'language.image') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.image', 'language.image') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.title', 'language.title') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.title', 'language.title') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.titlenative', 'language.title_native') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.titlenative', 'language.title_native') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.ordering', 'language.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.ordering', 'language.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- CODE --}}
                     <th class="5%">
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.code', 'language.code') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.code', 'language.code') !!}
                     </th>
 
                     {{-- URL --}}
                     <th class="5%">
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.alias', 'language.alias') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.alias', 'language.alias') !!}
                     </th>
 
                     {{-- DELETE --}}
@@ -97,7 +97,7 @@
 
                     {{-- ID --}}
                     <th class="5%">
-                        {!! $grid->sortTitle($lunaPrefix . 'language.field.id', 'language.id') !!}
+                        {!! $grid->sortTitle($luna->prefix . 'language.field.id', 'language.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -173,7 +173,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->render($package->getName() . '@languages', 'windwalker.pagination.phoenix') !!}
+                        {!! $pagination->route($view->name, [])->render() !!}
                     </td>
                 </tr>
                 </tfoot>
@@ -185,7 +185,7 @@
             <input type="hidden" name="_method" value="PUT" />
 
             {{-- TOKEN --}}
-            {!! \Windwalker\Core\Security\CsrfProtection::input() !!}
+            @formToken()
         </div>
 
         @include('batch')

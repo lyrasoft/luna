@@ -63,11 +63,11 @@ class ArticlesHtmlView extends GridView
 	);
 
 	/**
-	 * initialise
+	 * init
 	 *
 	 * @return  void
 	 */
-	protected function initialise()
+	protected function init()
 	{
 		$this->langPrefix = LunaHelper::getLangPrefix();
 	}
@@ -81,6 +81,8 @@ class ArticlesHtmlView extends GridView
 	 */
 	protected function prepareData($data)
 	{
+		parent::prepareData($data);
+		
 		$this->prepareScripts();
 	}
 

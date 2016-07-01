@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Admin\Model\CategoriesModel;
 use Lyrasoft\Luna\Admin\View\Categories\CategoriesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Phoenix\Model\ListModel;
-use Windwalker\Core\Model\Model;
+use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.
@@ -85,11 +85,11 @@ class GetController extends ListDisplayController
 	/**
 	 * prepareUserState
 	 *
-	 * @param   Model $model
+	 * @param   ModelRepository $model
 	 *
 	 * @return  void
 	 */
-	protected function prepareUserState(Model $model)
+	protected function prepareUserState(ModelRepository $model)
 	{
 		/** @var ListModel $model */
 		parent::prepareUserState($model);

@@ -30,6 +30,13 @@ class LanguageRecord extends Record
 	protected $table = LunaTable::LANGUAGES;
 
 	/**
+	 * Property keys.
+	 *
+	 * @var  string
+	 */
+	protected $keys = 'id';
+
+	/**
 	 * onAfterLoad
 	 *
 	 * @param Event $event

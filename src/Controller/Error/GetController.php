@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Controller\Error;
 use Lyrasoft\Luna\Model\ErrorModel;
 use Lyrasoft\Luna\View\Error\ErrorHtmlView;
 use Phoenix\Controller\Display\ItemDisplayController;
-use Windwalker\Core\Model\Model;
+use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.
@@ -56,11 +56,11 @@ class GetController extends ItemDisplayController
 	/**
 	 * prepareUserState
 	 *
-	 * @param   Model $model
+	 * @param   ModelRepository $model
 	 *
 	 * @return  void
 	 */
-	protected function prepareUserState(Model $model)
+	protected function prepareUserState(ModelRepository $model)
 	{
 		parent::prepareUserState($model);
 	}

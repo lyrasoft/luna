@@ -86,10 +86,10 @@ class TagHelper
 			$conditions['map.target_id'] = $targetId;
 		}
 
-		return RelationDataMapper::getInstance('tag', LunaTable::TAGS)
+		return RelationDataMapper::newInstance('tag', LunaTable::TAGS)
 			->addTable('map', LunaTable::TAG_MAPS, 'map.tag_id = tag.id')
 			->group('tag.id')
-			->setSelectFields($fields)
+			->select($fields)
 			->find($conditions, 'tag.title');
 	}
 

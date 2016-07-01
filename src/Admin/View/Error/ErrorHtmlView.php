@@ -35,11 +35,11 @@ class ErrorHtmlView extends ItemView
 	protected $renderer = RendererHelper::EDGE;
 
 	/**
-	 * initialise
+	 * init
 	 *
 	 * @return  void
 	 */
-	protected function initialise()
+	protected function init()
 	{
 		$this->langPrefix = LunaHelper::getLangPrefix();
 	}
@@ -53,6 +53,8 @@ class ErrorHtmlView extends ItemView
 	 */
 	protected function prepareData($data)
 	{
+		parent::prepareData($data);
+		
 		$data->code = $data->exception->getCode();
 		$data->msg  = $data->exception->getMessage();
 

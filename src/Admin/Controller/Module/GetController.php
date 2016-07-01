@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Module;
 use Lyrasoft\Luna\Admin\Model\ModuleModel;
 use Lyrasoft\Luna\Admin\View\Module\ModuleHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
-use Windwalker\Core\Model\Model;
+use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.
@@ -68,11 +68,11 @@ class GetController extends EditDisplayController
 	/**
 	 * prepareExecute
 	 *
-	 * @param Model $model
+	 * @param ModelRepository $model
 	 *
 	 * @return void
 	 */
-	protected function prepareUserState(Model $model)
+	protected function prepareUserState(ModelRepository $model)
 	{
 		parent::prepareUserState($model);
 
