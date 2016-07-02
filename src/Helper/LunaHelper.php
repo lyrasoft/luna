@@ -78,7 +78,7 @@ abstract class LunaHelper
 	 */
 	public static function getFrontendRouting()
 	{
-		return Yaml::parse(file_get_contents(LUNA_SOURCE . '/routing.yml'));
+		return LUNA_SOURCE . '/routing.yml';
 	}
 
 	/**
@@ -88,7 +88,7 @@ abstract class LunaHelper
 	 */
 	public static function getAdminRouting()
 	{
-		return Yaml::parse(file_get_contents(LUNA_SOURCE_ADMIN . '/routing.yml'));
+		return LUNA_SOURCE_ADMIN . '/routing.yml';
 	}
 
 	/**
