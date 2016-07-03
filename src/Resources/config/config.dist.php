@@ -12,11 +12,11 @@ return [
 	 * ------------------------------------------------
 	 */
 	'table' => [
-		"categories" => "categories",
-		"articles" => "articles",
-		"tags" => "tags",
-		"tag_maps" => "tag_maps",
-		"languages" => "languages"
+		'categories' => 'categories',
+		'articles' => 'articles',
+		'tags' => 'tags',
+		'tag_maps' => 'tag_maps',
+		'languages' => 'languages'
 	],
 
 	/*
@@ -24,7 +24,7 @@ return [
 	 * ------------------------------------------------
 	 */
 	'type_table_map' => [
-		"article" => "articles"
+		'article' => 'articles'
 	],
 
 	/*
@@ -32,17 +32,17 @@ return [
 	 * ------------------------------------------------
 	 */
 	'frontend' => [
-		"package" => "front",
-		"view" => [
-			"extends" => "_global.html"
+		'package' => 'front',
+		'view' => [
+			'extends' => '_global.html'
 		],
-		"redirect" => [
-			"language" => "home"
+		'redirect' => [
+			'language' => 'home'
 		],
-		"language" => [
-			"prefix" => "luna.",
-			"enabled" => "",
-			"default" => "en-GB"
+		'language' => [
+			'prefix' => 'luna.',
+			'enabled' => false,
+			'default' => 'en-GB'
 		]
 	],
 
@@ -51,18 +51,18 @@ return [
 	 * ------------------------------------------------
 	 */
 	'admin' => [
-		"package" => "admin",
-		"view" => [
-			"extends" => "_global.admin.admin"
+		'package' => 'admin',
+		'view' => [
+			'extends' => '_global.admin.admin'
 		],
-		"redirect" => [
-			"language" => "articles"
+		'redirect' => [
+			'language' => 'articles'
 		],
-		"language" => [
-			"prefix" => "luna.",
-			"enabled" => "",
-			"locale" => "en-GB",
-			"default" => "en-GB"
+		'language' => [
+			'prefix' => 'luna.',
+			'enabled' => false,
+			'locale' => 'en-GB',
+			'default' => 'en-GB'
 		]
 	],
 
@@ -71,10 +71,10 @@ return [
 	 * ------------------------------------------------
 	 */
 	'module' => [
-		"includes" => [
+		'includes' => [
 
 		],
-		"excludes" => [
+		'excludes' => [
 
 		]
 	],
@@ -87,6 +87,6 @@ return [
 		'luna' => \Lyrasoft\Luna\Listener\LunaListener::class,
 		'editor' => \Lyrasoft\Luna\Listener\EditorListener::class,
 		'language' => \Lyrasoft\Luna\Listener\LanguageListener::class,
-		//		'error' => \Lyrasoft\Luna\Listener\ErrorListener::class,
+		'error' => \Lyrasoft\Luna\Listener\ErrorListener::class,
 	]
 ];
