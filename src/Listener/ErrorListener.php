@@ -30,15 +30,15 @@ class ErrorListener
 	 */
 	public function onAfterInitialise()
 	{
-		if (!Ioc::getConfig()->get('debug') && Ioc::getApplication() instanceof WebApplication)
-		{
-			/** @var MvcResolver $resolver */
-			$resolver = Ioc::getContainer()->get('mvc.resolver');
-
-			$resolver->addNamespace(ReflectionHelper::getNamespaceName(LunaHelper::getPackage()), Priority::LOW - 100);
-
-			ErrorHandler::register(true);
-		}
+//		if (!Ioc::getConfig()->get('debug') && Ioc::getApplication() instanceof WebApplication)
+//		{
+//			/** @var MvcResolver $resolver */
+//			$resolver = Ioc::getContainer()->get('mvc.resolver');
+//
+//			$resolver->addNamespace(ReflectionHelper::getNamespaceName(LunaHelper::getPackage()), Priority::LOW - 100);
+//
+//			ErrorHandler::register(true);
+//		}
 	}
 
 	/**
@@ -48,9 +48,9 @@ class ErrorListener
 	 */
 	public function onAfterRouting()
 	{
-		if (LunaHelper::isAdmin())
-		{
-			ErrorHandler::setPackage(LunaHelper::getAdminPackage(true));
-		}
+//		if (LunaHelper::isAdmin())
+//		{
+//			ErrorHandler::setPackage(LunaHelper::getAdminPackage(true));
+//		}
 	}
 }
