@@ -15,7 +15,7 @@
  * --------------------------------------------------------------
  * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
  * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
  * @var $state         \Windwalker\Registry\Registry
@@ -38,7 +38,7 @@
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
-            {!! $filterBar->render(array('form' => $filterForm, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -57,56 +57,56 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 70px;" width="4%">
-                        {!! $grid->sortTitle($luna->prefix . 'comment.field.state', 'comment.state') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'comment.field.state', 'comment.state') !!}
                     </th>
 
                     {{-- EDIT --}}
                     <th>
-                        @translate($luna->prefix . 'comment.button.edit')
+                        @translate($luna->langPrefix . 'comment.button.edit')
                     </th>
 
                     <th width="20%">
-                        {!! $grid->sortTitle($luna->prefix . 'comment.field.target.title', 'comment.target_id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'comment.field.target.title', 'comment.target_id') !!}
                         /
-                        {!! $grid->sortTitle($luna->prefix . 'comment.field.created', 'comment.created') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'comment.field.created', 'comment.created') !!}
                     </th>
 
                     {{-- TITLE --}}
                     {{--<th>--}}
-                        {{--{!! $grid->sortTitle($luna->prefix . 'comment.field.title', 'comment.title') !!}--}}
+                        {{--{!! $grid->sortTitle($luna->langPrefix . 'comment.field.title', 'comment.title') !!}--}}
                     {{--</th>--}}
 
                     {{-- CONTENT --}}
                     <th>
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
-                        {!! $grid->sortTitle($luna->prefix . 'comment.field.author', 'comment.created_by') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'comment.field.author', 'comment.created_by') !!}
                         /
                         @endif
-                        {!! $grid->sortTitle($luna->prefix . 'comment.field.content', 'comment.content') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'comment.field.content', 'comment.content') !!}
                     </th>
 
                     {{-- REPLY --}}
                     <th>
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
-                        {!! $grid->sortTitle($luna->prefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
                         /
                         @endif
-                        {!! $grid->sortTitle($luna->prefix . 'comment.field.reply', 'comment.reply') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'comment.field.reply', 'comment.reply') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     {{--<th width="5%" class="nowrap">--}}
-                        {{--{!! $grid->sortTitle($luna->prefix . 'comment.field.ordering', 'comment.type, comment.target_id, comment.ordering') !!} {!! $grid->saveorderButton() !!}--}}
+                        {{--{!! $grid->sortTitle($luna->langPrefix . 'comment.field.ordering', 'comment.type, comment.target_id, comment.ordering') !!} {!! $grid->saveorderButton() !!}--}}
                     {{--</th>--}}
 
                     {{-- LANGUAGE --}}
                     {{--<th>--}}
-                        {{--{!! $grid->sortTitle($luna->prefix . 'comment.field.language', 'comment.language') !!}--}}
+                        {{--{!! $grid->sortTitle($luna->langPrefix . 'comment.field.language', 'comment.language') !!}--}}
                     {{--</th>--}}
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'comment.field.id', 'comment.id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'comment.field.id', 'comment.id') !!}
                     </th>
                 </tr>
                 </thead>

@@ -8,14 +8,13 @@
 
 namespace Lyrasoft\Luna\Tag;
 
-use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Admin\Model\TagModel;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
-use Windwalker\DataMapper\RelationDataMapper;
+use Windwalker\DataMapper\DataMapper;
 
 /**
  * The TagHelper class.
@@ -77,8 +76,6 @@ class TagHelper
 			return $tagMapper->find($conditions);
 		}
 
-		$conditions = static::addPrefix($conditions);
-
 		$conditions['map.type'] = $type;
 
 		if ($targetId)
@@ -86,7 +83,7 @@ class TagHelper
 			$conditions['map.target_id'] = $targetId;
 		}
 
-		return RelationDataMapper::newInstance('tag', LunaTable::TAGS)
+		return DataMapper::newRelation('tag', LunaTable::TAGS)
 			->addTable('map', LunaTable::TAG_MAPS, 'map.tag_id = tag.id')
 			->group('tag.id')
 			->select($fields)
@@ -108,34 +105,5 @@ class TagHelper
 		$conditions['state'] = 1;
 
 		return static::getTags($type, $targetId, $conditions, $fields);
-	}
-
-	/**
-	 * addPrefix
-	 *
-	 * @param   array  &$conditions
-	 *
-	 * @return  array
-	 */
-	public static function addPrefix($conditions)
-	{
-		foreach ($conditions as $condition => $value)
-		{
-			if (is_array($condition))
-			{
-				$conditions[$condition] = static::addPrefix($condition);
-
-				continue;
-			}
-
-			if (strpos($condition, '.') === false)
-			{
-				unset($conditions[$condition]);
-
-				$conditions['tag.' . $condition] = $value;
-			}
-		}
-
-		return $conditions;
 	}
 }

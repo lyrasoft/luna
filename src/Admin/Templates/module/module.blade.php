@@ -49,7 +49,7 @@
                 </p>
             </div>
             {{--<fieldset class="form-horizontal">--}}
-                {{--<legend>@translate($luna->prefix . 'module.edit.fieldset.basic')</legend>--}}
+                {{--<legend>@translate($luna->langPrefix . 'module.edit.fieldset.basic')</legend>--}}
 
                 {{--{!! $form->renderFields('basic') !!}--}}
             {{--</fieldset>--}}
@@ -58,7 +58,7 @@
         </div>
         <div class="col-md-4">
             <fieldset class="form-horizontal">
-                <legend>@translate($luna->prefix . 'module.edit.fieldset.created')</legend>
+                <legend>@translate($luna->langPrefix . 'module.edit.fieldset.created')</legend>
 
                 {!! $form->renderFields('created') !!}
             </fieldset>

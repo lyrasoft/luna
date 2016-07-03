@@ -1,7 +1,7 @@
 {{-- Part of Admin project. --}}
 <?php
 /**
- * @var $batchForm \Windwalker\Form\Form
+ * @var $form \Windwalker\Form\Form
  */
 ?>
 <div class="modal fade" id="batch-modal" role="dialog" aria-labelledby="batch-modal-title">
@@ -19,7 +19,7 @@
                 </p>
                 <hr />
                 <div class="form-horizontal">
-                    {!! $batchForm->renderFields() !!}
+                    {!! $form->renderFields(null, 'batch') !!}
                 </div>
             </div>
             <div class="modal-footer">

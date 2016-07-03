@@ -1,7 +1,7 @@
 {{-- Part of Admin project. --}}
 <?php
 /**
- * @var $batchForm \Windwalker\Form\Form
+ * @var $form \Windwalker\Form\Form
  */
 ?>
 
@@ -20,7 +20,7 @@
                 </p>
                 <hr />
                 <div class="form-horizontal">
-                    {!! $batchForm->renderFields() !!}
+                    {!! $form->renderFields(null, 'batch') !!}
                 </div>
             </div>
             <div class="modal-footer">

@@ -15,7 +15,7 @@
  * --------------------------------------------------------------
  * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
  * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
  * @var $state         \Windwalker\Registry\Registry
@@ -42,7 +42,7 @@
                 <span class="glyphicon glyphicon-remove fa fa-remove text-danger"></span>
                 @translate('phoenix.grid.modal.button.cancel')
             </button>
-            {!! $filterBar->render(array('form' => $filterForm, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'module.field.title', 'module.title') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'module.field.title', 'module.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'module.field.state', 'module.state') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'module.field.state', 'module.state') !!}
                     </th>
 
                     {{-- TYPE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'module.field.type', 'module.type') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'module.field.type', 'module.type') !!}
                     </th>
 
                     {{-- POSITION --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'module.field.position', 'module.position') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'module.field.position', 'module.position') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'module.field.id', 'module.id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'module.field.id', 'module.id') !!}
                     </th>
                 </tr>
                 </thead>

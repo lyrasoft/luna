@@ -15,7 +15,7 @@
  * --------------------------------------------------------------
  * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
  * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
  * @var $state         \Windwalker\Registry\Registry
@@ -42,7 +42,7 @@
                 <span class="glyphicon glyphicon-remove fa fa-remove text-danger"></span>
                 @translate('phoenix.grid.modal.button.cancel')
             </button>
-            {!! $filterBar->render(array('form' => $filterForm, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.title', 'category.title') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.title', 'category.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.state', 'category.state') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.state', 'category.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.author', 'category.created_by') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.author', 'category.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.created', 'category.created') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.created', 'category.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.id', 'category.id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.id', 'category.id') !!}
                     </th>
                 </tr>
                 </thead>

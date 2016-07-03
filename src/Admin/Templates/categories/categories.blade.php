@@ -15,7 +15,7 @@
  * --------------------------------------------------------------
  * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
  * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
  * @var $state         \Windwalker\Registry\Registry
@@ -39,7 +39,7 @@
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
-            {!! $filterBar->render(array('form' => $filterForm, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -58,41 +58,41 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;" width="7%">
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.state', 'category.state') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.state', 'category.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.title', 'category.title') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.title', 'category.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {{-- AUTHOR --}}
                         <th width="15%">
-                            {!! $grid->sortTitle($luna->prefix . 'category.field.author', 'category.created_by') !!}
+                            {!! $grid->sortTitle($luna->langPrefix . 'category.field.author', 'category.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
                     <th width="8%">
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.created', 'category.created') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.created', 'category.created') !!}
                     </th>
 
                     @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                         {{-- LANGUAGE --}}
                         <th width="15%">
-                            {!! $grid->sortTitle($luna->prefix . 'category.field.language', 'category.language') !!}
+                            {!! $grid->sortTitle($luna->langPrefix . 'category.field.language', 'category.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
                     <th width="3%">
-                        {!! $grid->sortTitle($luna->prefix . 'category.field.id', 'category.id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.id', 'category.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -155,7 +155,7 @@
                             <td>
                                 @if ($item->language == '*')
                                     <span class="glyphicon glyphicon-globe fa fa-globe"></span>
-                                    @translate($luna->prefix . 'language.field.all')
+                                    @translate($luna->langPrefix . 'language.field.all')
                                 @else
                                     <span class="hasTooltip" title="{{ $item->lang_code }}">
                                         <span class="{{ \Lyrasoft\Luna\Language\Locale::getFlagIconClass($item->lang_image) }}"></span>

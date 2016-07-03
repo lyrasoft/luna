@@ -31,14 +31,14 @@
     <div class="row">
         <div class="col-md-7">
             <fieldset class="form-horizontal">
-                <legend>@translate($luna->prefix . 'tag.edit.fieldset.basic')</legend>
+                <legend>@translate($luna->langPrefix . 'tag.edit.fieldset.basic')</legend>
 
                 {!! $form->renderFields('basic') !!}
             </fieldset>
         </div>
         <div class="col-md-5">
             <fieldset class="form-horizontal">
-                <legend>@translate($luna->prefix . 'tag.edit.fieldset.created')</legend>
+                <legend>@translate($luna->langPrefix . 'tag.edit.fieldset.created')</legend>
 
                 {!! $form->renderFields('created') !!}
             </fieldset>

@@ -9,17 +9,15 @@
 namespace Lyrasoft\Luna\Admin\Form\Module;
 
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
-use Lyrasoft\Luna\Admin\Field\Module\ModuleListField;
-use Lyrasoft\Luna\Admin\Field\Module\ModuleModalField;
 use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
-use Phoenix;
+use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Warder\Helper\WarderHelper;
+use Phoenix\Form\PhoenixFieldTrait;
+use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Filter\InputFilter;
 use Windwalker\Form\Field;
-use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
-use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
@@ -28,8 +26,10 @@ use Lyrasoft\Warder\Admin\Field\User\UserModalField;
  *
  * @since  1.0
  */
-class EditDefinition implements FieldDefinitionInterface
+class EditDefinition extends AbstractFieldDefinition
 {
+	use PhoenixFieldTrait;
+	
 	/**
 	 * Define the form fields.
 	 *
@@ -37,28 +37,28 @@ class EditDefinition implements FieldDefinitionInterface
 	 *
 	 * @return  void
 	 */
-	public function define(Form $form)
+	public function doDefine(Form $form)
 	{
 		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
 		// Title
-		$form->add('title', new Field\TextField)
+		$this->add('title', new Field\TextField)
 			->label(Translator::translate($langPrefix . 'module.field.title'))
 			->setFilter('trim')
 			->set('labelClass', 'hide')
 			->required(true);
 
 		// Basic fieldset
-		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
+		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 
 		});
 
 		// Text Fieldset
-		$form->wrap('text', null, function(Form $form) use ($langPrefix)
+		$this->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
 			// Content
-			$form->add('content', new SummernoteEditorField)
+			$this->add('content', new SummernoteEditorField)
 				->label(Translator::translate($langPrefix . 'module.field.content'))
 				->set('rows', 10)
 				->set('options', array(
@@ -67,54 +67,54 @@ class EditDefinition implements FieldDefinitionInterface
 		});
 
 		// Created fieldset
-		$form->wrap('created', null, function(Form $form) use ($langPrefix)
+		$this->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
-			$form->add('state', new Field\RadioField)
+			$this->add('state', new Field\RadioField)
 				->label(Translator::translate($langPrefix . 'module.field.state'))
 				->set('class', 'btn-group')
 				->set('default', 1)
-				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
-				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
+				->option(Translator::translate('phoenix.grid.state.published'), '1')
+				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
 
 			// Position
-			$form->add('position', new PositionListField)
+			$this->add('position', new PositionListField)
 				->label(Translator::translate($langPrefix . 'module.field.position'))
-				->addOption(new Option(Translator::translate($langPrefix . 'field.position.select'), ''))
+				->option(Translator::translate($langPrefix . 'field.position.select'), '')
 				->set('allow_add', true);
 
 			// Type
-			$form->add('type', new Field\TextField)
+			$this->add('type', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'module.field.type'))
 				->readonly()
 				->required();
 
-			if (\Lyrasoft\Luna\Language\Locale::isEnabled())
+			if (Locale::isEnabled())
 			{
 				// Language
-				$form->add('language', new LanguageListField)
+				$this->add('language', new LanguageListField)
 					->label(Translator::translate($langPrefix . 'module.field.language'))
-					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
+					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
 			}
 
-			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
+			if (WarderHelper::tableExists('users'))
 			{
 				// Created
-				$form->add('created', new Phoenix\Field\CalendarField)
+				$this->calendar('created')
 					->label(Translator::translate($langPrefix . 'module.field.created'));
 
 				// Author
-				$form->add('created_by', new UserModalField)
+				$this->add('created_by', new UserModalField)
 					->label(Translator::translate($langPrefix . 'module.field.author'));
 			}
 
 			// Note
-			$form->add('note', new Field\TextareaField)
+			$this->add('note', new Field\TextareaField)
 				->label(Translator::translate($langPrefix . 'module.field.note'))
 				->set('rows', 5);
 
 			// ID
-			$form->add('id', new Field\HiddenField);
+			$this->add('id', new Field\HiddenField);
 		});
 	}
 }

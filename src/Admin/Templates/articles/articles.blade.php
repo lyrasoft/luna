@@ -14,8 +14,7 @@
  * View variables
  * --------------------------------------------------------------
  * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
- * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $form          \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
  * @var $state         \Windwalker\Registry\Registry
@@ -38,7 +37,7 @@
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
-            {!! $filterBar->render(array('form' => $filterForm, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -57,7 +56,7 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;" width="7%">
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.state', 'article.state') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.state', 'article.state') !!}
                     </th>
 
                     {{-- CATEGORY --}}
@@ -67,36 +66,36 @@
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.title', 'article.title') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.title', 'article.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {{-- AUTHOR --}}
                         <th width="15%">
-                            {!! $grid->sortTitle($luna->prefix . 'article.field.author', 'article.created_by') !!}
+                            {!! $grid->sortTitle($luna->langPrefix . 'article.field.author', 'article.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
                     <th width="8%">
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.created', 'article.created') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.created', 'article.created') !!}
                     </th>
 
                     @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                         {{-- LANGUAGE --}}
                         <th width="15%">
-                            {!! $grid->sortTitle($luna->prefix . 'article.field.language', 'article.language') !!}
+                            {!! $grid->sortTitle($luna->langPrefix . 'article.field.language', 'article.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
                     <th width="5%">
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.id', 'article.id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.id', 'article.id') !!}
                     </th>
                 </tr>
                 </thead>
@@ -181,7 +180,7 @@
                             <td>
                                 @if ($item->language == '*')
                                     <span class="glyphicon glyphicon-globe fa fa-globe"></span>
-                                    @translate($luna->prefix . 'language.field.all')
+                                    @translate($luna->langPrefix . 'language.field.all')
                                 @else
                                     <span class="hasTooltip" title="{{ $item->lang_code }}">
                                         <span class="{{ \Lyrasoft\Luna\Language\Locale::getFlagIconClass($item->lang_image) }}"></span>

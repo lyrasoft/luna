@@ -15,7 +15,7 @@
  * --------------------------------------------------------------
  * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
  * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
  * @var $state         \Windwalker\Registry\Registry
@@ -38,7 +38,7 @@
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
-            {!! $filterBar->render(array('form' => $filterForm, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -57,37 +57,37 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;" width="7%">
-                        {!! $grid->sortTitle($luna->prefix . 'language.field.state', 'language.state') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'language.field.state', 'language.state') !!}
                     </th>
 
                     {{-- FLAG --}}
                     <th width="1%">
-                        {!! $grid->sortTitle($luna->prefix . 'language.field.image', 'language.image') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'language.field.image', 'language.image') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'language.field.title', 'language.title') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'language.field.title', 'language.title') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'language.field.titlenative', 'language.title_native') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'language.field.titlenative', 'language.title_native') !!}
                     </th>
 
                     {{-- ORDERING --}}
                     <th width="5%" class="nowrap">
-                        {!! $grid->sortTitle($luna->prefix . 'language.field.ordering', 'language.ordering') !!} {!! $grid->saveorderButton() !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'language.field.ordering', 'language.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- CODE --}}
                     <th class="5%">
-                        {!! $grid->sortTitle($luna->prefix . 'language.field.code', 'language.code') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'language.field.code', 'language.code') !!}
                     </th>
 
                     {{-- URL --}}
                     <th class="5%">
-                        {!! $grid->sortTitle($luna->prefix . 'language.field.alias', 'language.alias') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'language.field.alias', 'language.alias') !!}
                     </th>
 
                     {{-- DELETE --}}
@@ -97,7 +97,7 @@
 
                     {{-- ID --}}
                     <th class="5%">
-                        {!! $grid->sortTitle($luna->prefix . 'language.field.id', 'language.id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'language.field.id', 'language.id') !!}
                     </th>
                 </tr>
                 </thead>

@@ -8,16 +8,13 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Tag;
 
-use Lyrasoft\Luna\Admin\Field\Tag\TagListField;
-use Lyrasoft\Luna\Admin\Field\Tag\TagModalField;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Phoenix;
+use Lyrasoft\Warder\Helper\WarderHelper;
+use Phoenix\Form\PhoenixFieldTrait;
+use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Filter\InputFilter;
 use Windwalker\Form\Field;
-use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
-use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
@@ -26,8 +23,10 @@ use Lyrasoft\Warder\Admin\Field\User\UserModalField;
  *
  * @since  1.0
  */
-class EditDefinition implements FieldDefinitionInterface
+class EditDefinition extends AbstractFieldDefinition
 {
+	use PhoenixFieldTrait;
+
 	/**
 	 * Define the form fields.
 	 *
@@ -35,55 +34,55 @@ class EditDefinition implements FieldDefinitionInterface
 	 *
 	 * @return  void
 	 */
-	public function define(Form $form)
+	public function doDefine(Form $form)
 	{
 		$langPrefix = LunaHelper::getLangPrefix();
 
 		// Basic fieldset
-		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
+		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			// ID
-			$form->add('id', new Field\HiddenField);
+			$this->add('id', new Field\HiddenField);
 
 			// Title
-			$form->add('title', new Field\TextField)
+			$this->add('title', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'tag.field.title'))
 				->setFilter('trim')
 				->required(true);
 
 			// Alias
-			$form->add('alias', new Field\TextField)
+			$this->add('alias', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'tag.field.alias'));
 		});
 
 		// Created fieldset
-		$form->wrap('created', null, function(Form $form) use ($langPrefix)
+		$this->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
-			$form->add('state', new Field\RadioField)
+			$this->add('state', new Field\RadioField)
 				->label(Translator::translate($langPrefix . 'tag.field.state'))
 				->set('class', 'btn-group')
 				->set('default', 1)
-				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
-				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
+				->option(Translator::translate('phoenix.grid.state.published'), '1')
+				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
 
 			// Created
-			$form->add('created', new Phoenix\Field\CalendarField)
+			$this->calendar('created')
 				->label(Translator::translate($langPrefix . 'tag.field.created'));
 
 			// Modified
-			$form->add('modified', new Phoenix\Field\CalendarField)
+			$this->calendar('modified')
 				->label(Translator::translate($langPrefix . 'tag.field.modified'))
 				->disabled();
 
-			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
+			if (WarderHelper::tableExists('users'))
 			{
 				// Author
-				$form->add('created_by', new UserModalField)
+				$this->add('created_by', new UserModalField)
 					->label(Translator::translate($langPrefix . 'tag.field.author'));
 
 				// Modified User
-				$form->add('modified_by', new UserModalField)
+				$this->add('modified_by', new UserModalField)
 					->label(Translator::translate($langPrefix . 'tag.field.modifiedby'))
 					->disabled();
 			}

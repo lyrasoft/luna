@@ -9,19 +9,18 @@
 namespace Lyrasoft\Luna\Admin\Form\Category;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
-use Lyrasoft\Luna\Admin\Field\Category\CategoryModalField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Lyrasoft\Luna\Field\Image\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Phoenix;
+use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Warder\Helper\WarderHelper;
+use Phoenix\Form\PhoenixFieldTrait;
+use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Ioc;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Filter\InputFilter;
 use Windwalker\Form\Field;
-use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
-use Windwalker\Html\Option;
 use Windwalker\Validator\Rule;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
@@ -30,8 +29,10 @@ use Lyrasoft\Warder\Admin\Field\User\UserModalField;
  *
  * @since  1.0
  */
-class EditDefinition implements FieldDefinitionInterface
+class EditDefinition extends AbstractFieldDefinition
 {
+	use PhoenixFieldTrait;
+	
 	/**
 	 * Define the form fields.
 	 *
@@ -39,52 +40,52 @@ class EditDefinition implements FieldDefinitionInterface
 	 *
 	 * @return  void
 	 */
-	public function define(Form $form)
+	public function doDefine(Form $form)
 	{
 		$langPrefix = LunaHelper::getLangPrefix();
 
 		// Title
-		$form->add('title', new Field\TextField)
+		$this->add('title', new Field\TextField)
 			->label(Translator::translate($langPrefix . 'category.field.title'))
 			->set('placeholder', Translator::translate($langPrefix . 'category.field.title'))
 			->setFilter('trim')
 			->required(true);
 
 		// Alias
-		$form->add('alias', new Field\TextField)
+		$this->add('alias', new Field\TextField)
 			->label(Translator::translate($langPrefix . 'category.field.alias'))
 			->set('placeholder', Translator::translate($langPrefix . 'category.field.alias'));
 
 		// Basic fieldset
-		$form->wrap('basic', null, function(Form $form) use ($langPrefix)
+		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			$type = Ioc::getInput()->get('type');
 
 			// ID
-			$form->add('id', new Field\HiddenField);
+			$this->add('id', new Field\HiddenField);
 
 			// Parent
-			$form->add('parent_id', new CategoryListField)
+			$this->add('parent_id', new CategoryListField)
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
-				->addOption(new Option(Translator::translate($langPrefix . 'category.root'), 1))
+				->option(Translator::translate($langPrefix . 'category.root'), 1)
 				->set('type', $type);
 
 			// Images
-			$form->add('image', new SingleImageDragField)
+			$this->add('image', new SingleImageDragField)
 				->label(Translator::translate($langPrefix . 'category.field.images'))
 				->set('export_zoom', 2)
 				->set('width', 400)
 				->set('height', 300);
 
-			$form->add('type', new Field\HiddenField)
+			$this->add('type', new Field\HiddenField)
 				->label(Translator::translate($langPrefix . 'category.field.type'));
 		});
 
 		// Text Fieldset
-		$form->wrap('text', null, function(Form $form) use ($langPrefix)
+		$this->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
 			// Description
-			$form->add('description', new SummernoteEditorField)
+			$this->add('description', new SummernoteEditorField)
 				->label(Translator::translate($langPrefix . 'category.field.description'))
 				->set('options', array(
 					'height' => 350,
@@ -95,40 +96,40 @@ class EditDefinition implements FieldDefinitionInterface
 		});
 
 		// Created fieldset
-		$form->wrap('created', null, function(Form $form) use ($langPrefix)
+		$this->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
-			$form->add('state', new Field\RadioField)
+			$this->add('state', new Field\RadioField)
 				->label(Translator::translate($langPrefix . 'category.field.state'))
 				->set('class', 'btn-group')
 				->set('default', 1)
-				->addOption(new Option(Translator::translate('phoenix.grid.state.published'), '1'))
-				->addOption(new Option(Translator::translate('phoenix.grid.state.unpublished'), '0'));
+				->option(Translator::translate('phoenix.grid.state.published'), '1')
+				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
 
-			if (\Lyrasoft\Luna\Language\Locale::isEnabled())
+			if (Locale::isEnabled())
 			{
 				// Language
-				$form->add('language', new LanguageListField)
+				$this->add('language', new LanguageListField)
 					->label(Translator::translate($langPrefix . 'category.field.language'))
-					->addOption(new Option(Translator::translate($langPrefix . 'field.language.all'), '*'));
+					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
 			}
 
 			// Created
-			$form->add('created', new Phoenix\Field\CalendarField)
+			$this->calendar('created')
 				->label(Translator::translate($langPrefix . 'category.field.created'));
 
 			// Modified
-			$form->add('modified', new Phoenix\Field\CalendarField)
+			$this->calendar('modified')
 				->label(Translator::translate($langPrefix . 'category.field.modified'));
 
-			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
+			if (WarderHelper::tableExists('users'))
 			{
 				// Author
-				$form->add('created_by', new UserModalField)
+				$this->add('created_by', new UserModalField)
 					->label(Translator::translate($langPrefix . 'category.field.author'));
 
 				// Modified User
-				$form->add('modified_by', new UserModalField)
+				$this->add('modified_by', new UserModalField)
 					->label(Translator::translate($langPrefix . 'category.field.modifiedby'))
 					->disabled();
 			}

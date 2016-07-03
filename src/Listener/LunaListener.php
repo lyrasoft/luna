@@ -112,7 +112,7 @@ class LunaListener
 			// Extends
 			$view['luna'] = new Data([
 				'extends' => $this->luna->get('frontend.view.extends', '_global.html'),
-				'langPrefix' => $this->luna->get('frontend.language.prefix', 'luna.'),
+				'langPrefix' => $this->luna->getLangPrefix(),
 				'package' => $this->luna
 			]);
 
@@ -126,7 +126,7 @@ class LunaListener
 			// Extends
 			$view['luna'] = new Data([
 				'extends' => $this->luna->get('admin.view.extends', '_global.html'),
-				'langPrefix' => $this->luna->get('admin.language.prefix', 'luna.'),
+				'langPrefix' => $this->luna->getLangPrefix(),
 				'package' => $this->luna
 			]);
 

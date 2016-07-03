@@ -30,7 +30,7 @@ class EditDefinition implements FieldDefinitionInterface
 	{
 //		$form->wrap('basic', null, function (Form $form)
 //		{
-//			$form->add('test', new TextField)
+//			$form->text('test')
 //				->label('Test');
 //		});
 	}

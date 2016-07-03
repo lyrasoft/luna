@@ -15,7 +15,7 @@
  * --------------------------------------------------------------
  * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
  * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
  * @var $state         \Windwalker\Registry\Registry
@@ -42,7 +42,7 @@
                 <span class="glyphicon glyphicon-remove fa fa-remove text-danger"></span>
                 @translate('phoenix.grid.modal.button.cancel')
             </button>
-            {!! $filterBar->render(array('form' => $filterForm, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -56,27 +56,27 @@
                 <tr>
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.title', 'article.title') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.title', 'article.title') !!}
                     </th>
 
                     {{-- STATE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.state', 'article.state') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.state', 'article.state') !!}
                     </th>
 
                     {{-- AUTHOR --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.author', 'article.created_by') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.author', 'article.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.created', 'article.created') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.created', 'article.created') !!}
                     </th>
 
                     {{-- ID --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'article.field.id', 'article.id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'article.field.id', 'article.id') !!}
                     </th>
                 </tr>
                 </thead>

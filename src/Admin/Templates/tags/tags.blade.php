@@ -15,7 +15,7 @@
  * --------------------------------------------------------------
  * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
  * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
  * @var $state         \Windwalker\Registry\Registry
@@ -38,7 +38,7 @@
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
-            {!! $filterBar->render(array('form' => $filterForm, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -57,34 +57,34 @@
 
                     {{-- STATE --}}
                     <th style="min-width: 90px;" width="10%">
-                        {!! $grid->sortTitle($luna->prefix . 'tag.field.state', 'tag.state') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'tag.field.state', 'tag.state') !!}
                     </th>
 
                     {{-- TITLE --}}
                     <th>
-                        {!! $grid->sortTitle($luna->prefix . 'tag.field.title', 'tag.title') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'tag.field.title', 'tag.title') !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                     {{-- AUTHOR --}}
                         <th width="20%">
-                            {!! $grid->sortTitle($luna->prefix . 'tag.field.author', 'tag.created_by') !!}
+                            {!! $grid->sortTitle($luna->langPrefix . 'tag.field.author', 'tag.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
                     <th width="10%">
-                        {!! $grid->sortTitle($luna->prefix . 'tag.field.created', 'tag.created') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'tag.field.created', 'tag.created') !!}
                     </th>
 
                     {{-- LANGUAGE --}}
                     {{--<th>--}}
-                        {{--{!! $grid->sortTitle($luna->prefix . 'tag.field.language', 'tag.language') !!}--}}
+                        {{--{!! $grid->sortTitle($luna->langPrefix . 'tag.field.language', 'tag.language') !!}--}}
                     {{--</th>--}}
 
                     {{-- ID --}}
                     <th width="1%">
-                        {!! $grid->sortTitle($luna->prefix . 'tag.field.id', 'tag.id') !!}
+                        {!! $grid->sortTitle($luna->langPrefix . 'tag.field.id', 'tag.id') !!}
                     </th>
                 </tr>
                 </thead>
