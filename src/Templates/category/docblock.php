@@ -21,7 +21,7 @@ defined('WINDWALKER') or die('Forbidden');
  *
  * View variables
  * --------------------------------------------------------------
- * @var $state         \Windwalker\Registry\Registry
+ * @var $state         \Windwalker\Structure\Structure
  * @var $items         \Windwalker\Data\DataSet
  * @var $item          \Windwalker\Data\Data
  * @var $pagination    \Windwalker\Core\Pagination\Pagination

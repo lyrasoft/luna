@@ -18,7 +18,7 @@
  * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
- * @var $state         \Windwalker\Registry\Registry
+ * @var $state         \Windwalker\Structure\Structure
  * @var $items         \Windwalker\Data\DataSet
  * @var $item          \Windwalker\Data\Data
  * @var $i             integer

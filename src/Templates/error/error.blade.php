@@ -14,7 +14,7 @@
  * View variables
  * --------------------------------------------------------------
  * @var $item  \Windwalker\Data\Data
- * @var $state \Windwalker\Registry\Registry
+ * @var $state \Windwalker\Structure\Structure
  * @var $exception  \Exception
  */
 ?>

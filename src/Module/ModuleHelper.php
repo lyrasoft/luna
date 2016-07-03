@@ -20,7 +20,7 @@ use Windwalker\Data\DataSet;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Filesystem\Path\PathCollection;
 use Windwalker\Ioc;
-use Windwalker\Registry\Registry;
+use Windwalker\Structure\Structure;
 use Windwalker\String\StringNormalise;
 
 /**
@@ -99,7 +99,7 @@ class ModuleHelper
 				$type = static::getModuleType($item->type);
 				$class = $type->class;
 
-				$modules[] = new $class(array('item' => $item, 'params' => new Registry($item->params)));
+				$modules[] = new $class(array('item' => $item, 'params' => new Structure($item->params)));
 			}
 
 			return $modules;

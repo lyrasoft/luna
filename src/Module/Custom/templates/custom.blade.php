@@ -14,7 +14,7 @@
  * View variables
  * --------------------------------------------------------------
  * @var $item   \Windwalker\Data\Data
- * @var $params \Windwalker\Registry\Registry
+ * @var $params \Windwalker\Structure\Structure
  */
 ?>
 {!! $item->content !!}

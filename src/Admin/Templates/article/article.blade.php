@@ -14,7 +14,7 @@
  * View variables
  * --------------------------------------------------------------
  * @var $item  \Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait
- * @var $state \Windwalker\Registry\Registry
+ * @var $state \Windwalker\Structure\Structure
  * @var $form  \Windwalker\Form\Form
  */
 ?>

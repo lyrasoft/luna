@@ -17,7 +17,7 @@ use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Core\View\Helper\ViewHelper;
 use Windwalker\Data\Data;
 use Windwalker\Form\Form;
-use Windwalker\Registry\Registry;
+use Windwalker\Structure\Structure;
 use Windwalker\Utilities\Queue\PriorityQueue;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
@@ -31,7 +31,7 @@ use Windwalker\Utilities\Reflection\ReflectionHelper;
  * @property  string    state
  * @property  string    ordering
  * @property  string    language
- * @property  Registry  params
+ * @property  Structure params
  *
  * @since  {DEPLOY_VERSION}
  */
