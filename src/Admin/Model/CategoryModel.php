@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Model;
 
 use Phoenix\Model\NestedAdminModel;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
 
 /**
@@ -36,11 +37,11 @@ class CategoryModel extends NestedAdminModel
 	/**
 	 * postGetItem
 	 *
-	 * @param Data $item
+	 * @param DataInterface $item
 	 *
 	 * @return  void
 	 */
-	protected function postGetItem(Data $item)
+	protected function postGetItem(DataInterface $item)
 	{
 		// Do some stuff
 	}

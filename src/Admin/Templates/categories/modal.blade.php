@@ -13,7 +13,7 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
+ * @var $filterBar     \Windwalker\Core\Widget\Widget
  * @var $filterForm    \Windwalker\Form\Form
  * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
@@ -28,7 +28,7 @@
 
 @extends('_global.' . \Lyrasoft\Luna\Helper\LunaHelper::getAdminPackage(true) . '.pure')
 
-@section('toolbar')
+@section('toolbar-buttons')
     @include('toolbar')
 @stop
 

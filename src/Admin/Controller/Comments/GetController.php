@@ -83,16 +83,16 @@ class GetController extends ListDisplayController
 	}
 
 	/**
-	 * prepareUserState
+	 * prepareModelState
 	 *
 	 * @param   ModelRepository $model
 	 *
 	 * @return  void
 	 */
-	protected function prepareUserState(ModelRepository $model)
+	protected function prepareModelState(ModelRepository $model)
 	{
 		/** @var ListModel $model */
-		parent::prepareUserState($model);
+		parent::prepareModelState($model);
 
 		$type = $this->input->get('type');
 

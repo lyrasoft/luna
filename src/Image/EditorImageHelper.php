@@ -38,6 +38,6 @@ class EditorImageHelper extends AbstractStorageHelper
 	 */
 	public static function getBaseFolder()
 	{
-		return 'images/upload/' .gmdate('Y/m/d') . '/';
+		return 'images/upload/' . gmdate('Y/m/d') . '/';
 	}
 }

@@ -21,7 +21,7 @@ defined('WINDWALKER') or die('Forbidden');
  *
  * View variables
  * --------------------------------------------------------------
- * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
+ * @var $filterBar     \Windwalker\Core\Widget\Widget
  * @var $filterForm    \Windwalker\Form\Form
  * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean

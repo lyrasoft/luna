@@ -13,7 +13,6 @@ use Lyrasoft\Luna\Model\ArticlesModel;
 use Lyrasoft\Luna\View\Category\CategoryHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Windwalker\Core\Model\ModelRepository;
-use Windwalker\Core\View\BladeHtmlView;
 use Windwalker\Data\Data;
 use Windwalker\Filter\InputFilter;
 
@@ -91,15 +90,15 @@ class GetController extends ListDisplayController
 	}
 
 	/**
-	 * prepareUserState
+	 * prepareModelState
 	 *
 	 * @param   ModelRepository $model
 	 *
 	 * @return  void
 	 */
-	protected function prepareUserState(ModelRepository $model)
+	protected function prepareModelState(ModelRepository $model)
 	{
-		parent::prepareUserState($model);
+		parent::prepareModelState($model);
 
 		$path = (array) $this->input->getVar('path');
 		

@@ -8,10 +8,13 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
+use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
+use Windwalker\DataMapper\Entity\Entity;
 use Windwalker\Record\Record;
 
 /**
@@ -40,11 +43,11 @@ class ArticleModel extends AdminModel
 	/**
 	 * postGetItem
 	 *
-	 * @param Data|ArticleDataTrait $item
+	 * @param DataInterface|ArticleRecord $item
 	 *
 	 * @return  void
 	 */
-	protected function postGetItem(Data $item)
+	protected function postGetItem(DataInterface $item)
 	{
 		// Readmore line
 		$item->text = $item->introtext . ($item->fulltext ? '<hr id="luna-readmore">' . $item->fulltext : null);

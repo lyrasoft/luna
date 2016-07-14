@@ -8,6 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Record\Traits;
 
+use Windwalker\Data\Data;
+use Windwalker\Data\DataSet;
+
 /**
  * The ArticleDataTrait class.
  *
@@ -26,6 +29,10 @@ namespace Lyrasoft\Luna\Admin\Record\Traits;
  * @property    integer  modified_by
  * @property    string  language
  * @property    string  params
+ *
+ * @property    Data     category
+ * @property    DataSet  tags
+ * @property    DataSet  comments
  *
  * @since    {DEPLOY_VERSION}
  */

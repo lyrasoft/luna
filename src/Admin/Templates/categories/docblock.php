@@ -18,10 +18,11 @@ defined('WINDWALKER') or die('Forbidden');
  * @var $datetime \DateTime                                   PHP DateTime object of current time.
  * @var $helper   \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
  * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
+ * @var $asset    \Windwalker\Core\Asset\AssetManager         The Asset manager.
  *
  * View variables
  * --------------------------------------------------------------
- * @var $filterBar     \Windwalker\Core\Widget\BladeWidget
+ * @var $filterBar     \Windwalker\Core\Widget\Widget
  * @var $filterForm    \Windwalker\Form\Form
  * @var $form     \Windwalker\Form\Form
  * @var $showFilterBar boolean
