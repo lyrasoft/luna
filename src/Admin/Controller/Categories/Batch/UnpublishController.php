@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Categories\Batch;
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Phoenix\Controller\Batch\AbstractUnpublishController;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 
 /**
  * The UnpublishController class.
@@ -22,12 +23,12 @@ class UnpublishController extends AbstractUnpublishController
 	/**
 	 * save
 	 *
-	 * @param int|string $pk
-	 * @param Data       $data
+	 * @param int|string     $pk
+	 * @param DataInterface  $data
 	 *
-	 * @return  void
+	 * @return  boolean
 	 */
-	protected function save($pk, Data $data)
+	protected function save($pk, DataInterface $data)
 	{
 		parent::save($pk, clone $data);
 
@@ -36,7 +37,7 @@ class UnpublishController extends AbstractUnpublishController
 
 		$parent = $mapper->findOne($pk);
 
-		$mapper->updateBatch($data, array(
+		return $mapper->updateBatch($data, array(
 			'lft > ' . $parent->lft,
 			'rgt < ' . $parent->rgt
 		));

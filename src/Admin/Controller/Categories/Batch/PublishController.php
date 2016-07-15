@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Categories\Batch;
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Phoenix\Controller\Batch\AbstractPublishController;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 
 /**
  * The PublishController class.
@@ -22,12 +23,12 @@ class PublishController extends AbstractPublishController
 	/**
 	 * save
 	 *
-	 * @param int|string $pk
-	 * @param Data       $data
+	 * @param int|string     $pk
+	 * @param DataInterface  $data
 	 *
 	 * @return  void
 	 */
-	protected function save($pk, Data $data)
+	protected function save($pk, DataInterface $data)
 	{
 		parent::save($pk, clone $data);
 

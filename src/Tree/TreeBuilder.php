@@ -22,13 +22,13 @@ class TreeBuilder
 	 * fromObjects
 	 *
 	 * @param object[]|\Traversable $dataSet
-	 * @param string                $pkName
+	 * @param string                $keyName
 	 * @param string                $parentIdName
 	 * @param string                $levelName
 	 *
 	 * @return Node|Node[]
 	 */
-	public static function create($dataSet, $pkName = 'id', $parentIdName = 'parent_id', $levelName = 'level')
+	public static function create($dataSet, $keyName = 'id', $parentIdName = 'parent_id', $levelName = 'level')
 	{
 		/** @var Node[] $tree */
 		$tree = array();
@@ -38,7 +38,7 @@ class TreeBuilder
 
 		foreach ($dataSet as $data)
 		{
-			$pk = ArrayHelper::getValue($data, $pkName);
+			$pk = ArrayHelper::getValue($data, $keyName);
 
 			if ($pk === null)
 			{

@@ -170,7 +170,7 @@ class CategoryHelper
 
 		if (!is_array($conditions))
 		{
-			$conditions = array($model->getRecord()->getKeyName() => $conditions);
+			$conditions = array($model->getKeyName() => $conditions);
 		}
 
 		foreach ($conditions as $key => $condition)

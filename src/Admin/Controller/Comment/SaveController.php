@@ -130,8 +130,8 @@ class SaveController extends AbstractSaveController
 	 */
 	protected function getFailRedirect(Data $data = null)
 	{
-		$pk = $data->{$this->pkName} ? : $this->model['item.pk'];
+		$pk = $this->record->{$this->keyName};
 
-		return $this->router->route($this->getName(), array($this->pkName => $pk));
+		return $this->router->route($this->getName(), array($this->keyName => $pk));
 	}
 }
