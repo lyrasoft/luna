@@ -75,11 +75,11 @@ class ModuleSeeder extends AbstractSeeder
 	}
 
 	/**
-	 * doClean
+	 * doClear
 	 *
 	 * @return  void
 	 */
-	public function doClean()
+	public function doClear()
 	{
 		$this->truncate(LunaTable::MODULES);
 	}

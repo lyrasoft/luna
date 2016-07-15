@@ -36,7 +36,7 @@ class LunaSeeder extends AbstractSeeder
 	}
 
 	/**
-	 * doClean
+	 * doClear
 	 *
 	 * @return  void
 	 */
