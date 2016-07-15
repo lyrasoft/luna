@@ -52,7 +52,7 @@ class GetController extends ItemDisplayController
 	}
 
 	/**
-	 * prepareUserState
+	 * prepareModelState
 	 *
 	 * @param   ModelRepository $model
 	 *

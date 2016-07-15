@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Model;
 
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
 
 /**
@@ -38,11 +39,11 @@ class ModuleModel extends AdminModel
 	/**
 	 * postGetItem
 	 *
-	 * @param Data $item
+	 * @param DataInterface $item
 	 *
 	 * @return  void
 	 */
-	protected function postGetItem(Data $item)
+	protected function postGetItem(DataInterface $item)
 	{
 	}
 

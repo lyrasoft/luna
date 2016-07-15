@@ -8,11 +8,13 @@
 
 namespace Lyrasoft\Luna\Model;
 
+use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Model\ItemModel;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 
 /**
  * The ArticleModel class.
@@ -24,11 +26,11 @@ class ArticleModel extends ItemModel
 	/**
 	 * postGetItem
 	 *
-	 * @param Data $item
+	 * @param DataInterface|ArticleRecord $item
 	 *
 	 * @return  void
 	 */
-	protected function postGetItem(Data $item)
+	protected function postGetItem(DataInterface $item)
 	{
 		$item->category = $this->getDataMapper('Category')->findOne($item->category_id);
 

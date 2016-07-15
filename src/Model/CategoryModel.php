@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Model;
 
 use Phoenix\Model\ItemModel;
-use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 
 /**
  * The CategoryModel class.
@@ -21,11 +21,11 @@ class CategoryModel extends ItemModel
 	/**
 	 * postGetItem
 	 *
-	 * @param Data $item
+	 * @param DataInterface $item
 	 *
 	 * @return  void
 	 */
-	protected function postGetItem(Data $item)
+	protected function postGetItem(DataInterface $item)
 	{
 	}
 }
