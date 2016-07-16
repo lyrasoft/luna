@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Listener;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Application\WebApplication;
+use Windwalker\Core\Application\WindwalkerApplicationInterface;
 
 /**
  * The ErrorListener class.
@@ -36,9 +37,9 @@ class ErrorListener
 	/**
 	 * ErrorListener constructor.
 	 *
-	 * @param WebApplication $app
+	 * @param WindwalkerApplicationInterface $app
 	 */
-	public function __construct(WebApplication $app)
+	public function __construct(WindwalkerApplicationInterface $app)
 	{
 		$this->app = $app;
 	}
