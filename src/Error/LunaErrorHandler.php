@@ -9,30 +9,34 @@
 namespace Lyrasoft\Luna\Error;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Windwalker\Core\Error\Handler\ErrorHandlerInterface;
 use Windwalker\Core\Package\PackageHelper;
+use Windwalker\Http\Response\HtmlResponse;
+use Windwalker\Utilities\Queue\PriorityQueue;
+use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The ErrorHandler class.
  *
  * @since  {DEPLOY_VERSION}
  */
-class ErrorHandler extends \Windwalker\Core\Error\ErrorHandler
+class LunaErrorHandler implements ErrorHandlerInterface
 {
 	/**
 	 * Property package.
 	 *
 	 * @var  string
 	 */
-	protected static $package = null;
+	protected $package = null;
 
 	/**
 	 * Method to get property Package
 	 *
 	 * @return  string
 	 */
-	public static function getPackage()
+	public function getPackage()
 	{
-		return static::$package;
+		return $this->package;
 	}
 
 	/**
@@ -42,19 +46,19 @@ class ErrorHandler extends \Windwalker\Core\Error\ErrorHandler
 	 *
 	 * @return  void
 	 */
-	public static function setPackage($package)
+	public function setPackage($package)
 	{
-		static::$package = $package;
+		$this->package = $package;
 	}
 
 	/**
-	 * respond
+	 * __invoke
 	 *
-	 * @param \Exception $exception
+	 * @param  \Exception|\Throwable $exception
 	 *
 	 * @return  void
 	 */
-	protected static function respond($exception)
+	public function __invoke($exception)
 	{
 		if (!$package = static::getPackage())
 		{
@@ -63,17 +67,19 @@ class ErrorHandler extends \Windwalker\Core\Error\ErrorHandler
 
 		$package = PackageHelper::getPackage($package);
 
+		$resolver = $package->getMvcResolver();
+
+		$resolver->addNamespace(ReflectionHelper::getNamespaceName(LunaHelper::getPackage()), PriorityQueue::LOW - 100);
+
 		$package->getContainer()->getParent()->set('current.package', $package);
 
 		$package->app->getRouter();
 		$package->app->set('route.extra.layout', 'error');
 		$package->app->input->set('exception', $exception);
 
-		$body = $package->execute('Error\GetController');
+		$response = $package->execute('Error\GetController', $package->app->request, new HtmlResponse);
 
-		$package->app->setBody($body);
-
-		$package->app->respond();
+		$package->app->server->getOutput()->respond($response);
 
 		die;
 	}

@@ -8,13 +8,9 @@
 
 namespace Lyrasoft\Luna\Listener;
 
-use Lyrasoft\Luna\Error\ErrorHandler;
+use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Application\WebApplication;
-use Windwalker\Core\Mvc\MvcResolver;
-use Windwalker\Ioc;
-use Windwalker\Utilities\Queue\Priority;
-use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The ErrorListener class.
@@ -24,21 +20,42 @@ use Windwalker\Utilities\Reflection\ReflectionHelper;
 class ErrorListener
 {
 	/**
+	 * Property app.
+	 *
+	 * @var  WebApplication
+	 */
+	protected $app;
+
+	/**
+	 * Property handler.
+	 *
+	 * @var  LunaErrorHandler
+	 */
+	protected $handler;
+
+	/**
+	 * ErrorListener constructor.
+	 *
+	 * @param WebApplication $app
+	 */
+	public function __construct(WebApplication $app)
+	{
+		$this->app = $app;
+	}
+
+	/**
 	 * onAfterInitialise
 	 *
 	 * @return  void
 	 */
 	public function onAfterInitialise()
 	{
-//		if (!Ioc::getConfig()->get('debug') && Ioc::getApplication() instanceof WebApplication)
-//		{
-//			/** @var MvcResolver $resolver */
-//			$resolver = Ioc::getContainer()->get('mvc.resolver');
-//
-//			$resolver->addNamespace(ReflectionHelper::getNamespaceName(LunaHelper::getPackage()), Priority::LOW - 100);
-//
-//			ErrorHandler::register(true);
-//		}
+		if (!$this->app->get('system.debug') && $this->app->isWeb())
+		{
+			$this->handler = new LunaErrorHandler;
+
+			$this->app->container->get('error.handler')->addHandler($this->handler, 'default');
+		}
 	}
 
 	/**
@@ -48,9 +65,9 @@ class ErrorListener
 	 */
 	public function onAfterRouting()
 	{
-//		if (LunaHelper::isAdmin())
-//		{
-//			ErrorHandler::setPackage(LunaHelper::getAdminPackage(true));
-//		}
+		if ($this->handler && LunaHelper::isAdmin())
+		{
+			$this->handler->setPackage(LunaHelper::getAdminPackage(true));
+		}
 	}
 }
