@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Tag\TagListField;
 use Lyrasoft\Luna\Field\Editor\TinymceEditorField;
-use Lyrasoft\Luna\Field\Image\SingleImageDragField;
+use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Form\PhoenixFieldTrait;

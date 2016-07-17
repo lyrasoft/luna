@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Field\Editor;
 
 use Lyrasoft\Luna\Script\EditorScript;
-use Lyrasoft\Luna\Script\LunaScript;
 use Windwalker\Dom\HtmlElement;
 use Windwalker\Dom\HtmlElements;
 use Windwalker\Form\Field\TextareaField;

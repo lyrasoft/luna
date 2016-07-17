@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Admin\Form\Category;
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
-use Lyrasoft\Luna\Field\Image\SingleImageDragField;
+use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Helper\WarderHelper;

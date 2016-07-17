@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Field\Editor;
 
 use Lyrasoft\Luna\Script\EditorScript;
-use Lyrasoft\Luna\Script\LunaScript;
 
 /**
  * The SummernoteEditorField class.
