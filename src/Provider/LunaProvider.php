@@ -52,9 +52,9 @@ class LunaProvider implements ServiceProviderInterface
 			return;
 		}
 
-		/** @var RendererManager $factory */
-		$factory = $container->get('renderer.manager');
-
-		$factory->addGlobalPath($this->luna->getDir() . '/Resources/templates', PriorityQueue::LOW - 25);
+		$container->extend('renderer.manager', function (RendererManager $manager, Container $container)
+		{
+			$manager->addGlobalPath($this->luna->getDir() . '/Resources/templates', PriorityQueue::LOW - 25);
+		});
 	}
 }
