@@ -138,11 +138,9 @@ class ModulesHtmlView extends GridView
 		$positions = array_values(array_unique($data->items->position));
 		$nums = [];
 
-		$filter = new InputFilter;
-
 		foreach ($positions as $position)
 		{
-			$nums[$position] = abs($filter->clean(md5($position . '-Luna-Label'), InputFilter::UINT) - 32767);
+			$nums[$position] = abs(crc32($position));
 		}
 
 		foreach ($data->items as $item)
@@ -163,8 +161,8 @@ class ModulesHtmlView extends GridView
 			if ($item->position)
 			{
 				$item->positionName = $item->position;
-				$index = $nums[$item->position] % count($this->labels);
-				$item->labelClass = $this->labels[$index];
+				$index = abs($nums[$item->position]) % count($this->labels);
+				$item->labelClass = $this->labels[abs($index)];
 			}
 			else
 			{
