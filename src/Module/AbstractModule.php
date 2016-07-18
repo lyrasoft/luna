@@ -16,6 +16,7 @@ use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Core\View\Helper\ViewHelper;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 use Windwalker\Form\Form;
 use Windwalker\Structure\Structure;
 use Windwalker\Utilities\Queue\PriorityQueue;
@@ -229,11 +230,11 @@ abstract class AbstractModule
 	/**
 	 * prepareData
 	 *
-	 * @param Data $data
+	 * @param DataInterface $data
 	 *
 	 * @return  void
 	 */
-	abstract protected function prepareData(Data $data);
+	abstract protected function prepareData(DataInterface $data);
 
 	/**
 	 * getForm
@@ -341,11 +342,11 @@ abstract class AbstractModule
 	/**
 	 * prepareGlobals
 	 *
-	 * @param Data $data
+	 * @param DataInterface $data
 	 *
 	 * @return  void
 	 */
-	protected function prepareGlobals(Data $data)
+	protected function prepareGlobals(DataInterface $data)
 	{
 		$package = LunaHelper::getPackage()->getCurrentPackage();
 

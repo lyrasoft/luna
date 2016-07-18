@@ -13,6 +13,7 @@ use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ListView;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 use Windwalker\String\StringHelper;
 use Windwalker\String\Utf8String;
 
@@ -85,11 +86,11 @@ class CategoryHtmlView extends ListView
 	/**
 	 * prepareHeader
 	 *
-	 * @param Data $data
+	 * @param DataInterface $data
 	 *
 	 * @return  void
 	 */
-	protected function prepareHeader(Data $data)
+	protected function prepareHeader(DataInterface $data)
 	{
 		$this->setTitle($data->category->title);
 

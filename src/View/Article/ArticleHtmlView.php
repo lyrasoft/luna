@@ -14,6 +14,7 @@ use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 use Windwalker\Router\Exception\RouteNotFoundException;
 use Windwalker\String\Utf8String;
 
@@ -80,11 +81,11 @@ class ArticleHtmlView extends ItemView
 	/**
 	 * prepareHeader
 	 *
-	 * @param Data $data
+	 * @param DataInterface $data
 	 *
 	 * @return  void
 	 */
-	protected function prepareHeader(Data $data)
+	protected function prepareHeader(DataInterface $data)
 	{
 		$this->setTitle($data->item->title);
 

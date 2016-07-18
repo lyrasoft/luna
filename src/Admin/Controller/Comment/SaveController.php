@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\Model\CommentModel;
 use Lyrasoft\Luna\Admin\View\Comment\CommentHtmlView;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 
 /**
  * The SaveController class.
@@ -88,11 +89,11 @@ class SaveController extends AbstractSaveController
 	/**
 	 * preSave
 	 *
-	 * @param Data $data
+	 * @param DataInterface $data
 	 *
 	 * @return void
 	 */
-	protected function preSave(Data $data)
+	protected function preSave(DataInterface $data)
 	{
 		parent::preSave($data);
 	}
@@ -100,11 +101,11 @@ class SaveController extends AbstractSaveController
 	/**
 	 * postSave
 	 *
-	 * @param Data $data
+	 * @param DataInterface $data
 	 *
 	 * @return  void
 	 */
-	protected function postSave(Data $data)
+	protected function postSave(DataInterface $data)
 	{
 		parent::postSave($data);
 	}
@@ -124,11 +125,11 @@ class SaveController extends AbstractSaveController
 	/**
 	 * getFailRedirect
 	 *
-	 * @param  Data $data
+	 * @param  DataInterface $data
 	 *
 	 * @return  string
 	 */
-	protected function getFailRedirect(Data $data = null)
+	protected function getFailRedirect(DataInterface $data = null)
 	{
 		$pk = $this->record->{$this->keyName};
 

@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Module\Custom;
 
 use Lyrasoft\Luna\Module\AbstractModule;
-use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 
 /**
  * The CustomModule class.
@@ -35,11 +35,11 @@ class CustomModule extends AbstractModule
 	/**
 	 * prepareData
 	 *
-	 * @param Data $data
+	 * @param DataInterface $data
 	 *
 	 * @return  void
 	 */
-	protected function prepareData(Data $data)
+	protected function prepareData(DataInterface $data)
 	{
 	}
 }
