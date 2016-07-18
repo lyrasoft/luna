@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\Model\ModuleModel;
 use Lyrasoft\Luna\Admin\View\Module\ModuleHtmlView;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 use Windwalker\DataMapper\Entity\Entity;
 
 /**
@@ -131,11 +132,11 @@ class SaveController extends AbstractSaveController
 	/**
 	 * getSuccessRedirect
 	 *
-	 * @param  Data|Entity $data
+	 * @param  DataInterface|Entity $data
 	 *
 	 * @return  string
 	 */
-	protected function getSuccessRedirect(Data $data = null)
+	protected function getSuccessRedirect(DataInterface $data = null)
 	{
 		if ($this->task == 'save2new')
 		{
