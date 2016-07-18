@@ -73,14 +73,14 @@ class LunaListener
 		if ($this->luna->isFrontend())
 		{
 			$package->getMvcResolver()
-				->addNamespace(ReflectionHelper::getNamespaceName($this->luna));
+				->addNamespace(ReflectionHelper::getNamespaceName($this->luna), PriorityQueue::BELOW_NORMAL);
 
 			FieldDefinitionResolver::addNamespace((ReflectionHelper::getNamespaceName($this->luna) . '\Form'));
 		}
 		elseif ($this->luna->isAdmin())
 		{
 			$package->getMvcResolver()
-				->addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '\Admin');
+				->addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '\Admin', PriorityQueue::BELOW_NORMAL);
 
 			FieldDefinitionResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '\Admin\Form');
 		}
