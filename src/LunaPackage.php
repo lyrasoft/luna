@@ -27,7 +27,7 @@ define('LUNA_SOURCE_ADMIN', LUNA_SOURCE . '/Admin');
 /**
  * The LunaPackage class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class LunaPackage extends AbstractPackage
 {

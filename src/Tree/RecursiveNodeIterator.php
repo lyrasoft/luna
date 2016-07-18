@@ -13,7 +13,7 @@ use RecursiveIterator;
 /**
  * The RecursiveNodeIterator class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class RecursiveNodeIterator implements \RecursiveIterator
 {

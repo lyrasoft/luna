@@ -26,7 +26,7 @@ use Windwalker\String\StringNormalise;
 /**
  * The ModuleResolver class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class ModuleHelper
 {

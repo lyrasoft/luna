@@ -18,7 +18,7 @@ use Windwalker\String\Utf8String;
 /**
  * The LanguageListener class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class LanguageListener
 {

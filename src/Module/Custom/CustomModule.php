@@ -14,7 +14,7 @@ use Windwalker\Data\DataInterface;
 /**
  * The CustomModule class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class CustomModule extends AbstractModule
 {

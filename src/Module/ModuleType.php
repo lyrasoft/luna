@@ -21,7 +21,7 @@ use Windwalker\Data\Data;
  * @property-read  string  class
  * @property-read  string  langPrefix
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class ModuleType extends Data
 {

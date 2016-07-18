@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Tree;
 /**
  * The Node class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class Node implements NodeInterface, \IteratorAggregate
 {

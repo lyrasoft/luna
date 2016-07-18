@@ -19,7 +19,7 @@ use Windwalker\DataMapper\DataMapper;
 /**
  * The TagHelper class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class TagHelper
 {

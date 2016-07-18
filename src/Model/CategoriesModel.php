@@ -26,7 +26,7 @@ use Windwalker\Utilities\ArrayHelper;
 /**
  * The CategoriesModel class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class CategoriesModel extends ListModel
 {

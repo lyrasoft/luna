@@ -13,7 +13,7 @@ use Windwalker\Event\Event;
 /**
  * The AbstractEditorButtonListener class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 abstract class AbstractEditorButtonListener
 {

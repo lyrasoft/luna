@@ -34,7 +34,7 @@ use Windwalker\Utilities\Reflection\ReflectionHelper;
  * @property  string    language
  * @property  Structure params
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 abstract class AbstractModule
 {

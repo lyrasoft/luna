@@ -34,7 +34,7 @@ use Windwalker\Data\DataSet;
  * @property    DataSet  tags
  * @property    DataSet  comments
  *
- * @since    {DEPLOY_VERSION}
+ * @since    1.0
  */
 trait ArticleDataTrait
 {

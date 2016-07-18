@@ -14,7 +14,7 @@ use Lyrasoft\Unidev\Storage\AbstractStorageHelper;
 /**
  * The ImageStorageHelper class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class EditorImageHelper extends AbstractStorageHelper
 {

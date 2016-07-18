@@ -14,7 +14,7 @@ use Windwalker\Core\Asset\AbstractScript;
 /**
  * The LanguageScript class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class LanguageScript extends AbstractScript
 {

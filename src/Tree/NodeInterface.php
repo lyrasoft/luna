@@ -13,7 +13,7 @@ namespace Lyrasoft\Luna\Tree;
  *
  * @link  https://github.com/nicmart/Tree/blob/master/src/Node/NodeInterface.php
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 interface NodeInterface
 {

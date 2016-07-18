@@ -27,7 +27,7 @@ namespace Lyrasoft\Luna\Admin\Record\Traits;
  * @property    integer  modified_by
  * @property    string  params
  *
- * @since    {DEPLOY_VERSION}
+ * @since    1.0
  */
 trait CommentDataTrait
 {

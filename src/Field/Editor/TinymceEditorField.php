@@ -15,7 +15,7 @@ use Windwalker\Core\Asset\Asset;
 /**
  * The SummernoteEditorField class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class TinymceEditorField extends AbstractEditorField
 {

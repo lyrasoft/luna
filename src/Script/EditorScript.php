@@ -17,7 +17,7 @@ use Windwalker\Utilities\ArrayHelper;
 /**
  * The EditorScript class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class EditorScript extends AbstractScript
 {

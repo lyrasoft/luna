@@ -13,7 +13,7 @@ use Phoenix\Controller\Batch\AbstractRebuildController;
 /**
  * The RebuildController class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class RebuildController extends AbstractRebuildController
 {

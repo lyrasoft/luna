@@ -22,7 +22,7 @@ use Windwalker\Form\Form;
 /**
  * The GridDefinition class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class GridDefinition extends AbstractFieldDefinition
 {

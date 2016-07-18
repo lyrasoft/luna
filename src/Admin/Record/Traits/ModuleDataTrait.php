@@ -26,7 +26,7 @@ namespace Lyrasoft\Luna\Admin\Record\Traits;
  * @property    string  language
  * @property    string  params
  *
- * @since    {DEPLOY_VERSION}
+ * @since    1.0
  */
 trait ModuleDataTrait
 {

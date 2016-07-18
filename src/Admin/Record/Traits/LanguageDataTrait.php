@@ -24,7 +24,7 @@ namespace Lyrasoft\Luna\Admin\Record\Traits;
  * @property    integer  state
  * @property    integer  ordering
  *
- * @since    {DEPLOY_VERSION}
+ * @since    1.0
  */
 trait LanguageDataTrait
 {

@@ -18,7 +18,7 @@ use Windwalker\Html\Option;
 /**
  * The FlagListField class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class FlagListField extends ListField
 {

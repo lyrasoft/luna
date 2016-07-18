@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * The LunaHelper class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 abstract class LunaHelper
 {

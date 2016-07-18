@@ -14,7 +14,7 @@ use Windwalker\Event\Event;
 /**
  * The EditorListener class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class EditorListener extends AbstractEditorButtonListener
 {

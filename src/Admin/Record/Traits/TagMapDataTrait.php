@@ -15,7 +15,7 @@ namespace Lyrasoft\Luna\Admin\Record\Traits;
  * @property    integer  target_id
  * @property    string  type
  *
- * @since    {DEPLOY_VERSION}
+ * @since    1.0
  */
 trait TagMapDataTrait
 {

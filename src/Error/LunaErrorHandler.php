@@ -18,7 +18,7 @@ use Windwalker\Utilities\Reflection\ReflectionHelper;
 /**
  * The ErrorHandler class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class LunaErrorHandler implements ErrorHandlerInterface
 {

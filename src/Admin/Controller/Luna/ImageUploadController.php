@@ -21,7 +21,7 @@ use Windwalker\Filesystem\Folder;
 /**
  * The ImageUploadController class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class ImageUploadController extends \Lyrasoft\Unidev\Controller\Unidev\ImageUploadController
 {

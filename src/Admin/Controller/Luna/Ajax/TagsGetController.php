@@ -16,7 +16,7 @@ use Windwalker\Core\Controller\Traits\JsonApiTrait;
 /**
  * The TagsGetController class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class TagsGetController extends AbstractController
 {

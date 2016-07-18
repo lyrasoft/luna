@@ -17,7 +17,7 @@ use Windwalker\Utilities\Queue\PriorityQueue;
 /**
  * The LunaProvider class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class LunaProvider implements ServiceProviderInterface
 {

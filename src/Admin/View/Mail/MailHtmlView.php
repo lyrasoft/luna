@@ -14,7 +14,7 @@ use Windwalker\Core\Renderer\RendererHelper;
 /**
  * The MailHtmlView class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class MailHtmlView extends AbstractPhoenixHtmView
 {

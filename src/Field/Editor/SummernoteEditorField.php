@@ -13,7 +13,7 @@ use Lyrasoft\Luna\Script\EditorScript;
 /**
  * The SummernoteEditorField class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class SummernoteEditorField extends AbstractEditorField
 {

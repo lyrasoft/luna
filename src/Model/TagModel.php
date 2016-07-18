@@ -13,7 +13,7 @@ use Phoenix\Model\ItemModel;
 /**
  * The TagModel class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class TagModel extends ItemModel
 {

@@ -18,7 +18,7 @@ use Windwalker\Ioc;
 /**
  * The LanguageHelper class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class Locale
 {

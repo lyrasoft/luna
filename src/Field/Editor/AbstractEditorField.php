@@ -17,7 +17,7 @@ use Windwalker\Ioc;
 /**
  * The AbstractEditorField class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 abstract class AbstractEditorField extends TextareaField
 {

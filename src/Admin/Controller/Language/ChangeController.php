@@ -15,7 +15,7 @@ use Phoenix\Controller\AbstractPhoenixController;
 /**
  * The ChangeController class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class ChangeController extends AbstractPhoenixController
 {

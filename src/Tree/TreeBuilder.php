@@ -14,7 +14,7 @@ use Windwalker\Utilities\ArrayHelper;
 /**
  * The TreeBuilder class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class TreeBuilder
 {

@@ -15,7 +15,7 @@ use Windwalker\Utilities\ArrayHelper;
 /**
  * The Select2Script class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class Select2Script extends AbstractScript
 {

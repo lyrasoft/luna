@@ -15,7 +15,7 @@ use Windwalker\Data\Data;
 /**
  * The TagSaveController class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class TagSaveController extends AbstractAjaxController
 {
