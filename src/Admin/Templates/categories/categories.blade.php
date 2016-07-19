@@ -178,7 +178,7 @@
                 <tr>
                     {{-- PAGINATION --}}
                     <td colspan="25">
-                        {!! $pagination->route($view->name, [])->render() !!}
+                        {!! $pagination->route($view->name, ['type' => $type])->render() !!}
                     </td>
                 </tr>
                 </tfoot>

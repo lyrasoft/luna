@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Admin\Model;
 
 use Phoenix\Model\NestedAdminModel;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
 

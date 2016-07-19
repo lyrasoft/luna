@@ -100,8 +100,5 @@ class GetController extends ListDisplayController
 		$model->addFilter('category.type', $type);
 
 		$this->view['type'] = $type;
-
-		// Set category menu type
-		$this->app->set('route.extra.active.category', $type);
 	}
 }

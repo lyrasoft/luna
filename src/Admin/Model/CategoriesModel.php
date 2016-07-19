@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
+use Windwalker\Debugger\Helper\DebuggerHelper;
 use Windwalker\Query\Query;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Lyrasoft\Warder\Table\WarderTable;
@@ -86,7 +87,7 @@ class CategoriesModel extends ListModel
 	 */
 	protected function postGetQuery(Query $query)
 	{
-		$query->where('parent_id != 0')->where('level >= 1');
+		$query->where('category.parent_id != 0')->where('category.level >= 1');
 	}
 
 	/**
