@@ -97,6 +97,11 @@ class LunaListener
 	{
 		$view = $event['view'];
 
+		if (!$view instanceof HtmlView)
+		{
+			return;
+		}
+
 		/**
 		 * @var HtmlView $view
 		 * @var AbstractRenderer $renderer

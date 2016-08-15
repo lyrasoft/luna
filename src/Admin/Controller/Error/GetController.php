@@ -48,7 +48,20 @@ class GetController extends ItemDisplayController
 	{
 		parent::prepareExecute();
 
-		$this->view['exception'] = $this->input->getRaw('exception');
+		if ($this->format == 'html')
+		{
+			$this->view['exception'] = $this->input->getRaw('exception');
+		}
+		else
+		{
+			$exception = $this->input->getRaw('exception');
+
+			$this->view->getData()->load([
+				'success' => false,
+				'code' => $exception->getCode(),
+				'message' => $exception->getMessage(),
+			]);
+		}
 	}
 
 	/**
