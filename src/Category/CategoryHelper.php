@@ -206,7 +206,7 @@ class CategoryHelper
 			}
 			else
 			{
-				array_push($order, $dir);
+				array_push($order, strtolower($dir));
 			}
 
 			$model['list.ordering'] = implode(' ', $order);
