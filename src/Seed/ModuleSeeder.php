@@ -53,7 +53,7 @@ class ModuleSeeder extends AbstractSeeder
 			/** @var \Lyrasoft\Luna\Module\ModuleType $module */
 			$module = $faker->randomElement($types);
 
-			$data['title']       = $faker->sentence(rand(3, 5));
+			$data['title']       = $faker->sentence(mt_rand(3, 5));
 			$data['type']        = $module->type;
 			$data['class']       = $module->class;
 			$data['position']    = $faker->randomElement($positions);

@@ -46,14 +46,14 @@ class CommentSeeder extends AbstractSeeder
 
 		foreach ($articleIds as $articleId)
 		{
-			foreach (range(3, rand(5, 7)) as $i)
+			foreach (range(3, mt_rand(5, 7)) as $i)
 			{
 				$data = new Data;
 
 				$data['target_id']   = $articleId;
 				$data['type']        = 'article';
 				$data['user_id']     = $faker->randomElement($userIds);
-				$data['title']       = $faker->sentence(rand(3, 5));
+				$data['title']       = $faker->sentence(mt_rand(3, 5));
 				$data['content']     = $faker->paragraph(5);
 				$data['reply']       = $faker->paragraph(3);
 				$data['reply_user_id'] = $faker->randomElement($userIds);

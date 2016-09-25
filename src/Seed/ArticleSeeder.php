@@ -65,13 +65,13 @@ class ArticleSeeder extends AbstractSeeder
 				$lang = $faker->randomElement($languages);
 
 				$data['category_id'] = $category->id;
-				$data['title']       = '(' . $lang . ') ' . $faker->sentence(rand(3, 5));
+				$data['title']       = '(' . $lang . ') ' . $faker->sentence(mt_rand(3, 5));
 				$data['alias']       = OutputFilter::stringURLSafe($data['title']);
 				$data['introtext']   = '(' . $lang . ') ' . $faker->paragraph(5);
 				$data['fulltext']    = $faker->paragraph(5);
 				$data['image']       = UnsplashHelper::getImageUrl();
 				$data['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
-				$data['version']     = rand(1, 50);
+				$data['version']     = mt_rand(1, 50);
 				$data['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
 				$data['created_by']  = $faker->randomElement($userIds);
 				$data['modified']    = $faker->dateTime->format(DateTime::getSqlFormat());
@@ -82,7 +82,7 @@ class ArticleSeeder extends AbstractSeeder
 
 				ArticleMapper::createOne($data);
 
-				foreach ($faker->randomElements($tags, rand(5, 7)) as $tag)
+				foreach ($faker->randomElements($tags, mt_rand(5, 7)) as $tag)
 				{
 					$map = new Data;
 

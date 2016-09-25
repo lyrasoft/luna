@@ -71,13 +71,13 @@ class CategorySeeder extends AbstractSeeder
 
 			$lang = $faker->randomElement($languages);
 
-			$record['title']       = $faker->sentence(rand(1, 3)) . ' - [' . $lang . ']';
+			$record['title']       = $faker->sentence(mt_rand(1, 3)) . ' - [' . $lang . ']';
 			$record['alias']       = OutputFilter::stringURLSafe($record['title']);
 			$record['type']        = $faker->randomElement($this->types);
 			$record['description'] = $faker->paragraph(5);
 			$record['image']       = UnsplashHelper::getImageUrl();
 			$record['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
-			$record['version']     = rand(1, 50);
+			$record['version']     = mt_rand(1, 50);
 			$record['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
 			$record['created_by']  = $faker->randomElement($userIds);
 			$record['modified']    = $faker->dateTime->format(DateTime::getSqlFormat());
