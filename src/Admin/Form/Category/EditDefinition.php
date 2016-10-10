@@ -11,9 +11,11 @@ namespace Lyrasoft\Luna\Admin\Form\Category;
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
+use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
@@ -32,6 +34,8 @@ use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 class EditDefinition extends AbstractFieldDefinition
 {
 	use PhoenixFieldTrait;
+	use UnidevFieldTrait;
+	use LunaFieldTrait;
 	
 	/**
 	 * Define the form fields.
@@ -45,14 +49,14 @@ class EditDefinition extends AbstractFieldDefinition
 		$langPrefix = LunaHelper::getLangPrefix();
 
 		// Title
-		$this->add('title', new Field\TextField)
+		$this->text('title')
 			->label(Translator::translate($langPrefix . 'category.field.title'))
 			->set('placeholder', Translator::translate($langPrefix . 'category.field.title'))
 			->setFilter('trim')
 			->required(true);
 
 		// Alias
-		$this->add('alias', new Field\TextField)
+		$this->text('alias')
 			->label(Translator::translate($langPrefix . 'category.field.alias'))
 			->set('placeholder', Translator::translate($langPrefix . 'category.field.alias'));
 
@@ -62,7 +66,7 @@ class EditDefinition extends AbstractFieldDefinition
 			$type = Ioc::getInput()->get('type');
 
 			// ID
-			$this->add('id', new Field\HiddenField);
+			$this->hidden('id');
 
 			// Parent
 			$this->add('parent_id', new CategoryListField)
@@ -71,13 +75,13 @@ class EditDefinition extends AbstractFieldDefinition
 				->set('type', $type);
 
 			// Images
-			$this->add('image', new SingleImageDragField)
+			$this->singleImageDrag('image')
 				->label(Translator::translate($langPrefix . 'category.field.images'))
 				->set('export_zoom', 2)
 				->set('width', 400)
 				->set('height', 300);
 
-			$this->add('type', new Field\HiddenField)
+			$this->hidden('type')
 				->label(Translator::translate($langPrefix . 'category.field.type'));
 		});
 
@@ -85,7 +89,7 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
 			// Description
-			$this->add('description', new SummernoteEditorField)
+			$this->summernoteEditor('description')
 				->label(Translator::translate($langPrefix . 'category.field.description'))
 				->set('options', array(
 					'height' => 350,
@@ -99,7 +103,7 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
-			$this->add('state', new Field\RadioField)
+			$this->radio('state')
 				->label(Translator::translate($langPrefix . 'category.field.state'))
 				->set('class', 'btn-group')
 				->set('default', 1)

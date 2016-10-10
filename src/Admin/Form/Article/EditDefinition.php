@@ -12,9 +12,11 @@ use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Tag\TagListField;
 use Lyrasoft\Luna\Field\Editor\TinymceEditorField;
+use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
@@ -32,6 +34,8 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 class EditDefinition extends AbstractFieldDefinition
 {
 	use PhoenixFieldTrait;
+	use UnidevFieldTrait;
+	use LunaFieldTrait;
 	
 	/**
 	 * Define the form fields.
@@ -45,14 +49,14 @@ class EditDefinition extends AbstractFieldDefinition
 		$langPrefix = LunaHelper::getLangPrefix();
 
 		// Title
-		$this->add('title', new Field\TextField)
+		$this->text('title')
 			->label(Translator::translate($langPrefix . 'article.field.title'))
 			->set('placeholder', Translator::translate($langPrefix . 'article.field.title'))
 			->setFilter('trim')
 			->required(true);
 
 		// Alias
-		$this->add('alias', new Field\TextField)
+		$this->text('alias')
 			->label(Translator::translate($langPrefix . 'article.field.alias'))
 			->set('placeholder', Translator::translate($langPrefix . 'article.field.alias'));
 
@@ -60,7 +64,7 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
 		{
 			// ID
-			$this->add('id', new Field\HiddenField);
+			$this->hidden('id');
 
 			if (LunaHelper::tableExists('categories'))
 			{
@@ -78,7 +82,7 @@ class EditDefinition extends AbstractFieldDefinition
 			}
 
 			// Images
-			$this->add('image', new SingleImageDragField)
+			$this->singleImageDrag('image')
 				->label(Translator::translate($langPrefix . 'article.field.images'))
 				->set('width', 400)
 				->set('height', 300);
@@ -88,7 +92,7 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->wrap('text', null, function(Form $form) use ($langPrefix)
 		{
 			// Introtext
-			$this->add('text', new TinymceEditorField)
+			$this->tinymceEditor('text')
 				->label(Translator::translate($langPrefix . 'article.field.introtext'))
 				->set('options', array(
 					'height' => 450
@@ -101,7 +105,7 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->wrap('created', null, function(Form $form) use ($langPrefix)
 		{
 			// State
-			$this->add('state', new Field\RadioField)
+			$this->radio('state')
 				->label(Translator::translate($langPrefix . 'article.field.state'))
 				->set('class', 'btn-group')
 				->set('default', 1)
