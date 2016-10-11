@@ -23,7 +23,7 @@ use Windwalker\Filter\InputFilter;
 
 /**
  * The SaveController class.
- * 
+ *
  * @since  1.0
  */
 class SaveController extends AbstractSaveController
@@ -91,7 +91,7 @@ class SaveController extends AbstractSaveController
 	{
 		parent::preSave($data);
 
-		$data->text = $this->input->getByPath($this->formControl . '.text', null, InputFilter::RAW);
+		$data->text = $this->input->get($this->formControl . '.text', null, InputFilter::RAW);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class SaveController extends AbstractSaveController
 		{
 			$this->model->save($data);
 		}
-		
+
 		// Tag
 		/** @var TagModel $model */
 		$model = $this->getModel('Tag');
