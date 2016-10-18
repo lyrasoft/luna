@@ -73,7 +73,7 @@ class ChangeController extends AbstractPhoenixController
 
 		if ($return)
 		{
-			$return = $uri->path . ltrim($uri->script . '/', '/') . $language->alias . '/' . base64_decode($return);
+			$return = $uri->path . '/' . ltrim($uri->script . '/', '/') . $language->alias . '/' . base64_decode($return);
 		}
 		else
 		{
