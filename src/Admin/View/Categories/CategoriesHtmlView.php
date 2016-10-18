@@ -88,7 +88,7 @@ class CategoriesHtmlView extends GridView
 
 		$data->ordering = array();
 
-		if ($data->state->get('list.saveorder'))
+		if ($grid->config->get('list.saveorder'))
 		{
 			foreach ($data->items as $i => $item)
 			{
