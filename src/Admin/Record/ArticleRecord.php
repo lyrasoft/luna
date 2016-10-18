@@ -65,7 +65,7 @@ class ArticleRecord extends Record
 			$src = get_object_vars($src);
 		}
 
-		if (isset($src['text']) && $src['text'] !== '')
+		if (isset($src['text']))
 		{
 			$pattern = '/<hr\s+id=("|\')luna-readmore("|\')\s*\/*>/i';
 			$tagPos = preg_match($pattern, $src['text']);
