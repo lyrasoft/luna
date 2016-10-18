@@ -45,8 +45,10 @@ class GridDefinition extends AbstractFieldDefinition
 				->set('display', false)
 				->defaultValue('*')
 				->option(Translator::translate('phoenix.core.all'), '*')
-				->option(Translator::translate($langPrefix . 'category.field.title'), 'category.title')
-				->option(Translator::translate($langPrefix . 'category.field.alias'), 'category.alias');
+				->option(Translator::translate($langPrefix . 'language.field.title'), 'language.title')
+				->option(Translator::translate($langPrefix . 'language.field.titlenative'), 'language.title_native')
+				->option(Translator::translate($langPrefix . 'language.field.alias'), 'language.alias')
+				->option(Translator::translate($langPrefix . 'language.field.alias'), 'language.code');
 
 			// Search Content
 			$this->text('content')
