@@ -150,7 +150,7 @@ class LunaListener
 	 */
 	public function onLunaCommentModelPrepareGetQuery(Event $event)
 	{
-		if ($event['type'] == 'article')
+		if ($event['type'] === 'article')
 		{
 			/** @var CommentsModel $model */
 			$model = $event['model'];

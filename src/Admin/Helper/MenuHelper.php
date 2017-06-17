@@ -36,12 +36,12 @@ class MenuHelper extends AbstractHelper
 	{
 		$view = $this->getParent()->getView();
 
-		if ($view['app']->get('route.matched') == $view->getPackage()->getName() . ':' . $name)
+		if ($view['app']->get('route.matched') === $view->getPackage()->getName() . ':' . $name)
 		{
 			return 'active';
 		}
 
-		if ($view['app']->get('route.extra.active.' . $menu) == $name)
+		if ($view['app']->get('route.extra.active.' . $menu) === $name)
 		{
 			return 'active';
 		}
@@ -89,7 +89,7 @@ class MenuHelper extends AbstractHelper
 	{
 		$inflector = StringInflector::getInstance();
 
-		$viewFolder = ADMIN_ROOT . '/View';
+		$viewFolder = PACKAGE_ADMIN_ROOT . '/View';
 
 		$views = Filesystem::folders($viewFolder);
 		$menus = [];
@@ -104,11 +104,11 @@ class MenuHelper extends AbstractHelper
 
 			$name = strtolower($view->getBasename());
 
-			if ($inflection == static::PLURAL && $inflector->isPlural($name))
+			if ($inflection === static::PLURAL && $inflector->isPlural($name))
 			{
 				$menus[] = $name;
 			}
-			elseif ($inflection == static::SINGULAR && $inflector->isSingular($name))
+			elseif ($inflection === static::SINGULAR && $inflector->isSingular($name))
 			{
 				$menus[] = $name;
 			}

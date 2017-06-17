@@ -15,7 +15,7 @@ use Phoenix\View\ItemView;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\DataInterface;
 use Windwalker\Router\Exception\RouteNotFoundException;
-use Windwalker\String\Utf8String;
+use Windwalker\String\Mbstring;
 
 /**
  * The ArticleHtmlView class.
@@ -66,7 +66,7 @@ class ArticleHtmlView extends ItemView
 
 		if (Locale::isEnabled() && $data->item->id)
 		{
-			if (Locale::getLocale() != $data->item->language && $data->item->language != '*')
+			if (Locale::getLocale() != $data->item->language && $data->item->language !== '*')
 			{
 				throw new RouteNotFoundException(sprintf('Language %s not support for this article', Locale::getLocale()), 404);
 			}
@@ -88,7 +88,7 @@ class ArticleHtmlView extends ItemView
 	{
 		$this->setTitle($data->item->title);
 
-		$desc = Utf8String::substr(strip_tags($data->item->introtext), 0, 150);
+		$desc = Mbstring::substr(strip_tags($data->item->introtext), 0, 150);
 
 		HtmlHeader::addOpenGraph('og:image', $data->item->image);
 		HtmlHeader::addOpenGraph('og:description', $desc);

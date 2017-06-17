@@ -55,13 +55,13 @@ class TreeBuilder
 			$data = $node->getValue();
 
 			$parentId = ArrayHelper::getValue($data, $parentIdName);
-			$level    = ArrayHelper::getValue($data, $levelName);
+			$level    = (int) ArrayHelper::getValue($data, $levelName);
 
 			if (isset($tree[$parentId]))
 			{
 				$tree[$parentId]->addChild($node);
 			}
-			elseif ($level == $minLevel)
+			elseif ($level === $minLevel)
 			{
 				$root->addChild($node);
 			}

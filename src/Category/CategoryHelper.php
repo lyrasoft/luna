@@ -200,7 +200,7 @@ class CategoryHelper
 			$order = explode(' ', trim($order));
 			$dir = strtoupper(array_pop($order));
 
-			if ($dir == 'ASC' || $dir == 'DESC')
+			if ($dir === 'ASC' || $dir === 'DESC')
 			{
 				$model['list.direction'] = $dir;
 			}

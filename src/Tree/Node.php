@@ -104,7 +104,7 @@ class Node implements NodeInterface, \IteratorAggregate
 	{
 		foreach ($this->children as $key => $myChild)
 		{
-			if ($child == $myChild)
+			if ($child === $myChild)
 			{
 				unset($this->children[$key]);
 			}
@@ -243,7 +243,7 @@ class Node implements NodeInterface, \IteratorAggregate
 				$neighbors,
 				function ($item) use ($current)
 				{
-					return $item != $current;
+					return $item !== $current;
 				}
 			)
 		);

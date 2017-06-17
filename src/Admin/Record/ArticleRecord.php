@@ -70,7 +70,7 @@ class ArticleRecord extends Record
 			$pattern = '/<hr\s+id=("|\')luna-readmore("|\')\s*\/*>/i';
 			$tagPos = preg_match($pattern, $src['text']);
 
-			if ($tagPos == 0)
+			if ($tagPos === 0)
 			{
 				$this->introtext = $src['text'];
 				$this->fulltext = '';

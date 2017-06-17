@@ -46,7 +46,7 @@ class TinymceEditorField extends AbstractEditorField
 		$options['plugins']     = [];
 		$options['content_css'] = Asset::root() . '/' . $luna->name . '/css/tinymce/content.css';
 
-		if ($this->get('toolbar', static::TOOLBAR_FULL) == static::TOOLBAR_FULL)
+		if ($this->get('toolbar', static::TOOLBAR_FULL) === static::TOOLBAR_FULL)
 		{
 			$options['plugins'] = [
 				'advlist autolink lists link image charmap print preview hr anchor pagebreak',

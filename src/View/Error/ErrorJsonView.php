@@ -55,9 +55,9 @@ class ErrorJsonView extends ItemView
 	{
 		parent::prepareData($data);
 
-		$data['code'] = $data['code'] == 404 ? $data-['code'] : 500;
+		$data['code'] = $data['code'] === 404 ? $data-['code'] : 500;
 
-		if ($data['code'] == 404)
+		if ($data['code'] === 404)
 		{
 			$data['message'] = Translator::translate($this->langPrefix . 'error.not.found');
 		}

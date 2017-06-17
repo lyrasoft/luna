@@ -14,7 +14,7 @@ $fieldsets = $moduleForm->getFieldsets();
 ?>
 <ul class="nav nav-tabs" role="tablist">
     @foreach ($fieldsets as $i => $fieldset)
-        <li role="presentation" class="{{ $i != 0 ? null : 'active' }}">
+        <li role="presentation" class="{{ $i !== 0 ? null : 'active' }}">
             <a href="#fieldset-{{ $fieldset }}" aria-controls="home" role="tab" data-toggle="tab">
                 @translate($module->getLangPrefix() . 'module.edit.fieldset.' . $fieldset)
             </a>
@@ -24,7 +24,7 @@ $fieldsets = $moduleForm->getFieldsets();
 
 <div class="tab-content">
     @foreach ($fieldsets as $i => $fieldset)
-        <div role="tabpanel" class="tab-pane fade {{ $i != 0 ? null : 'in active' }}" id="fieldset-{{ $fieldset }}">
+        <div role="tabpanel" class="tab-pane fade {{ $i !== 0 ? null : 'in active' }}" id="fieldset-{{ $fieldset }}">
             <div class="form-horizontal" style="margin-top: 40px; margin-bottom: 40px;">
                 {!! $moduleForm->renderFields($fieldset) !!}
             </div>

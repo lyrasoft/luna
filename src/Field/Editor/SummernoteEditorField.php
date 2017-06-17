@@ -40,7 +40,7 @@ class SummernoteEditorField extends AbstractEditorField
 	{
 		$options = (array) $this->get('options', []);
 
-		if ($this->get('toolbar') == static::TOOLBAR_SIMPLE)
+		if ($this->get('toolbar') === static::TOOLBAR_SIMPLE)
 		{
 			$options['toolbar'] = [
 				['size', ['fontsize']],

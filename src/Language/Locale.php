@@ -139,7 +139,7 @@ class Locale
 
 		foreach ($languages as $language)
 		{
-			if ($language->alias == $alias)
+			if ($language->alias === $alias)
 			{
 				return $language;
 			}
@@ -217,7 +217,7 @@ class Locale
 			$name[0] = $name[1];
 		}
 
-		$sq = $type == static::FLAG_SQUARE ? ' flag-icon-squared' : null;
+		$sq = $type === static::FLAG_SQUARE ? ' flag-icon-squared' : null;
 
 		return 'flag-icon flag-icon-' . $name[0] . $sq;
 	}

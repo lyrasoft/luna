@@ -179,7 +179,7 @@
                         @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                             {{-- LANGUAGE --}}
                             <td>
-                                @if ($item->language == '*')
+                                @if ($item->language === '*')
                                     <span class="glyphicon glyphicon-globe fa fa-globe"></span>
                                     @translate($luna->langPrefix . 'language.field.all')
                                 @else

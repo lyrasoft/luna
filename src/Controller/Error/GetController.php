@@ -49,7 +49,7 @@ class GetController extends ItemDisplayController
 	{
 		parent::prepareExecute();
 
-		if ($this->format == 'html')
+		if ($this->format === 'html')
 		{
 			$this->view['exception'] = $this->input->getRaw('exception');
 		}

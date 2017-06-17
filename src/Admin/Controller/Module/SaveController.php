@@ -137,12 +137,12 @@ class SaveController extends AbstractSaveController
 	 */
 	protected function getSuccessRedirect(DataInterface $data = null)
 	{
-		if ($this->task == 'save2new')
+		if ($this->task === 'save2new')
 		{
 			$this->input->set('type', $data->type);
 		}
 
-		if ($this->task == 'save2copy')
+		if ($this->task === 'save2copy')
 		{
 			$data->state = 0;
 		}
