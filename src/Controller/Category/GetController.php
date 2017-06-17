@@ -41,6 +41,20 @@ class GetController extends ListDisplayController
 	protected $view;
 
 	/**
+	 * Property type.
+	 *
+	 * @var  string
+	 */
+	protected $type = 'article';
+
+	/**
+	 * Property joinPrefix.
+	 *
+	 * @var  string
+	 */
+	protected $joinPrefix = 'article';
+
+	/**
 	 * Property ordering.
 	 *
 	 * @var  string
@@ -62,6 +76,24 @@ class GetController extends ListDisplayController
 	protected $deep = true;
 
 	/**
+	 * A hook before main process executing.
+	 *
+	 * @return  void
+	 */
+	protected function prepareExecute()
+	{
+		$matched = $this->router->getMatched();
+
+		$this->type  = $matched->getExtra('category.type', 'article');
+		$this->model = $matched->getExtra('category.model', 'Articles');
+		$this->deep  = $matched->getExtra('category.deep', true);
+		$this->defaultOrdering = $matched->getExtra('category.ordering', 'article.created');
+		$this->defaultDirection = $matched->getExtra('category.direction', 'DESC');
+
+		parent::prepareExecute();
+	}
+
+	/**
 	 * Prepare view and default model.
 	 *
 	 * You can configure default model state here, or add more sub models to view.
@@ -71,6 +103,10 @@ class GetController extends ListDisplayController
 	 * @param ModelRepository $model The default mode.
 	 *
 	 * @return  void
+	 *
+	 * @throws \Windwalker\Router\Exception\RouteNotFoundException
+	 * @throws \Windwalker\Core\Security\Exception\UnauthorizedException
+	 * @throws \InvalidArgumentException
 	 * @throws \RuntimeException
 	 */
 	protected function prepareViewModel(AbstractView $view, ModelRepository $model)
@@ -109,10 +145,8 @@ class GetController extends ListDisplayController
 			/** @var CategoryModel $catModel */
 			$catModel = $this->getModel('Category');
 
-			$type = $this->app->get('route.extra.category.type');
-
 			/** @var Data $category */
-			$category = $catModel->getItem(['path' => $path, 'state' => 1, 'type' => $type]);
+			$category = $catModel->getItem(['path' => $path, 'state' => 1, 'type' => $this->type]);
 
 			if ($category->isNull())
 			{
@@ -126,11 +160,11 @@ class GetController extends ListDisplayController
 			// Set article filters
 			if ($this->deep)
 			{
-				$model->addFilter('category_keys', $category->lft . ',' . $category->rgt);
+				$model->categoryKeys($category->lft, $category->rgt);
 			}
 			else
 			{
-				$model->addFilter('article.category_id', $category->id);
+				$model->category($category->id);
 			}
 		}
 		else
@@ -157,7 +191,7 @@ class GetController extends ListDisplayController
 			$this->checkAccess($tag);
 
 			// Set article filters
-			$this->model->addFilter('mapping.tag_id', $tag->id);
+			$model->tag($tag->id);
 		}
 		else
 		{
@@ -166,11 +200,11 @@ class GetController extends ListDisplayController
 
 		if (Locale::isEnabled(Locale::CLIENT_FRONTEND))
 		{
-			$this->model->addFilter('locale', Locale::getLocale());
+			$model->locale(Locale::getLocale());
 		}
 
-		$this->model->addFilter('article.state', 1);
-		$this->model->addFilter('category.state', 1);
+		$model->published(1);
+		$model->addFilter('category.state', 1);
 	}
 
 	/**

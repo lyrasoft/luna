@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Model;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Repository\ContentRepositoryInterface;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
@@ -20,7 +21,7 @@ use Windwalker\Query\QueryElement;
  * 
  * @since  1.0
  */
-class ArticlesModel extends ListModel
+class ArticlesModel extends ListModel implements ContentRepositoryInterface
 {
 	/**
 	 * Property name.
@@ -215,5 +216,78 @@ class ArticlesModel extends ListModel
 	protected function configureSearches(FilterHelperInterface $searchHelper)
 	{
 		// Add your logic
+	}
+
+	/**
+	 * filterTag
+	 *
+	 * @param int $tagId
+	 *
+	 * @return  static
+	 */
+	public function tag($tagId)
+	{
+		return $this->addFilter('mapping.tag_id', $tagId);
+	}
+
+	/**
+	 * published
+	 *
+	 * @param bool $bool
+	 *
+	 * @return static
+	 */
+	public function published($bool = true)
+	{
+		return $this->addFilter('article.state', (int) $bool);
+	}
+
+	/**
+	 * locale
+	 *
+	 * @param string $locale
+	 *
+	 * @return  static
+	 */
+	public function locale($locale)
+	{
+		return $this->addFilter('locale', $locale);
+	}
+
+	/**
+	 * filterCategory
+	 *
+	 * @param mixed $category
+	 *
+	 * @return  static
+	 */
+	public function category($category)
+	{
+		return $this->addFilter('article.category_id', $category);
+	}
+
+	/**
+	 * categoryKeys
+	 *
+	 * @param int $lft
+	 * @param int $rgt
+	 *
+	 * @return  static
+	 */
+	public function categoryKeys($lft, $rgt)
+	{
+		return $this->addFilter('category_keys', $lft . ',' . $rgt);
+	}
+
+	/**
+	 * access
+	 *
+	 * @param mixed $access
+	 *
+	 * @return  static
+	 */
+	public function access($access)
+	{
+		return $this->addFilter('article.access', $access);
 	}
 }

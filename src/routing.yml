@@ -3,7 +3,7 @@
 article:
     pattern: /post/(id)-(alias)
     controller: Article
-    requirement:
+    requirements:
         id:
             \d+
     extra:
@@ -23,6 +23,10 @@ article_category:
         layout: category
         category:
             type: article
+            model: Articles
+            ordering: article.created
+            direction: DESC
+            deep: true
         active:
             manimenu: category
 

@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Model;
 
 use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Repository\StateRepositoryInterface;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Model\ItemModel;
 use Windwalker\Data\DataInterface;
@@ -19,7 +20,7 @@ use Windwalker\Data\DataInterface;
  *
  * @since  1.0
  */
-class ArticleModel extends ItemModel
+class ArticleModel extends ItemModel implements StateRepositoryInterface
 {
 	/**
 	 * postGetItem
@@ -45,5 +46,17 @@ class ArticleModel extends ItemModel
 
 			$item->comments = $commentsModel->getItems();
 		}
+	}
+
+	/**
+	 * published
+	 *
+	 * @param bool $published
+	 *
+	 * @return static
+	 */
+	public function published($published = true)
+	{
+		$this->state->push('load.conditions', 'state = ' . (int) $published);
 	}
 }

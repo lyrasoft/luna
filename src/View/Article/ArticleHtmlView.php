@@ -58,19 +58,6 @@ class ArticleHtmlView extends ItemView
 	protected function prepareData($data)
 	{
 		parent::prepareData($data);
-		
-		if ($data->item->isNull())
-		{
-			throw new RouteNotFoundException('Article not found', 404);
-		}
-
-		if (Locale::isEnabled() && $data->item->id)
-		{
-			if (Locale::getLocale() != $data->item->language && $data->item->language !== '*')
-			{
-				throw new RouteNotFoundException(sprintf('Language %s not support for this article', Locale::getLocale()), 404);
-			}
-		}
 
 		$data->item->text = $data->item->introtext . $data->item->fulltext;
 
