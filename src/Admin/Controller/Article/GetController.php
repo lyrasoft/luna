@@ -21,27 +21,6 @@ use Windwalker\Core\Model\ModelRepository;
 class GetController extends EditDisplayController
 {
 	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'article';
-
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'article';
-
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'articles';
-
-	/**
 	 * Property model.
 	 *
 	 * @var  ArticleModel
@@ -54,38 +33,4 @@ class GetController extends EditDisplayController
 	 * @var  ArticleHtmlView
 	 */
 	protected $view;
-
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		parent::prepareExecute();
-	}
-
-	/**
-	 * prepareExecute
-	 *
-	 * @param ModelRepository $model
-	 *
-	 * @return void
-	 */
-	protected function prepareModelState(ModelRepository $model)
-	{
-		parent::prepareModelState($model);
-	}
-
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
-	}
 }

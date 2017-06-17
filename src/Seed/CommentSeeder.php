@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Admin\DataMapper\CommentMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Windwalker\Core\DateTime\DateTime;
+use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 
@@ -56,9 +56,9 @@ class CommentSeeder extends AbstractSeeder
 				$data['content']     = $faker->paragraph(5);
 				$data['reply']       = $faker->paragraph(3);
 				$data['reply_user_id'] = $faker->randomElement($userIds);
-				$data['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
+				$data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
 				$data['created_by']  = $faker->randomElement($userIds);
-				$data['modified']    = $faker->dateTime->format(DateTime::getSqlFormat());
+				$data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
 				$data['modified_by'] = $faker->randomElement($userIds);
 				$data['ordering']    = $i;
 				$data['state']       = 1;

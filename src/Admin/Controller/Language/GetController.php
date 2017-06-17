@@ -21,27 +21,6 @@ use Windwalker\Core\Model\ModelRepository;
 class GetController extends EditDisplayController
 {
 	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'language';
-
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'language';
-
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'languages';
-
-	/**
 	 * Property model.
 	 *
 	 * @var  LanguageModel
@@ -54,38 +33,4 @@ class GetController extends EditDisplayController
 	 * @var  LanguageHtmlView
 	 */
 	protected $view;
-
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		parent::prepareExecute();
-	}
-
-	/**
-	 * prepareExecute
-	 *
-	 * @param ModelRepository $model
-	 *
-	 * @return void
-	 */
-	protected function prepareModelState(ModelRepository $model)
-	{
-		parent::prepareModelState($model);
-	}
-
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
-	}
 }

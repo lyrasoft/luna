@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\Model\ModuleModel;
 use Lyrasoft\Luna\Admin\View\Module\ModuleHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
 use Windwalker\Core\Model\ModelRepository;
+use Windwalker\Core\View\AbstractView;
 
 /**
  * The GetController class.
@@ -66,15 +67,19 @@ class GetController extends EditDisplayController
 	}
 
 	/**
-	 * prepareExecute
+	 * Prepare view and default model.
 	 *
-	 * @param ModelRepository $model
+	 * You can configure default model state here, or add more sub models to view.
+	 * Remember to call parent to make sure default model already set in view.
 	 *
-	 * @return void
+	 * @param AbstractView    $view  The view to render page.
+	 * @param ModelRepository $model The default mode.
+	 *
+	 * @return  void
 	 */
-	protected function prepareModelState(ModelRepository $model)
+	protected function prepareViewModel(AbstractView $view, ModelRepository $model)
 	{
-		parent::prepareModelState($model);
+		parent::prepareViewModel($view, $model);
 
 		$model['module.type'] = $this->input->get('type');
 	}

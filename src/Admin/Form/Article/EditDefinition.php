@@ -32,13 +32,14 @@ class EditDefinition extends AbstractFieldDefinition
 	use PhoenixFieldTrait;
 	use UnidevFieldTrait;
 	use LunaFieldTrait;
-	
+
 	/**
 	 * Define the form fields.
 	 *
 	 * @param Form $form The Windwalker form object.
 	 *
 	 * @return  void
+	 * @throws \InvalidArgumentException
 	 */
 	public function doDefine(Form $form)
 	{
@@ -48,7 +49,7 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->text('title')
 			->label(Translator::translate($langPrefix . 'article.field.title'))
 			->set('placeholder', Translator::translate($langPrefix . 'article.field.title'))
-			->setFilter('trim')
+			->addFilter('trim')
 			->required(true);
 
 		// Alias

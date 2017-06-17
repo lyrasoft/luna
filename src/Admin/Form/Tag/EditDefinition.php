@@ -32,6 +32,7 @@ class EditDefinition extends AbstractFieldDefinition
 	 * @param Form $form The Windwalker form object.
 	 *
 	 * @return  void
+	 * @throws \InvalidArgumentException
 	 */
 	public function doDefine(Form $form)
 	{
@@ -44,9 +45,10 @@ class EditDefinition extends AbstractFieldDefinition
 			$this->add('id', new Field\HiddenField);
 
 			// Title
+			/** @noinspection PhpDeprecationInspection */
 			$this->add('title', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'tag.field.title'))
-				->setFilter('trim')
+				->addFilter('trim')
 				->required(true);
 
 			// Alias

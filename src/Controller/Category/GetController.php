@@ -10,9 +10,12 @@ namespace Lyrasoft\Luna\Controller\Category;
 
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Model\ArticlesModel;
+use Lyrasoft\Luna\Model\CategoryModel;
+use Lyrasoft\Luna\Model\TagModel;
 use Lyrasoft\Luna\View\Category\CategoryHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Windwalker\Core\Model\ModelRepository;
+use Windwalker\Core\View\AbstractView;
 use Windwalker\Data\Data;
 use Windwalker\Filter\InputFilter;
 
@@ -23,27 +26,6 @@ use Windwalker\Filter\InputFilter;
  */
 class GetController extends ListDisplayController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'category';
-
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'category';
-
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'category';
-
 	/**
 	 * Property model.
 	 *
@@ -80,28 +62,27 @@ class GetController extends ListDisplayController
 	protected $deep = true;
 
 	/**
-	 * prepareExecute
+	 * Prepare view and default model.
+	 *
+	 * You can configure default model state here, or add more sub models to view.
+	 * Remember to call parent to make sure default model already set in view.
+	 *
+	 * @param AbstractView    $view  The view to render page.
+	 * @param ModelRepository $model The default mode.
 	 *
 	 * @return  void
+	 * @throws \RuntimeException
 	 */
-	protected function prepareExecute()
+	protected function prepareViewModel(AbstractView $view, ModelRepository $model)
 	{
-		parent::prepareExecute();
-	}
-
-	/**
-	 * prepareModelState
-	 *
-	 * @param   ModelRepository $model
-	 *
-	 * @return  void
-	 */
-	protected function prepareModelState(ModelRepository $model)
-	{
-		parent::prepareModelState($model);
+		/**
+		 * @var ArticlesModel    $model
+		 * @var CategoryHtmlView $view
+		 */
+		parent::prepareViewModel($view, $model);
 
 		$path = (array) $this->input->getVar('path');
-		
+
 		$tagAlias = $this->input->get('tag');
 
 		if ($path)
@@ -112,7 +93,7 @@ class GetController extends ListDisplayController
 			{
 				$page = array_pop($path);
 			}
-			
+
 			if (!count($path))
 			{
 				throw new \RuntimeException('Page not found.', 404);
@@ -122,9 +103,10 @@ class GetController extends ListDisplayController
 			{
 				$this->input->set('page', $page);
 			}
-			
+
 			$path = implode('/', $path);
 
+			/** @var CategoryModel $catModel */
 			$catModel = $this->getModel('Category');
 
 			$type = $this->app->get('route.extra.category.type');
@@ -137,27 +119,28 @@ class GetController extends ListDisplayController
 				throw new \RuntimeException('Page not found', 404);
 			}
 
-			$this->view['category'] = $category;
+			$view['category'] = $category;
 
 			$this->checkAccess($category);
 
 			// Set article filters
 			if ($this->deep)
 			{
-				$this->model->addFilter('category_keys', $category->lft . ',' . $category->rgt);
+				$model->addFilter('category_keys', $category->lft . ',' . $category->rgt);
 			}
 			else
 			{
-				$this->model->addFilter('article.category_id', $category->id);
+				$model->addFilter('article.category_id', $category->id);
 			}
 		}
 		else
 		{
-			$this->view['category'] = new Data;
+			$view['category'] = new Data;
 		}
 
 		if ($tagAlias)
 		{
+			/** @var TagModel $tagModel */
 			$tagModel = $this->getModel('Tag');
 
 			/** @var Data $tag */
@@ -168,7 +151,7 @@ class GetController extends ListDisplayController
 				throw new \RuntimeException('Page not found', 404);
 			}
 
-			$this->view['tag'] = $tag;
+			$view['tag'] = $tag;
 
 
 			$this->checkAccess($tag);
@@ -178,7 +161,7 @@ class GetController extends ListDisplayController
 		}
 		else
 		{
-			$this->view['tag'] = new Data;
+			$view['tag'] = new Data;
 		}
 
 		if (Locale::isEnabled(Locale::CLIENT_FRONTEND))
@@ -188,18 +171,6 @@ class GetController extends ListDisplayController
 
 		$this->model->addFilter('article.state', 1);
 		$this->model->addFilter('category.state', 1);
-	}
-
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
 	}
 
 	/**

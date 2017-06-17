@@ -28,6 +28,7 @@ class EditDefinition extends AbstractFieldDefinition
 	 * @param Form $form The Windwalker form object.
 	 *
 	 * @return  void
+	 * @throws \InvalidArgumentException
 	 */
 	public function doDefine(Form $form)
 	{
@@ -37,7 +38,7 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->add('title', new Field\TextField)
 			->label(Translator::translate($langPrefix . 'language.field.title'))
 			->set('placeholder', Translator::translate($langPrefix . 'language.field.title'))
-			->setFilter('trim')
+			->addFilter('trim')
 			->required(true);
 
 		// Alias
@@ -54,13 +55,13 @@ class EditDefinition extends AbstractFieldDefinition
 			// Title Native
 			$this->add('title_native', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'language.field.titlenative'))
-				->setFilter('trim')
+				->addFilter('trim')
 				->required(true);
 
 			// Code
 			$this->add('code', new Field\TextField)
 				->label(Translator::translate($langPrefix . 'language.field.code'))
-				->setFilter('trim')
+				->addFilter('trim')
 				->required(true);
 
 			// Image

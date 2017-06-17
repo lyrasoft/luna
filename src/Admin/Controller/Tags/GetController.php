@@ -21,27 +21,6 @@ use Windwalker\Core\Model\ModelRepository;
 class GetController extends ListDisplayController
 {
 	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'tags';
-
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'tag';
-
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'tags';
-
-	/**
 	 * Property model.
 	 *
 	 * @var  TagsModel
@@ -60,14 +39,14 @@ class GetController extends ListDisplayController
 	 *
 	 * @var  string
 	 */
-	protected $defaultOrdering = null;
+	protected $defaultOrdering = 'tag.id';
 
 	/**
 	 * Property direction.
 	 *
 	 * @var  string
 	 */
-	protected $defaultDirection = null;
+	protected $defaultDirection = 'DESC';
 
 	/**
 	 * prepareExecute
@@ -79,17 +58,5 @@ class GetController extends ListDisplayController
 		$this->layout = $this->input->get('layout');
 
 		parent::prepareExecute();
-	}
-
-	/**
-	 * prepareModelState
-	 *
-	 * @param   ModelRepository $model
-	 *
-	 * @return  void
-	 */
-	protected function prepareModelState(ModelRepository $model)
-	{
-		parent::prepareModelState($model);
 	}
 }

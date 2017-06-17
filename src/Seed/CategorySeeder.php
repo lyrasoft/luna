@@ -13,7 +13,7 @@ use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Unidev\Helper\UnsplashHelper;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Windwalker\Core\DateTime\DateTime;
+use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Filter\OutputFilter;
 
@@ -76,9 +76,9 @@ class CategorySeeder extends AbstractSeeder
 			$record['image']       = UnsplashHelper::getImageUrl();
 			$record['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
 			$record['version']     = mt_rand(1, 50);
-			$record['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
+			$record['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
 			$record['created_by']  = $faker->randomElement($userIds);
-			$record['modified']    = $faker->dateTime->format(DateTime::getSqlFormat());
+			$record['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
 			$record['modified_by'] = $faker->randomElement($userIds);
 			$record['language']    = $lang;
 			$record['params']      = '';

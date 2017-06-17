@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Admin\View\Categories\CategoriesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Phoenix\Model\ListModel;
 use Windwalker\Core\Model\ModelRepository;
+use Windwalker\Core\View\AbstractView;
 
 /**
  * The GetController class.
@@ -21,27 +22,6 @@ use Windwalker\Core\Model\ModelRepository;
  */
 class GetController extends ListDisplayController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'categories';
-
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'category';
-
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'categories';
-
 	/**
 	 * Property model.
 	 *
@@ -83,16 +63,20 @@ class GetController extends ListDisplayController
 	}
 
 	/**
-	 * prepareModelState
+	 * Prepare view and default model.
 	 *
-	 * @param   ModelRepository $model
+	 * You can configure default model state here, or add more sub models to view.
+	 * Remember to call parent to make sure default model already set in view.
+	 *
+	 * @param AbstractView    $view  The view to render page.
+	 * @param ModelRepository $model The default mode.
 	 *
 	 * @return  void
 	 */
-	protected function prepareModelState(ModelRepository $model)
+	protected function prepareViewModel(AbstractView $view, ModelRepository $model)
 	{
-		/** @var ListModel $model */
-		parent::prepareModelState($model);
+		/** @var CategoriesModel $model */
+		parent::prepareViewModel($view, $model);
 
 		$type = $this->input->get('type');
 

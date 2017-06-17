@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Module\ModuleHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Windwalker\Core\DateTime\DateTime;
+use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 
@@ -59,9 +59,9 @@ class ModuleSeeder extends AbstractSeeder
 			$data['note']        = $faker->sentence(5);
 			$data['content']     = $faker->paragraph(5);
 			$data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
-			$data['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
+			$data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
 			$data['created_by']  = $faker->randomElement($userIds);
-			$data['modified']    = $faker->dateTime->format(DateTime::getSqlFormat());
+			$data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
 			$data['modified_by'] = $faker->randomElement($userIds);
 			$data['ordering']    = $i;
 			$data['language']    = 'en-GB';

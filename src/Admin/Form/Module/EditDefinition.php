@@ -28,13 +28,14 @@ use Windwalker\Form\Form;
 class EditDefinition extends AbstractFieldDefinition
 {
 	use PhoenixFieldTrait;
-	
+
 	/**
 	 * Define the form fields.
 	 *
 	 * @param Form $form The Windwalker form object.
 	 *
 	 * @return  void
+	 * @throws \InvalidArgumentException
 	 */
 	public function doDefine(Form $form)
 	{
@@ -43,7 +44,7 @@ class EditDefinition extends AbstractFieldDefinition
 		// Title
 		$this->add('title', new Field\TextField)
 			->label(Translator::translate($langPrefix . 'module.field.title'))
-			->setFilter('trim')
+			->addFilter('trim')
 			->set('labelClass', 'hide')
 			->required(true);
 
