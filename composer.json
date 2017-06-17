@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.6",
         "windwalker/phoenix": "~1.0",
-        "lyrasoft/warder": "~1.1",
+        "lyrasoft/warder": "~1.2",
         "gregwar/image": "2.*",
         "lyrasoft/unidev": "~1.0"
     },
@@ -22,7 +22,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1.x-dev"
+            "dev-master": "1.2.x-dev"
         }
     }
 }
