@@ -66,10 +66,10 @@ class EditDefinition extends AbstractFieldDefinition
 			$this->hidden('id');
 
 			// Parent
-			$this->add('parent_id', new CategoryListField)
+			$this->categoryList('parent_id')
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
 				->option(Translator::translate($langPrefix . 'category.root'), 1)
-				->set('type', $type);
+				->categoryType($type);
 
 			// Images
 			$this->singleImageDrag('image')
@@ -109,7 +109,7 @@ class EditDefinition extends AbstractFieldDefinition
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('language', new LanguageListField)
+				$this->languageList('language')
 					->label(Translator::translate($langPrefix . 'category.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
 			}
@@ -125,11 +125,11 @@ class EditDefinition extends AbstractFieldDefinition
 			if (WarderHelper::tableExists('users'))
 			{
 				// Author
-				$this->add('created_by', new UserModalField)
+				$this->userModal('created_by')
 					->label(Translator::translate($langPrefix . 'category.field.author'));
 
 				// Modified User
-				$this->add('modified_by', new UserModalField)
+				$this->userModal('modified_by')
 					->label(Translator::translate($langPrefix . 'category.field.modifiedby'))
 					->disabled();
 			}

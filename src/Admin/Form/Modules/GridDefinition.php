@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Form\Modules;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Module\ModuleTypeListField;
 use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
+use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
@@ -26,6 +27,8 @@ use Windwalker\Form\Form;
  */
 class GridDefinition extends AbstractFieldDefinition
 {
+	use LunaFieldTrait;
+
 	/**
 	 * Define the form fields.
 	 *
@@ -94,7 +97,7 @@ class GridDefinition extends AbstractFieldDefinition
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('article.language', new LanguageListField)
+				$this->languageList('article.language')
 					->label(Translator::translate($langPrefix . 'module.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*')
@@ -113,7 +116,7 @@ class GridDefinition extends AbstractFieldDefinition
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('language', new LanguageListField)
+				$this->languageList('language')
 					->label(Translator::translate($langPrefix . 'module.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
@@ -128,7 +131,7 @@ class GridDefinition extends AbstractFieldDefinition
 			if (WarderHelper::tableExists('users'))
 			{
 				// Author
-				$this->add('created_by', new UserModalField)
+				$this->userModal('created_by')
 					->label(Translator::translate($langPrefix . 'module.field.author'));
 			}
 		});

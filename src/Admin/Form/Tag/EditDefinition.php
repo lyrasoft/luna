@@ -78,11 +78,11 @@ class EditDefinition extends AbstractFieldDefinition
 			if (WarderHelper::tableExists('users'))
 			{
 				// Author
-				$this->add('created_by', new UserModalField)
+				$this->userModal('created_by')
 					->label(Translator::translate($langPrefix . 'tag.field.author'));
 
 				// Modified User
-				$this->add('modified_by', new UserModalField)
+				$this->userModal('modified_by')
 					->label(Translator::translate($langPrefix . 'tag.field.modifiedby'))
 					->disabled();
 			}

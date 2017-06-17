@@ -112,7 +112,6 @@ class LanguageListField extends ItemListField
 }
 JS;
 
-
 		Select2Script::select2('#' . $this->getId(), ['templateResult' => $tmpl, 'templateSelection' => $tmpl]);
 	}
 }

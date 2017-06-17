@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Categories;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
+use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
@@ -25,6 +26,8 @@ use Windwalker\Form\Form;
  */
 class GridDefinition extends AbstractFieldDefinition
 {
+	use LunaFieldTrait;
+
 	/**
 	 * Define the form fields.
 	 *
@@ -82,7 +85,7 @@ class GridDefinition extends AbstractFieldDefinition
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('article.language', new LanguageListField)
+				$this->languageList('article.language')
 					->label(Translator::translate($langPrefix . 'category.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*')
@@ -99,15 +102,16 @@ class GridDefinition extends AbstractFieldDefinition
 		$this->group('batch', function (Form $form) use ($langPrefix)
 		{
 			// Parent
-			$this->add('parent_id', new CategoryListField)
+			$this->categoryList('parent_id')
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
 				->class('col-md-12')
+				->showRoot(true)
 				->option(Translator::translate($langPrefix . 'category.batch.parent.select'), '');
 
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('language', new LanguageListField)
+				$this->languageList('language')
 					->label(Translator::translate($langPrefix . 'category.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
@@ -116,8 +120,8 @@ class GridDefinition extends AbstractFieldDefinition
 			if (WarderHelper::tableExists('users'))
 			{
 				// Author
-				$this->add('created_by', new UserModalField)
-					->label(Translator::translate($langPrefix . 'category.batch.author.select'));
+				$this->userModal('created_by')
+					->label(Translator::translate($langPrefix . 'category.field.author'));
 			}
 		});
 	}

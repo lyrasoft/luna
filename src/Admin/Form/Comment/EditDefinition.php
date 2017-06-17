@@ -53,7 +53,7 @@ class EditDefinition extends AbstractFieldDefinition
 		{
 			if (WarderHelper::tableExists('users'))
 			{
-				$this->add('user_id', new UserModalField)
+				$this->userModal('user_id')
 					->label(Translator::translate($langPrefix . 'comment.field.author'));
 			}
 
@@ -64,7 +64,7 @@ class EditDefinition extends AbstractFieldDefinition
 
 			if (WarderHelper::tableExists('users'))
 			{
-				$this->add('reply_user_id', new UserModalField)
+				$this->userModal('reply_user_id')
 					->label(Translator::translate($langPrefix . 'comment.field.replyer'));
 			}
 

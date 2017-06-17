@@ -92,7 +92,7 @@ class EditDefinition extends AbstractFieldDefinition
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('language', new LanguageListField)
+				$this->languageList('language')
 					->label(Translator::translate($langPrefix . 'module.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
 			}
@@ -104,7 +104,7 @@ class EditDefinition extends AbstractFieldDefinition
 					->label(Translator::translate($langPrefix . 'module.field.created'));
 
 				// Author
-				$this->add('created_by', new UserModalField)
+				$this->userModal('created_by')
 					->label(Translator::translate($langPrefix . 'module.field.author'));
 			}
 

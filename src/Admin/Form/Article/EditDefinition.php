@@ -66,14 +66,15 @@ class EditDefinition extends AbstractFieldDefinition
 			if (LunaHelper::tableExists('categories'))
 			{
 				// Category
-				$this->add('category_id', new CategoryListField)
+				$this->categoryList('category_id')
+					->categoryType('article')
 					->label(Translator::translate($langPrefix . 'category.title'));
 			}
 
 			if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps'))
 			{
 				// Tags
-				$this->add('tags', new TagListField)
+				$this->tagList('tags')
 					->label(Translator::translate($langPrefix . 'tag.title'))
 					->multiple(true);
 			}
@@ -112,7 +113,7 @@ class EditDefinition extends AbstractFieldDefinition
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('language', new LanguageListField)
+				$this->languageList('language')
 					->label(Translator::translate($langPrefix . 'article.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
 			}
@@ -129,11 +130,11 @@ class EditDefinition extends AbstractFieldDefinition
 			if (WarderHelper::tableExists('users'))
 			{
 				// Author
-				$this->add('created_by', new UserModalField)
+				$this->userModal('created_by')
 					->label(Translator::translate($langPrefix . 'article.field.author'));
 
 				// Modified User
-				$this->add('modified_by', new UserModalField)
+				$this->userModal('modified_by')
 					->label(Translator::translate($langPrefix . 'article.field.modifiedby'))
 					->readonly();
 			}

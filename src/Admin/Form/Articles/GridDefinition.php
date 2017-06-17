@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Articles;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
+use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
@@ -25,6 +26,8 @@ use Windwalker\Form\Form;
  */
 class GridDefinition extends AbstractFieldDefinition
 {
+	use LunaFieldTrait;
+
 	/**
 	 * Define the form fields.
 	 *
@@ -82,17 +85,18 @@ class GridDefinition extends AbstractFieldDefinition
 
 			if (LunaHelper::tableExists('categories'))
 			{
-				$this->add('article.category_id', new CategoryListField)
+				$this->categoryList('article.category_id')
 					->label(Translator::translate($langPrefix . 'field.category'))
 					->option('', '')
 					->option(Translator::translate($langPrefix . 'filter.category.select'), '')
+					->categoryType('article')
 					->onchange('this.form.submit()');
 			}
 
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('article.language', new LanguageListField)
+				$this->languageList('article.language')
 					->label(Translator::translate($langPrefix . 'article.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*')
@@ -111,7 +115,7 @@ class GridDefinition extends AbstractFieldDefinition
 			if (Locale::isEnabled())
 			{
 				// Language
-				$this->add('language', new LanguageListField)
+				$this->languageList('language')
 					->label(Translator::translate($langPrefix . 'article.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
@@ -120,15 +124,16 @@ class GridDefinition extends AbstractFieldDefinition
 			if (LunaHelper::tableExists('categories'))
 			{
 				// Category
-				$this->add('category_id', new CategoryListField)
+				$this->categoryList('category_id')
 					->label(Translator::translate($langPrefix . 'category.title'))
+					->categoryType('article')
 					->option(Translator::translate($langPrefix . 'filter.category.select'), '');
 			}
 
 			if (WarderHelper::tableExists('users'))
 			{
 				// Author
-				$this->add('created_by', new UserModalField)
+				$this->userModal('created_by')
 					->label(Translator::translate($langPrefix . 'article.field.author'));
 			}
 		});
