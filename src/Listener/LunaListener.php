@@ -114,11 +114,13 @@ class LunaListener
 		if ($this->luna->isFrontend())
 		{
 			// Extends
-			$view['luna'] = new Data([
-				'extends' => $this->luna->get('frontend.view.extends', '_global.html'),
-				'langPrefix' => $this->luna->getLangPrefix(),
-				'package' => $this->luna
-			]);
+			$data = new Data;
+			$data['extends']       = $this->luna->get('frontend.view.extends', '_global.html');
+			$data['errorExtends'] = $this->luna->get('frontend.view.error_extends', $data['extends']);
+			$data['langPrefix']    = $this->luna->getLangPrefix();
+			$view['package']       = $this->luna;
+
+			$view['luna'] = $data;
 
 			// Paths
 //			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.locale'), PriorityQueue::LOW - 25);
@@ -128,11 +130,13 @@ class LunaListener
 		elseif ($this->luna->isAdmin())
 		{
 			// Extends
-			$view['luna'] = new Data([
-				'extends' => $this->luna->get('admin.view.extends', '_global.html'),
-				'langPrefix' => $this->luna->getLangPrefix(),
-				'package' => $this->luna
-			]);
+			$data = new Data;
+			$data['extends']       = $this->luna->get('admin.view.extends', '_global.admin.admin');
+			$data['errorExtends'] = $this->luna->get('admin.view.error_extends', $data['extends']);
+			$data['langPrefix']    = $this->luna->getLangPrefix();
+			$view['package']       = $this->luna;
+
+			$view['luna'] = $data;
 
 			// Paths
 //			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.locale'), PriorityQueue::LOW - 25);

@@ -20,7 +20,7 @@
  */
 ?>
 
-@extends('_global.html')
+@extends($luna->errorExtends)
 
 @section('content')
 <style>

@@ -34,7 +34,8 @@ return [
 	'frontend' => [
 		'package' => 'front',
 		'view' => [
-			'extends' => '_global.html'
+			'extends' => '_global.html',
+			'error_extends' => '_global.html'
 		],
 		'redirect' => [
 			'language' => 'home'
@@ -53,7 +54,8 @@ return [
 	'admin' => [
 		'package' => 'admin',
 		'view' => [
-			'extends' => '_global.admin.admin'
+			'extends' => '_global.admin.admin',
+			'error_extends' => '_global.admin.admin'
 		],
 		'redirect' => [
 			'language' => 'articles'

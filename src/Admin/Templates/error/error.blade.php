@@ -19,7 +19,7 @@
  */
 ?>
 
-@extends($luna->extends)
+@extends($luna->errorExtends)
 
 @section('content')
 <style>
