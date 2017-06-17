@@ -37,7 +37,7 @@ class LanguageInit extends AbstractMigration
 			$sc->text('metakey')->comment('Meta Keyword');
 			$sc->text('metadesc')->comment('Meta Description');
 			$sc->varchar('sitename')->length(1024)->comment('Site Name');
-			$sc->integer('state')->comment('State');
+			$sc->tinyint('state')->length(1)->signed(true)->comment('0:unpublished, 1:published');
 			$sc->integer('ordering')->comment('Ordering');
 
 			$sc->addIndex('code');

@@ -32,7 +32,7 @@ class ArticleInit extends AbstractMigration
 			$sc->varchar('image')->comment('Main Image');
 			$sc->longtext('introtext')->comment('Intro Text');
 			$sc->longtext('fulltext')->comment('Full Text');
-			$sc->tinyint('state')->signed(true)->comment('0: unpublished, 1:published');
+			$sc->tinyint('state')->length(1)->signed(true)->comment('0: unpublished, 1:published');
 			$sc->integer('ordering')->comment('Ordering');
 			$sc->datetime('created')->comment('Created Date');
 			$sc->integer('created_by')->comment('Author');

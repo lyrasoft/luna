@@ -28,7 +28,7 @@ class TagInit extends AbstractMigration
 			$sc->primary('id')->comment('Primary Key');
 			$sc->varchar('title')->comment('Title');
 			$sc->varchar('alias')->comment('Alias');
-			$sc->tinyint('state')->signed(true)->comment('0: unpublished, 1:published');
+			$sc->tinyint('state')->length(1)->signed(true)->comment('0: unpublished, 1:published');
 			$sc->datetime('created')->comment('Created Date');
 			$sc->integer('created_by')->comment('Author');
 			$sc->datetime('modified')->comment('Modified Date');

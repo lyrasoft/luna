@@ -31,7 +31,7 @@ class ModuleInit extends AbstractMigration
 			$sc->varchar('position')->comment('Position');
 			$sc->varchar('note')->comment('Note');
 			$sc->longtext('content')->comment('Content');
-			$sc->tinyint('state')->signed(true)->comment('0: unpublished, 1:published');
+			$sc->tinyint('state')->length(1)->signed(true)->comment('0:unpublished, 1:published');
 			$sc->integer('ordering')->comment('Ordering');
 			$sc->datetime('created')->comment('Created Date');
 			$sc->integer('created_by')->comment('Author');

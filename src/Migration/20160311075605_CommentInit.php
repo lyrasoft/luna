@@ -33,7 +33,7 @@ class CommentInit extends AbstractMigration
 			$sc->text('content')->comment('Content');
 			$sc->text('reply')->comment('Reply');
 			$sc->integer('reply_user_id')->comment('Reply User ID');
-			$sc->tinyint('state')->signed(true)->comment('0: unpublished, 1:published');
+			$sc->tinyint('state')->length(1)->signed(true)->comment('0:unpublished, 1:published');
 			$sc->integer('ordering')->comment('Ordering');
 			$sc->datetime('created')->comment('Created Date');
 			$sc->integer('created_by')->comment('Author');

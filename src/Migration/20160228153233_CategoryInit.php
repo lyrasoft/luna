@@ -29,15 +29,15 @@ class CategoryInit extends AbstractMigration
 			$schema->primary('id')->comment('Primary Key');
 			$schema->integer('parent_id')->comment('Parent ID');
 			$schema->integer('lft')->comment('Left Key');
-			$schema->integer('rgt')->signed(true)->comment('Right key');
-			$schema->integer('level')->signed(true)->comment('Nested Level');
+			$schema->integer('rgt')->comment('Right key');
+			$schema->integer('level')->comment('Nested Level');
 			$schema->varchar('path')->comment('Alias Path');
 			$schema->varchar('type')->length(50)->comment('Content Type');
 			$schema->varchar('title')->comment('Title');
 			$schema->varchar('alias')->comment('Alias');
 			$schema->varchar('image')->comment('Main Image');
 			$schema->text('description')->comment('Description Text');
-			$schema->tinyint('state')->signed(true)->comment('0: unpublished, 1:published');
+			$schema->tinyint('state')->length(1)->signed(true)->comment('0: unpublished, 1:published');
 			$schema->datetime('created')->comment('Created Date');
 			$schema->integer('created_by')->comment('Author');
 			$schema->datetime('modified')->comment('Modified Date');
