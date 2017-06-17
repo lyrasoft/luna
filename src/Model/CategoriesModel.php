@@ -10,6 +10,10 @@ namespace Lyrasoft\Luna\Model;
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Luna\Repository\CategorizedRepositoryInterface;
+use Lyrasoft\Luna\Repository\LocaleRepositoryInterface;
+use Lyrasoft\Luna\Repository\StateRepositoryInterface;
+use Lyrasoft\Luna\Repository\ViewAccessRepositoryInterface;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
@@ -28,7 +32,8 @@ use Windwalker\Utilities\ArrayHelper;
  *
  * @since  1.0
  */
-class CategoriesModel extends ListModel
+class CategoriesModel extends ListModel implements StateRepositoryInterface, LocaleRepositoryInterface,
+	ViewAccessRepositoryInterface
 {
 	/**
 	 * Property name.
@@ -43,7 +48,7 @@ class CategoriesModel extends ListModel
 	 * @var  array
 	 */
 	protected $allowFields = [
-		'locale', 'category.locale'
+		'locale', 'category.locale', 'max_level', 'has_root', 'parent_keys'
 	];
 
 	/**
@@ -124,6 +129,43 @@ class CategoriesModel extends ListModel
 
 				$query->where('category.language ' . new QueryElement('IN()', $langs));
 			}
+		});
+
+		$filterHelper->setHandler('has_root', function(Query $query, $field, $value)
+		{
+			if (!$value)
+			{
+				$query->where('category.parent_id != 0');
+			}
+		});
+
+		$filterHelper->setHandler('max_level', function(Query $query, $field, $value)
+		{
+			if (!$value)
+			{
+				$query->where('category.level <= ' . (int) $value);
+			}
+		});
+
+		$filterHelper->setHandler('parent_keys', function(Query $query, $field, $value)
+		{
+			if (!$value)
+			{
+				return;
+			}
+
+			if (!is_array($value))
+			{
+				$value = array_map('trim', explode(',', $value, 2));
+			}
+
+			if (count($value) < 2)
+			{
+				throw new \LogicException('Need category lft & rgt keys to search tree node.');
+			}
+
+			$query->where('category.lft >= ' . $value[0])
+				->where('category.rgt <= ' . $value[1]);
 		});
 	}
 
@@ -320,5 +362,119 @@ class CategoriesModel extends ListModel
 		$model['list.limit'] = $limit;
 
 		return $model->getItems();
+	}
+
+	/**
+	 * type
+	 *
+	 * @param string $type
+	 *
+	 * @return  static
+	 */
+	public function type($type = null)
+	{
+		return $this->addFilter('category.type', $type);
+	}
+
+	/**
+	 * locale
+	 *
+	 * @param string $locale
+	 *
+	 * @return  static
+	 */
+	public function locale($locale)
+	{
+		return $this->addFilter('locale', $locale);
+	}
+
+	/**
+	 * published
+	 *
+	 * @param bool $published
+	 *
+	 * @return static
+	 */
+	public function published($published = true)
+	{
+		return $this->addFilter('category.state', (int) $published);
+	}
+
+	/**
+	 * access
+	 *
+	 * @param mixed $access
+	 *
+	 * @return  static
+	 */
+	public function access($access)
+	{
+		return $this->addFilter('category.access', $access);
+	}
+
+	/**
+	 * filterCategory
+	 *
+	 * @param int $id
+	 *
+	 * @return  static
+	 */
+	public function parent($id)
+	{
+		return $this->addFilter('category.parent_id', $id);
+	}
+
+	/**
+	 * parentKeys
+	 *
+	 * @param int $lft
+	 * @param int $rgt
+	 *
+	 * @return  static
+	 */
+	public function parentKeys($lft, $rgt)
+	{
+		return $this->addFilter('parent_keys', $lft . ',' . $rgt);
+	}
+
+	/**
+	 * hasRoot
+	 *
+	 * @param bool $bool
+	 *
+	 * @return  static
+	 */
+	public function hasRoot($bool = true)
+	{
+		return $this->addFilter('has_root', (bool) $bool);
+	}
+
+	/**
+	 * maxLevel
+	 *
+	 * @param int $level
+	 *
+	 * @return  static
+	 */
+	public function maxLevel($level)
+	{
+		return $this->addFilter('max_level', (int) $level);
+	}
+
+	/**
+	 * onlyAvailable
+	 *
+	 * @return  static
+	 */
+	public function onlyAvailable()
+	{
+		$this->published(true);
+
+		if (Locale::isEnabled(Locale::CLIENT_CURRENT))
+		{
+			$this->locale(Locale::getLocale());
+		}
+
+		return $this;
 	}
 }
