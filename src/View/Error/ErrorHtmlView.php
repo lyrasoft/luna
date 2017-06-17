@@ -58,7 +58,7 @@ class ErrorHtmlView extends ItemView
 		$data->code = $data->exception->getCode();
 		$data->msg  = $data->exception->getMessage();
 
-		$data->code = $data->code === 404 ? $data->code : 500;
+		$data->code = ($data->code >= 400 && $data->code < 500) ? $data->code : 500;
 
 		if ($data->code === 404)
 		{
