@@ -64,7 +64,7 @@ class ErrorHtmlView extends ItemView
 		{
 			$data->msg = Translator::translate($this->langPrefix . 'error.not.found');
 		}
-		else
+		elseif ($data->code < 400 || $data->code >= 500)
 		{
 			$data->msg = Translator::translate($this->langPrefix . 'error.internal');
 		}
