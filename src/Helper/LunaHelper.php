@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Helper;
 
 use Lyrasoft\Luna\LunaPackage;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * The LunaHelper class.

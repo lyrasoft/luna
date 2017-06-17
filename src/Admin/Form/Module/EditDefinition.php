@@ -12,14 +12,13 @@ use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field;
 use Windwalker\Form\Form;
-use Windwalker\Validator\Rule;
-use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The ModuleEditDefinition class.

@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Controller\Module;
 use Lyrasoft\Luna\Admin\Model\ModuleModel;
 use Lyrasoft\Luna\Admin\View\Module\ModuleHtmlView;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\DataMapper\Entity\Entity;
 

@@ -6,20 +6,20 @@
  * @license    GNU General Public License version 2 or later.
  */
 
+use Faker\Factory;
 use Lyrasoft\Luna\Admin\DataMapper\ArticleMapper;
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Table\LunaTable;
-use Faker\Factory;
 use Lyrasoft\Unidev\Helper\UnsplashHelper;
+use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
+use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\DateTime\DateTime;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 use Windwalker\Filter\OutputFilter;
-use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
-use Lyrasoft\Warder\Helper\WarderHelper;
 
 /**
  * The ArticleSeeder class.

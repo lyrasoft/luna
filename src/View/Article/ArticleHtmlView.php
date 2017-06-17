@@ -13,7 +13,6 @@ use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\Router\Exception\RouteNotFoundException;
 use Windwalker\String\Utf8String;

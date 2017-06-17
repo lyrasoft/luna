@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Controller\Tag;
 use Lyrasoft\Luna\Admin\Model\TagModel;
 use Lyrasoft\Luna\Admin\View\Tag\TagHtmlView;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 
 /**

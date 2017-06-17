@@ -16,7 +16,6 @@ use Phoenix\View\EditView;
 use Windwalker\Core\Frontend\Bootstrap;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Utilities\Queue\Priority;
 use Windwalker\Utilities\Queue\PriorityQueue;
 
 /**

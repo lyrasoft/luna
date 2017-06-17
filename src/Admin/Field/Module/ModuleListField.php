@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Field\Module;
 use Lyrasoft\Luna\Admin\Table\LunaTable;
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Phoenix\Field\ItemListField;
-use Windwalker\Core\Language\Translator;
 use Windwalker\Html\Option;
 
 /**

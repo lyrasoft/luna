@@ -8,7 +8,6 @@
 
 namespace Lyrasoft\Luna\Module;
 
-use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Data\Data;
 
 /**

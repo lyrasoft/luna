@@ -10,21 +10,17 @@ namespace Lyrasoft\Luna\Admin\Form\Category;
 
 use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
-use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
-use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Ioc;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Form\Field;
 use Windwalker\Form\Form;
-use Windwalker\Validator\Rule;
-use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The CategoryEditDefinition class.

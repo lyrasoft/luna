@@ -10,10 +10,8 @@ namespace Lyrasoft\Luna\Model;
 
 use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Model\ItemModel;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 
 /**

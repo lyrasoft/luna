@@ -13,7 +13,6 @@ use Lyrasoft\Luna\Language\Locale;
 use Windwalker\Core\Ioc;
 use Windwalker\Event\Event;
 use Windwalker\String\StringHelper;
-use Windwalker\String\Utf8String;
 
 /**
  * The LanguageListener class.

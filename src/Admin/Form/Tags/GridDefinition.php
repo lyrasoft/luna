@@ -9,8 +9,6 @@
 namespace Lyrasoft\Luna\Admin\Form\Tags;
 
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
-use Lyrasoft\Luna\Admin\Field\Module\ModuleTypeListField;
-use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;

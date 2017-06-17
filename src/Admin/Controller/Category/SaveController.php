@@ -10,10 +10,9 @@ namespace Lyrasoft\Luna\Admin\Controller\Category;
 
 use Lyrasoft\Luna\Admin\Model\CategoryModel;
 use Lyrasoft\Luna\Admin\View\Category\CategoryHtmlView;
-use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Lyrasoft\Luna\Image\CategoryImageHelper;
+use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 
 /**

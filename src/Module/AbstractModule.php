@@ -14,7 +14,6 @@ use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Core\View\Helper\ViewHelper;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\Form\Form;

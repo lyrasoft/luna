@@ -9,11 +9,9 @@
 namespace Lyrasoft\Luna\Model;
 
 use Lyrasoft\Luna\Table\LunaTable;
-use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
-use Lyrasoft\Warder\Helper\WarderHelper;
 
 /**
  * The CategoriesModel class.

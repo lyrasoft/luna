@@ -8,7 +8,6 @@
 
 namespace Lyrasoft\Luna\Image;
 
-use Lyrasoft\Unidev\Image\ImageUploader;
 use Lyrasoft\Unidev\Storage\AbstractStorageHelper;
 
 /**

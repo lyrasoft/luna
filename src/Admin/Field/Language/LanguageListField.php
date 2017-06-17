@@ -8,9 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Language;
 
-use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Script\Select2Script;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
 use Windwalker\Html\Option;
 

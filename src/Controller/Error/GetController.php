@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Controller\Error;
 
 use Lyrasoft\Luna\Model\ErrorModel;
-use Lyrasoft\Luna\View\Error\ErrorHtmlView;
 use Phoenix\Controller\Display\ItemDisplayController;
 use Windwalker\Core\Model\ModelRepository;
 

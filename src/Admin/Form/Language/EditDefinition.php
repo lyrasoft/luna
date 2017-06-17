@@ -14,7 +14,6 @@ use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field;
 use Windwalker\Form\Form;
-use Windwalker\Validator\Rule;
 
 /**
  * The LanguageEditDefinition class.

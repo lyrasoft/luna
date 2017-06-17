@@ -12,7 +12,6 @@ use Lyrasoft\Luna\Admin\Record\Traits\CategoryDataTrait;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Event\Event;
 use Windwalker\Record\NestedRecord;
-use Windwalker\Record\Record;
 
 /**
  * The CategoryRecord class.

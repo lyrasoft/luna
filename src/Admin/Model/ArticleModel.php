@@ -9,12 +9,9 @@
 namespace Lyrasoft\Luna\Admin\Model;
 
 use Lyrasoft\Luna\Admin\Record\ArticleRecord;
-use Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Model\AdminModel;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
-use Windwalker\DataMapper\Entity\Entity;
 use Windwalker\Record\Record;
 
 /**

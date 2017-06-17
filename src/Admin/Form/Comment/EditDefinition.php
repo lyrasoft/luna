@@ -8,19 +8,11 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Comment;
 
-use Lyrasoft\Luna\Admin\Field\Comment\CommentListField;
-use Lyrasoft\Luna\Admin\Field\Comment\CommentModalField;
-use Phoenix;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Filter\InputFilter;
 use Windwalker\Form\Field;
-use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
-use Windwalker\Html\Option;
-use Windwalker\Ioc;
-use Windwalker\Validator\Rule;
-use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The CommentEditDefinition class.

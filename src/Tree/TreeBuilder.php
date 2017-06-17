@@ -8,7 +8,6 @@
 
 namespace Lyrasoft\Luna\Tree;
 
-use Windwalker\Data\DataSet;
 use Windwalker\Utilities\ArrayHelper;
 
 /**

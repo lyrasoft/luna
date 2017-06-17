@@ -8,12 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Module;
 
-use Lyrasoft\Luna\Table\LunaTable;
-use Lyrasoft\Luna\Module\ModuleHelper;
 use Lyrasoft\Luna\Script\Select2Script;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Html\Option;
 use Windwalker\Ioc;
 
 /**

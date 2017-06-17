@@ -9,14 +9,13 @@
 namespace Lyrasoft\Luna\Admin\Form\Tag;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field;
 use Windwalker\Form\Form;
-use Windwalker\Validator\Rule;
-use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 
 /**
  * The TagEditDefinition class.

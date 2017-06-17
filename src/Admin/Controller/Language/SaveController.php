@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Controller\Language;
 use Lyrasoft\Luna\Admin\Model\LanguageModel;
 use Lyrasoft\Luna\Admin\View\Language\LanguageHtmlView;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 
 /**

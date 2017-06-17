@@ -9,8 +9,8 @@
 namespace Lyrasoft\Luna\Admin\Model;
 
 use Lyrasoft\Luna\Table\LunaTable;
-use Phoenix\Model\ListModel;
 use Phoenix\Model\Filter\FilterHelperInterface;
+use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
 
 /**

@@ -20,8 +20,8 @@ use Windwalker\Data\DataSet;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Filesystem\Path\PathCollection;
 use Windwalker\Ioc;
-use Windwalker\Structure\Structure;
 use Windwalker\String\StringNormalise;
+use Windwalker\Structure\Structure;
 
 /**
  * The ModuleResolver class.

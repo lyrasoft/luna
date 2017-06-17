@@ -18,7 +18,6 @@ use Windwalker\Core\Asset\Asset;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\Data;
-use Windwalker\Filter\InputFilter;
 
 /**
  * The ModulesHtmlView class.

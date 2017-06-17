@@ -8,9 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Tag;
 
-use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\Select2Script;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
 
 /**

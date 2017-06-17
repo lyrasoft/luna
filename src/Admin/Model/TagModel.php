@@ -8,7 +8,6 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
-use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;

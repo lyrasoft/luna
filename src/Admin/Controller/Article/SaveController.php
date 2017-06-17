@@ -8,16 +8,12 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Article;
 
-use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\Model\ArticleModel;
 use Lyrasoft\Luna\Admin\Model\TagModel;
 use Lyrasoft\Luna\Admin\View\Article\ArticleHtmlView;
-use Lyrasoft\Unidev\Field\SingleImageDragField;
-use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Image\ArticleImageHelper;
-use Lyrasoft\Luna\Tag\TagHelper;
+use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\Filter\InputFilter;
 
