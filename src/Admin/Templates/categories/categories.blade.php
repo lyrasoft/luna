@@ -36,11 +36,11 @@
 
 @section('admin-body')
 <div id="phoenix-admin" class="categories-container grid-container">
-    <form name="admin-form" id="admin-form" action="{{ $router->route('categories', array('type' => $type)) }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->route('categories', ['type' => $type]) }}" method="POST" enctype="multipart/form-data">
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
-            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(['form' => $form, 'show' => $showFilterBar]) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -54,7 +54,7 @@
                 <tr>
                     {{-- CHECKBOX --}}
                     <th width="1%">
-                        {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
+                        {!! $grid->checkboxesToggle(['duration' => 150]) !!}
                     </th>
 
                     {{-- STATE --}}

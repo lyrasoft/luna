@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Controller\Languages;
 use Lyrasoft\Luna\Admin\Model\LanguagesModel;
 use Lyrasoft\Luna\Admin\View\Languages\LanguagesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.

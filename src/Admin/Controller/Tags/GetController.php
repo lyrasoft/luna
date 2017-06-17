@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Controller\Tags;
 use Lyrasoft\Luna\Admin\Model\TagsModel;
 use Lyrasoft\Luna\Admin\View\Tags\TagsHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.

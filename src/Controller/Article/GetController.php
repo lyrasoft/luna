@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Controller\Article;
 use Lyrasoft\Luna\Model\ArticleModel;
 use Lyrasoft\Luna\View\Article\ArticleHtmlView;
 use Phoenix\Controller\Display\ItemDisplayController;
-use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.

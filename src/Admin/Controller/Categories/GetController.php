@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Controller\Categories;
 use Lyrasoft\Luna\Admin\Model\CategoriesModel;
 use Lyrasoft\Luna\Admin\View\Categories\CategoriesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Phoenix\Model\ListModel;
 use Windwalker\Core\Model\ModelRepository;
 use Windwalker\Core\View\AbstractView;
 

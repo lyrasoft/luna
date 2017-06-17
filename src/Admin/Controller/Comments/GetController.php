@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Controller\Comments;
 use Lyrasoft\Luna\Admin\Model\CommentsModel;
 use Lyrasoft\Luna\Admin\View\Comments\CommentsHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Phoenix\Model\ListModel;
 use Windwalker\Core\Model\ModelRepository;
 use Windwalker\Core\View\AbstractView;
 

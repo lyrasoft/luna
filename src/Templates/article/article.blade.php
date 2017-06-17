@@ -31,7 +31,7 @@
     </style>
 <div class="container article-item">
     <p style="margin-top: 40px">
-        <a class="btn btn-default" href="{{ $router->route('article_category', array('path' => $item->category->path)) }}">
+        <a class="btn btn-default" href="{{ $router->route('article_category', ['path' => $item->category->path]) }}">
             <span class="glyphicon glyphicon-chevron-left fa fa-chervon-left"></span>
             Back to List
         </a>
@@ -48,7 +48,7 @@
         <hr />
 
         @foreach ($item->tags as $tag)
-            <a class="label label-info" href="{{ $router->route('article_tag', array('tag' => $tag->alias)) }}">
+            <a class="label label-info" href="{{ $router->route('article_tag', ['tag' => $tag->alias]) }}">
                 {{ $tag->title }}
             </a>
             &nbsp;

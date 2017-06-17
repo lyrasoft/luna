@@ -38,7 +38,7 @@
 
         {{-- FILTER BAR --}}
         <div class="filter-bar">
-            {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
+            {!! $filterBar->render(['form' => $form, 'show' => $showFilterBar]) !!}
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
@@ -52,7 +52,7 @@
                 <tr>
                     {{-- CHECKBOX --}}
                     <th width="1%">
-                        {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
+                        {!! $grid->checkboxesToggle(['duration' => 150]) !!}
                     </th>
 
                     {{-- STATE --}}
@@ -134,7 +134,7 @@
 
                         {{-- TITLE --}}
                         <td class="hasHighlight">
-                            <a class="lead" href="{{ $router->route('article', array('id' => $item->id)) }}">
+                            <a class="lead" href="{{ $router->route('article', ['id' => $item->id]) }}">
                                 {{ $item->title }}
                             </a>
 
@@ -151,7 +151,7 @@
                                 <div class="article-category-field" style="padding-left: 10px">
                                     <small class="text-muted">
                                         <span class="glyphicon glyphicon-folder-close"></span>
-                                        <a class="text-muted" href="{{ $router->route('articles', array('filter' => array('article.category_id' => $item->category_id))) }}">
+                                        <a class="text-muted" href="{{ $router->route('articles', ['filter' => ['article.category_id' => $item->category_id]]) }}">
                                             {{ $item->category_title }}
                                         </a>
                                     </small>
@@ -167,7 +167,7 @@
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                             {{-- AUTHOR --}}
                             <td>
-                                {!! $grid->foreignLink($item->user_name, $router->route('user', array('id' => $item->user_id))) !!}
+                                {!! $grid->foreignLink($item->user_name, $router->route('user', ['id' => $item->user_id])) !!}
                             </td>
                         @endif
 
