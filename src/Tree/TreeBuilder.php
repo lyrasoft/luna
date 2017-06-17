@@ -31,8 +31,8 @@ class TreeBuilder
 	public static function create($dataSet, $keyName = 'id', $parentIdName = 'parent_id', $levelName = 'level')
 	{
 		/** @var Node[] $tree */
-		$tree = array();
-		$levels = array();
+		$tree = [];
+		$levels = [];
 
 		$root = new Node;
 

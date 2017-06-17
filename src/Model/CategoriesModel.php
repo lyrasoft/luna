@@ -42,18 +42,18 @@ class CategoriesModel extends ListModel
 	 *
 	 * @var  array
 	 */
-	protected $allowFields = array(
+	protected $allowFields = [
 		'locale', 'category.locale'
-	);
+	];
 
 	/**
 	 * Property fieldMapping.
 	 *
 	 * @var  array
 	 */
-	protected $fieldMapping = array(
+	protected $fieldMapping = [
 		'locale' => 'category.locale'
-	);
+	];
 
 	/**
 	 * configureTables
@@ -117,10 +117,10 @@ class CategoriesModel extends ListModel
 		{
 			if ('' !== (string) $value)
 			{
-				$langs = array(
+				$langs = [
 					$query->quote('*'),
 					$query->quote($value),
-				);
+				];
 
 				$query->where('category.language ' . new QueryElement('IN()', $langs));
 			}
@@ -175,7 +175,7 @@ class CategoriesModel extends ListModel
 	 *
 	 * @return  Node|Node[]
 	 */
-	public static function getCategoryAsTree($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
+	public static function getCategoryAsTree($type, $parent = 1, $maxLevel = 0, $conditions = [], $order = 'lft', $start = null, $limit = null)
 	{
 		return static::createTree(static::getCategories($type, $parent, $maxLevel, $conditions, $order, $start, $limit));
 	}
@@ -193,7 +193,7 @@ class CategoriesModel extends ListModel
 	 *
 	 * @return  Data[]|DataSet
 	 */
-	public static function getCategories($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
+	public static function getCategories($type, $parent = 1, $maxLevel = 0, $conditions = [], $order = 'lft', $start = null, $limit = null)
 	{
 		if (is_object($parent) || is_array($parent))
 		{
@@ -241,7 +241,7 @@ class CategoriesModel extends ListModel
 	 *
 	 * @return  DataSet|Data[]
 	 */
-	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
+	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 0, $conditions = [], $order = 'lft', $start = null, $limit = null)
 	{
 		$conditions['category.state'] = 1;
 
@@ -263,7 +263,7 @@ class CategoriesModel extends ListModel
 	 *
 	 * @return  Data[]|DataSet
 	 */
-	public static function find($conditions = array(), $order = 'lft', $start = null, $limit = null)
+	public static function find($conditions = [], $order = 'lft', $start = null, $limit = null)
 	{
 		$model = static::getInstance();
 
@@ -274,7 +274,7 @@ class CategoriesModel extends ListModel
 
 		if (!is_array($conditions))
 		{
-			$conditions = array($model->getRecord()->getKeyName() => $conditions);
+			$conditions = [$model->getRecord()->getKeyName() => $conditions];
 		}
 
 		foreach ($conditions as $key => $condition)

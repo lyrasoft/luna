@@ -59,7 +59,7 @@ class TagListField extends ItemListField
 	{
 		if (!LunaHelper::tableExists('tags') || !LunaHelper::tableExists('tag_maps'))
 		{
-			return array();
+			return [];
 		}
 
 		return parent::prepareOptions();

@@ -22,7 +22,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
 	 *
 	 * @var  NodeInterface[]
 	 */
-	protected $children = array();
+	protected $children = [];
 
 	/**
 	 * RecursiveNodeIterator constructor.

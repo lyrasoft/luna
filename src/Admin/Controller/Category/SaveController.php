@@ -70,9 +70,9 @@ class SaveController extends AbstractSaveController
 	 *
 	 * @var  array
 	 */
-	protected $redirectQueryFields = array(
+	protected $redirectQueryFields = [
 		'type'
-	);
+	];
 
 	/**
 	 * prepareExecute

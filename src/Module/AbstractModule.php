@@ -102,7 +102,7 @@ abstract class AbstractModule
 	 *
 	 * @return static
 	 */
-	public static function getInstance($data = array(), $engine = 'edge')
+	public static function getInstance($data = [], $engine = 'edge')
 	{
 		return new static($data, $engine);
 	}
@@ -113,7 +113,7 @@ abstract class AbstractModule
 	 * @param  array $data
 	 * @param string $engine
 	 */
-	public function __construct($data = array(), $engine = 'edge')
+	public function __construct($data = [], $engine = 'edge')
 	{
 		$this->data = $data instanceof Data ? $data : new Data($data);
 		$this->params = $this->data->params;

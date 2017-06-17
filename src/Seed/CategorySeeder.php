@@ -31,9 +31,9 @@ class CategorySeeder extends AbstractSeeder
 	 *
 	 * @var  array
 	 */
-	protected $types = array(
+	protected $types = [
 		'article'
-	);
+	];
 
 	/**
 	 * doExecute
@@ -46,7 +46,7 @@ class CategorySeeder extends AbstractSeeder
 
 		$record = new CategoryRecord;
 
-		$languages = LanguageMapper::find(array('state' => 1))->code;
+		$languages = LanguageMapper::find(['state' => 1])->code;
 		$languages[] = '*';
 
 		if (WarderHelper::tableExists('users'))
@@ -58,11 +58,11 @@ class CategorySeeder extends AbstractSeeder
 			$userIds = range(1, 50);
 		}
 
-		$existsRecordIds = array();
+		$existsRecordIds = [];
 
 		foreach ($this->types as $type)
 		{
-			$existsRecordIds[$type] = array(1);
+			$existsRecordIds[$type] = [1];
 		}
 
 		foreach (range(1, 30) as $i)
@@ -76,7 +76,7 @@ class CategorySeeder extends AbstractSeeder
 			$record['type']        = $faker->randomElement($this->types);
 			$record['description'] = $faker->paragraph(5);
 			$record['image']       = UnsplashHelper::getImageUrl();
-			$record['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
+			$record['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
 			$record['version']     = mt_rand(1, 50);
 			$record['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
 			$record['created_by']  = $faker->randomElement($userIds);

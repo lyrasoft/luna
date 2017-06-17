@@ -37,13 +37,15 @@ class ArticleSeeder extends AbstractSeeder
 	{
 		$faker = Factory::create();
 
-		$languages = LanguageMapper::find(array('state' => 1))->code;
+		$languages = LanguageMapper::find(['state' => 1])->code;
 		$languages[] = '*';
 
-		$categories = CategoryMapper::find(array(
+		$categories = CategoryMapper::find(
+			[
 			'parent_id != 0',
 			'type' => 'article'
-		));
+			]
+		);
 
 		if (WarderHelper::tableExists('users'))
 		{
@@ -70,7 +72,7 @@ class ArticleSeeder extends AbstractSeeder
 				$data['introtext']   = '(' . $lang . ') ' . $faker->paragraph(5);
 				$data['fulltext']    = $faker->paragraph(5);
 				$data['image']       = UnsplashHelper::getImageUrl();
-				$data['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
+				$data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
 				$data['version']     = mt_rand(1, 50);
 				$data['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
 				$data['created_by']  = $faker->randomElement($userIds);

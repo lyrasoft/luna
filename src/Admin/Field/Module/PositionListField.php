@@ -79,7 +79,7 @@ class PositionListField extends ItemListField
 
 		if (!$table)
 		{
-			return array();
+			return [];
 		}
 
 		$select = $this->get('select', 'DISTINCT position');
@@ -114,7 +114,7 @@ class PositionListField extends ItemListField
 		{
 			$options['tags'] = true;
 
-			Select2Script::select2('#' . $this->getId(), array('tags' => true));
+			Select2Script::select2('#' . $this->getId(), ['tags' => true]);
 		}
 	}
 }

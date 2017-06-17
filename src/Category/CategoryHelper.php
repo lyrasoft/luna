@@ -56,7 +56,7 @@ class CategoryHelper
 	 *
 	 * @return  Node|Node[]
 	 */
-	public static function getCategoryAsTree($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
+	public static function getCategoryAsTree($type, $parent = 1, $maxLevel = 0, $conditions = [], $order = 'lft', $start = null, $limit = null)
 	{
 		return static::createTree(static::getCategories($type, $parent, $maxLevel, $conditions, $order, $start, $limit));
 	}
@@ -74,7 +74,7 @@ class CategoryHelper
 	 *
 	 * @return  Data[]|DataSet
 	 */
-	public static function getCategories($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
+	public static function getCategories($type, $parent = 1, $maxLevel = 0, $conditions = [], $order = 'lft', $start = null, $limit = null)
 	{
 		if (is_object($parent) || is_array($parent))
 		{
@@ -137,7 +137,7 @@ class CategoryHelper
 	 *
 	 * @return  DataSet|Data[]
 	 */
-	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 0, $conditions = array(), $order = 'lft', $start = null, $limit = null)
+	public static function getAvailableCategories($type, $parent = 1, $maxLevel = 0, $conditions = [], $order = 'lft', $start = null, $limit = null)
 	{
 		$conditions['category.state'] = 1;
 
@@ -159,7 +159,7 @@ class CategoryHelper
 	 *
 	 * @return  Data[]|DataSet
 	 */
-	public static function find($conditions = array(), $order = 'lft', $start = null, $limit = null)
+	public static function find($conditions = [], $order = 'lft', $start = null, $limit = null)
 	{
 		$model = static::getModel(true);
 
@@ -170,7 +170,7 @@ class CategoryHelper
 
 		if (!is_array($conditions))
 		{
-			$conditions = array($model->getKeyName() => $conditions);
+			$conditions = [$model->getKeyName() => $conditions];
 		}
 
 		foreach ($conditions as $key => $condition)

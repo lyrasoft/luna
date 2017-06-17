@@ -71,10 +71,12 @@ class CategoryHtmlView extends ListView
 			{
 				list($title, $alias) = StringHelper::explode(':', $value);
 
-				return new Data(array(
+				return new Data(
+					[
 					'title' => $title,
 					'alias' => $alias
-				));
+					]
+				);
 			}, $tags);
 
 			$item->tags = $tags;

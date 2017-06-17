@@ -37,9 +37,10 @@ class PublishController extends AbstractPublishController
 
 		$parent = $mapper->findOne($pk);
 
-		$mapper->updateBatch($data, array(
+		$mapper->updateBatch($data, [
 			'lft > ' . $parent->lft,
 			'rgt < ' . $parent->rgt
-		));
+		]
+		);
 	}
 }

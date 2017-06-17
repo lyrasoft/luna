@@ -56,7 +56,7 @@ class ModuleHelper
 	 *
 	 * @var  array
 	 */
-	protected static $modules = array();
+	protected static $modules = [];
 
 	/**
 	 * getModules
@@ -72,7 +72,7 @@ class ModuleHelper
 
 		return $cache->call('position.' . $position, function() use ($position, $language)
 		{
-			$conditions = array();
+			$conditions = [];
 
 			if ('' !== (string) $position)
 			{
@@ -85,21 +85,21 @@ class ModuleHelper
 			}
 			elseif (Locale::isEnabled())
 			{
-				$conditions['language'] = array(Locale::getLocale(), '*');
+				$conditions['language'] = [Locale::getLocale(), '*'];
 			}
 
 			$conditions['state'] = 1;
 
 			$items = static::findModules($conditions, 'position, ordering');
 
-			$modules = array();
+			$modules = [];
 
 			foreach ($items as $item)
 			{
 				$type = static::getModuleType($item->type);
 				$class = $type->class;
 
-				$modules[] = new $class(array('item' => $item, 'params' => new Structure($item->params)));
+				$modules[] = new $class(['item' => $item, 'params' => new Structure($item->params)]);
 			}
 
 			return $modules;
@@ -116,7 +116,7 @@ class ModuleHelper
 	 *
 	 * @return  DataSet|Data[]
 	 */
-	public static function findModules($conditions = array(), $order = null, $start = null, $limit = null)
+	public static function findModules($conditions = [], $order = null, $start = null, $limit = null)
 	{
 		$modules = ModuleMapper::find($conditions, $order, $start, $limit);
 
@@ -213,14 +213,16 @@ class ModuleHelper
 	 */
 	public static function bindModuleType($class)
 	{
-		return new ModuleType(array(
+		return new ModuleType(
+			[
 			'name' => $class::getName(),
 			'type' => $class::getType(),
 			'icon' => $class::getIcon(),
 			'description' => $class::getDescription(),
 			'langPrefix'  => $class::getLangPrefix(),
 			'class' => $class,
-		));
+			]
+		);
 	}
 
 	/**
@@ -232,7 +234,7 @@ class ModuleHelper
 	{
 		$paths = ModuleHelper::getPaths();
 
-		$classes = array();
+		$classes = [];
 
 		foreach ((array) $paths as $path => $namespace)
 		{

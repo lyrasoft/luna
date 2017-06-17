@@ -65,11 +65,11 @@ class LanguageListField extends ItemListField
 	{
 		$valueField = $this->get('value_field', $this->valueField);
 		$textField  = $this->get('text_field', $this->textField);
-		$attribs    = $this->get('option_attribs', array());
+		$attribs    = $this->get('option_attribs', []);
 
 		$items = $this->getItems();
 
-		$options = array();
+		$options = [];
 
 		foreach ($items as $item)
 		{
@@ -113,6 +113,6 @@ class LanguageListField extends ItemListField
 JS;
 
 
-		Select2Script::select2('#' . $this->getId(), array('templateResult' => $tmpl, 'templateSelection' => $tmpl));
+		Select2Script::select2('#' . $this->getId(), ['templateResult' => $tmpl, 'templateSelection' => $tmpl]);
 	}
 }

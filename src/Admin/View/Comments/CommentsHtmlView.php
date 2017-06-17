@@ -40,7 +40,7 @@ class CommentsHtmlView extends GridView
 	 *
 	 * @var  array
 	 */
-	protected $fields = array(
+	protected $fields = [
 		'pk'          => 'id',
 		'title'       => 'title',
 		'alias'       => 'alias',
@@ -51,16 +51,16 @@ class CommentsHtmlView extends GridView
 		'created'     => 'created',
 		'language'    => 'language',
 		'lang_title'  => 'lang_title'
-	);
+	];
 
 	/**
 	 * The grid config.
 	 *
 	 * @var  array
 	 */
-	protected $gridConfig = array(
+	protected $gridConfig = [
 		'order_column' => 'comment.type, comment.target_id, comment.ordering'
-	);
+	];
 
 	/**
 	 * init
@@ -96,7 +96,7 @@ class CommentsHtmlView extends GridView
 		PhoenixScript::core();
 		PhoenixScript::grid();
 		PhoenixScript::chosen();
-		PhoenixScript::multiSelect('#admin-form table', array('duration' => 100));
+		PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::tooltip();
 

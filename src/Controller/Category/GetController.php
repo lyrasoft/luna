@@ -161,7 +161,7 @@ class GetController extends ListDisplayController
 			$tagModel = $this->getModel('Tag');
 
 			/** @var Data $tag */
-			$tag = $tagModel->getItem(array('alias' => $tagAlias, 'state' => 1));
+			$tag = $tagModel->getItem(['alias' => $tagAlias, 'state' => 1]);
 
 			if ($tag->isNull())
 			{

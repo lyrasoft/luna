@@ -59,7 +59,7 @@ class ModuleSeeder extends AbstractSeeder
 			$data['position']    = $faker->randomElement($positions);
 			$data['note']        = $faker->sentence(5);
 			$data['content']     = $faker->paragraph(5);
-			$data['state']       = $faker->randomElement(array(1, 1, 1, 1, 0, 0));
+			$data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
 			$data['created']     = $faker->dateTime->format(DateTime::getSqlFormat());
 			$data['created_by']  = $faker->randomElement($userIds);
 			$data['modified']    = $faker->dateTime->format(DateTime::getSqlFormat());

@@ -43,7 +43,7 @@ class FlagListField extends ListField
 	 */
 	protected function prepareOptions()
 	{
-		$options = array();
+		$options = [];
 
 		$attribs = (array) $this->getAttribute('option_attribs');
 
@@ -87,6 +87,6 @@ class FlagListField extends ListField
 JS;
 
 
-		Select2Script::select2('#' . $this->getId(), array('templateResult' => $tmpl, 'templateSelection' => $tmpl));
+		Select2Script::select2('#' . $this->getId(), ['templateResult' => $tmpl, 'templateSelection' => $tmpl]);
 	}
 }

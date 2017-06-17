@@ -43,7 +43,7 @@ class CopyController extends AbstractCopyController
 	 *
 	 * @var  array
 	 */
-	protected $data = array(
+	protected $data = [
 		'state' => 0
-	);
+	];
 }

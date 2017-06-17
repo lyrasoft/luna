@@ -56,7 +56,7 @@ class ArticleRecord extends Record
 	 *
 	 * @return  static
 	 */
-	public function bind($src, $ignore = array())
+	public function bind($src, $ignore = [])
 	{
 		$result = parent::bind($src, $ignore);
 

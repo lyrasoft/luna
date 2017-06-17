@@ -38,18 +38,18 @@ class SummernoteEditorField extends AbstractEditorField
 	 */
 	protected function prepareScript($attrs)
 	{
-		$options = (array) $this->get('options', array());
+		$options = (array) $this->get('options', []);
 
 		if ($this->get('toolbar') == static::TOOLBAR_SIMPLE)
 		{
-			$options['toolbar'] = array(
-				array('size', array('fontsize')),
-				array('color', array('color')),
-				array('style', array('bold', 'italic', 'underline', 'strikethrough', 'clear')),
-				array('layout', array('ul', 'ol', 'paragraph')),
-				array('insert', array('link')),
-				array('misc', array('fullscreen', 'undo', 'redo', 'help'))
-			);
+			$options['toolbar'] = [
+				['size', ['fontsize']],
+				['color', ['color']],
+				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['layout', ['ul', 'ol', 'paragraph']],
+				['insert', ['link']],
+				['misc', ['fullscreen', 'undo', 'redo', 'help']]
+			];
 		}
 
 		if ($this->get('image_upload', true))

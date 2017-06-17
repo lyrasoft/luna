@@ -62,7 +62,7 @@ class TagHelper
 	 *
 	 * @return DataSet|Data[]
 	 */
-	public static function getTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
+	public static function getTags($type = null, $targetId = null, $conditions = [], $fields = ['id', 'title', 'alias'])
 	{
 		if (!LunaHelper::tableExists('tags') || !LunaHelper::tableExists('tag_maps'))
 		{
@@ -100,7 +100,7 @@ class TagHelper
 	 *
 	 * @return DataSet|Data[]
 	 */
-	public static function getAvailableTags($type = null, $targetId = null, $conditions = array(), $fields = array('id', 'title', 'alias'))
+	public static function getAvailableTags($type = null, $targetId = null, $conditions = [], $fields = ['id', 'title', 'alias'])
 	{
 		$conditions['state'] = 1;
 

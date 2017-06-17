@@ -37,10 +37,10 @@ class TagsGetController extends AbstractController
 
 		foreach ($tags as $tag)
 		{
-			$data[] = array(
+			$data[] = [
 				'id' => $tag->id,
 				'text' => $tag->title
-			);
+			];
 		}
 
 		return $data;

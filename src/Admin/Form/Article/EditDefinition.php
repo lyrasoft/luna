@@ -94,9 +94,10 @@ class EditDefinition extends AbstractFieldDefinition
 			// Introtext
 			$this->tinymceEditor('text')
 				->label(Translator::translate($langPrefix . 'article.field.introtext'))
-				->set('options', array(
+				->set('options', [
 					'height' => 450
-				))
+				]
+				)
 				->set('includes', 'readmore')
 				->set('rows', 10);
 		});

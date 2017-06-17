@@ -31,7 +31,7 @@ class Node implements NodeInterface, \IteratorAggregate
 	/**
 	 * @var NodeInterface[]
 	 */
-	protected $children = array();
+	protected $children = [];
 
 	/**
 	 * Property key.
@@ -44,7 +44,7 @@ class Node implements NodeInterface, \IteratorAggregate
 	 * @param mixed $value
 	 * @param NodeInterface[] $children
 	 */
-	public function __construct($value = null, array $children = array())
+	public function __construct($value = null, array $children = [])
 	{
 		$this->setValue($value);
 
@@ -141,7 +141,7 @@ class Node implements NodeInterface, \IteratorAggregate
 	 */
 	public function removeAllChildren()
 	{
-		$this->setChildren(array());
+		$this->setChildren([]);
 
 		return $this;
 	}
@@ -205,7 +205,7 @@ class Node implements NodeInterface, \IteratorAggregate
 	 */
 	public function getAncestors()
 	{
-		$parents = array();
+		$parents = [];
 		$node = $this;
 
 		while ($parent = $node->getParent())
@@ -316,7 +316,7 @@ class Node implements NodeInterface, \IteratorAggregate
 			return 0;
 		}
 
-		$heights = array();
+		$heights = [];
 
 		foreach ($this->getChildren() as $child)
 		{

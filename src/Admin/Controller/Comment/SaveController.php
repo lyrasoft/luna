@@ -68,9 +68,9 @@ class SaveController extends AbstractSaveController
 	 *
 	 * @var  array
 	 */
-	protected $redirectQueryFields = array(
+	protected $redirectQueryFields = [
 		'type'
-	);
+	];
 
 	/**
 	 * prepareExecute
@@ -133,6 +133,6 @@ class SaveController extends AbstractSaveController
 	{
 		$pk = $this->record->{$this->keyName};
 
-		return $this->router->route($this->getName(), array($this->keyName => $pk));
+		return $this->router->route($this->getName(), [$this->keyName => $pk]);
 	}
 }

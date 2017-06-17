@@ -75,7 +75,7 @@ class CategoryListField extends ItemListField
 	{
 		if (!LunaHelper::tableExists('categories'))
 		{
-			return array();
+			return [];
 		}
 
 		return parent::prepareOptions();

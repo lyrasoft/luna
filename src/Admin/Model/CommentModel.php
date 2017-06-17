@@ -32,9 +32,9 @@ class CommentModel extends AdminModel
 	 *
 	 * @var  array
 	 */
-	protected $reorderConditions = array(
+	protected $reorderConditions = [
 		'type', 'target_id'
-	);
+	];
 
 	/**
 	 * postGetItem

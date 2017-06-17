@@ -46,7 +46,7 @@ class ModulesHtmlView extends GridView
 	 *
 	 * @var  array
 	 */
-	protected $fields = array(
+	protected $fields = [
 		'pk'          => 'id',
 		'title'       => 'title',
 		'alias'       => 'alias',
@@ -57,16 +57,16 @@ class ModulesHtmlView extends GridView
 		'created'     => 'created',
 		'language'    => 'language',
 		'lang_title'  => 'lang_title'
-	);
+	];
 
 	/**
 	 * The grid config.
 	 *
 	 * @var  array
 	 */
-	protected $gridConfig = array(
+	protected $gridConfig = [
 		'order_column' => 'module.position, module.ordering'
-	);
+	];
 
 	/**
 	 * init
@@ -83,7 +83,7 @@ class ModulesHtmlView extends GridView
 	 *
 	 * @var  array
 	 */
-	protected $labels = array(
+	protected $labels = [
 		'label label-primary',
 		'label label-warning',
 		'label label-success',
@@ -97,7 +97,7 @@ class ModulesHtmlView extends GridView
 		'label label-dark-purple',
 		'label label-green',
 		'label label-pink',
-	);
+	];
 
 	/**
 	 * Property defaultLabelClass.
@@ -182,7 +182,7 @@ class ModulesHtmlView extends GridView
 		PhoenixScript::core();
 		PhoenixScript::grid();
 		PhoenixScript::chosen();
-		PhoenixScript::multiSelect('#admin-form table', array('duration' => 100));
+		PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::tooltip();
 

@@ -34,7 +34,7 @@ class TagModel extends AdminModel
 	 *
 	 * @var  array
 	 */
-	protected $reorderConditions = array();
+	protected $reorderConditions = [];
 
 	/**
 	 * postGetItem
@@ -105,7 +105,7 @@ class TagModel extends AdminModel
 
 		$tagMapMapper = $this->getDataMapper('TagMap');
 
-		$tagMapMapper->delete(array('target_id' => $targetId, 'type' => 'article'));
+		$tagMapMapper->delete(['target_id' => $targetId, 'type' => 'article']);
 
 		foreach ($tags as $tagId)
 		{
@@ -121,7 +121,7 @@ class TagModel extends AdminModel
 				$tagId = $data->id;
 			}
 
-			$tagMapMapper->createOne(array('tag_id' => $tagId, 'target_id' => $targetId, 'type' => $type));
+			$tagMapMapper->createOne(['tag_id' => $tagId, 'target_id' => $targetId, 'type' => $type]);
 		}
 	}
 }

@@ -43,7 +43,7 @@ class ModuleTypeListField extends ListField
 	{
 		$attribs = (array) $this->get('attribs');
 
-		$options = array();
+		$options = [];
 
 		$types = ModuleHelper::getModuleTypes();
 

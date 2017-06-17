@@ -36,9 +36,9 @@ class ArticleModel extends AdminModel
 	 *
 	 * @var  array
 	 */
-	protected $reorderConditions = array(
+	protected $reorderConditions = [
 		'category_id'
-	);
+	];
 
 	/**
 	 * postGetItem

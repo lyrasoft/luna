@@ -35,14 +35,14 @@ class CommentsModel extends ListModel
 	 *
 	 * @var  array
 	 */
-	protected $allowFields = array();
+	protected $allowFields = [];
 
 	/**
 	 * Property fieldMapping.
 	 *
 	 * @var  array
 	 */
-	protected $fieldMapping = array();
+	protected $fieldMapping = [];
 
 	/**
 	 * configureTables
@@ -69,11 +69,12 @@ class CommentsModel extends ListModel
 	 */
 	protected function prepareGetQuery(Query $query)
 	{
-		Ioc::getDispatcher()->triggerEvent('onLunaCommentModelPrepareGetQuery', array(
+		Ioc::getDispatcher()->triggerEvent('onLunaCommentModelPrepareGetQuery', [
 			'model' => $this,
 			'query' => $query,
 			'type'  => $this['comment.type']
-		));
+		]
+		);
 	}
 
 	/**

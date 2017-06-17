@@ -59,7 +59,7 @@ class MenuHelper extends AbstractHelper
 		$menus = $this->findViewMenus(static::PLURAL);
 		$view = $this->getParent()->getView();
 		$package = $view->getPackage();
-		$links = array();
+		$links = [];
 
 		foreach ($menus as $menu)
 		{
@@ -68,10 +68,10 @@ class MenuHelper extends AbstractHelper
 			$links[] = new HtmlElement(
 				'a',
 				Translator::translate($package->getName() . '.' . $menu),
-				array(
+				[
 					'href' => $view->getRouter()->html($menu),
 					'class' => $active
-				)
+				]
 			);
 		}
 
@@ -92,7 +92,7 @@ class MenuHelper extends AbstractHelper
 		$viewFolder = ADMIN_ROOT . '/View';
 
 		$views = Filesystem::folders($viewFolder);
-		$menus = array();
+		$menus = [];
 
 		/** @var \SplFileInfo $view */
 		foreach ($views as $view)

@@ -34,16 +34,16 @@ class ArticlesModel extends ListModel
 	 *
 	 * @var  array
 	 */
-	protected $allowFields = array(
+	protected $allowFields = [
 		'locale', 'category_keys', 'mapping.target_id', 'mapping.tag_id'
-	);
+	];
 
 	/**
 	 * Property fieldMapping.
 	 *
 	 * @var  array
 	 */
-	protected $fieldMapping = array();
+	protected $fieldMapping = [];
 
 	/**
 	 * configureTables
@@ -76,26 +76,26 @@ class ArticlesModel extends ListModel
 	protected function prepareGetQuery(Query $query)
 	{
 
-		$select = array(
+		$select = [
 			'article.*'
-		);
+		];
 
 		if (LunaHelper::tableExists('categories') && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id')))
 		{
-			$select = $select + array(
+			$select = $select + [
 				'category.id AS category_id',
 				'category.title AS category_title',
 				'category.alias AS category_alias',
 				'category.path AS category_path',
-			);
+				];
 		}
 
 		if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps'))
 		{
-			$select = $select + array(
+			$select = $select + [
 				'tag.title AS tag_title',
 				'tag.alias AS tag_alias',
-			);
+				];
 
 			$subQuery = $this->db->getQuery(true)
 				->select('tag_id, target_id')
@@ -123,7 +123,7 @@ class ArticlesModel extends ListModel
 		{
 			$subQuery = $this->db->getQuery(true);
 
-			$subQuery->select(array('COUNT(target_id) AS count', 'target_id'))
+			$subQuery->select(['COUNT(target_id) AS count', 'target_id'])
 				->from(LunaTable::COMMENTS)
 				->where('type = "article"')
 				->where('state = 1')
@@ -163,10 +163,10 @@ class ArticlesModel extends ListModel
 		{
 			if ('' !== (string) $value)
 			{
-				$langs = array(
+				$langs = [
 					$query->quote('*'),
 					$query->quote($value),
-				);
+				];
 
 				$query->where('article.language ' . new QueryElement('IN()', $langs));
 			}

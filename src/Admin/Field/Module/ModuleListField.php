@@ -45,7 +45,7 @@ class ModuleListField extends ItemListField
 	 *
 	 * @return  Option
 	 */
-	protected function createOption($item, $valueField = 'id', $textField = 'title', $attribs = array())
+	protected function createOption($item, $valueField = 'id', $textField = 'title', $attribs = [])
 	{
 		$value = isset($item->$valueField) ? $item->$valueField : null;
 		$text  = isset($item->$textField)  ? $item->$textField : null;

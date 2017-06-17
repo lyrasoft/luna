@@ -31,7 +31,7 @@ class CategoryModel extends NestedAdminModel
 	 *
 	 * @var  array
 	 */
-	protected $reorderConditions = array();
+	protected $reorderConditions = [];
 
 	/**
 	 * postGetItem

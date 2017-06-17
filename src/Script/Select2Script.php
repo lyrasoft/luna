@@ -62,7 +62,7 @@ CSS
 	 *
 	 * @return  void
 	 */
-	public static function select2($selector, $options = array())
+	public static function select2($selector, $options = [])
 	{
 		$asset = static::getAsset();
 
@@ -70,7 +70,7 @@ CSS
 
 		if (!static::inited(__METHOD__, func_get_args()))
 		{
-			$defaultOptions = array();
+			$defaultOptions = [];
 
 			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
 
@@ -99,7 +99,7 @@ JS;
 	 *
 	 * @return  void
 	 */
-	public static function ajaxSelect2($selector, $url, $options = array())
+	public static function ajaxSelect2($selector, $url, $options = [])
 	{
 		$asset = static::getAsset();
 
@@ -115,18 +115,18 @@ JS;
 }
 JS;
 
-			$defaultOptions = array(
-				'ajax' => array(
+			$defaultOptions = [
+				'ajax' => [
 					'url'      => $url,
 					'delay'    => 250,
 					'type'     => 'GET',
 					'dataType' => 'json',
 					'processResults' => $process,
-				),
+				],
 				'minimumInputLength' => 1,
 				'tags' => true,
-				'tokenSeparators' => array(',')
-			);
+				'tokenSeparators' => [',']
+			];
 
 			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
 
@@ -154,7 +154,7 @@ JS;
 	 *
 	 * @return  void
 	 */
-	public static function tag($selector, $options = array())
+	public static function tag($selector, $options = [])
 	{
 		$asset = static::getAsset();
 

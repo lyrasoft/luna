@@ -41,19 +41,19 @@ class TinymceEditorField extends AbstractEditorField
 	protected function prepareScript($attrs)
 	{
 		$luna = LunaHelper::getPackage();
-		$options = (array) $this->get('options', array());
+		$options = (array) $this->get('options', []);
 
-		$options['plugins']     = array();
+		$options['plugins']     = [];
 		$options['content_css'] = Asset::root() . '/' . $luna->name . '/css/tinymce/content.css';
 
 		if ($this->get('toolbar', static::TOOLBAR_FULL) == static::TOOLBAR_FULL)
 		{
-			$options['plugins'] = array(
+			$options['plugins'] = [
 				'advlist autolink lists link image charmap print preview hr anchor pagebreak',
 				'searchreplace wordcount visualblocks visualchars code fullscreen',
 				'insertdatetime media nonbreaking save table contextmenu directionality',
 				'emoticons template paste textcolor colorpicker textpattern imagetools'
-			);
+			];
 
 			$options['toolbar1'] = 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' .
 				'bullist numlist outdent indent | link image media | table code | fullscreen';

@@ -44,18 +44,19 @@ abstract class AbstractEditorField extends TextareaField
 		$input = parent::buildInput($attrs);
 		$buttons = new HtmlElements;
 
-		Ioc::getDispatcher()->triggerEvent('onLunaEditorGetButtons', array(
+		Ioc::getDispatcher()->triggerEvent('onLunaEditorGetButtons', [
 			'input'   => $input,
 			'name'    => $this->editorName,
 			'field'   => $this,
 			'buttons' => $buttons,
 			'includes' => (array) $this->get('includes'),
 			'excludes' => (array) $this->get('excludes'),
-		));
+		]
+		);
 
 		if (count($buttons))
 		{
-			$buttons = new HtmlElement('div', $buttons, array('class' => 'editor-buttons ' . $this->getId() . '-buttons'));
+			$buttons = new HtmlElement('div', $buttons, ['class' => 'editor-buttons ' . $this->getId() . '-buttons']);
 		}
 
 		return $input . $buttons;

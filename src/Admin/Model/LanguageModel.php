@@ -32,7 +32,7 @@ class LanguageModel extends AdminModel
 	 *
 	 * @var  array
 	 */
-	protected $reorderConditions = array();
+	protected $reorderConditions = [];
 
 	/**
 	 * postGetItem

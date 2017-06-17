@@ -93,7 +93,7 @@ JS;
 		}
 	}
 
-	public static function tinymce($selector, $options = array())
+	public static function tinymce($selector, $options = [])
 	{
 		$asset = static::getAsset();
 
@@ -124,7 +124,7 @@ CSS;
 
 		if (!static::inited(__METHOD__, func_get_args()))
 		{
-			$defaultOptions = array();
+			$defaultOptions = [];
 
 			$options['image_upload_url'] = LunaHelper::getPackage()
 				->getCurrentPackage()->router->route('_luna_img_upload');
@@ -151,7 +151,7 @@ JS;
 	 *
 	 * @return  void
 	 */
-	public static function summernote($selector, $options = array())
+	public static function summernote($selector, $options = [])
 	{
 		$asset = static::getAsset();
 
@@ -194,9 +194,9 @@ CSS;
 
 		if (!static::inited(__METHOD__, func_get_args()))
 		{
-			$defaultOptions = array(
+			$defaultOptions = [
 				'lang' => $locale
-			);
+			];
 
 			$options['image_upload_url'] = LunaHelper::getPackage()
 				->getCurrentPackage()->router->route('_luna_img_upload');

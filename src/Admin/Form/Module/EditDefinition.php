@@ -61,9 +61,10 @@ class EditDefinition extends AbstractFieldDefinition
 			$this->add('content', new SummernoteEditorField)
 				->label(Translator::translate($langPrefix . 'module.field.content'))
 				->set('rows', 10)
-				->set('options', array(
+				->set('options', [
 					'height' => 400
-				));
+				]
+				);
 		});
 
 		// Created fieldset
