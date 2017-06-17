@@ -17,6 +17,12 @@ use Windwalker\Ioc;
 /**
  * The AbstractEditorField class.
  *
+ * @method  mixed|$this  excludes(string $value = null)
+ * @method  mixed|$this  includes(string $value = null)
+ * @method  mixed|$this  editorOptions(string $value = null)
+ * @method  mixed|$this  imageUploadScript(string $value = null)
+ * @method  mixed|$this  toolbar(string $value = null)
+ *
  * @since  1.0
  */
 abstract class AbstractEditorField extends TextareaField
@@ -51,8 +57,7 @@ abstract class AbstractEditorField extends TextareaField
 			'buttons' => $buttons,
 			'includes' => (array) $this->get('includes'),
 			'excludes' => (array) $this->get('excludes'),
-		]
-		);
+		]);
 
 		if (count($buttons))
 		{
@@ -107,5 +112,23 @@ abstract class AbstractEditorField extends TextareaField
 		$this->editorName = $editorName;
 
 		return $this;
+	}
+
+	/**
+	 * getAccessors
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1.2
+	 */
+	protected function getAccessors()
+	{
+		return array_merge(parent::getAccessors(), [
+			'includes',
+			'excludes',
+			'toolbar',
+			'editorOptions' => 'options',
+			'imageUploadScript' => 'image_upload'
+		]);
 	}
 }

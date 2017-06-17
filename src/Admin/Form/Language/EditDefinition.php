@@ -35,31 +35,31 @@ class EditDefinition extends AbstractFieldDefinition
 		$langPrefix = LunaHelper::getLangPrefix();
 
 		// Title
-		$this->add('title', new Field\TextField)
+		$this->text('title')
 			->label(Translator::translate($langPrefix . 'language.field.title'))
-			->set('placeholder', Translator::translate($langPrefix . 'language.field.title'))
+			->placeholder(Translator::translate($langPrefix . 'language.field.title'))
 			->addFilter('trim')
 			->required(true);
 
 		// Alias
-		$this->add('alias', new Field\TextField)
+		$this->text('alias')
 			->label(Translator::translate($langPrefix . 'language.field.alias'))
-			->set('placeholder', Translator::translate($langPrefix . 'language.field.alias'));
+			->placeholder(Translator::translate($langPrefix . 'language.field.alias'));
 
 		// Basic fieldset
-		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('basic', function(Form $form) use ($langPrefix)
 		{
 			// ID
-			$this->add('id', new Field\HiddenField);
+			$this->hidden('id');
 
 			// Title Native
-			$this->add('title_native', new Field\TextField)
+			$this->text('title_native')
 				->label(Translator::translate($langPrefix . 'language.field.titlenative'))
 				->addFilter('trim')
 				->required(true);
 
 			// Code
-			$this->add('code', new Field\TextField)
+			$this->text('code')
 				->label(Translator::translate($langPrefix . 'language.field.code'))
 				->addFilter('trim')
 				->required(true);
@@ -70,34 +70,34 @@ class EditDefinition extends AbstractFieldDefinition
 		});
 
 		// Text Fieldset
-		$this->wrap('text', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('text', function(Form $form) use ($langPrefix)
 		{
 			// Introtext
-			$this->add('description', new Field\TextareaField)
+			$this->textarea('description')
 				->label(Translator::translate($langPrefix . 'language.field.description'))
-				->set('rows', 10);
+				->rows( 10);
 		});
 
 		// Created fieldset
-		$this->wrap('created', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
 			// State
-			$this->add('state', new Field\RadioField)
+			$this->radio('state')
 				->label(Translator::translate($langPrefix . 'language.field.state'))
-				->set('class', 'btn-group')
-				->set('default', 1)
+				->class('btn-group')
+				->defaultValue(1)
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
 				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
 
 			// Metakey
-			$this->add('metakey', new Field\TextareaField)
+			$this->textarea('metakey')
 				->label(Translator::translate($langPrefix . 'language.field.metakey'))
-				->set('rows', 5);
+				->rows( 5);
 
 			// Meta Description
-			$this->add('metadesc', new Field\TextareaField)
+			$this->textarea('metadesc')
 				->label(Translator::translate($langPrefix . 'language.field.metadesc'))
-				->set('rows', 5);
+				->rows( 5);
 		});
 	}
 }

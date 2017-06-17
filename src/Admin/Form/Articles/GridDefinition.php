@@ -57,7 +57,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// Search Content
 			$this->text('content')
 				->label(Translator::translate('phoenix.grid.search.label'))
-				->set('placeholder', Translator::translate('phoenix.grid.search.label'));
+				->placeholder(Translator::translate('phoenix.grid.search.label'));
 		});
 
 		/*
@@ -78,7 +78,7 @@ class GridDefinition extends AbstractFieldDefinition
 				->option(Translator::translate($langPrefix . 'article.filter.state.select'), '')
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
 				->option(Translator::translate('phoenix.grid.state.unpublished'), '0')
-				->set('onchange', 'this.form.submit()');
+				->onchange('this.form.submit()');
 
 			if (LunaHelper::tableExists('categories'))
 			{
@@ -86,7 +86,7 @@ class GridDefinition extends AbstractFieldDefinition
 					->label(Translator::translate($langPrefix . 'field.category'))
 					->option('', '')
 					->option(Translator::translate($langPrefix . 'filter.category.select'), '')
-					->set('onchange', 'this.form.submit()');
+					->onchange('this.form.submit()');
 			}
 
 			if (Locale::isEnabled())
@@ -96,7 +96,7 @@ class GridDefinition extends AbstractFieldDefinition
 					->label(Translator::translate($langPrefix . 'article.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*')
-					->set('onchange', 'this.form.submit()');
+					->onchange('this.form.submit()');
 			}
 		});
 

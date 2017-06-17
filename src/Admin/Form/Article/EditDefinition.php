@@ -48,17 +48,17 @@ class EditDefinition extends AbstractFieldDefinition
 		// Title
 		$this->text('title')
 			->label(Translator::translate($langPrefix . 'article.field.title'))
-			->set('placeholder', Translator::translate($langPrefix . 'article.field.title'))
+			->placeholder(Translator::translate($langPrefix . 'article.field.title'))
 			->addFilter('trim')
 			->required(true);
 
 		// Alias
 		$this->text('alias')
 			->label(Translator::translate($langPrefix . 'article.field.alias'))
-			->set('placeholder', Translator::translate($langPrefix . 'article.field.alias'));
+			->placeholder(Translator::translate($langPrefix . 'article.field.alias'));
 
 		// Basic fieldset
-		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('basic', function(Form $form) use ($langPrefix)
 		{
 			// ID
 			$this->hidden('id');
@@ -75,38 +75,37 @@ class EditDefinition extends AbstractFieldDefinition
 				// Tags
 				$this->add('tags', new TagListField)
 					->label(Translator::translate($langPrefix . 'tag.title'))
-					->set('multiple', true);
+					->multiple(true);
 			}
 
 			// Images
 			$this->singleImageDrag('image')
 				->label(Translator::translate($langPrefix . 'article.field.images'))
-				->set('width', 400)
-				->set('height', 300);
+				->width(400)
+				->height(300);
 		});
 
 		// Text Fieldset
-		$this->wrap('text', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('text', function(Form $form) use ($langPrefix)
 		{
 			// Introtext
 			$this->tinymceEditor('text')
 				->label(Translator::translate($langPrefix . 'article.field.introtext'))
-				->set('options', [
+				->editorOptions([
 					'height' => 450
-				]
-				)
-				->set('includes', 'readmore')
-				->set('rows', 10);
+				])
+				->includes('readmore')
+				->rows(10);
 		});
 
 		// Created fieldset
-		$this->wrap('created', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
 			// State
 			$this->radio('state')
 				->label(Translator::translate($langPrefix . 'article.field.state'))
-				->set('class', 'btn-group')
-				->set('default', 1)
+				->class('btn-group')
+				->defaultValue(1)
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
 				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
 

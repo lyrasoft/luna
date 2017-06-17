@@ -56,7 +56,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// Search Content
 			$this->text('content')
 				->label(Translator::translate('phoenix.grid.search.label'))
-				->set('placeholder', Translator::translate('phoenix.grid.search.label'));
+				->placeholder(Translator::translate('phoenix.grid.search.label'));
 		});
 
 		/*
@@ -77,7 +77,7 @@ class GridDefinition extends AbstractFieldDefinition
 				->option(Translator::translate($langPrefix . 'category.filter.state.select'), '')
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
 				->option(Translator::translate('phoenix.grid.state.unpublished'), '0')
-				->set('onchange', 'this.form.submit()');
+				->onchange('this.form.submit()');
 
 			if (Locale::isEnabled())
 			{
@@ -86,7 +86,7 @@ class GridDefinition extends AbstractFieldDefinition
 					->label(Translator::translate($langPrefix . 'category.field.language'))
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*')
-					->set('onchange', 'this.form.submit()');
+					->onchange('this.form.submit()');
 			}
 		});
 
@@ -101,7 +101,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// Parent
 			$this->add('parent_id', new CategoryListField)
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
-				->set('class', 'col-md-12')
+				->class('col-md-12')
 				->option(Translator::translate($langPrefix . 'category.batch.parent.select'), '');
 
 			if (Locale::isEnabled())

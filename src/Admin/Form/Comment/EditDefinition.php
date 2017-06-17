@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Form\Comment;
 
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
+use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Field;
@@ -27,66 +28,61 @@ class EditDefinition extends AbstractFieldDefinition
 	 * @param Form $form The Windwalker form object.
 	 *
 	 * @return  void
+	 * @throws \InvalidArgumentException
 	 */
 	public function doDefine(Form $form)
 	{
 		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
 		// Basic fieldset
-		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('basic', function(Form $form) use ($langPrefix)
 		{
 			// ID
-			$this->add('id', new Field\HiddenField);
-
-			// Title
-//			$this->add('title', new Field\TextField)
-//				->label(Translator::translate($langPrefix . 'comment.field.title'))
-//				->setFilter('trim')
-//				->required(true);
+			$this->hidden('id');
 
 			// Type
-			$this->add('type', new Field\HiddenField)
+			$this->hidden('type')
 				->label(Translator::translate($langPrefix . 'comment.field.type'));
 
 			// Target ID
-			$this->add('target_id', new Field\TextField)
+			$this->text('target_id')
 				->label(Translator::translate($langPrefix . 'comment.field.target.id'));
 		});
 
 		// Text Fieldset
-		$this->wrap('text', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('text', function(Form $form) use ($langPrefix)
 		{
-			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
+			if (WarderHelper::tableExists('users'))
 			{
 				$this->add('user_id', new UserModalField)
 					->label(Translator::translate($langPrefix . 'comment.field.author'));
 			}
 
 			// Content
-			$this->add('content', new Field\TextareaField)
+			$this->textarea('content')
 				->label(Translator::translate($langPrefix . 'comment.field.introtext'))
-				->set('rows', 10);
+				->rows( 10);
 
-			if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
+			if (WarderHelper::tableExists('users'))
 			{
 				$this->add('reply_user_id', new UserModalField)
 					->label(Translator::translate($langPrefix . 'comment.field.replyer'));
 			}
 
 			// Reply
-			$this->add('reply', new Field\TextareaField)
+			$this->textarea('reply')
 				->label(Translator::translate($langPrefix . 'comment.field.fulltext'))
-				->set('rows', 10);
+				->rows( 10);
 		});
 
 		// Created fieldset
-		$this->wrap('created', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
 			// State
-			$this->add('state', new Field\RadioField)
+			$this->radio('state')
 				->label(Translator::translate($langPrefix . 'comment.field.state'))
-				->set('class', 'btn-group')
-				->set('default', 1)
+				->class('btn-group')
+				->defaultValue(1)
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
 				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
 		});

@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Form\Module;
 use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Lyrasoft\Luna\Field\Editor\SummernoteEditorField;
+use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Lyrasoft\Warder\Helper\WarderHelper;
@@ -28,6 +29,7 @@ use Windwalker\Form\Form;
 class EditDefinition extends AbstractFieldDefinition
 {
 	use PhoenixFieldTrait;
+	use LunaFieldTrait;
 
 	/**
 	 * Define the form fields.
@@ -42,39 +44,38 @@ class EditDefinition extends AbstractFieldDefinition
 		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
 		// Title
-		$this->add('title', new Field\TextField)
+		$this->text('title')
 			->label(Translator::translate($langPrefix . 'module.field.title'))
 			->addFilter('trim')
-			->set('labelClass', 'hide')
+			->labelClass('hide')
 			->required(true);
 
 		// Basic fieldset
-		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('basic', function(Form $form) use ($langPrefix)
 		{
 
 		});
 
 		// Text Fieldset
-		$this->wrap('text', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('text', function(Form $form) use ($langPrefix)
 		{
 			// Content
-			$this->add('content', new SummernoteEditorField)
+			$this->summernoteEditor('content')
 				->label(Translator::translate($langPrefix . 'module.field.content'))
-				->set('rows', 10)
-				->set('options', [
+				->rows( 10)
+				->editorOptions([
 					'height' => 400
-				]
-				);
+				]);
 		});
 
 		// Created fieldset
-		$this->wrap('created', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
 			// State
-			$this->add('state', new Field\RadioField)
+			$this->radio('state')
 				->label(Translator::translate($langPrefix . 'module.field.state'))
-				->set('class', 'btn-group')
-				->set('default', 1)
+				->class('btn-group')
+				->defaultValue(1)
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
 				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
 
@@ -85,7 +86,7 @@ class EditDefinition extends AbstractFieldDefinition
 				->set('allow_add', true);
 
 			// Type
-			$this->add('type', new Field\TextField)
+			$this->text('type')
 				->label(Translator::translate($langPrefix . 'module.field.type'))
 				->readonly()
 				->required();
@@ -110,12 +111,12 @@ class EditDefinition extends AbstractFieldDefinition
 			}
 
 			// Note
-			$this->add('note', new Field\TextareaField)
+			$this->textarea('note')
 				->label(Translator::translate($langPrefix . 'module.field.note'))
-				->set('rows', 5);
+				->rows( 5);
 
 			// ID
-			$this->add('id', new Field\HiddenField);
+			$this->hidden('id');
 		});
 	}
 }

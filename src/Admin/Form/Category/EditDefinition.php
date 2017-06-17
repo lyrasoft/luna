@@ -48,17 +48,17 @@ class EditDefinition extends AbstractFieldDefinition
 		// Title
 		$this->text('title')
 			->label(Translator::translate($langPrefix . 'category.field.title'))
-			->set('placeholder', Translator::translate($langPrefix . 'category.field.title'))
+			->placeholder(Translator::translate($langPrefix . 'category.field.title'))
 			->addFilter('trim')
 			->required(true);
 
 		// Alias
 		$this->text('alias')
 			->label(Translator::translate($langPrefix . 'category.field.alias'))
-			->set('placeholder', Translator::translate($langPrefix . 'category.field.alias'));
+			->placeholder(Translator::translate($langPrefix . 'category.field.alias'));
 
 		// Basic fieldset
-		$this->wrap('basic', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('basic', function(Form $form) use ($langPrefix)
 		{
 			$type = Ioc::getInput()->get('type');
 
@@ -74,37 +74,35 @@ class EditDefinition extends AbstractFieldDefinition
 			// Images
 			$this->singleImageDrag('image')
 				->label(Translator::translate($langPrefix . 'category.field.images'))
-				->set('export_zoom', 2)
-				->set('width', 400)
-				->set('height', 300);
+				->exportZoom(2)
+				->width(400)
+				->height(300);
 
 			$this->hidden('type')
 				->label(Translator::translate($langPrefix . 'category.field.type'));
 		});
 
 		// Text Fieldset
-		$this->wrap('text', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('text', function(Form $form) use ($langPrefix)
 		{
 			// Description
 			$this->summernoteEditor('description')
 				->label(Translator::translate($langPrefix . 'category.field.description'))
-				->set('options', [
+				->editorOptions([
 					'height' => 350,
 					'iconPrefix' => 'luna-icon luna-icon-',
-				]
-				)
-//				->set('includes', 'readmore')
-				->set('rows', 10);
+				])
+				->rows( 10);
 		});
 
 		// Created fieldset
-		$this->wrap('created', null, function(Form $form) use ($langPrefix)
+		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
 			// State
 			$this->radio('state')
 				->label(Translator::translate($langPrefix . 'category.field.state'))
-				->set('class', 'btn-group')
-				->set('default', 1)
+				->class('btn-group')
+				->defaultValue(1)
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
 				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
 

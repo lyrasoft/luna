@@ -56,7 +56,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// Search Content
 			$this->text('content')
 				->label(Translator::translate('phoenix.grid.search.label'))
-				->set('placeholder', Translator::translate('phoenix.grid.search.label'));
+				->placeholder(Translator::translate('phoenix.grid.search.label'));
 		});
 
 		/*
@@ -77,7 +77,7 @@ class GridDefinition extends AbstractFieldDefinition
 				->option(Translator::translate($langPrefix . 'comment.filter.state.select'), '')
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
 				->option(Translator::translate('phoenix.grid.state.unpublished'), '0')
-				->set('onchange', 'this.form.submit()');
+				->onchange('this.form.submit()');
 		});
 
 		/*
