@@ -57,6 +57,9 @@ class LunaErrorHandler implements ErrorHandlerInterface
 	 * @param  \Exception|\Throwable $exception
 	 *
 	 * @return  void
+	 * @throws \UnexpectedValueException
+	 * @throws \OutOfBoundsException
+	 * @throws \InvalidArgumentException
 	 */
 	public function __invoke($exception)
 	{
@@ -77,7 +80,9 @@ class LunaErrorHandler implements ErrorHandlerInterface
 		$package->app->set('route.extra.layout', 'error');
 		$package->app->input->set('exception', $exception);
 
-		$response = $package->execute('Error\GetController', $package->app->request, new HtmlResponse);
+		$response = (new HtmlResponse)->withStatus($exception->getCode(), $exception->getMessage());
+
+		$response = $package->execute('Error\GetController', $package->app->request, $response);
 
 		$package->app->server->getOutput()->respond($response);
 
