@@ -14,9 +14,11 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $items    \Windwalker\Data\DataSet|\Lyrasoft\Luna\Admin\Record\ArticleRecord[]
+ * @var $items    \Windwalker\Data\DataSet
+ * @var $item     \Lyrasoft\Luna\Admin\Record\ArticleRecord
  * @var $category \Lyrasoft\Luna\Admin\Record\CategoryRecord
  * @var $state    \Windwalker\Structure\Structure
+ * @var $pagination  \Windwalker\Core\Pagination\Pagination
  */
 ?>
 
@@ -30,7 +32,7 @@
             @foreach ($items as $i => $item)
                 <div class="article-item">
                     <h2>
-                        <a href="{{ $router->route('article', array('id' => $item->id, 'alias' => $item->alias)) }}">
+                        <a href="{{ $router->route('article', ['id' => $item->id, 'alias' => $item->alias]) }}">
                             {{ $item->title }}
                         </a>
                     </h2>
@@ -49,7 +51,7 @@
                         {{ $item->comments }} Comment(s)
 
                         @foreach ($item->tags as $tagItem)
-                            <a class="label label-info" href="{{ $router->route('article_tag', array('tag' => $tagItem->alias)) }}">
+                            <a class="label label-info" href="{{ $router->route('article_tag', ['tag' => $tagItem->alias]) }}">
                                 {{ $tagItem->title }}
                             </a>
                             &nbsp;

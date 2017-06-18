@@ -8,6 +8,8 @@
 
 namespace Lyrasoft\Luna\Controller\Category;
 
+use Lyrasoft\Luna\Admin\Record\CategoryRecord;
+use Lyrasoft\Luna\Admin\Record\TagRecord;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Model\ArticlesModel;
 use Lyrasoft\Luna\Model\CategoryModel;
@@ -169,7 +171,7 @@ class GetController extends ListDisplayController
 		}
 		else
 		{
-			$view['category'] = new Data;
+			$view['category'] = new CategoryRecord;
 		}
 
 		if ($tagAlias)
@@ -192,7 +194,7 @@ class GetController extends ListDisplayController
 		}
 		else
 		{
-			$view['tag'] = new Data;
+			$view['tag'] = new TagRecord;
 		}
 
 		if (Locale::isEnabled(Locale::CLIENT_FRONTEND))
