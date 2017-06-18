@@ -18,6 +18,7 @@ use Windwalker\Core\Model\ModelRepository;
 use Windwalker\Core\View\AbstractView;
 use Windwalker\Data\Data;
 use Windwalker\Filter\InputFilter;
+use Windwalker\Router\Exception\RouteNotFoundException;
 
 /**
  * The GetController class.
@@ -86,6 +87,7 @@ class GetController extends ListDisplayController
 
 		$this->type  = $matched->getExtra('category.type', 'article');
 		$this->model = $matched->getExtra('category.model', 'Articles');
+		$this->view  = $matched->getExtra('category.view', 'Category');
 		$this->deep  = $matched->getExtra('category.deep', true);
 		$this->defaultOrdering = $matched->getExtra('category.ordering', 'article.created');
 		$this->defaultDirection = $matched->getExtra('category.direction', 'DESC');
@@ -150,12 +152,10 @@ class GetController extends ListDisplayController
 
 			if ($category->isNull())
 			{
-				throw new \RuntimeException('Page not found', 404);
+				throw new RouteNotFoundException('Page not found', 404);
 			}
 
 			$view['category'] = $category;
-
-			$this->checkAccess($category);
 
 			// Set article filters
 			if ($this->deep)
@@ -182,13 +182,10 @@ class GetController extends ListDisplayController
 
 			if ($tag->isNull())
 			{
-				throw new \RuntimeException('Page not found', 404);
+				throw new RouteNotFoundException('Page not found', 404);
 			}
 
 			$view['tag'] = $tag;
-
-
-			$this->checkAccess($tag);
 
 			// Set article filters
 			$model->tag($tag->id);

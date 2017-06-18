@@ -24,6 +24,7 @@ article_category:
         category:
             type: article
             model: Articles
+            view: Category
             ordering: article.created
             direction: DESC
             deep: true
