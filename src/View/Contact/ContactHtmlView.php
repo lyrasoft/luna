@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\View\Contact;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 
@@ -24,6 +25,16 @@ class ContactHtmlView extends EditView
 	 * @var  string
 	 */
 	protected $name = 'Contact';
+
+	/**
+	 * init
+	 *
+	 * @return  void
+	 */
+	protected function init()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+	}
 
 	/**
 	 * prepareData

@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Contacts\Batch;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Controller\Batch\AbstractTrashController;
 
 /**
@@ -23,4 +24,16 @@ class CancelController extends AbstractTrashController
 	 * @var  string
 	 */
 	protected $action = 'cancel';
+
+	/**
+	 * A hook before main process executing.
+	 *
+	 * @return  void
+	 */
+	protected function prepareExecute()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+
+		parent::prepareExecute();
+	}
 }

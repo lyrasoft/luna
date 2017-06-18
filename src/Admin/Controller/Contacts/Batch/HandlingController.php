@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Contacts\Batch;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Controller\Batch\AbstractPublishController;
 
 /**
@@ -23,4 +24,16 @@ class HandlingController extends AbstractPublishController
 	 * @var  string
 	 */
 	protected $action = 'handling';
+
+	/**
+	 * A hook before main process executing.
+	 *
+	 * @return  void
+	 */
+	protected function prepareExecute()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+
+		parent::prepareExecute();
+	}
 }

@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Contacts\Batch;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Controller\Batch\AbstractBatchController;
 
 /**
@@ -32,4 +33,16 @@ class DoneController extends AbstractBatchController
 	protected $data = [
 		'state' => 2
 	];
+
+	/**
+	 * A hook before main process executing.
+	 *
+	 * @return  void
+	 */
+	protected function prepareExecute()
+	{
+		$this->langPrefix = LunaHelper::getLangPrefix();
+
+		parent::prepareExecute();
+	}
 }
