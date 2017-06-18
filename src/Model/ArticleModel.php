@@ -39,10 +39,9 @@ class ArticleModel extends ItemModel implements StateRepositoryInterface
 		{
 			$commentsModel = new CommentsModel;
 
-			$commentsModel->addFilter('comment.state', 1);
-			$commentsModel->addFilter('comment.target_id', $item->id);
-			$commentsModel->addFilter('comment.type', 'article');
-			$commentsModel['list.ordering'] = 'ordering';
+			$commentsModel->published(true);
+			$commentsModel->target('article', $item->id);
+			$commentsModel->ordering('comment.ordering', 'ASC');
 
 			$item->comments = $commentsModel->getItems();
 		}

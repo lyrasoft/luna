@@ -79,7 +79,7 @@ class CommentModel extends AdminModel
 	 *
 	 * @return  void
 	 */
-	public function setOrderPosition(Record $record, $position = self::ORDER_POSITION_LAST)
+	public function setOrderPosition(Record $record, $position = self::ORDER_POSITION_FIRST)
 	{
 		parent::setOrderPosition($record, $position);
 	}

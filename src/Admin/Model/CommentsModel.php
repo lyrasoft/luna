@@ -73,8 +73,7 @@ class CommentsModel extends ListModel
 			'model' => $this,
 			'query' => $query,
 			'type'  => $this['comment.type']
-		]
-		);
+		]);
 	}
 
 	/**

@@ -15,5 +15,29 @@ namespace Lyrasoft\Luna\Model;
  */
 class CommentsModel extends \Lyrasoft\Luna\Admin\Model\CommentsModel
 {
+	/**
+	 * published
+	 *
+	 * @param bool|int $state
+	 *
+	 * @return  static
+	 */
+	public function published($state = true)
+	{
+		return $this->addFilter('comment.state', (int) $state);
+	}
 
+	/**
+	 * target
+	 *
+	 * @param string $type
+	 * @param int    $id
+	 *
+	 * @return  static
+	 */
+	public function target($type, $id)
+	{
+		return $this->addFilter('comment.type', $type)
+			->addFilter('comment.target_id', $id);
+	}
 }

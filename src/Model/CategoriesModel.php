@@ -391,7 +391,7 @@ class CategoriesModel extends ListModel implements StateRepositoryInterface, Loc
 	/**
 	 * published
 	 *
-	 * @param bool $published
+	 * @param bool|int $published
 	 *
 	 * @return static
 	 */

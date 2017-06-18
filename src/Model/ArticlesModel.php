@@ -233,7 +233,7 @@ class ArticlesModel extends ListModel implements ContentRepositoryInterface
 	/**
 	 * published
 	 *
-	 * @param bool $bool
+	 * @param bool|int $bool
 	 *
 	 * @return static
 	 */

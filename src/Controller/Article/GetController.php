@@ -62,7 +62,7 @@ class GetController extends ItemDisplayController
 	 *
 	 * Throw exception with 4xx code to block unauthorised access.
 	 *
-	 * @return  void
+	 * @return  bool
 	 *
 	 * @throws \RuntimeException
 	 * @throws RouteNotFoundException
@@ -90,6 +90,8 @@ class GetController extends ItemDisplayController
 				throw new RouteNotFoundException(sprintf('Language %s not support for this article', Locale::getLocale()), 404);
 			}
 		}
+
+		return true;
 	}
 
 }

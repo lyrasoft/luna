@@ -56,7 +56,7 @@
 
     @endif
 
-    @if (property_exists($item, 'comments'))
+    @if ($item->comments !== null)
     <hr />
 
     <div id="comments">
@@ -72,7 +72,10 @@
                 <div class="col-xs-11">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">{{ $comment->user_name }}</h3>
+                            <h3 class="panel-title">
+                                {{ $comment->user_name }}
+                                <small class="pull-right">{{ $comment->created }}</small>
+                            </h3>
                         </div>
                         <div class="panel-body">
                             {!! nl2br($this->escape($comment->content)) !!}

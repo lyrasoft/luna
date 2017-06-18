@@ -140,7 +140,7 @@ class TagsModel extends ListModel
 	/**
 	 * published
 	 *
-	 * @param bool $state
+	 * @param bool|int $state
 	 *
 	 * @return  static
 	 */
