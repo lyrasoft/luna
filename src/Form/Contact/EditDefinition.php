@@ -17,7 +17,7 @@ use Windwalker\Validator\Rule;
 /**
  * The EditDefinition class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2
  */
 class EditDefinition extends AbstractFieldDefinition
 {

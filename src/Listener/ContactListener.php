@@ -16,7 +16,7 @@ use Windwalker\Event\Event;
 /**
  * The ContactListener class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2
  */
 class ContactListener
 {

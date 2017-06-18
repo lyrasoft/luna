@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Repository;
 /**
  * The StateRepositoryInterface class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2
  */
 interface StateRepositoryInterface
 {

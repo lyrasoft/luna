@@ -19,7 +19,7 @@ use Windwalker\String\SimpleTemplate;
 /**
  * The ContactMessage class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2
  */
 class ContactMessage extends MailMessage
 {

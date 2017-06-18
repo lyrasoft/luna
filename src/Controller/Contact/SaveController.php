@@ -18,7 +18,7 @@ use Windwalker\DataMapper\Entity\Entity;
 /**
  * The SaveController class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2
  */
 class SaveController extends AbstractSaveController
 {

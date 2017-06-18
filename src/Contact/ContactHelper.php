@@ -14,7 +14,7 @@ use Windwalker\Core\Language\Translator;
 /**
  * The ContactHelper class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2
  */
 class ContactHelper
 {
