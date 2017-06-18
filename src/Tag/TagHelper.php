@@ -71,9 +71,7 @@ class TagHelper
 
 		if (!$type && !$targetId)
 		{
-			$tagMapper = new TagMapper;
-
-			return $tagMapper->find($conditions);
+			return TagMapper::find($conditions);
 		}
 
 		$conditions['map.type'] = $type;

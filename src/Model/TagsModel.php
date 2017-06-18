@@ -8,10 +8,12 @@
 
 namespace Lyrasoft\Luna\Model;
 
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Model\ListModel;
 use Windwalker\Query\Query;
+use Windwalker\Query\QueryElement;
 
 /**
  * The CategoriesModel class.
@@ -32,7 +34,9 @@ class TagsModel extends ListModel
 	 *
 	 * @var  array
 	 */
-	protected $allowFields = [];
+	protected $allowFields = [
+		'locale'
+	];
 
 	/**
 	 * Property fieldMapping.
@@ -73,6 +77,7 @@ class TagsModel extends ListModel
 	 */
 	protected function postGetQuery(Query $query)
 	{
+		$query->group('tag.id');
 	}
 
 	/**
@@ -95,7 +100,18 @@ class TagsModel extends ListModel
 	 */
 	protected function configureFilters(FilterHelperInterface $filterHelper)
 	{
-		// Add your logic
+		$filterHelper->setHandler('locale', function(Query $query, $field, $value)
+		{
+			if ('' !== (string) $value)
+			{
+				$langs = [
+					$query->quote('*'),
+					$query->quote($value),
+				];
+
+				$query->where('tag.language ' . new QueryElement('IN()', $langs));
+			}
+		});
 	}
 
 	/**
@@ -119,5 +135,46 @@ class TagsModel extends ListModel
 	protected function configureSearches(FilterHelperInterface $searchHelper)
 	{
 		// Add your logic
+	}
+
+	/**
+	 * published
+	 *
+	 * @param bool $state
+	 *
+	 * @return  static
+	 */
+	public function published($state = true)
+	{
+		return $this->addFilter('tag.state', (int) $state);
+	}
+
+	/**
+	 * locale
+	 *
+	 * @param string $locale
+	 *
+	 * @return  static
+	 */
+	public function locale($locale)
+	{
+		return $this->addFilter('locale', $locale);
+	}
+
+	/**
+	 * onlyAvailable
+	 *
+	 * @return  static
+	 */
+	public function onlyAvailable()
+	{
+		$this->published(true);
+
+		if (Locale::isEnabled(Locale::CLIENT_CURRENT))
+		{
+			$this->locale(Locale::getLocale());
+		}
+
+		return $this;
 	}
 }
