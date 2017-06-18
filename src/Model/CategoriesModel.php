@@ -10,7 +10,6 @@ namespace Lyrasoft\Luna\Model;
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Language\Locale;
-use Lyrasoft\Luna\Repository\CategorizedRepositoryInterface;
 use Lyrasoft\Luna\Repository\LocaleRepositoryInterface;
 use Lyrasoft\Luna\Repository\StateRepositoryInterface;
 use Lyrasoft\Luna\Repository\ViewAccessRepositoryInterface;

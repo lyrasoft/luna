@@ -6,8 +6,8 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-use Lyrasoft\Luna\Admin\DataMapper\ContactMapper;
 use Faker\Factory;
+use Lyrasoft\Luna\Admin\DataMapper\ContactMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;

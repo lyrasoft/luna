@@ -15,7 +15,6 @@ use Phoenix\Controller\Display\ItemDisplayController;
 use Windwalker\Core\Model\ModelRepository;
 use Windwalker\Core\Security\Exception\UnauthorizedException;
 use Windwalker\Core\View\AbstractView;
-use Windwalker\Data\DataInterface;
 use Windwalker\Router\Exception\RouteNotFoundException;
 
 /**

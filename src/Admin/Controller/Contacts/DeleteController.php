@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Admin\Controller\Contacts;
 
 use Phoenix\Controller\Batch\AbstractDeleteController;
-use Windwalker\Core\Controller\Traits\CsrfProtectionTrait;
 
 /**
  * The DeleteController class.

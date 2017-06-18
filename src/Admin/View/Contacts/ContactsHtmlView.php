@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Admin\View\Contacts;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Phoenix\Html\State\IconButton;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\CoreScript;
 use Phoenix\Script\PhoenixScript;

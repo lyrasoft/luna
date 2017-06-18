@@ -10,13 +10,9 @@ namespace Lyrasoft\Luna\Controller\Contact;
 
 use Lyrasoft\Luna\Model\ContactModel;
 use Lyrasoft\Luna\View\Contact\ContactHtmlView;
-use Phoenix\Controller\Display\DisplayController;
 use Phoenix\Controller\Display\EditDisplayController;
 use Windwalker\Core\Model\ModelRepository;
-use Windwalker\Core\Security\Exception\UnauthorizedException;
 use Windwalker\Core\View\AbstractView;
-use Windwalker\Data\DataInterface;
-use Windwalker\Router\Exception\RouteNotFoundException;
 
 /**
  * The GetController class.

@@ -9,12 +9,10 @@
 namespace Lyrasoft\Luna\View\Article;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Language\Locale;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\DataInterface;
-use Windwalker\Router\Exception\RouteNotFoundException;
 use Windwalker\String\Mbstring;
 
 /**

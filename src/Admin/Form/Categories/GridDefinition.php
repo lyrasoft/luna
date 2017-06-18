@@ -8,12 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Categories;
 
-use Lyrasoft\Luna\Admin\Field\Category\CategoryListField;
-use Lyrasoft\Luna\Admin\Field\Language\LanguageListField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
-use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
