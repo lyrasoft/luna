@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Comment;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
@@ -33,13 +34,6 @@ class CommentModalField extends ModalField
 	protected $view = 'comments';
 
 	/**
-	 * Property package.
-	 *
-	 * @var  string
-	 */
-	protected $package = 'admin';
-
-	/**
 	 * Property titleField.
 	 *
 	 * @var  string
@@ -52,4 +46,18 @@ class CommentModalField extends ModalField
 	 * @var  string
 	 */
 	protected $keyField = 'id';
+
+	/**
+	 * buildInput
+	 *
+	 * @param array $attrs
+	 *
+	 * @return  string
+	 */
+	public function buildInput($attrs)
+	{
+		$this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
+
+		return parent::buildInput($attrs);
+	}
 }

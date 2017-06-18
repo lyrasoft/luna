@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Language;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
@@ -33,13 +34,6 @@ class LanguageModalField extends ModalField
 	protected $view = 'languages';
 
 	/**
-	 * Property package.
-	 *
-	 * @var  string
-	 */
-	protected $package = 'admin';
-
-	/**
 	 * Property titleField.
 	 *
 	 * @var  string
@@ -54,13 +48,17 @@ class LanguageModalField extends ModalField
 	protected $keyField = 'id';
 
 	/**
-	 * prepareAttributes
+	 * buildInput
 	 *
-	 * @return  array
+	 * @param array $attrs
+	 *
+	 * @return  string
 	 */
-	public function prepareAttributes()
+	public function buildInput($attrs)
 	{
-		return parent::prepareAttributes();
+		$this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
+
+		return parent::buildInput($attrs);
 	}
 
 	/**

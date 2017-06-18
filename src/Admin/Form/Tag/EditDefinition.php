@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Tag;
 
+use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
@@ -24,6 +24,7 @@ use Windwalker\Form\Form;
 class EditDefinition extends AbstractFieldDefinition
 {
 	use PhoenixFieldTrait;
+	use LunaFieldTrait;
 
 	/**
 	 * Define the form fields.

@@ -90,5 +90,6 @@ return [
 		'editor' => \Lyrasoft\Luna\Listener\EditorListener::class,
 		'language' => \Lyrasoft\Luna\Listener\LanguageListener::class,
 		'error' => \Lyrasoft\Luna\Listener\ErrorListener::class,
+		'contact' => \Lyrasoft\Luna\Listener\ContactListener::class
 	]
 ];

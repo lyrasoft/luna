@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Module;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
@@ -33,13 +34,6 @@ class ModuleModalField extends ModalField
 	protected $view = 'modules';
 
 	/**
-	 * Property package.
-	 *
-	 * @var  string
-	 */
-	protected $package = 'admin';
-
-	/**
 	 * Property titleField.
 	 *
 	 * @var  string
@@ -52,4 +46,18 @@ class ModuleModalField extends ModalField
 	 * @var  string
 	 */
 	protected $keyField = 'id';
+
+	/**
+	 * buildInput
+	 *
+	 * @param array $attrs
+	 *
+	 * @return  string
+	 */
+	public function buildInput($attrs)
+	{
+		$this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
+
+		return parent::buildInput($attrs);
+	}
 }

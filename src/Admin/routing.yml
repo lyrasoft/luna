@@ -130,6 +130,34 @@ modules:
         active:
             mainmenu: modules
 
+# Contact
+contact:
+    pattern: /contact(/id)
+    controller: Contact
+    extra:
+        layout: contact
+        menu:
+            mainmenu: contacts
+
+contact_preview:
+    pattern: /contact-preview
+    controller: Contact
+    extra:
+        format: json
+
+# Contacts
+contacts:
+    pattern: /contacts(/page)
+    controller: Contacts
+    action:
+        post: CopyController
+        patch: BatchController
+        put: FilterController
+    extra:
+        layout: contacts
+        menu:
+            mainmenu: contacts
+
 # Luna
 _luna_img_upload:
     pattern: /_luna/image/upload
@@ -139,12 +167,12 @@ _luna_img_upload:
 
 _luna_ajax_tags:
     pattern: /_luna/ajax/tags
-    controller: Luna\Ajax
+    controller: Lyrasoft\Luna\Admin\Ajax
     action:
         get: TagsGetController
 
 _luna_ajax_tag:
     pattern: /_luna/ajax/tag
-    controller: Luna\Ajax
+    controller: Lyrasoft\Luna\Admin\Ajax
     action:
         post|put|patch: TagSaveController

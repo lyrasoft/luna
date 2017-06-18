@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Comment;
 
-use Lyrasoft\Warder\Admin\Field\User\UserModalField;
+use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
@@ -21,6 +21,8 @@ use Windwalker\Form\Form;
  */
 class EditDefinition extends AbstractFieldDefinition
 {
+	use LunaFieldTrait;
+
 	/**
 	 * Define the form fields.
 	 *

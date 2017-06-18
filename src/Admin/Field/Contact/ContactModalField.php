@@ -1,37 +1,37 @@
 <?php
 /**
- * Part of Admin project.
+ * Part of Luna project.
  *
  * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Admin\Field\Tag;
+namespace Lyrasoft\Luna\Admin\Field\Contact;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
 /**
- * The TagModalField class.
+ * The ContactModalField class.
  *
  * @since  1.0
  */
-class TagModalField extends ModalField
+class ContactModalField extends ModalField
 {
 	/**
 	 * Property table.
 	 *
 	 * @var  string
 	 */
-	protected $table = LunaTable::TAGS;
+	protected $table = LunaTable::CONTACTS;
 
 	/**
 	 * Property view.
 	 *
 	 * @var  string
 	 */
-	protected $view = 'tags';
+	protected $view = 'contacts';
 
 	/**
 	 * Property titleField.

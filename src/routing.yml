@@ -47,3 +47,12 @@ change_language:
     controller: Language
     action:
         '*': ChangeController
+
+# Contact
+contact:
+    pattern: /contact
+    controller: Contact
+    extra:
+        layout: contact
+        active:
+            mainmenu: contact

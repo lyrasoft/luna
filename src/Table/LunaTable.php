@@ -17,6 +17,7 @@ define('LUNA_TABLE_TAG_MAPS',   LunaHelper::getTable('tag_maps'));
 define('LUNA_TABLE_LANGUAGES',  LunaHelper::getTable('languages'));
 define('LUNA_TABLE_COMMENTS',   LunaHelper::getTable('comments'));
 define('LUNA_TABLE_MODULES',    LunaHelper::getTable('modules'));
+define('LUNA_TABLE_CONTACTS',   LunaHelper::getTable('contacts'));
 
 /**
  * The Table class.
@@ -25,19 +26,21 @@ define('LUNA_TABLE_MODULES',    LunaHelper::getTable('modules'));
  */
 abstract class LunaTable
 {
-	const CATEGORIES = 'categories';
+	const CATEGORIES = LUNA_TABLE_CATEGORIES;
 
-	const ARTICLES = 'articles';
+	const ARTICLES = LUNA_TABLE_ARTICLES;
 
-	const TAGS = 'tags';
+	const TAGS = LUNA_TABLE_TAGS;
 
-	const TAG_MAPS = 'tag_maps';
+	const TAG_MAPS = LUNA_TABLE_TAG_MAPS;
 
-	const LANGUAGES = 'languages';
+	const LANGUAGES = LUNA_TABLE_LANGUAGES;
 
-	const COMMENTS = 'comments';
+	const COMMENTS = LUNA_TABLE_COMMENTS;
 
-	const MODULES = 'modules';
+	const MODULES = LUNA_TABLE_MODULES;
+
+	const CONTACTS = LUNA_TABLE_CONTACTS;
 
 	// @muse-placeholder  db-table  Do not remove this.
 }
