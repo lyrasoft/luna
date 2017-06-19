@@ -141,7 +141,7 @@
                             @if (property_exists($item, 'alias'))
                                 <div class="article-alias-field" style="padding-left: 10px">
                                     <small class="text-muted">
-                                        <span class="glyphicon glyphicon-globe"></span>
+                                        <span class="glyphicon glyphicon-globe fa fa-globe"></span>
                                         {{ $item->alias }}
                                     </small>
                                 </div>
@@ -150,7 +150,7 @@
                             @if ($item->category_title)
                                 <div class="article-category-field" style="padding-left: 10px">
                                     <small class="text-muted">
-                                        <span class="glyphicon glyphicon-folder-close"></span>
+                                        <span class="glyphicon glyphicon-folder-close fa fa-folder"></span>
                                         <a class="text-muted" href="{{ $router->route('articles', ['filter' => ['article.category_id' => $item->category_id]]) }}">
                                             {{ $item->category_title }}
                                         </a>
