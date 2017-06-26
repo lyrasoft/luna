@@ -21,6 +21,7 @@ use Windwalker\Core\View\AbstractView;
 use Windwalker\Data\Data;
 use Windwalker\Filter\InputFilter;
 use Windwalker\Router\Exception\RouteNotFoundException;
+use Windwalker\Utilities\Arr;
 
 /**
  * The GetController class.
@@ -85,14 +86,14 @@ class GetController extends ListDisplayController
 	 */
 	protected function prepareExecute()
 	{
-		$matched = $this->router->getMatched();
+		$params = $this->router->getMatched()->getExtra('category');
 
-		$this->type  = $matched->getExtra('category.type', 'article');
-		$this->model = $matched->getExtra('category.model', 'Articles');
-		$this->view  = $matched->getExtra('category.view', 'Category');
-		$this->deep  = $matched->getExtra('category.deep', true);
-		$this->defaultOrdering = $matched->getExtra('category.ordering', 'article.created');
-		$this->defaultDirection = $matched->getExtra('category.direction', 'DESC');
+		$this->type  = Arr::get($params, 'type', 'article');
+		$this->model = Arr::get($params, 'model', 'Articles');
+		$this->view  = Arr::get($params, 'view', 'Category');
+		$this->deep  = Arr::get($params, 'deep', true);
+		$this->defaultOrdering = Arr::get($params, 'ordering', 'article.created');
+		$this->defaultDirection = Arr::get($params, 'direction', 'DESC');
 
 		parent::prepareExecute();
 	}
