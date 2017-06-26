@@ -162,7 +162,7 @@
                         {{-- CREATED --}}
                         <td>
                             <span class="hasTooltip" title="{{ $datetime::toLocalTime($item->created, 'Y-m-d H:i:s') }}">
-                                {{ $datetime::toLocalTime($item->created, 'Y-m-d') }}
+                                {{ $datetime::toLocalTime($item->created, 'Y-m-d H:i:s') }}
                             </span>
                         </td>
 
