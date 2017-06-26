@@ -47,18 +47,6 @@ class ContactRecord extends Record
 	];
 
 	/**
-	 * setDetailsValue
-	 *
-	 * @param mixed $value
-	 *
-	 * @return  void
-	 */
-	protected function setDetailsValue($value)
-	{
-		$this->data['details'] = is_string($value) ? $value : json_encode($value);
-	}
-
-	/**
 	 * onAfterLoad
 	 *
 	 * @param Event $event
