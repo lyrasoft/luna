@@ -51,6 +51,9 @@ class GetController extends ItemDisplayController
 
 		if ($this->format === 'html')
 		{
+			// Keep HTTP status text as default if in HTML
+			$this->response = $this->response->withStatus($this->response->getStatusCode());
+
 			$this->view['exception'] = $this->input->getRaw('exception');
 		}
 		else
