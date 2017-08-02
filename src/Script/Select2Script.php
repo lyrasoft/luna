@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Asset\AbstractScript;
+use Windwalker\Utilities\Arr;
 use Windwalker\Utilities\ArrayHelper;
 
 /**
@@ -64,21 +65,21 @@ CSS
 	 */
 	public static function select2($selector, $options = [])
 	{
-		$asset = static::getAsset();
-
 		static::core();
 
-		if (!static::inited(__METHOD__, func_get_args()))
+		if (!static::inited(__METHOD__, get_defined_vars()))
 		{
 			$defaultOptions = [];
 
-			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
+			$chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
+
+			$options = static::getJSObject($defaultOptions, $options);
 
 			$js = <<<JS
 jQuery(document).ready(function($) {
 	var element = $('$selector');
 
-	if (element.chosen) {
+	if (element.is('$chosenSelector')) {
 		element.chosen('destroy');
 	}
 
@@ -86,7 +87,7 @@ jQuery(document).ready(function($) {
 });
 JS;
 
-			$asset->internalScript($js);
+			static::internalJS($js);
 		}
 	}
 
@@ -101,11 +102,9 @@ JS;
 	 */
 	public static function ajaxSelect2($selector, $url, $options = [])
 	{
-		$asset = static::getAsset();
-
 		static::core();
 
-		if (!static::inited(__METHOD__, func_get_args()))
+		if (!static::inited(__METHOD__, get_defined_vars()))
 		{
 			$process = <<<JS
 \\function (data, params) {
@@ -128,13 +127,15 @@ JS;
 				'tokenSeparators' => [',']
 			];
 
-			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
+			$chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
+
+			$options = static::getJSObject($defaultOptions, $options);
 
 			$js = <<<JS
 jQuery(document).ready(function($) {
 	var element = $('$selector');
 
-	if (element.chosen) {
+	if (element.is('$chosenSelector')) {
 		element.chosen('destroy');
 	}
 
@@ -142,7 +143,7 @@ jQuery(document).ready(function($) {
 });
 JS;
 
-			$asset->internalScript($js);
+			static::internalJS($js);
 		}
 	}
 
