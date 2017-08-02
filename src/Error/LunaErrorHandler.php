@@ -9,10 +9,10 @@
 namespace Lyrasoft\Luna\Error;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Windwalker\Core\Error\ErrorManager;
 use Windwalker\Core\Error\Handler\ErrorHandlerInterface;
 use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Http\Response\HtmlResponse;
-use Windwalker\String\Mbstring;
 use Windwalker\Utilities\Queue\PriorityQueue;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
@@ -81,20 +81,10 @@ class LunaErrorHandler implements ErrorHandlerInterface
 		$package->app->set('route.extra.layout', 'error');
 		$package->app->input->set('exception', $exception);
 
-		$code = $exception->getCode();
-		$message = $exception->getMessage();
-
-		if ($code < 400 || $code >= 500)
-		{
-			$code = 500;
-		}
-
-		if (Mbstring::isUtf8($message))
-		{
-			$message = rawurlencode($message);
-		}
-
-		$response = (new HtmlResponse)->withStatus($code, $message);
+		$response = (new HtmlResponse)->withStatus(
+			ErrorManager::normalizeCode($exception->getCode()),
+			ErrorManager::normalizeMessage($exception->getMessage())
+		);
 
 		$response = $package->execute('Error\GetController', $package->app->request, $response);
 
