@@ -64,6 +64,7 @@ class EditDefinition extends AbstractFieldDefinition
 				// Category
 				$this->categoryList('category_id')
 					->categoryType('article')
+					->class('hasChosen')
 					->label(Translator::translate($langPrefix . 'category.title'));
 			}
 
