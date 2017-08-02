@@ -78,6 +78,8 @@
 
             var self = this;
 
+            this.editor.trigger('image-upload-start');
+
             $.ajax({
                 data: data,
                 type: "POST",
@@ -88,12 +90,19 @@
                 success: function(response) {
                     if (response.success) {
                         self.editor.summernote("insertImage", response.data.url);
+                        self.editor.trigger('image-upload-success');
                     } else {
+                        // TODO: Totally use HTTP error in next major version
                         alert('Image upload fail!!!');
+                        self.editor.trigger('image-upload-error');
                     }
                 },
                 error: function(error) {
-                    console.log(error.responseJSON.message);
+                    console.error(error.responseJSON.message);
+                    self.editor.trigger('image-upload-error');
+                },
+                complete: function () {
+                    self.editor.trigger('image-upload-complete');
                 }
             });
         }

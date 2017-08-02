@@ -73,6 +73,10 @@ class TinymceEditorField extends AbstractEditorField
 			// Image uploader
 			$options['images_upload_handler'] = <<<JS
 \\function (blobInfo, success, failure) {
+    var editorElement = jQuery('#{$this->getId()}');
+    
+    editorElement.trigger('image-upload-start');
+    
     var xhr, formData;
 
     xhr = new XMLHttpRequest;
@@ -81,21 +85,26 @@ class TinymceEditorField extends AbstractEditorField
 
     xhr.onload = function() {
       var json;
+      editorElement.trigger('image-upload-complete');
 
-      if (xhr.status != 200) {
-        failure('HTTP Error: ' + xhr.status);
+      if (xhr.status !== 200) {
+        failure('HTTP Error: ' + decodeURIComponent(xhr.statusText));
+        editorElement.trigger('image-upload-error');
         return;
       }
 
       json = JSON.parse(xhr.responseText);
 
-      if (!json || typeof json.data.url != 'string') {
+      if (!json || typeof json.data.url !== 'string') {
         failure('Invalid JSON: ' + xhr.responseText);
-        console.log('Invalid JSON: ' + xhr.responseText, 'error');
+        console.error('Invalid JSON: ' + xhr.responseText);
+        editorElement.trigger('image-upload-error');
         return;
       }
 
       success(json.data.url);
+      
+      editorElement.trigger('image-upload-success');
     };
 
     formData = new FormData;
