@@ -14,6 +14,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Windwalker\Cache\Cache;
 use Windwalker\Cache\DataHandler\RawDataHandler;
+use Windwalker\Cache\Serializer\RawSerializer;
 use Windwalker\Cache\Storage\ArrayStorage;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
@@ -355,7 +356,7 @@ class ModuleHelper
 		{
 			Ioc::getContainer()->share($key, function()
 			{
-				return new Cache(new ArrayStorage, new RawDataHandler);
+				return new Cache(new ArrayStorage, new RawSerializer);
 			});
 		}
 

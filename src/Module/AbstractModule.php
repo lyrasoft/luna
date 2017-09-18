@@ -349,7 +349,7 @@ abstract class AbstractModule
 	{
 		$package = LunaHelper::getPackage()->getCurrentPackage();
 
-		$globals = RendererHelper::getGlobalPaths();
+		$globals = RendererHelper::getGlobals();
 
 		$globals['router'] = $package->router;
 		$globals['package'] = PackageHelper::getCurrentPackage();

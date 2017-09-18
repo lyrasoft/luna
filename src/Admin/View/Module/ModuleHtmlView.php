@@ -116,7 +116,7 @@ class ModuleHtmlView extends EditView
 	protected function prepareScripts()
 	{
 		PhoenixScript::core();
-		PhoenixScript::chosen();
+		PhoenixScript::chosen('.hasChosen');
 		PhoenixScript::formValidation();
 		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
 		BootstrapScript::buttonRadio();

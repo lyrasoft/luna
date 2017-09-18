@@ -167,12 +167,12 @@ _luna_img_upload:
 
 _luna_ajax_tags:
     pattern: /_luna/ajax/tags
-    controller: Lyrasoft\Luna\Admin\Ajax
+    controller: Lyrasoft\Luna\Admin\Controller\Luna\Ajax
     action:
         get: TagsGetController
 
 _luna_ajax_tag:
     pattern: /_luna/ajax/tag
-    controller: Lyrasoft\Luna\Admin\Ajax
+    controller: Lyrasoft\Luna\Admin\Controller\Luna\Ajax
     action:
         post|put|patch: TagSaveController

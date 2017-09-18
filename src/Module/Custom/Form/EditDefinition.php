@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Module\Custom\Form;
 
-use Windwalker\Form\FieldDefinitionInterface;
+use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Form\Form;
 
 /**
@@ -16,7 +16,7 @@ use Windwalker\Form\Form;
  *
  * @since  1.0
  */
-class EditDefinition implements FieldDefinitionInterface
+class EditDefinition extends AbstractFieldDefinition
 {
 	/**
 	 * Define the form fields.
@@ -25,12 +25,12 @@ class EditDefinition implements FieldDefinitionInterface
 	 *
 	 * @return  void
 	 */
-	public function define(Form $form)
+	public function doDefine(Form $form)
 	{
-//		$form->wrap('basic', null, function (Form $form)
-//		{
-//			$form->text('test')
-//				->label('Test');
-//		});
+		$this->fieldset('basic', function (Form $form)
+		{
+			$this->text('test')
+				->label('Test');
+		});
 	}
 }
