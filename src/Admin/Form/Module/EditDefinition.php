@@ -56,7 +56,7 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->fieldset('text', function(Form $form) use ($langPrefix)
 		{
 			// Content
-			$this->summernoteEditor('content')
+			$this->tinymceEditor('content')
 				->label(Translator::translate($langPrefix . 'module.field.content'))
 				->rows( 10)
 				->editorOptions([
