@@ -27,10 +27,10 @@ class EditDefinition extends AbstractFieldDefinition
 	 */
 	public function doDefine(Form $form)
 	{
-		$this->fieldset('basic', function (Form $form)
-		{
-			$this->text('test')
-				->label('Test');
-		});
+//		$this->fieldset('basic', function (Form $form)
+//		{
+//			$this->text('test')
+//				->label('Test');
+//		});
 	}
 }

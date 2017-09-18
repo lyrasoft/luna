@@ -81,7 +81,7 @@ class EditDefinition extends AbstractFieldDefinition
 
 		$this->group('details', function (Form $form) use ($langPrefix)
 		{
-			$this->text('address');
+			// Add details here...
 		});
 	}
 }
