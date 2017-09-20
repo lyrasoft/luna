@@ -8,9 +8,12 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Module;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
+use Windwalker\Core\Language\Translator;
+use Windwalker\Html\Option;
 use Windwalker\Ioc;
 
 /**
@@ -39,7 +42,7 @@ class PositionListField extends ItemListField
 	 *
 	 * @var  string
 	 */
-	protected $textField = 'position';
+	protected $textField = 'name';
 
 	/**
 	 * Property ordering.
@@ -95,7 +98,37 @@ class PositionListField extends ItemListField
 			call_user_func($postQuery, $query, $this);
 		}
 
-		return (array) $db->setQuery($query)->loadAll();
+		$items = (array) $db->setQuery($query)->loadColumn();
+
+		$items = array_combine($items, $items);
+
+		$positions = LunaHelper::getPackage()->get('module.positions');
+
+		foreach ($positions as $position => $name)
+		{
+			if (is_numeric($position))
+			{
+				$position = $name;
+			}
+
+			$items[$position] = $name;
+		}
+
+		ksort($items);
+
+		$options = [];
+
+		foreach ($items as $k => $n)
+		{
+			$name = $k === $n ? $n : $k . ' (' . Translator::translate($n) . ')';
+
+			$options[] = (object) [
+				'name' => $name,
+				'position' => $k
+			];
+		}
+
+		return $options;
 	}
 
 	/**
