@@ -13,7 +13,6 @@ use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Html\Option;
 use Windwalker\Ioc;
 
 /**

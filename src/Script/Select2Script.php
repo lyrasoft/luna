@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Script;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Asset\AbstractScript;
 use Windwalker\Utilities\Arr;
-use Windwalker\Utilities\ArrayHelper;
 
 /**
  * The Select2Script class.

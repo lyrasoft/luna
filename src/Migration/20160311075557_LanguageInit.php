@@ -10,9 +10,6 @@ use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Symfony\Component\Yaml\Yaml;
 use Windwalker\Core\Migration\AbstractMigration;
-use Windwalker\Database\Schema\Column;
-use Windwalker\Database\Schema\DataType;
-use Windwalker\Database\Schema\Key;
 use Windwalker\Database\Schema\Schema;
 
 /**
