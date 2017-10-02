@@ -104,7 +104,7 @@ class PositionListField extends ItemListField
 
 		$positions = LunaHelper::getPackage()->get('module.positions');
 
-		foreach ($positions as $position => $name)
+		foreach ((array) $positions as $position => $name)
 		{
 			if (is_numeric($position))
 			{

@@ -51,29 +51,29 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th width="1%">
+                    <th width="1%" class="text-nowrap">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;" width="10%">
+                    <th style="min-width: 90px;" width="10%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'tag.field.state', 'tag.state') !!}
                     </th>
 
                     {{-- TITLE --}}
-                    <th>
+                    <th class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'tag.field.title', 'tag.title') !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                     {{-- AUTHOR --}}
-                        <th width="20%">
+                        <th width="20%" class="text-nowrap">
                             {!! $grid->sortTitle($luna->langPrefix . 'tag.field.author', 'tag.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
-                    <th width="10%">
+                    <th width="10%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'tag.field.created', 'tag.created') !!}
                     </th>
 
@@ -83,7 +83,7 @@
                     {{--</th>--}}
 
                     {{-- ID --}}
-                    <th width="1%">
+                    <th width="1%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'tag.field.id', 'tag.id') !!}
                     </th>
                 </tr>

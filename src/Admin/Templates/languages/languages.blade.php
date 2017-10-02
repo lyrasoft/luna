@@ -51,52 +51,52 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th width="1%">
+                    <th width="1%" class="text-nowrap">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;" width="7%">
+                    <th style="min-width: 90px;" width="7%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'language.field.state', 'language.state') !!}
                     </th>
 
                     {{-- FLAG --}}
-                    <th width="1%">
+                    <th width="1%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'language.field.image', 'language.image') !!}
                     </th>
 
                     {{-- TITLE --}}
-                    <th>
+                    <th class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'language.field.title', 'language.title') !!}
                     </th>
 
                     {{-- TITLE --}}
-                    <th>
+                    <th class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'language.field.titlenative', 'language.title_native') !!}
                     </th>
 
                     {{-- ORDERING --}}
-                    <th width="5%" class="nowrap">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'language.field.ordering', 'language.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     {{-- CODE --}}
-                    <th class="5%">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'language.field.code', 'language.code') !!}
                     </th>
 
                     {{-- URL --}}
-                    <th class="5%">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'language.field.alias', 'language.alias') !!}
                     </th>
 
                     {{-- DELETE --}}
-                    <th class="3%">
+                    <th width="3%" class="text-nowrap">
                         @translate('phoenix.toolbar.delete')
                     </th>
 
                     {{-- ID --}}
-                    <th class="5%">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'language.field.id', 'language.id') !!}
                     </th>
                 </tr>

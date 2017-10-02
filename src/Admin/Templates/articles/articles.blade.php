@@ -51,12 +51,12 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th width="1%">
+                    <th width="1%" class="text-nowrap">
                         {!! $grid->checkboxesToggle(['duration' => 150]) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;" width="9%">
+                    <th style="min-width: 90px;" width="9%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'article.field.state', 'article.state') !!}
                     </th>
 
@@ -66,36 +66,36 @@
                     {{--</th>--}}
 
                     {{-- TITLE --}}
-                    <th>
+                    <th class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'article.field.title', 'article.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
-                    <th width="5%" class="nowrap">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'article.field.ordering', 'category.id, article.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {{-- AUTHOR --}}
-                        <th width="15%">
+                        <th width="15%" class="text-nowrap">
                             {!! $grid->sortTitle($luna->langPrefix . 'article.field.author', 'article.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
-                    <th width="8%">
+                    <th width="8%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'article.field.created', 'article.created') !!}
                     </th>
 
                     @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                         {{-- LANGUAGE --}}
-                        <th width="15%">
+                        <th width="15%" class="text-nowrap">
                             {!! $grid->sortTitle($luna->langPrefix . 'article.field.language', 'article.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
-                    <th width="5%">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'article.field.id', 'article.id') !!}
                     </th>
                 </tr>

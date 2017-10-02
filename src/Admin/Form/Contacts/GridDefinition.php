@@ -88,7 +88,7 @@ class GridDefinition extends AbstractFieldDefinition
 		 */
 		$this->group('batch', function (Form $form) use ($langPrefix)
 		{
-
+			//
 		});
 	}
 }

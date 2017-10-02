@@ -69,6 +69,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// State
 			$this->list('language.state')
 				->label('State')
+				->class('hasChosen')
 				// Add empty option to support single deselect button
 				->option('', '')
 				->option(Translator::translate($langPrefix . 'language.filter.state.select'), '')
@@ -85,17 +86,7 @@ class GridDefinition extends AbstractFieldDefinition
 		 */
 		$this->group('batch', function (Form $form) use ($langPrefix)
 		{
-			// Language
-			$this->list('language')
-				->label('Language')
-				->class('col-md-12')
-				->option('-- Select Language --', '')
-				->option('English', 'en-GB')
-				->option('Chinese Traditional', 'zh-TW');
-
-			// Author
-			$this->text('created_by')
-				->label('Author');
+			//
 		});
 	}
 }
