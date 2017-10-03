@@ -14,6 +14,7 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\PhoenixFieldTrait;
+use Windwalker\Core\Asset\Asset;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Form;
@@ -86,12 +87,13 @@ class EditDefinition extends AbstractFieldDefinition
 		// Text Fieldset
 		$this->fieldset('text', function(Form $form) use ($langPrefix)
 		{
-			// Introtext
+			// Text
 			$this->tinymceEditor('text')
 				->label(Translator::translate($langPrefix . 'article.field.introtext'))
 				->editorOptions([
 					'height' => 450
 				])
+				->contentCss([Asset::root() . '/upload/css/theme.css'])
 				->includes('readmore')
 				->rows(10);
 		});

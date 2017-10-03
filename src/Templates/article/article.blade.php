@@ -41,8 +41,8 @@
     </p>
     <hr />
     <h2>{{ $item->title }}</h2>
-    <p>{{ $item->introtext }}</p>
-    <p>{{ $item->fulltext }}</p>
+    <p>{!! $item->introtext !!}</p>
+    <p>{!! $item->fulltext !!}</p>
 
     @if ($item->tags->notNull())
         <hr />

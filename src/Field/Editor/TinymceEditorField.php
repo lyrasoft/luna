@@ -11,9 +11,13 @@ namespace Lyrasoft\Luna\Field\Editor;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\EditorScript;
 use Windwalker\Core\Asset\Asset;
+use Windwalker\Ioc;
+use Windwalker\Utilities\Arr;
 
 /**
- * The SummernoteEditorField class.
+ * The TinymceEditorField class.
+ *
+ * @method  mixed|$this  contentCss(string|array $value = null)
  *
  * @since  1.0
  */
@@ -43,22 +47,21 @@ class TinymceEditorField extends AbstractEditorField
 		$luna = LunaHelper::getPackage();
 		$options = (array) $this->get('options', []);
 
-		$options['plugins']     = [];
-		$options['content_css'] = Asset::root() . '/' . $luna->name . '/css/tinymce/content.css';
+		$defaultOptions['plugins'] = [];
 
 		if ($this->get('toolbar', static::TOOLBAR_FULL) === static::TOOLBAR_FULL)
 		{
-			$options['plugins'] = [
+			$defaultOptions['plugins'] = [
 				'advlist autolink lists link image charmap print preview hr anchor pagebreak',
 				'searchreplace wordcount visualblocks visualchars code fullscreen',
 				'insertdatetime media nonbreaking save table contextmenu directionality',
 				'emoticons template paste textcolor colorpicker textpattern imagetools'
 			];
 
-			$options['toolbar1'] = 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' .
+			$defaultOptions['toolbar1'] = 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' .
 				'bullist numlist outdent indent | link image media | table code | fullscreen';
 
-			$options['image_advtab'] = true;
+			$defaultOptions['image_advtab'] = true;
 		}
 
 		/*
@@ -68,13 +71,16 @@ class TinymceEditorField extends AbstractEditorField
 		{
 			$url = $luna->getCurrentPackage()->router->route('_luna_img_upload');
 
-			$options['paste_data_images'] = true;
+			$defaultOptions['paste_data_images'] = true;
+			$defaultOptions['remove_script_host'] = false;
+			$defaultOptions['relative_urls'] = false;
 
 			// Image uploader
-			$options['images_upload_handler'] = <<<JS
+			$defaultOptions['images_upload_url'] = $url;
+			$defaultOptions['images_upload_handler'] = <<<JS
 \\function (blobInfo, success, failure) {
     var editorElement = jQuery('#{$this->getId()}');
-    
+
     editorElement.trigger('image-upload-start');
     
     var xhr, formData;
@@ -154,9 +160,32 @@ jQuery(document).ready(function($) {
 });
 JS
 );
-			$options['plugins'][] = 'lunadragdrop';
+			$defaultOptions['plugins'][] = 'lunadragdrop';
 		}
 
+		$options = Arr::mergeRecursive($defaultOptions, $options);
+
+		// Set global settings
+		$contentCss = (array) Arr::get($options, 'content_css', $this->get('content_css'));
+
+		array_unshift($contentCss, Asset::root() . '/' . $luna->name . '/css/tinymce/content.css');
+
+		$options['content_css'] = implode(',', $contentCss);
+
 		EditorScript::tinymce('#' . $attrs['id'], $options);
+	}
+
+	/**
+	 * getAccessors
+	 *
+	 * @return  array
+	 *
+	 * @since   1.2.6
+	 */
+	protected function getAccessors()
+	{
+		return array_merge(parent::getAccessors(), [
+			'contentCss' => 'content_css'
+		]);
 	}
 }

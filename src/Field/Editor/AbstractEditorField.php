@@ -20,7 +20,7 @@ use Windwalker\Ioc;
  * @method  mixed|$this  excludes(string $value = null)
  * @method  mixed|$this  includes(string $value = null)
  * @method  mixed|$this  editorOptions(string $value = null)
- * @method  mixed|$this  imageUploadScript(string $value = null)
+ * @method  mixed|$this  imageUploadScript(bool $value = null)
  * @method  mixed|$this  toolbar(string $value = null)
  *
  * @since  1.0
