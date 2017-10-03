@@ -123,8 +123,6 @@ class LunaListener
 			$view['luna'] = $data;
 
 			// Paths
-//			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.locale'), PriorityQueue::LOW - 25);
-//			$renderer->addPath(WARDER_SOURCE . '/Templates/' . $name . '/' . $app->get('language.default'), PriorityQueue::LOW - 25);
 			$renderer->addPath(LUNA_SOURCE . '/Templates/' . strtolower($name), PriorityQueue::LOW - 25);
 		}
 		elseif ($this->luna->isAdmin())
@@ -139,8 +137,6 @@ class LunaListener
 			$view['luna'] = $data;
 
 			// Paths
-//			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.locale'), PriorityQueue::LOW - 25);
-//			$renderer->addPath(WARDER_SOURCE_ADMIN . '/Templates/' . $name . '/' . $app->get('language.default'), PriorityQueue::LOW - 25);
 			$renderer->addPath(LUNA_SOURCE_ADMIN . '/Templates/' . strtolower($name), PriorityQueue::LOW - 25);
 		}
 	}

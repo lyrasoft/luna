@@ -13,7 +13,6 @@ use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Html\Option;
 use Windwalker\Ioc;
 
 /**
@@ -104,7 +103,7 @@ class PositionListField extends ItemListField
 
 		$positions = LunaHelper::getPackage()->get('module.positions');
 
-		foreach ($positions as $position => $name)
+		foreach ((array) $positions as $position => $name)
 		{
 			if (is_numeric($position))
 			{

@@ -72,6 +72,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// State
 			$this->list('comment.state')
 				->label('State')
+				->class('hasChosen')
 				// Add empty option to support single deselect button
 				->option('', '')
 				->option(Translator::translate($langPrefix . 'comment.filter.state.select'), '')

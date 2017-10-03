@@ -8,9 +8,6 @@
 
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Migration\AbstractMigration;
-use Windwalker\Database\Schema\Column;
-use Windwalker\Database\Schema\DataType;
-use Windwalker\Database\Schema\Key;
 use Windwalker\Database\Schema\Schema;
 
 /**

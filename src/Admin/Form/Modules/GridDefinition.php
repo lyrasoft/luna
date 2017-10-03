@@ -73,6 +73,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// State
 			$this->list('module.state')
 				->label('State')
+				->class('hasChosen')
 				// Add empty option to support single deselect button
 				->option('', '')
 				->option(Translator::translate($langPrefix . 'module.filter.state.select'), '')
@@ -83,12 +84,14 @@ class GridDefinition extends AbstractFieldDefinition
 			// Position
 			$this->add('module.position', new PositionListField)
 				->label(Translator::translate($langPrefix . 'module.field.position'))
+				->class('hasChosen')
 				->option(Translator::translate($langPrefix . 'module.field.position.select'), '')
 				->onchange('this.form.submit()');
 
 			// Position
 			$this->add('module.type', new ModuleTypeListField)
 				->label(Translator::translate($langPrefix . 'module.field.type'))
+				->class('hasChosen')
 				->option(Translator::translate($langPrefix . 'module.field.type.select'), '')
 				->onchange('this.form.submit()');
 
@@ -97,6 +100,7 @@ class GridDefinition extends AbstractFieldDefinition
 				// Language
 				$this->languageList('article.language')
 					->label(Translator::translate($langPrefix . 'module.field.language'))
+					->class('hasChosen')
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*')
 					->onchange('this.form.submit()');
@@ -116,6 +120,7 @@ class GridDefinition extends AbstractFieldDefinition
 				// Language
 				$this->languageList('language')
 					->label(Translator::translate($langPrefix . 'module.field.language'))
+					->class('hasChosen')
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
 			}
@@ -123,6 +128,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// Position
 			$this->add('position', new PositionListField)
 				->label(Translator::translate($langPrefix . 'module.field.position'))
+				->class('hasChosen')
 				->option(Translator::translate($langPrefix . 'module.field.position.select'))
 				->set('allow_add', true);
 

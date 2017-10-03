@@ -56,49 +56,44 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th width="1%">
+                    <th width="1%" class="text-nowrap">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;" width="9%">
+                    <th style="min-width: 90px;" width="9%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'module.field.state', 'module.state') !!}
                     </th>
 
                     {{-- TITLE --}}
-                    <th>
+                    <th class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'module.field.title', 'module.title') !!}
                     </th>
 
                     {{-- MODULE --}}
-                    <th width="15%">
+                    <th width="15%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'module.field.module', 'module.class') !!}
                     </th>
 
                     {{-- POSITION --}}
-                    <th width="10%">
+                    <th width="10%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'module.field.position', 'module.position') !!}
                     </th>
 
                     {{-- ORDERING --}}
-                    <th width="5%" class="nowrap">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'module.field.ordering', 'module.position, module.ordering') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
-                    {{-- CREATED --}}
-                    {{--<th>--}}
-                        {{--{!! $grid->sortTitle($luna->langPrefix . 'module.field.created', 'module.created') !!}--}}
-                    {{--</th>--}}
-
                     @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                         {{-- LANGUAGE --}}
-                        <th width="15%">
+                        <th width="15%" class="text-nowrap">
                             {!! $grid->sortTitle($luna->langPrefix . 'module.field.language', 'module.language') !!}
                         </th>
                     @endif
 
                     {{-- ID --}}
-                    <th width="5%">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'module.field.id', 'module.id') !!}
                     </th>
                 </tr>
@@ -155,11 +150,6 @@
                         <td class="text-center">
                             {!! $grid->orderButton() !!}
                         </td>
-
-                        {{-- CREATED --}}
-                        {{--<td>--}}
-                            {{--{{ Windwalker\Core\DateTime\DateTime::toLocalTime($item->created) }}--}}
-                        {{--</td>--}}
 
                         @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                             {{-- LANGUAGE --}}

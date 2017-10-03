@@ -51,33 +51,28 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th width="1%">
+                    <th width="1%" class="text-nowrap">
                         {!! $grid->checkboxesToggle(array('duration' => 150)) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 70px;" width="4%">
+                    <th style="min-width: 70px;" width="4%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.state', 'comment.state') !!}
                     </th>
 
                     {{-- EDIT --}}
-                    <th>
+                    <th class="text-nowrap">
                         @translate($luna->langPrefix . 'comment.button.edit')
                     </th>
 
-                    <th width="20%">
+                    <th width="20%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.target.title', 'comment.target_id') !!}
                         /
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.created', 'comment.created') !!}
                     </th>
 
-                    {{-- TITLE --}}
-                    {{--<th>--}}
-                        {{--{!! $grid->sortTitle($luna->langPrefix . 'comment.field.title', 'comment.title') !!}--}}
-                    {{--</th>--}}
-
                     {{-- CONTENT --}}
-                    <th>
+                    <th class="text-nowrap">
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.author', 'comment.created_by') !!}
                         /
@@ -86,7 +81,7 @@
                     </th>
 
                     {{-- REPLY --}}
-                    <th>
+                    <th class="text-nowrap">
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
                         /
@@ -94,18 +89,7 @@
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.reply', 'comment.reply') !!}
                     </th>
 
-                    {{-- ORDERING --}}
-                    {{--<th width="5%" class="nowrap">--}}
-                        {{--{!! $grid->sortTitle($luna->langPrefix . 'comment.field.ordering', 'comment.type, comment.target_id, comment.ordering') !!} {!! $grid->saveorderButton() !!}--}}
-                    {{--</th>--}}
-
-                    {{-- LANGUAGE --}}
-                    {{--<th>--}}
-                        {{--{!! $grid->sortTitle($luna->langPrefix . 'comment.field.language', 'comment.language') !!}--}}
-                    {{--</th>--}}
-
-                    {{-- ID --}}
-                    <th>
+                    <th class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.id', 'comment.id') !!}
                     </th>
                 </tr>
@@ -149,13 +133,6 @@
                             </small>
                         </td>
 
-                        {{-- TITLE --}}
-                        {{--<td>--}}
-                            {{--<a href="{{ $router->route('comment', array('id' => $item->id)) }}">--}}
-                                {{--{{ $item->title }}--}}
-                            {{--</a>--}}
-                        {{--</td>--}}
-
                         <td class="hasHighlight">
                             @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                             <strong>
@@ -177,16 +154,6 @@
                                 {!! \Windwalker\String\Utf8String::substr(e($item->reply), 0, 150) !!}...
                             @endif
                         </td>
-
-                        {{-- ORDERING --}}
-                        {{--<td>--}}
-                            {{--{!! $grid->orderButton() !!}--}}
-                        {{--</td>--}}
-
-                        {{-- LANGUAGE --}}
-                        {{--<td>--}}
-                            {{--{{ $item->language }}--}}
-                        {{--</td>--}}
 
                         {{-- ID --}}
                         <td>

@@ -73,6 +73,7 @@ class GridDefinition extends AbstractFieldDefinition
 			// State
 			$this->list('article.state')
 				->label('State')
+				->class('hasChosen')
 				// Add empty option to support single deselect button
 				->option('', '')
 				->option(Translator::translate($langPrefix . 'article.filter.state.select'), '')
@@ -84,6 +85,7 @@ class GridDefinition extends AbstractFieldDefinition
 			{
 				$this->categoryList('article.category_id')
 					->label(Translator::translate($langPrefix . 'field.category'))
+					->class('hasChosen')
 					->option('', '')
 					->option(Translator::translate($langPrefix . 'filter.category.select'), '')
 					->categoryType('article')
@@ -95,6 +97,7 @@ class GridDefinition extends AbstractFieldDefinition
 				// Language
 				$this->languageList('article.language')
 					->label(Translator::translate($langPrefix . 'article.field.language'))
+					->class('hasChosen')
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*')
 					->onchange('this.form.submit()');
@@ -114,6 +117,7 @@ class GridDefinition extends AbstractFieldDefinition
 				// Language
 				$this->languageList('language')
 					->label(Translator::translate($langPrefix . 'article.field.language'))
+					->class('hasChosen')
 					->option(Translator::translate($langPrefix . 'field.language.select'), '')
 					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
 			}
@@ -123,6 +127,7 @@ class GridDefinition extends AbstractFieldDefinition
 				// Category
 				$this->categoryList('category_id')
 					->label(Translator::translate($langPrefix . 'category.title'))
+					->class('hasChosen')
 					->categoryType('article')
 					->option(Translator::translate($langPrefix . 'filter.category.select'), '');
 			}

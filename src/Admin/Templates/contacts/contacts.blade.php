@@ -52,47 +52,47 @@
                 <thead>
                 <tr>
                     {{-- CHECKBOX --}}
-                    <th width="1%">
+                    <th width="1%" class="text-nowrap">
                         {!! $grid->checkboxesToggle(['duration' => 150]) !!}
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;"  width="10%">
+                    <th style="min-width: 90px;"  width="10%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'contact.field.state', 'contact.state') !!}
                     </th>
 
-                    <th width="5%">
+                    <th width="5%" class="text-nowrap">
                         @translate($luna->langPrefix . 'contact.button.edit')
                     </th>
 
                     @if ($entity->hasField('subject'))
                         {{-- SUBJECT --}}
-                        <th>
+                        <th class="text-nowrap">
                             {!! $grid->sortTitle($luna->langPrefix . 'contact.field.subject', 'contact.subject') !!}
                         </th>
                     @else
-                        <th>
+                        <th class="text-nowrap">
                             @translate($luna->langPrefix . 'contact.preview')
                         </th>
                     @endif
 
                     {{-- CONTENT --}}
-                    <th>
+                    <th class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'contact.field.content', 'contact.content') !!}
                     </th>
 
                     {{-- AUTHOR --}}
-                    <th width="12%">
+                    <th width="12%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'contact.field.author', 'contact.created_by') !!}
                     </th>
 
                     {{-- CREATED --}}
-                    <th width="10%">
+                    <th width="10%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'contact.field.created', 'contact.created') !!}
                     </th>
 
                     {{-- ID --}}
-                    <th width="3%">
+                    <th width="3%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'contact.field.id', 'contact.id') !!}
                     </th>
                 </tr>
