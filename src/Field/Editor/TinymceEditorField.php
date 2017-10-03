@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Field\Editor;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\EditorScript;
 use Windwalker\Core\Asset\Asset;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Ioc;
 use Windwalker\Utilities\Arr;
 
@@ -18,6 +19,7 @@ use Windwalker\Utilities\Arr;
  * The TinymceEditorField class.
  *
  * @method  mixed|$this  contentCss(string|array $value = null)
+ * @method  mixed|$this  langFolder(string $value = null)
  *
  * @since  1.0
  */
@@ -46,6 +48,11 @@ class TinymceEditorField extends AbstractEditorField
 	{
 		$luna = LunaHelper::getPackage();
 		$options = (array) $this->get('options', []);
+
+		$defaultOptions = [];
+
+		// Language
+		$this->loadLanguage($defaultOptions);
 
 		$defaultOptions['plugins'] = [];
 
@@ -176,6 +183,41 @@ JS
 	}
 
 	/**
+	 * loadLanguage
+	 *
+	 * @param array $defaultOptions
+	 *
+	 * @return  void
+	 */
+	protected function loadLanguage(array &$defaultOptions)
+	{
+		$lang = Translator::getLocale() ? : Translator::getDefaultLocale();
+		$lang = str_replace('-', '_', $lang);
+
+		$langFolder = $this->get('lang_folder');
+
+		if ($langFolder)
+		{
+			$config = Ioc::getConfig();
+
+			$assetFolder = $config->get('asset.folder', 'asset');
+			$langPath = WINDWALKER_PUBLIC . '/' . $assetFolder . '/' . $langFolder . '/' . $lang . '.js';
+			$langUrl = Ioc::getUriData()->path . '/' . $assetFolder . '/' . $langFolder . '/' . $lang . '.js';
+
+			if (is_file($langPath))
+			{
+				$defaultOptions['language'] = $lang;
+				$defaultOptions['language_url'] = $langUrl;
+			}
+		}
+
+		if (is_file(LUNA_SOURCE . '/Resources/asset/js/tinymce/langs/' . $lang . '.js'))
+		{
+			$defaultOptions['language'] = $lang;
+		}
+	}
+
+	/**
 	 * getAccessors
 	 *
 	 * @return  array
@@ -185,7 +227,8 @@ JS
 	protected function getAccessors()
 	{
 		return array_merge(parent::getAccessors(), [
-			'contentCss' => 'content_css'
+			'contentCss' => 'content_css',
+			'langFolder' => 'lang_folder'
 		]);
 	}
 }

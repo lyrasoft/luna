@@ -93,7 +93,6 @@ class EditDefinition extends AbstractFieldDefinition
 				->editorOptions([
 					'height' => 450
 				])
-				->contentCss([Asset::root() . '/upload/css/theme.css'])
 				->includes('readmore')
 				->rows(10);
 		});
