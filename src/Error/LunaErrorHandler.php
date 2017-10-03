@@ -89,7 +89,5 @@ class LunaErrorHandler implements ErrorHandlerInterface
 		$response = $package->execute('Error\GetController', $package->app->request, $response);
 
 		$package->app->server->getOutput()->respond($response);
-
-		die;
 	}
 }
