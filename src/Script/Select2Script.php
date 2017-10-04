@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Windwalker\Core\Asset\AbstractScript;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Utilities\Arr;
 
 /**
@@ -34,6 +35,13 @@ class Select2Script extends AbstractScript
 
 			$asset->addScript($luna->name . '/js/select2/select2.min.js');
 			$asset->addStyle($luna->name . '/css/select2/select2.min.css');
+
+			$lang = Translator::getLocale();
+
+			if (is_file(LUNA_SOURCE . '/Resources/asset/js/select2/i18n/' . $lang . '.js'))
+			{
+				static::addJS($luna->name . '/js/select2/i18n/' . $lang . '.js');
+			}
 
 			$asset->internalStyle(<<<CSS
 .select2-container .select2-selection--single {
@@ -68,7 +76,9 @@ CSS
 
 		if (!static::inited(__METHOD__, get_defined_vars()))
 		{
-			$defaultOptions = [];
+			$defaultOptions = [
+				'language' => Translator::getLocale()
+			];
 
 			$chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
 
@@ -123,7 +133,8 @@ JS;
 				],
 				'minimumInputLength' => 1,
 				'tags' => true,
-				'tokenSeparators' => [',']
+				'tokenSeparators' => [','],
+				'language' => Translator::getLocale()
 			];
 
 			$chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');

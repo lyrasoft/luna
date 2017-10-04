@@ -4,14 +4,20 @@
  * @var $form \Windwalker\Form\Form
  */
 ?>
+<style>
+    body.bootstrap-3 #batch-modal .close {
+        position: relative;
+        top: -25px;
+    }
+</style>
 <div class="modal fade" id="batch-modal" role="dialog" aria-labelledby="batch-modal-title">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="batch-modal-title">
                     <span class="glyphicon glyphicon-modal-window fa fa-sliders"></span> @translate('phoenix.batch.modal.title')
                 </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <p>

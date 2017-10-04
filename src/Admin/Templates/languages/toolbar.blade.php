@@ -13,32 +13,32 @@
  */
 ?>
 
-<a type="button" class="btn btn-success btn-sm" href="{{ $router->route('language', array('new' => true)) }}">
+<a role="button" class="btn btn-primary btn-sm phoenix-btn-new" href="{{ $router->route('language', array('new' => true)) }}">
     <span class="glyphicon glyphicon-plus fa fa-plus"></span>
     @translate('phoenix.toolbar.new')
 </a>
 
-<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked();Phoenix.post();">
-    <span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>
+<button type="button" class="btn btn-info btn-sm phoenix-btn-duplicate" onclick="Phoenix.Grid.hasChecked();Phoenix.post();">
+    <span class="glyphicon glyphicon-duplicate fa fa-copy"></span>
     @translate('phoenix.toolbar.duplicate')
 </button>
 
-<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked().batch('publish');">
-    <span class="glyphicon glyphicon-ok fa fa-check text-success"></span>
+<button type="button" class="btn btn-success btn-sm phoenix-btn-publish" onclick="Phoenix.Grid.hasChecked().batch('publish');">
+    <span class="glyphicon glyphicon-ok fa fa-check"></span>
     @translate('phoenix.toolbar.publish')
 </button>
 
-<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked().batch('unpublish');">
-    <span class="glyphicon glyphicon-remove fa fa-remove text-danger"></span>
+<button type="button" class="btn btn-danger btn-sm phoenix-btn-unpublish" onclick="Phoenix.Grid.hasChecked().batch('unpublish');">
+    <span class="glyphicon glyphicon-remove fa fa-remove"></span>
     @translate('phoenix.toolbar.unpublish')
 </button>
 
-{{--<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">--}}
+{{--<button type="button" class="btn btn-default btn-outline-secondary btn-sm phoenix-btn-batch" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">--}}
     {{--<span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>--}}
     {{--@translate('phoenix.toolbar.batch')--}}
 {{--</button>--}}
 
-<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.Grid.hasChecked().deleteList();">
+<button type="button" class="btn btn-default btn-outline-danger btn-sm phoenix-btn-delete" onclick="Phoenix.Grid.hasChecked().deleteList();">
     <span class="glyphicon glyphicon-trash fa fa-trash"></span>
     @translate('phoenix.toolbar.delete')
 </button>

@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Contact;
 
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
@@ -91,7 +92,7 @@ class EditDefinition extends AbstractFieldDefinition
 		{
 			// State
 			$this->list('state')
-				->label(Translator::translate($langPrefix . '.contact.field.state'))
+				->label(Translator::translate($langPrefix . 'contact.field.state'))
 				->addClass('hasChosen')
 				->defaultValue(1)
 				->option(Translator::translate($langPrefix . 'contact.state.cancel'), '-1')
@@ -101,7 +102,8 @@ class EditDefinition extends AbstractFieldDefinition
 
 			// Created
 			$this->calendar('created')
-				->label(Translator::translate($langPrefix . '.contact.field.created'));
+				->label(Translator::translate($langPrefix . '.contact.field.created'))
+				->addFilter(UtcFilter::class);
 
 			// Modified
 			$this->calendar('modified')

@@ -42,7 +42,7 @@
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
-        <p class="visible-xs-block">
+        <p class="visible-xs-block d-sm-block d-md-none">
             @translate('phoenix.grid.responsive.table.desc')
         </p>
 
@@ -155,7 +155,7 @@
                         </td>
 
                         <td class="text-center">
-                            <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
+                            <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
                                 title="@translate('phoenix.toolbar.delete')">
                                 <span class="glyphicon glyphicon-trash fa fa-trash"></span>
                             </button>

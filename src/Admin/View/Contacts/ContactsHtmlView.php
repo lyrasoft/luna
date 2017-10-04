@@ -120,7 +120,7 @@ class ContactsHtmlView extends GridView
 		PhoenixScript::grid();
 		PhoenixScript::chosen('select.hasChosen');
 		PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
-		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
+		BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
 		BootstrapScript::tooltip();
 
 		// Preview

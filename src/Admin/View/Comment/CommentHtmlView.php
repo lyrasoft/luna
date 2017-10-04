@@ -90,7 +90,7 @@ class CommentHtmlView extends EditView
 		PhoenixScript::core();
 		PhoenixScript::chosen('.hasChosen');
 		PhoenixScript::formValidation();
-		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
+		BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
 		BootstrapScript::buttonRadio();
 		BootstrapScript::tooltip();
 	}

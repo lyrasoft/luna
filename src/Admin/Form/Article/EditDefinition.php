@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
+use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Asset\Asset;
 use Windwalker\Core\Form\AbstractFieldDefinition;
@@ -101,12 +102,12 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
 			// State
-			$this->radio('state')
-				->label(Translator::translate($langPrefix . 'article.field.state'))
-				->class('btn-group')
-				->defaultValue(1)
-				->option(Translator::translate('phoenix.grid.state.published'), '1')
-				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
+			$this->switch('state')
+				->label(Translator::translate($langPrefix . 'article.field.published'))
+				->class('')
+				->round(true)
+				->color('success')
+				->defaultValue(1);
 
 			if (Locale::isEnabled())
 			{
@@ -118,7 +119,8 @@ class EditDefinition extends AbstractFieldDefinition
 
 			// Created
 			$this->calendar('created')
-				->label(Translator::translate($langPrefix . 'article.field.created'));
+				->label(Translator::translate($langPrefix . 'article.field.created'))
+				->addFilter(UtcFilter::class);
 
 			// Modified
 			$this->calendar('modified')

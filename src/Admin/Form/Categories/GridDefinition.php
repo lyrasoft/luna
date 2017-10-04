@@ -71,7 +71,7 @@ class GridDefinition extends AbstractFieldDefinition
 		{
 			// State
 			$this->list('category.state')
-				->label(Translator::translate($langPrefix . 'category.field.state'))
+				->label(Translator::translate($langPrefix . 'category.field.published'))
 				// Add empty option to support single deselect button
 				->option('', '')
 				->option(Translator::translate($langPrefix . 'category.filter.state.select'), '')
@@ -102,6 +102,7 @@ class GridDefinition extends AbstractFieldDefinition
 			$this->categoryList('parent_id')
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
 				->class('col-md-12')
+				->class('hasChosen')
 				->showRoot(true)
 				->option(Translator::translate($langPrefix . 'category.batch.parent.select'), '');
 

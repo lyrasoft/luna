@@ -44,7 +44,7 @@
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
-        <p class="visible-xs-block">
+        <p class="visible-xs-block d-sm-block d-md-none">
             @translate('phoenix.grid.responsive.table.desc')
         </p>
 
@@ -58,7 +58,7 @@
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 90px;" width="9%">
+                    <th style="min-width: 120px;" width="9%">
                         {!! $grid->sortTitle($luna->langPrefix . 'category.field.state', 'category.state') !!}
                     </th>
 
@@ -115,11 +115,11 @@
                         <td>
                             <span class="btn-group">
                                 {!! $grid->published($item->state) !!}
-                                <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.copyRow({{ $i }});"
+                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.copyRow({{ $i }});"
                                     title="@translate('phoenix.toolbar.duplicate')">
-                                    <span class="glyphicon glyphicon-duplicate fa fa-copy text-info"></span>
+                                    <span class="glyphicon glyphicon-duplicate fa fa-copy"></span>
                                 </button>
-                                <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
+                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
                                     title="@translate('phoenix.toolbar.delete')">
                                     <span class="glyphicon glyphicon-trash fa fa-trash"></span>
                                 </button>

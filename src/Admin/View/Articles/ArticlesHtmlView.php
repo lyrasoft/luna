@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\View\Articles;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
+use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
 use Windwalker\Core\Renderer\RendererHelper;
@@ -97,10 +98,10 @@ class ArticlesHtmlView extends GridView
 		PhoenixScript::grid();
 		PhoenixScript::chosen('.hasChosen');
 		PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
-		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
+		BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
 		BootstrapScript::tooltip();
 
-		\Phoenix\Script\JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
+		JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
 	}
 
 	/**

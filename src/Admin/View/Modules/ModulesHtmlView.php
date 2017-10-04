@@ -168,6 +168,11 @@ class ModulesHtmlView extends GridView
 				$item->positionName = Translator::translate($this->langPrefix . 'module.position.none');
 				$item->labelClass = $this->defaultLabelClass;
 			}
+
+			if (BootstrapScript::$currentVersion === 4)
+			{
+				$item->labelClass = str_replace('label', 'badge', $item->labelClass);
+			}
 		}
 	}
 
@@ -182,7 +187,7 @@ class ModulesHtmlView extends GridView
 		PhoenixScript::grid();
 		PhoenixScript::chosen('.hasChosen');
 		PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
-		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
+		BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
 		BootstrapScript::tooltip();
 
 		JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
@@ -217,6 +222,11 @@ class ModulesHtmlView extends GridView
 	background-color: #fb6d9d;
 }
 CSS;
+
+		if (BootstrapScript::$currentVersion === 4)
+		{
+			$css = str_replace('label', 'badge', $css);
+		}
 
 		Asset::internalCSS($css);
 	}

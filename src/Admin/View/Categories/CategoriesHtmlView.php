@@ -110,7 +110,7 @@ class CategoriesHtmlView extends GridView
 		PhoenixScript::grid();
 		PhoenixScript::chosen('.hasChosen');
 		PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
-		BootstrapScript::checkbox(BootstrapScript::GLYPHICONS);
+		BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
 		BootstrapScript::tooltip();
 
 		\Phoenix\Script\JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);

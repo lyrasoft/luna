@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Language;
 
 use Lyrasoft\Luna\Admin\Field\Language\FlagListField;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Form;
@@ -21,6 +22,8 @@ use Windwalker\Form\Form;
  */
 class EditDefinition extends AbstractFieldDefinition
 {
+	use PhoenixFieldTrait;
+
 	/**
 	 * Define the form fields.
 	 *
@@ -80,13 +83,12 @@ class EditDefinition extends AbstractFieldDefinition
 		// Created fieldset
 		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
-			// State
-			$this->radio('state')
-				->label(Translator::translate($langPrefix . 'language.field.state'))
-				->class('btn-group')
-				->defaultValue(1)
-				->option(Translator::translate('phoenix.grid.state.published'), '1')
-				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
+			$this->switch('state')
+				->label(Translator::translate($langPrefix . 'language.field.published'))
+				->class('')
+				->round(true)
+				->color('success')
+				->defaultValue(1);
 
 			// Metakey
 			$this->textarea('metakey')

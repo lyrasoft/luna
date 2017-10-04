@@ -14,8 +14,8 @@ $fieldsets = $moduleForm->getFieldsets();
 ?>
 <ul class="nav nav-tabs" role="tablist">
     @foreach ($fieldsets as $i => $fieldset)
-        <li role="presentation" class="{{ $i !== 0 ? null : 'active' }}">
-            <a href="#fieldset-{{ $fieldset }}" aria-controls="home" role="tab" data-toggle="tab">
+        <li role="presentation" class="nav-item {{ $i !== 0 ? null : 'active' }}">
+            <a class="nav-link" href="#fieldset-{{ $fieldset }}" aria-controls="home" role="tab" data-toggle="tab">
                 @translate($module->getLangPrefix() . 'module.edit.fieldset.' . $fieldset)
             </a>
         </li>

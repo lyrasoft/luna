@@ -42,7 +42,7 @@
         </div>
 
         {{-- RESPONSIVE TABLE DESC --}}
-        <p class="visible-xs-block">
+        <p class="visible-xs-block d-sm-block d-md-none">
             @translate('phoenix.grid.responsive.table.desc')
         </p>
 
@@ -56,7 +56,7 @@
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 70px;" width="4%" class="text-nowrap">
+                    <th style="min-width: 90px;" width="4%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.state', 'comment.state') !!}
                     </th>
 
@@ -110,7 +110,7 @@
                         <td>
                             <span class="btn-group">
                                 {!! $grid->published($item->state) !!}
-                                <button type="button" class="btn btn-default btn-xs hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
+                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
                                     title="@translate('phoenix.toolbar.delete')">
                                     <span class="glyphicon glyphicon-trash fa fa-trash"></span>
                                 </button>
@@ -119,7 +119,7 @@
 
                         {{-- EDIT --}}
                         <td>
-                            <a class="btn btn-default btn-xs" href="{{ $router->route('comment', array('id' => $item->id, 'type' => $type)) }}">
+                            <a class="btn btn-default btn-sm" href="{{ $router->route('comment', array('id' => $item->id, 'type' => $type)) }}">
                                 <span class="glyphicon glyphicon-edit fa fa-pencil"></span>
                             </a>
                         </td>

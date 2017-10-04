@@ -26,22 +26,22 @@ class ContactHelper
 	public static $map = [
 		-1 => [
 			'symbol' => 'cancel',
-			'icon' => 'glyphicon glyphicon-remove fa fa-remove',
+			'icon' => 'fa fa-remove',
 			'color' => 'danger',
 		],
 		0 => [
 			'symbol' => 'pending',
-			'icon' => 'glyphicon glyphicon-time fa fa-clock-o',
+			'icon' => 'fa fa-clock-o',
 			'color' => 'warning',
 		],
 		1 => [
 			'symbol' => 'handling',
-			'icon' => 'glyphicon glyphicon-transfer fa fa-exchange',
+			'icon' => 'fa fa-exchange',
 			'color' => 'info',
 		],
 		2 => [
 			'symbol' => 'done',
-			'icon' => 'glyphicon glyphicon-ok fa fa-check',
+			'icon' => 'fa fa-check',
 			'color' => 'success',
 		],
 	];

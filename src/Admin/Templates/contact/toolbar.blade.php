@@ -19,12 +19,12 @@
     @translate('phoenix.toolbar.save')
 </button>
 
-<button type="button" class="btn btn-default btn-sm" onclick="Phoenix.post(null, {task: 'save2close'});">
-    <span class="glyphicon glyphicon-ok fa fa-check text-success"></span>
+<button type="button" class="btn btn-default btn-primary btn-sm" onclick="Phoenix.post(null, {task: 'save2close'});">
+    <span class="glyphicon glyphicon-ok fa fa-check"></span>
     @translate('phoenix.toolbar.save2close')
 </button>
 
-<a type="button" class="btn btn-default btn-sm" href="{{ $router->route('contacts') }}">
-    <span class="glyphicon glyphicon-remove fa fa-remove text-danger"></span>
+<a role="button" class="btn btn-default btn-outline-secondary btn-sm" href="{{ $router->route('contacts') }}">
+    <span class="glyphicon glyphicon-remove fa fa-remove"></span>
     @translate('phoenix.toolbar.cancel')
 </a>

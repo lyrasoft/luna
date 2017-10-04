@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Form\Tag;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Warder\Helper\WarderHelper;
+use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
@@ -60,16 +61,17 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
 			// State
-			$this->radio('state')
-				->label(Translator::translate($langPrefix . 'tag.field.state'))
-				->class('btn-group')
-				->defaultValue(1)
-				->option(Translator::translate('phoenix.grid.state.published'), '1')
-				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
+			$this->switch('state')
+				->label(Translator::translate($langPrefix . 'tag.field.published'))
+				->class('')
+				->round(true)
+				->color('success')
+				->defaultValue(1);
 
 			// Created
 			$this->calendar('created')
-				->label(Translator::translate($langPrefix . 'tag.field.created'));
+				->label(Translator::translate($langPrefix . 'tag.field.created'))
+				->addFilter(UtcFilter::class);
 
 			// Modified
 			$this->calendar('modified')

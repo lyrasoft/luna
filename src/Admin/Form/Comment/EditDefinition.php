@@ -81,7 +81,7 @@ class EditDefinition extends AbstractFieldDefinition
 		{
 			// State
 			$this->radio('state')
-				->label(Translator::translate($langPrefix . 'comment.field.state'))
+				->label(Translator::translate($langPrefix . 'comment.field.published'))
 				->class('btn-group')
 				->defaultValue(1)
 				->option(Translator::translate('phoenix.grid.state.published'), '1')
