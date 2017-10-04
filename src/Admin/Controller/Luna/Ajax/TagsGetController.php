@@ -31,7 +31,14 @@ class TagsGetController extends AbstractController
 	{
 		$q = $this->input->getString('q');
 
-		$tags = TagMapper::find(["title LIKE '{$q}%'"]);
+		if ($q === '')
+		{
+			$tags = TagMapper::findAll('title ASC');
+		}
+		else
+		{
+			$tags = TagMapper::find(["title LIKE '{$q}%'"], 'title ASC');
+		}
 
 		$data = [];
 

@@ -16,6 +16,8 @@ use Phoenix\Field\ItemListField;
 /**
  * The TagField class.
  *
+ * @method $this|mixed select2Options(array $value)
+ *
  * @since  1.0
  */
 class TagListField extends ItemListField
@@ -45,7 +47,7 @@ class TagListField extends ItemListField
 	{
 		$id = $attrs['id'];
 
-		Select2Script::tag('#' . $id);
+		Select2Script::tag('#' . $id, (array) $this->get('select2_options', []));
 
 		return parent::buildInput($attrs);
 	}
@@ -63,5 +65,19 @@ class TagListField extends ItemListField
 		}
 
 		return parent::prepareOptions();
+	}
+
+	/**
+	 * getAccessors
+	 *
+	 * @return  array
+	 *
+	 * @since   1.3
+	 */
+	protected function getAccessors()
+	{
+		return array_merge(parent::getAccessors(), [
+			'select2Options' => 'select2_options'
+		]);
 	}
 }
