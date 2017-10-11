@@ -64,7 +64,7 @@ class EditDefinition extends AbstractFieldDefinition
 			$this->switch('state')
 				->label(Translator::translate($langPrefix . 'tag.field.published'))
 				->class('')
-				->round(true)
+				->circle(true)
 				->color('success')
 				->defaultValue(1);
 
