@@ -100,7 +100,7 @@
                 }
             });
 
-            if (Object.keys(item.details).length) {
+            if (item.details && Object.keys(item.details).length) {
                 var text = Phoenix.Translator.translate(this.options.lang_prefix + 'contact.field.details');
                 var tr = $('<tr class="details-separator active"><th style="text-align: center" class="lead" colspan="5">' + text + '</th></tr>');
                 this.table.append(tr);
