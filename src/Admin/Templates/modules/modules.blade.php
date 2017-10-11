@@ -61,7 +61,7 @@
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 120px;" width="9%" class="text-nowrap">
+                    <th style="min-width: 120px;" width="10%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'module.field.state', 'module.state') !!}
                     </th>
 
