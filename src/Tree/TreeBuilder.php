@@ -61,7 +61,7 @@ class TreeBuilder
 			{
 				$tree[$parentId]->addChild($node);
 			}
-			elseif ($level === $minLevel)
+			elseif ($level == $minLevel)
 			{
 				$root->addChild($node);
 			}
