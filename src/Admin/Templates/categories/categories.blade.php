@@ -112,7 +112,7 @@
                         </td>
 
                         {{-- STATE --}}
-                        <td>
+                        <td class="state-col">
                             <span class="btn-group">
                                 {!! $grid->published($item->state) !!}
                                 <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.copyRow({{ $i }});"

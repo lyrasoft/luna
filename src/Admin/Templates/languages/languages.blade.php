@@ -114,7 +114,7 @@
                         </td>
 
                         {{-- STATE --}}
-                        <td class="text-center">
+                        <td class="text-center state-col">
                             <span class="btn-group">
                                 {!! $grid->published($item->state) !!}
                             </span>
