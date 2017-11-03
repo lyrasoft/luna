@@ -106,8 +106,8 @@
                 this.table.append(tr);
             }
 
-            $.each(item.details, function (k) {
-                self.addRow(k, this.toString());
+            $.each(item.details, function (k, e) {
+                self.addRow(k, e ? e.toString() : '');
             });
         },
 
