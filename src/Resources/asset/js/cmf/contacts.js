@@ -106,7 +106,7 @@
                 this.table.append(tr);
             }
 
-            $.each(item.details, function (e, k) {
+            $.each(item.details, function (k) {
                 self.addRow(k, this.toString());
             });
         },
