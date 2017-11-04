@@ -51,6 +51,10 @@
 
                 self.showContact(id);
             });
+
+            this.modal.on('hide.bs.modal', function () {
+                window.location.hash = '';
+            });
         },
 
         showContact: function (id) {
