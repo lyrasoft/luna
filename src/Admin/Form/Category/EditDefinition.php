@@ -120,7 +120,8 @@ class EditDefinition extends AbstractFieldDefinition
 
 			// Modified
 			$this->calendar('modified')
-				->label(Translator::translate($langPrefix . 'category.field.modified'));
+				->label(Translator::translate($langPrefix . 'category.field.modified'))
+				->disabled(true);
 
 			if (WarderHelper::tableExists('users'))
 			{
