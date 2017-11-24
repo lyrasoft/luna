@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
+use Lyrasoft\Unidev\Seo\SlugHelper;
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
@@ -45,6 +46,18 @@ class TagModel extends AdminModel
 	protected function postGetItem(DataInterface $item)
 	{
 		// Do some stuff
+	}
+
+	/**
+	 * handleAlias
+	 *
+	 * @param   string $alias
+	 *
+	 * @return  string
+	 */
+	public function handleAlias($alias)
+	{
+		return SlugHelper::slugify($alias);
 	}
 
 	/**

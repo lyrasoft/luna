@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Model;
 
 use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Tag\TagHelper;
+use Lyrasoft\Unidev\Seo\SlugHelper;
 use Phoenix\Model\AdminModel;
 use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
@@ -51,6 +52,18 @@ class ArticleModel extends AdminModel
 
 		// tags
 		$item->tags = TagHelper::getTags('article', $item->id)->id;
+	}
+
+	/**
+	 * handleAlias
+	 *
+	 * @param   string $alias
+	 *
+	 * @return  string
+	 */
+	public function handleAlias($alias)
+	{
+		return SlugHelper::slugify($alias);
 	}
 
 	/**

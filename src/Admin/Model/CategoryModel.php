@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Model;
 
+use Lyrasoft\Unidev\Seo\SlugHelper;
 use Phoenix\Model\NestedAdminModel;
 use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
@@ -57,6 +58,18 @@ class CategoryModel extends NestedAdminModel
 		$record->type = $record->type ? : $this['category.type'];
 
 		parent::prepareRecord($record);
+	}
+
+	/**
+	 * handleAlias
+	 *
+	 * @param   string $alias
+	 *
+	 * @return  string
+	 */
+	public function handleAlias($alias)
+	{
+		return SlugHelper::slugify($alias);
 	}
 
 	/**
