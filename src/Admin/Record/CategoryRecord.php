@@ -10,6 +10,8 @@ namespace Lyrasoft\Luna\Admin\Record;
 
 use Lyrasoft\Luna\Admin\Record\Traits\CategoryDataTrait;
 use Lyrasoft\Luna\Table\LunaTable;
+use Windwalker\Core\Language\Translator;
+use Windwalker\Core\Model\Exception\ValidateFailException;
 use Windwalker\Event\Event;
 use Windwalker\Record\NestedRecord;
 
@@ -60,6 +62,43 @@ class CategoryRecord extends NestedRecord
 	public function store($updateNulls = false)
 	{
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  static  True if all checks pass.
+	 *
+	 * @since   2.0
+	 * @throws  \Windwalker\Core\Model\Exception\ValidateFailException
+	 * @throws  \Exception
+	 * @throws  \RuntimeException on database error.
+	 * @throws  \UnexpectedValueException
+	 */
+	public function validate()
+	{
+		if ($this->id)
+		{
+			if ($this->id == $this->parent_id)
+			{
+				throw new ValidateFailException(Translator::translate('phoenix.message.invalid.parent.id.is.self'));
+			}
+
+			$tree = $this->getTree($this->id);
+			$childrenIds = array_column($tree, 'id');
+
+			if (in_array($this->parent_id, $childrenIds))
+			{
+				throw new ValidateFailException(Translator::translate('phoenix.message.invalid.parent.id.is.child'));
+			}
+		}
+
+		parent::validate();
+
+		return $this;
 	}
 
 	/**
