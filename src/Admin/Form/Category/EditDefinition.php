@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Category;
 
+use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
@@ -19,6 +20,7 @@ use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Ioc;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Form;
+use Windwalker\Query\Query;
 
 /**
  * The CategoryEditDefinition class.
@@ -68,7 +70,18 @@ class EditDefinition extends AbstractFieldDefinition
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
 				->class('hasChosen')
 				->option(Translator::translate($langPrefix . 'category.root'), 1)
-				->categoryType($type);
+				->categoryType($type)
+				->postQueryHandler(function (Query $query)
+				{
+					$input = Ioc::getInput();
+
+					if ($id = $input->get('id'))
+					{
+						$self = CategoryMapper::findOne($id);
+
+						$query->where('(lft < ' . $self->lft . ' OR rgt > ' . $self->rgt . ')');
+					}
+				});
 
 			// Images
 			$this->singleImageDrag('image')
@@ -85,13 +98,12 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->fieldset('text', function(Form $form) use ($langPrefix)
 		{
 			// Description
-			$this->summernoteEditor('description')
+			$this->tinymceEditor('description')
 				->label(Translator::translate($langPrefix . 'category.field.description'))
 				->editorOptions([
 					'height' => 350,
-					'iconPrefix' => 'luna-icon luna-icon-',
 				])
-				->rows( 10);
+				->rows(10);
 		});
 
 		// Created fieldset
