@@ -93,6 +93,15 @@ JS;
 		}
 	}
 
+	/**
+	 * tinymce
+	 *
+	 * @param string $selector
+	 * @param array  $options
+	 *
+	 * @return  void
+	 * @throws \OutOfRangeException
+	 */
 	public static function tinymce($selector, $options = [])
 	{
 		$asset = static::getAsset();
@@ -109,10 +118,6 @@ JS;
 			$asset->addScript($luna->name . '/js/tinymce/tinymce.min.js');
 			$asset->addScript($luna->name . '/js/tinymce/tinymce-luna.min.js');
 
-//			$asset->addStyle($luna->name . '/css/summernote/summernote.min.css');
-//
-//			$asset->addScript($luna->name . '/js/summernote/lang/summernote-' . $locale . '.min.js');
-
 			$css = <<<CSS
 div.mce-fullscreen {
 	z-index: 1500;
@@ -124,18 +129,20 @@ CSS;
 
 		if (!static::inited(__METHOD__, func_get_args()))
 		{
-			$defaultOptions = [];
+			$defaultOptions = [
+				'branding' => false
+			];
 
 			$options['image_upload_url'] = LunaHelper::getPackage()
 				->getCurrentPackage()->router->route('_luna_img_upload');
 
 			$options['selector'] = $selector;
 
-			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
+			$optionsJson = static::getJSObject($defaultOptions, $options);
 
 			$js = <<<JS
 jQuery(document).ready(function($) {
-	TinymceLunaEditor.getInstance('$selector', $options);
+	TinymceLunaEditor.getInstance('$selector', $optionsJson);
 });
 JS;
 
