@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Record;
 
 use Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait;
+use Lyrasoft\Luna\Admin\Record\Traits\ContentValidationTrait;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Event\Event;
 use Windwalker\Record\Record;
@@ -21,6 +22,7 @@ use Windwalker\Record\Record;
 class ArticleRecord extends Record
 {
 	use ArticleDataTrait;
+	use ContentValidationTrait;
 	
 	/**
 	 * Property table.
@@ -82,6 +84,25 @@ class ArticleRecord extends Record
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to perform sanity checks on the AbstractTable instance properties to ensure
+	 * they are safe to store in the database.  Child classes should override this
+	 * method to make sure the data they are storing in the database is safe and
+	 * as expected before storage.
+	 *
+	 * @return  static  Method allows chaining
+	 *
+	 * @since   2.0
+	 *
+	 * @throws  \RuntimeException
+	 */
+	public function validate()
+	{
+		$this->checkAlias('alias');
+
+		return parent::validate();
 	}
 
 	/**

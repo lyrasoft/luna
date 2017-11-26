@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Record;
 
 use Lyrasoft\Luna\Admin\Record\Traits\CategoryDataTrait;
+use Lyrasoft\Luna\Admin\Record\Traits\ContentValidationTrait;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Model\Exception\ValidateFailException;
@@ -23,6 +24,7 @@ use Windwalker\Record\NestedRecord;
 class CategoryRecord extends NestedRecord
 {
 	use CategoryDataTrait;
+	use ContentValidationTrait;
 	
 	/**
 	 * Property table.
@@ -80,20 +82,15 @@ class CategoryRecord extends NestedRecord
 	 */
 	public function validate()
 	{
-		if ($this->id)
+		$this->checkParent();
+
+		try
 		{
-			if ($this->id == $this->parent_id)
-			{
-				throw new ValidateFailException(Translator::translate('phoenix.message.invalid.parent.id.is.self'));
-			}
-
-			$tree = $this->getTree($this->id);
-			$childrenIds = array_column($tree, 'id');
-
-			if (in_array($this->parent_id, $childrenIds))
-			{
-				throw new ValidateFailException(Translator::translate('phoenix.message.invalid.parent.id.is.child'));
-			}
+			$this->checkAlias('alias', ['parent_id']);
+		}
+		catch (ValidateFailException $e)
+		{
+			throw new ValidateFailException(Translator::sprintf('phoenix.message.same.alias.same.level', $this->alias), $e->getCode(), $e);
 		}
 
 		parent::validate();
