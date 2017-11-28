@@ -26,6 +26,8 @@
  * @var $pagination    \Windwalker\Core\Pagination\Pagination
  * @var $ordering      array
  */
+
+$originOrdering = [];
 ?>
 
 @extends($luna->extends)
@@ -101,7 +103,7 @@
                 <tbody>
                 @foreach ($items as $i => $item)
                     <?php
-                    $item->ordering = $ordering ? array_search($item->id, $ordering[$item->parent_id]) + 1 : '-';
+                    $originOrdering[] = $item->ordering = $ordering ? array_search($item->id, $ordering[$item->parent_id]) + 1 : '-';
 
                     $grid->setItem($item, $i);
                     ?>
@@ -188,6 +190,7 @@
         <div class="hidden-inputs">
             {{-- METHOD --}}
             <input type="hidden" name="_method" value="PUT" />
+            <input type="hidden" name="origin_ordering" value="{{ implode(',', $originOrdering) }}" />
 
             {{-- TOKEN --}}
             @formToken()
