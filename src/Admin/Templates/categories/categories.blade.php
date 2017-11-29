@@ -60,17 +60,17 @@ $originOrdering = [];
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 120px;" width="10%">
+                    <th style="min-width: 90px;" width="7%">
                         {!! $grid->sortTitle($luna->langPrefix . 'category.field.state', 'category.state') !!}
                     </th>
 
                     {{-- TITLE --}}
-                    <th style="min-width: 300px;">
+                    <th style="min-width: 350px;">
                         {!! $grid->sortTitle($luna->langPrefix . 'category.field.title', 'category.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
-                    <th width="5%" class="text-nowrap">
+                    <th width="7%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
@@ -81,11 +81,6 @@ $originOrdering = [];
                         </th>
                     @endif
 
-                    {{-- CREATED --}}
-                    <th width="8%" class="text-nowrap">
-                        {!! $grid->sortTitle($luna->langPrefix . 'category.field.created', 'category.created') !!}
-                    </th>
-
                     @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                         {{-- LANGUAGE --}}
                         <th width="15%">
@@ -93,8 +88,13 @@ $originOrdering = [];
                         </th>
                     @endif
 
+                    {{-- DELETE --}}
+                    <th width="1%" class="text-nowrap">
+                        @translate('phoenix.toolbar.delete')
+                    </th>
+
                     {{-- ID --}}
-                    <th width="3%">
+                    <th class="text-right" width="3%">
                         {!! $grid->sortTitle($luna->langPrefix . 'category.field.id', 'category.id') !!}
                     </th>
                 </tr>
@@ -121,10 +121,6 @@ $originOrdering = [];
                                     title="@translate('phoenix.toolbar.duplicate')">
                                     <span class="glyphicon glyphicon-duplicate fa fa-copy"></span>
                                 </button>
-                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
-                                    title="@translate('phoenix.toolbar.delete')">
-                                    <span class="glyphicon glyphicon-trash fa fa-trash"></span>
-                                </button>
                             </span>
                         </td>
 
@@ -134,10 +130,12 @@ $originOrdering = [];
                             <a href="{{ $router->route('category', array('id' => $item->id, 'type' => $type)) }}">
                                 {{ $item->title }}
                             </a>
+
+                            <small>({{ $item->alias }})</small>
                         </td>
 
                         {{-- ORDERING --}}
-                        <td class="text-center">
+                        <td class="text-right">
                             {!! $grid->orderButton() !!}
                         </td>
 
@@ -147,11 +145,6 @@ $originOrdering = [];
                                 {{ $item->user_name }}
                             </td>
                         @endif
-
-                        {{-- CREATED --}}
-                        <td class="text-nowrap">
-                            {{ Windwalker\Core\DateTime\Chronos::toLocalTime($item->created, 'Y-m-d') }}
-                        </td>
 
                         @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                             {{-- LANGUAGE --}}
@@ -167,6 +160,14 @@ $originOrdering = [];
                                 @endif
                             </td>
                         @endif
+
+                        {{-- DELETE --}}
+                        <td class="text-center">
+                            <button type="button" class="btn btn-default btn-outline-secondary btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
+                                title="@translate('phoenix.toolbar.delete')">
+                                <span class="fa fa-fw fa-trash"></span>
+                            </button>
+                        </td>
 
                         {{-- ID --}}
                         <td>

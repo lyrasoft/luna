@@ -56,7 +56,7 @@
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 120px;" width="10%" class="text-nowrap">
+                    <th style="min-width: 90px;" width="7%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'tag.field.state', 'tag.state') !!}
                     </th>
 
@@ -81,6 +81,11 @@
                     {{--<th>--}}
                         {{--{!! $grid->sortTitle($luna->langPrefix . 'tag.field.language', 'tag.language') !!}--}}
                     {{--</th>--}}
+
+                    {{-- DELETE --}}
+                    <th width="1%" class="text-nowrap">
+                        @translate('phoenix.toolbar.delete')
+                    </th>
 
                     {{-- ID --}}
                     <th width="1%" class="text-nowrap">
@@ -108,10 +113,6 @@
                                     title="@translate('phoenix.toolbar.duplicate')">
                                     <span class="glyphicon glyphicon-duplicate fa fa-copy"></span>
                                 </button>
-                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
-                                    title="@translate('phoenix.toolbar.delete')">
-                                    <span class="glyphicon glyphicon-trash fa fa-trash"></span>
-                                </button>
                             </span>
                         </td>
 
@@ -135,7 +136,7 @@
                         @endif
 
                         {{-- CREATED --}}
-                        <td>
+                        <td class="text-nowrap">
                             {{ Windwalker\Core\DateTime\Chronos::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
@@ -143,6 +144,14 @@
                         {{--<td>--}}
                             {{--{{ $item->language }}--}}
                         {{--</td>--}}
+
+                        {{-- DELETE --}}
+                        <td class="text-center">
+                            <button type="button" class="btn btn-default btn-outline-secondary btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
+                                title="@translate('phoenix.toolbar.delete')">
+                                <span class="fa fa-fw fa-trash"></span>
+                            </button>
+                        </td>
 
                         {{-- ID --}}
                         <td>

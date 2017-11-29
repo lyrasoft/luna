@@ -56,7 +56,7 @@
                     </th>
 
                     {{-- STATE --}}
-                    <th style="min-width: 120px;" width="10%" class="text-nowrap">
+                    <th style="min-width: 90px;" width="7%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'article.field.state', 'article.state') !!}
                     </th>
 
@@ -94,6 +94,11 @@
                         </th>
                     @endif
 
+                    {{-- DELETE --}}
+                    <th width="1%" class="text-nowrap">
+                        @translate('phoenix.toolbar.delete')
+                    </th>
+
                     {{-- ID --}}
                     <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'article.field.id', 'article.id') !!}
@@ -119,10 +124,6 @@
                                 <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.copyRow({{ $i }});"
                                     title="@translate('phoenix.toolbar.duplicate')">
                                     <span class="glyphicon glyphicon-duplicate fa fa-copy"></span>
-                                </button>
-                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
-                                    title="@translate('phoenix.toolbar.delete')">
-                                    <span class="glyphicon glyphicon-trash fa fa-trash"></span>
                                 </button>
                             </span>
                         </td>
@@ -190,6 +191,14 @@
                                 @endif
                             </td>
                         @endif
+
+                        {{-- DELETE --}}
+                        <td class="text-center">
+                            <button type="button" class="btn btn-default btn-outline-secondary btn-sm hasTooltip" onclick="Phoenix.Grid.deleteRow({{ $i }});"
+                                title="@translate('phoenix.toolbar.delete')">
+                                <span class="fa fa-fw fa-trash"></span>
+                            </button>
+                        </td>
 
                         {{-- ID --}}
                         <td>

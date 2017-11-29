@@ -67,17 +67,17 @@
 
                     @if ($entity->hasField('subject'))
                         {{-- SUBJECT --}}
-                        <th class="text-nowrap">
+                        <th class="text-nowrap" style="min-width: 250px">
                             {!! $grid->sortTitle($luna->langPrefix . 'contact.field.subject', 'contact.subject') !!}
                         </th>
                     @else
-                        <th class="text-nowrap">
+                        <th class="text-nowrap" width="5%">
                             @translate($luna->langPrefix . 'contact.preview')
                         </th>
                     @endif
 
                     {{-- CONTENT --}}
-                    <th class="text-nowrap">
+                    <th class="text-nowrap" style="min-width: 250px">
                         {!! $grid->sortTitle($luna->langPrefix . 'contact.field.content', 'contact.content') !!}
                     </th>
 
