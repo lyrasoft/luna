@@ -65,14 +65,14 @@
                         @translate($luna->langPrefix . 'comment.button.edit')
                     </th>
 
-                    <th width="20%" class="text-nowrap">
+                    <th width="20%" class="text-nowrap" style="min-width: 200px;">
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.target.title', 'comment.target_id') !!}
                         /
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.created', 'comment.created') !!}
                     </th>
 
                     {{-- CONTENT --}}
-                    <th class="text-nowrap">
+                    <th class="text-nowrap" style="min-width: 200px;">
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.author', 'comment.created_by') !!}
                         /
@@ -81,7 +81,7 @@
                     </th>
 
                     {{-- REPLY --}}
-                    <th class="text-nowrap">
+                    <th class="text-nowrap" style="min-width: 200px;">
                         @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {!! $grid->sortTitle($luna->langPrefix . 'comment.field.replyer', 'comment.reply_user_id') !!}
                         /

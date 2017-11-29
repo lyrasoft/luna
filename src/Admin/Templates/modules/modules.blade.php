@@ -37,6 +37,10 @@
         .tooltip-inner {
             max-width: 600px;
         }
+
+        .module-position-badge {
+            font-size: 14px;
+        }
     </style>
 <div id="phoenix-admin" class="modules-container grid-container">
     <form name="admin-form" id="admin-form" action="{{ $router->route('modules') }}" method="POST" enctype="multipart/form-data">
@@ -66,7 +70,7 @@
                     </th>
 
                     {{-- TITLE --}}
-                    <th class="text-nowrap">
+                    <th class="text-nowrap" style="min-width: 300px;">
                         {!! $grid->sortTitle($luna->langPrefix . 'module.field.title', 'module.title') !!}
                     </th>
 
@@ -133,15 +137,16 @@
                         </td>
 
                         {{-- MODULE --}}
-                        <td>
+                        <td class="text-nowrap">
                             <span class="hasTooltip" title="{{ $item->class }}">
                                 {{ $item->name }}
                             </span>
                         </td>
 
                         {{-- POSITION --}}
-                        <td>
-                            <span class="{{ $item->labelClass }}">
+                        <td class="text-nowrap">
+                            <span class="{{ \Phoenix\Script\BootstrapScript::$currentVersion === 4 ? 'badge' : 'label' }} module-position-badge"
+                                style="background-color: {{ $item->labelColor }}; color: {{ $item->textColor }};">
                                 {{ $item->positionName }}
                             </span>
                         </td>
@@ -153,7 +158,7 @@
 
                         @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                             {{-- LANGUAGE --}}
-                            <td>
+                            <td class="text-nowrap">
                                 @if ($item->language === '*')
                                     <span class="glyphicon glyphicon-globe fa fa-globe"></span>
                                     @translate($luna->langPrefix . 'language.field.all')

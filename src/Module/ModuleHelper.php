@@ -62,10 +62,11 @@ class ModuleHelper
 	/**
 	 * getModules
 	 *
-	 * @param   string  $position
-	 * @param   string  $language
+	 * @param   string $position
+	 * @param   string $language
 	 *
 	 * @return DataSet
+	 * @throws \InvalidArgumentException
 	 */
 	public static function getModules($position = null, $language = null)
 	{
@@ -361,5 +362,24 @@ class ModuleHelper
 		}
 
 		return Ioc::get($key, $forceNew);
+	}
+
+	/**
+	 * Get text color based on background color luma.
+	 *
+	 * @see https://stackoverflow.com/a/12043228
+	 *
+	 * @param string $bgHex
+	 * @param int    $sep
+	 *
+	 * @return  string
+	 */
+	public static function getTextColor($bgHex, $sep = 200)
+	{
+		list($r, $g, $b) = sscanf($bgHex, "#%02x%02x%02x");
+
+		$luma = $r * 0.2126 + $g * 0.7152 + $b * 0.0722;
+
+		return $luma > $sep ? 'black' : 'white';
 	}
 }

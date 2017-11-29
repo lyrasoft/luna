@@ -145,12 +145,12 @@
                         </td>
 
                         {{-- CODE --}}
-                        <td class="hasHighlight">
+                        <td class="hasHighlight text-nowrap">
                             {{ $item->code }}
                         </td>
 
                         {{-- URL --}}
-                        <td class="hasHighlight">
+                        <td class="hasHighlight text-nowrap">
                             {{ $item->alias }}
                         </td>
 

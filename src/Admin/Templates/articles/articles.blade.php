@@ -66,7 +66,7 @@
                     {{--</th>--}}
 
                     {{-- TITLE --}}
-                    <th class="text-nowrap">
+                    <th class="text-nowrap" style="min-width: 300px;">
                         {!! $grid->sortTitle($luna->langPrefix . 'article.field.title', 'article.title') !!}
                     </th>
 
@@ -160,7 +160,7 @@
                         </td>
 
                         {{-- ORDERING --}}
-                        <td class="text-center">
+                        <td class="text-right">
                             {!! $grid->orderButton() !!}
                         </td>
 
@@ -172,13 +172,13 @@
                         @endif
 
                         {{-- CREATED --}}
-                        <td>
+                        <td class="text-nowrap">
                             {{ Windwalker\Core\DateTime\Chronos::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
                         @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                             {{-- LANGUAGE --}}
-                            <td>
+                            <td class="text-nowrap">
                                 @if ($item->language === '*')
                                     <span class="glyphicon glyphicon-globe fa fa-globe"></span>
                                     @translate($luna->langPrefix . 'language.field.all')

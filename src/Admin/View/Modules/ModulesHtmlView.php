@@ -99,6 +99,19 @@ class ModulesHtmlView extends GridView
 	];
 
 	/**
+	 * Property colors.
+	 *
+	 * @var  array
+	 */
+	protected $colors = [
+		'#00acac', '#3e2723', '#3f51b5', '#3f51b5', '#4a148c', '#004d40', '#4db6ac', '#4e342e', '#5d4037', '#6a1b9a',
+		'#7e57c2', '#8d6e63', '#8e24aa', '#9c27b0', '#9fa8da', '#348fe2', '#454b6d', '#455a64', '#512da8', '#607d8b',
+		'#673ab7', '#00695c', '#880e4f', '#00897b', '#2196f3', '#006767', '#7266ba', '#009688', '#15395a', '#37474f',
+		'#78909c', '#263238', '#283593', '#795548', '#993734', '#ad1457', '#b71c1c', '#ba68c8', '#e08f18', '#e91e63',
+		'#e65100', '#f44336', '#fb6d9d', '#ff5252', '#ff9800', '#ff9800', '#ffcc80',
+	];
+
+	/**
 	 * Property defaultLabelClass.
 	 *
 	 * @var  string
@@ -139,7 +152,7 @@ class ModulesHtmlView extends GridView
 
 		foreach ($positions as $position)
 		{
-			$nums[$position] = abs(crc32($position));
+			$nums[$position] = abs(crc32($position . md5($position)));
 		}
 
 		foreach ($data->items as $item)
@@ -160,14 +173,24 @@ class ModulesHtmlView extends GridView
 			if ($item->position)
 			{
 				$item->positionName = $item->position;
+
+				$index = abs($nums[$item->position]) % count($this->colors);
+				$item->labelColor = $this->colors[abs($index)];
+
+				// B/C
 				$index = abs($nums[$item->position]) % count($this->labels);
 				$item->labelClass = $this->labels[abs($index)];
 			}
 			else
 			{
 				$item->positionName = Translator::translate($this->langPrefix . 'module.position.none');
+				$item->labelColor = '#F5F5F5';
+
+				// B/C
 				$item->labelClass = $this->defaultLabelClass;
 			}
+
+			$item->textColor = ModuleHelper::getTextColor($item->labelColor);
 
 			if (BootstrapScript::$currentVersion === 4)
 			{

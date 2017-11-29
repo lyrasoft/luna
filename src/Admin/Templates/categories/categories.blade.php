@@ -65,24 +65,24 @@ $originOrdering = [];
                     </th>
 
                     {{-- TITLE --}}
-                    <th>
+                    <th style="min-width: 300px;">
                         {!! $grid->sortTitle($luna->langPrefix . 'category.field.title', 'category.title') !!}
                     </th>
 
                     {{-- ORDERING --}}
-                    <th width="5%" class="nowrap">
+                    <th width="5%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'category.field.ordering', 'category.lft') !!} {!! $grid->saveorderButton() !!}
                     </th>
 
                     @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
                         {{-- AUTHOR --}}
-                        <th width="15%">
+                        <th width="15%" class="text-nowrap">
                             {!! $grid->sortTitle($luna->langPrefix . 'category.field.author', 'category.created_by') !!}
                         </th>
                     @endif
 
                     {{-- CREATED --}}
-                    <th width="8%">
+                    <th width="8%" class="text-nowrap">
                         {!! $grid->sortTitle($luna->langPrefix . 'category.field.created', 'category.created') !!}
                     </th>
 
@@ -149,13 +149,13 @@ $originOrdering = [];
                         @endif
 
                         {{-- CREATED --}}
-                        <td>
+                        <td class="text-nowrap">
                             {{ Windwalker\Core\DateTime\Chronos::toLocalTime($item->created, 'Y-m-d') }}
                         </td>
 
                         @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
                             {{-- LANGUAGE --}}
-                            <td>
+                            <td class="text-nowrap">
                                 @if ($item->language === '*')
                                     <span class="glyphicon glyphicon-globe fa fa-globe"></span>
                                     @translate($luna->langPrefix . 'language.field.all')
