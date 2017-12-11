@@ -165,19 +165,30 @@ class Locale
 	 */
 	public static function getLocale()
 	{
-		$config = Ioc::getConfig();
 		$session = Ioc::getSession();
 
 		$locale = $session->get(static::$sessionKey);
 
 		if (!$locale)
 		{
-			$locale = $config->get('language.locale') ? : $config->get('language.default', 'en-GB');
+			$locale = static::getSystemLocal();
 
 			$session->set(static::$sessionKey, $locale);
 		}
 
 		return $locale;
+	}
+
+    /**
+     * getSystemLocal
+     *
+     * @return  string
+     */
+    public static function getSystemLocal()
+    {
+        $config = Ioc::getConfig();
+
+        return $config->get('language.locale') ? : $config->get('language.default', 'en-GB');
 	}
 
 	/**
