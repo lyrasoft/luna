@@ -222,4 +222,16 @@ class GetController extends ListDisplayController
 	{
 		return $this->input->get($inputName, $default, $filter);
 	}
+
+    /**
+     * getContext
+     *
+     * @param   string $task
+     *
+     * @return  string
+     */
+    public function getContext($task = null)
+    {
+        return parent::getContext($task);
+    }
 }
