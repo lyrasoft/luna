@@ -14,7 +14,7 @@ $fieldsets = $moduleForm->getFieldsets();
 ?>
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="nav-item active">
-        <a class="nav-link" href="#fieldset-text" aria-controls="home" role="tab" data-toggle="tab">
+        <a class="nav-link active" href="#fieldset-text" aria-controls="home" role="tab" data-toggle="tab">
             @translate($module->getLangPrefix() . 'module.edit.fieldset.text')
         </a>
     </li>
@@ -29,7 +29,7 @@ $fieldsets = $moduleForm->getFieldsets();
 </ul>
 
 <div id="module-param-block" class="tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="fieldset-text">
+    <div role="tabpanel" class="tab-pane fade in active show" id="fieldset-text">
         {{-- EDITOR --}}
         {!! $form->getField('content')->renderInput() !!}
     </div>
