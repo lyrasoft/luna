@@ -15,6 +15,7 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Form;
+use Windwalker\Ioc;
 
 /**
  * The GridDefinition class.
@@ -98,11 +99,13 @@ class GridDefinition extends AbstractFieldDefinition
 		 */
 		$this->group('batch', function (Form $form) use ($langPrefix)
 		{
+			$input = Ioc::getInput();
+
 			// Parent
 			$this->categoryList('parent_id')
 				->label(Translator::translate($langPrefix . 'category.field.parent'))
-				->class('col-md-12')
-				->class('hasChosen')
+				->class('col-md-12 hasChosen')
+				->categoryType($input->get('type', ''))
 				->showRoot(true)
 				->option(Translator::translate($langPrefix . 'category.batch.parent.select'), '');
 
