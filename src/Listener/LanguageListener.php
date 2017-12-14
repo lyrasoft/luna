@@ -21,119 +21,133 @@ use Windwalker\String\StringHelper;
  */
 class LanguageListener
 {
-	/**
-	 * onBeforeRouting
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onRouterBeforeRouteMatch(Event $event)
-	{
-		// Workaround when languages table not exists
-		if (!Locale::isEnabled())
-		{
-			return;
-		}
+    /**
+     * Property locale.
+     *
+     * @var string
+     */
+    protected $locale;
 
-		$uri = Ioc::get('uri');
-		$route = $event['route'];
+    /**
+     * onBeforeRouting
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onRouterBeforeRouteMatch(Event $event)
+    {
+        // Workaround when languages table not exists
+        if (!Locale::isEnabled())
+        {
+            return;
+        }
 
-		$segments = trim($route, '/');
+        $uri = Ioc::get('uri');
+        $route = $event['route'];
 
-		if (!count($segments))
-		{
-			// No segments, means this is home route, return.
-			return;
-		}
+        $segments = trim($route, '/');
 
-		$segments = explode('/', $segments);
+        if (!count($segments))
+        {
+            // No segments, means this is home route, return.
+            return;
+        }
 
-		// Check first segment is language key or not
-		$alias = strtolower($segments[0]);
+        $segments = explode('/', $segments);
 
-		$language = Locale::getLanguageByAlias($alias);
+        // Check first segment is language key or not
+        $alias = strtolower($segments[0]);
 
-		if (!$language)
-		{
-			// Language not found, return and use default language.
-			Locale::setLocale(Locale::getLocale());
+        $language = Locale::getLanguageByAlias($alias);
 
-			return;
-		}
+        if (!$language)
+        {
+            // Language not found, return and use default language.
+            // Keep it in object and set into session later if we make sure current client enabled language filter.
+            $this->locale = Locale::getLocale();
 
-		// Set current language
-		Locale::setLocale($language->code);
+            return;
+        }
 
-		// Remove first segment and store back to Uri object
-		array_shift($segments);
+        // Set current language
+        Locale::setLocale($language->code);
 
-		// this is a real route without language key, use this route to match.
-		$event['route'] = implode('/', $segments);
+        // Remove first segment and store back to Uri object
+        array_shift($segments);
 
-		// Backup the base route that we can use it later.
-		$uri['base_route'] = implode('/', $segments);
-	}
+        // this is a real route without language key, use this route to match.
+        $event['route'] = implode('/', $segments);
 
-	/**
-	 * onRouterAfterRouteMatch
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterRouting(Event $event)
-	{
-		$config = Ioc::getConfig();
+        // Backup the base route that we can use it later.
+        $uri['base_route'] = implode('/', $segments);
+    }
 
-		$luna = LunaHelper::getPackage();
+    /**
+     * onRouterAfterRouteMatch
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterRouting(Event $event)
+    {
+        $config = Ioc::getConfig();
 
-		if ($luna->isFrontend())
-		{
-			$config->set('language.enabled', $luna->get('frontend.language.enabled', false));
-		}
-		elseif ($luna->isAdmin())
-		{
-			$config->set('frontend.enabled', $luna->get('frontend.language.enabled', false));
-		}
-	}
+        $luna = LunaHelper::getPackage();
 
-	/**
-	 * onRouterAfterRouteBuild
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onRouterAfterRouteBuild(Event $event)
-	{
-		if (!Locale::isEnabled(Locale::CLIENT_CURRENT))
-		{
-			return;
-		}
+        if ($luna->isFrontend())
+        {
+            $config->set('language.enabled', $luna->get('frontend.language.enabled', false));
+        }
+        elseif ($luna->isAdmin())
+        {
+            $config->set('frontend.enabled', $luna->get('frontend.language.enabled', false));
+        }
 
-		$route = $event['route'];
-		
-		list($package, $route) = StringHelper::explode('@', $route, 2, 'array_unshift');
-		
-		if (!$package)
-		{
-			return;
-		}
-		
-		if (LunaHelper::isFrontend() && !LunaHelper::isFrontend($package))
-		{
-			return;
-		}
+        // Let's set locale
+        if (Locale::isEnabled(Locale::CLIENT_CURRENT) && $this->locale)
+        {
+            Locale::setLocale($this->locale);
+        }
+    }
 
-		if (LunaHelper::isAdmin() && !LunaHelper::isAdmin($package))
-		{
-			return;
-		}
-		
-		$url = $event['url'];
+    /**
+     * onRouterAfterRouteBuild
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onRouterAfterRouteBuild(Event $event)
+    {
+        if (!Locale::isEnabled(Locale::CLIENT_CURRENT))
+        {
+            return;
+        }
 
-		// Add language key to every route when building.
-		$event['url'] = Locale::getCurrentLanguage()->alias . '/' . $url;
-	}
+        $route = $event['route'];
+
+        list($package, $route) = StringHelper::explode('@', $route, 2, 'array_unshift');
+
+        if (!$package)
+        {
+            return;
+        }
+
+        if (LunaHelper::isFrontend() && !LunaHelper::isFrontend($package))
+        {
+            return;
+        }
+
+        if (LunaHelper::isAdmin() && !LunaHelper::isAdmin($package))
+        {
+            return;
+        }
+
+        $url = $event['url'];
+
+        // Add language key to every route when building.
+        $event['url'] = Locale::getCurrentLanguage()->alias . '/' . $url;
+    }
 }

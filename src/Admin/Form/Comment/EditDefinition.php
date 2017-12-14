@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Comment;
 
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
+use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Form;
@@ -21,6 +22,7 @@ use Windwalker\Form\Form;
  */
 class EditDefinition extends AbstractFieldDefinition
 {
+    use PhoenixFieldTrait;
 	use LunaFieldTrait;
 
 	/**
@@ -61,7 +63,7 @@ class EditDefinition extends AbstractFieldDefinition
 
 			// Content
 			$this->textarea('content')
-				->label(Translator::translate($langPrefix . 'comment.field.introtext'))
+				->label(Translator::translate($langPrefix . 'comment.field.content'))
 				->rows( 10);
 
 			if (WarderHelper::tableExists('users'))
@@ -72,7 +74,7 @@ class EditDefinition extends AbstractFieldDefinition
 
 			// Reply
 			$this->textarea('reply')
-				->label(Translator::translate($langPrefix . 'comment.field.fulltext'))
+				->label(Translator::translate($langPrefix . 'comment.field.reply'))
 				->rows( 10);
 		});
 
@@ -80,12 +82,12 @@ class EditDefinition extends AbstractFieldDefinition
 		$this->fieldset('created', function(Form $form) use ($langPrefix)
 		{
 			// State
-			$this->radio('state')
+			$this->switch('state')
 				->label(Translator::translate($langPrefix . 'comment.field.published'))
-				->class('btn-group')
-				->defaultValue(1)
-				->option(Translator::translate('phoenix.grid.state.published'), '1')
-				->option(Translator::translate('phoenix.grid.state.unpublished'), '0');
+				->class('')
+                ->color('success')
+                ->circle(true)
+				->defaultValue(1);
 		});
 	}
 }

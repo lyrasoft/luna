@@ -84,4 +84,18 @@ class GetController extends ListDisplayController
 
 		$this->view['type'] = $type;
 	}
+
+    /**
+     * getContext
+     *
+     * @param   string $task
+     *
+     * @return  string
+     */
+    public function getContext($task = null)
+    {
+        $type = $this->input->get('type');
+
+        return parent::getContext($task) . '.' . $type;
+    }
 }

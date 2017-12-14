@@ -37,4 +37,18 @@ class FilterController extends AbstractFilterController
 	 * @var  string
 	 */
 	protected $listName = 'categories';
+
+    /**
+     * getContext
+     *
+     * @param   string $task
+     *
+     * @return  string
+     */
+    public function getContext($task = null)
+    {
+        $type = $this->input->get('type');
+        
+        return parent::getContext($task) . '.' . $type;
+    }
 }
