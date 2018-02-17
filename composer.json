@@ -2,7 +2,7 @@
     "name": "lyrasoft/luna",
     "description": "A CMF package for Windwalker.",
     "homepage": "https://github.com/lyrasoft/luna",
-    "license": "LGPL-2.0+",
+    "license": "LGPL-2.0-or-later",
     "minimum-stability": "beta",
     "require": {
         "php": ">=5.6",
