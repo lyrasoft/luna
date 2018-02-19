@@ -14,48 +14,48 @@ use Phoenix\Controller\Display\ListDisplayController;
 
 /**
  * The GetController class.
- * 
+ *
  * @since  1.0
  */
 class GetController extends ListDisplayController
 {
-	/**
-	 * Property model.
-	 *
-	 * @var  TagsModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  TagsModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  TagsHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  TagsHtmlView
+     */
+    protected $view;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $defaultOrdering = 'tag.id';
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $defaultOrdering = 'tag.id';
 
-	/**
-	 * Property direction.
-	 *
-	 * @var  string
-	 */
-	protected $defaultDirection = 'DESC';
+    /**
+     * Property direction.
+     *
+     * @var  string
+     */
+    protected $defaultDirection = 'DESC';
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		$this->layout = $this->input->get('layout');
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        $this->layout = $this->input->get('layout');
 
-		parent::prepareExecute();
-	}
+        parent::prepareExecute();
+    }
 }

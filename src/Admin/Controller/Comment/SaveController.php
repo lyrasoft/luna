@@ -15,123 +15,123 @@ use Windwalker\Data\DataInterface;
 
 /**
  * The SaveController class.
- * 
+ *
  * @since  1.0
  */
 class SaveController extends AbstractSaveController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'comment';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'comment';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'comment';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'comment';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'comments';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'comments';
 
-	/**
-	 * Property formControl.
-	 *
-	 * @var  string
-	 */
-	protected $formControl = 'item';
+    /**
+     * Property formControl.
+     *
+     * @var  string
+     */
+    protected $formControl = 'item';
 
-	/**
-	 * Property model.
-	 *
-	 * @var  CommentModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  CommentModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  CommentHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  CommentHtmlView
+     */
+    protected $view;
 
-	/**
-	 * Property redirectQueryFields.
-	 *
-	 * @var  array
-	 */
-	protected $redirectQueryFields = [
-		'type'
-	];
+    /**
+     * Property redirectQueryFields.
+     *
+     * @var  array
+     */
+    protected $redirectQueryFields = [
+        'type',
+    ];
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		parent::prepareExecute();
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        parent::prepareExecute();
 
-		$type = $this->input->get('type');
+        $type = $this->input->get('type');
 
-		$this->model['comment.type'] = $type;
-	}
+        $this->model['comment.type'] = $type;
+    }
 
-	/**
-	 * preSave
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return void
-	 */
-	protected function preSave(DataInterface $data)
-	{
-		parent::preSave($data);
-	}
+    /**
+     * preSave
+     *
+     * @param DataInterface $data
+     *
+     * @return void
+     */
+    protected function preSave(DataInterface $data)
+    {
+        parent::preSave($data);
+    }
 
-	/**
-	 * postSave
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return  void
-	 */
-	protected function postSave(DataInterface $data)
-	{
-		parent::postSave($data);
-	}
+    /**
+     * postSave
+     *
+     * @param DataInterface $data
+     *
+     * @return  void
+     */
+    protected function postSave(DataInterface $data)
+    {
+        parent::postSave($data);
+    }
 
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
-	}
+    /**
+     * postExecute
+     *
+     * @param mixed $result
+     *
+     * @return  mixed
+     */
+    protected function postExecute($result = null)
+    {
+        return parent::postExecute($result);
+    }
 
-	/**
-	 * getFailRedirect
-	 *
-	 * @param  DataInterface $data
-	 *
-	 * @return  string
-	 */
-	protected function getFailRedirect(DataInterface $data = null)
-	{
-		$pk = $this->record->{$this->keyName};
+    /**
+     * getFailRedirect
+     *
+     * @param  DataInterface $data
+     *
+     * @return  string
+     */
+    protected function getFailRedirect(DataInterface $data = null)
+    {
+        $pk = $this->record->{$this->keyName};
 
-		return $this->router->route($this->getName(), [$this->keyName => $pk]);
-	}
+        return $this->router->route($this->getName(), [$this->keyName => $pk]);
+    }
 }

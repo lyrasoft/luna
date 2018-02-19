@@ -13,9 +13,9 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $item  \Windwalker\Data\Data
- * @var $state \Windwalker\Structure\Structure
- * @var $form  \Windwalker\Form\Form
+ * @var $item     \Windwalker\Data\Data
+ * @var $state    \Windwalker\Structure\Structure
+ * @var $form     \Windwalker\Form\Form
  */
 ?>
 
@@ -26,34 +26,35 @@
 @stop
 
 @section('admin-body')
-<form name="admin-form" id="admin-form" action="{{ $router->route('comment', array('type' => $type)) }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->route('comment', array('type' => $type)) }}"
+          method="POST" enctype="multipart/form-data">
 
-    <div class="row">
-        <div class="col-md-7">
-            <fieldset class="form-horizontal">
-                <legend>@translate($luna->langPrefix . 'comment.edit.fieldset.basic')</legend>
+        <div class="row">
+            <div class="col-md-7">
+                <fieldset class="form-horizontal">
+                    <legend>@translate($luna->langPrefix . 'comment.edit.fieldset.basic')</legend>
 
-                {!! $form->renderFields('basic') !!}
-            </fieldset>
+                    {!! $form->renderFields('basic') !!}
+                </fieldset>
 
-            <fieldset class="form-horizontal">
-                <legend>@translate($luna->langPrefix . 'comment.edit.fieldset.text')</legend>
+                <fieldset class="form-horizontal">
+                    <legend>@translate($luna->langPrefix . 'comment.edit.fieldset.text')</legend>
 
-                {!! $form->renderFields('text') !!}
-            </fieldset>
+                    {!! $form->renderFields('text') !!}
+                </fieldset>
+            </div>
+            <div class="col-md-5">
+                <fieldset class="form-horizontal">
+                    <legend>@translate($luna->langPrefix . 'comment.edit.fieldset.created')</legend>
+
+                    {!! $form->renderFields('created') !!}
+                </fieldset>
+            </div>
         </div>
-        <div class="col-md-5">
-            <fieldset class="form-horizontal">
-                <legend>@translate($luna->langPrefix . 'comment.edit.fieldset.created')</legend>
 
-                {!! $form->renderFields('created') !!}
-            </fieldset>
+        <div class="hidden-inputs">
+            @formToken()
         </div>
-    </div>
 
-    <div class="hidden-inputs">
-        @formToken()
-    </div>
-
-</form>
+    </form>
 @stop

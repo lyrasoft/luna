@@ -24,16 +24,17 @@
 </button>
 
 {{--<button type="button" class="btn btn-default btn-info btn-sm" onclick="Phoenix.post(null, {task: 'save2copy'});">--}}
-    {{--<span class="glyphicon glyphicon-duplicate fa fa-copy"></span>--}}
-    {{--@translate('phoenix.toolbar.save2copy')--}}
+{{--<span class="glyphicon glyphicon-duplicate fa fa-copy"></span>--}}
+{{--@translate('phoenix.toolbar.save2copy')--}}
 {{--</button>--}}
 
 {{--<button type="button" class="btn btn-default btn-info btn-sm" onclick="Phoenix.post(null, {task: 'save2new'});">--}}
-    {{--<span class="glyphicon glyphicon-plus fa fa-plus"></span>--}}
-    {{--@translate('phoenix.toolbar.save2new')--}}
+{{--<span class="glyphicon glyphicon-plus fa fa-plus"></span>--}}
+{{--@translate('phoenix.toolbar.save2new')--}}
 {{--</button>--}}
 
-<a role="button" class="btn btn-default btn-outline-secondary btn-sm" href="{{ $router->route('comments', array('type' => $type)) }}">
+<a role="button" class="btn btn-default btn-outline-secondary btn-sm"
+   href="{{ $router->route('comments', array('type' => $type)) }}">
     <span class="glyphicon glyphicon-remove fa fa-remove"></span>
     @translate('phoenix.toolbar.cancel')
 </a>

@@ -19,45 +19,45 @@ use Phoenix\Field\ModalField;
  */
 class CommentModalField extends ModalField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::COMMENTS;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::COMMENTS;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  string
-	 */
-	protected $view = 'comments';
+    /**
+     * Property view.
+     *
+     * @var  string
+     */
+    protected $view = 'comments';
 
-	/**
-	 * Property titleField.
-	 *
-	 * @var  string
-	 */
-	protected $titleField = 'title';
+    /**
+     * Property titleField.
+     *
+     * @var  string
+     */
+    protected $titleField = 'title';
 
-	/**
-	 * Property keyField.
-	 *
-	 * @var  string
-	 */
-	protected $keyField = 'id';
+    /**
+     * Property keyField.
+     *
+     * @var  string
+     */
+    protected $keyField = 'id';
 
-	/**
-	 * buildInput
-	 *
-	 * @param array $attrs
-	 *
-	 * @return  string
-	 */
-	public function buildInput($attrs)
-	{
-		$this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
+    /**
+     * buildInput
+     *
+     * @param array $attrs
+     *
+     * @return  string
+     */
+    public function buildInput($attrs)
+    {
+        $this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
 
-		return parent::buildInput($attrs);
-	}
+        return parent::buildInput($attrs);
+    }
 }

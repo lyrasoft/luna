@@ -20,32 +20,31 @@ use Windwalker\Event\Event;
  */
 class ContactListener
 {
-	/**
-	 * Property config.
-	 *
-	 * @var  Config
-	 */
-	protected $config;
+    /**
+     * Property config.
+     *
+     * @var  Config
+     */
+    protected $config;
 
-	/**
-	 * ContactListener constructor.
-	 *
-	 * @param Config $config
-	 */
-	public function __construct(Config $config)
-	{
-		$this->config = $config;
-	}
+    /**
+     * ContactListener constructor.
+     *
+     * @param Config $config
+     */
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
 
-	public function onLunaContactSendMail(Event $event)
-	{
-		$data = $event['data'];
+    public function onLunaContactSendMail(Event $event)
+    {
+        $data = $event['data'];
 
-		if (!$data->email)
-		{
-			return;
-		}
+        if (!$data->email) {
+            return;
+        }
 
-		Mailer::send(ContactMessage::create($data, $this->config));
-	}
+        Mailer::send(ContactMessage::create($data, $this->config));
+    }
 }

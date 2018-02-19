@@ -23,71 +23,66 @@ use Windwalker\Form\Form;
 class EditDefinition extends AbstractFieldDefinition
 {
     use PhoenixFieldTrait;
-	use LunaFieldTrait;
+    use LunaFieldTrait;
 
-	/**
-	 * Define the form fields.
-	 *
-	 * @param Form $form The Windwalker form object.
-	 *
-	 * @return  void
-	 * @throws \InvalidArgumentException
-	 */
-	public function doDefine(Form $form)
-	{
-		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
+    /**
+     * Define the form fields.
+     *
+     * @param Form $form The Windwalker form object.
+     *
+     * @return  void
+     * @throws \InvalidArgumentException
+     */
+    public function doDefine(Form $form)
+    {
+        $langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
-		// Basic fieldset
-		$this->fieldset('basic', function(Form $form) use ($langPrefix)
-		{
-			// ID
-			$this->hidden('id');
+        // Basic fieldset
+        $this->fieldset('basic', function (Form $form) use ($langPrefix) {
+            // ID
+            $this->hidden('id');
 
-			// Type
-			$this->hidden('type')
-				->label(Translator::translate($langPrefix . 'comment.field.type'));
+            // Type
+            $this->hidden('type')
+                ->label(Translator::translate($langPrefix . 'comment.field.type'));
 
-			// Target ID
-			$this->text('target_id')
-				->label(Translator::translate($langPrefix . 'comment.field.target.id'));
-		});
+            // Target ID
+            $this->text('target_id')
+                ->label(Translator::translate($langPrefix . 'comment.field.target.id'));
+        });
 
-		// Text Fieldset
-		$this->fieldset('text', function(Form $form) use ($langPrefix)
-		{
-			if (WarderHelper::tableExists('users'))
-			{
-				$this->userModal('user_id')
-					->label(Translator::translate($langPrefix . 'comment.field.author'));
-			}
+        // Text Fieldset
+        $this->fieldset('text', function (Form $form) use ($langPrefix) {
+            if (WarderHelper::tableExists('users')) {
+                $this->userModal('user_id')
+                    ->label(Translator::translate($langPrefix . 'comment.field.author'));
+            }
 
-			// Content
-			$this->textarea('content')
-				->label(Translator::translate($langPrefix . 'comment.field.content'))
-				->rows( 10);
+            // Content
+            $this->textarea('content')
+                ->label(Translator::translate($langPrefix . 'comment.field.content'))
+                ->rows(10);
 
-			if (WarderHelper::tableExists('users'))
-			{
-				$this->userModal('reply_user_id')
-					->label(Translator::translate($langPrefix . 'comment.field.replyer'));
-			}
+            if (WarderHelper::tableExists('users')) {
+                $this->userModal('reply_user_id')
+                    ->label(Translator::translate($langPrefix . 'comment.field.replyer'));
+            }
 
-			// Reply
-			$this->textarea('reply')
-				->label(Translator::translate($langPrefix . 'comment.field.reply'))
-				->rows( 10);
-		});
+            // Reply
+            $this->textarea('reply')
+                ->label(Translator::translate($langPrefix . 'comment.field.reply'))
+                ->rows(10);
+        });
 
-		// Created fieldset
-		$this->fieldset('created', function(Form $form) use ($langPrefix)
-		{
-			// State
-			$this->switch('state')
-				->label(Translator::translate($langPrefix . 'comment.field.published'))
-				->class('')
+        // Created fieldset
+        $this->fieldset('created', function (Form $form) use ($langPrefix) {
+            // State
+            $this->switch('state')
+                ->label(Translator::translate($langPrefix . 'comment.field.published'))
+                ->class('')
                 ->color('success')
                 ->circle(true)
-				->defaultValue(1);
-		});
-	}
+                ->defaultValue(1);
+        });
+    }
 }

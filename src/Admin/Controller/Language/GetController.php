@@ -14,22 +14,22 @@ use Phoenix\Controller\Display\EditDisplayController;
 
 /**
  * The GetController class.
- * 
+ *
  * @since  1.0
  */
 class GetController extends EditDisplayController
 {
-	/**
-	 * Property model.
-	 *
-	 * @var  LanguageModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  LanguageModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  LanguageHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  LanguageHtmlView
+     */
+    protected $view;
 }

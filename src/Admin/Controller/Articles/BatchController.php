@@ -17,24 +17,24 @@ use Phoenix\Controller\Batch\BatchDelegatingController;
  */
 class BatchController extends BatchDelegatingController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'articles';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'articles';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'article';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'article';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'articles';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'articles';
 }

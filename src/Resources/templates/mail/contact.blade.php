@@ -21,7 +21,8 @@
         @endif
 
         <tr>
-            <th width="33%" style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd; {{ $i === 0 ? 'border-top: 1px solid #ddd;' : '' }}">
+            <th width="33%"
+                style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd; {{ $i === 0 ? 'border-top: 1px solid #ddd;' : '' }}">
                 @translate(\Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix() . 'contact.field.' . $key)
             </th>
             <td style="padding: 8px; border-bottom: 1px solid #ddd; {{ $i === 0 ? 'border-top: 1px solid #ddd;' : '' }}">

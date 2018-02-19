@@ -17,113 +17,116 @@ use Windwalker\Data\DataInterface;
 
 /**
  * The SaveController class.
- * 
+ *
  * @since  1.0
  */
 class SaveController extends AbstractSaveController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'category';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'category';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'category';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'category';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'categories';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'categories';
 
-	/**
-	 * Property formControl.
-	 *
-	 * @var  string
-	 */
-	protected $formControl = 'item';
+    /**
+     * Property formControl.
+     *
+     * @var  string
+     */
+    protected $formControl = 'item';
 
-	/**
-	 * Property model.
-	 *
-	 * @var  CategoryModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  CategoryModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  CategoryHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  CategoryHtmlView
+     */
+    protected $view;
 
-	/**
-	 * Property redirectQueryFields.
-	 *
-	 * @var  array
-	 */
-	protected $redirectQueryFields = [
-		'type'
-	];
+    /**
+     * Property redirectQueryFields.
+     *
+     * @var  array
+     */
+    protected $redirectQueryFields = [
+        'type',
+    ];
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		parent::prepareExecute();
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        parent::prepareExecute();
 
-		$type = $this->input->get('type');
+        $type = $this->input->get('type');
 
-		$this->model['category.type'] = $type;
-	}
+        $this->model['category.type'] = $type;
+    }
 
-	/**
-	 * preSave
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return void
-	 */
-	protected function preSave(DataInterface $data)
-	{
-		parent::preSave($data);
-	}
+    /**
+     * preSave
+     *
+     * @param DataInterface $data
+     *
+     * @return void
+     */
+    protected function preSave(DataInterface $data)
+    {
+        parent::preSave($data);
+    }
 
-	/**
-	 * postSave
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return  void
-	 */
-	protected function postSave(DataInterface $data)
-	{
-		// Save base64 from single upload field
-		if (false !== SingleImageDragField::uploadFromController($this, 'image', $data, CategoryImageHelper::getPath($data->id)));
-		{
-			$this->model->save($data);
-		}
-	}
+    /**
+     * postSave
+     *
+     * @param DataInterface $data
+     *
+     * @return  void
+     */
+    protected function postSave(DataInterface $data)
+    {
+        // Save base64 from single upload field
+        if (false !== SingleImageDragField::uploadFromController($this, 'image', $data,
+                CategoryImageHelper::getPath($data->id))) {
+            ;
+        }
+        {
+            $this->model->save($data);
+        }
+    }
 
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
-	}
+    /**
+     * postExecute
+     *
+     * @param mixed $result
+     *
+     * @return  mixed
+     */
+    protected function postExecute($result = null)
+    {
+        return parent::postExecute($result);
+    }
 }

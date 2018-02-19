@@ -18,20 +18,19 @@ use Windwalker\Core\Asset\AbstractScript;
  */
 class LanguageScript extends AbstractScript
 {
-	/**
-	 * flagIcon
-	 *
-	 * @return  void
-	 */
-	public static function flagIcon()
-	{
-		if (!static::inited(__METHOD__))
-		{
-			$luna = LunaHelper::getPackage();
+    /**
+     * flagIcon
+     *
+     * @return  void
+     */
+    public static function flagIcon()
+    {
+        if (!static::inited(__METHOD__)) {
+            $luna = LunaHelper::getPackage();
 
-			$asset = static::getAsset();
+            $asset = static::getAsset();
 
-			$asset->addStyle($luna->name . '/css/flag-icon.min.css');
-		}
-	}
+            $asset->addStyle($luna->name . '/css/flag-icon.min.css');
+        }
+    }
 }

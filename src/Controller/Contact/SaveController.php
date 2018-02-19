@@ -22,54 +22,54 @@ use Windwalker\DataMapper\Entity\Entity;
  */
 class SaveController extends AbstractSaveController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'Contact';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'Contact';
 
-	/**
-	 * Process success.
-	 *
-	 * @param  mixed $result
-	 *
-	 * @return mixed
-	 * @throws \UnexpectedValueException
-	 */
-	public function processSuccess($result)
-	{
-		$this->triggerEvent('onLunaContactSendMail', [
-			'controller' => $this,
-			'data' => $this->dataObject
-		]);
+    /**
+     * Process success.
+     *
+     * @param  mixed $result
+     *
+     * @return mixed
+     * @throws \UnexpectedValueException
+     */
+    public function processSuccess($result)
+    {
+        $this->triggerEvent('onLunaContactSendMail', [
+            'controller' => $this,
+            'data' => $this->dataObject,
+        ]);
 
-		return parent::processSuccess($result);
-	}
+        return parent::processSuccess($result);
+    }
 
-	/**
-	 * getSuccessMessage
-	 *
-	 * @param Data $data
-	 *
-	 * @return  string
-	 */
-	public function getSuccessMessage($data = null)
-	{
-		return Translator::translate(LunaHelper::getLangPrefix() . 'contact.message.submit.success');
-	}
+    /**
+     * getSuccessMessage
+     *
+     * @param Data $data
+     *
+     * @return  string
+     */
+    public function getSuccessMessage($data = null)
+    {
+        return Translator::translate(LunaHelper::getLangPrefix() . 'contact.message.submit.success');
+    }
 
-	/**
-	 * getSuccessRedirect
-	 *
-	 * @param  DataInterface|Entity $data
-	 *
-	 * @return  string
-	 *
-	 * @throws \OutOfRangeException
-	 */
-	protected function getSuccessRedirect(DataInterface $data = null)
-	{
-		return (string) $this->router->to(strtolower($this->getName()));
-	}
+    /**
+     * getSuccessRedirect
+     *
+     * @param  DataInterface|Entity $data
+     *
+     * @return  string
+     *
+     * @throws \OutOfRangeException
+     */
+    protected function getSuccessRedirect(DataInterface $data = null)
+    {
+        return (string) $this->router->to(strtolower($this->getName()));
+    }
 }

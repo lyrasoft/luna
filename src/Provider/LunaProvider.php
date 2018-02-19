@@ -21,42 +21,41 @@ use Windwalker\Utilities\Queue\PriorityQueue;
  */
 class LunaProvider implements ServiceProviderInterface
 {
-	/**
-	 * Property luna.
-	 *
-	 * @var  LunaPackage
-	 */
-	protected $luna;
+    /**
+     * Property luna.
+     *
+     * @var  LunaPackage
+     */
+    protected $luna;
 
-	/**
-	 * LunaProvider constructor.
-	 *
-	 * @param  LunaPackage  $luna
-	 */
-	public function __construct(LunaPackage $luna)
-	{
-		$this->luna = $luna;
-	}
+    /**
+     * LunaProvider constructor.
+     *
+     * @param  LunaPackage $luna
+     */
+    public function __construct(LunaPackage $luna)
+    {
+        $this->luna = $luna;
+    }
 
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container $container The DI container.
-	 *
-	 * @return  void
-	 */
-	public function register(Container $container)
-	{
-		if ($container->get('application')->isConsole())
-		{
-			return;
-		}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container $container The DI container.
+     *
+     * @return  void
+     */
+    public function register(Container $container)
+    {
+        if ($container->get('application')->isConsole()) {
+            return;
+        }
 
-		$container->getParent()->extend(RendererManager::class, function (RendererManager $manager, Container $container)
-		{
-			$manager->addGlobalPath($this->luna->getDir() . '/Resources/templates', PriorityQueue::LOW - 25);
+        $container->getParent()->extend(RendererManager::class,
+            function (RendererManager $manager, Container $container) {
+                $manager->addGlobalPath($this->luna->getDir() . '/Resources/templates', PriorityQueue::LOW - 25);
 
-			return $manager;
-		});
-	}
+                return $manager;
+            });
+    }
 }

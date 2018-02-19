@@ -20,38 +20,37 @@ use Windwalker\Html\Option;
  */
 class ModuleTypeListField extends ListField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::MODULES;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::MODULES;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $ordering = 'type';
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $ordering = 'type';
 
-	/**
-	 * prepareOptions
-	 *
-	 * @return  array|Option[]
-	 */
-	protected function prepareOptions()
-	{
-		$attribs = (array) $this->get('attribs');
+    /**
+     * prepareOptions
+     *
+     * @return  array|Option[]
+     */
+    protected function prepareOptions()
+    {
+        $attribs = (array) $this->get('attribs');
 
-		$options = [];
+        $options = [];
 
-		$types = ModuleHelper::getModuleTypes();
+        $types = ModuleHelper::getModuleTypes();
 
-		foreach ($types as $type)
-		{
-			$options[] = new Option($type->name, $type->type, $attribs);
-		}
+        foreach ($types as $type) {
+            $options[] = new Option($type->name, $type->type, $attribs);
+        }
 
-		return $options;
-	}
+        return $options;
+    }
 }

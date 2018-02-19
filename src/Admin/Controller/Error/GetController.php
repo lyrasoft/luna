@@ -13,81 +13,78 @@ use Windwalker\Core\Model\ModelRepository;
 
 /**
  * The GetController class.
- * 
+ *
  * @since  1.0
  */
 class GetController extends ItemDisplayController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'error';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'error';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'error';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'error';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'error';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'error';
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		parent::prepareExecute();
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        parent::prepareExecute();
 
-		if ($this->format === 'html')
-		{
-			// Keep HTTP status text as default if in HTML
-			$this->response = $this->response->withStatus($this->response->getStatusCode());
+        if ($this->format === 'html') {
+            // Keep HTTP status text as default if in HTML
+            $this->response = $this->response->withStatus($this->response->getStatusCode());
 
-			$this->view['exception'] = $this->input->getRaw('exception');
-		}
-		else
-		{
-			$exception = $this->input->getRaw('exception');
+            $this->view['exception'] = $this->input->getRaw('exception');
+        } else {
+            $exception = $this->input->getRaw('exception');
 
-			$this->view->getData()->load([
-				'success' => false,
-				'code' => $exception->getCode(),
-				'message' => $exception->getMessage(),
-			]);
-		}
-	}
+            $this->view->getData()->load([
+                'success' => false,
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
+            ]);
+        }
+    }
 
-	/**
-	 * prepareModelState
-	 *
-	 * @param   ModelRepository $model
-	 *
-	 * @return  void
-	 */
-	protected function prepareModelState(ModelRepository $model)
-	{
-		parent::prepareModelState($model);
-	}
+    /**
+     * prepareModelState
+     *
+     * @param   ModelRepository $model
+     *
+     * @return  void
+     */
+    protected function prepareModelState(ModelRepository $model)
+    {
+        parent::prepareModelState($model);
+    }
 
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
-	}
+    /**
+     * postExecute
+     *
+     * @param mixed $result
+     *
+     * @return  mixed
+     */
+    protected function postExecute($result = null)
+    {
+        return parent::postExecute($result);
+    }
 }

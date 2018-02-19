@@ -18,22 +18,22 @@ use Phoenix\Controller\Batch\AbstractTrashController;
  */
 class CancelController extends AbstractTrashController
 {
-	/**
-	 * Property action.
-	 *
-	 * @var  string
-	 */
-	protected $action = 'cancel';
+    /**
+     * Property action.
+     *
+     * @var  string
+     */
+    protected $action = 'cancel';
 
-	/**
-	 * A hook before main process executing.
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		$this->langPrefix = LunaHelper::getLangPrefix();
+    /**
+     * A hook before main process executing.
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
 
-		parent::prepareExecute();
-	}
+        parent::prepareExecute();
+    }
 }

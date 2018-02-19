@@ -15,72 +15,69 @@ use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The ErrorHtmlView class.
- * 
+ *
  * @since  1.0
  */
 class ErrorHtmlView extends ItemView
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'error';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'error';
 
-	/**
-	 * Property renderer.
-	 *
-	 * @var  string
-	 */
-	protected $renderer = RendererHelper::EDGE;
+    /**
+     * Property renderer.
+     *
+     * @var  string
+     */
+    protected $renderer = RendererHelper::EDGE;
 
-	/**
-	 * init
-	 *
-	 * @return  void
-	 */
-	protected function init()
-	{
-		$this->langPrefix = LunaHelper::getLangPrefix();
-	}
+    /**
+     * init
+     *
+     * @return  void
+     */
+    protected function init()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
+    }
 
-	/**
-	 * prepareData
-	 *
-	 * @param \Windwalker\Data\Data $data
-	 *
-	 * @return  void
-	 */
-	protected function prepareData($data)
-	{
-		parent::prepareData($data);
-		
-		$data->code = $data->exception->getCode();
-		$data->msg  = $data->exception->getMessage();
+    /**
+     * prepareData
+     *
+     * @param \Windwalker\Data\Data $data
+     *
+     * @return  void
+     */
+    protected function prepareData($data)
+    {
+        parent::prepareData($data);
 
-		$data->code = ($data->code >= 400 && $data->code < 500) ? $data->code : 500;
+        $data->code = $data->exception->getCode();
+        $data->msg  = $data->exception->getMessage();
 
-		if ($data->code === 404)
-		{
-			$data->msg = Translator::translate($this->langPrefix . 'error.not.found');
-		}
-		elseif ($data->code < 400 || $data->code >= 500)
-		{
-			$data->msg = Translator::translate($this->langPrefix . 'error.internal');
-		}
+        $data->code = ($data->code >= 400 && $data->code < 500) ? $data->code : 500;
 
-		$this->setTitle($data->msg);
-	}
+        if ($data->code === 404) {
+            $data->msg = Translator::translate($this->langPrefix . 'error.not.found');
+        } elseif ($data->code < 400 || $data->code >= 500) {
+            $data->msg = Translator::translate($this->langPrefix . 'error.internal');
+        }
 
-	/**
-	 * setTitle
-	 *
-	 * @param string $title
-	 *
-	 * @return  static
-	 */
-	public function setTitle($title = null)
-	{
-		return parent::setTitle($title);
-	}
+        $this->setTitle($data->msg);
+    }
+
+    /**
+     * setTitle
+     *
+     * @param string $title
+     *
+     * @return  static
+     */
+    public function setTitle($title = null)
+    {
+        return parent::setTitle($title);
+    }
 }

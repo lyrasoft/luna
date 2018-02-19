@@ -17,24 +17,24 @@ use Phoenix\Controller\Batch\AbstractDeleteController;
  */
 class DeleteController extends AbstractDeleteController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'comments';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'comments';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'comment';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'comment';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'comments';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'comments';
 }

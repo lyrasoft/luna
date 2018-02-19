@@ -19,99 +19,97 @@ use Windwalker\String\Utf8String;
 
 /**
  * The CategoryHtmlView class.
- * 
+ *
  * @since  1.0
  */
 class CategoryHtmlView extends ListView
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'category';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'category';
 
-	/**
-	 * Property renderer.
-	 *
-	 * @var  string
-	 */
-	protected $renderer = RendererHelper::EDGE;
+    /**
+     * Property renderer.
+     *
+     * @var  string
+     */
+    protected $renderer = RendererHelper::EDGE;
 
-	/**
-	 * init
-	 *
-	 * @return  void
-	 */
-	protected function init()
-	{
-		$this->langPrefix = LunaHelper::getLangPrefix();
-	}
+    /**
+     * init
+     *
+     * @return  void
+     */
+    protected function init()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
+    }
 
-	/**
-	 * prepareData
-	 *
-	 * @param \Windwalker\Data\Data $data
-	 *
-	 * @return  void
-	 */
-	protected function prepareData($data)
-	{
-		parent::prepareData($data);
-		
-		foreach ($data->items as $item)
-		{
-			$tags = (array) explode('||', $item->tags);
+    /**
+     * prepareData
+     *
+     * @param \Windwalker\Data\Data $data
+     *
+     * @return  void
+     */
+    protected function prepareData($data)
+    {
+        parent::prepareData($data);
 
-			$tags = array_filter($tags, 'strlen');
+        foreach ($data->items as $item) {
+            $tags = (array) explode('||', $item->tags);
 
-			sort($tags);
+            $tags = array_filter($tags, 'strlen');
 
-			$tags = array_map(function ($value)
-			{
-				list($title, $alias) = StringHelper::explode(':', $value);
+            sort($tags);
 
-				return new Data(
-					[
-					'title' => $title,
-					'alias' => $alias
-					]
-				);
-			}, $tags);
+            $tags = array_map(function ($value) {
+                list($title, $alias) = StringHelper::explode(':', $value);
 
-			$item->tags = $tags;
-		}
+                return new Data(
+                    [
+                        'title' => $title,
+                        'alias' => $alias,
+                    ]
+                );
+            }, $tags);
 
-		$this->prepareHeader($data);
-	}
+            $item->tags = $tags;
+        }
 
-	/**
-	 * prepareHeader
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return  void
-	 */
-	protected function prepareHeader(DataInterface $data)
-	{
-		$this->setTitle($data->category->title);
+        $this->prepareHeader($data);
+    }
 
-		$desc = Utf8String::substr(strip_tags($data->category->description), 0, 150);
+    /**
+     * prepareHeader
+     *
+     * @param DataInterface $data
+     *
+     * @return  void
+     */
+    protected function prepareHeader(DataInterface $data)
+    {
+        $this->setTitle($data->category->title);
 
-		HtmlHeader::addOpenGraph('og:image', $data->category->image);
-		HtmlHeader::addOpenGraph('og:description', $desc);
-		HtmlHeader::addMetadata('description', $desc);
-	}
+        $desc = Utf8String::substr(strip_tags($data->category->description), 0, 150);
 
-	/**
-	 * setTitle
-	 *
-	 * @param string $title
-	 *
-	 * @return  static
-	 */
-	public function setTitle($title = null)
-	{
-		return parent::setTitle($title);
-	}
+        HtmlHeader::addOpenGraph('og:image', $data->category->image);
+        HtmlHeader::addOpenGraph('og:description', $desc);
+        HtmlHeader::addMetadata('description', $desc);
+    }
+
+    /**
+     * setTitle
+     *
+     * @param string $title
+     *
+     * @return  static
+     */
+    public function setTitle($title = null)
+    {
+        return parent::setTitle($title);
+    }
 }

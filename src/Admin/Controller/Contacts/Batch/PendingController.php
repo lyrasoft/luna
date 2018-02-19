@@ -18,22 +18,22 @@ use Phoenix\Controller\Batch\AbstractUnpublishController;
  */
 class PendingController extends AbstractUnpublishController
 {
-	/**
-	 * Property action.
-	 *
-	 * @var  string
-	 */
-	protected $action = 'pending';
+    /**
+     * Property action.
+     *
+     * @var  string
+     */
+    protected $action = 'pending';
 
-	/**
-	 * A hook before main process executing.
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		$this->langPrefix = LunaHelper::getLangPrefix();
+    /**
+     * A hook before main process executing.
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
 
-		parent::prepareExecute();
-	}
+        parent::prepareExecute();
+    }
 }

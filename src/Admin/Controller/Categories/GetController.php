@@ -16,74 +16,74 @@ use Windwalker\Core\View\AbstractView;
 
 /**
  * The GetController class.
- * 
+ *
  * @since  1.0
  */
 class GetController extends ListDisplayController
 {
-	/**
-	 * Property model.
-	 *
-	 * @var  CategoriesModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  CategoriesModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  CategoriesHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  CategoriesHtmlView
+     */
+    protected $view;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $defaultOrdering = 'category.lft';
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $defaultOrdering = 'category.lft';
 
-	/**
-	 * Property direction.
-	 *
-	 * @var  string
-	 */
-	protected $defaultDirection = 'ASC';
+    /**
+     * Property direction.
+     *
+     * @var  string
+     */
+    protected $defaultDirection = 'ASC';
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		$this->layout = $this->input->get('layout');
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        $this->layout = $this->input->get('layout');
 
-		parent::prepareExecute();
-	}
+        parent::prepareExecute();
+    }
 
-	/**
-	 * Prepare view and default model.
-	 *
-	 * You can configure default model state here, or add more sub models to view.
-	 * Remember to call parent to make sure default model already set in view.
-	 *
-	 * @param AbstractView    $view  The view to render page.
-	 * @param ModelRepository $model The default mode.
-	 *
-	 * @return  void
-	 */
-	protected function prepareViewModel(AbstractView $view, ModelRepository $model)
-	{
-		/** @var CategoriesModel $model */
-		parent::prepareViewModel($view, $model);
+    /**
+     * Prepare view and default model.
+     *
+     * You can configure default model state here, or add more sub models to view.
+     * Remember to call parent to make sure default model already set in view.
+     *
+     * @param AbstractView    $view  The view to render page.
+     * @param ModelRepository $model The default mode.
+     *
+     * @return  void
+     */
+    protected function prepareViewModel(AbstractView $view, ModelRepository $model)
+    {
+        /** @var CategoriesModel $model */
+        parent::prepareViewModel($view, $model);
 
-		$type = $this->input->get('type');
+        $type = $this->input->get('type');
 
-		$model['category.type'] = $type;
-		$model->addFilter('category.type', $type);
+        $model['category.type'] = $type;
+        $model->addFilter('category.type', $type);
 
-		$this->view['type'] = $type;
-	}
+        $this->view['type'] = $type;
+    }
 
     /**
      * getContext

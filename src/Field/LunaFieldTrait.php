@@ -29,18 +29,18 @@ use Lyrasoft\Warder\Admin\Field\User\UserModalField;
  */
 trait LunaFieldTrait
 {
-	/**
-	 * bootPhoenixFieldTrait
-	 *
-	 * @return  void
-	 */
-	public function bootLunaFieldTrait()
-	{
-		$this->addNamespace('Lyrasoft\Luna\Field\Editor');
+    /**
+     * bootPhoenixFieldTrait
+     *
+     * @return  void
+     */
+    public function bootLunaFieldTrait()
+    {
+        $this->addNamespace('Lyrasoft\Luna\Field\Editor');
 
-		$this->addMap('categoryList', CategoryListField::class);
-		$this->addMap('tagList', TagListField::class);
-		$this->addMap('languageList', LanguageListField::class);
-		$this->addMap('userModal', UserModalField::class);
-	}
+        $this->addMap('categoryList', CategoryListField::class);
+        $this->addMap('tagList', TagListField::class);
+        $this->addMap('languageList', LanguageListField::class);
+        $this->addMap('userModal', UserModalField::class);
+    }
 }

@@ -17,25 +17,25 @@ use Lyrasoft\Unidev\Storage\AbstractStorageHelper;
  */
 class ArticleImageHelper extends AbstractStorageHelper
 {
-	/**
-	 * Get base folder name.
-	 *
-	 * @return  string
-	 */
-	public static function getBaseFolder()
-	{
-		return 'images/article/';
-	}
+    /**
+     * Get base folder name.
+     *
+     * @return  string
+     */
+    public static function getBaseFolder()
+    {
+        return 'images/article/';
+    }
 
-	/**
-	 * Get remote uri path.
-	 *
-	 * @param   mixed $identify The identify of this file or item.
-	 *
-	 * @return  string  Identify path.
-	 */
-	public static function getPath($identify)
-	{
-		return static::getBaseFolder() . md5($identify) . '.jpg';
-	}
+    /**
+     * Get remote uri path.
+     *
+     * @param   mixed $identify The identify of this file or item.
+     *
+     * @return  string  Identify path.
+     */
+    public static function getPath($identify)
+    {
+        return static::getBaseFolder() . md5($identify) . '.jpg';
+    }
 }

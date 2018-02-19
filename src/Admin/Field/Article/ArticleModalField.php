@@ -18,38 +18,38 @@ use Phoenix\Field\ModalField;
  */
 class ArticleModalField extends ModalField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::ARTICLES;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::ARTICLES;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  string
-	 */
-	protected $view = 'articles';
+    /**
+     * Property view.
+     *
+     * @var  string
+     */
+    protected $view = 'articles';
 
-	/**
-	 * Property package.
-	 *
-	 * @var  string
-	 */
-	protected $package = 'admin';
+    /**
+     * Property package.
+     *
+     * @var  string
+     */
+    protected $package = 'admin';
 
-	/**
-	 * Property titleField.
-	 *
-	 * @var  string
-	 */
-	protected $titleField = 'title';
+    /**
+     * Property titleField.
+     *
+     * @var  string
+     */
+    protected $titleField = 'title';
 
-	/**
-	 * Property keyField.
-	 *
-	 * @var  string
-	 */
-	protected $keyField = 'id';
+    /**
+     * Property keyField.
+     *
+     * @var  string
+     */
+    protected $keyField = 'id';
 }

@@ -19,27 +19,27 @@ use Windwalker\Data\DataInterface;
  */
 class PublishController extends AbstractPublishController
 {
-	/**
-	 * save
-	 *
-	 * @param int|string     $pk
-	 * @param DataInterface  $data
-	 *
-	 * @return  void
-	 */
-	protected function save($pk, DataInterface $data)
-	{
-		parent::save($pk, clone $data);
+    /**
+     * save
+     *
+     * @param int|string    $pk
+     * @param DataInterface $data
+     *
+     * @return  void
+     */
+    protected function save($pk, DataInterface $data)
+    {
+        parent::save($pk, clone $data);
 
-		// Find Children
-		$mapper = new CategoryMapper;
+        // Find Children
+        $mapper = new CategoryMapper;
 
-		$parent = $mapper->findOne($pk);
+        $parent = $mapper->findOne($pk);
 
-		$mapper->updateBatch($data, [
-			'lft > ' . $parent->lft,
-			'rgt < ' . $parent->rgt
-		]
-		);
-	}
+        $mapper->updateBatch($data, [
+                'lft > ' . $parent->lft,
+                'rgt < ' . $parent->rgt,
+            ]
+        );
+    }
 }

@@ -18,22 +18,22 @@ use Phoenix\Controller\Batch\AbstractPublishController;
  */
 class HandlingController extends AbstractPublishController
 {
-	/**
-	 * Property action.
-	 *
-	 * @var  string
-	 */
-	protected $action = 'handling';
+    /**
+     * Property action.
+     *
+     * @var  string
+     */
+    protected $action = 'handling';
 
-	/**
-	 * A hook before main process executing.
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		$this->langPrefix = LunaHelper::getLangPrefix();
+    /**
+     * A hook before main process executing.
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
 
-		parent::prepareExecute();
-	}
+        parent::prepareExecute();
+    }
 }

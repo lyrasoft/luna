@@ -15,12 +15,12 @@ namespace Lyrasoft\Luna\Repository;
  */
 interface ViewAccessRepositoryInterface
 {
-	/**
-	 * access
-	 *
-	 * @param mixed $access
-	 *
-	 * @return  static
-	 */
-	public function access($access);
+    /**
+     * access
+     *
+     * @param mixed $access
+     *
+     * @return  static
+     */
+    public function access($access);
 }

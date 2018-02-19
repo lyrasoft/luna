@@ -19,64 +19,63 @@ use Phoenix\Field\ModalField;
  */
 class LanguageModalField extends ModalField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::LANGUAGES;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::LANGUAGES;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  string
-	 */
-	protected $view = 'languages';
+    /**
+     * Property view.
+     *
+     * @var  string
+     */
+    protected $view = 'languages';
 
-	/**
-	 * Property titleField.
-	 *
-	 * @var  string
-	 */
-	protected $titleField = 'title';
+    /**
+     * Property titleField.
+     *
+     * @var  string
+     */
+    protected $titleField = 'title';
 
-	/**
-	 * Property keyField.
-	 *
-	 * @var  string
-	 */
-	protected $keyField = 'id';
+    /**
+     * Property keyField.
+     *
+     * @var  string
+     */
+    protected $keyField = 'id';
 
-	/**
-	 * buildInput
-	 *
-	 * @param array $attrs
-	 *
-	 * @return  string
-	 */
-	public function buildInput($attrs)
-	{
-		$this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
+    /**
+     * buildInput
+     *
+     * @param array $attrs
+     *
+     * @return  string
+     */
+    public function buildInput($attrs)
+    {
+        $this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
 
-		return parent::buildInput($attrs);
-	}
+        return parent::buildInput($attrs);
+    }
 
-	/**
-	 * getUrl
-	 *
-	 * @return  string
-	 */
-	protected function getUrl()
-	{
-		if ($this->get('published', false))
-		{
-			$query = (array) $this->get('query');
+    /**
+     * getUrl
+     *
+     * @return  string
+     */
+    protected function getUrl()
+    {
+        if ($this->get('published', false)) {
+            $query = (array) $this->get('query');
 
-			$query['filter']['language.state'] = 1;
+            $query['filter']['language.state'] = 1;
 
-			$this->set('query', $query);
-		}
+            $this->set('query', $query);
+        }
 
-		return parent::getUrl();
-	}
+        return parent::getUrl();
+    }
 }

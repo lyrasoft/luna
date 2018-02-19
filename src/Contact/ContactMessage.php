@@ -23,36 +23,34 @@ use Windwalker\String\SimpleTemplate;
  */
 class ContactMessage extends MailMessage
 {
-	/**
-	 * create
-	 *
-	 * @param Data   $data
-	 * @param Config $config
-	 *
-	 * @return  static
-	 */
-	public static function create(Data $data = null, Config $config = null)
-	{
-		$data = $data ? : new Data;
-		$config = $config ? : Ioc::getConfig();
-		
-		$langPrefix = LunaHelper::getLangPrefix();
+    /**
+     * create
+     *
+     * @param Data   $data
+     * @param Config $config
+     *
+     * @return  static
+     */
+    public static function create(Data $data = null, Config $config = null)
+    {
+        $data   = $data ?: new Data;
+        $config = $config ?: Ioc::getConfig();
 
-		$subject = SimpleTemplate::render(Translator::translate($langPrefix . 'contact.mail.subject'), $data->dump(true));
+        $langPrefix = LunaHelper::getLangPrefix();
 
-		$message = (new static($subject))
-			->to($config->get('mail.from.email'), $config->get('mail.from.name'))
-			->renderBody('mail.contact', ['data' => $data, 'receiver' => $config->extract('mail.from')], 'edge');
+        $subject = SimpleTemplate::render(Translator::translate($langPrefix . 'contact.mail.subject'),
+            $data->dump(true));
 
-		if ($data->email)
-		{
-			$message->from($data->email, $data->name);
-		}
-		else
-		{
-			$message->from($config->get('mail.from.email'), $config->get('mail.from.name'));
-		}
+        $message = (new static($subject))
+            ->to($config->get('mail.from.email'), $config->get('mail.from.name'))
+            ->renderBody('mail.contact', ['data' => $data, 'receiver' => $config->extract('mail.from')], 'edge');
 
-		return $message;
-	}
+        if ($data->email) {
+            $message->from($data->email, $data->name);
+        } else {
+            $message->from($config->get('mail.from.email'), $config->get('mail.from.name'));
+        }
+
+        return $message;
+    }
 }

@@ -15,369 +15,359 @@ namespace Lyrasoft\Luna\Tree;
  */
 class Node implements NodeInterface, \IteratorAggregate
 {
-	/**
-	 * @var mixed
-	 */
-	protected $value;
+    /**
+     * @var mixed
+     */
+    protected $value;
 
-	/**
-	 * parent
-	 *
-	 * @var NodeInterface
-	 * @access private
-	 */
-	protected $parent;
+    /**
+     * parent
+     *
+     * @var NodeInterface
+     * @access private
+     */
+    protected $parent;
 
-	/**
-	 * @var NodeInterface[]
-	 */
-	protected $children = [];
+    /**
+     * @var NodeInterface[]
+     */
+    protected $children = [];
 
-	/**
-	 * Property key.
-	 *
-	 * @var  integer
-	 */
-	protected $key = 0;
+    /**
+     * Property key.
+     *
+     * @var  integer
+     */
+    protected $key = 0;
 
-	/**
-	 * @param mixed $value
-	 * @param NodeInterface[] $children
-	 */
-	public function __construct($value = null, array $children = [])
-	{
-		$this->setValue($value);
+    /**
+     * @param mixed           $value
+     * @param NodeInterface[] $children
+     */
+    public function __construct($value = null, array $children = [])
+    {
+        $this->setValue($value);
 
-		if (!empty($children))
-		{
-			$this->setChildren($children);
-		}
-	}
+        if (!empty($children)) {
+            $this->setChildren($children);
+        }
+    }
 
-	/**
-	 * Set the value of the current node
-	 *
-	 * @param mixed $value
-	 *
-	 * @return static the current instance
-	 */
-	public function setValue($value)
-	{
-		$this->value = $value;
+    /**
+     * Set the value of the current node
+     *
+     * @param mixed $value
+     *
+     * @return static the current instance
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get the current node value
-	 *
-	 * @return mixed
-	 */
-	public function getValue()
-	{
-		return $this->value;
-	}
+    /**
+     * Get the current node value
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 
-	/**
-	 * Add a child
-	 *
-	 * @param NodeInterface $child
-	 *
-	 * @return mixed
-	 */
-	public function addChild(NodeInterface $child)
-	{
-		$child->setParent($this);
-		$this->children[] = $child;
+    /**
+     * Add a child
+     *
+     * @param NodeInterface $child
+     *
+     * @return mixed
+     */
+    public function addChild(NodeInterface $child)
+    {
+        $child->setParent($this);
+        $this->children[] = $child;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Remove a node from children
-	 *
-	 * @param NodeInterface $child
-	 *
-	 * @return static the current instance
-	 */
-	public function removeChild(NodeInterface $child)
-	{
-		foreach ($this->children as $key => $myChild)
-		{
-			if ($child === $myChild)
-			{
-				unset($this->children[$key]);
-			}
-		}
+    /**
+     * Remove a node from children
+     *
+     * @param NodeInterface $child
+     *
+     * @return static the current instance
+     */
+    public function removeChild(NodeInterface $child)
+    {
+        foreach ($this->children as $key => $myChild) {
+            if ($child === $myChild) {
+                unset($this->children[$key]);
+            }
+        }
 
-		$this->children = array_values($this->children);
+        $this->children = array_values($this->children);
 
-		$child->setParent(null);
+        $child->setParent(null);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get a child by key.
-	 *
-	 * @param   string|int $key
-	 *
-	 * @return  static
-	 */
-	public function getChild($key)
-	{
-		if (isset($this->children[$key]))
-		{
-			return $this->children[$key];
-		}
+    /**
+     * Get a child by key.
+     *
+     * @param   string|int $key
+     *
+     * @return  static
+     */
+    public function getChild($key)
+    {
+        if (isset($this->children[$key])) {
+            return $this->children[$key];
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Remove all children
-	 *
-	 * @return static The current instance
-	 */
-	public function removeAllChildren()
-	{
-		$this->setChildren([]);
+    /**
+     * Remove all children
+     *
+     * @return static The current instance
+     */
+    public function removeAllChildren()
+    {
+        $this->setChildren([]);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Return the array of children
-	 *
-	 * @return static[]
-	 */
-	public function getChildren()
-	{
-		return $this->children;
-	}
+    /**
+     * Return the array of children
+     *
+     * @return static[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
 
-	/**
-	 * Replace the children set with the given one
-	 *
-	 * @param static[] $children
-	 *
-	 * @return mixed
-	 */
-	public function setChildren(array $children)
-	{
-		$this->removeParentFromChildren();
+    /**
+     * Replace the children set with the given one
+     *
+     * @param static[] $children
+     *
+     * @return mixed
+     */
+    public function setChildren(array $children)
+    {
+        $this->removeParentFromChildren();
 
-		$this->children = [];
+        $this->children = [];
 
-		foreach ($children as $child) {
-			$this->addChild($child);
-		}
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * setParent
-	 *
-	 * @param NodeInterface $parent
-	 *
-	 * @return void
-	 */
-	public function setParent(NodeInterface $parent = null)
-	{
-		$this->parent = $parent;
-	}
+    /**
+     * setParent
+     *
+     * @param NodeInterface $parent
+     *
+     * @return void
+     */
+    public function setParent(NodeInterface $parent = null)
+    {
+        $this->parent = $parent;
+    }
 
-	/**
-	 * getParent
-	 *
-	 * @return static
-	 */
-	public function getParent()
-	{
-		return $this->parent;
-	}
+    /**
+     * getParent
+     *
+     * @return static
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
 
-	/**
-	 * Retrieves all ancestors of node excluding current node.
-	 *
-	 * @return array
-	 */
-	public function getAncestors()
-	{
-		$parents = [];
-		$node = $this;
+    /**
+     * Retrieves all ancestors of node excluding current node.
+     *
+     * @return array
+     */
+    public function getAncestors()
+    {
+        $parents = [];
+        $node    = $this;
 
-		while ($parent = $node->getParent())
-		{
-			array_unshift($parents, $parent);
-			$node = $parent;
-		}
+        while ($parent = $node->getParent()) {
+            array_unshift($parents, $parent);
+            $node = $parent;
+        }
 
-		return $parents;
-	}
+        return $parents;
+    }
 
-	/**
-	 * Retrieves all ancestors of node as well as the node itself.
-	 *
-	 * @return Node[]
-	 */
-	public function getAncestorsAndSelf()
-	{
-		return array_merge($this->getAncestors(), [$this]);
-	}
+    /**
+     * Retrieves all ancestors of node as well as the node itself.
+     *
+     * @return Node[]
+     */
+    public function getAncestorsAndSelf()
+    {
+        return array_merge($this->getAncestors(), [$this]);
+    }
 
-	/**
-	 * Retrieves all neighboring nodes, excluding the current node.
-	 *
-	 * @return array
-	 */
-	public function getNeighbors()
-	{
-		$neighbors = $this->getParent()->getChildren();
-		$current = $this;
+    /**
+     * Retrieves all neighboring nodes, excluding the current node.
+     *
+     * @return array
+     */
+    public function getNeighbors()
+    {
+        $neighbors = $this->getParent()->getChildren();
+        $current   = $this;
 
-		// Uses array_values to reset indexes after filter.
-		return array_values(
-			array_filter(
-				$neighbors,
-				function ($item) use ($current)
-				{
-					return $item !== $current;
-				}
-			)
-		);
-	}
+        // Uses array_values to reset indexes after filter.
+        return array_values(
+            array_filter(
+                $neighbors,
+                function ($item) use ($current) {
+                    return $item !== $current;
+                }
+            )
+        );
+    }
 
-	/**
-	 * Returns all neighboring nodes, including the current node.
-	 *
-	 * @return Node[]
-	 */
-	public function getNeighborsAndSelf()
-	{
-		return $this->getParent()->getChildren();
-	}
+    /**
+     * Returns all neighboring nodes, including the current node.
+     *
+     * @return Node[]
+     */
+    public function getNeighborsAndSelf()
+    {
+        return $this->getParent()->getChildren();
+    }
 
-	/**
-	 * Return true if the node is the root, false otherwise
-	 *
-	 * @return bool
-	 */
-	public function isRoot()
-	{
-		return $this->getParent() === null;
-	}
+    /**
+     * Return true if the node is the root, false otherwise
+     *
+     * @return bool
+     */
+    public function isRoot()
+    {
+        return $this->getParent() === null;
+    }
 
-	/**
-	 * Return true if the node is a child, false otherwise.
-	 *
-	 * @return bool
-	 */
-	public function isChild()
-	{
-		return $this->getParent() !== null;
-	}
+    /**
+     * Return true if the node is a child, false otherwise.
+     *
+     * @return bool
+     */
+    public function isChild()
+    {
+        return $this->getParent() !== null;
+    }
 
-	/**
-	 * Return true if the node has no children, false otherwise
-	 *
-	 * @return bool
-	 */
-	public function isLeaf()
-	{
-		return count($this->children) === 0;
-	}
+    /**
+     * Return true if the node has no children, false otherwise
+     *
+     * @return bool
+     */
+    public function isLeaf()
+    {
+        return count($this->children) === 0;
+    }
 
-	/**
-	 * Return the distance from the current node to the root
-	 *
-	 * @return int
-	 */
-	public function getDepth()
-	{
-		if ($this->isRoot())
-		{
-			return 0;
-		}
+    /**
+     * Return the distance from the current node to the root
+     *
+     * @return int
+     */
+    public function getDepth()
+    {
+        if ($this->isRoot()) {
+            return 0;
+        }
 
-		return $this->getParent()->getDepth() + 1;
-	}
+        return $this->getParent()->getDepth() + 1;
+    }
 
-	/**
-	 * Return the height of the tree whose root is this node
-	 *
-	 * @return int
-	 */
-	public function getHeight()
-	{
-		if ($this->isLeaf())
-		{
-			return 0;
-		}
+    /**
+     * Return the height of the tree whose root is this node
+     *
+     * @return int
+     */
+    public function getHeight()
+    {
+        if ($this->isLeaf()) {
+            return 0;
+        }
 
-		$heights = [];
+        $heights = [];
 
-		foreach ($this->getChildren() as $child)
-		{
-			$heights[] = $child->getHeight();
-		}
+        foreach ($this->getChildren() as $child) {
+            $heights[] = $child->getHeight();
+        }
 
-		return max($heights) + 1;
-	}
+        return max($heights) + 1;
+    }
 
-	/**
-	 * Find the root of the node
-	 *
-	 * @return static
-	 */
-	public function root()
-	{
-		$node = $this;
+    /**
+     * Find the root of the node
+     *
+     * @return static
+     */
+    public function root()
+    {
+        $node = $this;
 
-		while ($parent = $node->getParent())
-		{
-			$node = $parent;
-		}
+        while ($parent = $node->getParent()) {
+            $node = $parent;
+        }
 
-		return $node;
-	}
+        return $node;
+    }
 
-	/**
-	 * Return the number of nodes in a tree
-	 *
-	 * @return int
-	 */
-	public function getSize()
-	{
-		$size = 1;
+    /**
+     * Return the number of nodes in a tree
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        $size = 1;
 
-		foreach ($this->getChildren() as $child)
-		{
-			$size += $child->getSize();
-		}
+        foreach ($this->getChildren() as $child) {
+            $size += $child->getSize();
+        }
 
-		return $size;
-	}
+        return $size;
+    }
 
-	/**
-	 * removeParentFromChildren
-	 *
-	 * @return  void
-	 */
-	protected function removeParentFromChildren()
-	{
-		foreach ($this->getChildren() as $child)
-			$child->setParent(null);
-	}
+    /**
+     * removeParentFromChildren
+     *
+     * @return  void
+     */
+    protected function removeParentFromChildren()
+    {
+        foreach ($this->getChildren() as $child) {
+            $child->setParent(null);
+        }
+    }
 
-	/**
-	 * Retrieve an external iterator
-	 *
-	 * @return \Traversable An instance of an object implementing Iterator.
-	 */
-	public function getIterator()
-	{
-		return new \RecursiveIteratorIterator(new RecursiveNodeIterator($this->children));
-	}
+    /**
+     * Retrieve an external iterator
+     *
+     * @return \Traversable An instance of an object implementing Iterator.
+     */
+    public function getIterator()
+    {
+        return new \RecursiveIteratorIterator(new RecursiveNodeIterator($this->children));
+    }
 }

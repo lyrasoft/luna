@@ -20,55 +20,53 @@ use Windwalker\Core\Application\WindwalkerApplicationInterface;
  */
 class ErrorListener
 {
-	/**
-	 * Property app.
-	 *
-	 * @var  WebApplication
-	 */
-	protected $app;
+    /**
+     * Property app.
+     *
+     * @var  WebApplication
+     */
+    protected $app;
 
-	/**
-	 * Property handler.
-	 *
-	 * @var  LunaErrorHandler
-	 */
-	protected $handler;
+    /**
+     * Property handler.
+     *
+     * @var  LunaErrorHandler
+     */
+    protected $handler;
 
-	/**
-	 * ErrorListener constructor.
-	 *
-	 * @param WindwalkerApplicationInterface $app
-	 */
-	public function __construct(WindwalkerApplicationInterface $app)
-	{
-		$this->app = $app;
-	}
+    /**
+     * ErrorListener constructor.
+     *
+     * @param WindwalkerApplicationInterface $app
+     */
+    public function __construct(WindwalkerApplicationInterface $app)
+    {
+        $this->app = $app;
+    }
 
-	/**
-	 * onAfterInitialise
-	 *
-	 * @return  void
-	 */
-	public function onAfterInitialise()
-	{
-		if (!$this->app->get('system.debug') && $this->app->isWeb())
-		{
-			$this->handler = new LunaErrorHandler;
+    /**
+     * onAfterInitialise
+     *
+     * @return  void
+     */
+    public function onAfterInitialise()
+    {
+        if (!$this->app->get('system.debug') && $this->app->isWeb()) {
+            $this->handler = new LunaErrorHandler;
 
-			$this->app->container->get('error.handler')->addHandler($this->handler, 'default');
-		}
-	}
+            $this->app->container->get('error.handler')->addHandler($this->handler, 'default');
+        }
+    }
 
-	/**
-	 * onAfterRouting
-	 *
-	 * @return  void
-	 */
-	public function onAfterRouting()
-	{
-		if ($this->handler && LunaHelper::isAdmin())
-		{
-			$this->handler->setPackage(LunaHelper::getAdminPackage(true));
-		}
-	}
+    /**
+     * onAfterRouting
+     *
+     * @return  void
+     */
+    public function onAfterRouting()
+    {
+        if ($this->handler && LunaHelper::isAdmin()) {
+            $this->handler->setPackage(LunaHelper::getAdminPackage(true));
+        }
+    }
 }

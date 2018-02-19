@@ -25,96 +25,91 @@ use Windwalker\Form\Form;
  */
 class EditDefinition extends AbstractFieldDefinition
 {
-	use PhoenixFieldTrait;
-	use LunaFieldTrait;
+    use PhoenixFieldTrait;
+    use LunaFieldTrait;
 
-	/**
-	 * Define the form fields.
-	 *
-	 * @param Form $form The Windwalker form object.
-	 *
-	 * @return  void
-	 * @throws \InvalidArgumentException
-	 */
-	public function doDefine(Form $form)
-	{
-		$langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
+    /**
+     * Define the form fields.
+     *
+     * @param Form $form The Windwalker form object.
+     *
+     * @return  void
+     * @throws \InvalidArgumentException
+     */
+    public function doDefine(Form $form)
+    {
+        $langPrefix = \Lyrasoft\Luna\Helper\LunaHelper::getLangPrefix();
 
-		// Title
-		$this->text('title')
-			->label(Translator::translate($langPrefix . 'module.field.title'))
-			->addFilter('trim')
-			->labelClass('hide')
-			->required(true);
+        // Title
+        $this->text('title')
+            ->label(Translator::translate($langPrefix . 'module.field.title'))
+            ->addFilter('trim')
+            ->labelClass('hide')
+            ->required(true);
 
-		// Basic fieldset
-		$this->fieldset('basic', function(Form $form) use ($langPrefix)
-		{
+        // Basic fieldset
+        $this->fieldset('basic', function (Form $form) use ($langPrefix) {
 
-		});
+        });
 
-		// Text Fieldset
-		$this->fieldset('text', function(Form $form) use ($langPrefix)
-		{
-			// Content
-			$this->tinymceEditor('content')
-				->label(Translator::translate($langPrefix . 'module.field.content'))
-				->rows( 10)
-				->editorOptions([
-					'height' => 400
-				]);
-		});
+        // Text Fieldset
+        $this->fieldset('text', function (Form $form) use ($langPrefix) {
+            // Content
+            $this->tinymceEditor('content')
+                ->label(Translator::translate($langPrefix . 'module.field.content'))
+                ->rows(10)
+                ->editorOptions([
+                    'height' => 400,
+                ]);
+        });
 
-		// Created fieldset
-		$this->fieldset('created', function(Form $form) use ($langPrefix)
-		{
-			// State
-			$this->switch('state')
-				->label(Translator::translate($langPrefix . 'module.field.published'))
-				->class('')
-				->circle(true)
-				->color('success')
-				->defaultValue(1);
+        // Created fieldset
+        $this->fieldset('created', function (Form $form) use ($langPrefix) {
+            // State
+            $this->switch('state')
+                ->label(Translator::translate($langPrefix . 'module.field.published'))
+                ->class('')
+                ->circle(true)
+                ->color('success')
+                ->defaultValue(1);
 
-			// Position
-			$this->add('position', new PositionListField)
-				->label(Translator::translate($langPrefix . 'module.field.position'))
-				->option(Translator::translate($langPrefix . 'field.position.select'), '')
-				->set('allow_add', true);
+            // Position
+            $this->add('position', new PositionListField)
+                ->label(Translator::translate($langPrefix . 'module.field.position'))
+                ->option(Translator::translate($langPrefix . 'field.position.select'), '')
+                ->set('allow_add', true);
 
-			// Type
-			$this->text('type')
-				->label(Translator::translate($langPrefix . 'module.field.type'))
-				->readonly()
-				->required();
+            // Type
+            $this->text('type')
+                ->label(Translator::translate($langPrefix . 'module.field.type'))
+                ->readonly()
+                ->required();
 
-			if (Locale::isEnabled())
-			{
-				// Language
-				$this->languageList('language')
-					->label(Translator::translate($langPrefix . 'module.field.language'))
-					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
-			}
+            if (Locale::isEnabled()) {
+                // Language
+                $this->languageList('language')
+                    ->label(Translator::translate($langPrefix . 'module.field.language'))
+                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*');
+            }
 
-			if (WarderHelper::tableExists('users'))
-			{
-				// Created
-				$this->calendar('created')
-					->label(Translator::translate($langPrefix . 'module.field.created'))
-					->addFilter(UtcFilter::class);
+            if (WarderHelper::tableExists('users')) {
+                // Created
+                $this->calendar('created')
+                    ->label(Translator::translate($langPrefix . 'module.field.created'))
+                    ->addFilter(UtcFilter::class);
 
-				// Author
-				$this->userModal('created_by')
-					->label(Translator::translate($langPrefix . 'module.field.author'));
-			}
+                // Author
+                $this->userModal('created_by')
+                    ->label(Translator::translate($langPrefix . 'module.field.author'));
+            }
 
-			// Note
-			$this->textarea('note')
-				->label(Translator::translate($langPrefix . 'module.field.note'))
-				->rows( 5);
+            // Note
+            $this->textarea('note')
+                ->label(Translator::translate($langPrefix . 'module.field.note'))
+                ->rows(5);
 
-			// ID
-			$this->hidden('id');
-		});
-	}
+            // ID
+            $this->hidden('id');
+        });
+    }
 }

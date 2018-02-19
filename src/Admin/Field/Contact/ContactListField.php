@@ -18,17 +18,17 @@ use Phoenix\Field\ItemListField;
  */
 class ContactListField extends ItemListField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::CONTACTS;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::CONTACTS;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $ordering = null;
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $ordering = null;
 }

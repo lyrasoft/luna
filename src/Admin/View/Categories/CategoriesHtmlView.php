@@ -17,121 +17,119 @@ use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The CategoriesHtmlView class.
- * 
+ *
  * @since  1.0
  */
 class CategoriesHtmlView extends GridView
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'categories';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'categories';
 
-	/**
-	 * Property renderer.
-	 *
-	 * @var  string
-	 */
-	protected $renderer = RendererHelper::EDGE;
+    /**
+     * Property renderer.
+     *
+     * @var  string
+     */
+    protected $renderer = RendererHelper::EDGE;
 
-	/**
-	 * The fields mapper.
-	 *
-	 * @var  array
-	 */
-	protected $fields = [
-		'pk'          => 'id',
-		'title'       => 'title',
-		'alias'       => 'alias',
-		'state'       => 'state',
-		'ordering'    => 'ordering',
-		'author'      => 'created_by',
-		'author_name' => 'user_name',
-		'created'     => 'created',
-		'language'    => 'language',
-		'lang_title'  => 'lang_title'
-	];
+    /**
+     * The fields mapper.
+     *
+     * @var  array
+     */
+    protected $fields = [
+        'pk' => 'id',
+        'title' => 'title',
+        'alias' => 'alias',
+        'state' => 'state',
+        'ordering' => 'ordering',
+        'author' => 'created_by',
+        'author_name' => 'user_name',
+        'created' => 'created',
+        'language' => 'language',
+        'lang_title' => 'lang_title',
+    ];
 
-	/**
-	 * The grid config.
-	 *
-	 * @var  array
-	 */
-	protected $gridConfig = [
-		'order_column' => 'category.lft'
-	];
+    /**
+     * The grid config.
+     *
+     * @var  array
+     */
+    protected $gridConfig = [
+        'order_column' => 'category.lft',
+    ];
 
-	/**
-	 * init
-	 *
-	 * @return  void
-	 */
-	protected function init()
-	{
-		$this->langPrefix = LunaHelper::getLangPrefix();
-	}
+    /**
+     * init
+     *
+     * @return  void
+     */
+    protected function init()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
+    }
 
-	/**
-	 * prepareData
-	 *
-	 * @param \Windwalker\Data\Data $data
-	 *
-	 * @return  void
-	 */
-	protected function prepareData($data)
-	{
-		parent::prepareData($data);
-		
-		$grid = $this->getGridHelper();
+    /**
+     * prepareData
+     *
+     * @param \Windwalker\Data\Data $data
+     *
+     * @return  void
+     */
+    protected function prepareData($data)
+    {
+        parent::prepareData($data);
 
-		$data->ordering = [];
+        $grid = $this->getGridHelper();
 
-		if ($grid->config->get('list.saveorder'))
-		{
-			foreach ($data->items as $i => $item)
-			{
-				$data->ordering[$item->parent_id][] = $item->id;
-			}
-		}
+        $data->ordering = [];
 
-		$this->prepareScripts();
-	}
+        if ($grid->config->get('list.saveorder')) {
+            foreach ($data->items as $i => $item) {
+                $data->ordering[$item->parent_id][] = $item->id;
+            }
+        }
 
-	/**
-	 * prepareDocument
-	 *
-	 * @return  void
-	 */
-	protected function prepareScripts()
-	{
-		PhoenixScript::core();
-		PhoenixScript::grid();
-		PhoenixScript::chosen('.hasChosen');
-		PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
-		BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
-		BootstrapScript::tooltip();
+        $this->prepareScripts();
+    }
 
-		\Phoenix\Script\JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
-	}
+    /**
+     * prepareDocument
+     *
+     * @return  void
+     */
+    protected function prepareScripts()
+    {
+        PhoenixScript::core();
+        PhoenixScript::grid();
+        PhoenixScript::chosen('.hasChosen');
+        PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
+        BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
+        BootstrapScript::tooltip();
 
-	/**
-	 * setTitle
-	 *
-	 * @param string $title
-	 *
-	 * @return  static
-	 */
-	public function setTitle($title = null)
-	{
-		$type = $this->data->state->get('category.type');
+        \Phoenix\Script\JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
+    }
 
-		$title = Translator::sprintf(
-			$this->langPrefix . 'category.manager.title',
-			Translator::translate($this->langPrefix . $type . '.title')
-		);
+    /**
+     * setTitle
+     *
+     * @param string $title
+     *
+     * @return  static
+     */
+    public function setTitle($title = null)
+    {
+        $type = $this->data->state->get('category.type');
 
-		return parent::setTitle($title);
-	}
+        $title = Translator::sprintf(
+            $this->langPrefix . 'category.manager.title',
+            Translator::translate($this->langPrefix . $type . '.title')
+        );
+
+        return parent::setTitle($title);
+    }
 }

@@ -24,87 +24,85 @@ use Windwalker\Filter\OutputFilter;
  */
 class CategorySeeder extends AbstractSeeder
 {
-	/**
-	 * Property types.
-	 *
-	 * @var  array
-	 */
-	protected $types = [
-		'article'
-	];
+    /**
+     * Property types.
+     *
+     * @var  array
+     */
+    protected $types = [
+        'article',
+    ];
 
-	/**
-	 * doExecute
-	 *
-	 * @return  void
-	 */
-	public function doExecute()
-	{
-		$faker = Factory::create();
+    /**
+     * doExecute
+     *
+     * @return  void
+     */
+    public function doExecute()
+    {
+        $faker = Factory::create();
 
-		$record = new CategoryRecord;
+        $record = new CategoryRecord;
 
-		$languages = LanguageMapper::find(['state' => 1])->code;
-		$languages[] = '*';
+        $languages   = LanguageMapper::find(['state' => 1])->code;
+        $languages[] = '*';
 
-		if (WarderHelper::tableExists('users'))
-		{
-			$userIds = UserMapper::findAll()->id;
-		}
-		else
-		{
-			$userIds = range(1, 50);
-		}
+        if (WarderHelper::tableExists('users')) {
+            $userIds = UserMapper::findAll()->id;
+        } else {
+            $userIds = range(1, 50);
+        }
 
-		$existsRecordIds = [];
+        $existsRecordIds = [];
 
-		foreach ($this->types as $type)
-		{
-			$existsRecordIds[$type] = [1];
-		}
+        foreach ($this->types as $type) {
+            $existsRecordIds[$type] = [1];
+        }
 
-		foreach (range(1, 30) as $i)
-		{
-			$record->reset();
+        foreach (range(1, 30) as $i) {
+            $record->reset();
 
-			$lang = $faker->randomElement($languages);
+            $lang = $faker->randomElement($languages);
 
-			$record['title']       = $faker->sentence(mt_rand(1, 3)) . ' - [' . $lang . ']';
-			$record['alias']       = OutputFilter::stringURLSafe($record['title']);
-			$record['type']        = $faker->randomElement($this->types);
-			$record['description'] = $faker->paragraph(5);
-			$record['image']       = UnsplashHelper::getImageUrl();
-			$record['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
-			$record['version']     = mt_rand(1, 50);
-			$record['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
-			$record['created_by']  = $faker->randomElement($userIds);
-			$record['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
-			$record['modified_by'] = $faker->randomElement($userIds);
-			$record['language']    = $lang;
-			$record['params']      = '';
+            $record['title']       = $faker->sentence(mt_rand(1, 3)) . ' - [' . $lang . ']';
+            $record['alias']       = OutputFilter::stringURLSafe($record['title']);
+            $record['type']        = $faker->randomElement($this->types);
+            $record['description'] = $faker->paragraph(5);
+            $record['image']       = UnsplashHelper::getImageUrl();
+            $record['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
+            $record['version']     = mt_rand(1, 50);
+            $record['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
+            $record['created_by']  = $faker->randomElement($userIds);
+            $record['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
+            $record['modified_by'] = $faker->randomElement($userIds);
+            $record['language']    = $lang;
+            $record['params']      = '';
 
-			$record->setLocation($faker->randomElement($existsRecordIds[$record['type']]), $record::LOCATION_LAST_CHILD);
+            $record->setLocation(
+                $faker->randomElement($existsRecordIds[$record['type']]),
+                $record::LOCATION_LAST_CHILD
+            );
 
-			$record->store();
+            $record->store();
 
-			$record->rebuildPath();
+            $record->rebuildPath();
 
-			$existsRecordIds[$record['type']][] = $record->id;
+            $existsRecordIds[$record['type']][] = $record->id;
 
-			$this->outCounting();
-		}
-	}
+            $this->outCounting();
+        }
+    }
 
-	/**
-	 * doClear
-	 *
-	 * @return  void
-	 */
-	public function doClear()
-	{
-		$this->truncate(LunaTable::CATEGORIES);
+    /**
+     * doClear
+     *
+     * @return  void
+     */
+    public function doClear()
+    {
+        $this->truncate(LunaTable::CATEGORIES);
 
-		$record = new CategoryRecord;
-		$record->createRoot();
-	}
+        $record = new CategoryRecord;
+        $record->createRoot();
+    }
 }

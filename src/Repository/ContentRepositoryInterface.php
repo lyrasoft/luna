@@ -14,6 +14,6 @@ namespace Lyrasoft\Luna\Repository;
  * @since  1.2
  */
 interface ContentRepositoryInterface extends LocaleRepositoryInterface, StateRepositoryInterface,
-	TagMapRepositoryInterface, CategorizedRepositoryInterface, ViewAccessRepositoryInterface
+    TagMapRepositoryInterface, CategorizedRepositoryInterface, ViewAccessRepositoryInterface
 {
 }

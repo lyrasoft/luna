@@ -14,55 +14,55 @@ use Phoenix\Controller\Display\ListDisplayController;
 
 /**
  * The GetController class.
- * 
+ *
  * @since  1.0
  */
 class GetController extends ListDisplayController
 {
-	/**
-	 * Property model.
-	 *
-	 * @var  LanguagesModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  LanguagesModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  LanguagesHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  LanguagesHtmlView
+     */
+    protected $view;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $defaultOrdering = 'language.ordering';
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $defaultOrdering = 'language.ordering';
 
-	/**
-	 * Property direction.
-	 *
-	 * @var  string
-	 */
-	protected $defaultDirection = 'ASC';
+    /**
+     * Property direction.
+     *
+     * @var  string
+     */
+    protected $defaultDirection = 'ASC';
 
-	/**
-	 * Property limit.
-	 *
-	 * @var  int
-	 */
-	protected $limit = 100;
+    /**
+     * Property limit.
+     *
+     * @var  int
+     */
+    protected $limit = 100;
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		$this->layout = $this->input->get('layout');
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        $this->layout = $this->input->get('layout');
 
-		parent::prepareExecute();
-	}
+        parent::prepareExecute();
+    }
 }

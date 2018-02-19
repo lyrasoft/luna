@@ -24,114 +24,108 @@ define('LUNA_SOURCE_ADMIN', LUNA_SOURCE . '/Admin');
  */
 class LunaPackage extends AbstractPackage
 {
-	/**
-	 * WarderPackage constructor.
-	 */
-	public function __construct()
-	{
-		LunaHelper::setPackage($this);
-	}
+    /**
+     * WarderPackage constructor.
+     */
+    public function __construct()
+    {
+        LunaHelper::setPackage($this);
+    }
 
-	/**
-	 * initialise
-	 *
-	 * @throws  \LogicException
-	 * @return  void
-	 */
-	public function boot()
-	{
-		parent::boot();
+    /**
+     * initialise
+     *
+     * @throws  \LogicException
+     * @return  void
+     */
+    public function boot()
+    {
+        parent::boot();
 
-		TranslatorHelper::loadAll($this);
+        TranslatorHelper::loadAll($this);
 
-		ModuleHelper::addPath(__NAMESPACE__ . '\Module', $this->getDir() . '/Module');
-	}
+        ModuleHelper::addPath(__NAMESPACE__ . '\Module', $this->getDir() . '/Module');
+    }
 
-	/**
-	 * isFrontend
-	 *
-	 * @param   string $name
-	 *
-	 * @return  boolean
-	 */
-	public function isFrontend($name = null)
-	{
-		$package = $this->getCurrentPackage();
+    /**
+     * isFrontend
+     *
+     * @param   string $name
+     *
+     * @return  boolean
+     */
+    public function isFrontend($name = null)
+    {
+        $package = $this->getCurrentPackage();
 
-		if (!$package)
-		{
-			return false;
-		}
+        if (!$package) {
+            return false;
+        }
 
-		$name = $name ? : $package->getName();
+        $name = $name ?: $package->getName();
 
-		return in_array($name, (array) $this->get('frontend.package', 'front'));
-	}
+        return in_array($name, (array) $this->get('frontend.package', 'front'));
+    }
 
-	/**
-	 * isFrontend
-	 *
-	 * @param   string $name
-	 *
-	 * @return  boolean
-	 */
-	public function isAdmin($name = null)
-	{
-		$package = $this->getCurrentPackage();
+    /**
+     * isFrontend
+     *
+     * @param   string $name
+     *
+     * @return  boolean
+     */
+    public function isAdmin($name = null)
+    {
+        $package = $this->getCurrentPackage();
 
-		if (!$package)
-		{
-			return false;
-		}
+        if (!$package) {
+            return false;
+        }
 
-		$name = $name ? : $package->getName();
+        $name = $name ?: $package->getName();
 
-		return in_array($name, (array) $this->get('admin.package', 'admin'));
-	}
+        return in_array($name, (array) $this->get('admin.package', 'admin'));
+    }
 
-	/**
-	 * isEnabled
-	 *
-	 * @param   string $name
-	 *
-	 * @return  boolean
-	 */
-	public function isEnabled($name = null)
-	{
-		return $this->isFrontend($name) || $this->isAdmin($name);
-	}
+    /**
+     * isEnabled
+     *
+     * @param   string $name
+     *
+     * @return  boolean
+     */
+    public function isEnabled($name = null)
+    {
+        return $this->isFrontend($name) || $this->isAdmin($name);
+    }
 
-	/**
-	 * getCurrentPackage
-	 *
-	 * @return  AbstractPackage
-	 */
-	public function getCurrentPackage()
-	{
-		if (!$this->container->exists('current.package'))
-		{
-			return null;
-		}
+    /**
+     * getCurrentPackage
+     *
+     * @return  AbstractPackage
+     */
+    public function getCurrentPackage()
+    {
+        if (!$this->container->exists('current.package')) {
+            return null;
+        }
 
-		return $this->container->get('current.package');
-	}
+        return $this->container->get('current.package');
+    }
 
-	/**
-	 * getLangPrefix
-	 *
-	 * @return  string
-	 */
-	public function getLangPrefix()
-	{
-		if ($this->isAdmin())
-		{
-			$langPrefix = $this->get('admin.language.prefix', 'luna.');
-		}
-		else
-		{
-			$langPrefix = $this->get('frontend.language.prefix', 'luna.');
-		}
+    /**
+     * getLangPrefix
+     *
+     * @return  string
+     */
+    public function getLangPrefix()
+    {
+        if ($this->isAdmin()) {
+            $langPrefix = $this->get('admin.language.prefix', 'luna.');
+        } else {
+            $langPrefix = $this->get('frontend.language.prefix', 'luna.');
+        }
 
-		return $langPrefix;
-	}
+        return $langPrefix;
+    }
 }

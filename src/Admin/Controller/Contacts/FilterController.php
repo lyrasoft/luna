@@ -12,7 +12,7 @@ use Phoenix\Controller\Grid\AbstractFilterController;
 
 /**
  * The FilterController class.
- * 
+ *
  * @since  1.0
  */
 class FilterController extends AbstractFilterController

@@ -19,25 +19,25 @@ use Windwalker\Data\Data;
  */
 class TagSaveController extends AbstractAjaxController
 {
-	/**
-	 * doAjax
-	 *
-	 * @return  mixed
-	 */
-	protected function doAjax()
-	{
-		$title = $this->input->getString('title');
+    /**
+     * doAjax
+     *
+     * @return  mixed
+     */
+    protected function doAjax()
+    {
+        $title = $this->input->getString('title');
 
-		$data = new Data;
+        $data = new Data;
 
-		$data->title = $title;
-		$data->state = 1;
+        $data->title = $title;
+        $data->state = 1;
 
-		/** @var TagModel $model */
-		$model = $this->getModel('Tag');
+        /** @var TagModel $model */
+        $model = $this->getModel('Tag');
 
-		$model->save($data);
+        $model->save($data);
 
-		return $this->responseSuccess('Save success', $data->dump());
-	}
+        return $this->responseSuccess('Save success', $data->dump());
+    }
 }

@@ -18,68 +18,64 @@ use Windwalker\Data\Data;
 
 /**
  * The ModuleSeeder class.
- * 
+ *
  * @since  1.0
  */
 class ModuleSeeder extends AbstractSeeder
 {
-	/**
-	 * doExecute
-	 *
-	 * @return  void
-	 */
-	public function doExecute()
-	{
-		$faker = Factory::create();
+    /**
+     * doExecute
+     *
+     * @return  void
+     */
+    public function doExecute()
+    {
+        $faker = Factory::create();
 
-		if (WarderHelper::tableExists('users'))
-		{
-			$userIds = UserMapper::findAll()->id;
-		}
-		else
-		{
-			$userIds = range(1, 50);
-		}
+        if (WarderHelper::tableExists('users')) {
+            $userIds = UserMapper::findAll()->id;
+        } else {
+            $userIds = range(1, 50);
+        }
 
-		$positions = $faker->words(20);
+        $positions = $faker->words(20);
 
-		$types = ModuleHelper::getModuleTypes()->dump();
+        $types = ModuleHelper::getModuleTypes()->dump();
 
-		foreach (range(1, 75) as $i)
-		{
-			$data = new Data;
+        foreach (range(1, 75) as $i) {
+            $data = new Data;
 
-			/** @var \Lyrasoft\Luna\Module\ModuleType $module */
-			$module = $faker->randomElement($types);
+            /** @var \Lyrasoft\Luna\Module\ModuleType $module */
+            $module = $faker->randomElement($types);
 
-			$data['title']       = $faker->sentence(mt_rand(3, 5));
-			$data['type']        = $module->type;
-			$data['class']       = $module->class;
-			$data['position']    = $faker->randomElement($positions);
-			$data['note']        = $faker->sentence(5);
-			$data['content']     = $faker->paragraph(5);
-			$data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
-			$data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
-			$data['created_by']  = $faker->randomElement($userIds);
-			$data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
-			$data['modified_by'] = $faker->randomElement($userIds);
-			$data['ordering']    = $i;
-			$data['language']    = 'en-GB';
-			$data['params']      = '';
+            $data['title']       = $faker->sentence(mt_rand(3, 5));
+            $data['type']        = $module->type;
+            $data['class']       = $module->class;
+            $data['position']    = $faker->randomElement($positions);
+            $data['note']        = $faker->sentence(5);
+            $data['content']     = $faker->paragraph(5);
+            $data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
+            $data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
+            $data['created_by']  = $faker->randomElement($userIds);
+            $data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
+            $data['modified_by'] = $faker->randomElement($userIds);
+            $data['ordering']    = $i;
+            $data['language']    = 'en-GB';
+            $data['params']      = '';
 
-			ModuleMapper::createOne($data);
+            ModuleMapper::createOne($data);
 
-			$this->outCounting();
-		}
-	}
+            $this->outCounting();
+        }
+    }
 
-	/**
-	 * doClear
-	 *
-	 * @return  void
-	 */
-	public function doClear()
-	{
-		$this->truncate(LunaTable::MODULES);
-	}
+    /**
+     * doClear
+     *
+     * @return  void
+     */
+    public function doClear()
+    {
+        $this->truncate(LunaTable::MODULES);
+    }
 }

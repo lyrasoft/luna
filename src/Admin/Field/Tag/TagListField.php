@@ -22,62 +22,61 @@ use Phoenix\Field\ItemListField;
  */
 class TagListField extends ItemListField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::TAGS;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::TAGS;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $ordering = null;
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $ordering = null;
 
-	/**
-	 * buildInput
-	 *
-	 * @param array $attrs
-	 *
-	 * @return  string
-	 */
-	public function buildInput($attrs)
-	{
-		$id = $attrs['id'];
+    /**
+     * buildInput
+     *
+     * @param array $attrs
+     *
+     * @return  string
+     */
+    public function buildInput($attrs)
+    {
+        $id = $attrs['id'];
 
-		Select2Script::tag('#' . $id, (array) $this->get('select2_options', []));
+        Select2Script::tag('#' . $id, (array) $this->get('select2_options', []));
 
-		return parent::buildInput($attrs);
-	}
+        return parent::buildInput($attrs);
+    }
 
-	/**
-	 * prepareOptions
-	 *
-	 * @return  array|\Windwalker\Html\Option[]
-	 */
-	protected function prepareOptions()
-	{
-		if (!LunaHelper::tableExists('tags') || !LunaHelper::tableExists('tag_maps'))
-		{
-			return [];
-		}
+    /**
+     * prepareOptions
+     *
+     * @return  array|\Windwalker\Html\Option[]
+     */
+    protected function prepareOptions()
+    {
+        if (!LunaHelper::tableExists('tags') || !LunaHelper::tableExists('tag_maps')) {
+            return [];
+        }
 
-		return parent::prepareOptions();
-	}
+        return parent::prepareOptions();
+    }
 
-	/**
-	 * getAccessors
-	 *
-	 * @return  array
-	 *
-	 * @since   1.3
-	 */
-	protected function getAccessors()
-	{
-		return array_merge(parent::getAccessors(), [
-			'select2Options' => 'select2_options'
-		]);
-	}
+    /**
+     * getAccessors
+     *
+     * @return  array
+     *
+     * @since   1.3
+     */
+    protected function getAccessors()
+    {
+        return array_merge(parent::getAccessors(), [
+            'select2Options' => 'select2_options',
+        ]);
+    }
 }

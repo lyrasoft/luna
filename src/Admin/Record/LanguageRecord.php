@@ -15,60 +15,60 @@ use Windwalker\Record\Record;
 
 /**
  * The LanguageRecord class.
- * 
+ *
  * @since  1.0
  */
 class LanguageRecord extends Record
 {
-	use LanguageDataTrait;
-	
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::LANGUAGES;
+    use LanguageDataTrait;
 
-	/**
-	 * Property keys.
-	 *
-	 * @var  string
-	 */
-	protected $keys = 'id';
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::LANGUAGES;
 
-	/**
-	 * onAfterLoad
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterLoad(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * Property keys.
+     *
+     * @var  string
+     */
+    protected $keys = 'id';
 
-	/**
-	 * onAfterStore
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterStore(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterLoad
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterLoad(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterDelete
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterDelete(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterStore
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterStore(Event $event)
+    {
+        // Add your logic
+    }
+
+    /**
+     * onAfterDelete
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterDelete(Event $event)
+    {
+        // Add your logic
+    }
 }

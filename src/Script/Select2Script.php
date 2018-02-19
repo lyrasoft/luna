@@ -20,30 +20,28 @@ use Windwalker\Utilities\Arr;
  */
 class Select2Script extends AbstractScript
 {
-	/**
-	 * select2
-	 *
-	 * @return  void
-	 */
-	public static function core()
-	{
-		$asset = static::getAsset();
+    /**
+     * select2
+     *
+     * @return  void
+     */
+    public static function core()
+    {
+        $asset = static::getAsset();
 
-		if (!static::inited(__METHOD__))
-		{
-			$luna = LunaHelper::getPackage();
+        if (!static::inited(__METHOD__)) {
+            $luna = LunaHelper::getPackage();
 
-			$asset->addScript($luna->name . '/js/select2/select2.min.js');
-			$asset->addStyle($luna->name . '/css/select2/select2.min.css');
+            $asset->addScript($luna->name . '/js/select2/select2.min.js');
+            $asset->addStyle($luna->name . '/css/select2/select2.min.css');
 
-			$lang = Translator::getLocale();
+            $lang = Translator::getLocale();
 
-			if (is_file(LUNA_SOURCE . '/Resources/asset/js/select2/i18n/' . $lang . '.js'))
-			{
-				static::addJS($luna->name . '/js/select2/i18n/' . $lang . '.js');
-			}
+            if (is_file(LUNA_SOURCE . '/Resources/asset/js/select2/i18n/' . $lang . '.js')) {
+                static::addJS($luna->name . '/js/select2/i18n/' . $lang . '.js');
+            }
 
-			$asset->internalStyle(<<<CSS
+            $asset->internalStyle(<<<CSS
 .select2-container .select2-selection--single {
 	height: 34px;
 }
@@ -58,33 +56,32 @@ class Select2Script extends AbstractScript
 	min-width: 100%;
 }
 CSS
-);
-		}
-	}
+            );
+        }
+    }
 
-	/**
-	 * select2
-	 *
-	 * @param string $selector
-	 * @param array  $options
-	 *
-	 * @return  void
-	 */
-	public static function select2($selector, $options = [])
-	{
-		static::core();
+    /**
+     * select2
+     *
+     * @param string $selector
+     * @param array  $options
+     *
+     * @return  void
+     */
+    public static function select2($selector, $options = [])
+    {
+        static::core();
 
-		if (!static::inited(__METHOD__, get_defined_vars()))
-		{
-			$defaultOptions = [
-				'language' => Translator::getLocale()
-			];
+        if (!static::inited(__METHOD__, get_defined_vars())) {
+            $defaultOptions = [
+                'language' => Translator::getLocale(),
+            ];
 
-			$chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
+            $chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
 
-			$options = static::getJSObject($defaultOptions, $options);
+            $options = static::getJSObject($defaultOptions, $options);
 
-			$js = <<<JS
+            $js = <<<JS
 jQuery(document).ready(function($) {
 	var element = $('$selector');
 
@@ -96,26 +93,25 @@ jQuery(document).ready(function($) {
 });
 JS;
 
-			static::internalJS($js);
-		}
-	}
+            static::internalJS($js);
+        }
+    }
 
-	/**
-	 * ajaxChosen
-	 *
-	 * @param string $selector
-	 * @param string $url
-	 * @param array  $options
-	 *
-	 * @return  void
-	 */
-	public static function ajaxSelect2($selector, $url, $options = [])
-	{
-		static::core();
+    /**
+     * ajaxChosen
+     *
+     * @param string $selector
+     * @param string $url
+     * @param array  $options
+     *
+     * @return  void
+     */
+    public static function ajaxSelect2($selector, $url, $options = [])
+    {
+        static::core();
 
-		if (!static::inited(__METHOD__, get_defined_vars()))
-		{
-			$process = <<<JS
+        if (!static::inited(__METHOD__, get_defined_vars())) {
+            $process = <<<JS
 \\function (data, params) {
 	return {
 		results: data.data
@@ -123,25 +119,25 @@ JS;
 }
 JS;
 
-			$defaultOptions = [
-				'ajax' => [
-					'url'      => $url,
-					'delay'    => 250,
-					'type'     => 'GET',
-					'dataType' => 'json',
-					'processResults' => $process,
-				],
-				'minimumInputLength' => 1,
-				'tags' => true,
-				'tokenSeparators' => [','],
-				'language' => Translator::getLocale()
-			];
+            $defaultOptions = [
+                'ajax' => [
+                    'url' => $url,
+                    'delay' => 250,
+                    'type' => 'GET',
+                    'dataType' => 'json',
+                    'processResults' => $process,
+                ],
+                'minimumInputLength' => 1,
+                'tags' => true,
+                'tokenSeparators' => [','],
+                'language' => Translator::getLocale(),
+            ];
 
-			$chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
+            $chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
 
-			$options = static::getJSObject($defaultOptions, $options);
+            $options = static::getJSObject($defaultOptions, $options);
 
-			$js = <<<JS
+            $js = <<<JS
 jQuery(document).ready(function($) {
 	var element = $('$selector');
 
@@ -153,29 +149,28 @@ jQuery(document).ready(function($) {
 });
 JS;
 
-			static::internalJS($js);
-		}
-	}
+            static::internalJS($js);
+        }
+    }
 
-	/**
-	 * ajaxChosen
-	 *
-	 * @param string $selector
-	 * @param array  $options
-	 *
-	 * @return  void
-	 */
-	public static function tag($selector, $options = [])
-	{
-		$asset = static::getAsset();
+    /**
+     * ajaxChosen
+     *
+     * @param string $selector
+     * @param array  $options
+     *
+     * @return  void
+     */
+    public static function tag($selector, $options = [])
+    {
+        $asset = static::getAsset();
 
-		if (!static::inited(__METHOD__, func_get_args()))
-		{
-			$package = LunaHelper::getPackage()->getCurrentPackage();
+        if (!static::inited(__METHOD__, func_get_args())) {
+            $package = LunaHelper::getPackage()->getCurrentPackage();
 
-			static::ajaxSelect2($selector, $package->router->route('_luna_ajax_tags'), $options);
+            static::ajaxSelect2($selector, $package->router->route('_luna_ajax_tags'), $options);
 
-			$js = <<<JS
+            $js = <<<JS
 jQuery(document).ready(function($) {
 	$('$selector').on('select2:selecting', function(event) {
         var data = event.params.args.data;
@@ -187,7 +182,7 @@ jQuery(document).ready(function($) {
 });
 JS;
 
-			$asset->internalScript($js);
-		}
-	}
+            $asset->internalScript($js);
+        }
+    }
 }

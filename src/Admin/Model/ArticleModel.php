@@ -17,89 +17,89 @@ use Windwalker\Record\Record;
 
 /**
  * The ArticleModel class.
- * 
+ *
  * @since  1.0
  */
 class ArticleModel extends AdminModel
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'article';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'article';
 
-	/**
-	 * Property reorderConditions.
-	 *
-	 * @var  array
-	 */
-	protected $reorderConditions = [
-		'category_id'
-	];
+    /**
+     * Property reorderConditions.
+     *
+     * @var  array
+     */
+    protected $reorderConditions = [
+        'category_id',
+    ];
 
-	/**
-	 * postGetItem
-	 *
-	 * @param DataInterface|ArticleRecord $item
-	 *
-	 * @return  void
-	 */
-	protected function postGetItem(DataInterface $item)
-	{
-		// Readmore line
-		$item->text = $item->introtext . ($item->fulltext ? '<hr id="luna-readmore">' . $item->fulltext : null);
+    /**
+     * postGetItem
+     *
+     * @param DataInterface|ArticleRecord $item
+     *
+     * @return  void
+     */
+    protected function postGetItem(DataInterface $item)
+    {
+        // Readmore line
+        $item->text = $item->introtext . ($item->fulltext ? '<hr id="luna-readmore">' . $item->fulltext : null);
 
-		// tags
-		$item->tags = TagHelper::getTags('article', $item->id)->id;
-	}
+        // tags
+        $item->tags = TagHelper::getTags('article', $item->id)->id;
+    }
 
-	/**
-	 * handleAlias
-	 *
-	 * @param   string $alias
-	 *
-	 * @return  string
-	 */
-	public function handleAlias($alias)
-	{
-		return SlugHelper::slugify($alias);
-	}
+    /**
+     * handleAlias
+     *
+     * @param   string $alias
+     *
+     * @return  string
+     */
+    public function handleAlias($alias)
+    {
+        return SlugHelper::slugify($alias);
+    }
 
-	/**
-	 * prepareRecord
-	 *
-	 * @param Record $record
-	 *
-	 * @return  void
-	 */
-	protected function prepareRecord(Record $record)
-	{
-		parent::prepareRecord($record);
-	}
+    /**
+     * prepareRecord
+     *
+     * @param Record $record
+     *
+     * @return  void
+     */
+    protected function prepareRecord(Record $record)
+    {
+        parent::prepareRecord($record);
+    }
 
-	/**
-	 * getReorderConditions
-	 *
-	 * @param Record $record
-	 *
-	 * @return  array  An array of conditions to add to ordering queries.
-	 */
-	public function getReorderConditions(Record $record)
-	{
-		return parent::getReorderConditions($record);
-	}
+    /**
+     * getReorderConditions
+     *
+     * @param Record $record
+     *
+     * @return  array  An array of conditions to add to ordering queries.
+     */
+    public function getReorderConditions(Record $record)
+    {
+        return parent::getReorderConditions($record);
+    }
 
-	/**
-	 * Method to set new item ordering as first or last.
-	 *
-	 * @param   Record $record   Item table to save.
-	 * @param   string $position `first` or other are `last`.
-	 *
-	 * @return  void
-	 */
-	public function setOrderPosition(Record $record, $position = self::ORDER_POSITION_LAST)
-	{
-		parent::setOrderPosition($record, $position);
-	}
+    /**
+     * Method to set new item ordering as first or last.
+     *
+     * @param   Record $record   Item table to save.
+     * @param   string $position `first` or other are `last`.
+     *
+     * @return  void
+     */
+    public function setOrderPosition(Record $record, $position = self::ORDER_POSITION_LAST)
+    {
+        parent::setOrderPosition($record, $position);
+    }
 }

@@ -17,56 +17,50 @@ use Windwalker\Utilities\ArrayHelper;
  */
 class TreeBuilder
 {
-	/**
-	 * fromObjects
-	 *
-	 * @param object[]|\Traversable $dataSet
-	 * @param string                $keyName
-	 * @param string                $parentIdName
-	 * @param string                $levelName
-	 *
-	 * @return Node|Node[]
-	 */
-	public static function create($dataSet, $keyName = 'id', $parentIdName = 'parent_id', $levelName = 'level')
-	{
-		/** @var Node[] $tree */
-		$tree = [];
-		$levels = [];
+    /**
+     * fromObjects
+     *
+     * @param object[]|\Traversable $dataSet
+     * @param string                $keyName
+     * @param string                $parentIdName
+     * @param string                $levelName
+     *
+     * @return Node|Node[]
+     */
+    public static function create($dataSet, $keyName = 'id', $parentIdName = 'parent_id', $levelName = 'level')
+    {
+        /** @var Node[] $tree */
+        $tree   = [];
+        $levels = [];
 
-		$root = new Node;
+        $root = new Node;
 
-		foreach ($dataSet as $data)
-		{
-			$pk = ArrayHelper::getValue($data, $keyName);
+        foreach ($dataSet as $data) {
+            $pk = ArrayHelper::getValue($data, $keyName);
 
-			if ($pk === null)
-			{
-				continue;
-			}
+            if ($pk === null) {
+                continue;
+            }
 
-			$levels[] = ArrayHelper::getValue($data, $levelName);
-			$tree[$pk] = new Node($data);
-		}
+            $levels[]  = ArrayHelper::getValue($data, $levelName);
+            $tree[$pk] = new Node($data);
+        }
 
-		$minLevel = min($levels);
+        $minLevel = min($levels);
 
-		foreach ($tree as $node)
-		{
-			$data = $node->getValue();
+        foreach ($tree as $node) {
+            $data = $node->getValue();
 
-			$parentId = ArrayHelper::getValue($data, $parentIdName);
-			$level    = (int) ArrayHelper::getValue($data, $levelName);
+            $parentId = ArrayHelper::getValue($data, $parentIdName);
+            $level    = (int) ArrayHelper::getValue($data, $levelName);
 
-			if (isset($tree[$parentId]))
-			{
-				$tree[$parentId]->addChild($node);
-			}
-			elseif ($level == $minLevel)
-			{
-				$root->addChild($node);
-			}
-		}
+            if (isset($tree[$parentId])) {
+                $tree[$parentId]->addChild($node);
+            } elseif ($level == $minLevel) {
+                $root->addChild($node);
+            }
+        }
 
-		return $root;
-	}
+        return $root;
+    }
 }

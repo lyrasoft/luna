@@ -15,12 +15,12 @@ namespace Lyrasoft\Luna\Repository;
  */
 interface TagMapRepositoryInterface
 {
-	/**
-	 * filterTag
-	 *
-	 * @param int $tagId
-	 *
-	 * @return  static
-	 */
-	public function tag($tagId);
+    /**
+     * filterTag
+     *
+     * @param int $tagId
+     *
+     * @return  static
+     */
+    public function tag($tagId);
 }

@@ -21,84 +21,82 @@ use Windwalker\Html\Option;
  */
 class LanguageListField extends ItemListField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::LANGUAGES;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::LANGUAGES;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $ordering = null;
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $ordering = null;
 
-	/**
-	 * Property valueField.
-	 *
-	 * @var  string
-	 */
-	protected $valueField = 'code';
+    /**
+     * Property valueField.
+     *
+     * @var  string
+     */
+    protected $valueField = 'code';
 
-	/**
-	 * prepareAttributes
-	 *
-	 * @return  array
-	 */
-	public function prepareAttributes()
-	{
-		$this->def('published', true);
+    /**
+     * prepareAttributes
+     *
+     * @return  array
+     */
+    public function prepareAttributes()
+    {
+        $this->def('published', true);
 
-		$this->prepareScript();
+        $this->prepareScript();
 
-		return parent::prepareAttributes();
-	}
+        return parent::prepareAttributes();
+    }
 
-	/**
-	 * prepareOptions
-	 *
-	 * @return  Option[]
-	 */
-	protected function prepareOptions()
-	{
-		$valueField = $this->get('value_field', $this->valueField);
-		$textField  = $this->get('text_field', $this->textField);
-		$attribs    = $this->get('option_attribs', []);
+    /**
+     * prepareOptions
+     *
+     * @return  Option[]
+     */
+    protected function prepareOptions()
+    {
+        $valueField = $this->get('value_field', $this->valueField);
+        $textField  = $this->get('text_field', $this->textField);
+        $attribs    = $this->get('option_attribs', []);
 
-		$items = $this->getItems();
+        $items = $this->getItems();
 
-		$options = [];
+        $options = [];
 
-		foreach ($items as $item)
-		{
-			$value = isset($item->$valueField) ? $item->$valueField : null;
-			$text  = isset($item->$textField)  ? $item->$textField : null;
+        foreach ($items as $item) {
+            $value = isset($item->$valueField) ? $item->$valueField : null;
+            $text  = isset($item->$textField) ? $item->$textField : null;
 
-			$level = !empty($item->level) ? $item->level - 1 : 0;
+            $level = !empty($item->level) ? $item->level - 1 : 0;
 
-			if ($level < 0)
-			{
-				$level = 0;
-			}
+            if ($level < 0) {
+                $level = 0;
+            }
 
-			$attribs['data-flag-class'] = Locale::getFlagIconClass($item->image);
+            $attribs['data-flag-class'] = Locale::getFlagIconClass($item->image);
 
-			$options[] = new Option(str_repeat('- ', $level) . $text, $value, $attribs);
-		}
+            $options[] = new Option(str_repeat('- ', $level) . $text, $value, $attribs);
+        }
 
-		return $options;
-	}
+        return $options;
+    }
 
-	/**
-	 * prepareScript
-	 *
-	 * @return  void
-	 */
-	protected function prepareScript()
-	{
-		$tmpl = <<<JS
+    /**
+     * prepareScript
+     *
+     * @return  void
+     */
+    protected function prepareScript()
+    {
+        $tmpl = <<<JS
 \\function (state) {
 	if (!state.id) {
 		return state.text;
@@ -112,6 +110,6 @@ class LanguageListField extends ItemListField
 }
 JS;
 
-		Select2Script::select2('#' . $this->getId(), ['templateResult' => $tmpl, 'templateSelection' => $tmpl]);
-	}
+        Select2Script::select2('#' . $this->getId(), ['templateResult' => $tmpl, 'templateSelection' => $tmpl]);
+    }
 }

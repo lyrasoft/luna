@@ -16,12 +16,12 @@
 
 <div class="btn-group">
     <button type="button" class="btn btn-success btn-sm phoenix-btn-save"
-        onclick="Phoenix.post();">
+            onclick="Phoenix.post();">
         <span class="fa fa-save"></span>
         @translate('phoenix.toolbar.save')
     </button>
     <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split"
-        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
         <span class="sr-only">Toggle Dropdown</span>
     </button>
@@ -29,8 +29,8 @@
     <ul class="dropdown-menu">
         <li>
             <a class="dropdown-item phoenix-btn-save2copy"
-                href="javascript://"
-                onclick="Phoenix.post(null, {task: 'save2copy'});">
+               href="javascript://"
+               onclick="Phoenix.post(null, {task: 'save2copy'});">
                 <span class="fa fa-copy text-info"></span>
                 @translate('phoenix.toolbar.save2copy')
             </a>
@@ -38,8 +38,8 @@
 
         <li>
             <a class="dropdown-item phoenix-btn-save2new"
-                href="javascript://"
-                onclick="Phoenix.post(null, {task: 'save2new'});">
+               href="javascript://"
+               onclick="Phoenix.post(null, {task: 'save2new'});">
                 <span class="fa fa-plus text-primary"></span>
                 @translate('phoenix.toolbar.save2new')
             </a>
@@ -48,7 +48,7 @@
 </div>
 
 <button type="button" class="btn btn-primary btn-outline-primary btn-sm phoenix-btn-save2close"
-    onclick="Phoenix.post(null, {task: 'save2close'});">
+        onclick="Phoenix.post(null, {task: 'save2close'});">
     <span class="fa fa-check"></span>
     @translate('phoenix.toolbar.save2close')
 </button>

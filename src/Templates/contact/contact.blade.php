@@ -23,81 +23,82 @@
             /*line-height: 34px;*/
         }
     </style>
-<div class="container contact-item">
-    <form id="contact-form" action="{{ $router->to('contact') }}" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h1>@translate($luna->langPrefix . 'contact.title')</h1>
+    <div class="container contact-item">
+        <form id="contact-form" action="{{ $router->to('contact') }}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1>@translate($luna->langPrefix . 'contact.title')</h1>
 
-                <p>
-                    @translate($luna->langPrefix . 'contact.form.description')
-                </p>
+                    <p>
+                        @translate($luna->langPrefix . 'contact.form.description')
+                    </p>
 
-                <hr />
+                    <hr/>
 
-                <fieldset class="basic-fieldset">
-                    <div class="form-group">
-                        {!! $form->getField('subject')->renderInput() !!}
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {!! $form->getField('name')->renderInput() !!}
-                            </div>
-                            <div class="col-md-6">
-                                {!! $form->getField('email')->renderInput() !!}
-                            </div>
+                    <fieldset class="basic-fieldset">
+                        <div class="form-group">
+                            {!! $form->getField('subject')->renderInput() !!}
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {!! $form->getField('phone')->renderInput() !!}
-                            </div>
-                            <div class="col-md-6">
-                                {!! $form->getField('url')->renderInput() !!}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                {!! $form->getField('content')->renderInput() !!}
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-
-                @if (count($form->getFields(null, 'details')))
-                    <hr />
-
-                    <fieldset id="details-fieldset">
-                        @foreach ($form->getFields(null, 'details') as $field)
-                            <div class="form-group">
-                                {!! $field->renderLabel() !!}
-                                <div class="input-container">
-                                    {!! $field->renderInput() !!}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {!! $form->getField('name')->renderInput() !!}
+                                </div>
+                                <div class="col-md-6">
+                                    {!! $form->getField('email')->renderInput() !!}
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
 
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {!! $form->getField('phone')->renderInput() !!}
+                                </div>
+                                <div class="col-md-6">
+                                    {!! $form->getField('url')->renderInput() !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {!! $form->getField('content')->renderInput() !!}
+                                </div>
+                            </div>
+                        </div>
                     </fieldset>
-                @endif
 
-                <div class="hidden-inputs">
-                    @formToken()
+                    @if (count($form->getFields(null, 'details')))
+                        <hr/>
+
+                        <fieldset id="details-fieldset">
+                            @foreach ($form->getFields(null, 'details') as $field)
+                                <div class="form-group">
+                                    {!! $field->renderLabel() !!}
+                                    <div class="input-container">
+                                        {!! $field->renderInput() !!}
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        </fieldset>
+                    @endif
+
+                    <div class="hidden-inputs">
+                        @formToken()
+                    </div>
+
+                    <hr/>
+
+                    <button type="button" class="btn btn-primary btn-block btn-lg"
+                            onclick="jQuery(this.form).submit();">
+                        @translate($luna->langPrefix . 'contact.button.submit')
+                    </button>
                 </div>
-
-                <hr />
-
-                <button type="button" class="btn btn-primary btn-block btn-lg" onclick="jQuery(this.form).submit();">
-                    @translate($luna->langPrefix . 'contact.button.submit')
-                </button>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 @stop

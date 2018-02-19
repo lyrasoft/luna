@@ -12,31 +12,31 @@ use Phoenix\Controller\Grid\AbstractFilterController;
 
 /**
  * The FilterController class.
- * 
+ *
  * @since  1.0
  */
 class FilterController extends AbstractFilterController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'categories';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'categories';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'category';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'category';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'categories';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'categories';
 
     /**
      * getContext
@@ -48,7 +48,7 @@ class FilterController extends AbstractFilterController
     public function getContext($task = null)
     {
         $type = $this->input->get('type');
-        
+
         return parent::getContext($task) . '.' . $type;
     }
 }

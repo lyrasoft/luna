@@ -20,36 +20,32 @@ use Windwalker\Core\Controller\Traits\JsonApiTrait;
  */
 class TagsGetController extends AbstractController
 {
-	use JsonApiTrait;
+    use JsonApiTrait;
 
-	/**
-	 * doAjax
-	 *
-	 * @return  mixed
-	 */
-	protected function doExecute()
-	{
-		$q = $this->input->getString('q');
+    /**
+     * doAjax
+     *
+     * @return  mixed
+     */
+    protected function doExecute()
+    {
+        $q = $this->input->getString('q');
 
-		if ($q === '')
-		{
-			$tags = TagMapper::findAll('title ASC');
-		}
-		else
-		{
-			$tags = TagMapper::find(["title LIKE '{$q}%'"], 'title ASC');
-		}
+        if ($q === '') {
+            $tags = TagMapper::findAll('title ASC');
+        } else {
+            $tags = TagMapper::find(["title LIKE '{$q}%'"], 'title ASC');
+        }
 
-		$data = [];
+        $data = [];
 
-		foreach ($tags as $tag)
-		{
-			$data[] = [
-				'id' => $tag->id,
-				'text' => $tag->title
-			];
-		}
+        foreach ($tags as $tag) {
+            $data[] = [
+                'id' => $tag->id,
+                'text' => $tag->title,
+            ];
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 }

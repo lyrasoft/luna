@@ -20,43 +20,43 @@ use Windwalker\Html\Option;
  */
 class ModuleListField extends ItemListField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::MODULES;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::MODULES;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $ordering = 'type';
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $ordering = 'type';
 
-	/**
-	 * createOption
-	 *
-	 * @param object $item
-	 * @param string $valueField
-	 * @param string $textField
-	 * @param array  $attribs
-	 *
-	 * @return  Option
-	 */
-	protected function createOption($item, $valueField = 'id', $textField = 'title', $attribs = [])
-	{
-		$value = isset($item->$valueField) ? $item->$valueField : null;
-		$text  = isset($item->$textField)  ? $item->$textField : null;
+    /**
+     * createOption
+     *
+     * @param object $item
+     * @param string $valueField
+     * @param string $textField
+     * @param array  $attribs
+     *
+     * @return  Option
+     */
+    protected function createOption($item, $valueField = 'id', $textField = 'title', $attribs = [])
+    {
+        $value = isset($item->$valueField) ? $item->$valueField : null;
+        $text  = isset($item->$textField) ? $item->$textField : null;
 
-		$moduleType = ModuleHelper::getModuleType($item->type);
+        $moduleType = ModuleHelper::getModuleType($item->type);
 
-		$text = sprintf(
-			'[%s] %s',
-			$moduleType->name,
-			$text
-		);
+        $text = sprintf(
+            '[%s] %s',
+            $moduleType->name,
+            $text
+        );
 
-		return new Option($text, $value, $attribs);
-	}
+        return new Option($text, $value, $attribs);
+    }
 }

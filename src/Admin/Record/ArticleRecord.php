@@ -16,116 +16,111 @@ use Windwalker\Record\Record;
 
 /**
  * The ArticleRecord class.
- * 
+ *
  * @since  1.0
  */
 class ArticleRecord extends Record
 {
-	use ArticleDataTrait;
-	use ContentValidationTrait;
-	
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::ARTICLES;
+    use ArticleDataTrait;
+    use ContentValidationTrait;
 
-	/**
-	 * Property keys.
-	 *
-	 * @var  string
-	 */
-	protected $keys = 'id';
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::ARTICLES;
 
-	/**
-	 * onAfterLoad
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterLoad(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * Property keys.
+     *
+     * @var  string
+     */
+    protected $keys = 'id';
 
-	/**
-	 * bind
-	 *
-	 * @param array $src
-	 * @param array $ignore
-	 *
-	 * @return  static
-	 */
-	public function bind($src, $ignore = [])
-	{
-		$result = parent::bind($src, $ignore);
+    /**
+     * onAfterLoad
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterLoad(Event $event)
+    {
+        // Add your logic
+    }
 
-		if (is_object($src))
-		{
-			$src = get_object_vars($src);
-		}
+    /**
+     * bind
+     *
+     * @param array $src
+     * @param array $ignore
+     *
+     * @return  static
+     */
+    public function bind($src, $ignore = [])
+    {
+        $result = parent::bind($src, $ignore);
 
-		if (isset($src['text']))
-		{
-			$pattern = '/<hr\s+id=("|\')luna-readmore("|\')\s*\/*>/i';
-			$tagPos = preg_match($pattern, $src['text']);
+        if (is_object($src)) {
+            $src = get_object_vars($src);
+        }
 
-			if ($tagPos === 0)
-			{
-				$this->introtext = $src['text'];
-				$this->fulltext = '';
-			}
-			else
-			{
-				list ($this->introtext, $this->fulltext) = preg_split($pattern, $src['text'], 2);
-			}
-		}
+        if (isset($src['text'])) {
+            $pattern = '/<hr\s+id=("|\')luna-readmore("|\')\s*\/*>/i';
+            $tagPos  = preg_match($pattern, $src['text']);
 
-		return $result;
-	}
+            if ($tagPos === 0) {
+                $this->introtext = $src['text'];
+                $this->fulltext  = '';
+            } else {
+                list ($this->introtext, $this->fulltext) = preg_split($pattern, $src['text'], 2);
+            }
+        }
 
-	/**
-	 * Method to perform sanity checks on the AbstractTable instance properties to ensure
-	 * they are safe to store in the database.  Child classes should override this
-	 * method to make sure the data they are storing in the database is safe and
-	 * as expected before storage.
-	 *
-	 * @return  static  Method allows chaining
-	 *
-	 * @since   2.0
-	 *
-	 * @throws  \RuntimeException
-	 */
-	public function validate()
-	{
-		$this->checkAlias('alias');
+        return $result;
+    }
 
-		return parent::validate();
-	}
+    /**
+     * Method to perform sanity checks on the AbstractTable instance properties to ensure
+     * they are safe to store in the database.  Child classes should override this
+     * method to make sure the data they are storing in the database is safe and
+     * as expected before storage.
+     *
+     * @return  static  Method allows chaining
+     *
+     * @since   2.0
+     *
+     * @throws  \RuntimeException
+     */
+    public function validate()
+    {
+        $this->checkAlias('alias');
 
-	/**
-	 * onAfterStore
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterStore(Event $event)
-	{
-		// Add your logic
-	}
+        return parent::validate();
+    }
 
-	/**
-	 * onAfterDelete
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterDelete(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterStore
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterStore(Event $event)
+    {
+        // Add your logic
+    }
+
+    /**
+     * onAfterDelete
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterDelete(Event $event)
+    {
+        // Add your logic
+    }
 }

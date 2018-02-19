@@ -29,123 +29,116 @@ use Windwalker\Query\Query;
  */
 class EditDefinition extends AbstractFieldDefinition
 {
-	use PhoenixFieldTrait;
-	use UnidevFieldTrait;
-	use LunaFieldTrait;
+    use PhoenixFieldTrait;
+    use UnidevFieldTrait;
+    use LunaFieldTrait;
 
-	/**
-	 * Define the form fields.
-	 *
-	 * @param Form $form The Windwalker form object.
-	 *
-	 * @return  void
-	 * @throws \InvalidArgumentException
-	 */
-	public function doDefine(Form $form)
-	{
-		$langPrefix = LunaHelper::getLangPrefix();
+    /**
+     * Define the form fields.
+     *
+     * @param Form $form The Windwalker form object.
+     *
+     * @return  void
+     * @throws \InvalidArgumentException
+     */
+    public function doDefine(Form $form)
+    {
+        $langPrefix = LunaHelper::getLangPrefix();
 
-		// Title
-		$this->text('title')
-			->label(Translator::translate($langPrefix . 'category.field.title'))
-			->placeholder(Translator::translate($langPrefix . 'category.field.title'))
-			->addFilter('trim')
-			->required(true);
+        // Title
+        $this->text('title')
+            ->label(Translator::translate($langPrefix . 'category.field.title'))
+            ->placeholder(Translator::translate($langPrefix . 'category.field.title'))
+            ->addFilter('trim')
+            ->required(true);
 
-		// Alias
-		$this->text('alias')
-			->label(Translator::translate($langPrefix . 'category.field.alias'))
-			->placeholder(Translator::translate($langPrefix . 'category.field.alias'));
+        // Alias
+        $this->text('alias')
+            ->label(Translator::translate($langPrefix . 'category.field.alias'))
+            ->placeholder(Translator::translate($langPrefix . 'category.field.alias'));
 
-		// Basic fieldset
-		$this->fieldset('basic', function(Form $form) use ($langPrefix)
-		{
-			$type = Ioc::getInput()->get('type');
+        // Basic fieldset
+        $this->fieldset('basic', function (Form $form) use ($langPrefix) {
+            $type = Ioc::getInput()->get('type');
 
-			// ID
-			$this->hidden('id');
+            // ID
+            $this->hidden('id');
 
-			// Parent
-			$this->categoryList('parent_id')
-				->label(Translator::translate($langPrefix . 'category.field.parent'))
-				->class('hasChosen')
-				->option(Translator::translate($langPrefix . 'category.root'), 1)
-				->categoryType($type)
-				->postQueryHandler(function (Query $query)
-				{
-					$input = Ioc::getInput();
+            // Parent
+            $this->categoryList('parent_id')
+                ->label(Translator::translate($langPrefix . 'category.field.parent'))
+                ->class('hasChosen')
+                ->option(Translator::translate($langPrefix . 'category.root'), 1)
+                ->categoryType($type)
+                ->postQueryHandler(function (Query $query) {
+                    $input = Ioc::getInput();
 
-					if ($id = $input->get('id'))
-					{
-						$self = CategoryMapper::findOne($id);
+                    if ($id = $input->get('id')) {
+                        $self = CategoryMapper::findOne($id);
 
-						$query->where('(lft < ' . $self->lft . ' OR rgt > ' . $self->rgt . ')');
-					}
-				});
+                        $query->where('(lft < ' . $self->lft . ' OR rgt > ' . $self->rgt . ')');
+                    }
+                });
 
-			// Images
-			$this->singleImageDrag('image')
-				->label(Translator::translate($langPrefix . 'category.field.images'))
-				->exportZoom(2)
-				->width(400)
-				->height(300);
+            // Images
+            $this->singleImageDrag('image')
+                ->label(Translator::translate($langPrefix . 'category.field.images'))
+                ->exportZoom(2)
+                ->width(400)
+                ->height(300);
 
-			$this->hidden('type')
-				->label(Translator::translate($langPrefix . 'category.field.type'));
-		});
+            $this->hidden('type')
+                ->label(Translator::translate($langPrefix . 'category.field.type'));
+        });
 
-		// Text Fieldset
-		$this->fieldset('text', function(Form $form) use ($langPrefix)
-		{
-			// Description
-			$this->tinymceEditor('description')
-				->label(Translator::translate($langPrefix . 'category.field.description'))
-				->editorOptions([
-					'height' => 350,
-				])
-				->rows(10);
-		});
+        // Text Fieldset
+        $this->fieldset('text', function (Form $form) use ($langPrefix) {
+            // Description
+            $this->tinymceEditor('description')
+                ->label(Translator::translate($langPrefix . 'category.field.description'))
+                ->editorOptions([
+                    'height' => 350,
+                ])
+                ->rows(10);
+        });
 
-		// Created fieldset
-		$this->fieldset('created', function(Form $form) use ($langPrefix)
-		{
-			// State
-			$this->switch('state')
-				->label(Translator::translate($langPrefix . 'category.field.published'))
-				->class('')
-				->circle(true)
-				->color('success')
-				->defaultValue(1);
+        // Created fieldset
+        $this->fieldset('created', function (Form $form) use ($langPrefix) {
+            // State
+            $this->switch('state')
+                ->label(Translator::translate($langPrefix . 'category.field.published'))
+                ->class('')
+                ->circle(true)
+                ->color('success')
+                ->defaultValue(1);
 
-			if (Locale::isEnabled())
-			{
-				// Language
-				$this->languageList('language')
-					->label(Translator::translate($langPrefix . 'category.field.language'))
-					->option(Translator::translate($langPrefix . 'field.language.all'), '*');
-			}
+            if (Locale::isEnabled()) {
+                // Language
+                $this->languageList('language')
+                    ->label(Translator::translate($langPrefix . 'category.field.language'))
+                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*');
+            }
 
-			// Created
-			$this->calendar('created')
-				->label(Translator::translate($langPrefix . 'category.field.created'))
-				->addFilter(UtcFilter::class);
+            // Created
+            $this->calendar('created')
+                ->label(Translator::translate($langPrefix . 'category.field.created'))
+                ->addFilter(UtcFilter::class);
 
-			// Modified
-			$this->calendar('modified')
-				->label(Translator::translate($langPrefix . 'category.field.modified'))
-				->disabled(true);
+            // Modified
+            $this->calendar('modified')
+                ->label(Translator::translate($langPrefix . 'category.field.modified'))
+                ->disabled(true);
 
-			if (WarderHelper::tableExists('users'))
-			{
-				// Author
-				$this->userModal('created_by')
-					->label(Translator::translate($langPrefix . 'category.field.author'));
+            if (WarderHelper::tableExists('users')) {
+                // Author
+                $this->userModal('created_by')
+                    ->label(Translator::translate($langPrefix . 'category.field.author'));
 
-				// Modified User
-				$this->userModal('modified_by')
-					->label(Translator::translate($langPrefix . 'category.field.modifiedby'))
-					->disabled();
-			}
-		});
-	}
+                // Modified User
+                $this->userModal('modified_by')
+                    ->label(Translator::translate($langPrefix . 'category.field.modifiedby'))
+                    ->disabled();
+            }
+        });
+    }
 }

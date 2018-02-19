@@ -18,119 +18,118 @@ use Windwalker\Query\Query;
 
 /**
  * The CommentsModel class.
- * 
+ *
  * @since  1.0
  */
 class CommentsModel extends ListModel
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'comments';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'comments';
 
-	/**
-	 * Property allowFields.
-	 *
-	 * @var  array
-	 */
-	protected $allowFields = [];
+    /**
+     * Property allowFields.
+     *
+     * @var  array
+     */
+    protected $allowFields = [];
 
-	/**
-	 * Property fieldMapping.
-	 *
-	 * @var  array
-	 */
-	protected $fieldMapping = [];
+    /**
+     * Property fieldMapping.
+     *
+     * @var  array
+     */
+    protected $fieldMapping = [];
 
-	/**
-	 * configureTables
-	 *
-	 * @return  void
-	 */
-	protected function configureTables()
-	{
-		$this->addTable('comment', LunaTable::COMMENTS);
+    /**
+     * configureTables
+     *
+     * @return  void
+     */
+    protected function configureTables()
+    {
+        $this->addTable('comment', LunaTable::COMMENTS);
 
-		if (WarderHelper::tableExists('users'))
-		{
-			$this->addTable('user',   WarderTable::USERS, 'comment.user_id = user.id')
-				->addTable('replyer', WarderTable::USERS, 'comment.reply_user_id = replyer.id');
-		}
-	}
+        if (WarderHelper::tableExists('users')) {
+            $this->addTable('user', WarderTable::USERS, 'comment.user_id = user.id')
+                ->addTable('replyer', WarderTable::USERS, 'comment.reply_user_id = replyer.id');
+        }
+    }
 
-	/**
-	 * The prepare getQuery hook
-	 *
-	 * @param Query $query The db query object.
-	 *
-	 * @return  void
-	 */
-	protected function prepareGetQuery(Query $query)
-	{
-		Ioc::getDispatcher()->triggerEvent('onLunaCommentModelPrepareGetQuery', [
-			'model' => $this,
-			'query' => $query,
-			'type'  => $this['comment.type']
-		]);
-	}
+    /**
+     * The prepare getQuery hook
+     *
+     * @param Query $query The db query object.
+     *
+     * @return  void
+     */
+    protected function prepareGetQuery(Query $query)
+    {
+        Ioc::getDispatcher()->triggerEvent('onLunaCommentModelPrepareGetQuery', [
+            'model' => $this,
+            'query' => $query,
+            'type' => $this['comment.type'],
+        ]);
+    }
 
-	/**
-	 * The post getQuery object.
-	 *
-	 * @param Query $query The db query object.
-	 *
-	 * @return  void
-	 */
-	protected function postGetQuery(Query $query)
-	{
-		// Add your logic
-	}
+    /**
+     * The post getQuery object.
+     *
+     * @param Query $query The db query object.
+     *
+     * @return  void
+     */
+    protected function postGetQuery(Query $query)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * Configure the filter handlers.
-	 *
-	 * Example:
-	 * ``` php
-	 * $filterHelper->setHandler(
-	 *     'comment.date',
-	 *     function($query, $field, $value)
-	 *     {
-	 *         $query->where($field . ' >= ' . $value);
-	 *     }
-	 * );
-	 * ```
-	 *
-	 * @param FilterHelperInterface $filterHelper The filter helper object.
-	 *
-	 * @return  void
-	 */
-	protected function configureFilters(FilterHelperInterface $filterHelper)
-	{
-		// Configure filters
-	}
+    /**
+     * Configure the filter handlers.
+     *
+     * Example:
+     * ``` php
+     * $filterHelper->setHandler(
+     *     'comment.date',
+     *     function($query, $field, $value)
+     *     {
+     *         $query->where($field . ' >= ' . $value);
+     *     }
+     * );
+     * ```
+     *
+     * @param FilterHelperInterface $filterHelper The filter helper object.
+     *
+     * @return  void
+     */
+    protected function configureFilters(FilterHelperInterface $filterHelper)
+    {
+        // Configure filters
+    }
 
-	/**
-	 * Configure the search handlers.
-	 *
-	 * Example:
-	 * ``` php
-	 * $searchHelper->setHandler(
-	 *     'comment.title',
-	 *     function($query, $field, $value)
-	 *     {
-	 *         return $query->quoteName($field) . ' LIKE ' . $query->quote('%' . $value . '%');
-	 *     }
-	 * );
-	 * ```
-	 *
-	 * @param FilterHelperInterface $searchHelper The search helper object.
-	 *
-	 * @return  void
-	 */
-	protected function configureSearches(FilterHelperInterface $searchHelper)
-	{
-		// Configure searches
-	}
+    /**
+     * Configure the search handlers.
+     *
+     * Example:
+     * ``` php
+     * $searchHelper->setHandler(
+     *     'comment.title',
+     *     function($query, $field, $value)
+     *     {
+     *         return $query->quoteName($field) . ' LIKE ' . $query->quote('%' . $value . '%');
+     *     }
+     * );
+     * ```
+     *
+     * @param FilterHelperInterface $searchHelper The search helper object.
+     *
+     * @return  void
+     */
+    protected function configureSearches(FilterHelperInterface $searchHelper)
+    {
+        // Configure searches
+    }
 }

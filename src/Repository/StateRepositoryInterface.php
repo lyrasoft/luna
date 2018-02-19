@@ -15,12 +15,12 @@ namespace Lyrasoft\Luna\Repository;
  */
 interface StateRepositoryInterface
 {
-	/**
-	 * published
-	 *
-	 * @param bool $published
-	 *
-	 * @return static
-	 */
-	public function published($published = true);
+    /**
+     * published
+     *
+     * @param bool $published
+     *
+     * @return static
+     */
+    public function published($published = true);
 }

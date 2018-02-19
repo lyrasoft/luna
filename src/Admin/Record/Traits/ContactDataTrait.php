@@ -11,19 +11,19 @@ namespace Lyrasoft\Luna\Admin\Record\Traits;
 /**
  * The ContactDataTrait class.
  *
- * @property  integer  id
- * @property  string   subject
- * @property  string   email
- * @property  string   name
- * @property  string   url
- * @property  string   phone
- * @property  string   content
- * @property  int      state
- * @property  string   created
- * @property  integer  created_by
- * @property  string   modified
- * @property  integer  modified_by
- * @property  string   params
+ * @property  integer id
+ * @property  string  subject
+ * @property  string  email
+ * @property  string  name
+ * @property  string  url
+ * @property  string  phone
+ * @property  string  content
+ * @property  int     state
+ * @property  string  created
+ * @property  integer created_by
+ * @property  string  modified
+ * @property  integer modified_by
+ * @property  string  params
  *
  * @since  1.1
  */

@@ -20,65 +20,65 @@ use Windwalker\Record\Record;
  */
 class ContactRecord extends Record
 {
-	use ContactDataTrait;
+    use ContactDataTrait;
 
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::CONTACTS;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::CONTACTS;
 
-	/**
-	 * Property keys.
-	 *
-	 * @var  string
-	 */
-	protected $keys = 'id';
+    /**
+     * Property keys.
+     *
+     * @var  string
+     */
+    protected $keys = 'id';
 
-	/**
-	 * Property casts.
-	 *
-	 * @var  array
-	 */
-	protected $casts = [
-		'state' => 'integer',
-		'details' => 'json'
-	];
+    /**
+     * Property casts.
+     *
+     * @var  array
+     */
+    protected $casts = [
+        'state' => 'integer',
+        'details' => 'json',
+    ];
 
-	/**
-	 * onAfterLoad
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterLoad(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterLoad
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterLoad(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterStore
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterStore(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterStore
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterStore(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterDelete
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterDelete(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterDelete
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterDelete(Event $event)
+    {
+        // Add your logic
+    }
 }

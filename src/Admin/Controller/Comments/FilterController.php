@@ -12,29 +12,29 @@ use Phoenix\Controller\Grid\AbstractFilterController;
 
 /**
  * The FilterController class.
- * 
+ *
  * @since  1.0
  */
 class FilterController extends AbstractFilterController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'comments';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'comments';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'comment';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'comment';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'comments';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'comments';
 }

@@ -13,19 +13,19 @@ use Windwalker\Data\DataInterface;
 
 /**
  * The CategoryModel class.
- * 
+ *
  * @since  1.0
  */
 class CategoryModel extends ItemModel
 {
-	/**
-	 * postGetItem
-	 *
-	 * @param DataInterface $item
-	 *
-	 * @return  void
-	 */
-	protected function postGetItem(DataInterface $item)
-	{
-	}
+    /**
+     * postGetItem
+     *
+     * @param DataInterface $item
+     *
+     * @return  void
+     */
+    protected function postGetItem(DataInterface $item)
+    {
+    }
 }

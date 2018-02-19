@@ -21,99 +21,91 @@ use Windwalker\String\StringInflector;
  */
 class MenuHelper extends AbstractHelper
 {
-	const PLURAL = 'plural';
-	const SINGULAR = 'singular';
+    const PLURAL = 'plural';
+    const SINGULAR = 'singular';
 
-	/**
-	 * active
-	 *
-	 * @param   string  $name
-	 * @param   string  $menu
-	 *
-	 * @return  string
-	 */
-	public function active($name, $menu = 'mainmenu')
-	{
-		$view = $this->getParent()->getView();
+    /**
+     * active
+     *
+     * @param   string $name
+     * @param   string $menu
+     *
+     * @return  string
+     */
+    public function active($name, $menu = 'mainmenu')
+    {
+        $view = $this->getParent()->getView();
 
-		if ($view['app']->get('route.matched') === $view->getPackage()->getName() . ':' . $name)
-		{
-			return 'active';
-		}
+        if ($view['app']->get('route.matched') === $view->getPackage()->getName() . ':' . $name) {
+            return 'active';
+        }
 
-		if ($view['app']->get('route.extra.active.' . $menu) === $name)
-		{
-			return 'active';
-		}
+        if ($view['app']->get('route.extra.active.' . $menu) === $name) {
+            return 'active';
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * getSubmenus
-	 *
-	 * @return  array
-	 */
-	public function getSubmenus()
-	{
-		$menus = $this->findViewMenus(static::PLURAL);
-		$view = $this->getParent()->getView();
-		$package = $view->getPackage();
-		$links = [];
+    /**
+     * getSubmenus
+     *
+     * @return  array
+     */
+    public function getSubmenus()
+    {
+        $menus   = $this->findViewMenus(static::PLURAL);
+        $view    = $this->getParent()->getView();
+        $package = $view->getPackage();
+        $links   = [];
 
-		foreach ($menus as $menu)
-		{
-			$active = static::active($menu, 'submenu');
+        foreach ($menus as $menu) {
+            $active = static::active($menu, 'submenu');
 
-			$links[] = new HtmlElement(
-				'a',
-				Translator::translate($package->getName() . '.' . $menu),
-				[
-					'href' => $view->getRouter()->html($menu),
-					'class' => $active
-				]
-			);
-		}
+            $links[] = new HtmlElement(
+                'a',
+                Translator::translate($package->getName() . '.' . $menu),
+                [
+                    'href' => $view->getRouter()->html($menu),
+                    'class' => $active,
+                ]
+            );
+        }
 
-		return $links;
-	}
+        return $links;
+    }
 
-	/**
-	 * guessSubmenus
-	 *
-	 * @param string $inflection
-	 *
-	 * @return array
-	 */
-	protected function findViewMenus($inflection = self::PLURAL)
-	{
-		$inflector = StringInflector::getInstance();
+    /**
+     * guessSubmenus
+     *
+     * @param string $inflection
+     *
+     * @return array
+     */
+    protected function findViewMenus($inflection = self::PLURAL)
+    {
+        $inflector = StringInflector::getInstance();
 
-		$viewFolder = PACKAGE_ADMIN_ROOT . '/View';
+        $viewFolder = PACKAGE_ADMIN_ROOT . '/View';
 
-		$views = Filesystem::folders($viewFolder);
-		$menus = [];
+        $views = Filesystem::folders($viewFolder);
+        $menus = [];
 
-		/** @var \SplFileInfo $view */
-		foreach ($views as $view)
-		{
-			if ($view->isFile())
-			{
-				continue;
-			}
+        /** @var \SplFileInfo $view */
+        foreach ($views as $view) {
+            if ($view->isFile()) {
+                continue;
+            }
 
-			$name = strtolower($view->getBasename());
+            $name = strtolower($view->getBasename());
 
-			if ($inflection === static::PLURAL && $inflector->isPlural($name))
-			{
-				$menus[] = $name;
-			}
-			elseif ($inflection === static::SINGULAR && $inflector->isSingular($name))
-			{
-				$menus[] = $name;
-			}
-		}
+            if ($inflection === static::PLURAL && $inflector->isPlural($name)) {
+                $menus[] = $name;
+            } elseif ($inflection === static::SINGULAR && $inflector->isSingular($name)) {
+                $menus[] = $name;
+            }
+        }
 
-		return $menus;
-	}
+        return $menus;
+    }
 }

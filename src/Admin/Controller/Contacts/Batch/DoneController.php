@@ -18,31 +18,31 @@ use Phoenix\Controller\Batch\AbstractBatchController;
  */
 class DoneController extends AbstractBatchController
 {
-	/**
-	 * Property action.
-	 *
-	 * @var  string
-	 */
-	protected $action = 'done';
+    /**
+     * Property action.
+     *
+     * @var  string
+     */
+    protected $action = 'done';
 
-	/**
-	 * Property data.
-	 *
-	 * @var  array
-	 */
-	protected $data = [
-		'state' => 2
-	];
+    /**
+     * Property data.
+     *
+     * @var  array
+     */
+    protected $data = [
+        'state' => 2,
+    ];
 
-	/**
-	 * A hook before main process executing.
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		$this->langPrefix = LunaHelper::getLangPrefix();
+    /**
+     * A hook before main process executing.
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
 
-		parent::prepareExecute();
-	}
+        parent::prepareExecute();
+    }
 }

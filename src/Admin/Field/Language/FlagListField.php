@@ -22,53 +22,52 @@ use Windwalker\Html\Option;
  */
 class FlagListField extends ListField
 {
-	/**
-	 * buildInput
-	 *
-	 * @param array $attrs
-	 *
-	 * @return  mixed|void
-	 */
-	public function buildInput($attrs)
-	{
-		$this->prepareScript();
+    /**
+     * buildInput
+     *
+     * @param array $attrs
+     *
+     * @return  mixed|void
+     */
+    public function buildInput($attrs)
+    {
+        $this->prepareScript();
 
-		return parent::buildInput($attrs);
-	}
+        return parent::buildInput($attrs);
+    }
 
-	/**
-	 * prepareOptions
-	 *
-	 * @return  Option[]
-	 */
-	protected function prepareOptions()
-	{
-		$options = [];
+    /**
+     * prepareOptions
+     *
+     * @return  Option[]
+     */
+    protected function prepareOptions()
+    {
+        $options = [];
 
-		$attribs = (array) $this->getAttribute('option_attribs');
+        $attribs = (array) $this->getAttribute('option_attribs');
 
-		$files = Folder::files(LUNA_ROOT . '/src/Resources/asset/flags/4x3');
+        $files = Folder::files(LUNA_ROOT . '/src/Resources/asset/flags/4x3');
 
-		foreach ($files as $file)
-		{
-			$name = File::getFilename(File::stripExtension($file));
+        foreach ($files as $file) {
+            $name = File::getFilename(File::stripExtension($file));
 
-			$attribs['data-flag-class'] = Locale::getFlagIconClass($name);
-			
-			$options[] = new Option($name, $name, $attribs);
-		}
+            $attribs['data-flag-class'] = Locale::getFlagIconClass($name);
 
-		return $options;
-	}
+            $options[] = new Option($name, $name, $attribs);
+        }
 
-	/**
-	 * prepareScript
-	 *
-	 * @return  void
-	 */
-	protected function prepareScript()
-	{
-		$tmpl = <<<JS
+        return $options;
+    }
+
+    /**
+     * prepareScript
+     *
+     * @return  void
+     */
+    protected function prepareScript()
+    {
+        $tmpl = <<<JS
 \\function (state) {
 	if (!state.id) {
 		return state.text;
@@ -87,6 +86,6 @@ class FlagListField extends ListField
 JS;
 
 
-		Select2Script::select2('#' . $this->getId(), ['templateResult' => $tmpl, 'templateSelection' => $tmpl]);
-	}
+        Select2Script::select2('#' . $this->getId(), ['templateResult' => $tmpl, 'templateSelection' => $tmpl]);
+    }
 }

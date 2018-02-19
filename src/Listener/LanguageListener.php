@@ -38,18 +38,16 @@ class LanguageListener
     public function onRouterBeforeRouteMatch(Event $event)
     {
         // Workaround when languages table not exists
-        if (!Locale::isEnabled())
-        {
+        if (!Locale::isEnabled()) {
             return;
         }
 
-        $uri = Ioc::get('uri');
+        $uri   = Ioc::get('uri');
         $route = $event['route'];
 
         $segments = trim($route, '/');
 
-        if (!count($segments))
-        {
+        if (!count($segments)) {
             // No segments, means this is home route, return.
             return;
         }
@@ -61,8 +59,7 @@ class LanguageListener
 
         $language = Locale::getLanguageByAlias($alias);
 
-        if (!$language)
-        {
+        if (!$language) {
             // Language not found, return and use default language.
             // Keep it in object and set into session later if we make sure current client enabled language filter.
             $this->locale = Locale::getLocale();
@@ -96,18 +93,14 @@ class LanguageListener
 
         $luna = LunaHelper::getPackage();
 
-        if ($luna->isFrontend())
-        {
+        if ($luna->isFrontend()) {
             $config->set('language.enabled', $luna->get('frontend.language.enabled', false));
-        }
-        elseif ($luna->isAdmin())
-        {
+        } elseif ($luna->isAdmin()) {
             $config->set('frontend.enabled', $luna->get('frontend.language.enabled', false));
         }
 
         // Let's set locale
-        if (Locale::isEnabled(Locale::CLIENT_CURRENT) && $this->locale)
-        {
+        if (Locale::isEnabled(Locale::CLIENT_CURRENT) && $this->locale) {
             Locale::setLocale($this->locale);
         }
     }
@@ -121,8 +114,7 @@ class LanguageListener
      */
     public function onRouterAfterRouteBuild(Event $event)
     {
-        if (!Locale::isEnabled(Locale::CLIENT_CURRENT))
-        {
+        if (!Locale::isEnabled(Locale::CLIENT_CURRENT)) {
             return;
         }
 
@@ -130,18 +122,15 @@ class LanguageListener
 
         list($package, $route) = StringHelper::explode('@', $route, 2, 'array_unshift');
 
-        if (!$package)
-        {
+        if (!$package) {
             return;
         }
 
-        if (LunaHelper::isFrontend() && !LunaHelper::isFrontend($package))
-        {
+        if (LunaHelper::isFrontend() && !LunaHelper::isFrontend($package)) {
             return;
         }
 
-        if (LunaHelper::isAdmin() && !LunaHelper::isAdmin($package))
-        {
+        if (LunaHelper::isAdmin() && !LunaHelper::isAdmin($package)) {
             return;
         }
 

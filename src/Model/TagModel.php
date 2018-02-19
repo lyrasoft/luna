@@ -17,10 +17,10 @@ use Phoenix\Model\ItemModel;
  */
 class TagModel extends ItemModel
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'tag';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'tag';
 }

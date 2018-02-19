@@ -5,7 +5,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-;(function($) {
+;(function ($) {
     "use strict";
 
     var defaultOptions = {
@@ -22,21 +22,21 @@
      *
      * @constructor
      */
-    var SummernoteLunaEditor = function(selector, options) {
-        var editor =  $(selector).summernote(options);
+    var SummernoteLunaEditor = function (selector, options) {
+        var editor = $(selector).summernote(options);
 
         this.selector = selector;
-        this.editor   = $(editor);
-        this.options  = $.extend(true, {}, defaultOptions, options);
+        this.editor = $(editor);
+        this.options = $.extend(true, {}, defaultOptions, options);
 
         Luna.Editor.editors[selector] = {
-            insert: function(text) {
+            insert: function (text) {
                 return editor.summernote('insertNode', $(text)[0]);
             },
-            getValue: function() {
+            getValue: function () {
                 return editor.summernote('code');
             },
-            setValue: function(text) {
+            setValue: function (text) {
                 return editor.summernote('code', text);
             }
         };
@@ -54,7 +54,7 @@
      *
      * @returns {SummernoteLunaEditor}
      */
-    SummernoteLunaEditor.getInstance = function(selector, options) {
+    SummernoteLunaEditor.getInstance = function (selector, options) {
         if (!this.instances[selector]) {
             this.instances[selector] = new SummernoteLunaEditor(selector, options);
         }
@@ -70,7 +70,7 @@
          *
          * @param {File} file
          */
-        sendFile: function(file) {
+        sendFile: function (file) {
             var data = new FormData;
             var folder = this.options.image.folder || '';
             data.append("file", file);
@@ -87,7 +87,7 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         self.editor.summernote("insertImage", response.data.url);
                         self.editor.trigger('image-upload-success');
@@ -97,7 +97,7 @@
                         self.editor.trigger('image-upload-error');
                     }
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error(error.responseJSON.message);
                     self.editor.trigger('image-upload-error');
                 },

@@ -21,31 +21,27 @@ use Windwalker\Utilities\ArrayHelper;
  */
 class EditorScript extends AbstractScript
 {
-	/**
-	 * editor
-	 *
-	 * @return  void
-	 */
-	public static function editor()
-	{
-		$asset = static::getAsset();
+    /**
+     * editor
+     *
+     * @return  void
+     */
+    public static function editor()
+    {
+        $asset = static::getAsset();
 
-		if (!static::inited(__METHOD__))
-		{
-			$luna = LunaHelper::getPackage();
+        if (!static::inited(__METHOD__)) {
+            $luna = LunaHelper::getPackage();
 
-			if ($luna->isAdmin())
-			{
-				$langPrefix = $luna->get('admin.language.prefix');
-			}
-			else
-			{
-				$langPrefix = $luna->get('frontend.language.prefix');
-			}
+            if ($luna->isAdmin()) {
+                $langPrefix = $luna->get('admin.language.prefix');
+            } else {
+                $langPrefix = $luna->get('frontend.language.prefix');
+            }
 
-			PhoenixScript::translate($langPrefix . 'editor.button.readmore.message.exists');
+            PhoenixScript::translate($langPrefix . 'editor.button.readmore.message.exists');
 
-			$js = <<<JS
+            $js = <<<JS
 var Luna;
 (function(Luna) {
 	Luna.Editor = {
@@ -89,95 +85,92 @@ var Luna;
 })(Luna || (Luna = {}));
 JS;
 
-			$asset->internalScript($js);
-		}
-	}
+            $asset->internalScript($js);
+        }
+    }
 
-	/**
-	 * tinymce
-	 *
-	 * @param string $selector
-	 * @param array  $options
-	 *
-	 * @return  void
-	 * @throws \OutOfRangeException
-	 */
-	public static function tinymce($selector, $options = [])
-	{
-		$asset = static::getAsset();
+    /**
+     * tinymce
+     *
+     * @param string $selector
+     * @param array  $options
+     *
+     * @return  void
+     * @throws \OutOfRangeException
+     */
+    public static function tinymce($selector, $options = [])
+    {
+        $asset = static::getAsset();
 
-		$config = Ioc::getConfig();
-		$locale = $config->get('language.locale') ?: $config->get('language.default', 'en-GB');
+        $config = Ioc::getConfig();
+        $locale = $config->get('language.locale') ?: $config->get('language.default', 'en-GB');
 
-		$luna = LunaHelper::getPackage();
+        $luna = LunaHelper::getPackage();
 
-		if (!static::inited(__METHOD__))
-		{
-			static::editor();
+        if (!static::inited(__METHOD__)) {
+            static::editor();
 
-			$asset->addScript($luna->name . '/js/tinymce/tinymce.min.js');
-			$asset->addScript($luna->name . '/js/tinymce/tinymce-luna.min.js');
+            $asset->addScript($luna->name . '/js/tinymce/tinymce.min.js');
+            $asset->addScript($luna->name . '/js/tinymce/tinymce-luna.min.js');
 
-			$css = <<<CSS
+            $css = <<<CSS
 div.mce-fullscreen {
 	z-index: 1500;
 }
 CSS;
 
-			$asset->internalStyle($css);
-		}
+            $asset->internalStyle($css);
+        }
 
-		if (!static::inited(__METHOD__, func_get_args()))
-		{
-			$defaultOptions = [
-				'branding' => false
-			];
+        if (!static::inited(__METHOD__, func_get_args())) {
+            $defaultOptions = [
+                'branding' => false,
+            ];
 
-			$options['image_upload_url'] = LunaHelper::getPackage()
-				->getCurrentPackage()->router->route('_luna_img_upload');
+            $options['image_upload_url'] = LunaHelper::getPackage()
+                ->getCurrentPackage()->router->route('_luna_img_upload');
 
-			$options['selector'] = $selector;
+            $options['selector'] = $selector;
 
-			$optionsJson = static::getJSObject($defaultOptions, $options);
+            $optionsJson = static::getJSObject($defaultOptions, $options);
 
-			$js = <<<JS
+            $js = <<<JS
 jQuery(document).ready(function($) {
 	TinymceLunaEditor.getInstance('$selector', $optionsJson);
 });
 JS;
 
-			$asset->internalScript($js);
-		}
-	}
+            $asset->internalScript($js);
+        }
+    }
 
-	/**
-	 * summernote
-	 *
-	 * @param string $selector
-	 * @param array  $options
-	 *
-	 * @return  void
-	 */
-	public static function summernote($selector, $options = [])
-	{
-		$asset = static::getAsset();
+    /**
+     * summernote
+     *
+     * @param string $selector
+     * @param array  $options
+     *
+     * @return  void
+     */
+    public static function summernote($selector, $options = [])
+    {
+        $asset = static::getAsset();
 
-		$config = Ioc::getConfig();
-		$locale = $config->get('language.locale') ?: $config->get('language.default', 'en-GB');
+        $config = Ioc::getConfig();
+        $locale = $config->get('language.locale') ?: $config->get('language.default', 'en-GB');
 
-		if (!static::inited(__METHOD__))
-		{
-			static::editor();
+        if (!static::inited(__METHOD__)) {
+            static::editor();
 
-			$luna = LunaHelper::getPackage();
-			$asset->addScript($luna->name . '/js/summernote/summernote.min.js');
-			$asset->addScript($luna->name . '/js/summernote/summernote-luna.min.js');
+            $luna = LunaHelper::getPackage();
+            $asset->addScript($luna->name . '/js/summernote/summernote.min.js');
+            $asset->addScript($luna->name . '/js/summernote/summernote-luna.min.js');
 
-			$asset->addStyle($luna->name . '/css/summernote/summernote.min.css');
+            $asset->addStyle($luna->name . '/css/summernote/summernote.min.css');
 
-			$asset->addScript($luna->name . '/js/summernote/lang/summernote-' . $locale . '.min.js');
+            $asset->addScript($luna->name . '/js/summernote/lang/summernote-' . $locale . '.min.js');
 
-			$css = <<<CSS
+            $css = <<<CSS
 .note-editor {
 	border: 1px solid #ccc;
 }
@@ -196,27 +189,26 @@ JS;
 }
 CSS;
 
-			$asset->internalStyle($css);
-		}
+            $asset->internalStyle($css);
+        }
 
-		if (!static::inited(__METHOD__, func_get_args()))
-		{
-			$defaultOptions = [
-				'lang' => $locale
-			];
+        if (!static::inited(__METHOD__, func_get_args())) {
+            $defaultOptions = [
+                'lang' => $locale,
+            ];
 
-			$options['image_upload_url'] = LunaHelper::getPackage()
-				->getCurrentPackage()->router->route('_luna_img_upload');
+            $options['image_upload_url'] = LunaHelper::getPackage()
+                ->getCurrentPackage()->router->route('_luna_img_upload');
 
-			$options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
+            $options = $asset::getJSObject(ArrayHelper::merge($defaultOptions, $options));
 
-			$js = <<<JS
+            $js = <<<JS
 jQuery(document).ready(function($) {
 	SummernoteLunaEditor.getInstance('$selector', $options);
 });
 JS;
 
-			$asset->internalScript($js);
-		}
-	}
+            $asset->internalScript($js);
+        }
+    }
 }

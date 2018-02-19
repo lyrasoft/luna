@@ -3,21 +3,21 @@
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var $app      \Windwalker\Web\Application                 Global Application
- * @var $package  \Lyrasoft\Luna\LunaPackage                   Package object.
- * @var $view     \Windwalker\Data\Data                       Some information of this view.
- * @var $uri      \Windwalker\Uri\UriData               Uri information, example: $uri->path
- * @var $datetime \DateTime                                   PHP DateTime object of current time.
- * @var $helper   \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
- * @var $router   \Windwalker\Core\Router\MainRouter          Route builder object.
- * @var $asset    \Windwalker\Core\Asset\AssetManager         The Asset manager.
+ * @var $app         \Windwalker\Web\Application                 Global Application
+ * @var $package     \Lyrasoft\Luna\LunaPackage                   Package object.
+ * @var $view        \Windwalker\Data\Data                       Some information of this view.
+ * @var $uri         \Windwalker\Uri\UriData               Uri information, example: $uri->path
+ * @var $datetime    \DateTime                                   PHP DateTime object of current time.
+ * @var $helper      \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
+ * @var $router      \Windwalker\Core\Router\MainRouter          Route builder object.
+ * @var $asset       \Windwalker\Core\Asset\AssetManager         The Asset manager.
  *
  * View variables
  * --------------------------------------------------------------
- * @var $items    \Windwalker\Data\DataSet
- * @var $item     \Lyrasoft\Luna\Admin\Record\ArticleRecord
- * @var $category \Lyrasoft\Luna\Admin\Record\CategoryRecord
- * @var $state    \Windwalker\Structure\Structure
+ * @var $items       \Windwalker\Data\DataSet
+ * @var $item        \Lyrasoft\Luna\Admin\Record\ArticleRecord
+ * @var $category    \Lyrasoft\Luna\Admin\Record\CategoryRecord
+ * @var $state       \Windwalker\Structure\Structure
  * @var $pagination  \Windwalker\Core\Pagination\Pagination
  */
 ?>
@@ -45,13 +45,14 @@
                         {!! $item->introtext !!}
                     </div>
 
-                    <hr />
+                    <hr/>
 
                     @if (property_exists($item, 'comments'))
                         {{ $item->comments }} Comment(s)
 
                         @foreach ($item->tags as $tagItem)
-                            <a class="label label-info" href="{{ $router->route('article_tag', ['tag' => $tagItem->alias]) }}">
+                            <a class="label label-info"
+                               href="{{ $router->route('article_tag', ['tag' => $tagItem->alias]) }}">
                                 {{ $tagItem->title }}
                             </a>
                             &nbsp;
@@ -61,7 +62,7 @@
                 </div>
             @endforeach
         </div>
-        <hr />
+        <hr/>
         <div class="pagination">
             @if ($category->notNull())
                 {!! $pagination->route('article_category', ['path' => $category->path])->render() !!}

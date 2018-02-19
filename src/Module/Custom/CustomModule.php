@@ -18,28 +18,28 @@ use Windwalker\Data\DataInterface;
  */
 class CustomModule extends AbstractModule
 {
-	/**
-	 * Property type.
-	 *
-	 * @var  string
-	 */
-	protected static $type = 'custom';
+    /**
+     * Property type.
+     *
+     * @var  string
+     */
+    protected static $type = 'custom';
 
-	/**
-	 * Property icon.
-	 *
-	 * @var  string
-	 */
-	protected static $icon = 'glyphicon glyphicon-pencil fa fa-pencil';
+    /**
+     * Property icon.
+     *
+     * @var  string
+     */
+    protected static $icon = 'glyphicon glyphicon-pencil fa fa-pencil';
 
-	/**
-	 * prepareData
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return  void
-	 */
-	protected function prepareData(DataInterface $data)
-	{
-	}
+    /**
+     * prepareData
+     *
+     * @param DataInterface $data
+     *
+     * @return  void
+     */
+    protected function prepareData(DataInterface $data)
+    {
+    }
 }

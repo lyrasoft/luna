@@ -15,96 +15,96 @@ use Windwalker\Data\DataInterface;
 
 /**
  * The SaveController class.
- * 
+ *
  * @since  1.0
  */
 class SaveController extends AbstractSaveController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'tag';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'tag';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'tag';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'tag';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'tags';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'tags';
 
-	/**
-	 * Property formControl.
-	 *
-	 * @var  string
-	 */
-	protected $formControl = 'item';
+    /**
+     * Property formControl.
+     *
+     * @var  string
+     */
+    protected $formControl = 'item';
 
-	/**
-	 * Property model.
-	 *
-	 * @var  TagModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  TagModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  TagHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  TagHtmlView
+     */
+    protected $view;
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		parent::prepareExecute();
-	}
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        parent::prepareExecute();
+    }
 
-	/**
-	 * preSave
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return void
-	 */
-	protected function preSave(DataInterface $data)
-	{
-		parent::preSave($data);
-	}
+    /**
+     * preSave
+     *
+     * @param DataInterface $data
+     *
+     * @return void
+     */
+    protected function preSave(DataInterface $data)
+    {
+        parent::preSave($data);
+    }
 
-	/**
-	 * postSave
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return  void
-	 */
-	protected function postSave(DataInterface $data)
-	{
-		parent::postSave($data);
-	}
+    /**
+     * postSave
+     *
+     * @param DataInterface $data
+     *
+     * @return  void
+     */
+    protected function postSave(DataInterface $data)
+    {
+        parent::postSave($data);
+    }
 
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
-	}
+    /**
+     * postExecute
+     *
+     * @param mixed $result
+     *
+     * @return  mixed
+     */
+    protected function postExecute($result = null)
+    {
+        return parent::postExecute($result);
+    }
 }

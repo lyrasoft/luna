@@ -13,14 +13,16 @@
                     <span class="glyphicon glyphicon-eye-open fa fa-eye"></span>
                     @translate($luna->langPrefix . 'contact.preview.modal.title')
                 </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <table id="preview-table" class="table table-striped" style="display: none">
 
                 </table>
                 <div id="preview-loading" style="text-align: center">
-                    <img src="{{ $asset->path(\Lyrasoft\Luna\Helper\LunaHelper::getPackage()->getName() . '/images/ring-loading.gif') }}"
+                    <img
+                        src="{{ $asset->path(\Lyrasoft\Luna\Helper\LunaHelper::getPackage()->getName() . '/images/ring-loading.gif') }}"
                         alt="Loading" style="padding: 100px 0">
                 </div>
             </div>

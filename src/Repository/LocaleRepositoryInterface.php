@@ -15,12 +15,12 @@ namespace Lyrasoft\Luna\Repository;
  */
 interface LocaleRepositoryInterface
 {
-	/**
-	 * locale
-	 *
-	 * @param string $locale
-	 *
-	 * @return  static
-	 */
-	public function locale($locale);
+    /**
+     * locale
+     *
+     * @param string $locale
+     *
+     * @return  static
+     */
+    public function locale($locale);
 }

@@ -14,9 +14,9 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $item  \Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait
- * @var $state \Windwalker\Structure\Structure
- * @var $form  \Windwalker\Form\Form
+ * @var $item     \Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait
+ * @var $state    \Windwalker\Structure\Structure
+ * @var $form     \Windwalker\Form\Form
  */
 ?>
 
@@ -27,44 +27,45 @@
 @stop
 
 @section('admin-body')
-<form name="admin-form" id="admin-form" action="{{ $router->route('article', ['id' => $item->id]) }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->route('article', ['id' => $item->id]) }}" method="POST"
+          enctype="multipart/form-data">
 
-    @include('luna.form.title-bar')
+        @include('luna.form.title-bar')
 
-    <div class="row">
-        <div class="col-md-8">
-            <fieldset class="form-horizontal">
-                <legend>@translate($luna->langPrefix . 'article.edit.fieldset.basic')</legend>
+        <div class="row">
+            <div class="col-md-8">
+                <fieldset class="form-horizontal">
+                    <legend>@translate($luna->langPrefix . 'article.edit.fieldset.basic')</legend>
 
-                {!! $form->renderFields('basic') !!}
-            </fieldset>
+                    {!! $form->renderFields('basic') !!}
+                </fieldset>
 
-            {{--<fieldset class="form-horizontal">--}}
+                {{--<fieldset class="form-horizontal">--}}
                 {{--<legend>@translate($luna->langPrefix . 'article.edit.fieldset.text')</legend>--}}
 
                 {{--{!! $form->getField('text')->renderInput() !!}--}}
-            {{--</fieldset>--}}
+                {{--</fieldset>--}}
+            </div>
+            <div class="col-md-4">
+                <fieldset class="form-horizontal">
+                    <legend>@translate($luna->langPrefix . 'article.edit.fieldset.created')</legend>
+
+                    {!! $form->renderFields('created') !!}
+                </fieldset>
+            </div>
         </div>
-        <div class="col-md-4">
-            <fieldset class="form-horizontal">
-                <legend>@translate($luna->langPrefix . 'article.edit.fieldset.created')</legend>
 
-                {!! $form->renderFields('created') !!}
-            </fieldset>
+        <div class="row" style="margin-top: 40px">
+            <div class="col-md-12">
+                <fieldset class="form-horizontal">
+                    {!! $form->getField('text')->renderInput() !!}
+                </fieldset>
+            </div>
         </div>
-    </div>
 
-    <div class="row" style="margin-top: 40px">
-        <div class="col-md-12">
-            <fieldset class="form-horizontal">
-                {!! $form->getField('text')->renderInput() !!}
-            </fieldset>
+        <div class="hidden-inputs">
+            @formToken()
         </div>
-    </div>
 
-    <div class="hidden-inputs">
-        @formToken()
-    </div>
-
-</form>
+    </form>
 @stop

@@ -18,73 +18,71 @@ use Windwalker\Utilities\Arr;
 /**
  * The TinymceEditorField class.
  *
- * @method  mixed|$this  contentCss(string|array $value = null)
+ * @method  mixed|$this  contentCss(string | array $value = null)
  * @method  mixed|$this  langFolder(string $value = null)
  *
  * @since  1.0
  */
 class TinymceEditorField extends AbstractEditorField
 {
-	const TOOLBAR_SIMPLE = 'simple';
-	const TOOLBAR_FULL = 'full';
+    const TOOLBAR_SIMPLE = 'simple';
+    const TOOLBAR_FULL = 'full';
 
-	/**
-	 * Property editorName.
-	 *
-	 * @var  string
-	 */
-	protected $editorName = null;
+    /**
+     * Property editorName.
+     *
+     * @var  string
+     */
+    protected $editorName = null;
 
-	/**
-	 * prepareScipt
-	 *
-	 * @link  http://summernote.org/deep-dive/
-	 *
-	 * @param   array  $attrs
-	 *
-	 * @return  void
-	 */
-	protected function prepareScript($attrs)
-	{
-		$luna = LunaHelper::getPackage();
-		$options = (array) $this->get('options', []);
+    /**
+     * prepareScipt
+     *
+     * @link  http://summernote.org/deep-dive/
+     *
+     * @param   array $attrs
+     *
+     * @return  void
+     */
+    protected function prepareScript($attrs)
+    {
+        $luna    = LunaHelper::getPackage();
+        $options = (array) $this->get('options', []);
 
-		$defaultOptions = [];
+        $defaultOptions = [];
 
-		// Language
-		$this->loadLanguage($defaultOptions);
+        // Language
+        $this->loadLanguage($defaultOptions);
 
-		$defaultOptions['plugins'] = [];
+        $defaultOptions['plugins'] = [];
 
-		if ($this->get('toolbar', static::TOOLBAR_FULL) === static::TOOLBAR_FULL)
-		{
-			$defaultOptions['plugins'] = [
-				'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-				'searchreplace wordcount visualblocks visualchars code fullscreen',
-				'insertdatetime media nonbreaking save table contextmenu directionality',
-				'emoticons template paste textcolor colorpicker textpattern imagetools'
-			];
+        if ($this->get('toolbar', static::TOOLBAR_FULL) === static::TOOLBAR_FULL) {
+            $defaultOptions['plugins'] = [
+                'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                'searchreplace wordcount visualblocks visualchars code fullscreen',
+                'insertdatetime media nonbreaking save table contextmenu directionality',
+                'emoticons template paste textcolor colorpicker textpattern imagetools',
+            ];
 
-			$defaultOptions['toolbar1'] = 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' .
-				'bullist numlist outdent indent | link image media | table code | fullscreen';
+            $defaultOptions['toolbar1'] = 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' .
+                'bullist numlist outdent indent | link image media | table code | fullscreen';
 
-			$defaultOptions['image_advtab'] = true;
-		}
+            $defaultOptions['image_advtab'] = true;
+        }
 
-		/*
-		 * @link  https://www.tinymce.com/docs/plugins/paste/
-		 */
-		if ($this->get('image_upload', true))
-		{
-			$url = $luna->getCurrentPackage()->router->route('_luna_img_upload');
+        /*
+         * @link  https://www.tinymce.com/docs/plugins/paste/
+         */
+        if ($this->get('image_upload', true)) {
+            $url = $luna->getCurrentPackage()->router->route('_luna_img_upload');
 
-			$defaultOptions['paste_data_images'] = true;
-			$defaultOptions['remove_script_host'] = false;
-			$defaultOptions['relative_urls'] = false;
+            $defaultOptions['paste_data_images']  = true;
+            $defaultOptions['remove_script_host'] = false;
+            $defaultOptions['relative_urls']      = false;
 
-			// Image uploader
-			$defaultOptions['images_upload_url'] = $url;
-			$defaultOptions['images_upload_handler'] = <<<JS
+            // Image uploader
+            $defaultOptions['images_upload_url']     = $url;
+            $defaultOptions['images_upload_handler'] = <<<JS
 \\function (blobInfo, success, failure) {
     var editorElement = jQuery('#{$this->getId()}');
 
@@ -127,8 +125,8 @@ class TinymceEditorField extends AbstractEditorField
 }
 JS;
 
-			// Drag Drop Styles
-			Asset::internalScript(<<<JS
+            // Drag Drop Styles
+            Asset::internalScript(<<<JS
 jQuery(document).ready(function($) {
     tinymce.PluginManager.add('lunadragdrop', function(editor) {
 		// Reset the drop area border
@@ -166,69 +164,66 @@ jQuery(document).ready(function($) {
 	});
 });
 JS
-);
-			$defaultOptions['plugins'][] = 'lunadragdrop';
-		}
+            );
+            $defaultOptions['plugins'][] = 'lunadragdrop';
+        }
 
-		$options = Arr::mergeRecursive($defaultOptions, $options);
+        $options = Arr::mergeRecursive($defaultOptions, $options);
 
-		// Set global settings
-		$contentCss = (array) Arr::get($options, 'content_css', $this->get('content_css'));
+        // Set global settings
+        $contentCss = (array) Arr::get($options, 'content_css', $this->get('content_css'));
 
-		array_unshift($contentCss, Asset::root() . '/' . $luna->name . '/css/tinymce/content.css');
+        array_unshift($contentCss, Asset::root() . '/' . $luna->name . '/css/tinymce/content.css');
 
-		$options['content_css'] = implode(',', $contentCss);
+        $options['content_css'] = implode(',', $contentCss);
 
-		EditorScript::tinymce('#' . $attrs['id'], $options);
-	}
+        EditorScript::tinymce('#' . $attrs['id'], $options);
+    }
 
-	/**
-	 * loadLanguage
-	 *
-	 * @param array $defaultOptions
-	 *
-	 * @return  void
-	 */
-	protected function loadLanguage(array &$defaultOptions)
-	{
-		$lang = Translator::getLocale() ? : Translator::getDefaultLocale();
-		$lang = str_replace('-', '_', $lang);
+    /**
+     * loadLanguage
+     *
+     * @param array $defaultOptions
+     *
+     * @return  void
+     */
+    protected function loadLanguage(array &$defaultOptions)
+    {
+        $lang = Translator::getLocale() ?: Translator::getDefaultLocale();
+        $lang = str_replace('-', '_', $lang);
 
-		$langFolder = $this->get('lang_folder');
+        $langFolder = $this->get('lang_folder');
 
-		if ($langFolder)
-		{
-			$config = Ioc::getConfig();
+        if ($langFolder) {
+            $config = Ioc::getConfig();
 
-			$assetFolder = $config->get('asset.folder', 'asset');
-			$langPath = WINDWALKER_PUBLIC . '/' . $assetFolder . '/' . $langFolder . '/' . $lang . '.js';
-			$langUrl = Ioc::getUriData()->path . '/' . $assetFolder . '/' . $langFolder . '/' . $lang . '.js';
+            $assetFolder = $config->get('asset.folder', 'asset');
+            $langPath    = WINDWALKER_PUBLIC . '/' . $assetFolder . '/' . $langFolder . '/' . $lang . '.js';
+            $langUrl     = Ioc::getUriData()->path . '/' . $assetFolder . '/' . $langFolder . '/' . $lang . '.js';
 
-			if (is_file($langPath))
-			{
-				$defaultOptions['language'] = $lang;
-				$defaultOptions['language_url'] = $langUrl;
-			}
-		}
+            if (is_file($langPath)) {
+                $defaultOptions['language']     = $lang;
+                $defaultOptions['language_url'] = $langUrl;
+            }
+        }
 
-		if (is_file(LUNA_SOURCE . '/Resources/asset/js/tinymce/langs/' . $lang . '.js'))
-		{
-			$defaultOptions['language'] = $lang;
-		}
-	}
+        if (is_file(LUNA_SOURCE . '/Resources/asset/js/tinymce/langs/' . $lang . '.js')) {
+            $defaultOptions['language'] = $lang;
+        }
+    }
 
-	/**
-	 * getAccessors
-	 *
-	 * @return  array
-	 *
-	 * @since   1.2.6
-	 */
-	protected function getAccessors()
-	{
-		return array_merge(parent::getAccessors(), [
-			'contentCss' => 'content_css',
-			'langFolder' => 'lang_folder'
-		]);
-	}
+    /**
+     * getAccessors
+     *
+     * @return  array
+     *
+     * @since   1.2.6
+     */
+    protected function getAccessors()
+    {
+        return array_merge(parent::getAccessors(), [
+            'contentCss' => 'content_css',
+            'langFolder' => 'lang_folder',
+        ]);
+    }
 }

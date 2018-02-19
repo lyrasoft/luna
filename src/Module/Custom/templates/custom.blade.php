@@ -13,8 +13,8 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $item   \Windwalker\Data\Data
- * @var $params \Windwalker\Structure\Structure
+ * @var $item     \Windwalker\Data\Data
+ * @var $params   \Windwalker\Structure\Structure
  */
 ?>
 {!! $item->content !!}

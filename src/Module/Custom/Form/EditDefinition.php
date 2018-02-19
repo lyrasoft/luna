@@ -18,19 +18,19 @@ use Windwalker\Form\Form;
  */
 class EditDefinition extends AbstractFieldDefinition
 {
-	/**
-	 * Define the form fields.
-	 *
-	 * @param Form $form The Windwalker form object.
-	 *
-	 * @return  void
-	 */
-	public function doDefine(Form $form)
-	{
+    /**
+     * Define the form fields.
+     *
+     * @param Form $form The Windwalker form object.
+     *
+     * @return  void
+     */
+    public function doDefine(Form $form)
+    {
 //		$this->fieldset('basic', function (Form $form)
 //		{
 //			$this->text('test')
 //				->label('Test');
 //		});
-	}
+    }
 }

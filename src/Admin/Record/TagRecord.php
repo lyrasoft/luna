@@ -15,60 +15,60 @@ use Windwalker\Record\Record;
 
 /**
  * The TagRecord class.
- * 
+ *
  * @since  1.0
  */
 class TagRecord extends Record
 {
-	use TagDataTrait;
+    use TagDataTrait;
 
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::TAGS;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::TAGS;
 
-	/**
-	 * Property keys.
-	 *
-	 * @var  string
-	 */
-	protected $keys = 'id';
+    /**
+     * Property keys.
+     *
+     * @var  string
+     */
+    protected $keys = 'id';
 
-	/**
-	 * onAfterLoad
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterLoad(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterLoad
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterLoad(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterStore
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterStore(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterStore
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterStore(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterDelete
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterDelete(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterDelete
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterDelete(Event $event)
+    {
+        // Add your logic
+    }
 }

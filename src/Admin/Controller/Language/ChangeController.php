@@ -19,69 +19,58 @@ use Phoenix\Controller\AbstractPhoenixController;
  */
 class ChangeController extends AbstractPhoenixController
 {
-	/**
-	 * doExecute
-	 *
-	 * @return  mixed
-	 */
-	protected function doExecute()
-	{
-		$lang = $this->input->get('lang');
+    /**
+     * doExecute
+     *
+     * @return  mixed
+     */
+    protected function doExecute()
+    {
+        $lang = $this->input->get('lang');
 
-		$return = $this->input->getBase64('return');
+        $return = $this->input->getBase64('return');
 
-		$uri = $this->container->get('uri');
+        $uri = $this->container->get('uri');
 
-		$luna = LunaHelper::getPackage();
+        $luna = LunaHelper::getPackage();
 
-		if ($luna->isFrontend())
-		{
-			$redirect = $luna->get('frontend.redirect.language', 'home');
-		}
-		else
-		{
-			$redirect = $luna->get('admin.redirect.language', 'home');
-		}
+        if ($luna->isFrontend()) {
+            $redirect = $luna->get('frontend.redirect.language', 'home');
+        } else {
+            $redirect = $luna->get('admin.redirect.language', 'home');
+        }
 
-		try
-		{
-			if (!$lang)
-			{
-				throw new \InvalidArgumentException('No language', 404);
-			}
+        try {
+            if (!$lang) {
+                throw new \InvalidArgumentException('No language', 404);
+            }
 
-			$language = Locale::getLanguage($lang);
+            $language = Locale::getLanguage($lang);
 
-			if (!$language)
-			{
-				throw new \RangeException('Language ' . $lang . ' not exists.', 404);
-			}
+            if (!$language) {
+                throw new \RangeException('Language ' . $lang . ' not exists.', 404);
+            }
 
-			Locale::setLocale($lang);
-		}
-		catch (\Exception $e)
-		{
-			if (WINDWALKER_DEBUG)
-			{
-				throw $e;
-			}
+            Locale::setLocale($lang);
+        } catch (\Exception $e) {
+            if (WINDWALKER_DEBUG) {
+                throw $e;
+            }
 
-			$this->setRedirect($this->router->route($redirect));
+            $this->setRedirect($this->router->route($redirect));
 
-			return false;
-		}
+            return false;
+        }
 
-		if ($return)
-		{
-			$return = $uri->path . '/' . ltrim($uri->script . '/', '/') . $language->alias . '/' . base64_decode($return);
-		}
-		else
-		{
-			$return = $this->router->route($redirect);
-		}
+        if ($return) {
+            $return = $uri->path . '/' . ltrim($uri->script . '/',
+                    '/') . $language->alias . '/' . base64_decode($return);
+        } else {
+            $return = $this->router->route($redirect);
+        }
 
-		$this->setRedirect($return);
+        $this->setRedirect($return);
 
-		return true;
-	}
+        return true;
+    }
 }

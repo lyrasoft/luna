@@ -22,42 +22,41 @@ use Windwalker\Data\DataInterface;
  */
 class ArticleModel extends ItemModel implements StateRepositoryInterface
 {
-	/**
-	 * postGetItem
-	 *
-	 * @param DataInterface|ArticleRecord $item
-	 *
-	 * @return  void
-	 */
-	protected function postGetItem(DataInterface $item)
-	{
-		$item->category = $this->getDataMapper('Category')->findOne($item->category_id);
+    /**
+     * postGetItem
+     *
+     * @param DataInterface|ArticleRecord $item
+     *
+     * @return  void
+     */
+    protected function postGetItem(DataInterface $item)
+    {
+        $item->category = $this->getDataMapper('Category')->findOne($item->category_id);
 
-		$item->tags = TagHelper::getAvailableTags('article', $item->id);
+        $item->tags = TagHelper::getAvailableTags('article', $item->id);
 
-		if (LunaHelper::tableExists('comments'))
-		{
-			$commentsModel = new CommentsModel;
+        if (LunaHelper::tableExists('comments')) {
+            $commentsModel = new CommentsModel;
 
-			$commentsModel->published(true);
-			$commentsModel->target('article', $item->id);
-			$commentsModel->ordering('comment.ordering', 'ASC');
+            $commentsModel->published(true);
+            $commentsModel->target('article', $item->id);
+            $commentsModel->ordering('comment.ordering', 'ASC');
 
-			$item->comments = $commentsModel->getItems();
-		}
-	}
+            $item->comments = $commentsModel->getItems();
+        }
+    }
 
-	/**
-	 * published
-	 *
-	 * @param bool $published
-	 *
-	 * @return static
-	 */
-	public function published($published = true)
-	{
-		$this->state->push('load.conditions', 'state = ' . (int) $published);
-	}
+    /**
+     * published
+     *
+     * @param bool $published
+     *
+     * @return static
+     */
+    public function published($published = true)
+    {
+        $this->state->push('load.conditions', 'state = ' . (int) $published);
+    }
 
 
 }

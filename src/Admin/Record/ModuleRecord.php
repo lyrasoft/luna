@@ -15,78 +15,76 @@ use Windwalker\Record\Record;
 
 /**
  * The ModuleRecord class.
- * 
+ *
  * @since  1.0
  */
 class ModuleRecord extends Record
 {
-	use ModuleDataTrait;
-	
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::MODULES;
+    use ModuleDataTrait;
 
-	/**
-	 * Property keys.
-	 *
-	 * @var  string
-	 */
-	protected $keys = 'id';
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::MODULES;
 
-	/**
-	 * onAfterLoad
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterLoad(Event $event)
-	{
-		if ($this->params && is_string($this->params))
-		{
-			$this->params = json_decode($this->params);
-		}
-	}
+    /**
+     * Property keys.
+     *
+     * @var  string
+     */
+    protected $keys = 'id';
 
-	/**
-	 * onBeforeStore
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onBeforeStore(Event $event)
-	{
-		if ($this->params && !is_string($this->params))
-		{
-			$this->params = json_encode($this->params);
-		}
-	}
+    /**
+     * onAfterLoad
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterLoad(Event $event)
+    {
+        if ($this->params && is_string($this->params)) {
+            $this->params = json_decode($this->params);
+        }
+    }
 
-	/**
-	 * onAfterStore
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterStore(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onBeforeStore
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onBeforeStore(Event $event)
+    {
+        if ($this->params && !is_string($this->params)) {
+            $this->params = json_encode($this->params);
+        }
+    }
 
-	/**
-	 * onAfterDelete
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterDelete(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterStore
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterStore(Event $event)
+    {
+        // Add your logic
+    }
+
+    /**
+     * onAfterDelete
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterDelete(Event $event)
+    {
+        // Add your logic
+    }
 }

@@ -15,38 +15,37 @@ use Windwalker\Record\Record;
 
 /**
  * The ContactModel class.
- * 
+ *
  * @since  1.0
  */
 class ContactModel extends CrudModel
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'Contact';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'Contact';
 
-	/**
-	 * prepareRecord
-	 *
-	 * @param Record $record
-	 *
-	 * @return  void
-	 */
-	protected function prepareRecord(Record $record)
-	{
-		parent::prepareRecord($record);
+    /**
+     * prepareRecord
+     *
+     * @param Record $record
+     *
+     * @return  void
+     */
+    protected function prepareRecord(Record $record)
+    {
+        parent::prepareRecord($record);
 
-		$user = User::get();
-		$date = Chronos::create();
+        $user = User::get();
+        $date = Chronos::create();
 
-		$record->created = $date->toSql();
+        $record->created = $date->toSql();
 
-		if ($user->isMember())
-		{
-			$record->created_by = $user->id;
-			$record->name = $user->name;
-		}
-	}
+        if ($user->isMember()) {
+            $record->created_by = $user->id;
+            $record->name       = $user->name;
+        }
+    }
 }

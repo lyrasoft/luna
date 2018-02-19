@@ -13,29 +13,29 @@ use Windwalker\Data\Data;
 /**
  * The ModuleType class.
  *
- * @property-read  string  type
- * @property-read  string  name
- * @property-read  string  description
- * @property-read  string  icon
- * @property-read  string  class
- * @property-read  string  langPrefix
+ * @property-read  string type
+ * @property-read  string name
+ * @property-read  string description
+ * @property-read  string icon
+ * @property-read  string class
+ * @property-read  string langPrefix
  *
  * @since  1.0
  */
 class ModuleType extends Data
 {
-	/**
-	 * createInstance
-	 *
-	 * @param   array $data
-	 * @param string  $engine
-	 *
-	 * @return AbstractModule
-	 */
-	public function createInstance($data = [], $engine = 'edge')
-	{
-		$class = $this->class;
+    /**
+     * createInstance
+     *
+     * @param   array $data
+     * @param string  $engine
+     *
+     * @return AbstractModule
+     */
+    public function createInstance($data = [], $engine = 'edge')
+    {
+        $class = $this->class;
 
-		return new $class($data, $engine);
-	}
+        return new $class($data, $engine);
+    }
 }

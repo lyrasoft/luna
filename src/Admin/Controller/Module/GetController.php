@@ -16,83 +16,83 @@ use Windwalker\Core\View\AbstractView;
 
 /**
  * The GetController class.
- * 
+ *
  * @since  1.0
  */
 class GetController extends EditDisplayController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'module';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'module';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'module';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'module';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'modules';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'modules';
 
-	/**
-	 * Property model.
-	 *
-	 * @var  ModuleModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  ModuleModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  ModuleHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  ModuleHtmlView
+     */
+    protected $view;
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		parent::prepareExecute();
-	}
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        parent::prepareExecute();
+    }
 
-	/**
-	 * Prepare view and default model.
-	 *
-	 * You can configure default model state here, or add more sub models to view.
-	 * Remember to call parent to make sure default model already set in view.
-	 *
-	 * @param AbstractView    $view  The view to render page.
-	 * @param ModelRepository $model The default mode.
-	 *
-	 * @return  void
-	 */
-	protected function prepareViewModel(AbstractView $view, ModelRepository $model)
-	{
-		parent::prepareViewModel($view, $model);
+    /**
+     * Prepare view and default model.
+     *
+     * You can configure default model state here, or add more sub models to view.
+     * Remember to call parent to make sure default model already set in view.
+     *
+     * @param AbstractView    $view  The view to render page.
+     * @param ModelRepository $model The default mode.
+     *
+     * @return  void
+     */
+    protected function prepareViewModel(AbstractView $view, ModelRepository $model)
+    {
+        parent::prepareViewModel($view, $model);
 
-		$model['module.type'] = $this->input->get('type');
-	}
+        $model['module.type'] = $this->input->get('type');
+    }
 
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
-	}
+    /**
+     * postExecute
+     *
+     * @param mixed $result
+     *
+     * @return  mixed
+     */
+    protected function postExecute($result = null)
+    {
+        return parent::postExecute($result);
+    }
 }

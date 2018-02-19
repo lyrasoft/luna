@@ -23,90 +23,84 @@ use Windwalker\Filter\OutputFilter;
 
 /**
  * The ArticleSeeder class.
- * 
+ *
  * @since  1.0
  */
 class ArticleSeeder extends AbstractSeeder
 {
-	/**
-	 * doExecute
-	 *
-	 * @return  void
-	 */
-	public function doExecute()
-	{
-		$faker = Factory::create();
+    /**
+     * doExecute
+     *
+     * @return  void
+     */
+    public function doExecute()
+    {
+        $faker = Factory::create();
 
-		$languages = LanguageMapper::find(['state' => 1])->code;
-		$languages[] = '*';
+        $languages   = LanguageMapper::find(['state' => 1])->code;
+        $languages[] = '*';
 
-		$categories = CategoryMapper::find(
-			[
-			'parent_id != 0',
-			'type' => 'article'
-			]
-		);
+        $categories = CategoryMapper::find(
+            [
+                'parent_id != 0',
+                'type' => 'article',
+            ]
+        );
 
-		if (WarderHelper::tableExists('users'))
-		{
-			$userIds = UserMapper::findAll()->id;
-		}
-		else
-		{
-			$userIds = range(1, 50);
-		}
+        if (WarderHelper::tableExists('users')) {
+            $userIds = UserMapper::findAll()->id;
+        } else {
+            $userIds = range(1, 50);
+        }
 
-		$tags = TagMapper::findAll()->dump();
+        $tags = TagMapper::findAll()->dump();
 
-		foreach ($categories as $category)
-		{
-			foreach (range(7, 15) as $i)
-			{
-				$data = new Data;
+        foreach ($categories as $category) {
+            foreach (range(7, 15) as $i) {
+                $data = new Data;
 
-				$lang = $faker->randomElement($languages);
+                $lang = $faker->randomElement($languages);
 
-				$data['category_id'] = $category->id;
-				$data['title']       = '(' . $lang . ') ' . $faker->sentence(mt_rand(3, 5));
-				$data['alias']       = OutputFilter::stringURLSafe($data['title']);
-				$data['introtext']   = '(' . $lang . ') ' . $faker->paragraph(5);
-				$data['fulltext']    = $faker->paragraph(5);
-				$data['image']       = UnsplashHelper::getImageUrl();
-				$data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
-				$data['version']     = mt_rand(1, 50);
-				$data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
-				$data['created_by']  = $faker->randomElement($userIds);
-				$data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
-				$data['modified_by'] = $faker->randomElement($userIds);
-				$data['ordering']    = $i;
-				$data['language']    = $lang;
-				$data['params']      = '';
+                $data['category_id'] = $category->id;
+                $data['title']       = '(' . $lang . ') ' . $faker->sentence(mt_rand(3, 5));
+                $data['alias']       = OutputFilter::stringURLSafe($data['title']);
+                $data['introtext']   = '(' . $lang . ') ' . $faker->paragraph(5);
+                $data['fulltext']    = $faker->paragraph(5);
+                $data['image']       = UnsplashHelper::getImageUrl();
+                $data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
+                $data['version']     = mt_rand(1, 50);
+                $data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
+                $data['created_by']  = $faker->randomElement($userIds);
+                $data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
+                $data['modified_by'] = $faker->randomElement($userIds);
+                $data['ordering']    = $i;
+                $data['language']    = $lang;
+                $data['params']      = '';
 
-				ArticleMapper::createOne($data);
+                ArticleMapper::createOne($data);
 
-				foreach ($faker->randomElements($tags, mt_rand(5, 7)) as $tag)
-				{
-					$map = new Data;
+                foreach ($faker->randomElements($tags, mt_rand(5, 7)) as $tag) {
+                    $map = new Data;
 
-					$map->tag_id = $tag->id;
-					$map->target_id = $data->id;
-					$map->type = 'article';
+                    $map->tag_id    = $tag->id;
+                    $map->target_id = $data->id;
+                    $map->type      = 'article';
 
-					TagMapMapper::createOne($map);
-				}
+                    TagMapMapper::createOne($map);
+                }
 
-				$this->outCounting();
-			}
-		}
-	}
+                $this->outCounting();
+            }
+        }
+    }
 
-	/**
-	 * doClear
-	 *
-	 * @return  void
-	 */
-	public function doClear()
-	{
-		$this->truncate(LunaTable::ARTICLES);
-	}
+    /**
+     * doClear
+     *
+     * @return  void
+     */
+    public function doClear()
+    {
+        $this->truncate(LunaTable::ARTICLES);
+    }
 }

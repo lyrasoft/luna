@@ -17,24 +17,24 @@ use Phoenix\Controller\Batch\AbstractCopyController;
  */
 class CopyController extends AbstractCopyController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'tags';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'tags';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'tag';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'tag';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'tags';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'tags';
 }

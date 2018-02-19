@@ -14,9 +14,9 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $item  \Luna\Record\ContactRecord
- * @var $state \Windwalker\Structure\Structure
- * @var $form  \Windwalker\Form\Form
+ * @var $item     \Luna\Record\ContactRecord
+ * @var $state    \Windwalker\Structure\Structure
+ * @var $form     \Windwalker\Form\Form
  */
 ?>
 
@@ -27,42 +27,43 @@
 @stop
 
 @section('admin-body')
-<form name="admin-form" id="admin-form" action="{{ $router->route('contact', ['id' => $item->id]) }}" method="POST" enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->route('contact', ['id' => $item->id]) }}" method="POST"
+          enctype="multipart/form-data">
 
-    <div class="row">
-        <div class="col-md-7">
-            <fieldset id="fieldset-basic" class="form-horizontal">
-                <legend>@translate('luna.contact.edit.fieldset.basic')</legend>
+        <div class="row">
+            <div class="col-md-7">
+                <fieldset id="fieldset-basic" class="form-horizontal">
+                    <legend>@translate('luna.contact.edit.fieldset.basic')</legend>
 
-                {!! $form->renderFields('basic') !!}
-            </fieldset>
-
-            <fieldset id="fieldset-text" class="form-horizontal">
-                <legend>@translate('luna.contact.edit.fieldset.text')</legend>
-
-                {!! $form->renderFields('text') !!}
-            </fieldset>
-        </div>
-        <div class="col-md-5">
-            <fieldset id="fieldset-created" class="form-horizontal">
-                <legend>@translate('luna.contact.edit.fieldset.created')</legend>
-
-                {!! $form->renderFields('created') !!}
-            </fieldset>
-
-            @if (count($form->getFields(null, 'details')))
-                <fieldset id="fieldset-created" class="form-horizontal">
-                    <legend>@translate('luna.contact.edit.fieldset.details')</legend>
-
-                    {!! $form->renderFields(null, 'details') !!}
+                    {!! $form->renderFields('basic') !!}
                 </fieldset>
-            @endif
+
+                <fieldset id="fieldset-text" class="form-horizontal">
+                    <legend>@translate('luna.contact.edit.fieldset.text')</legend>
+
+                    {!! $form->renderFields('text') !!}
+                </fieldset>
+            </div>
+            <div class="col-md-5">
+                <fieldset id="fieldset-created" class="form-horizontal">
+                    <legend>@translate('luna.contact.edit.fieldset.created')</legend>
+
+                    {!! $form->renderFields('created') !!}
+                </fieldset>
+
+                @if (count($form->getFields(null, 'details')))
+                    <fieldset id="fieldset-created" class="form-horizontal">
+                        <legend>@translate('luna.contact.edit.fieldset.details')</legend>
+
+                        {!! $form->renderFields(null, 'details') !!}
+                    </fieldset>
+                @endif
+            </div>
         </div>
-    </div>
 
-    <div class="hidden-inputs">
-        @formToken()
-    </div>
+        <div class="hidden-inputs">
+            @formToken()
+        </div>
 
-</form>
+    </form>
 @stop

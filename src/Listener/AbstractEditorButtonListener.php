@@ -17,31 +17,29 @@ use Windwalker\Event\Event;
  */
 abstract class AbstractEditorButtonListener
 {
-	/**
-	 * isEnabled
-	 *
-	 * @param string $name
-	 * @param Event  $event
-	 *
-	 * @return  boolean
-	 */
-	protected function isEnabled($name, Event $event)
-	{
-		$includes = (array) $event['includes'];
-		$excludes = (array) $event['excludes'];
+    /**
+     * isEnabled
+     *
+     * @param string $name
+     * @param Event  $event
+     *
+     * @return  boolean
+     */
+    protected function isEnabled($name, Event $event)
+    {
+        $includes = (array) $event['includes'];
+        $excludes = (array) $event['excludes'];
 
-		$bool = false;
+        $bool = false;
 
-		if ($includes && in_array($name, $includes))
-		{
-			$bool = true;
-		}
+        if ($includes && in_array($name, $includes)) {
+            $bool = true;
+        }
 
-		if ($excludes && (in_array($name, $excludes) || in_array('*', $excludes)))
-		{
-			$bool = false;
-		}
+        if ($excludes && (in_array($name, $excludes) || in_array('*', $excludes))) {
+            $bool = false;
+        }
 
-		return $bool;
-	}
+        return $bool;
+    }
 }

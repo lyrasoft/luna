@@ -16,73 +16,73 @@ use Windwalker\Core\View\AbstractView;
 
 /**
  * The GetController class.
- * 
+ *
  * @since  1.0
  */
 class GetController extends ListDisplayController
 {
-	/**
-	 * Property model.
-	 *
-	 * @var  CommentsModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  CommentsModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  CommentsHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  CommentsHtmlView
+     */
+    protected $view;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $defaultOrdering = null;
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $defaultOrdering = null;
 
-	/**
-	 * Property direction.
-	 *
-	 * @var  string
-	 */
-	protected $defaultDirection = null;
+    /**
+     * Property direction.
+     *
+     * @var  string
+     */
+    protected $defaultDirection = null;
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		$this->layout = $this->input->get('layout');
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        $this->layout = $this->input->get('layout');
 
-		parent::prepareExecute();
-	}
+        parent::prepareExecute();
+    }
 
-	/**
-	 * Prepare view and default model.
-	 *
-	 * You can configure default model state here, or add more sub models to view.
-	 * Remember to call parent to make sure default model already set in view.
-	 *
-	 * @param AbstractView    $view  The view to render page.
-	 * @param ModelRepository $model The default mode.
-	 *
-	 * @return  void
-	 */
-	protected function prepareViewModel(AbstractView $view, ModelRepository $model)
-	{
-		/** @var CommentsModel $model */
-		parent::prepareViewModel($view, $model);
+    /**
+     * Prepare view and default model.
+     *
+     * You can configure default model state here, or add more sub models to view.
+     * Remember to call parent to make sure default model already set in view.
+     *
+     * @param AbstractView    $view  The view to render page.
+     * @param ModelRepository $model The default mode.
+     *
+     * @return  void
+     */
+    protected function prepareViewModel(AbstractView $view, ModelRepository $model)
+    {
+        /** @var CommentsModel $model */
+        parent::prepareViewModel($view, $model);
 
-		$type = $this->input->get('type');
+        $type = $this->input->get('type');
 
-		$model['comment.type'] = $type;
-		$model->addFilter('comment.type', $type);
+        $model['comment.type'] = $type;
+        $model->addFilter('comment.type', $type);
 
-		$this->view['type'] = $type;
-	}
+        $this->view['type'] = $type;
+    }
 
 }

@@ -19,45 +19,45 @@ use Phoenix\Field\ModalField;
  */
 class ContactModalField extends ModalField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::CONTACTS;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::CONTACTS;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  string
-	 */
-	protected $view = 'contacts';
+    /**
+     * Property view.
+     *
+     * @var  string
+     */
+    protected $view = 'contacts';
 
-	/**
-	 * Property titleField.
-	 *
-	 * @var  string
-	 */
-	protected $titleField = 'title';
+    /**
+     * Property titleField.
+     *
+     * @var  string
+     */
+    protected $titleField = 'title';
 
-	/**
-	 * Property keyField.
-	 *
-	 * @var  string
-	 */
-	protected $keyField = 'id';
+    /**
+     * Property keyField.
+     *
+     * @var  string
+     */
+    protected $keyField = 'id';
 
-	/**
-	 * buildInput
-	 *
-	 * @param array $attrs
-	 *
-	 * @return  string
-	 */
-	public function buildInput($attrs)
-	{
-		$this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
+    /**
+     * buildInput
+     *
+     * @param array $attrs
+     *
+     * @return  string
+     */
+    public function buildInput($attrs)
+    {
+        $this->package = LunaHelper::getPackage()->getCurrentPackage()->getName();
 
-		return parent::buildInput($attrs);
-	}
+        return parent::buildInput($attrs);
+    }
 }

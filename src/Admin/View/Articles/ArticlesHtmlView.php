@@ -17,102 +17,102 @@ use Windwalker\Core\Renderer\RendererHelper;
 
 /**
  * The ArticlesHtmlView class.
- * 
+ *
  * @since  1.0
  */
 class ArticlesHtmlView extends GridView
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'articles';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'articles';
 
-	/**
-	 * Property renderer.
-	 *
-	 * @var  string
-	 */
-	protected $renderer = RendererHelper::EDGE;
+    /**
+     * Property renderer.
+     *
+     * @var  string
+     */
+    protected $renderer = RendererHelper::EDGE;
 
-	/**
-	 * The fields mapper.
-	 *
-	 * @var  array
-	 */
-	protected $fields = [
-		'pk'          => 'id',
-		'title'       => 'title',
-		'alias'       => 'alias',
-		'state'       => 'state',
-		'ordering'    => 'ordering',
-		'author'      => 'created_by',
-		'author_name' => 'user_name',
-		'created'     => 'created',
-		'language'    => 'language',
-		'lang_title'  => 'lang_title'
-	];
+    /**
+     * The fields mapper.
+     *
+     * @var  array
+     */
+    protected $fields = [
+        'pk' => 'id',
+        'title' => 'title',
+        'alias' => 'alias',
+        'state' => 'state',
+        'ordering' => 'ordering',
+        'author' => 'created_by',
+        'author_name' => 'user_name',
+        'created' => 'created',
+        'language' => 'language',
+        'lang_title' => 'lang_title',
+    ];
 
-	/**
-	 * The grid config.
-	 *
-	 * @var  array
-	 */
-	protected $gridConfig = [
-		'order_column' => 'category.id, article.ordering'
-	];
+    /**
+     * The grid config.
+     *
+     * @var  array
+     */
+    protected $gridConfig = [
+        'order_column' => 'category.id, article.ordering',
+    ];
 
-	/**
-	 * init
-	 *
-	 * @return  void
-	 */
-	protected function init()
-	{
-		$this->langPrefix = LunaHelper::getLangPrefix();
-	}
+    /**
+     * init
+     *
+     * @return  void
+     */
+    protected function init()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
+    }
 
-	/**
-	 * prepareData
-	 *
-	 * @param \Windwalker\Data\Data $data
-	 *
-	 * @return  void
-	 */
-	protected function prepareData($data)
-	{
-		parent::prepareData($data);
-		
-		$this->prepareScripts();
-	}
+    /**
+     * prepareData
+     *
+     * @param \Windwalker\Data\Data $data
+     *
+     * @return  void
+     */
+    protected function prepareData($data)
+    {
+        parent::prepareData($data);
 
-	/**
-	 * prepareDocument
-	 *
-	 * @return  void
-	 */
-	protected function prepareScripts()
-	{
-		PhoenixScript::core();
-		PhoenixScript::grid();
-		PhoenixScript::chosen('.hasChosen');
-		PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
-		BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
-		BootstrapScript::tooltip();
+        $this->prepareScripts();
+    }
 
-		JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
-	}
+    /**
+     * prepareDocument
+     *
+     * @return  void
+     */
+    protected function prepareScripts()
+    {
+        PhoenixScript::core();
+        PhoenixScript::grid();
+        PhoenixScript::chosen('.hasChosen');
+        PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
+        BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
+        BootstrapScript::tooltip();
 
-	/**
-	 * setTitle
-	 *
-	 * @param string $title
-	 *
-	 * @return  static
-	 */
-	public function setTitle($title = null)
-	{
-		return parent::setTitle($title);
-	}
+        JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
+    }
+
+    /**
+     * setTitle
+     *
+     * @param string $title
+     *
+     * @return  static
+     */
+    public function setTitle($title = null)
+    {
+        return parent::setTitle($title);
+    }
 }

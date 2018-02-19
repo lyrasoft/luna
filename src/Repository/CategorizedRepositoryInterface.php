@@ -15,22 +15,22 @@ namespace Lyrasoft\Luna\Repository;
  */
 interface CategorizedRepositoryInterface
 {
-	/**
-	 * filterCategory
-	 *
-	 * @param mixed $category
-	 *
-	 * @return  static
-	 */
-	public function category($category);
+    /**
+     * filterCategory
+     *
+     * @param mixed $category
+     *
+     * @return  static
+     */
+    public function category($category);
 
-	/**
-	 * categoryKeys
-	 *
-	 * @param int $lft
-	 * @param int $rgt
-	 *
-	 * @return  static
-	 */
-	public function categoryKeys($lft, $rgt);
+    /**
+     * categoryKeys
+     *
+     * @param int $lft
+     * @param int $rgt
+     *
+     * @return  static
+     */
+    public function categoryKeys($lft, $rgt);
 }

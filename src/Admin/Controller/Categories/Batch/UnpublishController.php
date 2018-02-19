@@ -19,27 +19,27 @@ use Windwalker\Data\DataInterface;
  */
 class UnpublishController extends AbstractUnpublishController
 {
-	/**
-	 * save
-	 *
-	 * @param int|string     $pk
-	 * @param DataInterface  $data
-	 *
-	 * @return  boolean
-	 */
-	protected function save($pk, DataInterface $data)
-	{
-		parent::save($pk, clone $data);
+    /**
+     * save
+     *
+     * @param int|string    $pk
+     * @param DataInterface $data
+     *
+     * @return  boolean
+     */
+    protected function save($pk, DataInterface $data)
+    {
+        parent::save($pk, clone $data);
 
-		// Find Children
-		$mapper = new CategoryMapper;
+        // Find Children
+        $mapper = new CategoryMapper;
 
-		$parent = $mapper->findOne($pk);
+        $parent = $mapper->findOne($pk);
 
-		return $mapper->updateBatch($data, [
-			'lft > ' . $parent->lft,
-			'rgt < ' . $parent->rgt
-		]
-		);
-	}
+        return $mapper->updateBatch($data, [
+                'lft > ' . $parent->lft,
+                'rgt < ' . $parent->rgt,
+            ]
+        );
+    }
 }

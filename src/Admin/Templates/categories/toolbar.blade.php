@@ -13,7 +13,8 @@
  */
 ?>
 
-<a role="button" class="btn btn-primary btn-sm phoenix-btn-new" href="{{ $router->route('category', array('new' => true, 'type' => $type)) }}">
+<a role="button" class="btn btn-primary btn-sm phoenix-btn-new"
+   href="{{ $router->route('category', array('new' => true, 'type' => $type)) }}">
     <span class="glyphicon glyphicon-plus fa fa-plus"></span>
     @translate('phoenix.toolbar.new')
 </a>
@@ -33,18 +34,21 @@
     @translate('phoenix.toolbar.unpublish')
 </button>
 
-<button type="button" class="btn btn-default btn-outline-info btn-sm hasTooltip" onclick="Phoenix.Grid.batch('rebuild');"
-    title="@translate($luna->langPrefix . 'toolbar.rebuild.desc')">
+<button type="button" class="btn btn-default btn-outline-info btn-sm hasTooltip"
+        onclick="Phoenix.Grid.batch('rebuild');"
+        title="@translate($luna->langPrefix . 'toolbar.rebuild.desc')">
     <span class="glyphicon glyphicon-refresh fa fa-refresh"></span>
     @translate($luna->langPrefix . 'toolbar.rebuild')
 </button>
 
-<button type="button" class="btn btn-default btn-outline-secondary btn-sm" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">
+<button type="button" class="btn btn-default btn-outline-secondary btn-sm" data-toggle="modal"
+        data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">
     <span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>
     @translate('phoenix.toolbar.batch')
 </button>
 
-<button type="button" class="btn btn-default btn-outline-danger btn-sm" onclick="Phoenix.Grid.hasChecked().deleteList();">
+<button type="button" class="btn btn-default btn-outline-danger btn-sm"
+        onclick="Phoenix.Grid.hasChecked().deleteList();">
     <span class="glyphicon glyphicon-trash fa fa-trash"></span>
     @translate('phoenix.toolbar.delete')
 </button>

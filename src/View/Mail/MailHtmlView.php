@@ -18,10 +18,10 @@ use Windwalker\Core\Renderer\RendererHelper;
  */
 class MailHtmlView extends AbstractPhoenixHtmView
 {
-	/**
-	 * Property renderer.
-	 *
-	 * @var  string
-	 */
-	protected $renderer = RendererHelper::EDGE;
+    /**
+     * Property renderer.
+     *
+     * @var  string
+     */
+    protected $renderer = RendererHelper::EDGE;
 }

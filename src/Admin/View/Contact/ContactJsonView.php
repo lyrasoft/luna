@@ -20,25 +20,23 @@ use Windwalker\Structure\Structure;
  */
 class ContactJsonView extends StructureView
 {
-	/**
-	 * prepareData
-	 *
-	 * @param Structure $data
-	 *
-	 * @return  void
-	 */
-	protected function prepareData($data)
-	{
-		$data['item'] = $this->pipe(function (ContactModel $model)
-		{
-			$item = $model->getItem();
+    /**
+     * prepareData
+     *
+     * @param Structure $data
+     *
+     * @return  void
+     */
+    protected function prepareData($data)
+    {
+        $data['item'] = $this->pipe(function (ContactModel $model) {
+            $item = $model->getItem();
 
-			if ($item->created_by)
-			{
-				$item->user = User::get($item->created_by);
-			}
+            if ($item->created_by) {
+                $item->user = User::get($item->created_by);
+            }
 
-			return $item->toArray(true);
-		});
-	}
+            return $item->toArray(true);
+        });
+    }
 }

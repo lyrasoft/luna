@@ -18,106 +18,104 @@ use Windwalker\Record\NestedRecord;
 
 /**
  * The CategoryRecord class.
- * 
+ *
  * @since  1.0
  */
 class CategoryRecord extends NestedRecord
 {
-	use CategoryDataTrait;
-	use ContentValidationTrait;
-	
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::CATEGORIES;
+    use CategoryDataTrait;
+    use ContentValidationTrait;
 
-	/**
-	 * Property keys.
-	 *
-	 * @var  string
-	 */
-	protected $keys = 'id';
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::CATEGORIES;
 
-	/**
-	 * onAfterLoad
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterLoad(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * Property keys.
+     *
+     * @var  string
+     */
+    protected $keys = 'id';
 
-	/**
-	 * Method to store a node in the database table.
-	 *
-	 * @param   boolean $updateNulls True to update null values as well.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.0
-	 */
-	public function store($updateNulls = false)
-	{
-		return parent::store($updateNulls);
-	}
+    /**
+     * onAfterLoad
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterLoad(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * Checks that the object is valid and able to be stored.
-	 *
-	 * This method checks that the parent_id is non-zero and exists in the database.
-	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
-	 *
-	 * @return  static  True if all checks pass.
-	 *
-	 * @since   2.0
-	 * @throws  \Windwalker\Core\Model\Exception\ValidateFailException
-	 * @throws  \Exception
-	 * @throws  \RuntimeException on database error.
-	 * @throws  \UnexpectedValueException
-	 */
-	public function validate()
-	{
-		$this->checkParent();
+    /**
+     * Method to store a node in the database table.
+     *
+     * @param   boolean $updateNulls True to update null values as well.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   2.0
+     */
+    public function store($updateNulls = false)
+    {
+        return parent::store($updateNulls);
+    }
 
-		try
-		{
-			$this->checkAlias('alias', ['parent_id']);
-		}
-		catch (ValidateFailException $e)
-		{
-			throw new ValidateFailException(Translator::sprintf('phoenix.message.same.alias.same.level', $this->alias), $e->getCode(), $e);
-		}
+    /**
+     * Checks that the object is valid and able to be stored.
+     *
+     * This method checks that the parent_id is non-zero and exists in the database.
+     * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+     *
+     * @return  static  True if all checks pass.
+     *
+     * @since   2.0
+     * @throws  \Windwalker\Core\Model\Exception\ValidateFailException
+     * @throws  \Exception
+     * @throws  \RuntimeException on database error.
+     * @throws  \UnexpectedValueException
+     */
+    public function validate()
+    {
+        $this->checkParent();
 
-		parent::validate();
+        try {
+            $this->checkAlias('alias', ['parent_id']);
+        } catch (ValidateFailException $e) {
+            throw new ValidateFailException(Translator::sprintf('phoenix.message.same.alias.same.level', $this->alias),
+                $e->getCode(), $e);
+        }
 
-		return $this;
-	}
+        parent::validate();
 
-	/**
-	 * onAfterStore
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterStore(Event $event)
-	{
-	}
+        return $this;
+    }
 
-	/**
-	 * onAfterDelete
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterDelete(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterStore
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterStore(Event $event)
+    {
+    }
+
+    /**
+     * onAfterDelete
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterDelete(Event $event)
+    {
+        // Add your logic
+    }
 }

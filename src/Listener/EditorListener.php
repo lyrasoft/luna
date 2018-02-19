@@ -18,36 +18,35 @@ use Windwalker\Event\Event;
  */
 class EditorListener extends AbstractEditorButtonListener
 {
-	/**
-	 * onLunaEditorGetButtons
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onLunaEditorGetButtons(Event $event)
-	{
-		$buttons = $event['buttons'];
+    /**
+     * onLunaEditorGetButtons
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onLunaEditorGetButtons(Event $event)
+    {
+        $buttons = $event['buttons'];
 
-		if ($this->isEnabled('readmore', $event))
-		{
-			$buttons['readmore'] = $this->readmore($event);
-		}
-	}
+        if ($this->isEnabled('readmore', $event)) {
+            $buttons['readmore'] = $this->readmore($event);
+        }
+    }
 
-	/**
-	 * readmore
-	 *
-	 * @param Event $event
-	 *
-	 * @return  string
-	 */
-	protected function readmore(Event $event)
-	{
-		$html = WidgetHelper::render('luna.editor.button.readmore', [
-			'id' => $event['field']->getId()
-		], WidgetHelper::EDGE);
+    /**
+     * readmore
+     *
+     * @param Event $event
+     *
+     * @return  string
+     */
+    protected function readmore(Event $event)
+    {
+        $html = WidgetHelper::render('luna.editor.button.readmore', [
+            'id' => $event['field']->getId(),
+        ], WidgetHelper::EDGE);
 
-		return $html;
-	}
+        return $html;
+    }
 }

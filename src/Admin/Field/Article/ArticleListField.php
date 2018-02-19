@@ -18,17 +18,17 @@ use Phoenix\Field\ItemListField;
  */
 class ArticleListField extends ItemListField
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected $table = LunaTable::ARTICLES;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected $table = LunaTable::ARTICLES;
 
-	/**
-	 * Property ordering.
-	 *
-	 * @var  string
-	 */
-	protected $ordering = null;
+    /**
+     * Property ordering.
+     *
+     * @var  string
+     */
+    protected $ordering = null;
 }

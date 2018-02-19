@@ -24,102 +24,105 @@ use Windwalker\Filter\InputFilter;
  */
 class SaveController extends AbstractSaveController
 {
-	/**
-	 * Property name.
-	 *
-	 * @var  string
-	 */
-	protected $name = 'article';
+    /**
+     * Property name.
+     *
+     * @var  string
+     */
+    protected $name = 'article';
 
-	/**
-	 * Property itemName.
-	 *
-	 * @var  string
-	 */
-	protected $itemName = 'article';
+    /**
+     * Property itemName.
+     *
+     * @var  string
+     */
+    protected $itemName = 'article';
 
-	/**
-	 * Property listName.
-	 *
-	 * @var  string
-	 */
-	protected $listName = 'articles';
+    /**
+     * Property listName.
+     *
+     * @var  string
+     */
+    protected $listName = 'articles';
 
-	/**
-	 * Property formControl.
-	 *
-	 * @var  string
-	 */
-	protected $formControl = 'item';
+    /**
+     * Property formControl.
+     *
+     * @var  string
+     */
+    protected $formControl = 'item';
 
-	/**
-	 * Property model.
-	 *
-	 * @var  ArticleModel
-	 */
-	protected $model;
+    /**
+     * Property model.
+     *
+     * @var  ArticleModel
+     */
+    protected $model;
 
-	/**
-	 * Property view.
-	 *
-	 * @var  ArticleHtmlView
-	 */
-	protected $view;
+    /**
+     * Property view.
+     *
+     * @var  ArticleHtmlView
+     */
+    protected $view;
 
-	/**
-	 * prepareExecute
-	 *
-	 * @return  void
-	 */
-	protected function prepareExecute()
-	{
-		parent::prepareExecute();
-	}
+    /**
+     * prepareExecute
+     *
+     * @return  void
+     */
+    protected function prepareExecute()
+    {
+        parent::prepareExecute();
+    }
 
-	/**
-	 * preSave
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return void
-	 */
-	protected function preSave(DataInterface $data)
-	{
-		parent::preSave($data);
+    /**
+     * preSave
+     *
+     * @param DataInterface $data
+     *
+     * @return void
+     */
+    protected function preSave(DataInterface $data)
+    {
+        parent::preSave($data);
 
-		$data->text = $this->input->get($this->formControl . '.text', null, InputFilter::RAW);
-	}
+        $data->text = $this->input->get($this->formControl . '.text', null, InputFilter::RAW);
+    }
 
-	/**
-	 * postSave
-	 *
-	 * @param DataInterface $data
-	 *
-	 * @return  void
-	 */
-	protected function postSave(DataInterface $data)
-	{
-		// Image
-		if (false !== SingleImageDragField::uploadFromController($this, 'image', $data, ArticleImageHelper::getPath($data->id)));
-		{
-			$this->model->save($data);
-		}
+    /**
+     * postSave
+     *
+     * @param DataInterface $data
+     *
+     * @return  void
+     */
+    protected function postSave(DataInterface $data)
+    {
+        // Image
+        if (false !== SingleImageDragField::uploadFromController($this, 'image', $data,
+                ArticleImageHelper::getPath($data->id))) {
+            ;
+        }
+        {
+            $this->model->save($data);
+        }
 
-		// Tag
-		/** @var TagModel $model */
-		$model = $this->getModel('Tag');
-		$model->saveTagMaps('article', $data->id, $data->tags);
-	}
+        // Tag
+        /** @var TagModel $model */
+        $model = $this->getModel('Tag');
+        $model->saveTagMaps('article', $data->id, $data->tags);
+    }
 
-	/**
-	 * postExecute
-	 *
-	 * @param mixed $result
-	 *
-	 * @return  mixed
-	 */
-	protected function postExecute($result = null)
-	{
-		return parent::postExecute($result);
-	}
+    /**
+     * postExecute
+     *
+     * @param mixed $result
+     *
+     * @return  mixed
+     */
+    protected function postExecute($result = null)
+    {
+        return parent::postExecute($result);
+    }
 }

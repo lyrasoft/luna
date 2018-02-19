@@ -17,26 +17,26 @@ use Lyrasoft\Unidev\Storage\AbstractStorageHelper;
  */
 class EditorImageHelper extends AbstractStorageHelper
 {
-	/**
-	 * Get remote uri path.
-	 *
-	 * @param   mixed   $identify The identify of this file or item.
-	 * @param   string  $ext      Image ext.
-	 *
-	 * @return  string  Identify path.
-	 */
-	public static function getPath($identify, $ext = 'jpg')
-	{
-		return static::getBaseFolder() . $identify . '.' . static::getRealExtension($ext);
-	}
+    /**
+     * Get remote uri path.
+     *
+     * @param   mixed  $identify The identify of this file or item.
+     * @param   string $ext      Image ext.
+     *
+     * @return  string  Identify path.
+     */
+    public static function getPath($identify, $ext = 'jpg')
+    {
+        return static::getBaseFolder() . $identify . '.' . static::getRealExtension($ext);
+    }
 
-	/**
-	 * Get base folder name.
-	 *
-	 * @return  string
-	 */
-	public static function getBaseFolder()
-	{
-		return 'images/upload/' . gmdate('Y/m/d') . '/';
-	}
+    /**
+     * Get base folder name.
+     *
+     * @return  string
+     */
+    public static function getBaseFolder()
+    {
+        return 'images/upload/' . gmdate('Y/m/d') . '/';
+    }
 }

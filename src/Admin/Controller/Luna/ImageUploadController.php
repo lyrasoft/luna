@@ -17,5 +17,5 @@ use Lyrasoft\Unidev\Controller\AbstractAjaxController;
  */
 class ImageUploadController extends \Lyrasoft\Unidev\Controller\Unidev\ImageUploadController
 {
-	//
+    //
 }

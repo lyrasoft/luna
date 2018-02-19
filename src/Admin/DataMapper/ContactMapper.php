@@ -15,108 +15,108 @@ use Windwalker\Event\Event;
 
 /**
  * The ContactMapper class.
- * 
+ *
  * @since  1.0
  */
 class ContactMapper extends AbstractDatabaseMapperProxy
 {
-	/**
-	 * Property table.
-	 *
-	 * @var  string
-	 */
-	protected static $table = LunaTable::CONTACTS;
+    /**
+     * Property table.
+     *
+     * @var  string
+     */
+    protected static $table = LunaTable::CONTACTS;
 
-	/**
-	 * Property keys.
-	 *
-	 * @var  string
-	 */
-	protected static $keys = 'id';
+    /**
+     * Property keys.
+     *
+     * @var  string
+     */
+    protected static $keys = 'id';
 
-	/**
-	 * Property alias.
-	 *
-	 * @var  string
-	 */
-	protected static $alias = 'contact';
+    /**
+     * Property alias.
+     *
+     * @var  string
+     */
+    protected static $alias = 'contact';
 
-	/**
-	 * Property dataClass.
-	 *
-	 * @var  string
-	 */
-	protected static $dataClass = ContactRecord::class;
+    /**
+     * Property dataClass.
+     *
+     * @var  string
+     */
+    protected static $dataClass = ContactRecord::class;
 
-	/**
-	 * onAfterFind
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterFind(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterFind
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterFind(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterCreate
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterCreate(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterCreate
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterCreate(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterUpdate
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterUpdate(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterUpdate
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterUpdate(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterDelete
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterDelete(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterDelete
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterDelete(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterFlush
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterFlush(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterFlush
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterFlush(Event $event)
+    {
+        // Add your logic
+    }
 
-	/**
-	 * onAfterUpdateAll
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onAfterUpdateAll(Event $event)
-	{
-		// Add your logic
-	}
+    /**
+     * onAfterUpdateAll
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onAfterUpdateAll(Event $event)
+    {
+        // Add your logic
+    }
 }
