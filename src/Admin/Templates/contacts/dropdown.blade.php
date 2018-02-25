@@ -15,7 +15,7 @@
         {{ \Lyrasoft\Luna\Contact\ContactHelper::translateState($item->state) }}
         <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu dropdown-menu-right">
         @foreach([0, 1, 2, -1] as $k)
             <li>
                 <a class="" href="javascript:void(0);"

@@ -31,9 +31,9 @@
     </style>
     <div class="container article-item">
         <p style="margin-top: 40px">
-            <a class="btn btn-default"
+            <a class="btn btn-default btn-outline-secondary"
                href="{{ $router->route('article_category', ['path' => $item->category->path]) }}">
-                <span class="glyphicon glyphicon-chevron-left fa fa-chervon-left"></span>
+                <span class="glyphicon glyphicon-chevron-left fa fas fa-chevron-left"></span>
                 Back to List
             </a>
         </p>
@@ -49,7 +49,7 @@
             <hr/>
 
             @foreach ($item->tags as $tag)
-                <a class="label label-info" href="{{ $router->route('article_tag', ['tag' => $tag->alias]) }}">
+                <a class="badge badge-info label label-info" href="{{ $router->route('article_tag', ['tag' => $tag->alias]) }}">
                     {{ $tag->title }}
                 </a>
                 &nbsp;
@@ -67,18 +67,18 @@
 
                 @foreach ($item->comments as $comment)
                     <div class="row">
-                        <div class="col-xs-1 text-center">
+                        <div class="col-xs-1 col-1 text-center">
                             <img class="comment-user-avatar" src="{{ $comment->user_avatar }}" alt="Avatar">
                         </div>
-                        <div class="col-xs-11">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">
+                        <div class="col-xs-11 col-11">
+                            <div class="panel panel-default card mb-4">
+                                <div class="panel-heading card-header">
+                                    <div class="panel-title">
                                         {{ $comment->user_name }}
-                                        <small class="pull-right">{{ $comment->created }}</small>
-                                    </h3>
+                                        <small class="pull-right float-right">{{ $comment->created }}</small>
+                                    </div>
                                 </div>
-                                <div class="panel-body">
+                                <div class="panel-body card-body">
                                     {!! nl2br($this->escape($comment->content)) !!}
                                 </div>
                             </div>

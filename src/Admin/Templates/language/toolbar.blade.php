@@ -25,7 +25,7 @@
         <span class="sr-only">Toggle Dropdown</span>
     </button>
 
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu dropdown-menu-right">
         <li>
             <a class="dropdown-item phoenix-btn-save2copy"
                href="javascript://"

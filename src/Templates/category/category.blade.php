@@ -30,34 +30,36 @@
         <p>Hello World.</p>
         <div class="articles-items">
             @foreach ($items as $i => $item)
-                <div class="article-item">
-                    <h2>
-                        <a href="{{ $router->route('article', ['id' => $item->id, 'alias' => $item->alias]) }}">
-                            {{ $item->title }}
-                        </a>
-                    </h2>
+                <div class="article-item card mb-4">
+                    <div class="card-body">
+                        <h2>
+                            <a href="{{ $router->route('article', ['id' => $item->id, 'alias' => $item->alias]) }}">
+                                {{ $item->title }}
+                            </a>
+                        </h2>
 
-                    <span class="text-muted">
+                        <span class="text-muted">
                         {{ $item->created }}
                     </span>
 
-                    <div class="article-content">
-                        {!! $item->introtext !!}
+                        <div class="article-content">
+                            {!! $item->introtext !!}
+                        </div>
+
+                        <hr/>
+
+                        @if (property_exists($item, 'comments'))
+                            {{ $item->comments }} Comment(s)
+
+                            @foreach ($item->tags as $tagItem)
+                                <a class="badge badge-info label label-info"
+                                    href="{{ $router->route('article_tag', ['tag' => $tagItem->alias]) }}">
+                                    {{ $tagItem->title }}
+                                </a>
+                                &nbsp;
+                            @endforeach
+                        @endif
                     </div>
-
-                    <hr/>
-
-                    @if (property_exists($item, 'comments'))
-                        {{ $item->comments }} Comment(s)
-
-                        @foreach ($item->tags as $tagItem)
-                            <a class="label label-info"
-                               href="{{ $router->route('article_tag', ['tag' => $tagItem->alias]) }}">
-                                {{ $tagItem->title }}
-                            </a>
-                            &nbsp;
-                        @endforeach
-                    @endif
 
                 </div>
             @endforeach
