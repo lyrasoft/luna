@@ -6,28 +6,25 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Repository;
 
-use Lyrasoft\Luna\Admin\Record\ArticleRecord;
-use Lyrasoft\Luna\Tag\TagHelper;
-use Lyrasoft\Unidev\Seo\SlugHelper;
-use Phoenix\Model\AdminModel;
+use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
 
 /**
- * The ArticleModel class.
+ * The CommentModel class.
  *
  * @since  1.0
  */
-class ArticleModel extends AdminModel
+class CommentRepository extends AdminRepository
 {
     /**
      * Property name.
      *
      * @var  string
      */
-    protected $name = 'article';
+    protected $name = 'comment';
 
     /**
      * Property reorderConditions.
@@ -35,35 +32,20 @@ class ArticleModel extends AdminModel
      * @var  array
      */
     protected $reorderConditions = [
-        'category_id',
+        'type',
+        'target_id',
     ];
 
     /**
      * postGetItem
      *
-     * @param DataInterface|ArticleRecord $item
+     * @param DataInterface $item
      *
      * @return  void
      */
     protected function postGetItem(DataInterface $item)
     {
-        // Readmore line
-        $item->text = $item->introtext . ($item->fulltext ? '<hr id="luna-readmore">' . $item->fulltext : null);
-
-        // tags
-        $item->tags = TagHelper::getTags('article', $item->id)->id;
-    }
-
-    /**
-     * handleAlias
-     *
-     * @param   string $alias
-     *
-     * @return  string
-     */
-    public function handleAlias($alias)
-    {
-        return SlugHelper::slugify($alias);
+        // Do some stuff
     }
 
     /**
@@ -98,7 +80,7 @@ class ArticleModel extends AdminModel
      *
      * @return  void
      */
-    public function setOrderPosition(Record $record, $position = self::ORDER_POSITION_LAST)
+    public function setOrderPosition(Record $record, $position = self::ORDER_POSITION_FIRST)
     {
         parent::setOrderPosition($record, $position);
     }

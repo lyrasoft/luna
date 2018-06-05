@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Category;
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Language\Locale;
-use Lyrasoft\Luna\Model\CategoriesModel;
+use Lyrasoft\Luna\Repository\CategoriesRepository;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Windwalker\Data\Data;
@@ -27,7 +27,7 @@ class CategoryHelper
     /**
      * Property model.
      *
-     * @var  CategoriesModel
+     * @var  CategoriesRepository
      */
     protected static $model;
 
@@ -227,12 +227,12 @@ class CategoryHelper
      *
      * @param bool $reset
      *
-     * @return CategoriesModel
+     * @return CategoriesRepository
      */
     public static function getModel($reset = false)
     {
         if (!static::$model) {
-            static::$model = new CategoriesModel;
+            static::$model = new CategoriesRepository;
         }
 
         if ($reset) {
@@ -246,7 +246,7 @@ class CategoryHelper
     /**
      * Method to set property model
      *
-     * @param   CategoriesModel $model
+     * @param   CategoriesRepository $model
      *
      * @return  void
      */

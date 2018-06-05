@@ -6,16 +6,16 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Model;
+namespace Lyrasoft\Luna\Repository;
 
-use Phoenix\Model\ItemModel;
+use Phoenix\Repository\ItemRepository;
 
 /**
  * The TagModel class.
  *
  * @since  1.0
  */
-class TagModel extends ItemModel
+class TagRepository extends ItemRepository
 {
     /**
      * Property name.

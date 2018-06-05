@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Tags;
 
-use Lyrasoft\Luna\Admin\Model\TagsModel;
+use Lyrasoft\Luna\Admin\Repository\TagsRepository;
 use Lyrasoft\Luna\Admin\View\Tags\TagsHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 
@@ -22,7 +22,7 @@ class GetController extends ListDisplayController
     /**
      * Property model.
      *
-     * @var  TagsModel
+     * @var  TagsRepository
      */
     protected $model;
 

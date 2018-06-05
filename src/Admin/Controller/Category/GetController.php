@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Category;
 
-use Lyrasoft\Luna\Admin\Model\CategoryModel;
+use Lyrasoft\Luna\Admin\Repository\CategoryRepository;
 use Lyrasoft\Luna\Admin\View\Category\CategoryHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -24,7 +24,7 @@ class GetController extends EditDisplayController
     /**
      * Property model.
      *
-     * @var  CategoryModel
+     * @var  CategoryRepository
      */
     protected $model;
 

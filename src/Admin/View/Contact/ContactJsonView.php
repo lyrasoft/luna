@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\View\Contact;
 
-use Lyrasoft\Luna\Admin\Model\ContactModel;
+use Lyrasoft\Luna\Admin\Repository\ContactRepository;
 use Windwalker\Core\User\User;
 use Windwalker\Core\View\StructureView;
 use Windwalker\Structure\Structure;
@@ -29,7 +29,7 @@ class ContactJsonView extends StructureView
      */
     protected function prepareData($data)
     {
-        $data['item'] = $this->pipe(function (ContactModel $model) {
+        $data['item'] = $this->pipe(function (ContactRepository $model) {
             $item = $model->getItem();
 
             if ($item->created_by) {

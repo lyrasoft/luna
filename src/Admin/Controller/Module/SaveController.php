@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Module;
 
-use Lyrasoft\Luna\Admin\Model\ModuleModel;
+use Lyrasoft\Luna\Admin\Repository\ModuleRepository;
 use Lyrasoft\Luna\Admin\View\Module\ModuleHtmlView;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\DataInterface;
@@ -52,7 +52,7 @@ class SaveController extends AbstractSaveController
     /**
      * Property model.
      *
-     * @var  ModuleModel
+     * @var  ModuleRepository
      */
     protected $model;
 

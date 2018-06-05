@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Comment;
 
-use Lyrasoft\Luna\Admin\Model\CommentModel;
+use Lyrasoft\Luna\Admin\Repository\CommentRepository;
 use Lyrasoft\Luna\Admin\View\Comment\CommentHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -45,7 +45,7 @@ class GetController extends EditDisplayController
     /**
      * Property model.
      *
-     * @var  CommentModel
+     * @var  CommentRepository
      */
     protected $model;
 

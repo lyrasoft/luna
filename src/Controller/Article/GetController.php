@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Controller\Article;
 
 use Lyrasoft\Luna\Language\Locale;
-use Lyrasoft\Luna\Model\ArticleModel;
+use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\View\Article\ArticleHtmlView;
 use Phoenix\Controller\Display\ItemDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -27,7 +27,7 @@ class GetController extends ItemDisplayController
     /**
      * Property model.
      *
-     * @var  ArticleModel
+     * @var  ArticleRepository
      */
     protected $model;
 

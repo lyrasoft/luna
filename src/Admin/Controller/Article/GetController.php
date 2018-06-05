@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Article;
 
-use Lyrasoft\Luna\Admin\Model\ArticleModel;
+use Lyrasoft\Luna\Admin\Repository\ArticleRepository;
 use Lyrasoft\Luna\Admin\View\Article\ArticleHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
 
@@ -22,7 +22,7 @@ class GetController extends EditDisplayController
     /**
      * Property model.
      *
-     * @var  ArticleModel
+     * @var  ArticleRepository
      */
     protected $model;
 

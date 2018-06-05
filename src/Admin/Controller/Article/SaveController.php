@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Article;
 
-use Lyrasoft\Luna\Admin\Model\ArticleModel;
-use Lyrasoft\Luna\Admin\Model\TagModel;
+use Lyrasoft\Luna\Admin\Repository\ArticleRepository;
+use Lyrasoft\Luna\Admin\Repository\TagRepository;
 use Lyrasoft\Luna\Admin\View\Article\ArticleHtmlView;
 use Lyrasoft\Luna\Image\ArticleImageHelper;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
@@ -55,7 +55,7 @@ class SaveController extends AbstractSaveController
     /**
      * Property model.
      *
-     * @var  ArticleModel
+     * @var  ArticleRepository
      */
     protected $model;
 
@@ -109,7 +109,7 @@ class SaveController extends AbstractSaveController
         }
 
         // Tag
-        /** @var TagModel $model */
+        /** @var TagRepository $model */
         $model = $this->getModel('Tag');
         $model->saveTagMaps('article', $data->id, $data->tags);
     }

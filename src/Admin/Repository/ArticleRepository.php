@@ -6,43 +6,64 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Repository;
 
-use Phoenix\Model\AdminModel;
+use Lyrasoft\Luna\Admin\Record\ArticleRecord;
+use Lyrasoft\Luna\Tag\TagHelper;
+use Lyrasoft\Unidev\Seo\SlugHelper;
+use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
 
 /**
- * The LanguageModel class.
+ * The ArticleModel class.
  *
  * @since  1.0
  */
-class LanguageModel extends AdminModel
+class ArticleRepository extends AdminRepository
 {
     /**
      * Property name.
      *
      * @var  string
      */
-    protected $name = 'language';
+    protected $name = 'article';
 
     /**
      * Property reorderConditions.
      *
      * @var  array
      */
-    protected $reorderConditions = [];
+    protected $reorderConditions = [
+        'category_id',
+    ];
 
     /**
      * postGetItem
      *
-     * @param DataInterface $item
+     * @param DataInterface|ArticleRecord $item
      *
      * @return  void
      */
     protected function postGetItem(DataInterface $item)
     {
-        // Do some stuff
+        // Readmore line
+        $item->text = $item->introtext . ($item->fulltext ? '<hr id="luna-readmore">' . $item->fulltext : null);
+
+        // tags
+        $item->tags = TagHelper::getTags('article', $item->id)->id;
+    }
+
+    /**
+     * handleAlias
+     *
+     * @param   string $alias
+     *
+     * @return  string
+     */
+    public function handleAlias($alias)
+    {
+        return SlugHelper::slugify($alias);
     }
 
     /**

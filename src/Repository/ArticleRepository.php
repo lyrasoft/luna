@@ -6,13 +6,13 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Model;
+namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Repository\StateRepositoryInterface;
 use Lyrasoft\Luna\Tag\TagHelper;
-use Phoenix\Model\ItemModel;
+use Phoenix\Repository\ItemRepository;
 use Windwalker\Data\DataInterface;
 
 /**
@@ -20,7 +20,7 @@ use Windwalker\Data\DataInterface;
  *
  * @since  1.0
  */
-class ArticleModel extends ItemModel implements StateRepositoryInterface
+class ArticleRepository extends ItemRepository implements StateRepositoryInterface
 {
     /**
      * postGetItem
@@ -36,7 +36,7 @@ class ArticleModel extends ItemModel implements StateRepositoryInterface
         $item->tags = TagHelper::getAvailableTags('article', $item->id);
 
         if (LunaHelper::tableExists('comments')) {
-            $commentsModel = new CommentsModel;
+            $commentsModel = new CommentsRepository;
 
             $commentsModel->published(true);
             $commentsModel->target('article', $item->id);

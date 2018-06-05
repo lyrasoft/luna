@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Listener;
 
-use Lyrasoft\Luna\Admin\Model\CommentsModel;
+use Lyrasoft\Luna\Admin\Repository\CommentsRepository;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Table\LunaTable;
@@ -146,7 +146,7 @@ class LunaListener
     public function onLunaCommentModelPrepareGetQuery(Event $event)
     {
         if ($event['type'] === 'article') {
-            /** @var CommentsModel $model */
+            /** @var CommentsRepository $model */
             $model = $event['model'];
 
             $model->addTable('target', LunaTable::ARTICLES, 'target.id = comment.target_id');

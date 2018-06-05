@@ -6,10 +6,10 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Repository;
 
 use Lyrasoft\Luna\Admin\Record\ContactRecord;
-use Phoenix\Model\AdminModel;
+use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
 
@@ -18,7 +18,7 @@ use Windwalker\Record\Record;
  *
  * @since  1.0
  */
-class ContactModel extends AdminModel
+class ContactRepository extends AdminRepository
 {
     /**
      * Property name.

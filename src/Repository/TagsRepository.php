@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Model;
+namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
-use Phoenix\Model\ListModel;
+use Phoenix\Repository\ListRepository;
 use Windwalker\Query\Query;
 use Windwalker\Query\QueryElement;
 
@@ -20,7 +20,7 @@ use Windwalker\Query\QueryElement;
  *
  * @since  1.0
  */
-class TagsModel extends ListModel
+class TagsRepository extends ListRepository
 {
     /**
      * Property name.

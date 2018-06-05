@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Category;
 
-use Lyrasoft\Luna\Admin\Model\CategoryModel;
+use Lyrasoft\Luna\Admin\Repository\CategoryRepository;
 use Lyrasoft\Luna\Admin\View\Category\CategoryHtmlView;
 use Lyrasoft\Luna\Image\CategoryImageHelper;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
@@ -53,7 +53,7 @@ class SaveController extends AbstractSaveController
     /**
      * Property model.
      *
-     * @var  CategoryModel
+     * @var  CategoryRepository
      */
     protected $model;
 

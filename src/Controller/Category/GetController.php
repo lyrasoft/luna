@@ -11,9 +11,9 @@ namespace Lyrasoft\Luna\Controller\Category;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Admin\Record\TagRecord;
 use Lyrasoft\Luna\Language\Locale;
-use Lyrasoft\Luna\Model\ArticlesModel;
-use Lyrasoft\Luna\Model\CategoryModel;
-use Lyrasoft\Luna\Model\TagModel;
+use Lyrasoft\Luna\Repository\ArticlesRepository;
+use Lyrasoft\Luna\Repository\CategoryRepository;
+use Lyrasoft\Luna\Repository\TagRepository;
 use Lyrasoft\Luna\View\Category\CategoryHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -33,7 +33,7 @@ class GetController extends ListDisplayController
     /**
      * Property model.
      *
-     * @var  ArticlesModel
+     * @var  ArticlesRepository
      */
     protected $model = 'Articles';
 
@@ -117,8 +117,8 @@ class GetController extends ListDisplayController
     protected function prepareViewModel(AbstractView $view, ModelRepository $model)
     {
         /**
-         * @var ArticlesModel    $model
-         * @var CategoryHtmlView $view
+         * @var ArticlesRepository $model
+         * @var CategoryHtmlView   $view
          */
         parent::prepareViewModel($view, $model);
 
@@ -143,7 +143,7 @@ class GetController extends ListDisplayController
 
             $path = implode('/', $path);
 
-            /** @var CategoryModel $catModel */
+            /** @var CategoryRepository $catModel */
             $catModel = $this->getModel('Category');
 
             /** @var Data $category */
@@ -166,7 +166,7 @@ class GetController extends ListDisplayController
         }
 
         if ($tagAlias) {
-            /** @var TagModel $tagModel */
+            /** @var TagRepository $tagModel */
             $tagModel = $this->getModel('Tag');
 
             /** @var Data $tag */

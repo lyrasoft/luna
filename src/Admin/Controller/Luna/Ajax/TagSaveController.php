@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Luna\Ajax;
 
-use Lyrasoft\Luna\Admin\Model\TagModel;
+use Lyrasoft\Luna\Admin\Repository\TagRepository;
 use Lyrasoft\Unidev\Controller\AbstractAjaxController;
 use Windwalker\Data\Data;
 
@@ -33,7 +33,7 @@ class TagSaveController extends AbstractAjaxController
         $data->title = $title;
         $data->state = 1;
 
-        /** @var TagModel $model */
+        /** @var TagRepository $model */
         $model = $this->getModel('Tag');
 
         $model->save($data);

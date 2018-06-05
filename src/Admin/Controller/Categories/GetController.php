@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Categories;
 
-use Lyrasoft\Luna\Admin\Model\CategoriesModel;
+use Lyrasoft\Luna\Admin\Repository\CategoriesRepository;
 use Lyrasoft\Luna\Admin\View\Categories\CategoriesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -24,7 +24,7 @@ class GetController extends ListDisplayController
     /**
      * Property model.
      *
-     * @var  CategoriesModel
+     * @var  CategoriesRepository
      */
     protected $model;
 
@@ -74,7 +74,7 @@ class GetController extends ListDisplayController
      */
     protected function prepareViewModel(AbstractView $view, ModelRepository $model)
     {
-        /** @var CategoriesModel $model */
+        /** @var CategoriesRepository $model */
         parent::prepareViewModel($view, $model);
 
         $type = $this->input->get('type');

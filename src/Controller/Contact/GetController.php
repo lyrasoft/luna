@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Controller\Contact;
 
-use Lyrasoft\Luna\Model\ContactModel;
+use Lyrasoft\Luna\Repository\ContactRepository;
 use Lyrasoft\Luna\View\Contact\ContactHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -26,7 +26,7 @@ class GetController extends EditDisplayController
      *
      * If set model name here, controller will get model object by this name.
      *
-     * @var  ContactModel
+     * @var  ContactRepository
      */
     protected $model = 'Contact';
 
@@ -64,7 +64,7 @@ class GetController extends EditDisplayController
     {
         /**
          * @var $view  ContactHtmlView
-         * @var $model ContactModel
+         * @var $model ContactRepository
          */
         parent::prepareViewModel($view, $model);
 

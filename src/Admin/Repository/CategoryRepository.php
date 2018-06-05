@@ -6,34 +6,33 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Repository;
 
-use Phoenix\Model\AdminModel;
+use Lyrasoft\Unidev\Seo\SlugHelper;
+use Phoenix\Repository\NestedAdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Record\Record;
 
 /**
- * The ModuleModel class.
+ * The CategoryModel class.
  *
  * @since  1.0
  */
-class ModuleModel extends AdminModel
+class CategoryRepository extends NestedAdminRepository
 {
     /**
      * Property name.
      *
      * @var  string
      */
-    protected $name = 'module';
+    protected $name = 'category';
 
     /**
      * Property reorderConditions.
      *
      * @var  array
      */
-    protected $reorderConditions = [
-        'position',
-    ];
+    protected $reorderConditions = [];
 
     /**
      * postGetItem
@@ -44,6 +43,7 @@ class ModuleModel extends AdminModel
      */
     protected function postGetItem(DataInterface $item)
     {
+        // Do some stuff
     }
 
     /**
@@ -55,7 +55,21 @@ class ModuleModel extends AdminModel
      */
     protected function prepareRecord(Record $record)
     {
+        $record->type = $record->type ?: $this['category.type'];
+
         parent::prepareRecord($record);
+    }
+
+    /**
+     * handleAlias
+     *
+     * @param   string $alias
+     *
+     * @return  string
+     */
+    public function handleAlias($alias)
+    {
+        return SlugHelper::slugify($alias);
     }
 
     /**

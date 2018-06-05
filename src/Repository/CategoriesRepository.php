@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Model;
+namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Language\Locale;
@@ -19,7 +19,7 @@ use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Lyrasoft\Warder\Table\WarderTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
-use Phoenix\Model\ListModel;
+use Phoenix\Repository\ListRepository;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
 use Windwalker\Query\Query;
@@ -31,7 +31,7 @@ use Windwalker\Utilities\ArrayHelper;
  *
  * @since  1.0
  */
-class CategoriesModel extends ListModel implements StateRepositoryInterface, LocaleRepositoryInterface,
+class CategoriesRepository extends ListRepository implements StateRepositoryInterface, LocaleRepositoryInterface,
     ViewAccessRepositoryInterface
 {
     /**

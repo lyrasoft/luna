@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Contacts;
 
-use Lyrasoft\Luna\Admin\Model\ContactsModel;
+use Lyrasoft\Luna\Admin\Repository\ContactsRepository;
 use Lyrasoft\Luna\Admin\View\Contacts\ContactsHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -26,7 +26,7 @@ class GetController extends ListDisplayController
      *
      * If set model name here, controller will get model object by this name.
      *
-     * @var  ContactsModel
+     * @var  ContactsRepository
      */
     protected $model = 'Contacts';
 
@@ -92,7 +92,7 @@ class GetController extends ListDisplayController
     {
         /**
          * @var $view  ContactsHtmlView
-         * @var $model ContactsModel
+         * @var $model ContactsRepository
          */
         parent::prepareViewModel($view, $model);
 

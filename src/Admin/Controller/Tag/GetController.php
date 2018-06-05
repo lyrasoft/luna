@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Tag;
 
-use Lyrasoft\Luna\Admin\Model\TagModel;
+use Lyrasoft\Luna\Admin\Repository\TagRepository;
 use Lyrasoft\Luna\Admin\View\Tag\TagHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
 
@@ -22,7 +22,7 @@ class GetController extends EditDisplayController
     /**
      * Property model.
      *
-     * @var  TagModel
+     * @var  TagRepository
      */
     protected $model;
 

@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Modules;
 
-use Lyrasoft\Luna\Admin\Model\ModulesModel;
+use Lyrasoft\Luna\Admin\Repository\ModulesRepository;
 use Lyrasoft\Luna\Admin\View\Modules\ModulesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 
@@ -22,7 +22,7 @@ class GetController extends ListDisplayController
     /**
      * Property model.
      *
-     * @var  ModulesModel
+     * @var  ModulesRepository
      */
     protected $model;
 

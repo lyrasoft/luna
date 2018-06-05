@@ -6,14 +6,14 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Model;
+namespace Lyrasoft\Luna\Repository;
 
 /**
  * The CommentsModel class.
  *
  * @since  1.0
  */
-class CommentsModel extends \Lyrasoft\Luna\Admin\Model\CommentsModel
+class CommentsRepository extends \Lyrasoft\Luna\Admin\Repository\CommentsRepository
 {
     /**
      * published

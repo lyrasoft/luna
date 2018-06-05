@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Comments;
 
-use Lyrasoft\Luna\Admin\Model\CommentsModel;
+use Lyrasoft\Luna\Admin\Repository\CommentsRepository;
 use Lyrasoft\Luna\Admin\View\Comments\CommentsHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -24,7 +24,7 @@ class GetController extends ListDisplayController
     /**
      * Property model.
      *
-     * @var  CommentsModel
+     * @var  CommentsRepository
      */
     protected $model;
 
@@ -74,7 +74,7 @@ class GetController extends ListDisplayController
      */
     protected function prepareViewModel(AbstractView $view, ModelRepository $model)
     {
-        /** @var CommentsModel $model */
+        /** @var CommentsRepository $model */
         parent::prepareViewModel($view, $model);
 
         $type = $this->input->get('type');

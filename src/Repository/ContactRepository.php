@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Model;
+namespace Lyrasoft\Luna\Repository;
 
-use Phoenix\Model\CrudModel;
+use Phoenix\Repository\CrudRepository;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\User\User;
 use Windwalker\Record\Record;
@@ -18,7 +18,7 @@ use Windwalker\Record\Record;
  *
  * @since  1.0
  */
-class ContactModel extends CrudModel
+class ContactRepository extends CrudRepository
 {
     /**
      * Property name.

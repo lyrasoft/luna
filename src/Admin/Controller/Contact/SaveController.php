@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Contact;
 
-use Lyrasoft\Luna\Admin\Model\ContactModel;
+use Lyrasoft\Luna\Admin\Repository\ContactRepository;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\DataInterface;
 
@@ -31,7 +31,7 @@ class SaveController extends AbstractSaveController
      *
      * If set model name here, controller will get model object by this name.
      *
-     * @var  ContactModel
+     * @var  ContactRepository
      */
     protected $model = 'Contact';
 

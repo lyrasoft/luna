@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Module;
 
-use Lyrasoft\Luna\Admin\Model\ModuleModel;
+use Lyrasoft\Luna\Admin\Repository\ModuleRepository;
 use Lyrasoft\Luna\Admin\View\Module\ModuleHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
 use Windwalker\Core\Model\ModelRepository;
@@ -45,7 +45,7 @@ class GetController extends EditDisplayController
     /**
      * Property model.
      *
-     * @var  ModuleModel
+     * @var  ModuleRepository
      */
     protected $model;
 

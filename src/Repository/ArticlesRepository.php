@@ -6,13 +6,13 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Model;
+namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Repository\ContentRepositoryInterface;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
-use Phoenix\Model\ListModel;
+use Phoenix\Repository\ListRepository;
 use Windwalker\Query\Query;
 use Windwalker\Query\QueryElement;
 
@@ -21,7 +21,7 @@ use Windwalker\Query\QueryElement;
  *
  * @since  1.0
  */
-class ArticlesModel extends ListModel implements ContentRepositoryInterface
+class ArticlesRepository extends ListRepository implements ContentRepositoryInterface
 {
     /**
      * Property name.

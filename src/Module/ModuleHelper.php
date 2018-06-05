@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Module;
 
 use Lyrasoft\Luna\Admin\DataMapper\ModuleMapper;
-use Lyrasoft\Luna\Admin\Model\ModulesModel;
+use Lyrasoft\Luna\Admin\Repository\ModulesRepository;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Windwalker\Cache\Cache;
@@ -308,7 +308,7 @@ class ModuleHelper
      *
      * @param bool $forceNew
      *
-     * @return  ModulesModel
+     * @return  ModulesRepository
      */
     public static function getModel($forceNew = false)
     {
@@ -316,7 +316,7 @@ class ModuleHelper
 
         if (!Ioc::exists($key)) {
             Ioc::getContainer()->share($key, function () {
-                return new ModulesModel;
+                return new ModulesRepository;
             });
         }
 

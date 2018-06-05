@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Tag;
 
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
-use Lyrasoft\Luna\Admin\Model\TagModel;
+use Lyrasoft\Luna\Admin\Repository\TagRepository;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Data\Data;
@@ -34,7 +34,7 @@ class TagHelper
      */
     public static function saveTags($type, $targetId, $tags)
     {
-        $model = new TagModel;
+        $model = new TagRepository;
 
         $model->saveTagMaps($type, $targetId, $tags);
     }

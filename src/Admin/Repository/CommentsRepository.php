@@ -1,31 +1,34 @@
 <?php
 /**
- * Part of Luna project.
+ * Part of Admin project.
  *
  * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Repository;
 
 use Lyrasoft\Luna\Table\LunaTable;
+use Lyrasoft\Warder\Helper\WarderHelper;
+use Lyrasoft\Warder\Table\WarderTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
-use Phoenix\Model\ListModel;
+use Phoenix\Repository\ListRepository;
+use Windwalker\Core\Ioc;
 use Windwalker\Query\Query;
 
 /**
- * The ContactsModel class.
+ * The CommentsModel class.
  *
  * @since  1.0
  */
-class ContactsModel extends ListModel
+class CommentsRepository extends ListRepository
 {
     /**
      * Property name.
      *
      * @var  string
      */
-    protected $name = 'Contacts';
+    protected $name = 'comments';
 
     /**
      * Property allowFields.
@@ -48,7 +51,12 @@ class ContactsModel extends ListModel
      */
     protected function configureTables()
     {
-        $this->addTable('contact', LunaTable::CONTACTS);
+        $this->addTable('comment', LunaTable::COMMENTS);
+
+        if (WarderHelper::tableExists('users')) {
+            $this->addTable('user', WarderTable::USERS, 'comment.user_id = user.id')
+                ->addTable('replyer', WarderTable::USERS, 'comment.reply_user_id = replyer.id');
+        }
     }
 
     /**
@@ -60,7 +68,11 @@ class ContactsModel extends ListModel
      */
     protected function prepareGetQuery(Query $query)
     {
-        // Add your logic
+        Ioc::getDispatcher()->triggerEvent('onLunaCommentModelPrepareGetQuery', [
+            'model' => $this,
+            'query' => $query,
+            'type' => $this['comment.type'],
+        ]);
     }
 
     /**
@@ -81,7 +93,7 @@ class ContactsModel extends ListModel
      * Example:
      * ``` php
      * $filterHelper->setHandler(
-     *     'contact.date',
+     *     'comment.date',
      *     function($query, $field, $value)
      *     {
      *         $query->where($field . ' >= ' . $value);
@@ -104,7 +116,7 @@ class ContactsModel extends ListModel
      * Example:
      * ``` php
      * $searchHelper->setHandler(
-     *     'contact.title',
+     *     'comment.title',
      *     function($query, $field, $value)
      *     {
      *         return $query->quoteName($field) . ' LIKE ' . $query->quote('%' . $value . '%');

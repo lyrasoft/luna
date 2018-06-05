@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Languages;
 
-use Lyrasoft\Luna\Admin\Model\LanguagesModel;
+use Lyrasoft\Luna\Admin\Repository\LanguagesRepository;
 use Lyrasoft\Luna\Admin\View\Languages\LanguagesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 
@@ -22,7 +22,7 @@ class GetController extends ListDisplayController
     /**
      * Property model.
      *
-     * @var  LanguagesModel
+     * @var  LanguagesRepository
      */
     protected $model;
 

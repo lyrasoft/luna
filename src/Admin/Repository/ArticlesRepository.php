@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Admin\Model;
+namespace Lyrasoft\Luna\Admin\Repository;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
@@ -14,22 +14,22 @@ use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Lyrasoft\Warder\Table\WarderTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
-use Phoenix\Model\ListModel;
+use Phoenix\Repository\ListRepository;
 use Windwalker\Query\Query;
 
 /**
- * The ModulesModel class.
+ * The ArticlesModel class.
  *
  * @since  1.0
  */
-class ModulesModel extends ListModel
+class ArticlesRepository extends ListRepository
 {
     /**
      * Property name.
      *
      * @var  string
      */
-    protected $name = 'modules';
+    protected $name = 'articles';
 
     /**
      * Property allowFields.
@@ -52,14 +52,19 @@ class ModulesModel extends ListModel
      */
     protected function configureTables()
     {
-        $this->addTable('module', LunaTable::MODULES);
+        $this->addTable('article', LunaTable::ARTICLES);
+
+        if (LunaHelper::tableExists('categories') && in_array('category_id',
+                $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'))) {
+            $this->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
+        }
 
         if (WarderHelper::tableExists('users')) {
-            $this->addTable('user', WarderTable::USERS, 'module.created_by = user.id');
+            $this->addTable('user', WarderTable::USERS, 'user.id = article.created_by');
         }
 
         if (Locale::isEnabled() && LunaHelper::tableExists('languages')) {
-            $this->addTable('lang', LunaTable::LANGUAGES, 'lang.code = module.language');
+            $this->addTable('lang', LunaTable::LANGUAGES, 'lang.code = article.language');
         }
     }
 
@@ -93,7 +98,7 @@ class ModulesModel extends ListModel
      * Example:
      * ``` php
      * $filterHelper->setHandler(
-     *     'module.date',
+     *     'article.date',
      *     function($query, $field, $value)
      *     {
      *         $query->where($field . ' >= ' . $value);
@@ -116,7 +121,7 @@ class ModulesModel extends ListModel
      * Example:
      * ``` php
      * $searchHelper->setHandler(
-     *     'module.title',
+     *     'article.title',
      *     function($query, $field, $value)
      *     {
      *         return $query->quoteName($field) . ' LIKE ' . $query->quote('%' . $value . '%');

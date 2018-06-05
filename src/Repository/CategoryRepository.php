@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Model;
+namespace Lyrasoft\Luna\Repository;
 
-use Phoenix\Model\ItemModel;
+use Phoenix\Repository\ItemRepository;
 use Windwalker\Data\DataInterface;
 
 /**
@@ -16,7 +16,7 @@ use Windwalker\Data\DataInterface;
  *
  * @since  1.0
  */
-class CategoryModel extends ItemModel
+class CategoryRepository extends ItemRepository
 {
     /**
      * postGetItem
