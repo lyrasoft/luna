@@ -35,8 +35,8 @@ class LunaPackage extends AbstractPackage
     /**
      * initialise
      *
-     * @throws  \LogicException
      * @return  void
+     * @throws \ReflectionException
      */
     public function boot()
     {
@@ -64,7 +64,7 @@ class LunaPackage extends AbstractPackage
 
         $name = $name ?: $package->getName();
 
-        return in_array($name, (array) $this->get('frontend.package', 'front'));
+        return in_array($name, (array) $this->get('frontend.package', 'front'), true);
     }
 
     /**
@@ -84,7 +84,7 @@ class LunaPackage extends AbstractPackage
 
         $name = $name ?: $package->getName();
 
-        return in_array($name, (array) $this->get('admin.package', 'admin'));
+        return in_array($name, (array) $this->get('admin.package', 'admin'), true);
     }
 
     /**
