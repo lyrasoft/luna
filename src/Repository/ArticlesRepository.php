@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Repository\ContentRepositoryInterface;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Model\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;

@@ -10,7 +10,6 @@ namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Repository\StateRepositoryInterface;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Repository\ItemRepository;
 use Windwalker\Data\DataInterface;
