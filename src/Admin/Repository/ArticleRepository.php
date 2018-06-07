@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Tag\TagHelper;
 use Lyrasoft\Unidev\Seo\SlugHelper;
 use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\DataInterface;
+use Windwalker\Form\Filter\MaxlengthFilter;
 use Windwalker\Record\Record;
 
 /**
@@ -63,7 +64,7 @@ class ArticleRepository extends AdminRepository
      */
     public function handleAlias($alias)
     {
-        return SlugHelper::slugify($alias);
+        return (new MaxlengthFilter(255))->clean(SlugHelper::slugify($alias));
     }
 
     /**

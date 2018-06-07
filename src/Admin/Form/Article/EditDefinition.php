@@ -17,7 +17,9 @@ use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
+use Windwalker\Form\Filter\MaxlengthFilter;
 use Windwalker\Form\Form;
+use Windwalker\Validator\Rule\LengthValidator;
 
 /**
  * The ArticleEditDefinition class.
@@ -47,6 +49,7 @@ class EditDefinition extends AbstractFieldDefinition
             ->label(Translator::translate($langPrefix . 'article.field.title'))
             ->placeholder(Translator::translate($langPrefix . 'article.field.title'))
             ->addFilter('trim')
+            ->addFilter(new MaxlengthFilter(255))
             ->required(true);
 
         // Alias
@@ -90,6 +93,7 @@ class EditDefinition extends AbstractFieldDefinition
                     'height' => 450,
                 ])
                 ->includes('readmore')
+                ->addFilter(new MaxlengthFilter(21844)) // @see https://stackoverflow.com/a/4420195
                 ->rows(10);
         });
 
