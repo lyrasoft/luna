@@ -13,7 +13,7 @@ use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\Data\DataSet;
-use Windwalker\Form\Filter\MaxlengthFilter;
+use Windwalker\Form\Filter\MaxLengthFilter;
 use Windwalker\Record\Record;
 
 /**
@@ -58,7 +58,7 @@ class TagRepository extends AdminRepository
      */
     public function handleAlias($alias)
     {
-        return (new MaxlengthFilter(255))->clean(SlugHelper::slugify($alias));
+        return (new MaxLengthFilter(255))->clean(SlugHelper::slugify($alias));
     }
 
     /**
