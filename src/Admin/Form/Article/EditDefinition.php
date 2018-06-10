@@ -65,7 +65,7 @@ class EditDefinition extends AbstractFieldDefinition
                 // Category
                 $this->categoryList('category_id')
                     ->categoryType('article')
-                    ->class('hasChosen')
+                    ->class('has-select2')
                     ->label(__($langPrefix . 'category.title'));
             }
 

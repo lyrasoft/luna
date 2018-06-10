@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Phoenix\Script\PhoenixScript;
 use Windwalker\Core\Asset\AbstractScript;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Utilities\Arr;
@@ -24,40 +25,12 @@ class Select2Script extends AbstractScript
      * select2
      *
      * @return  void
+     *
+     * @deprecated
      */
     public static function core()
     {
-        $asset = static::getAsset();
-
-        if (!static::inited(__METHOD__)) {
-            $luna = LunaHelper::getPackage();
-
-            $asset->addScript($luna->name . '/js/select2/select2.min.js');
-            $asset->addStyle($luna->name . '/css/select2/select2.min.css');
-
-            $lang = Translator::getLocale();
-
-            if (is_file(LUNA_SOURCE . '/Resources/asset/js/select2/i18n/' . $lang . '.js')) {
-                static::addJS($luna->name . '/js/select2/i18n/' . $lang . '.js');
-            }
-
-            $asset->internalStyle(<<<CSS
-.select2-container .select2-selection--single {
-	height: 34px;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-	line-height: 34px;
-}
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-	height: 34px;
-}
-.modal .select2-container,
-.filter-container .select2-container {
-	min-width: 100%;
-}
-CSS
-            );
-        }
+        PhoenixScript::select2();
     }
 
     /**
@@ -73,13 +46,7 @@ CSS
         static::core();
 
         if (!static::inited(__METHOD__, get_defined_vars())) {
-            $defaultOptions = [
-                'language' => Translator::getLocale(),
-            ];
-
-            $chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
-
-            $options = static::getJSObject($defaultOptions, $options);
+            $chosenSelector = Arr::get($options, 'chosen_selector', '.has-select2');
 
             $js = <<<JS
 jQuery(document).ready(function($) {
@@ -88,12 +55,11 @@ jQuery(document).ready(function($) {
 	if (element.is('$chosenSelector')) {
 		element.chosen('destroy');
 	}
-
-    element.select2($options);
 });
 JS;
 
             static::internalJS($js);
+            PhoenixScript::select2($selector, $options);
         }
     }
 
@@ -133,9 +99,7 @@ JS;
                 'language' => Translator::getLocale(),
             ];
 
-            $chosenSelector = Arr::get($options, 'chosen_selector', '.hasChosen');
-
-            $options = static::getJSObject($defaultOptions, $options);
+            $chosenSelector = Arr::get($options, 'chosen_selector', '.has-select2');
 
             $js = <<<JS
 jQuery(document).ready(function($) {
@@ -144,12 +108,11 @@ jQuery(document).ready(function($) {
 	if (element.is('$chosenSelector')) {
 		element.chosen('destroy');
 	}
-
-    element.select2($options);
 });
 JS;
 
             static::internalJS($js);
+            PhoenixScript::select2($selector, static::mergeOptions($defaultOptions, $options));
         }
     }
 

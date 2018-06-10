@@ -71,7 +71,7 @@ class GridDefinition extends AbstractFieldDefinition
             // State
             $this->list('module.state')
                 ->label('State')
-                ->class('hasChosen')
+                ->class('has-select2')
                 // Add empty option to support single deselect button
                 ->option('', '')
                 ->option(__($langPrefix . 'module.filter.state.select'), '')
@@ -82,14 +82,14 @@ class GridDefinition extends AbstractFieldDefinition
             // Position
             $this->add('module.position', new PositionListField)
                 ->label(__($langPrefix . 'module.field.position'))
-                ->class('hasChosen')
+                ->class('has-select2')
                 ->option(__($langPrefix . 'module.field.position.select'), '')
                 ->onchange('this.form.submit()');
 
             // Position
             $this->add('module.type', new ModuleTypeListField)
                 ->label(__($langPrefix . 'module.field.type'))
-                ->class('hasChosen')
+                ->class('has-select2')
                 ->option(__($langPrefix . 'module.field.type.select'), '')
                 ->onchange('this.form.submit()');
 
@@ -97,7 +97,7 @@ class GridDefinition extends AbstractFieldDefinition
                 // Language
                 $this->languageList('article.language')
                     ->label(__($langPrefix . 'module.field.language'))
-                    ->class('hasChosen')
+                    ->class('has-select2')
                     ->option(__($langPrefix . 'field.language.select'), '')
                     ->option(__($langPrefix . 'field.language.all'), '*')
                     ->onchange('this.form.submit()');
@@ -115,7 +115,7 @@ class GridDefinition extends AbstractFieldDefinition
                 // Language
                 $this->languageList('language')
                     ->label(__($langPrefix . 'module.field.language'))
-                    ->class('hasChosen')
+                    ->class('has-select2')
                     ->option(__($langPrefix . 'field.language.select'), '')
                     ->option(__($langPrefix . 'field.language.all'), '*');
             }
@@ -123,7 +123,7 @@ class GridDefinition extends AbstractFieldDefinition
             // Position
             $this->add('position', new PositionListField)
                 ->label(__($langPrefix . 'module.field.position'))
-                ->class('hasChosen')
+                ->class('has-select2')
                 ->option(__($langPrefix . 'module.field.position.select'))
                 ->set('allow_add', true);
 

@@ -67,7 +67,7 @@ class GridDefinition extends AbstractFieldDefinition
             // State
             $this->list('language.state')
                 ->label('State')
-                ->class('hasChosen')
+                ->class('has-select2')
                 // Add empty option to support single deselect button
                 ->option('', '')
                 ->option(__($langPrefix . 'language.filter.state.select'), '')

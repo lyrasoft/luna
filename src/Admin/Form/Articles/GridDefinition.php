@@ -71,7 +71,7 @@ class GridDefinition extends AbstractFieldDefinition
             // State
             $this->list('article.state')
                 ->label('State')
-                ->class('hasChosen')
+                ->class('has-select2')
                 // Add empty option to support single deselect button
                 ->option('', '')
                 ->option(__($langPrefix . 'article.filter.state.select'), '')
@@ -82,7 +82,7 @@ class GridDefinition extends AbstractFieldDefinition
             if (LunaHelper::tableExists('categories')) {
                 $this->categoryList('article.category_id')
                     ->label(__($langPrefix . 'field.category'))
-                    ->class('hasChosen')
+                    ->class('has-select2')
                     ->option('', '')
                     ->option(__($langPrefix . 'filter.category.select'), '')
                     ->categoryType('article')
@@ -93,7 +93,7 @@ class GridDefinition extends AbstractFieldDefinition
                 // Language
                 $this->languageList('article.language')
                     ->label(__($langPrefix . 'article.field.language'))
-                    ->class('hasChosen')
+                    ->class('has-select2')
                     ->option(__($langPrefix . 'field.language.select'), '')
                     ->option(__($langPrefix . 'field.language.all'), '*')
                     ->onchange('this.form.submit()');
@@ -111,7 +111,7 @@ class GridDefinition extends AbstractFieldDefinition
                 // Language
                 $this->languageList('language')
                     ->label(__($langPrefix . 'article.field.language'))
-                    ->class('hasChosen')
+                    ->class('has-select2')
                     ->option(__($langPrefix . 'field.language.select'), '')
                     ->option(__($langPrefix . 'field.language.all'), '*');
             }
@@ -120,7 +120,7 @@ class GridDefinition extends AbstractFieldDefinition
                 // Category
                 $this->categoryList('category_id')
                     ->label(__($langPrefix . 'category.title'))
-                    ->class('hasChosen')
+                    ->class('has-select2')
                     ->categoryType('article')
                     ->option(__($langPrefix . 'filter.category.select'), '');
             }

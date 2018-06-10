@@ -100,7 +100,7 @@ class GridDefinition extends AbstractFieldDefinition
             // Parent
             $this->categoryList('parent_id')
                 ->label(__($langPrefix . 'category.field.parent'))
-                ->class('col-md-12 hasChosen')
+                ->class('col-md-12 has-select2')
                 ->categoryType($input->get('type', ''))
                 ->showRoot(true)
                 ->option(__($langPrefix . 'category.batch.parent.select'), '');

@@ -67,7 +67,7 @@ class EditDefinition extends AbstractFieldDefinition
             // Parent
             $this->categoryList('parent_id')
                 ->label(__($langPrefix . 'category.field.parent'))
-                ->class('hasChosen')
+                ->class('has-select2')
                 ->option(__($langPrefix . 'category.root'), 1)
                 ->categoryType($type)
                 ->postQueryHandler(function (Query $query) {

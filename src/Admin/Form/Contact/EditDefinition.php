@@ -90,7 +90,7 @@ class EditDefinition extends AbstractFieldDefinition
             // State
             $this->list('state')
                 ->label(__($langPrefix . 'contact.field.state'))
-                ->addClass('hasChosen')
+                ->addClass('has-select2')
                 ->defaultValue(1)
                 ->option(__($langPrefix . 'contact.state.cancel'), '-1')
                 ->option(__($langPrefix . 'contact.state.pending'), '0')
