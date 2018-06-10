@@ -36,9 +36,9 @@ class ContactInit extends AbstractMigration
             $schema->integer('modified_by')->comment('Modified User');
             $schema->text('params')->comment('Params');
 
-            $schema->addIndex('email');
-            $schema->addIndex('phone');
-            $schema->addIndex('name');
+            $schema->addIndex('email(150)');
+            $schema->addIndex('phone(150)');
+            $schema->addIndex('name(150)');
         });
     }
 

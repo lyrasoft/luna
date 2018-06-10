@@ -36,7 +36,7 @@ class ModuleInit extends AbstractMigration
             $sc->char('language')->length(7)->comment('Language');
             $sc->text('params')->comment('Params');
 
-            $sc->addIndex('position');
+            $sc->addIndex('position(50)');
             $sc->addIndex('language');
             $sc->addIndex('created_by');
         });

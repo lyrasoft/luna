@@ -62,16 +62,16 @@ class ArticleSeeder extends AbstractSeeder
                 $lang = $faker->randomElement($languages);
 
                 $data['category_id'] = $category->id;
-                $data['title']       = '(' . $lang . ') ' . $faker->sentence(mt_rand(3, 5));
+                $data['title']       = '(' . $lang . ') ' . $faker->sentence(random_int(3, 5));
                 $data['alias']       = OutputFilter::stringURLSafe($data['title']);
                 $data['introtext']   = '(' . $lang . ') ' . $faker->paragraph(5);
                 $data['fulltext']    = $faker->paragraph(5);
                 $data['image']       = UnsplashHelper::getImageUrl();
                 $data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
-                $data['version']     = mt_rand(1, 50);
-                $data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
+                $data['version']     = random_int(1, 50);
+                $data['created']     = $faker->dateTime->format($this->getDateFormat());
                 $data['created_by']  = $faker->randomElement($userIds);
-                $data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
+                $data['modified']    = $faker->dateTime->format($this->getDateFormat());
                 $data['modified_by'] = $faker->randomElement($userIds);
                 $data['ordering']    = $i;
                 $data['language']    = $lang;
@@ -79,7 +79,7 @@ class ArticleSeeder extends AbstractSeeder
 
                 ArticleMapper::createOne($data);
 
-                foreach ($faker->randomElements($tags, mt_rand(5, 7)) as $tag) {
+                foreach ($faker->randomElements($tags, random_int(5, 7)) as $tag) {
                     $map = new Data;
 
                     $map->tag_id    = $tag->id;

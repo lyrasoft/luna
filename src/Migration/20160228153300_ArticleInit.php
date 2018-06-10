@@ -38,7 +38,7 @@ class ArticleInit extends AbstractMigration
             $sc->text('params')->comment('Params');
 
             $sc->addIndex('category_id');
-            $sc->addIndex('alias');
+            $sc->addIndex('alias(150)');
             $sc->addIndex('language');
             $sc->addIndex('created_by');
         });

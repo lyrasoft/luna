@@ -44,9 +44,9 @@ class TagSeeder extends AbstractSeeder
             $data['title']       = ucfirst($faker->word);
             $data['alias']       = OutputFilter::stringURLSafe($data['title']);
             $data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
-            $data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
+            $data['created']     = $faker->dateTime->format($this->getDateFormat());
             $data['created_by']  = $faker->randomElement($userIds);
-            $data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
+            $data['modified']    = $faker->dateTime->format($this->getDateFormat());
             $data['modified_by'] = $faker->randomElement($userIds);
             $data['language']    = 'en-GB';
             $data['params']      = '';

@@ -48,16 +48,16 @@ class ModuleSeeder extends AbstractSeeder
             /** @var \Lyrasoft\Luna\Module\ModuleType $module */
             $module = $faker->randomElement($types);
 
-            $data['title']       = $faker->sentence(mt_rand(3, 5));
+            $data['title']       = $faker->sentence(random_int(3, 5));
             $data['type']        = $module->type;
             $data['class']       = $module->class;
             $data['position']    = $faker->randomElement($positions);
             $data['note']        = $faker->sentence(5);
             $data['content']     = $faker->paragraph(5);
             $data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
-            $data['created']     = $faker->dateTime->format(Chronos::getSqlFormat());
+            $data['created']     = $faker->dateTime->format($this->getDateFormat());
             $data['created_by']  = $faker->randomElement($userIds);
-            $data['modified']    = $faker->dateTime->format(Chronos::getSqlFormat());
+            $data['modified']    = $faker->dateTime->format($this->getDateFormat());
             $data['modified_by'] = $faker->randomElement($userIds);
             $data['ordering']    = $i;
             $data['language']    = 'en-GB';

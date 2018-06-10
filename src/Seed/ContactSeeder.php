@@ -32,7 +32,7 @@ class ContactSeeder extends AbstractSeeder
             $created = $faker->dateTimeThisYear;
             $data    = new Data;
 
-            $data['subject']     = $faker->sentence(mt_rand(3, 5));
+            $data['subject']     = $faker->sentence(random_int(3, 5));
             $data['email']       = $faker->email;
             $data['name']        = $faker->name;
             $data['url']         = $faker->url;
@@ -41,9 +41,9 @@ class ContactSeeder extends AbstractSeeder
             $data['details']     = array_combine($faker->words(7), $faker->words(7));
             $data['state']       = $faker->randomElement([-1, 2, 2, 1, 1, 0]);
             $data['created']     = $created->format($this->getDateFormat());
-            $data['created_by']  = mt_rand(20, 100);
+            $data['created_by']  = random_int(20, 100);
             $data['modified']    = $created->modify('+5 days')->format($this->getDateFormat());
-            $data['modified_by'] = mt_rand(20, 100);
+            $data['modified_by'] = random_int(20, 100);
             $data['params']      = '';
 
             ContactMapper::createOne($data);

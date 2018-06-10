@@ -52,19 +52,19 @@ class ArticlesRepository extends ListRepository
      */
     protected function configureTables()
     {
-        $this->addTable('article', LunaTable::ARTICLES);
+        $this->from('article', LunaTable::ARTICLES);
 
-        if (LunaHelper::tableExists('categories') && in_array('category_id',
-                $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'))) {
-            $this->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
+        if (LunaHelper::tableExists('categories')
+            && \in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'), true)) {
+            $this->leftJoin('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
         }
 
         if (WarderHelper::tableExists('users')) {
-            $this->addTable('user', WarderTable::USERS, 'user.id = article.created_by');
+            $this->leftJoin('user', WarderTable::USERS, 'user.id = article.created_by');
         }
 
         if (Locale::isEnabled() && LunaHelper::tableExists('languages')) {
-            $this->addTable('lang', LunaTable::LANGUAGES, 'lang.code = article.language');
+            $this->leftJoin('lang', LunaTable::LANGUAGES, 'lang.code = article.language');
         }
     }
 

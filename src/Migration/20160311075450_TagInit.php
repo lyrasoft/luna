@@ -32,7 +32,7 @@ class TagInit extends AbstractMigration
             $sc->char('language')->length(7)->comment('Language');
             $sc->text('params')->comment('Params');
 
-            $sc->addIndex('alias');
+            $sc->addIndex('alias(150)');
             $sc->addIndex('language');
             $sc->addIndex('created_by');
         });
@@ -44,7 +44,7 @@ class TagInit extends AbstractMigration
 
             $sc->addIndex('tag_id');
             $sc->addIndex('target_id');
-            $sc->addIndex('type');
+            $sc->addIndex('type(50)');
         });
     }
 

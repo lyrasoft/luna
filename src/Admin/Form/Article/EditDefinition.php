@@ -19,7 +19,6 @@ use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Filter\MaxLengthFilter;
 use Windwalker\Form\Form;
-use Windwalker\Validator\Rule\LengthValidator;
 
 /**
  * The ArticleEditDefinition class.

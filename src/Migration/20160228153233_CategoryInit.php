@@ -41,8 +41,8 @@ class CategoryInit extends AbstractMigration
             $schema->char('language')->length(7)->comment('Language');
             $schema->text('params')->comment('Params');
 
-            $schema->addIndex('alias');
-            $schema->addIndex('path');
+            $schema->addIndex('alias(100)');
+            $schema->addIndex('path(100)');
             $schema->addIndex(['lft', 'rgt']);
             $schema->addIndex('language');
             $schema->addIndex('created_by');
