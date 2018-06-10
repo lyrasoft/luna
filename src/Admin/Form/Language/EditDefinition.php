@@ -38,15 +38,15 @@ class EditDefinition extends AbstractFieldDefinition
 
         // Title
         $this->text('title')
-            ->label(Translator::translate($langPrefix . 'language.field.title'))
-            ->placeholder(Translator::translate($langPrefix . 'language.field.title'))
+            ->label(__($langPrefix . 'language.field.title'))
+            ->placeholder(__($langPrefix . 'language.field.title'))
             ->addFilter('trim')
             ->required(true);
 
         // Alias
         $this->text('alias')
-            ->label(Translator::translate($langPrefix . 'language.field.alias'))
-            ->placeholder(Translator::translate($langPrefix . 'language.field.alias'));
+            ->label(__($langPrefix . 'language.field.alias'))
+            ->placeholder(__($langPrefix . 'language.field.alias'));
 
         // Basic fieldset
         $this->fieldset('basic', function (Form $form) use ($langPrefix) {
@@ -55,33 +55,33 @@ class EditDefinition extends AbstractFieldDefinition
 
             // Title Native
             $this->text('title_native')
-                ->label(Translator::translate($langPrefix . 'language.field.titlenative'))
+                ->label(__($langPrefix . 'language.field.titlenative'))
                 ->addFilter('trim')
                 ->required(true);
 
             // Code
             $this->text('code')
-                ->label(Translator::translate($langPrefix . 'language.field.code'))
+                ->label(__($langPrefix . 'language.field.code'))
                 ->addFilter('trim')
                 ->required(true);
 
             // Image
             $this->add('image', new FlagListField)
-                ->label(Translator::translate($langPrefix . 'language.field.images'));
+                ->label(__($langPrefix . 'language.field.images'));
         });
 
         // Text Fieldset
         $this->fieldset('text', function (Form $form) use ($langPrefix) {
             // Introtext
             $this->textarea('description')
-                ->label(Translator::translate($langPrefix . 'language.field.description'))
+                ->label(__($langPrefix . 'language.field.description'))
                 ->rows(10);
         });
 
         // Created fieldset
         $this->fieldset('created', function (Form $form) use ($langPrefix) {
             $this->switch('state')
-                ->label(Translator::translate($langPrefix . 'language.field.published'))
+                ->label(__($langPrefix . 'language.field.published'))
                 ->class('')
                 ->circle(true)
                 ->color('success')
@@ -89,12 +89,12 @@ class EditDefinition extends AbstractFieldDefinition
 
             // Metakey
             $this->textarea('metakey')
-                ->label(Translator::translate($langPrefix . 'language.field.metakey'))
+                ->label(__($langPrefix . 'language.field.metakey'))
                 ->rows(5);
 
             // Meta Description
             $this->textarea('metadesc')
-                ->label(Translator::translate($langPrefix . 'language.field.metadesc'))
+                ->label(__($langPrefix . 'language.field.metadesc'))
                 ->rows(5);
         });
     }

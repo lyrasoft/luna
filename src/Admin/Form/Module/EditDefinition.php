@@ -42,7 +42,7 @@ class EditDefinition extends AbstractFieldDefinition
 
         // Title
         $this->text('title')
-            ->label(Translator::translate($langPrefix . 'module.field.title'))
+            ->label(__($langPrefix . 'module.field.title'))
             ->addFilter('trim')
             ->labelClass('hide')
             ->required(true);
@@ -56,7 +56,7 @@ class EditDefinition extends AbstractFieldDefinition
         $this->fieldset('text', function (Form $form) use ($langPrefix) {
             // Content
             $this->tinymceEditor('content')
-                ->label(Translator::translate($langPrefix . 'module.field.content'))
+                ->label(__($langPrefix . 'module.field.content'))
                 ->rows(10)
                 ->editorOptions([
                     'height' => 400,
@@ -67,7 +67,7 @@ class EditDefinition extends AbstractFieldDefinition
         $this->fieldset('created', function (Form $form) use ($langPrefix) {
             // State
             $this->switch('state')
-                ->label(Translator::translate($langPrefix . 'module.field.published'))
+                ->label(__($langPrefix . 'module.field.published'))
                 ->class('')
                 ->circle(true)
                 ->color('success')
@@ -75,37 +75,37 @@ class EditDefinition extends AbstractFieldDefinition
 
             // Position
             $this->add('position', new PositionListField)
-                ->label(Translator::translate($langPrefix . 'module.field.position'))
-                ->option(Translator::translate($langPrefix . 'field.position.select'), '')
+                ->label(__($langPrefix . 'module.field.position'))
+                ->option(__($langPrefix . 'field.position.select'), '')
                 ->set('allow_add', true);
 
             // Type
             $this->text('type')
-                ->label(Translator::translate($langPrefix . 'module.field.type'))
+                ->label(__($langPrefix . 'module.field.type'))
                 ->readonly()
                 ->required();
 
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('language')
-                    ->label(Translator::translate($langPrefix . 'module.field.language'))
-                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*');
+                    ->label(__($langPrefix . 'module.field.language'))
+                    ->option(__($langPrefix . 'field.language.all'), '*');
             }
 
             if (WarderHelper::tableExists('users')) {
                 // Created
                 $this->calendar('created')
-                    ->label(Translator::translate($langPrefix . 'module.field.created'))
+                    ->label(__($langPrefix . 'module.field.created'))
                     ->addFilter(UtcFilter::class);
 
                 // Author
                 $this->userModal('created_by')
-                    ->label(Translator::translate($langPrefix . 'module.field.author'));
+                    ->label(__($langPrefix . 'module.field.author'));
             }
 
             // Note
             $this->textarea('note')
-                ->label(Translator::translate($langPrefix . 'module.field.note'))
+                ->label(__($langPrefix . 'module.field.note'))
                 ->rows(5);
 
             // ID

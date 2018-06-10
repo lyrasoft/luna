@@ -114,7 +114,7 @@ class PositionListField extends ItemListField
         $options = [];
 
         foreach ($items as $k => $n) {
-            $name = $k === $n ? $n : $k . ' (' . Translator::translate($n) . ')';
+            $name = $k === $n ? $n : $k . ' (' . __($n) . ')';
 
             $options[] = (object) [
                 'name' => $name,

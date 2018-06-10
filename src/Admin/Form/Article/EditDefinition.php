@@ -45,16 +45,16 @@ class EditDefinition extends AbstractFieldDefinition
 
         // Title
         $this->text('title')
-            ->label(Translator::translate($langPrefix . 'article.field.title'))
-            ->placeholder(Translator::translate($langPrefix . 'article.field.title'))
+            ->label(__($langPrefix . 'article.field.title'))
+            ->placeholder(__($langPrefix . 'article.field.title'))
             ->addFilter('trim')
             ->addFilter(new MaxLengthFilter(255))
             ->required(true);
 
         // Alias
         $this->text('alias')
-            ->label(Translator::translate($langPrefix . 'article.field.alias'))
-            ->placeholder(Translator::translate($langPrefix . 'article.field.alias'));
+            ->label(__($langPrefix . 'article.field.alias'))
+            ->placeholder(__($langPrefix . 'article.field.alias'));
 
         // Basic fieldset
         $this->fieldset('basic', function (Form $form) use ($langPrefix) {
@@ -66,19 +66,19 @@ class EditDefinition extends AbstractFieldDefinition
                 $this->categoryList('category_id')
                     ->categoryType('article')
                     ->class('hasChosen')
-                    ->label(Translator::translate($langPrefix . 'category.title'));
+                    ->label(__($langPrefix . 'category.title'));
             }
 
             if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps')) {
                 // Tags
                 $this->tagList('tags')
-                    ->label(Translator::translate($langPrefix . 'tag.title'))
+                    ->label(__($langPrefix . 'tag.title'))
                     ->multiple(true);
             }
 
             // Images
             $this->singleImageDrag('image')
-                ->label(Translator::translate($langPrefix . 'article.field.images'))
+                ->label(__($langPrefix . 'article.field.images'))
                 ->set('force_v1', true)
                 ->width(400)
                 ->height(300);
@@ -88,7 +88,7 @@ class EditDefinition extends AbstractFieldDefinition
         $this->fieldset('text', function (Form $form) use ($langPrefix) {
             // Text
             $this->tinymceEditor('text')
-                ->label(Translator::translate($langPrefix . 'article.field.introtext'))
+                ->label(__($langPrefix . 'article.field.introtext'))
                 ->editorOptions([
                     'height' => 450,
                 ])
@@ -101,7 +101,7 @@ class EditDefinition extends AbstractFieldDefinition
         $this->fieldset('created', function (Form $form) use ($langPrefix) {
             // State
             $this->switch('state')
-                ->label(Translator::translate($langPrefix . 'article.field.published'))
+                ->label(__($langPrefix . 'article.field.published'))
                 ->class('')
                 ->circle(true)
                 ->color('success')
@@ -110,28 +110,28 @@ class EditDefinition extends AbstractFieldDefinition
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('language')
-                    ->label(Translator::translate($langPrefix . 'article.field.language'))
-                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*');
+                    ->label(__($langPrefix . 'article.field.language'))
+                    ->option(__($langPrefix . 'field.language.all'), '*');
             }
 
             // Created
             $this->calendar('created')
-                ->label(Translator::translate($langPrefix . 'article.field.created'))
+                ->label(__($langPrefix . 'article.field.created'))
                 ->addFilter(UtcFilter::class);
 
             // Modified
             $this->calendar('modified')
-                ->label(Translator::translate($langPrefix . 'article.field.modified'))
+                ->label(__($langPrefix . 'article.field.modified'))
                 ->disabled();
 
             if (WarderHelper::tableExists('users')) {
                 // Author
                 $this->userModal('created_by')
-                    ->label(Translator::translate($langPrefix . 'article.field.author'));
+                    ->label(__($langPrefix . 'article.field.author'));
 
                 // Modified User
                 $this->userModal('modified_by')
-                    ->label(Translator::translate($langPrefix . 'article.field.modifiedby'))
+                    ->label(__($langPrefix . 'article.field.modifiedby'))
                     ->readonly();
             }
         });

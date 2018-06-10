@@ -85,7 +85,7 @@ class CategoryListField extends ItemListField
 
             array_unshift(
                 $options,
-                new Option(Translator::translate($langPrefix . '.category.root'), '1')
+                new Option(__($langPrefix . '.category.root'), '1')
             );
         }
 

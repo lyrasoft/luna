@@ -46,17 +46,17 @@ class GridDefinition extends AbstractFieldDefinition
         $this->group('search', function (Form $form) use ($langPrefix) {
             // Search Field
             $this->list('field')
-                ->label(Translator::translate('phoenix.grid.search.field.label'))
+                ->label(__('phoenix.grid.search.field.label'))
                 ->set('display', false)
                 ->defaultValue('*')
-                ->option(Translator::translate('phoenix.core.all'), '*')
-                ->option(Translator::translate($langPrefix . 'category.field.title'), 'category.title')
-                ->option(Translator::translate($langPrefix . 'category.field.alias'), 'category.alias');
+                ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'category.field.title'), 'category.title')
+                ->option(__($langPrefix . 'category.field.alias'), 'category.alias');
 
             // Search Content
             $this->text('content')
-                ->label(Translator::translate('phoenix.grid.search.label'))
-                ->placeholder(Translator::translate('phoenix.grid.search.label'));
+                ->label(__('phoenix.grid.search.label'))
+                ->placeholder(__('phoenix.grid.search.label'));
         });
 
         /*
@@ -70,20 +70,20 @@ class GridDefinition extends AbstractFieldDefinition
         $this->group('filter', function (Form $form) use ($langPrefix) {
             // State
             $this->list('category.state')
-                ->label(Translator::translate($langPrefix . 'category.field.published'))
+                ->label(__($langPrefix . 'category.field.published'))
                 // Add empty option to support single deselect button
                 ->option('', '')
-                ->option(Translator::translate($langPrefix . 'category.filter.state.select'), '')
-                ->option(Translator::translate('phoenix.grid.state.published'), '1')
-                ->option(Translator::translate('phoenix.grid.state.unpublished'), '0')
+                ->option(__($langPrefix . 'category.filter.state.select'), '')
+                ->option(__('phoenix.grid.state.published'), '1')
+                ->option(__('phoenix.grid.state.unpublished'), '0')
                 ->onchange('this.form.submit()');
 
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('article.language')
-                    ->label(Translator::translate($langPrefix . 'category.field.language'))
-                    ->option(Translator::translate($langPrefix . 'field.language.select'), '')
-                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*')
+                    ->label(__($langPrefix . 'category.field.language'))
+                    ->option(__($langPrefix . 'field.language.select'), '')
+                    ->option(__($langPrefix . 'field.language.all'), '*')
                     ->onchange('this.form.submit()');
             }
         });
@@ -99,24 +99,24 @@ class GridDefinition extends AbstractFieldDefinition
 
             // Parent
             $this->categoryList('parent_id')
-                ->label(Translator::translate($langPrefix . 'category.field.parent'))
+                ->label(__($langPrefix . 'category.field.parent'))
                 ->class('col-md-12 hasChosen')
                 ->categoryType($input->get('type', ''))
                 ->showRoot(true)
-                ->option(Translator::translate($langPrefix . 'category.batch.parent.select'), '');
+                ->option(__($langPrefix . 'category.batch.parent.select'), '');
 
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('language')
-                    ->label(Translator::translate($langPrefix . 'category.field.language'))
-                    ->option(Translator::translate($langPrefix . 'field.language.select'), '')
-                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*');
+                    ->label(__($langPrefix . 'category.field.language'))
+                    ->option(__($langPrefix . 'field.language.select'), '')
+                    ->option(__($langPrefix . 'field.language.all'), '*');
             }
 
             if (WarderHelper::tableExists('users')) {
                 // Author
                 $this->userModal('created_by')
-                    ->label(Translator::translate($langPrefix . 'category.field.author'));
+                    ->label(__($langPrefix . 'category.field.author'));
             }
         });
     }

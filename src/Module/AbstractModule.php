@@ -266,7 +266,7 @@ abstract class AbstractModule
     public static function getName()
     {
         if (static::$name === null) {
-            return Translator::translate(static::$langPrefix . 'module.' . static::getType() . '.name');
+            return __(static::$langPrefix . 'module.' . static::getType() . '.name');
         }
 
         return static::$name;
@@ -292,7 +292,7 @@ abstract class AbstractModule
     public static function getDescription()
     {
         if (static::$description === null) {
-            return Translator::translate(static::$langPrefix . 'module.' . static::getType() . '.desc');
+            return __(static::$langPrefix . 'module.' . static::getType() . '.desc');
         }
 
         return static::$description;

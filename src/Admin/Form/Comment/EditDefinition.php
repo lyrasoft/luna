@@ -44,33 +44,33 @@ class EditDefinition extends AbstractFieldDefinition
 
             // Type
             $this->hidden('type')
-                ->label(Translator::translate($langPrefix . 'comment.field.type'));
+                ->label(__($langPrefix . 'comment.field.type'));
 
             // Target ID
             $this->text('target_id')
-                ->label(Translator::translate($langPrefix . 'comment.field.target.id'));
+                ->label(__($langPrefix . 'comment.field.target.id'));
         });
 
         // Text Fieldset
         $this->fieldset('text', function (Form $form) use ($langPrefix) {
             if (WarderHelper::tableExists('users')) {
                 $this->userModal('user_id')
-                    ->label(Translator::translate($langPrefix . 'comment.field.author'));
+                    ->label(__($langPrefix . 'comment.field.author'));
             }
 
             // Content
             $this->textarea('content')
-                ->label(Translator::translate($langPrefix . 'comment.field.content'))
+                ->label(__($langPrefix . 'comment.field.content'))
                 ->rows(10);
 
             if (WarderHelper::tableExists('users')) {
                 $this->userModal('reply_user_id')
-                    ->label(Translator::translate($langPrefix . 'comment.field.replyer'));
+                    ->label(__($langPrefix . 'comment.field.replyer'));
             }
 
             // Reply
             $this->textarea('reply')
-                ->label(Translator::translate($langPrefix . 'comment.field.reply'))
+                ->label(__($langPrefix . 'comment.field.reply'))
                 ->rows(10);
         });
 
@@ -78,7 +78,7 @@ class EditDefinition extends AbstractFieldDefinition
         $this->fieldset('created', function (Form $form) use ($langPrefix) {
             // State
             $this->switch('state')
-                ->label(Translator::translate($langPrefix . 'comment.field.published'))
+                ->label(__($langPrefix . 'comment.field.published'))
                 ->class('')
                 ->color('success')
                 ->circle(true)

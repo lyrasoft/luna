@@ -38,7 +38,7 @@ class ContactMessage extends MailMessage
 
         $langPrefix = LunaHelper::getLangPrefix();
 
-        $subject = SimpleTemplate::render(Translator::translate($langPrefix . 'contact.mail.subject'),
+        $subject = SimpleTemplate::render(__($langPrefix . 'contact.mail.subject'),
             $data->dump(true));
 
         $message = (new static($subject))

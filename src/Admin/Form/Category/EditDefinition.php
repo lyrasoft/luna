@@ -47,15 +47,15 @@ class EditDefinition extends AbstractFieldDefinition
 
         // Title
         $this->text('title')
-            ->label(Translator::translate($langPrefix . 'category.field.title'))
-            ->placeholder(Translator::translate($langPrefix . 'category.field.title'))
+            ->label(__($langPrefix . 'category.field.title'))
+            ->placeholder(__($langPrefix . 'category.field.title'))
             ->addFilter('trim')
             ->required(true);
 
         // Alias
         $this->text('alias')
-            ->label(Translator::translate($langPrefix . 'category.field.alias'))
-            ->placeholder(Translator::translate($langPrefix . 'category.field.alias'));
+            ->label(__($langPrefix . 'category.field.alias'))
+            ->placeholder(__($langPrefix . 'category.field.alias'));
 
         // Basic fieldset
         $this->fieldset('basic', function (Form $form) use ($langPrefix) {
@@ -66,9 +66,9 @@ class EditDefinition extends AbstractFieldDefinition
 
             // Parent
             $this->categoryList('parent_id')
-                ->label(Translator::translate($langPrefix . 'category.field.parent'))
+                ->label(__($langPrefix . 'category.field.parent'))
                 ->class('hasChosen')
-                ->option(Translator::translate($langPrefix . 'category.root'), 1)
+                ->option(__($langPrefix . 'category.root'), 1)
                 ->categoryType($type)
                 ->postQueryHandler(function (Query $query) {
                     $input = Ioc::getInput();
@@ -82,21 +82,21 @@ class EditDefinition extends AbstractFieldDefinition
 
             // Images
             $this->singleImageDrag('image')
-                ->label(Translator::translate($langPrefix . 'category.field.images'))
+                ->label(__($langPrefix . 'category.field.images'))
                 ->set('force_v1', true)
                 ->exportZoom(2)
                 ->width(400)
                 ->height(300);
 
             $this->hidden('type')
-                ->label(Translator::translate($langPrefix . 'category.field.type'));
+                ->label(__($langPrefix . 'category.field.type'));
         });
 
         // Text Fieldset
         $this->fieldset('text', function (Form $form) use ($langPrefix) {
             // Description
             $this->tinymceEditor('description')
-                ->label(Translator::translate($langPrefix . 'category.field.description'))
+                ->label(__($langPrefix . 'category.field.description'))
                 ->editorOptions([
                     'height' => 350,
                 ])
@@ -107,7 +107,7 @@ class EditDefinition extends AbstractFieldDefinition
         $this->fieldset('created', function (Form $form) use ($langPrefix) {
             // State
             $this->switch('state')
-                ->label(Translator::translate($langPrefix . 'category.field.published'))
+                ->label(__($langPrefix . 'category.field.published'))
                 ->class('')
                 ->circle(true)
                 ->color('success')
@@ -116,28 +116,28 @@ class EditDefinition extends AbstractFieldDefinition
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('language')
-                    ->label(Translator::translate($langPrefix . 'category.field.language'))
-                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*');
+                    ->label(__($langPrefix . 'category.field.language'))
+                    ->option(__($langPrefix . 'field.language.all'), '*');
             }
 
             // Created
             $this->calendar('created')
-                ->label(Translator::translate($langPrefix . 'category.field.created'))
+                ->label(__($langPrefix . 'category.field.created'))
                 ->addFilter(UtcFilter::class);
 
             // Modified
             $this->calendar('modified')
-                ->label(Translator::translate($langPrefix . 'category.field.modified'))
+                ->label(__($langPrefix . 'category.field.modified'))
                 ->disabled(true);
 
             if (WarderHelper::tableExists('users')) {
                 // Author
                 $this->userModal('created_by')
-                    ->label(Translator::translate($langPrefix . 'category.field.author'));
+                    ->label(__($langPrefix . 'category.field.author'));
 
                 // Modified User
                 $this->userModal('modified_by')
-                    ->label(Translator::translate($langPrefix . 'category.field.modifiedby'))
+                    ->label(__($langPrefix . 'category.field.modifiedby'))
                     ->disabled();
             }
         });

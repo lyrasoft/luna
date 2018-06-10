@@ -73,7 +73,7 @@ class ContactHelper
 
         $langPrefix = LunaHelper::getLangPrefix();
 
-        return Translator::translate($langPrefix . 'contact.state.' . $state);
+        return __($langPrefix . 'contact.state.' . $state);
     }
 
     /**

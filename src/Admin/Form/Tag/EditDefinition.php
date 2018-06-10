@@ -47,20 +47,20 @@ class EditDefinition extends AbstractFieldDefinition
             // Title
             /** @noinspection PhpDeprecationInspection */
             $this->text('title')
-                ->label(Translator::translate($langPrefix . 'tag.field.title'))
+                ->label(__($langPrefix . 'tag.field.title'))
                 ->addFilter('trim')
                 ->required(true);
 
             // Alias
             $this->text('alias')
-                ->label(Translator::translate($langPrefix . 'tag.field.alias'));
+                ->label(__($langPrefix . 'tag.field.alias'));
         });
 
         // Created fieldset
         $this->fieldset('created', function (Form $form) use ($langPrefix) {
             // State
             $this->switch('state')
-                ->label(Translator::translate($langPrefix . 'tag.field.published'))
+                ->label(__($langPrefix . 'tag.field.published'))
                 ->class('')
                 ->circle(true)
                 ->color('success')
@@ -68,22 +68,22 @@ class EditDefinition extends AbstractFieldDefinition
 
             // Created
             $this->calendar('created')
-                ->label(Translator::translate($langPrefix . 'tag.field.created'))
+                ->label(__($langPrefix . 'tag.field.created'))
                 ->addFilter(UtcFilter::class);
 
             // Modified
             $this->calendar('modified')
-                ->label(Translator::translate($langPrefix . 'tag.field.modified'))
+                ->label(__($langPrefix . 'tag.field.modified'))
                 ->disabled();
 
             if (WarderHelper::tableExists('users')) {
                 // Author
                 $this->userModal('created_by')
-                    ->label(Translator::translate($langPrefix . 'tag.field.author'));
+                    ->label(__($langPrefix . 'tag.field.author'));
 
                 // Modified User
                 $this->userModal('modified_by')
-                    ->label(Translator::translate($langPrefix . 'tag.field.modifiedby'))
+                    ->label(__($langPrefix . 'tag.field.modifiedby'))
                     ->disabled();
             }
         });

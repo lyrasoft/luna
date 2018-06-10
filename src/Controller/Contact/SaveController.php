@@ -56,7 +56,7 @@ class SaveController extends AbstractSaveController
      */
     public function getSuccessMessage($data = null)
     {
-        return Translator::translate(LunaHelper::getLangPrefix() . 'contact.message.submit.success');
+        return __(LunaHelper::getLangPrefix() . 'contact.message.submit.success');
     }
 
     /**

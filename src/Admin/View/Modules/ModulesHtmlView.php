@@ -202,7 +202,7 @@ class ModulesHtmlView extends GridView
             if ($item->module) {
                 $item->bind($item->module);
             } else {
-                $item->name        = Translator::translate($this->langPrefix . 'module.not.found');
+                $item->name        = __($this->langPrefix . 'module.not.found');
                 $item->description = '-';
             }
 
@@ -217,7 +217,7 @@ class ModulesHtmlView extends GridView
                 $index            = abs($nums[$item->position]) % count($this->labels);
                 $item->labelClass = $this->labels[abs($index)];
             } else {
-                $item->positionName = Translator::translate($this->langPrefix . 'module.position.none');
+                $item->positionName = __($this->langPrefix . 'module.position.none');
                 $item->labelColor   = '#F5F5F5';
 
                 // B/C

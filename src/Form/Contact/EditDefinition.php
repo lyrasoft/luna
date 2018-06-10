@@ -36,16 +36,16 @@ class EditDefinition extends AbstractFieldDefinition
         $this->fieldset('basic', function (Form $form) use ($langPrefix) {
             // Title
             $this->text('subject')
-                ->label(Translator::translate($langPrefix . 'contact.field.subject'))
-                ->placeholder(Translator::translate($langPrefix . 'contact.field.placeholder.subject'))
+                ->label(__($langPrefix . 'contact.field.subject'))
+                ->placeholder(__($langPrefix . 'contact.field.placeholder.subject'))
                 ->addFilter('trim')
                 ->addClass('input-lg')
                 ->required(true);
 
             // Email
             $this->email('email')
-                ->label(Translator::translate($langPrefix . 'contact.field.email'))
-                ->placeholder(Translator::translate($langPrefix . 'contact.field.placeholder.email'))
+                ->label(__($langPrefix . 'contact.field.email'))
+                ->placeholder(__($langPrefix . 'contact.field.placeholder.email'))
                 ->addFilter('trim')
                 ->addValidator(Rule\EmailValidator::class)
                 ->addClass('validate-email')
@@ -53,28 +53,28 @@ class EditDefinition extends AbstractFieldDefinition
 
             // Name
             $this->text('name')
-                ->label(Translator::translate($langPrefix . 'contact.field.name'))
-                ->placeholder(Translator::translate($langPrefix . 'contact.field.placeholder.name'))
+                ->label(__($langPrefix . 'contact.field.name'))
+                ->placeholder(__($langPrefix . 'contact.field.placeholder.name'))
                 ->addFilter('trim')
                 ->required(true);
 
             // URL
             $this->text('url')
-                ->label(Translator::translate($langPrefix . 'contact.field.url'))
-                ->placeholder(Translator::translate($langPrefix . 'contact.field.placeholder.url'))
+                ->label(__($langPrefix . 'contact.field.url'))
+                ->placeholder(__($langPrefix . 'contact.field.placeholder.url'))
                 ->addValidator(Rule\UrlValidator::class)
                 ->set('class', 'validate-url');
 
             // Phone
             $this->text('phone')
-                ->label(Translator::translate($langPrefix . 'contact.field.phone'))
-                ->placeholder(Translator::translate($langPrefix . 'contact.field.placeholder.phone'))
+                ->label(__($langPrefix . 'contact.field.phone'))
+                ->placeholder(__($langPrefix . 'contact.field.placeholder.phone'))
                 ->addFilter('trim');
 
             // Content
             $this->textarea('content')
-                ->label(Translator::translate($langPrefix . 'contact.field.content'))
-                ->placeholder(Translator::translate($langPrefix . 'contact.field.placeholder.content'))
+                ->label(__($langPrefix . 'contact.field.content'))
+                ->placeholder(__($langPrefix . 'contact.field.placeholder.content'))
                 ->rows(10);
         });
 

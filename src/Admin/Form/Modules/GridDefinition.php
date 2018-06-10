@@ -47,16 +47,16 @@ class GridDefinition extends AbstractFieldDefinition
         $this->group('search', function (Form $form) use ($langPrefix) {
             // Search Field
             $this->list('field')
-                ->label(Translator::translate('phoenix.grid.search.field.label'))
+                ->label(__('phoenix.grid.search.field.label'))
                 ->set('display', false)
                 ->defaultValue('*')
-                ->option(Translator::translate('phoenix.core.all'), '*')
-                ->option(Translator::translate($langPrefix . 'module.field.title'), 'module.title');
+                ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'module.field.title'), 'module.title');
 
             // Search Content
             $this->text('content')
-                ->label(Translator::translate('phoenix.grid.search.label'))
-                ->placeholder(Translator::translate('phoenix.grid.search.label'));
+                ->label(__('phoenix.grid.search.label'))
+                ->placeholder(__('phoenix.grid.search.label'));
         });
 
         /*
@@ -74,32 +74,32 @@ class GridDefinition extends AbstractFieldDefinition
                 ->class('hasChosen')
                 // Add empty option to support single deselect button
                 ->option('', '')
-                ->option(Translator::translate($langPrefix . 'module.filter.state.select'), '')
-                ->option(Translator::translate('phoenix.grid.state.published'), '1')
-                ->option(Translator::translate('phoenix.grid.state.unpublished'), '0')
+                ->option(__($langPrefix . 'module.filter.state.select'), '')
+                ->option(__('phoenix.grid.state.published'), '1')
+                ->option(__('phoenix.grid.state.unpublished'), '0')
                 ->onchange('this.form.submit()');
 
             // Position
             $this->add('module.position', new PositionListField)
-                ->label(Translator::translate($langPrefix . 'module.field.position'))
+                ->label(__($langPrefix . 'module.field.position'))
                 ->class('hasChosen')
-                ->option(Translator::translate($langPrefix . 'module.field.position.select'), '')
+                ->option(__($langPrefix . 'module.field.position.select'), '')
                 ->onchange('this.form.submit()');
 
             // Position
             $this->add('module.type', new ModuleTypeListField)
-                ->label(Translator::translate($langPrefix . 'module.field.type'))
+                ->label(__($langPrefix . 'module.field.type'))
                 ->class('hasChosen')
-                ->option(Translator::translate($langPrefix . 'module.field.type.select'), '')
+                ->option(__($langPrefix . 'module.field.type.select'), '')
                 ->onchange('this.form.submit()');
 
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('article.language')
-                    ->label(Translator::translate($langPrefix . 'module.field.language'))
+                    ->label(__($langPrefix . 'module.field.language'))
                     ->class('hasChosen')
-                    ->option(Translator::translate($langPrefix . 'field.language.select'), '')
-                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*')
+                    ->option(__($langPrefix . 'field.language.select'), '')
+                    ->option(__($langPrefix . 'field.language.all'), '*')
                     ->onchange('this.form.submit()');
             }
         });
@@ -114,23 +114,23 @@ class GridDefinition extends AbstractFieldDefinition
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('language')
-                    ->label(Translator::translate($langPrefix . 'module.field.language'))
+                    ->label(__($langPrefix . 'module.field.language'))
                     ->class('hasChosen')
-                    ->option(Translator::translate($langPrefix . 'field.language.select'), '')
-                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*');
+                    ->option(__($langPrefix . 'field.language.select'), '')
+                    ->option(__($langPrefix . 'field.language.all'), '*');
             }
 
             // Position
             $this->add('position', new PositionListField)
-                ->label(Translator::translate($langPrefix . 'module.field.position'))
+                ->label(__($langPrefix . 'module.field.position'))
                 ->class('hasChosen')
-                ->option(Translator::translate($langPrefix . 'module.field.position.select'))
+                ->option(__($langPrefix . 'module.field.position.select'))
                 ->set('allow_add', true);
 
             if (WarderHelper::tableExists('users')) {
                 // Author
                 $this->userModal('created_by')
-                    ->label(Translator::translate($langPrefix . 'module.field.author'));
+                    ->label(__($langPrefix . 'module.field.author'));
             }
         });
     }

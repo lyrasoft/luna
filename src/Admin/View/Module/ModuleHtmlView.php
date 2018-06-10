@@ -90,7 +90,7 @@ class ModuleHtmlView extends EditView
         }
 
         if (!$data->type) {
-            $this->package->app->addMessage(Translator::translate($this->langPrefix . 'module.edit.message.no.type'),
+            $this->package->app->addMessage(__($this->langPrefix . 'module.edit.message.no.type'),
                 Bootstrap::MSG_WARNING)
                 ->redirect($this->router->route('modules'));
         }
@@ -103,7 +103,7 @@ class ModuleHtmlView extends EditView
 
         $this->setTitle(
             Translator::sprintf('phoenix.title.edit',
-                Translator::translate($this->langPrefix . $this->getName() . '.title')) .
+                __($this->langPrefix . $this->getName() . '.title')) .
             ': ' . $data->moduleType->name
         );
     }

@@ -45,17 +45,17 @@ class GridDefinition extends AbstractFieldDefinition
         $this->group('search', function (Form $form) use ($langPrefix) {
             // Search Field
             $this->list('field')
-                ->label(Translator::translate('phoenix.grid.search.field.label'))
+                ->label(__('phoenix.grid.search.field.label'))
                 ->set('display', false)
                 ->defaultValue('*')
-                ->option(Translator::translate('phoenix.core.all'), '*')
-                ->option(Translator::translate($langPrefix . 'tag.field.title'), 'tag.title')
-                ->option(Translator::translate($langPrefix . 'tag.field.alias'), 'tag.alias');
+                ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'tag.field.title'), 'tag.title')
+                ->option(__($langPrefix . 'tag.field.alias'), 'tag.alias');
 
             // Search Content
             $this->text('content')
-                ->label(Translator::translate('phoenix.grid.search.label'))
-                ->placeholder(Translator::translate('phoenix.grid.search.label'));
+                ->label(__('phoenix.grid.search.label'))
+                ->placeholder(__('phoenix.grid.search.label'));
         });
 
         /*
@@ -73,9 +73,9 @@ class GridDefinition extends AbstractFieldDefinition
                 ->class('hasChosen')
                 // Add empty option to support single deselect button
                 ->option('', '')
-                ->option(Translator::translate($langPrefix . 'tag.filter.state.select'), '')
-                ->option(Translator::translate('phoenix.grid.state.published'), '1')
-                ->option(Translator::translate('phoenix.grid.state.unpublished'), '0')
+                ->option(__($langPrefix . 'tag.filter.state.select'), '')
+                ->option(__('phoenix.grid.state.published'), '1')
+                ->option(__('phoenix.grid.state.unpublished'), '0')
                 ->onchange('this.form.submit()');
         });
 
@@ -89,16 +89,16 @@ class GridDefinition extends AbstractFieldDefinition
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('language')
-                    ->label(Translator::translate($langPrefix . 'language.title'))
+                    ->label(__($langPrefix . 'language.title'))
                     ->class('hasChosen')
-                    ->option(Translator::translate($langPrefix . 'field.language.select'), '')
-                    ->option(Translator::translate($langPrefix . 'field.language.all'), '*');
+                    ->option(__($langPrefix . 'field.language.select'), '')
+                    ->option(__($langPrefix . 'field.language.all'), '*');
             }
 
             if (WarderHelper::tableExists('users')) {
                 // Author
                 $this->userModal('created_by')
-                    ->label(Translator::translate($langPrefix . 'tag.field.author'));
+                    ->label(__($langPrefix . 'tag.field.author'));
             }
         });
     }

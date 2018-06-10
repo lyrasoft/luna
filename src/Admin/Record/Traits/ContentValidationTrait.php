@@ -30,14 +30,14 @@ trait ContentValidationTrait
     {
         if ($this->id) {
             if ($this->id == $this->parent_id) {
-                throw new ValidateFailException(Translator::translate('phoenix.message.invalid.parent.id.is.self'));
+                throw new ValidateFailException(__('phoenix.message.invalid.parent.id.is.self'));
             }
 
             $tree        = $this->getTree($this->id);
             $childrenIds = array_column($tree, 'id');
 
             if (in_array($this->parent_id, $childrenIds)) {
-                throw new ValidateFailException(Translator::translate('phoenix.message.invalid.parent.id.is.child'));
+                throw new ValidateFailException(__('phoenix.message.invalid.parent.id.is.child'));
             }
         }
 

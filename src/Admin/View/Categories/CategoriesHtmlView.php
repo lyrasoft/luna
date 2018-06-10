@@ -127,7 +127,7 @@ class CategoriesHtmlView extends GridView
 
         $title = Translator::sprintf(
             $this->langPrefix . 'category.manager.title',
-            Translator::translate($this->langPrefix . $type . '.title')
+            __($this->langPrefix . $type . '.title')
         );
 
         return parent::setTitle($title);

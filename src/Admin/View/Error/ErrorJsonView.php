@@ -60,9 +60,9 @@ class ErrorJsonView extends StructureView
         $data['code']    = ($data['code'] >= 400 && $data['code'] < 500) ? $data['code'] : 500;
 
         if ($data['code'] === 404) {
-            $data['message'] = Translator::translate($this->langPrefix . 'error.not.found');
+            $data['message'] = __($this->langPrefix . 'error.not.found');
         } elseif ($data['code'] < 400 || $data['code'] >= 500) {
-            $data['message'] = Translator::translate($this->langPrefix . 'error.internal');
+            $data['message'] = __($this->langPrefix . 'error.internal');
         }
 
         unset($data['exception']);

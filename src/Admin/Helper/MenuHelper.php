@@ -64,7 +64,7 @@ class MenuHelper extends AbstractHelper
 
             $links[] = new HtmlElement(
                 'a',
-                Translator::translate($package->getName() . '.' . $menu),
+                __($package->getName() . '.' . $menu),
                 [
                     'href' => $view->getRouter()->html($menu),
                     'class' => $active,

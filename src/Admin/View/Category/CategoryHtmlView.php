@@ -109,7 +109,7 @@ class CategoryHtmlView extends EditView
 
         $title = Translator::sprintf(
             $this->langPrefix . 'category.edit.title',
-            Translator::translate($this->langPrefix . $type . '.title')
+            __($this->langPrefix . $type . '.title')
         );
 
         return parent::setTitle($title);
