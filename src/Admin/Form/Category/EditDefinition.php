@@ -83,6 +83,7 @@ class EditDefinition extends AbstractFieldDefinition
             // Images
             $this->singleImageDrag('image')
                 ->label(Translator::translate($langPrefix . 'category.field.images'))
+                ->set('force_v1', true)
                 ->exportZoom(2)
                 ->width(400)
                 ->height(300);

@@ -79,6 +79,7 @@ class EditDefinition extends AbstractFieldDefinition
             // Images
             $this->singleImageDrag('image')
                 ->label(Translator::translate($langPrefix . 'article.field.images'))
+                ->set('force_v1', true)
                 ->width(400)
                 ->height(300);
         });
