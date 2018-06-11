@@ -88,7 +88,7 @@
                     @endif
 
                     <div class="hidden-inputs">
-                        @formToken()
+                        @formToken
                     </div>
 
                     <hr/>

@@ -104,8 +104,9 @@ $originOrdering = [];
                     <tbody>
                     @foreach ($items as $i => $item)
                         <?php
-                        $originOrdering[] = $item->ordering = $ordering ? array_search($item->id,
-                                $ordering[$item->parent_id]) + 1 : '-';
+                        $originOrdering[] = $item->ordering = $ordering
+                            ? array_search($item->id, $ordering[$item->parent_id]) + 1
+                            : '-';
 
                         $grid->setItem($item, $i);
                         ?>
@@ -175,7 +176,7 @@ $originOrdering = [];
                             </td>
 
                             {{-- ID --}}
-                            <td>
+                            <td class="text-right">
                                 {{ $item->id }}
                             </td>
                         </tr>
@@ -199,7 +200,7 @@ $originOrdering = [];
                 <input type="hidden" name="origin_ordering" value="{{ implode(',', $originOrdering) }}"/>
 
                 {{-- TOKEN --}}
-                @formToken()
+                @formToken
             </div>
 
             @include('batch')

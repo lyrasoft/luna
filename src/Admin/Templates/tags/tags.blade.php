@@ -157,7 +157,7 @@
                             </td>
 
                             {{-- ID --}}
-                            <td>
+                            <td class="text-right">
                                 {{ $item->id }}
                             </td>
                         </tr>
@@ -180,7 +180,7 @@
                 <input type="hidden" name="_method" value="PUT"/>
 
                 {{-- TOKEN --}}
-                @formToken()
+                @formToken
             </div>
 
             @include('batch')

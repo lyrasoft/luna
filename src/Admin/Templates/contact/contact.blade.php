@@ -62,7 +62,7 @@
         </div>
 
         <div class="hidden-inputs">
-            @formToken()
+            @formToken
         </div>
 
     </form>
