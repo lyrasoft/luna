@@ -23,12 +23,19 @@ class ChangeController extends AbstractPhoenixController
      * doExecute
      *
      * @return  mixed
+     * @throws \Exception
      */
     protected function doExecute()
     {
         $lang = $this->input->get('lang');
 
         $return = $this->input->getBase64('return');
+
+        $return = $return ? base64_decode($return) : $return;
+
+        if ($return && (strpos($return, '/') === 0 || strpos($return, 'http') === 0)) {
+            throw new \RuntimeException('Return value should be relative path, not full URI or URL.');
+        }
 
         $uri = $this->container->get('uri');
 
@@ -64,7 +71,7 @@ class ChangeController extends AbstractPhoenixController
 
         if ($return) {
             $return = $uri->path . '/' . ltrim($uri->script . '/',
-                    '/') . $language->alias . '/' . base64_decode($return);
+                    '/') . $language->alias . '/' . $return;
         } else {
             $return = $this->router->route($redirect);
         }
