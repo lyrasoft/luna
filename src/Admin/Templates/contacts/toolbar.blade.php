@@ -31,7 +31,7 @@
 
 {{-- TODO: Add assignee --}}
 {{--<button type="button" class="btn btn-default btn-outline-secondary btn-sm phoenix-btn-batch" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">--}}
-{{--<span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>--}}
+{{--<span class="glyphicon glyphicon-modal-window fa fa-sliders fa-sliders-h"></span>--}}
 {{--@translate('phoenix.toolbar.batch')--}}
 {{--</button>--}}
 

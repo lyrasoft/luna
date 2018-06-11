@@ -64,8 +64,10 @@ class TinymceEditorField extends AbstractEditorField
                 'emoticons template paste textcolor colorpicker textpattern imagetools',
             ];
 
-            $defaultOptions['toolbar1'] = 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' .
-                'bullist numlist outdent indent | link image media | table code | fullscreen';
+            $defaultOptions['toolbar1'] = 'insertfile undo redo | styleselect formatselect fontsizeselect ' .
+                '| bold italic strikethrough forecolor backcolor | removeformat ' .
+                '| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ' .
+                '| link image media | table code | fullscreen';
 
             $defaultOptions['image_advtab'] = true;
         }

@@ -26,7 +26,7 @@ class ContactHelper
     public static $map = [
         -1 => [
             'symbol' => 'cancel',
-            'icon' => 'fa fa-remove',
+            'icon' => 'fa fa-remove fa-times',
             'color' => 'danger',
         ],
         0 => [

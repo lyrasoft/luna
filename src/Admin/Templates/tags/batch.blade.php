@@ -15,7 +15,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="batch-modal-title">
-                    <span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>
+                    <span class="glyphicon glyphicon-modal-window fa fa-sliders fa-sliders-h"></span>
                     @translate('phoenix.batch.modal.title')
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
@@ -32,7 +32,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <span class="glyphicon glyphicon-remove fa fa-remove"></span>
+                    <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
                     @translate('phoenix.core.close')
                 </button>
                 <button type="button" class="btn btn-info" onclick="Phoenix.Grid.hasChecked();Phoenix.patch()">

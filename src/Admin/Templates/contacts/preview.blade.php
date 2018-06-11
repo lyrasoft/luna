@@ -32,7 +32,7 @@
                     @translate($luna->langPrefix . 'contact.button.edit')
                 </a>
                 <button type="button" class="btn btn-default btn-outline-secondary" data-dismiss="modal">
-                    <span class="glyphicon glyphicon-remove fa fa-remove"></span>
+                    <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
                     @translate('phoenix.core.close')
                 </button>
             </div>

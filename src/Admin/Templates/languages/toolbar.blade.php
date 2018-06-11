@@ -33,12 +33,12 @@
 
 <button type="button" class="btn btn-danger btn-sm phoenix-btn-unpublish"
         onclick="Phoenix.Grid.hasChecked().batch('unpublish');">
-    <span class="glyphicon glyphicon-remove fa fa-remove"></span>
+    <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
     @translate('phoenix.toolbar.unpublish')
 </button>
 
 {{--<button type="button" class="btn btn-default btn-outline-secondary btn-sm phoenix-btn-batch" data-toggle="modal" data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">--}}
-{{--<span class="glyphicon glyphicon-modal-window fa fa-sliders"></span>--}}
+{{--<span class="glyphicon glyphicon-modal-window fa fa-sliders fa-sliders-h"></span>--}}
 {{--@translate('phoenix.toolbar.batch')--}}
 {{--</button>--}}
 

@@ -60,7 +60,7 @@ abstract class AbstractEditorField extends TextareaField
         ]);
 
         if (count($buttons)) {
-            $buttons = new HtmlElement('div', $buttons, ['class' => 'editor-buttons ' . $this->getId() . '-buttons']);
+            $buttons = new HtmlElement('div', $buttons, ['class' => 'editor-buttons ' . $this->getId() . '-buttons mt-3']);
         }
 
         return $input . $buttons;
