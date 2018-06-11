@@ -17,8 +17,8 @@
     </button>
     <ul class="dropdown-menu dropdown-menu-right">
         @foreach([0, 1, 2, -1] as $k)
-            <li>
-                <a class="" href="javascript:void(0);"
+            <li class="">
+                <a class="dropdown-item" href="javascript:void(0);"
                    onclick="Phoenix.Grid.doTask('{{ \Lyrasoft\Luna\Contact\ContactHelper::getStateSymbol($k) }}', {{ $i }});">
                     <span
                         class="{{ \Lyrasoft\Luna\Contact\ContactHelper::getStateIcon($k) }} text-{{ \Lyrasoft\Luna\Contact\ContactHelper::getStateColor($k) }}"></span>
@@ -26,8 +26,8 @@
                 </a>
             </li>
         @endforeach
-        <li>
-            <a class="" href="javascript:void(0);" onclick="Phoenix.Grid.deleteRow({{ $i }});"
+        <li class="">
+            <a class="dropdown-item" href="javascript:void(0);" onclick="Phoenix.Grid.deleteRow({{ $i }});"
                title="@translate('phoenix.toolbar.delete')">
                 <span class="glyphicon glyphicon-trash fa fa-fw fa-trash"></span>
                 @translate('phoenix.toolbar.delete')
