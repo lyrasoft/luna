@@ -73,11 +73,11 @@ class ArticleHtmlView extends ItemView
     {
         $this->setTitle($data->item->title);
 
-        $desc = Mbstring::substr(strip_tags($data->item->introtext), 0, 150);
+        $desc = str(strip_tags($data->item->introtext))->truncate(150, '...')->__toString();
 
-        HtmlHeader::addOpenGraph('og:image', $data->item->image);
-        HtmlHeader::addOpenGraph('og:description', $desc);
-        HtmlHeader::addMetadata('description', $desc);
+        HtmlHeader::addOpenGraph('og:image', $data->item->image, true);
+        HtmlHeader::addOpenGraph('og:description', $desc, true);
+        HtmlHeader::addMetadata('description', $desc, true);
     }
 
     /**
