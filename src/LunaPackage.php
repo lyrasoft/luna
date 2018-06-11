@@ -37,6 +37,7 @@ class LunaPackage extends AbstractPackage
      *
      * @return  void
      * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      */
     public function boot()
     {
