@@ -29,6 +29,7 @@ class PendingController extends AbstractUnpublishController
      * A hook before main process executing.
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareExecute()
     {

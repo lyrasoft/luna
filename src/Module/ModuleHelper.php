@@ -66,7 +66,7 @@ class ModuleHelper
      * @param   string $language
      *
      * @return DataSet
-     * @throws \InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getModules($position = null, $language = null)
     {

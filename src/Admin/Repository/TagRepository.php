@@ -67,6 +67,7 @@ class TagRepository extends AdminRepository
      * @param Record $record
      *
      * @return  void
+     * @throws \Exception
      */
     protected function prepareRecord(Record $record)
     {
@@ -106,6 +107,7 @@ class TagRepository extends AdminRepository
      * @param   array|DataSet $tags
      *
      * @return  void
+     * @throws \Exception
      */
     public function saveTagMaps($type, $targetId, $tags)
     {

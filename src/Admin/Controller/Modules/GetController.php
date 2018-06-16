@@ -51,6 +51,7 @@ class GetController extends ListDisplayController
      * prepareExecute
      *
      * @return  void
+     * @throws \Exception
      */
     protected function prepareExecute()
     {

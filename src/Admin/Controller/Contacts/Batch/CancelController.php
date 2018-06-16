@@ -29,6 +29,7 @@ class CancelController extends AbstractTrashController
      * A hook before main process executing.
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareExecute()
     {

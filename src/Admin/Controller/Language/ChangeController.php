@@ -23,7 +23,7 @@ class ChangeController extends AbstractPhoenixController
      * doExecute
      *
      * @return  mixed
-     * @throws \Exception
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function doExecute()
     {

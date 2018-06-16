@@ -38,6 +38,7 @@ class DoneController extends AbstractBatchController
      * A hook before main process executing.
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareExecute()
     {

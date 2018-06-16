@@ -37,6 +37,7 @@ class CategorySeeder extends AbstractSeeder
      * doExecute
      *
      * @return  void
+     * @throws Exception
      */
     public function doExecute()
     {
@@ -97,6 +98,7 @@ class CategorySeeder extends AbstractSeeder
      * doClear
      *
      * @return  void
+     * @throws Exception
      */
     public function doClear()
     {

@@ -53,6 +53,7 @@ class GetController extends ListDisplayController
      * prepareExecute
      *
      * @return  void
+     * @throws \Exception
      */
     protected function prepareExecute()
     {
@@ -71,6 +72,7 @@ class GetController extends ListDisplayController
      * @param ModelRepository $model The default mode.
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareViewModel(AbstractView $view, ModelRepository $model)
     {

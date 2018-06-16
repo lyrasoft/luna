@@ -53,6 +53,7 @@ class ContactModalField extends ModalField
      * @param array $attrs
      *
      * @return  string
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function buildInput($attrs)
     {

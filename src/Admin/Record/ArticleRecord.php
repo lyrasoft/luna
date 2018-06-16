@@ -57,6 +57,7 @@ class ArticleRecord extends Record
      * @param array $ignore
      *
      * @return  static
+     * @throws \Exception
      */
     public function bind($src, $ignore = [])
     {
@@ -89,9 +90,9 @@ class ArticleRecord extends Record
      *
      * @return  static  Method allows chaining
      *
+     * @throws \Exception
      * @since   2.0
      *
-     * @throws  \RuntimeException
      */
     public function validate()
     {

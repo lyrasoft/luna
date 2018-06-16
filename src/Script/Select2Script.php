@@ -123,6 +123,7 @@ JS;
      * @param array  $options
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function tag($selector, $options = [])
     {

@@ -27,6 +27,7 @@ class ArticleRepository extends ItemRepository implements StateRepositoryInterfa
      * @param DataInterface|ArticleRecord $item
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function postGetItem(DataInterface $item)
     {

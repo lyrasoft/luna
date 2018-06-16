@@ -48,6 +48,7 @@ class GetController extends ItemDisplayController
      * @param ModelRepository $model The default mode.
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareViewModel(AbstractView $view, ModelRepository $model)
     {
@@ -63,9 +64,7 @@ class GetController extends ItemDisplayController
      *
      * @return  bool
      *
-     * @throws \RuntimeException
-     * @throws RouteNotFoundException
-     * @throws UnauthorizedException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function authorise()
     {

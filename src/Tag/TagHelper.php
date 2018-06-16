@@ -31,6 +31,7 @@ class TagHelper
      * @param   array|DataSet $tags
      *
      * @return  void
+     * @throws \Exception
      */
     public static function saveTags($type, $targetId, $tags)
     {
@@ -61,6 +62,7 @@ class TagHelper
      * @param array   $fields
      *
      * @return DataSet|Data[]
+     * @throws \Exception
      */
     public static function getTags($type = null, $targetId = null, $conditions = [], $fields = ['id', 'title', 'alias'])
     {
@@ -94,6 +96,7 @@ class TagHelper
      * @param array   $fields
      *
      * @return DataSet|Data[]
+     * @throws \Exception
      */
     public static function getAvailableTags(
         $type = null,

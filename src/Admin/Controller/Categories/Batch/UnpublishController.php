@@ -26,6 +26,7 @@ class UnpublishController extends AbstractUnpublishController
      * @param DataInterface $data
      *
      * @return  boolean
+     * @throws \Exception
      */
     protected function save($pk, DataInterface $data)
     {

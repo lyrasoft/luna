@@ -51,7 +51,7 @@ trait ContentValidationTrait
      * @param array  $condFields
      *
      * @return  static
-     * @throws \Windwalker\Core\Model\Exception\ValidateFailException
+     * @throws \Exception
      */
     public function checkAlias($fieldName = 'alias', array $condFields = [])
     {

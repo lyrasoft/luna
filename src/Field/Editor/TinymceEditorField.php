@@ -43,6 +43,7 @@ class TinymceEditorField extends AbstractEditorField
      * @param   array $attrs
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function prepareScript($attrs)
     {

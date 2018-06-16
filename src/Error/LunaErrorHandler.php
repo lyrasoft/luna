@@ -58,9 +58,8 @@ class LunaErrorHandler implements ErrorHandlerInterface
      * @param  \Exception|\Throwable $exception
      *
      * @return  void
-     * @throws \UnexpectedValueException
-     * @throws \OutOfBoundsException
-     * @throws \InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      */
     public function __invoke($exception)
     {

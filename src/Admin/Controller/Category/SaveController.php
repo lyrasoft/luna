@@ -77,6 +77,7 @@ class SaveController extends AbstractSaveController
      * prepareExecute
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareExecute()
     {
@@ -105,6 +106,7 @@ class SaveController extends AbstractSaveController
      * @param DataInterface $data
      *
      * @return  void
+     * @throws \Exception
      */
     protected function postSave(DataInterface $data)
     {

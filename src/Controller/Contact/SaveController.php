@@ -35,7 +35,7 @@ class SaveController extends AbstractSaveController
      * @param  mixed $result
      *
      * @return mixed
-     * @throws \UnexpectedValueException
+     * @throws \ReflectionException
      */
     public function processSuccess($result)
     {

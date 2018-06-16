@@ -83,6 +83,7 @@ class SaveController extends AbstractSaveController
      * prepareExecute
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareExecute()
     {
@@ -134,6 +135,7 @@ class SaveController extends AbstractSaveController
      * @param  DataInterface|Entity $data
      *
      * @return  string
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function getSuccessRedirect(DataInterface $data = null)
     {

@@ -45,6 +45,7 @@ class ArticleRepository extends AdminRepository
      * @param DataInterface|ArticleRecord $item
      *
      * @return  void
+     * @throws \Exception
      */
     protected function postGetItem(DataInterface $item)
     {
@@ -73,6 +74,7 @@ class ArticleRepository extends AdminRepository
      * @param Record $record
      *
      * @return  void
+     * @throws \Exception
      */
     protected function prepareRecord(Record $record)
     {

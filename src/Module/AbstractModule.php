@@ -193,6 +193,7 @@ abstract class AbstractModule
      * render
      *
      * @return  string
+     * @throws \ReflectionException
      */
     public function render()
     {
@@ -211,6 +212,7 @@ abstract class AbstractModule
      * registerPaths
      *
      * @return  void
+     * @throws \ReflectionException
      */
     public function registerPaths()
     {
@@ -357,6 +359,7 @@ abstract class AbstractModule
      * getDir
      *
      * @return  string
+     * @throws \ReflectionException
      */
     public static function getDir()
     {

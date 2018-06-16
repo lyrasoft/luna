@@ -26,6 +26,7 @@ class PublishController extends AbstractPublishController
      * @param DataInterface $data
      *
      * @return  void
+     * @throws \Exception
      */
     protected function save($pk, DataInterface $data)
     {

@@ -96,7 +96,7 @@ JS;
      * @param array  $options
      *
      * @return  void
-     * @throws \OutOfRangeException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function tinymce($selector, $options = [])
     {
@@ -151,6 +151,7 @@ JS;
      * @param array  $options
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function summernote($selector, $options = [])
     {

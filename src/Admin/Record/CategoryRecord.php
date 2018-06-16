@@ -57,8 +57,9 @@ class CategoryRecord extends NestedRecord
      *
      * @param   boolean $updateNulls True to update null values as well.
      *
-     * @return  boolean  True on success.
+     * @return NestedRecord True on success.
      *
+     * @throws \Exception
      * @since   2.0
      */
     public function store($updateNulls = false)

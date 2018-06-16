@@ -55,6 +55,7 @@ class CategoryHelper
      * @param int              $limit
      *
      * @return  Node|Node[]
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getCategoryAsTree(
         $type,
@@ -81,6 +82,7 @@ class CategoryHelper
      * @param int              $limit
      *
      * @return  Data[]|DataSet
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getCategories(
         $type,
@@ -126,6 +128,7 @@ class CategoryHelper
      * @param   int|array $conditions
      *
      * @return  Data
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getCategory($conditions)
     {
@@ -146,6 +149,7 @@ class CategoryHelper
      * @param int              $limit
      *
      * @return  DataSet|Data[]
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getAvailableCategories(
         $type,
@@ -174,6 +178,7 @@ class CategoryHelper
      * @param int    $limit
      *
      * @return  Data[]|DataSet
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function find($conditions = [], $order = 'lft', $start = null, $limit = null)
     {

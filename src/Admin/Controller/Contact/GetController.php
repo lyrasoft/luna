@@ -43,6 +43,7 @@ class GetController extends EditDisplayController
      * A hook before main process executing.
      *
      * @return  void
+     * @throws \Exception
      */
     protected function prepareExecute()
     {
@@ -59,6 +60,7 @@ class GetController extends EditDisplayController
      * @param ModelRepository $model The default mode.
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareViewModel(AbstractView $view, ModelRepository $model)
     {

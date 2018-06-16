@@ -110,11 +110,8 @@ class GetController extends ListDisplayController
      *
      * @return  void
      *
-     * @throws \Windwalker\Router\Exception\RouteNotFoundException
-     * @throws \Windwalker\Core\Security\Exception\UnauthorizedException
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
-     * @throws \Exception
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
      */
     protected function prepareViewRepository(AbstractView $view, Repository $repository)
     {

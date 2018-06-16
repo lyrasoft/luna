@@ -53,6 +53,7 @@ class LanguageModalField extends ModalField
      * @param array $attrs
      *
      * @return  string
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function buildInput($attrs)
     {
@@ -65,6 +66,7 @@ class LanguageModalField extends ModalField
      * getUrl
      *
      * @return  string
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function getUrl()
     {

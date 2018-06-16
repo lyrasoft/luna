@@ -51,6 +51,7 @@ class LanguageRepository extends AdminRepository
      * @param Record $record
      *
      * @return  void
+     * @throws \Exception
      */
     protected function prepareRecord(Record $record)
     {

@@ -205,6 +205,7 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
      * @param int              $limit
      *
      * @return  Node|Node[]
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getCategoryAsTree(
         $type,
@@ -231,6 +232,7 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
      * @param int              $limit
      *
      * @return  Data[]|DataSet
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getCategories(
         $type,
@@ -281,6 +283,7 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
      * @param int              $limit
      *
      * @return  DataSet|Data[]
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getAvailableCategories(
         $type,
@@ -309,6 +312,7 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
      * @param int    $limit
      *
      * @return  Data[]|DataSet
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function find($conditions = [], $order = 'lft', $start = null, $limit = null)
     {

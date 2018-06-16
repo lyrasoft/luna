@@ -23,6 +23,7 @@ class TagSaveController extends AbstractAjaxController
      * doAjax
      *
      * @return  mixed
+     * @throws \Exception
      */
     protected function doAjax()
     {

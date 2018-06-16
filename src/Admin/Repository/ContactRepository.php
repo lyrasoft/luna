@@ -73,6 +73,7 @@ class ContactRepository extends AdminRepository
      * @param Record|ContactRecord $record
      *
      * @return  void
+     * @throws \Exception
      */
     protected function prepareRecord(Record $record)
     {

@@ -76,6 +76,8 @@ class ModuleHtmlView extends EditView
      * @param \Windwalker\Data\Data $data
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
      */
     protected function prepareData($data)
     {

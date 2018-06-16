@@ -53,6 +53,7 @@ class CategoryRepository extends NestedAdminRepository
      * @param Record $record
      *
      * @return  void
+     * @throws \ReflectionException
      */
     protected function prepareRecord(Record $record)
     {
