@@ -24,7 +24,7 @@ define('LUNA_TABLE_CONTACTS', LunaHelper::getTable('contacts'));
  *
  * @since  1.0
  */
-abstract class LunaTable
+interface LunaTable
 {
     const CATEGORIES = LUNA_TABLE_CATEGORIES;
 
