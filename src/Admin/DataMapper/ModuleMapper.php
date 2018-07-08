@@ -27,6 +27,13 @@ class ModuleMapper extends AbstractDatabaseMapperProxy
     protected static $table = LunaTable::MODULES;
 
     /**
+     * Keep plural fo B/C
+     *
+     * @var  string
+     */
+    protected static $alias = 'modules';
+
+    /**
      * onAfterFind
      *
      * @param Event $event

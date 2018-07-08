@@ -27,6 +27,13 @@ class ArticleMapper extends AbstractDatabaseMapperProxy
     protected static $table = LunaTable::ARTICLES;
 
     /**
+     * Keep plural fo B/C
+     *
+     * @var  string
+     */
+    protected static $alias = 'articles';
+
+    /**
      * onAfterFind
      *
      * @param Event $event

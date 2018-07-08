@@ -27,6 +27,13 @@ class TagMapMapper extends AbstractDatabaseMapperProxy
     protected static $table = LunaTable::TAG_MAPS;
 
     /**
+     * Keep plural fo B/C
+     *
+     * @var  string
+     */
+    protected static $alias = 'tag_maps';
+
+    /**
      * onAfterFind
      *
      * @param Event $event

@@ -27,6 +27,13 @@ class CommentMapper extends AbstractDatabaseMapperProxy
     protected static $table = LunaTable::COMMENTS;
 
     /**
+     * Keep plural fo B/C
+     *
+     * @var  string
+     */
+    protected static $alias = 'comments';
+
+    /**
      * onAfterFind
      *
      * @param Event $event

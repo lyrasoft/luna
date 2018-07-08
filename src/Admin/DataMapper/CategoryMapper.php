@@ -27,6 +27,13 @@ class CategoryMapper extends AbstractDatabaseMapperProxy
     protected static $table = LunaTable::CATEGORIES;
 
     /**
+     * Keep plural fo B/C
+     *
+     * @var  string
+     */
+    protected static $alias = 'categories';
+
+    /**
      * onAfterFind
      *
      * @param Event $event

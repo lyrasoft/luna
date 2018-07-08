@@ -27,6 +27,13 @@ class LanguageMapper extends AbstractDatabaseMapperProxy
     protected static $table = LunaTable::LANGUAGES;
 
     /**
+     * Keep plural fo B/C
+     *
+     * @var  string
+     */
+    protected static $alias = 'languages';
+
+    /**
      * onAfterFind
      *
      * @param Event $event
