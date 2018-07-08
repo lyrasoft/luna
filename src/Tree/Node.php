@@ -13,7 +13,7 @@ namespace Lyrasoft\Luna\Tree;
  *
  * @since  1.0
  */
-class Node implements NodeInterface, \IteratorAggregate
+class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
 {
     /**
      * @var mixed
@@ -369,5 +369,44 @@ class Node implements NodeInterface, \IteratorAggregate
     public function getIterator()
     {
         return new \RecursiveIteratorIterator(new RecursiveNodeIterator($this->children));
+    }
+
+    /**
+     * dump
+     *
+     * @param bool $recursive
+     * @param bool $withoutParent
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function dump($recursive = true, $withoutParent = false)
+    {
+        $self = get_object_vars($this);
+
+        if ($withoutParent) {
+            unset($self['parent']);
+        }
+
+        if ($recursive) {
+            /** @var Node $child */
+            foreach ($self['children'] as &$child) {
+                $child = $child->dump(true, $withoutParent);
+            }
+        }
+
+        return $self;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @return mixed Data which can be serialized by json_encode,
+     *               which is a value of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+        return $this->dump(true, true);
     }
 }
