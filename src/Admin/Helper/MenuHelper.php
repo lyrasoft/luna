@@ -40,7 +40,7 @@ class MenuHelper extends AbstractHelper
             return 'active';
         }
 
-        if ($view['app']->get('route.extra.active.' . $menu) === $name) {
+        if ($view['app']->get('route.extra.menu.' . $menu) === $name) {
             return 'active';
         }
 
