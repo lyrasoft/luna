@@ -379,7 +379,7 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4.2
      */
     public function dump($recursive = true, $withoutParent = false)
     {

@@ -16,7 +16,7 @@ use Windwalker\Record\Record;
 /**
  * The ContentValidationTrait class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.3
  */
 trait ContentValidationTrait
 {
