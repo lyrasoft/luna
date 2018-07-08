@@ -313,6 +313,8 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
      *
      * @return  Data[]|DataSet
      * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      */
     public static function find($conditions = [], $order = 'lft', $start = null, $limit = null)
     {
