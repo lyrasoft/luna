@@ -135,7 +135,7 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
         });
 
         $filterHelper->setHandler('max_level', function (Query $query, $field, $value) {
-            if (!$value) {
+            if ($value) {
                 $query->where('category.level <= ' . (int) $value);
             }
         });
