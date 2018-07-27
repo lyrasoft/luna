@@ -15,7 +15,7 @@ use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Lyrasoft\Warder\Table\WarderTable;
-use Phoenix\Model\Filter\FilterHelperInterface;
+use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
