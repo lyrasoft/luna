@@ -102,11 +102,12 @@ class SaveController extends AbstractSaveController
     protected function postSave(DataInterface $data)
     {
         // Image
-        if (false !== SingleImageDragField::uploadFromController($this, 'image', $data,
-                ArticleImageHelper::getPath($data->id))) {
-            ;
-        }
-        {
+        if (false !== SingleImageDragField::uploadFromController(
+            $this,
+            'image',
+            $data,
+            ArticleImageHelper::getPath($data->id)
+        )) {
             $this->model->save($data);
         }
 
