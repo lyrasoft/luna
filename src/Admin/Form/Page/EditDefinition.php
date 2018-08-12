@@ -10,6 +10,8 @@ namespace Lyrasoft\Luna\Admin\Form\Page;
 
 use Lyrasoft\Luna\Admin\Field\Page\PageListField;
 use Lyrasoft\Luna\Admin\Field\Page\PageModalField;
+use Lyrasoft\Luna\Field\LunaFieldTrait;
+use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
@@ -25,6 +27,8 @@ use Windwalker\Validator\Rule;
 class EditDefinition extends AbstractFieldDefinition
 {
     use PhoenixFieldTrait;
+    use LunaFieldTrait;
+    use UnidevFieldTrait;
 
     /**
      * Define the form fields.
@@ -55,45 +59,40 @@ class EditDefinition extends AbstractFieldDefinition
                 ->description(__('luna.page.field.alias.desc'))
                 ->maxlength(255);
 
-            // Image
-            $this->text('image')
-                ->label(__('luna.page.field.image'))
-                ->maxlength(255);
+            $this->group('meta', function () {
+                $this->text('meta_title')
+                    ->label(__('luna.page.field.meta.title'))
+                    ->description(__('luna.page.field.meta.title.desc'))
+                    ->maxlength(255);
 
-            // URL
-            $this->text('url')
-                ->label(__('luna.page.field.url'))
-                ->maxlength(255)
-                ->addValidator(Rule\UrlValidator::class)
-                ->attr('data-validate', 'url');
+                $this->text('meta_desc')
+                    ->label(__('luna.page.field.meta.desc'))
+                    ->description(__('luna.page.field.meta.desc.desc'))
+                    ->maxlength(255);
 
-            // Example: Page List
-            // TODO: Please remove this field in production
-            $this->add('page_list', PageListField::class)
-                ->label('List Example')
-                ->option('- Select Page Example -', '')
-                ->addClass('has-select2');
+                $this->text('meta_keyword')
+                    ->label(__('luna.page.field.meta.keyword'))
+                    ->description(__('luna.page.field.meta.keyword.desc'))
+                    ->maxlength(255);
 
-            // Example: Page Modal
-            // TODO: Please remove this field in production
-            $this->add('page_modal', PageModalField::class)
-                ->label('Modal Example')
-                ->set('placeholder', 'Select Page Example');
-        });
+                $this->text('og_title')
+                    ->label(__('luna.page.field.og.title'))
+                    ->description(__('luna.page.field.og.title.desc'))
+                    ->maxlength(255);
 
-        // Text Fieldset
-        $this->fieldset('text', function (Form $form) {
-            // Introtext
-            $this->textarea('introtext')
-                ->label(__('luna.page.field.introtext'))
-                ->maxlength(static::TEXT_MAX_UTF8)
-                ->rows(10);
+                $this->text('og_desc')
+                    ->label(__('luna.page.field.og.desc'))
+                    ->description(__('luna.page.field.og.desc.desc'))
+                    ->maxlength(255);
 
-            // Fulltext
-            $this->textarea('fulltext')
-                ->label(__('luna.page.field.fulltext'))
-                ->maxlength(static::TEXT_MAX_UTF8)
-                ->rows(10);
+                $this->singleImageDrag('og_image')
+                    ->label(__('luna.page.field.og.image'))
+                    ->description(__('luna.page.field.og.image.desc'))
+                    ->version(2)
+                    ->maxWidth(2000)
+                    ->maxHeight(2000)
+                    ->showSizeNotice(true);
+            });
         });
 
         // Created fieldset

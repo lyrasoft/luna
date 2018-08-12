@@ -26,7 +26,7 @@ class PageInit extends AbstractMigration
             $schema->primary('id')->comment('Primary Key');
             $schema->varchar('title')->comment('Title');
             $schema->varchar('alias')->comment('Alias');
-            $schema->longtext('data')->comment('Page data');
+            $schema->longtext('content')->comment('Page data');
             $schema->text('meta')->comment('Metadata');
             $schema->tinyint('state')->signed(true)->comment('0: unpublished, 1:published');
             $schema->integer('ordering')->comment('Ordering');

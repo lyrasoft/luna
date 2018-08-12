@@ -12,6 +12,7 @@ use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Phoenix\View\ItemView;
+use Windwalker\Data\Data;
 
 /**
  * The PageHtmlView class.
@@ -68,16 +69,18 @@ class PageHtmlView extends EditView
     {
         parent::prepareData($data);
 
-        $this->prepareScripts();
+        $this->prepareScripts($data);
         $this->prepareMetadata();
     }
 
     /**
      * prepareDocument
      *
+     * @param Data $data
+     *
      * @return  void
      */
-    protected function prepareScripts()
+    protected function prepareScripts(Data $data)
     {
         PhoenixScript::core();
         PhoenixScript::select2('select.has-select2');
@@ -85,6 +88,8 @@ class PageHtmlView extends EditView
         BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
         BootstrapScript::buttonRadio();
         BootstrapScript::tooltip('.has-tooltip');
+
+        PhoenixScript::data('builder-content', json_decode($data->item->content, true) ?: []);
     }
 
     /**

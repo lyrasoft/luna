@@ -1,0 +1,17 @@
+.cursor-pointer {
+  cursor: pointer; }
+
+.btn-mini {
+  padding: .2rem .12rem;
+  line-height: 1.1;
+  font-size: .875rem; }
+
+#page-builder row {
+  margin-left: -7px;
+  margin-right: -7px; }
+
+#page-builder [class^=col] {
+  padding-left: 7px;
+  padding-right: 7px; }
+
+/*# sourceMappingURL=page-builder.css.map */

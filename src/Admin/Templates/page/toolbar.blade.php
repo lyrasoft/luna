@@ -58,3 +58,9 @@
     <span class="fa fa-remove fa-times"></span>
     @lang('phoenix.toolbar.cancel')
 </a>
+
+<button type="button" class="btn btn-primary btn-sm ml-auto luna-button-options"
+    data-toggle="modal" data-target="#options-modal">
+    <span class="fa fa-cog"></span>
+    @lang('luna.page.button.options')
+</button>

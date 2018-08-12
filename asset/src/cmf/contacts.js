@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Part of earth project.
  *
@@ -7,9 +5,18 @@
  * @license    __LICENSE__
  */
 
-(function ($) {
-  var ContactPreview = {
-    fields: ['id', 'subject', 'name', 'email', 'phone', 'url', 'created', 'content'],
+(($) => {
+  const ContactPreview = {
+    fields: [
+      'id',
+      'subject',
+      'name',
+      'email',
+      'phone',
+      'url',
+      'created',
+      'content'
+    ],
 
     options: {
       lang_prefix: 'luna.'
@@ -17,7 +24,7 @@
 
     handlers: {},
 
-    init: function init() {
+    init() {
       this.modal = $('#preview-modal');
       this.buttons = $('[data-preview-button]');
       this.table = this.modal.find('#preview-table');
@@ -26,33 +33,35 @@
 
       this.bindEvents();
 
-      var hash = window.location.hash;
+      const hash = window.location.hash;
 
       if (hash) {
-        var id = hash.replace(/\#contact-/, '');
+        const id = hash.replace(/\#contact-/, '');
 
         this.showContact(id);
       }
     },
-    bindEvents: function bindEvents() {
-      var self = this;
-      this.buttons.on('click', function (event) {
+
+    bindEvents() {
+      const self = this;
+      this.buttons.on('click', function(event) {
         event.preventDefault();
 
-        var id = $(this).data('preview-id');
+        const id = $(this).data('preview-id');
 
         self.showContact(id);
       });
 
-      this.modal.on('hide.bs.modal', function () {
+      this.modal.on('hide.bs.modal', function() {
         window.location.hash = '';
       });
     },
-    showContact: function showContact(id) {
-      var self = this;
+
+    showContact(id) {
+      const self = this;
 
       if (!id) {
-        throw new Error('No preview ID.');
+        throw new Error('No preview ID.')
       }
 
       self.table.empty().hide();
@@ -60,33 +69,35 @@
 
       window.location.hash = 'contact-' + id;
 
-      Phoenix.Ajax.get(Phoenix.Router.route('contact_preview'), { 'id': id }).done(function (response) {
-        if (response.success) {
-          self.updateTable(response.data.item);
-        } else {
-          console.log(response.message);
-        }
-      }).then(function () {
+      Phoenix.Ajax.get(Phoenix.Router.route('contact_preview'), {'id': id})
+        .done(function(response) {
+          if (response.success) {
+            self.updateTable(response.data.item);
+          } else {
+            console.log(response.message);
+          }
+        }).then(function() {
         self.loading.hide();
         self.table.fadeIn();
-      }).fail(function (error) {
+      }).fail(function(error) {
         console.log(error);
       });
 
       self.modal.modal('show');
 
       // Replace edit button URL
-      var url = new SimpleURI(Phoenix.Router.route('contact_edit'));
+      const url = new SimpleURI(Phoenix.Router.route('contact_edit'));
       url.setVar('id', id);
       this.editButton.attr('href', url.toString());
     },
-    updateTable: function updateTable(item) {
-      var self = this;
+
+    updateTable(item) {
+      const self = this;
 
       this.table.empty();
 
-      $.each(this.fields, function () {
-        var key = this.toString();
+      $.each(this.fields, function() {
+        const key = this.toString();
 
         if (item[key] !== undefined) {
           self.addRow(key, item[key]);
@@ -94,28 +105,30 @@
       });
 
       if (item.details && Object.keys(item.details).length) {
-        var text = Phoenix.Translator.translate(this.options.lang_prefix + 'contact.field.details');
-        var tr = $('<tr class="details-separator active"><th style="text-align: center" class="lead" colspan="5">' + text + '</th></tr>');
+        const text = Phoenix.Translator.translate(this.options.lang_prefix + 'contact.field.details');
+        const tr = $('<tr class="details-separator active"><th style="text-align: center" class="lead" colspan="5">' + text + '</th></tr>');
         this.table.append(tr);
       }
 
-      $.each(item.details, function (k, e) {
+      $.each(item.details, function(k, e) {
         self.addRow(k, e ? e.toString() : '');
       });
     },
-    addRow: function addRow(key, value) {
-      var tr = $('<tr class="row-' + key + '"></tr>');
+
+    addRow(key, value) {
+      const tr = $('<tr class="row-' + key + '"></tr>');
 
       value = this.cast(key, value);
 
-      var lang = this.options.lang_prefix + 'contact.field.' + key;
+      const lang = this.options.lang_prefix + 'contact.field.' + key;
 
       tr.append($('<th width="150px"></th>').text(Phoenix.Translator.translate(lang)));
       tr.append($('<td></td>').html(value));
 
       this.table.append(tr);
     },
-    cast: function cast(key, value) {
+
+    cast(key, value) {
       if (value !== '') {
         if (this.handlers[key] !== undefined) {
           var callback = this.handlers[key];
@@ -139,17 +152,17 @@
 
       return value;
     },
-    addFieldHandler: function addFieldHandler(key, callback) {
+
+    addFieldHandler(key, callback) {
       this.handlers[key] = callback;
 
       return this;
     }
   };
 
-  $(function () {
+  $(function() {
     ContactPreview.init();
   });
 
   window.ContactPreview = ContactPreview;
 })(jQuery);
-//# sourceMappingURL=contacts.js.map

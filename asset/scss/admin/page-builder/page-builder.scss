@@ -1,0 +1,25 @@
+// Part of earth file.
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btn-mini {
+  padding: .2rem .12rem;
+  line-height: 1.1;
+  font-size: .875rem;
+}
+
+$gutter: 7px;
+
+#page-builder {
+  row {
+    margin-left: -$gutter;
+    margin-right: -$gutter;
+  }
+
+  [class^=col] {
+    padding-left: $gutter;
+    padding-right: $gutter;
+  }
+}

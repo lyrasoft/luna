@@ -18,9 +18,18 @@
  * @var $state    \Windwalker\Structure\Structure
  * @var $form     \Windwalker\Form\Form
  */
+
+\Phoenix\Script\CoreScript::underscore();
+\Phoenix\Script\PhoenixScript::phoenix();
+\Phoenix\Script\VueScript::core();
+\Phoenix\Script\VueScript::animate();
+\Lyrasoft\Luna\Script\LunaScript::vueDraggable();
+
+$asset->addJS($package->name . '/js/admin/page-builder/page-builder.min.js');
+$asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 ?>
 
-@extends('_global.luna.admin')
+@extends($luna->extends)
 
 @section('toolbar-buttons')
     @include('toolbar')
@@ -31,35 +40,40 @@
 @endpush
 
 @section('admin-body')
-    <form name="admin-form" id="admin-form" action="{{ $router->route('page', ['id' => $item->id]) }}" method="POST"
-        enctype="multipart/form-data">
+    <div id="page-builder" class="card bg-light border-0">
+        <div class="card-body">
+            <form name="admin-form" id="admin-form" action="{{ $router->route('page', ['id' => $item->id]) }}" method="POST"
+                enctype="multipart/form-data">
 
-        <div class="row">
-            <div class="col-md-7">
-                <fieldset id="fieldset-basic" class="form-horizontal">
-                    <legend>@lang('luna.page.edit.fieldset.basic')</legend>
+                <div class="page-builder__body body">
 
-                    {!! $form->renderFields('basic') !!}
-                </fieldset>
+                    <draggable v-model="content" @start="drag = true" @end="drag = false"
+                        :options="{handle: '.row-move-handle'}">
+                        <row v-for="row of content" :key="row.id" class="body__row page-row mb-4"
+                            :content="row" @columns-change="columnsChange(row, $event)">
+                        </row>
+                    </draggable>
 
-                <fieldset id="fieldset-text" class="form-horizontal">
-                    <legend>@lang('luna.page.edit.fieldset.text')</legend>
+                </div>
 
-                    {!! $form->renderFields('text') !!}
-                </fieldset>
-            </div>
-            <div class="col-md-5">
-                <fieldset id="fieldset-created" class="form-horizontal">
-                    <legend>@lang('luna.page.edit.fieldset.created')</legend>
+                <div class="page-builder__bottom-toolbar text-center">
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                        @click="addNewRow()">
+                        Add New Row
+                    </button>
+                </div>
 
-                    {!! $form->renderFields('created') !!}
-                </fieldset>
-            </div>
+                <div class="hidden-inputs">
+                    @formToken
+                </div>
+
+                @include('modal-options')
+
+                <textarea name="item[content]" id="input-item-content" style="display: none;">@{{ getSaveValue() }}</textarea>
+
+                @include('column-component')
+                @include('row-component')
+            </form>
         </div>
-
-        <div class="hidden-inputs">
-            @formToken()
-        </div>
-
-    </form>
+    </div>
 @stop
