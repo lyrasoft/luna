@@ -37,7 +37,7 @@
 <button type="button" class="btn btn-default btn-outline-info btn-sm hasTooltip"
         onclick="Phoenix.Grid.batch('rebuild');"
         title="@translate($luna->langPrefix . 'toolbar.rebuild.desc')">
-    <span class="glyphicon glyphicon-refresh fa fa-refresh"></span>
+    <span class="glyphicon glyphicon-refresh fa fa-refresh fa-sync"></span>
     @translate($luna->langPrefix . 'toolbar.rebuild')
 </button>
 
