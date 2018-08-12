@@ -158,6 +158,28 @@ contacts:
         menu:
             mainmenu: contacts
 
+# Page
+page:
+    pattern: /page(/id)
+    controller: Page
+    extra:
+        layout: page
+        menu:
+            mainmenu: pages
+
+# Pages
+pages:
+    pattern: /pages(/page)
+    controller: Pages
+    action:
+        post: CopyController
+        patch: BatchController
+        put: FilterController
+    extra:
+        layout: pages
+        menu:
+            mainmenu: pages
+
 # Luna
 _luna_img_upload:
     pattern: /_luna/image/upload

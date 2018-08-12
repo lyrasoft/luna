@@ -26,7 +26,6 @@ use Windwalker\Utilities\Reflection\ReflectionHelper;
  * @property  string    title
  * @property  string    content
  * @property  string    type
- * @property  string    position
  * @property  string    state
  * @property  string    ordering
  * @property  string    language
@@ -34,7 +33,7 @@ use Windwalker\Utilities\Reflection\ReflectionHelper;
  *
  * @since  1.0
  */
-abstract class AbstractModule
+abstract class AbstractAddon
 {
     /**
      * Property isEnabled.
@@ -148,7 +147,7 @@ abstract class AbstractModule
     public static function getType()
     {
         if (!static::$type) {
-            return strtolower(substr(ReflectionHelper::getShortName(get_called_class()), 0, -6));
+            return strtolower(substr(ReflectionHelper::getShortName(static::class), 0, -6));
         }
 
         return static::$type;

@@ -17,6 +17,8 @@ return [
         'tags' => 'tags',
         'tag_maps' => 'tag_maps',
         'languages' => 'languages',
+        'contacts' => 'contacts',
+        'pages' => 'pages',
     ],
 
     /*
