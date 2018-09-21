@@ -8,8 +8,51 @@
  */
 
 $(function () {
+  Phoenix.data('component:column-edit', {
+    name: 'column-edit',
+
+    data: function data() {
+      return {
+        values: {}
+      };
+    },
+
+
+    props: {},
+
+    created: function created() {},
+
+
+    methods: {
+      edit: function edit(data) {
+        this.values = JSON.parse(JSON.stringify(data));
+
+        $(this.$refs.modal).modal('show');
+      },
+      save: function save() {
+        $(this.$refs.modal).modal('hide');
+      },
+      close: function close() {
+        this.value = {};
+      }
+    },
+
+    watch: {},
+
+    computed: {}
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
   Phoenix.data('component:column', {
-    name: 'row',
+    name: 'column',
     template: '#column-component-tmpl',
 
     data: function data() {
@@ -30,7 +73,13 @@ $(function () {
     },
 
 
-    methods: {},
+    methods: {
+      edit: function edit() {
+        Phoenix.trigger('column:edit', this.content);
+      },
+      disable: function disable() {},
+      remove: function remove() {}
+    },
 
     watch: {},
 
@@ -158,9 +207,16 @@ $(function () {
     },
     components: {
       'row': Phoenix.data('component:row'),
-      'column': Phoenix.data('component:column')
+      'column': Phoenix.data('component:column'),
+      'column-edit': Phoenix.data('component:column-edit')
     },
-    mounted: function mounted() {},
+    mounted: function mounted() {
+      var _this = this;
+
+      Phoenix.on('column:edit', function (content) {
+        _this.$refs.columnEdit.edit(content);
+      });
+    },
 
     methods: {
       addNewRow: function addNewRow() {

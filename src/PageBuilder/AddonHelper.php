@@ -2,34 +2,28 @@
 /**
  * Part of earth project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
- * @license    GNU General Public License version 2 or later.
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
  */
 
-namespace Lyrasoft\Luna\Module;
+namespace Lyrasoft\Luna\PageBuilder;
 
-use Lyrasoft\Luna\Admin\DataMapper\ModuleMapper;
-use Lyrasoft\Luna\Admin\Repository\ModulesRepository;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Luna\Module\AbstractAddon;
 use Windwalker\Cache\Cache;
-use Windwalker\Cache\DataHandler\RawDataHandler;
 use Windwalker\Cache\Serializer\RawSerializer;
 use Windwalker\Cache\Storage\ArrayStorage;
-use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
 use Windwalker\Filesystem\Folder;
-use Windwalker\Filesystem\Path\PathCollection;
 use Windwalker\Ioc;
 use Windwalker\String\StringNormalise;
-use Windwalker\Structure\Structure;
 
 /**
- * The ModuleResolver class.
+ * The AddonHelper class.
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
-class ModuleHelper
+class AddonHelper
 {
     /**
      * Property namespaces.
@@ -48,88 +42,28 @@ class ModuleHelper
     /**
      * Property types.
      *
-     * @var  DataSet|ModuleType[]
+     * @var  DataSet|AddonType[]
      */
     protected static $types = null;
 
     /**
-     * Property modules.
+     * Property addons.
      *
      * @var  array
      */
-    protected static $modules = [];
-
-    /**
-     * getModules
-     *
-     * @param   string $position
-     * @param   string $language
-     *
-     * @return DataSet
-     * @throws \Psr\Cache\InvalidArgumentException
-     */
-    public static function getModules($position = null, $language = null)
-    {
-        $cache = static::getCache();
-
-        return $cache->call('position.' . $position, function () use ($position, $language) {
-            $conditions = [];
-
-            if ('' !== (string) $position) {
-                $conditions['position'] = $position;
-            }
-
-            if ($language) {
-                $conditions['language'] = (array) $language;
-            } elseif (Locale::isEnabled()) {
-                $conditions['language'] = [Locale::getLocale(), '*'];
-            }
-
-            $conditions['state'] = 1;
-
-            $items = static::findModules($conditions, 'position, ordering');
-
-            $modules = [];
-
-            foreach ($items as $item) {
-                $type  = static::getModuleType($item->type);
-                $class = $type->class;
-
-                $modules[] = new $class(['item' => $item, 'params' => new Structure($item->params)]);
-            }
-
-            return $modules;
-        });
-    }
-
-    /**
-     * findModules
-     *
-     * @param array   $conditions
-     * @param string  $order
-     * @param integer $start
-     * @param integer $limit
-     *
-     * @return  DataSet|Data[]
-     */
-    public static function findModules($conditions = [], $order = null, $start = null, $limit = null)
-    {
-        $modules = ModuleMapper::find($conditions, $order, $start, $limit);
-
-        return $modules;
-    }
+    protected static $addons = [];
 
     /**
      * getModuleTypes
      *
      * @param bool $refresh
      *
-     * @return array|AbstractModule[]
+     * @return array|AbstractAddon[]
      */
-    public static function getModuleClasses($refresh = false)
+    public static function getAddonClasses($refresh = false)
     {
         if (static::$classes === null || $refresh) {
-            static::$classes = static::findModuleClasses();
+            static::$classes = static::findAddonClasses();
         }
 
         return static::$classes;
@@ -140,20 +74,20 @@ class ModuleHelper
      *
      * @param bool $refresh
      *
-     * @return ModuleType[]|DataSet
+     * @return AddonType[]|DataSet
      */
-    public static function getModuleTypes($refresh = false)
+    public static function getAddonTypes($refresh = false)
     {
         if (static::$types === null || $refresh) {
-            $classes = static::getModuleClasses($refresh);
+            $classes = static::getAddonClasses($refresh);
 
             static::$types = new DataSet();
 
             $luna     = LunaHelper::getPackage();
-            $includes = (array) $luna->get('module.includes');
-            $excludes = (array) $luna->get('module.excludes');
+            $includes = (array) $luna->get('addon.includes');
+            $excludes = (array) $luna->get('addon.excludes');
 
-            /** @var AbstractModule $class */
+            /** @var AbstractAddon $class */
             foreach ($classes as $class) {
                 $type   = $class::getType();
                 $accept = true;
@@ -167,7 +101,7 @@ class ModuleHelper
                 }
 
                 if ($accept) {
-                    static::$types[$type] = static::bindModuleType($class);
+                    static::$types[$type] = static::bindAddonType($class);
                 }
             }
         }
@@ -180,11 +114,11 @@ class ModuleHelper
      *
      * @param   string $type
      *
-     * @return  ModuleType
+     * @return  AddonType
      */
-    public static function getModuleType($type)
+    public static function getAddonType($type)
     {
-        $types = static::getModuleTypes();
+        $types = static::getAddonTypes();
 
         if (isset($types[$type])) {
             return $types[$type];
@@ -196,13 +130,13 @@ class ModuleHelper
     /**
      * bindModuleType
      *
-     * @param   string|AbstractModule $class
+     * @param   string|AbstractAddon $class
      *
-     * @return  ModuleType
+     * @return  AddonType
      */
-    public static function bindModuleType($class)
+    public static function bindAddonType($class)
     {
-        return new ModuleType(
+        return new AddonType(
             [
                 'name' => $class::getName(),
                 'type' => $class::getType(),
@@ -219,7 +153,7 @@ class ModuleHelper
      *
      * @return  array
      */
-    public static function findModuleClasses()
+    public static function findAddonClasses()
     {
         $paths = static::getPaths();
 
@@ -229,13 +163,13 @@ class ModuleHelper
             $folders = Folder::folders($path, false, Folder::PATH_BASENAME);
 
             foreach ($folders as $folder) {
-                /** @var AbstractModule $class */
+                /** @var AbstractAddon $class */
                 $class = $namespace . '\\' . ucfirst($folder) . '\\' . ucfirst($folder) . 'Module';
 
                 if (class_exists($class)) {
-                    if (!is_subclass_of($class, AbstractModule::class)) {
+                    if (!is_subclass_of($class, AbstractAddon::class)) {
                         throw new \LogicException(
-                            'Class: ' . $class . ' must be sub class of: ' . AbstractModule::class
+                            'Class: ' . $class . ' must be sub class of: ' . AbstractAddon::class
                         );
                     }
 
@@ -306,26 +240,6 @@ class ModuleHelper
     }
 
     /**
-     * getModel
-     *
-     * @param bool $forceNew
-     *
-     * @return  ModulesRepository
-     */
-    public static function getModel($forceNew = false)
-    {
-        $key = 'modules.helper.model';
-
-        if (!Ioc::exists($key)) {
-            Ioc::getContainer()->share($key, function () {
-                return new ModulesRepository();
-            });
-        }
-
-        return Ioc::get($key, $forceNew);
-    }
-
-    /**
      * getCache
      *
      * @param bool $forceNew
@@ -343,24 +257,5 @@ class ModuleHelper
         }
 
         return Ioc::get($key, $forceNew);
-    }
-
-    /**
-     * Get text color based on background color luma.
-     *
-     * @see https://stackoverflow.com/a/12043228
-     *
-     * @param string $bgHex
-     * @param int    $sep
-     *
-     * @return  string
-     */
-    public static function getTextColor($bgHex, $sep = 200)
-    {
-        list($r, $g, $b) = sscanf($bgHex, '#%02x%02x%02x');
-
-        $luma = $r * 0.2126 + $g * 0.7152 + $b * 0.0722;
-
-        return $luma > $sep ? 'black' : 'white';
     }
 }

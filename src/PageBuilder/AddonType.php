@@ -2,16 +2,17 @@
 /**
  * Part of earth project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
- * @license    GNU General Public License version 2 or later.
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
  */
 
-namespace Lyrasoft\Luna\Module;
+namespace Lyrasoft\Luna\PageBuilder;
 
+use Lyrasoft\Luna\Module\AbstractAddon;
 use Windwalker\Data\Data;
 
 /**
- * The ModuleType class.
+ * The AddonType class.
  *
  * @property-read  string type
  * @property-read  string name
@@ -20,9 +21,9 @@ use Windwalker\Data\Data;
  * @property-read  string class
  * @property-read  string langPrefix
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
-class ModuleType extends Data
+class AddonType extends Data
 {
     /**
      * createInstance
@@ -30,7 +31,7 @@ class ModuleType extends Data
      * @param   array $data
      * @param string  $engine
      *
-     * @return AbstractModule
+     * @return AbstractAddon
      */
     public function createInstance(array $data = [], $engine = 'edge')
     {

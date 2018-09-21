@@ -10,12 +10,15 @@ namespace Lyrasoft\Luna\Module;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Form\Renderer\InputRenderer;
+use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\Form\Form;
+use Windwalker\Renderer\AbstractRenderer;
+use Windwalker\Renderer\RendererInterface;
 use Windwalker\Structure\Structure;
 use Windwalker\Utilities\Queue\PriorityQueue;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
@@ -147,7 +150,7 @@ abstract class AbstractAddon
     public static function getType()
     {
         if (!static::$type) {
-            return strtolower(substr(ReflectionHelper::getShortName(static::class), 0, -6));
+            return strtolower(substr(ReflectionHelper::getShortName(static::class), 0, -5));
         }
 
         return static::$type;
@@ -201,7 +204,7 @@ abstract class AbstractAddon
 
         $this->prepareGlobals($data);
 
-        $this->registerPaths();
+        static::registerPaths($this->renderer);
 
         return $this->renderer->render(static::getType(), $data);
     }
@@ -209,20 +212,25 @@ abstract class AbstractAddon
     /**
      * registerPaths
      *
+     * @param AbstractRenderer $renderer
+     *
      * @return  void
      * @throws \ReflectionException
      */
-    public function registerPaths()
+    public static function registerPaths(AbstractRenderer $renderer)
     {
         $package = LunaHelper::getPackage()->getCurrentPackage();
 
-        $paths = $this->getRenderer()->getPaths();
+        $paths = $renderer->getPaths();
 
-        $paths->insert(WINDWALKER_TEMPLATES . '/luna/modules/' . static::$type, PriorityQueue::LOW);
+        $paths->insert(WINDWALKER_TEMPLATES . '/luna/addons/' . static::getType(), PriorityQueue::LOW);
 
-        $paths->insert($package->getDir() . '/modules/' . static::$type, PriorityQueue::LOW);
+        $paths->insert($package->getDir() . '/addons/' . static::getType(), PriorityQueue::LOW);
 
-        $paths->insert(dirname(ReflectionHelper::getPath($this)) . '/Templates', PriorityQueue::LOW);
+        $paths->insert(
+            dirname(ReflectionHelper::getPath(static::class)) . '/Templates',
+            PriorityQueue::LOW
+        );
     }
 
     /**
@@ -235,27 +243,46 @@ abstract class AbstractAddon
     abstract protected function prepareData(DataInterface $data);
 
     /**
+     * getVueComponentName
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getVueComponentName()
+    {
+        return 'addon-' . static::getType();
+    }
+
+    /**
+     * loadVueComponent
+     *
+     * @param AssetManager $asset
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function loadVueComponent(AssetManager $asset)
+    {
+        throw new \LogicException('Please override: ' . __METHOD__);
+    }
+
+    /**
      * getForm
      *
      * @param array $data
      *
-     * @return Form
+     * @return string
+     * @throws \ReflectionException
      */
-    public static function getForm($data = null)
+    public static function getVueComponentTemplate(array $data = [])
     {
-        $form = new Form('params');
+        $renderer = RendererHelper::getRenderer('edge');
 
-        $form->setRenderer(new InputRenderer());
+        static::registerPaths($renderer);
 
-        $class = ReflectionHelper::getNamespaceName(static::class) . '\Form\EditDefinition';
-
-        if (class_exists($class)) {
-            $form->defineFormFields(new $class());
-        }
-
-        $form->bind($data);
-
-        return $form;
+        return $renderer->render('form', $data);
     }
 
     /**
@@ -266,7 +293,7 @@ abstract class AbstractAddon
     public static function getName()
     {
         if (static::$name === null) {
-            return __(static::$langPrefix . 'module.' . static::getType() . '.name');
+            return __(static::$langPrefix . 'addon.' . static::getType() . '.name');
         }
 
         return static::$name;

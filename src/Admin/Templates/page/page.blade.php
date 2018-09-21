@@ -71,8 +71,12 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 
                 <textarea name="item[content]" id="input-item-content" style="display: none;">@{{ getSaveValue() }}</textarea>
 
-                @include('column-component')
-                @include('row-component')
+                {{-- Inline Modal --}}
+                @include('component.column-edit')
+
+                {{-- Modals --}}
+                @include('component.column')
+                @include('component.row')
             </form>
         </div>
     </div>

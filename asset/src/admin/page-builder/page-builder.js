@@ -15,9 +15,12 @@ $(() => {
     components: {
       'row': Phoenix.data('component:row'),
       'column': Phoenix.data('component:column'),
+      'column-edit': Phoenix.data('component:column-edit'),
     },
     mounted() {
-
+      Phoenix.on('column:edit', content => {
+        this.$refs.columnEdit.edit(content);
+      });
     },
     methods: {
       addNewRow() {

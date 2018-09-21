@@ -18,8 +18,9 @@ fusion.task('js', function () {
   // Compile Start
   fusion.babel(
     [
-      'asset/src/admin/page-builder/_column-component.js',
-      'asset/src/admin/page-builder/_row-component.js',
+      'asset/src/admin/page-builder/component/_column-edit.js',
+      'asset/src/admin/page-builder/component/_column.js',
+      'asset/src/admin/page-builder/component/_row.js',
       'asset/src/admin/page-builder/page-builder.js',
     ],
     'src/Resources/asset/js/admin/page-builder/page-builder.js'

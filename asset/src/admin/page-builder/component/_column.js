@@ -7,7 +7,7 @@
 
 $(() => {
   Phoenix.data('component:column', {
-    name: 'row',
+    name: 'column',
     template: '#column-component-tmpl',
 
     data() {
@@ -27,7 +27,17 @@ $(() => {
     },
 
     methods: {
+      edit() {
+        Phoenix.trigger('column:edit', this.content);
+      },
 
+      disable() {
+
+      },
+
+      remove() {
+
+      }
     },
 
     watch: {
