@@ -12,6 +12,7 @@
 
                 <div class="modal-content">
                     <div class="modal-header pb-0">
+                        {{-- Tabs --}}
                         <ul class="nav nav-tabs border-0">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#column-edit-general" ref="generalTab">
@@ -19,8 +20,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#column-edit-rwd">
-                                    Responsive
+                                <a class="nav-link" data-toggle="tab" href="#column-edit-layout">
+                                    版面
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -85,12 +86,14 @@
                                         </div>
 
                                         <div class="form-row">
+                                            {{-- BG Overlay --}}
                                             <div class="form-group col-md-6">
                                                 <label for="input-column-edit-bg-overlay">背景顏色覆蓋</label>
                                                 <input id="input-column-edit-bg-overlay" type="text"
                                                     v-model.lazy="options.background.image.overlay" v-color class="form-control" />
                                             </div>
 
+                                            {{-- BG Repeat --}}
                                             <div class="form-group col-md-6">
                                                 <label for="input-column-edit-bg-repeat">Background Repeat</label>
                                                 <select id="input-column-edit-bg-repeat"
@@ -105,6 +108,7 @@
                                         </div>
 
                                         <div class="form-row">
+                                            {{-- BG Attachment --}}
                                             <div class="form-group col-md-6">
                                                 <label for="input-column-edit-bg-attachment">Background Attachment</label>
                                                 <select id="input-column-edit-bg-attachment"
@@ -115,6 +119,7 @@
                                                 </select>
                                             </div>
 
+                                            {{-- BG Position --}}
                                             <div class="form-group col-md-6">
                                                 <label for="input-column-edit-bg-position">Background Position</label>
                                                 <select id="input-column-edit-bg-position"
@@ -135,9 +140,9 @@
                                 </transition>
 
                                 <transition name="fade">
+                                    {{-- Gradient --}}
                                     <gradient v-if="options.background.type === 'gradient'" v-model="options.background.gradient"
                                         id="column-edit-gradient">
-
                                     </gradient>
                                 </transition>
 
@@ -246,6 +251,7 @@
                                 </div>
 
                                 <div v-if="options.box_shadow.enabled == 1">
+                                    {{-- Shadow Color --}}
                                     <div class="form-group">
                                         <label for="input-column-edit-box-shadow-color">陰影顏色</label>
                                         <input id="input-column-edit-box-shadow-color" type="text"
@@ -254,6 +260,7 @@
 
                                     <div class="form-row">
                                         <div class="col-6">
+                                            {{-- Shadow Offset X --}}
                                             <div class="form-group">
                                                 <label>
                                                     水平位移 (X Offset)
@@ -266,6 +273,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
+                                            {{-- Shadow Offset Y --}}
                                             <div class="form-group">
                                                 <label>
                                                     垂直位移 (Y Offset)
@@ -281,6 +289,7 @@
 
                                     <div class="form-row">
                                         <div class="col-6">
+                                            {{-- Shadow Blur --}}
                                             <div class="form-group">
                                                 <label>
                                                     模糊度 Blur
@@ -293,6 +302,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
+                                            {{-- Shadow Spread --}}
                                             <div class="form-group">
                                                 <label>
                                                     擴散 Spread
@@ -309,6 +319,7 @@
 
                                 <hr />
 
+                                {{-- Class --}}
                                 <div class="form-group">
                                     <label for="input-column-edit-html-class">CSS Class</label>
                                     <input id="input-column-edit-html-class" type="text"
@@ -318,13 +329,87 @@
                             </div>
 
                             {{-- Tab RWD --}}
-                            <div class="tab-pane fade" id="column-edit-rwd" role="tabpanel" aria-labelledby="column-edit-rwd-tab">
+                            <div class="tab-pane fade" id="column-edit-layout" role="tabpanel" aria-labelledby="column-edit-layout-tab">
+                                {{-- Desktop Layout --}}
+                                <div class="form-group">
+                                    <label for="input-column-edit-width-desktop">桌面版寬度 Desktop</label>
+                                    <select id="input-column-edit-width-desktop"
+                                        v-model="options.width.lg" class="form-control">
+                                        <option v-for="w of widthRange()" :value="'col-lg-' + w">
+                                            col-lg-@{{ w }}
+                                        </option>
+                                    </select>
+                                </div>
 
+                                {{-- Tablet Layout --}}
+                                <div class="form-group">
+                                    <label for="input-column-edit-width-tablet">平板寬度 Tablet</label>
+                                    <select id="input-column-edit-width-tablet"
+                                        v-model="options.width.md" class="form-control">
+                                        <option value="">- 不設定 -</option>
+                                        <option v-for="w of widthRange()" :value="'col-md-' + w">
+                                            col-md-@{{ w }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                {{-- Mobile Layout --}}
+                                <div class="form-group">
+                                    <label for="input-column-edit-width-mobile">手機寬度 Mobile</label>
+                                    <select id="input-column-edit-width-mobile"
+                                        v-model="options.width.xs" class="form-control">
+                                        <option value="">- 不設定 -</option>
+                                        <option v-for="w of widthRange()" :value="'col-' + w">
+                                            col-@{{ w }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <hr />
+
+                                {{-- Hidden Mobile --}}
+                                <div class="form-group">
+                                    <label for="input-column-edit-hidden-mobile">手機板隱藏</label>
+                                    <div>
+                                        <phoenix-switch name="column-edit-hidden-mobile" v-model="options.display.xs"
+                                            id="input-column-edit-hidden-mobile"
+                                            shape="circle"
+                                            color="success"
+                                            true-value="d-none"
+                                            false-value="d-block"></phoenix-switch>
+                                    </div>
+                                </div>
+
+                                {{-- Hidden Tablet --}}
+                                <div class="form-group">
+                                    <label for="input-column-edit-hidden-tablet">平板隱藏</label>
+                                    <div>
+                                        <phoenix-switch name="column-edit-hidden-tablet" v-model="options.display.md"
+                                            id="input-column-edit-hidden-tablet"
+                                            shape="circle"
+                                            color="success"
+                                            true-value="d-md-none"
+                                            false-value="d-md-block"></phoenix-switch>
+                                    </div>
+                                </div>
+
+                                {{-- Hidden Tablet --}}
+                                <div class="form-group">
+                                    <label for="input-column-edit-hidden-desktop">桌面版隱藏</label>
+                                    <div>
+                                        <phoenix-switch name="column-edit-hidden-desktop" v-model="options.display.lg"
+                                            id="input-column-edit-hidden-desktop"
+                                            shape="circle"
+                                            color="success"
+                                            true-value="d-lg-none"
+                                            false-value="d-lg-block"></phoenix-switch>
+                                    </div>
+                                </div>
                             </div>
 
                             {{-- Tab Animation --}}
                             <div class="tab-pane fade" id="column-edit-animation" role="tabpanel" aria-labelledby="column-edit-animation-tab">
-
+                                <animation-selector id="column-edit-anim" :value="options.animation"></animation-selector>
                             </div>
                         </div>
                     </div>

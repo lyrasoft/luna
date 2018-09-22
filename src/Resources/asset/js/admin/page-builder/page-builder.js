@@ -10,6 +10,48 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
  */
 
 $(function () {
+  Vue.component('animation-selector', {
+    template: '\n<div class="cation-selector">\n    <div class="form-group">\n        <label :for="id + \'-name\'">\u52D5\u756B\u540D\u7A31</label>\n        <select :id="id + \'-name\'" class="form-control" v-model="animation.name">\n            <option value="">\u7121</option>\n            <option v-for="anim of getAnimations()" :value="anim">\n                {{ anim }}\n            </option>\n        </select>\n    </div>\n    \n    <div class="form-group">\n        <label :for="id + \'-duration\'">\u52D5\u756B\u6301\u7E8C\u6642\u9593</label>\n        <input type="number" :id="id + \'-duration\'" class="form-control" v-model="animation.duration" min="0" />\n        <small class="form-text text-muted">\n            \u52D5\u756B\u7684\u901F\u5EA6\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n    \n    <div class="form-group">\n        <label :for="id + \'-delay\'">\u7B49\u5F85\u6642\u9593</label>\n        <input type="number" :id="id + \'-delay\'" class="form-control" v-model="animation.duration" min="0" />\n        <small class="form-text text-muted">\n            \u7B49\u5F85\u4E00\u5B9A\u6642\u9593\u5F8C\u624D\u767C\u751F\u52D5\u756B\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n</div>\n',
+    data: function data() {
+      return {
+        animation: {}
+      };
+    },
+
+    props: {
+      value: Object,
+      id: String
+    },
+    mounted: function mounted() {
+      this.animation = this.value;
+    },
+
+    methods: {
+      getAnimations: function getAnimations() {
+        return ['fadeIn', 'fadeInDown', 'fadeInDownBig', 'fadeInLeft', 'fadeInLeftBig', 'fadeInRight', 'fadeInRightBig', 'fadeInUp', 'fadeInUpBig', 'flip', 'flipInX', 'flipInY', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'zoomIn', 'zoomInDown', 'zoomInLeft', 'zoomInRight', 'zoomInUp', 'bounceIn', 'bounceInDown', 'bounceInLeft', 'bounceInRight', 'bounceInUp'];
+      }
+    },
+    watch: {
+      animation: {
+        handler: function handler(anim) {
+          this.$emit('change', anim);
+          this.$emit('input', anim);
+        },
+
+        deep: true
+      }
+    }
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
   Vue.component('gradient', {
     template: '\n<div class="c-box-offset">\n    <div class="c-gradient-preview mb-3" style="height: 100px; border: 1px solid rgba(0, 0, 0, .2);" \n        :style="{\'background-image\': backgroundImage}">\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <div class="form-group">\n                <label :for="id + \'-color1\'">\u984F\u8272 1</label>\n                <input type="text" :id="id + \'-color1\'" v-model.lazy="gradient.start_color" v-color class="form-control" />\n            </div>\n            <div class="form-group">\n                <label :for="id + \'-color1-pos\'">\u984F\u8272 1 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model="gradient.start_pos"></vue-slide-bar>\n            </div>\n        </div>\n        <div class="col-6">\n            <div class="form-group">\n                <label :for="id + \'-color2\'">\u984F\u8272 2</label>\n                <input type="text" :id="id + \'-color2\'" v-model.lazy="gradient.end_color" v-color class="form-control" />\n            </div>\n            <div class="form-group">\n                <label :for="id + \'-color2-pos\'">\u984F\u8272 2 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model="gradient.end_pos"></vue-slide-bar>\n            </div>\n        </div>\n    </div>\n\n    <div class="form-group">\n        <label :for="id + \'-type\'">\u6F38\u5C64\u6A21\u5F0F</label>\n        <select :id="id + \'-type\'" v-model.lazy="gradient.type" class="form-control">\n            <option value="linear">\u7DDA\u6027 Linear</option>\n            <option value="radial">\u653E\u5C04 Radial</option>\n        </select>\n    </div>\n\n    <div class="form-group">\n        <label :for="id + \'-angle\'">\u89D2\u5EA6</label>\n        <vue-slide-bar :id="id + \'-angle\'" v-model="gradient.angle" :max="360">\n        </vue-slide-bar>\n    </div>\n</div>\n    ',
     data: function data() {
@@ -328,16 +370,24 @@ $(function () {
     methods: {
       edit: function edit(data) {
         this.values = JSON.parse(JSON.stringify(data));
+
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
       },
       save: function save() {
+        Phoenix.trigger('column:save', JSON.parse(JSON.stringify(this.values)));
+
+        this.values = {};
+
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
         this.values = {};
 
         $(this.$refs.modal).modal('hide');
+      },
+      widthRange: function widthRange() {
+        return underscore.range(1, 13); // 1 to 12 in array
       }
     },
 
@@ -456,9 +506,14 @@ $(function () {
             },
             text_color: '',
             width: {
-              xs: 'col-3',
-              md: 'col-md-3',
+              xs: '',
+              md: '',
               lg: 'col-lg-3'
+            },
+            display: {
+              xs: 'd-block',
+              md: 'd-md-block',
+              lg: 'd-lg-block'
             },
             box_shadow: {
               enabled: 0,
@@ -550,7 +605,10 @@ $(function () {
     el: '#page-builder',
     data: {
       content: Phoenix.data('builder-content') || [],
-      drag: false
+      drag: false,
+      editing: {
+        column: {}
+      }
     },
     components: {
       'row': Phoenix.data('component:row'),
@@ -561,7 +619,15 @@ $(function () {
       var _this6 = this;
 
       Phoenix.on('column:edit', function (content) {
+        _this6.editing.column = content;
         _this6.$refs.columnEdit.edit(content);
+      });
+
+      Phoenix.on('column:save', function (content) {
+        underscore.each(content, function (v, k) {
+          _this6.editing.column[k] = v;
+          // this.editing.column = {};
+        });
       });
     },
 

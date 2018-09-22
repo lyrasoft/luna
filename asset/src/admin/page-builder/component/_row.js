@@ -55,9 +55,14 @@ $(() => {
             },
             text_color: '',
             width: {
-              xs: 'col-3',
-              md: 'col-md-3',
+              xs: '',
+              md: '',
               lg: 'col-lg-3',
+            },
+            display: {
+              xs: 'd-block',
+              md: 'd-md-block',
+              lg: 'd-lg-block'
             },
             box_shadow: {
               enabled: 0,

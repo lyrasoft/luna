@@ -10,7 +10,10 @@ $(() => {
     el: '#page-builder',
     data: {
       content: Phoenix.data('builder-content') || [],
-      drag: false
+      drag: false,
+      editing: {
+        column: {}
+      }
     },
     components: {
       'row': Phoenix.data('component:row'),
@@ -19,7 +22,15 @@ $(() => {
     },
     mounted() {
       Phoenix.on('column:edit', content => {
+        this.editing.column = content;
         this.$refs.columnEdit.edit(content);
+      });
+
+      Phoenix.on('column:save', content => {
+        underscore.each(content, (v, k) => {
+          this.editing.column[k] = v;
+          // this.editing.column = {};
+        });
       });
     },
     methods: {

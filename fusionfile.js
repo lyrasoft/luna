@@ -18,6 +18,7 @@ fusion.task('js', function () {
   // Compile Start
   fusion.babel(
     [
+      'asset/src/admin/page-builder/widgets/_animation.js',
       'asset/src/admin/page-builder/widgets/_gradient.js',
       'asset/src/admin/page-builder/widgets/_rwd-group.js',
       'asset/src/admin/page-builder/widgets/_box-offset.js',
