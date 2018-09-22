@@ -35,6 +35,18 @@ $(() => {
         this.columns.push(this.getEmptyColumn());
       },
 
+      edit() {
+        Phoenix.trigger('row:edit', this.content);
+      },
+
+      disable() {
+
+      },
+
+      remove() {
+        this.$emit('delete');
+      },
+
       getEmptyColumn() {
         return {
           id: 'col-' + Phoenix.uniqid(),

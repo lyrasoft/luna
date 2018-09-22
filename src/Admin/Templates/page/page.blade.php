@@ -52,8 +52,10 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 
                     <draggable v-model="content" @start="drag = true" @end="drag = false"
                         :options="{handle: '.row-move-handle'}">
-                        <row v-for="row of content" :key="row.id" class="body__row page-row mb-4"
-                            :content="row" @columns-change="columnsChange(row, $event)">
+                        <row v-for="(row, i) of content" :key="row.id" class="body__row page-row mb-4"
+                            :content="row"
+                            @columns-change="columnsChange(row, $event)"
+                            @delete="deleteRow(i)">
                         </row>
                     </draggable>
 
@@ -76,6 +78,7 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 
                 {{-- Inline Modal --}}
                 @include('component.column-edit')
+                @include('component.row-edit')
 
                 {{-- Modals --}}
                 @include('component.column')

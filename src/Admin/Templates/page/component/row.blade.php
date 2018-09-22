@@ -10,9 +10,19 @@
                 Row: @{{ content.id }}
             </div>
             <div class="page-row__actions ml-auto">
-                <button type="button" class="btn btn-sm btn-outline-secondary"
+                <button type="button" class="btn btn-sm btn-primary"
                     @click="addNewColumn()">
+                    <span class="fa fa-plus"></span>
                     Add Column
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary"
+                    @click="edit()">
+                    <span class="fa fa-edit"></span>
+                    Edit Row
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger"
+                    @click="remove()">
+                    <span class="fa fa-trash"></span>
                 </button>
             </div>
         </div>

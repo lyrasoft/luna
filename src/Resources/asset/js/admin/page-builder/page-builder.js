@@ -53,7 +53,7 @@ $(function () {
 
 $(function () {
   Vue.component('gradient', {
-    template: '\n<div class="c-box-offset">\n    <div class="c-gradient-preview mb-3" style="height: 100px; border: 1px solid rgba(0, 0, 0, .2);" \n        :style="{\'background-image\': backgroundImage}">\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <div class="form-group">\n                <label :for="id + \'-color1\'">\u984F\u8272 1</label>\n                <input type="text" :id="id + \'-color1\'" v-model.lazy="gradient.start_color" v-color class="form-control" />\n            </div>\n            <div class="form-group">\n                <label :for="id + \'-color1-pos\'">\u984F\u8272 1 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model="gradient.start_pos"></vue-slide-bar>\n            </div>\n        </div>\n        <div class="col-6">\n            <div class="form-group">\n                <label :for="id + \'-color2\'">\u984F\u8272 2</label>\n                <input type="text" :id="id + \'-color2\'" v-model.lazy="gradient.end_color" v-color class="form-control" />\n            </div>\n            <div class="form-group">\n                <label :for="id + \'-color2-pos\'">\u984F\u8272 2 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model="gradient.end_pos"></vue-slide-bar>\n            </div>\n        </div>\n    </div>\n\n    <div class="form-group">\n        <label :for="id + \'-type\'">\u6F38\u5C64\u6A21\u5F0F</label>\n        <select :id="id + \'-type\'" v-model.lazy="gradient.type" class="form-control">\n            <option value="linear">\u7DDA\u6027 Linear</option>\n            <option value="radial">\u653E\u5C04 Radial</option>\n        </select>\n    </div>\n\n    <div class="form-group">\n        <label :for="id + \'-angle\'">\u89D2\u5EA6</label>\n        <vue-slide-bar :id="id + \'-angle\'" v-model="gradient.angle" :max="360">\n        </vue-slide-bar>\n    </div>\n</div>\n    ',
+    template: '\n<div class="c-box-offset">\n    <div class="c-gradient-preview mb-3" style="height: 100px; border: 1px solid rgba(0, 0, 0, .2);" \n        :style="{\'background-image\': backgroundImage}">\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <div class="form-group">\n                <label :for="id + \'-color1\'">\u984F\u8272 1</label>\n                <input type="text" :id="id + \'-color1\'" v-model.lazy="gradient.start_color" v-color class="form-control" />\n            </div>\n            <div class="form-group">\n                <label :for="id + \'-color1-pos\'">\u984F\u8272 1 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model="gradient.start_pos"></vue-slide-bar>\n            </div>\n        </div>\n        <div class="col-6">\n            <div class="form-group">\n                <label :for="id + \'-color2\'">\u984F\u8272 2</label>\n                <input type="text" :id="id + \'-color2\'" v-model.lazy="gradient.end_color" v-color class="form-control" />\n            </div>\n            <div class="form-group">\n                <label :for="id + \'-color2-pos\'">\u984F\u8272 2 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model="gradient.end_pos"></vue-slide-bar>\n            </div>\n        </div>\n    </div>\n\n    <div class="form-group">\n        <label :for="id + \'-type\'">\u6F38\u5C64\u6A21\u5F0F</label>\n        <select :id="id + \'-type\'" v-model.lazy="gradient.type" class="form-control">\n            <option value="linear">\u7DDA\u6027 Linear</option>\n            <option value="radial">\u653E\u5C04 Radial</option>\n        </select>\n    </div>\n\n    <div class="form-group">\n        <label :for="id + \'-angle\'">\u89D2\u5EA6</label>\n        <div class="d-flex">\n            <vue-slide-bar :id="id + \'-angle\'" class="flex-grow-1" v-model="gradient.angle" :max="360">\n            </vue-slide-bar>\n            <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                v-model="gradient.angle" />\n        </div>\n    </div>\n</div>\n    ',
     data: function data() {
       return {
         gradient: {
@@ -456,6 +456,62 @@ $(function () {
  */
 
 $(function () {
+  Phoenix.data('component:row-edit', {
+    name: 'row-edit',
+
+    data: function data() {
+      return {
+        values: {}
+      };
+    },
+
+
+    props: {
+      content: Object
+    },
+
+    created: function created() {},
+
+
+    methods: {
+      edit: function edit(data) {
+        this.values = JSON.parse(JSON.stringify(data));
+
+        $(this.$refs.generalTab).click();
+        $(this.$refs.modal).modal('show');
+      },
+      save: function save() {
+        Phoenix.trigger('row:save', JSON.parse(JSON.stringify(this.values)));
+
+        this.values = {};
+
+        $(this.$refs.modal).modal('hide');
+      },
+      close: function close() {
+        this.values = {};
+
+        $(this.$refs.modal).modal('hide');
+      }
+    },
+
+    watch: {},
+
+    computed: {
+      options: function options() {
+        return this.values.options;
+      }
+    }
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
   Phoenix.data('component:row', {
     name: 'row',
     template: '#row-component-tmpl',
@@ -485,6 +541,13 @@ $(function () {
     methods: {
       addNewColumn: function addNewColumn() {
         this.columns.push(this.getEmptyColumn());
+      },
+      edit: function edit() {
+        Phoenix.trigger('row:edit', this.content);
+      },
+      disable: function disable() {},
+      remove: function remove() {
+        this.$emit('delete');
       },
       getEmptyColumn: function getEmptyColumn() {
         return {
@@ -607,16 +670,31 @@ $(function () {
       content: Phoenix.data('builder-content') || [],
       drag: false,
       editing: {
-        column: {}
+        column: {},
+        row: {}
       }
     },
     components: {
       'row': Phoenix.data('component:row'),
+      'row-edit': Phoenix.data('component:row-edit'),
       'column': Phoenix.data('component:column'),
       'column-edit': Phoenix.data('component:column-edit')
     },
     mounted: function mounted() {
       var _this6 = this;
+
+      Phoenix.on('row:edit', function (content) {
+        _this6.editing.row = content;
+        _this6.$refs.rowEdit.edit(content);
+      });
+
+      Phoenix.on('row:save', function (content) {
+        underscore.each(content, function (v, k) {
+          _this6.editing.row[k] = v;
+        });
+
+        _this6.editing.row = {};
+      });
 
       Phoenix.on('column:edit', function (content) {
         _this6.editing.column = content;
@@ -626,14 +704,18 @@ $(function () {
       Phoenix.on('column:save', function (content) {
         underscore.each(content, function (v, k) {
           _this6.editing.column[k] = v;
-          // this.editing.column = {};
         });
+
+        _this6.editing.column = {};
       });
     },
 
     methods: {
       addNewRow: function addNewRow() {
         this.content.push(this.getEmptyRow());
+      },
+      deleteRow: function deleteRow(i) {
+        this.content.splice(i, 1);
       },
       columnsChange: function columnsChange(row, $event) {
         row.columns = $event.columns;
@@ -653,7 +735,16 @@ $(function () {
               },
               font_weight: '',
               color: '',
-              margin: ''
+              margin_top: {
+                lg: '',
+                md: '',
+                xs: ''
+              },
+              margin_bottom: {
+                lg: '',
+                md: '',
+                xs: ''
+              }
             },
             subtitle: {
               text: '',
@@ -665,18 +756,50 @@ $(function () {
             },
             html_id: '',
             html_class: '',
-            align: 'center',
+            title_align: 'center',
             valign: 'top',
             fluid_row: false,
             no_gutter: false,
-            padding: '100px 0 100px 0',
-            margin: '0',
+            padding: {
+              xl: '',
+              md: '',
+              xs: ''
+            },
+            margin: {
+              xl: '',
+              md: '',
+              xs: ''
+            },
+            display: {
+              xs: 'd-block',
+              md: 'd-md-block',
+              lg: 'd-lg-block'
+            },
             text_color: '',
             background: {
+              type: 'none',
               color: '',
-              image: '',
-              gradient: '',
-              video: ''
+              image: {
+                url: '',
+                overlay: '',
+                repeat: '',
+                position: 'center center',
+                attachment: 'inherit',
+                size: 'cover'
+              },
+              gradient: {
+                type: 'liner',
+                angle: '',
+                start_color: '',
+                start_pos: '',
+                end_color: '',
+                end_pos: ''
+              },
+              video: {
+                url: '',
+                overlay: ''
+              },
+              parallax: false
             },
             animation: {
               name: '',

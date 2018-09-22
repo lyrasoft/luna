@@ -46,8 +46,12 @@ $(() => {
 
     <div class="form-group">
         <label :for="id + '-angle'">角度</label>
-        <vue-slide-bar :id="id + '-angle'" v-model="gradient.angle" :max="360">
-        </vue-slide-bar>
+        <div class="d-flex">
+            <vue-slide-bar :id="id + '-angle'" class="flex-grow-1" v-model="gradient.angle" :max="360">
+            </vue-slide-bar>
+            <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"
+                v-model="gradient.angle" />
+        </div>
     </div>
 </div>
     `,

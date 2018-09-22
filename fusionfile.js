@@ -26,6 +26,7 @@ fusion.task('js', function () {
       'asset/src/admin/page-builder/directives/_colorpicker.js',
       'asset/src/admin/page-builder/component/_column-edit.js',
       'asset/src/admin/page-builder/component/_column.js',
+      'asset/src/admin/page-builder/component/_row-edit.js',
       'asset/src/admin/page-builder/component/_row.js',
       'asset/src/admin/page-builder/page-builder.js',
     ],
