@@ -11,9 +11,9 @@
                 </h5>
 
                 <div class="modal-content">
-                    <div class="modal-header pb-0">
+                    <div class="modal-header bg-white" :class="{'sticky-top': sticky}">
                         {{-- Tabs --}}
-                        <ul class="nav nav-tabs border-0">
+                        <ul class="nav nav-pills border-0">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#row-edit-general" ref="generalTab">
                                     基本選項
@@ -30,9 +30,15 @@
                                 </a>
                             </li>
                         </ul>
-                        <button type="button" class="close" @click="close()" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <div class="ml-auto">
+                            <button type="button" class="btn btn-success" @click="save()">
+                                <span class="fa fa-save"></span>
+                                儲存
+                            </button>
+                            <button type="button" class="btn btn-secondary" @click="close()">
+                                <span class="fa fa-times"></span>
+                            </button>
+                        </div>
                     </div>
                     <div class="modal-body" v-if="values.id">
                         <div class="tab-content" id="row-edit-tab-content">
@@ -447,8 +453,14 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="close()">Close</button>
-                        <button type="button" class="btn btn-primary" @click="save()">Save</button>
+                        <button type="button" class="btn btn-success" @click="save()">
+                            <span class="fa fa-save"></span>
+                            儲存
+                        </button>
+                        <button type="button" class="btn btn-secondary" @click="close()">
+                            <span class="fa fa-times"></span>
+                            取消
+                        </button>
                     </div>
                 </div>
             </div>

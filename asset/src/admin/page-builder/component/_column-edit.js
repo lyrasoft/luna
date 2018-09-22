@@ -11,7 +11,8 @@ $(() => {
 
     data() {
       return {
-        values: {}
+        values: {},
+        sticky: false
       }
     },
 
@@ -27,6 +28,8 @@ $(() => {
 
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
+
+        this.sticky = true;
       },
 
       save() {
@@ -34,13 +37,19 @@ $(() => {
 
         this.values = {};
 
+        this.sticky = false;
+
         $(this.$refs.modal).modal('hide');
       },
 
       close() {
-        this.values = {};
-
         $(this.$refs.modal).modal('hide');
+
+        setTimeout(() => {
+          this.values = {};
+        }, 300);
+
+        this.sticky = false;
       },
 
       widthRange() {

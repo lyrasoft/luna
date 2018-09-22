@@ -42,7 +42,13 @@ $(() => {
     },
 
     watch: {
-
+      content: {
+        handler() {
+          this.addons = this.content.addons;
+          this.options = this.content.options;
+        },
+        deep: true
+      }
     },
 
     computed: {

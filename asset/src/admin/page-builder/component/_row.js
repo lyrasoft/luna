@@ -26,8 +26,8 @@ $(() => {
     },
 
     created() {
-      this.columns = this.content.columns;
-      this.options = this.content.options;
+      this.columns = this.content.columns || [];
+      this.options = this.content.options || {};
     },
 
     methods: {
@@ -139,10 +139,14 @@ $(() => {
     },
 
     watch: {
-      // content() {
-      //   this.options = this.content.options;
-      //   this.columns = this.content.columns;
-      // },
+      content: {
+        handler(c) {
+          console.log(c);
+          this.options = this.content.options;
+          this.columns = this.content.columns;
+        },
+        deep: true
+      },
       columns: {
         handler() {
           this.$emit('columns-change', {columns: this.columns});

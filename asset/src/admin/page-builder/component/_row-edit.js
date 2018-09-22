@@ -11,7 +11,8 @@ $(() => {
 
     data() {
       return {
-        values: {}
+        values: {},
+        sticky: false
       }
     },
 
@@ -29,20 +30,26 @@ $(() => {
 
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
+
+        this.sticky = true;
       },
 
       save() {
         Phoenix.trigger('row:save', JSON.parse(JSON.stringify(this.values)));
 
-        this.values = {};
-
         $(this.$refs.modal).modal('hide');
+
+        this.sticky = false;
       },
 
       close() {
-        this.values = {};
-
         $(this.$refs.modal).modal('hide');
+
+        this.sticky = false;
+
+        setTimeout(() => {
+          this.values = {};
+        }, 300);
       }
     },
 

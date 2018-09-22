@@ -357,7 +357,8 @@ $(function () {
 
     data: function data() {
       return {
-        values: {}
+        values: {},
+        sticky: false
       };
     },
 
@@ -373,18 +374,28 @@ $(function () {
 
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
+
+        this.sticky = true;
       },
       save: function save() {
         Phoenix.trigger('column:save', JSON.parse(JSON.stringify(this.values)));
 
         this.values = {};
 
+        this.sticky = false;
+
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
-        this.values = {};
+        var _this6 = this;
 
         $(this.$refs.modal).modal('hide');
+
+        setTimeout(function () {
+          _this6.values = {};
+        }, 300);
+
+        this.sticky = false;
       },
       widthRange: function widthRange() {
         return underscore.range(1, 13); // 1 to 12 in array
@@ -442,7 +453,16 @@ $(function () {
       }
     },
 
-    watch: {},
+    watch: {
+      content: {
+        handler: function handler() {
+          this.addons = this.content.addons;
+          this.options = this.content.options;
+        },
+
+        deep: true
+      }
+    },
 
     computed: {}
   });
@@ -461,7 +481,8 @@ $(function () {
 
     data: function data() {
       return {
-        values: {}
+        values: {},
+        sticky: false
       };
     },
 
@@ -479,18 +500,26 @@ $(function () {
 
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
+
+        this.sticky = true;
       },
       save: function save() {
         Phoenix.trigger('row:save', JSON.parse(JSON.stringify(this.values)));
 
-        this.values = {};
-
         $(this.$refs.modal).modal('hide');
+
+        this.sticky = false;
       },
       close: function close() {
-        this.values = {};
+        var _this7 = this;
 
         $(this.$refs.modal).modal('hide');
+
+        this.sticky = false;
+
+        setTimeout(function () {
+          _this7.values = {};
+        }, 300);
       }
     },
 
@@ -533,8 +562,8 @@ $(function () {
     },
 
     created: function created() {
-      this.columns = this.content.columns;
-      this.options = this.content.options;
+      this.columns = this.content.columns || [];
+      this.options = this.content.options || {};
     },
 
 
@@ -639,10 +668,15 @@ $(function () {
     },
 
     watch: {
-      // content() {
-      //   this.options = this.content.options;
-      //   this.columns = this.content.columns;
-      // },
+      content: {
+        handler: function handler(c) {
+          console.log(c);
+          this.options = this.content.options;
+          this.columns = this.content.columns;
+        },
+
+        deep: true
+      },
       columns: {
         handler: function handler() {
           this.$emit('columns-change', { columns: this.columns });
@@ -681,32 +715,32 @@ $(function () {
       'column-edit': Phoenix.data('component:column-edit')
     },
     mounted: function mounted() {
-      var _this6 = this;
+      var _this8 = this;
 
       Phoenix.on('row:edit', function (content) {
-        _this6.editing.row = content;
-        _this6.$refs.rowEdit.edit(content);
+        _this8.editing.row = content;
+        _this8.$refs.rowEdit.edit(content);
       });
 
       Phoenix.on('row:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this6.editing.row[k] = v;
+          _this8.editing.row[k] = v;
         });
 
-        _this6.editing.row = {};
+        _this8.editing.row = {};
       });
 
       Phoenix.on('column:edit', function (content) {
-        _this6.editing.column = content;
-        _this6.$refs.columnEdit.edit(content);
+        _this8.editing.column = content;
+        _this8.$refs.columnEdit.edit(content);
       });
 
       Phoenix.on('column:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this6.editing.column[k] = v;
+          _this8.editing.column[k] = v;
         });
 
-        _this6.editing.column = {};
+        _this8.editing.column = {};
       });
     },
 
