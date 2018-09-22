@@ -18,6 +18,11 @@ fusion.task('js', function () {
   // Compile Start
   fusion.babel(
     [
+      'asset/src/admin/page-builder/widgets/_gradient.js',
+      'asset/src/admin/page-builder/widgets/_rwd-group.js',
+      'asset/src/admin/page-builder/widgets/_box-offset.js',
+      'asset/src/admin/page-builder/widgets/_button-radio.js',
+      'asset/src/admin/page-builder/directives/_colorpicker.js',
       'asset/src/admin/page-builder/component/_column-edit.js',
       'asset/src/admin/page-builder/component/_column.js',
       'asset/src/admin/page-builder/component/_row.js',
@@ -48,6 +53,7 @@ fusion.task('install', function () {
 
   fusion.copy(`${nodePath}/vuedraggable/dist/*`, `${destPath}/js/vue/`);
   fusion.copy(`${nodePath}/sortablejs/*.js`, `${destPath}/js/sortablejs/`);
+  fusion.copy(`${nodePath}/vue-slide-bar/dist/*`, `${destPath}/js/vue/`);
 });
 
 fusion.default(['js', 'scss']);

@@ -56,4 +56,22 @@ class LunaScript extends AbstractScript
             static::addJS(static::packageName() . '/js/sortablejs/Sortable.min.js');
         }
     }
+
+    /**
+     * vueSlider
+     *
+     * @see https://biigpongsatorn.github.io/#/vue-slide-bar
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function vueSlider()
+    {
+        if (!static::inited(__METHOD__)) {
+            static::addJS(static::packageName() . '/js/vue/vue-slide-bar.min.js');
+
+            static::internalJS("Vue.component('vue-slide-bar', vueSlideBar);");
+        }
+    }
 }

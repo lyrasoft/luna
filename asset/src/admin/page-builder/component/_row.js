@@ -43,8 +43,16 @@ $(() => {
             html_class: '',
             align: 'center',
             valign: 'top',
-            padding: '0',
-            margin: '0',
+            padding: {
+              xs: '',
+              md: '',
+              lg: '',
+            },
+            margin: {
+              xs: '',
+              md: '',
+              lg: '',
+            },
             text_color: '',
             width: {
               xs: 'col-3',
@@ -52,22 +60,47 @@ $(() => {
               lg: 'col-lg-3',
             },
             box_shadow: {
-              color: '',
-              hoffset: '',
-              voffset: '',
-              blur: '',
-              spread: ''
+              enabled: 0,
+              color: 'rgba(0, 0, 0, 1)',
+              hoffset: 0,
+              voffset: 0,
+              blur: 0,
+              spread: 0
             },
             border: {
-              width: '',
+              enabled: 0,
+              width: {
+                lg: 1,
+                md: 1,
+                xs: 1,
+              },
               color: '',
               style: '',
-              radius: ''
+              radius: {
+                lg: 0,
+                md: 0,
+                xs: 0,
+              }
             },
             background: {
+              type: 'none',
               color: '',
-              image: '',
-              gradient: '',
+              image: {
+                url: '',
+                overlay: '',
+                repeat: '',
+                position: 'center center',
+                attachment: 'inherit',
+                size: 'cover'
+              },
+              gradient: {
+                type: 'liner',
+                angle: '',
+                start_color: '',
+                start_pos: '',
+                end_color: '',
+                end_pos: ''
+              },
               video: ''
             },
             animation: {
@@ -81,6 +114,10 @@ $(() => {
 
       getColumnWidth(columnOptions) {
         return underscore.values(columnOptions.width).join(' ');
+      },
+
+      deleteColumn(i) {
+        this.columns.splice(i, 1);
       }
     },
 

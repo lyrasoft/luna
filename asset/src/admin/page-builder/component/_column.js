@@ -18,7 +18,8 @@ $(() => {
     },
 
     props: {
-      content: Object
+      content: Object,
+      index: Number
     },
 
     created() {
@@ -36,7 +37,7 @@ $(() => {
       },
 
       remove() {
-
+        this.$emit('delete');
       }
     },
 

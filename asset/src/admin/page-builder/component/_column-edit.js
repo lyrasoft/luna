@@ -24,7 +24,7 @@ $(() => {
     methods: {
       edit(data) {
         this.values = JSON.parse(JSON.stringify(data));
-
+        $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
       },
 
@@ -33,7 +33,9 @@ $(() => {
       },
 
       close() {
-        this.value = {};
+        this.values = {};
+
+        $(this.$refs.modal).modal('hide');
       }
     },
 
@@ -42,7 +44,9 @@ $(() => {
     },
 
     computed: {
-
+      options() {
+        return this.values.options;
+      }
     }
   });
 });

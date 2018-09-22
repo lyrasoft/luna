@@ -21,7 +21,9 @@
             <div is="draggable" class="card-body page-row__body row"
                 v-model="columns" @start="drag = true" @end="drag = false"
                 :options="{handle: '.column-move-handle', group: 'column'}">
-                <column v-for="column of columns" class="page-row__column column mb-3" :class="[getColumnWidth(column.options)]"
+                <column v-for="(column, i) of columns" class="page-row__column column mb-3" :class="[getColumnWidth(column.options)]"
+                    @delete="deleteColumn(i)"
+                    :index="i"
                     :key="column.id"
                     :content="column">
 
