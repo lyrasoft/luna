@@ -132,9 +132,9 @@ $(() => {
           background: {
             type: 'none',
             color: '',
+            overlay: '',
             image: {
               url: '',
-              overlay: '',
               repeat: '',
               position: 'center center',
               attachment: 'inherit',

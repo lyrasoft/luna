@@ -240,7 +240,7 @@ $(function () {
 
 $(function () {
   Vue.component('animation-selector', {
-    template: '\n<div class="cation-selector">\n    <div class="form-group">\n        <label :for="id + \'-name\'">\u52D5\u756B\u540D\u7A31</label>\n        <select :id="id + \'-name\'" class="form-control" v-model="animation.name">\n            <option value="">\u7121</option>\n            <option v-for="anim of getAnimations()" :value="anim">\n                {{ anim }}\n            </option>\n        </select>\n    </div>\n    \n    <div class="form-group">\n        <label :for="id + \'-duration\'">\u52D5\u756B\u6301\u7E8C\u6642\u9593</label>\n        <input type="number" :id="id + \'-duration\'" class="form-control" v-model="animation.duration" min="0" />\n        <small class="form-text text-muted">\n            \u52D5\u756B\u7684\u901F\u5EA6\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n    \n    <div class="form-group">\n        <label :for="id + \'-delay\'">\u7B49\u5F85\u6642\u9593</label>\n        <input type="number" :id="id + \'-delay\'" class="form-control" v-model="animation.duration" min="0" />\n        <small class="form-text text-muted">\n            \u7B49\u5F85\u4E00\u5B9A\u6642\u9593\u5F8C\u624D\u767C\u751F\u52D5\u756B\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n</div>\n',
+    template: '\n<div class="cation-selector">\n    <div class="form-group">\n        <label :for="id + \'-name\'">\u52D5\u756B\u540D\u7A31</label>\n        <select :id="id + \'-name\'" class="form-control" v-model="animation.name">\n            <option value="">\u7121</option>\n            <option v-for="anim of getAnimations()" :value="anim">\n                {{ anim }}\n            </option>\n        </select>\n    </div>\n    \n    <div class="form-group">\n        <label :for="id + \'-duration\'">\u52D5\u756B\u6301\u7E8C\u6642\u9593</label>\n        <input type="number" :id="id + \'-duration\'" class="form-control" v-model="animation.duration" min="0" />\n        <small class="form-text text-muted">\n            \u52D5\u756B\u7684\u901F\u5EA6\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n    \n    <div class="form-group">\n        <label :for="id + \'-delay\'">\u7B49\u5F85\u6642\u9593</label>\n        <input type="number" :id="id + \'-delay\'" class="form-control" v-model="animation.delay" min="0" />\n        <small class="form-text text-muted">\n            \u7B49\u5F85\u4E00\u5B9A\u6642\u9593\u5F8C\u624D\u767C\u751F\u52D5\u756B\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n</div>\n',
     data: function data() {
       return {
         animation: {}
@@ -301,7 +301,7 @@ $(function () {
       value: Object
     },
     mounted: function mounted() {
-      // this.gradient = this.value;
+      this.gradient = this.value;
     },
 
     methods: {
@@ -420,6 +420,8 @@ $(function () {
     mounted: function mounted() {
       var _this5 = this;
 
+      this.extractValue(this.value);
+
       underscore.each(this.offsets, function (offset, size) {
         underscore.each(offset, function (value, pos) {
           _this5.$watch('offsets.' + size + '.' + pos, function (v) {
@@ -444,21 +446,16 @@ $(function () {
         var values = {};
 
         underscore.each(this.offsets, function (offset, size) {
-          values[size] = offset.top + ' ' + offset.right + ' ' + offset.bottom + ' ' + offset.left;
+          values[size] = offset.top + ',' + offset.right + ',' + offset.bottom + ',' + offset.left;
         });
 
         return values;
-      }
-    },
-    watch: {
-      value: function value(_value) {
+      },
+      extractValue: function extractValue(value) {
         var _this6 = this;
 
-        console.log(_value);
-        underscore.each(_value, function (offset, size) {
-          console.log(size);
-
-          var _offset$split = offset.split(' '),
+        underscore.each(value, function (offset, size) {
+          var _offset$split = offset.split(','),
               _offset$split2 = _slicedToArray(_offset$split, 4),
               top = _offset$split2[0],
               right = _offset$split2[1],
@@ -470,6 +467,11 @@ $(function () {
           _this6.offsets[size].bottom = bottom;
           _this6.offsets[size].left = left;
         });
+      }
+    },
+    watch: {
+      value: function value(_value) {
+        this.extractValue(_value);
       }
     }
   });
@@ -780,9 +782,9 @@ $(function () {
           background: {
             type: 'none',
             color: '',
+            overlay: '',
             image: {
               url: '',
-              overlay: '',
               repeat: '',
               position: 'center center',
               attachment: 'inherit',
@@ -1085,9 +1087,9 @@ $(function () {
             background: {
               type: 'none',
               color: '',
+              overlay: '',
               image: {
                 url: '',
-                overlay: '',
                 repeat: '',
                 position: 'center center',
                 attachment: 'inherit',
@@ -1315,9 +1317,9 @@ $(function () {
             background: {
               type: 'none',
               color: '',
+              overlay: '',
               image: {
                 url: '',
-                overlay: '',
                 repeat: '',
                 position: 'center center',
                 attachment: 'inherit',
@@ -1332,8 +1334,7 @@ $(function () {
                 end_pos: ''
               },
               video: {
-                url: '',
-                overlay: ''
+                url: ''
               },
               parallax: false
             },

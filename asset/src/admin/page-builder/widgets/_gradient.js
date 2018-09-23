@@ -72,7 +72,7 @@ $(() => {
       value: Object
     },
     mounted() {
-      // this.gradient = this.value;
+      this.gradient = this.value;
     },
     methods: {
       updated() {

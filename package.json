@@ -7,9 +7,12 @@
         "prod": "cross-env NODE_ENV=production node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js"
     },
     "dependencies": {
+        "animate.css": "^3.7.0",
         "sortablejs": "^1.7.0",
+        "vide": "^0.5.1",
         "vue-slide-bar": "^1.1.5",
-        "vuedraggable": "^2.16.0"
+        "vuedraggable": "^2.16.0",
+        "wowjs": "^1.1.3"
     },
     "devDependencies": {
         "windwalker-fusion": "^0.1.9"

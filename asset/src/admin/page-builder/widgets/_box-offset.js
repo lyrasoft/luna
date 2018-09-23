@@ -64,6 +64,8 @@ $(() => {
       value: Object
     },
     mounted() {
+      this.extractValue(this.value);
+
       underscore.each(this.offsets, (offset, size) => {
         underscore.each(offset, (value, pos) => {
           this.$watch(`offsets.${size}.${pos}`, (v) => {
@@ -87,24 +89,26 @@ $(() => {
         const values = {};
 
         underscore.each(this.offsets, (offset, size) => {
-          values[size] = `${offset.top} ${offset.right} ${offset.bottom} ${offset.left}`;
+          values[size] = `${offset.top},${offset.right},${offset.bottom},${offset.left}`;
         });
 
         return values;
-      }
-    },
-    watch: {
-      value(value) {
-        console.log(value);
+      },
+
+      extractValue(value) {
         underscore.each(value, (offset, size) => {
-          console.log(size);
-          const [top, right, bottom, left] = offset.split(' ');
+          const [top, right, bottom, left] = offset.split(',');
 
           this.offsets[size].top = top;
           this.offsets[size].right = right;
           this.offsets[size].bottom = bottom;
           this.offsets[size].left = left;
         });
+      }
+    },
+    watch: {
+      value(value) {
+        this.extractValue(value);
       }
     }
   });

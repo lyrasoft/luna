@@ -64,3 +64,12 @@
     <span class="fa fa-cog"></span>
     @lang('luna.page.button.options')
 </button>
+
+@if ($item->id)
+    <a href="{{ $router->route('front@page', ['path' => $item->alias, 'preview' => $item->preview_secret]) }}"
+        target="_blank"
+        class="btn btn-sm btn-outline-primary">
+        <span class="fa fa-eye"></span>
+        @lang('luna.page.button.preview')
+    </a>
+@endif

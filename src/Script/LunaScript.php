@@ -74,4 +74,52 @@ class LunaScript extends AbstractScript
             static::internalJS("Vue.component('vue-slide-bar', vueSlideBar);");
         }
     }
+
+    /**
+     * animate
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function animate()
+    {
+        if (!static::inited(__METHOD__)) {
+            static::addCSS(static::packageName() . '/css/animate/animate.min.css');
+        }
+    }
+
+    /**
+     * wow
+     *
+     * @param bool $init
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function wow($init = false)
+    {
+        if (!static::inited(__METHOD__)) {
+            static::addJS(static::packageName() . '/js/wow/wow.min.js');
+        }
+
+        if (!static::inited(__METHOD__, get_defined_vars()) && $init) {
+            static::internalJS('new WOW().init();');
+        }
+    }
+
+    /**
+     * vide
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function vide()
+    {
+        if (!static::inited(__METHOD__)) {
+            static::addJS(static::packageName() . '/js/vide/jquery.vide.min.js');
+        }
+    }
 }

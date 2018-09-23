@@ -36,11 +36,13 @@ class PageInit extends AbstractMigration
             $schema->datetime('modified')->comment('Modified Date');
             $schema->integer('modified_by')->comment('Modified User');
             $schema->char('language')->length(7)->comment('Language');
+            $schema->char('preview_secret')->length(32);
             $schema->text('params')->comment('Params');
 
             $schema->addIndex('extends(150)');
             $schema->addIndex('alias(150)');
             $schema->addIndex('language');
+            $schema->addIndex('preview_secret');
             $schema->addIndex('created_by');
         });
     }

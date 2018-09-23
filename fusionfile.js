@@ -72,6 +72,9 @@ fusion.task('install', function () {
   fusion.copy(`${nodePath}/vuedraggable/dist/*`, `${destPath}/js/vue/`);
   fusion.copy(`${nodePath}/sortablejs/*.js`, `${destPath}/js/sortablejs/`);
   fusion.copy(`${nodePath}/vue-slide-bar/dist/*`, `${destPath}/js/vue/`);
+  fusion.copy(`${nodePath}/animate.css/*.css`, `${destPath}/css/animate/`);
+  fusion.copy(`${nodePath}/wowjs/dist/*.js`, `${destPath}/js/wow/`);
+  fusion.copy(`${nodePath}/vide/dist/*.js`, `${destPath}/js/vide/`);
 });
 
 fusion.default(['js', 'scss']);

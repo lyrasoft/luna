@@ -96,7 +96,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="input-column-edit-bg-overlay">背景顏色覆蓋</label>
                                                 <input id="input-column-edit-bg-overlay" type="text"
-                                                    v-model.lazy="options.background.image.overlay" v-color class="form-control" />
+                                                    v-model.lazy="options.background.overlay" v-color class="form-control" />
                                             </div>
 
                                             {{-- BG Repeat --}}

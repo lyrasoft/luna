@@ -1,0 +1,18 @@
+.l-page-container .l-section__header {
+  margin-bottom: 50px; }
+
+.l-page-container .l-bg-container {
+  z-index: 1;
+  position: relative; }
+
+.l-page-container .l-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.l-page-container .l-bg-content {
+  position: relative; }
+
+/*# sourceMappingURL=page.css.map */

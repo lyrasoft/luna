@@ -42,6 +42,24 @@ article_tag:
         active:
             manimenu: tag
 
+# Page
+page:
+    pattern: /page(*path)
+    controller: Page
+    extra:
+        layout: page
+        active:
+            mainmenu: pages
+
+# Pages
+#pages:
+#    pattern: /pages(/page)
+#    controller: Pages
+#    extra:
+#        layout: pages
+#        active:
+#            mainmenu: pages
+
 # Language
 change_language:
     pattern: /language/checkout/(lang)

@@ -29,7 +29,7 @@ $(() => {
     
     <div class="form-group">
         <label :for="id + '-delay'">等待時間</label>
-        <input type="number" :id="id + '-delay'" class="form-control" v-model="animation.duration" min="0" />
+        <input type="number" :id="id + '-delay'" class="form-control" v-model="animation.delay" min="0" />
         <small class="form-text text-muted">
             等待一定時間後才發生動畫，單位: 微秒 (1/1000 秒)
         </small>

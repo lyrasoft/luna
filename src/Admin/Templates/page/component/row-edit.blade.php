@@ -190,11 +190,16 @@
                                         </div>
 
                                         <div class="form-row">
-                                            {{-- BG Overlay --}}
+                                            {{-- BG Size --}}
                                             <div class="form-group col-md-6">
-                                                <label for="input-row-edit-bg-overlay">背景顏色覆蓋</label>
-                                                <input id="input-row-edit-bg-overlay" type="text"
-                                                    v-model.lazy="options.background.image.overlay" v-color class="form-control" />
+                                                <label for="input-row-edit-bg-repeat">Background Size</label>
+                                                <select id="input-row-edit-bg-repeat"
+                                                    v-model.lazy="options.background.image.size" class="form-control">
+                                                    <option value="">Default</option>
+                                                    <option value="cover">Cover</option>
+                                                    <option value="contain">Contain</option>
+                                                    <option value="auto">Auto</option>
+                                                </select>
                                             </div>
 
                                             {{-- BG Repeat --}}
@@ -260,18 +265,18 @@
                                                 可直接貼上 mp4 影片網址，或 Youtube / Vimeo 連結
                                             </small>
                                         </div>
-
-                                        {{-- video Overlay --}}
-                                        <div class="form-group">
-                                            <label for="input-row-edit-bg-video-overlay">背景顏色覆蓋</label>
-                                            <input id="input-row-edit-bg-video-overlay" type="text"
-                                                v-model.lazy="options.background.video.overlay" v-color class="form-control" />
-                                        </div>
                                     </div>
                                 </transition>
 
                                 <transition name="fade">
                                     <div v-if="['video', 'image'].indexOf(options.background.type) !== -1">
+                                        {{-- BG Overlay --}}
+                                        <div class="form-group">
+                                            <label for="input-row-edit-bg-overlay">背景顏色覆蓋</label>
+                                            <input id="input-row-edit-bg-overlay" type="text"
+                                                v-model.lazy="options.background.overlay" v-color class="form-control" />
+                                        </div>
+
                                         {{-- Parallax Background --}}
                                         <div class="form-group">
                                             <label for="input-row-edit-hidden-mobile">視差特效</label>

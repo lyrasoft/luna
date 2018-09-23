@@ -39,6 +39,11 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 @stop
 
 @push('script')
+    @if (!$item->id)
+        <script>
+            $('#options-modal').modal('show');
+        </script>
+    @endif
 @endpush
 
 @section('admin-body')

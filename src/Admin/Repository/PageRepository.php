@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Repository;
 
 use Lyrasoft\Luna\Admin\Record\PageRecord;
+use Lyrasoft\Unidev\Seo\SlugHelper;
 use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Database\Driver\AbstractDatabaseDriver;
@@ -118,6 +119,36 @@ class PageRepository extends AdminRepository
     protected function prepareSave(Record $data)
     {
         parent::prepareSave($data);
+
+        if (!$data->preview_secret) {
+            $data->preview_secret = $this->genPreviewSecret();
+        }
+    }
+
+    /**
+     * handleAlias
+     *
+     * @param   string $alias
+     *
+     * @return  string
+     */
+    public function handleAlias($alias)
+    {
+        return implode('/', array_map([SlugHelper::class, 'safe'], explode('/', $alias)));
+    }
+
+    /**
+     * getPreviewSecret
+     *
+     * @return  string
+     *
+     * @throws \Exception
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function genPreviewSecret()
+    {
+        return md5(uniqid('Luna:page:' . random_int(1, 1000), true));
     }
 
     /**

@@ -1,0 +1,31 @@
+// Part of earth file.
+
+.l-page-container {
+  // Section
+  .l-section {
+
+  }
+
+  // Title
+  .l-section__header {
+    margin-bottom: 50px;
+  }
+
+  // BG
+  .l-bg-container {
+    z-index: 1;
+    position: relative;
+  }
+
+  .l-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .l-bg-content {
+    position: relative;
+  }
+}
