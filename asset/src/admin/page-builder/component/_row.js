@@ -47,17 +47,19 @@ $(() => {
         Phoenix.trigger('row:edit', this.content);
       },
 
-      disable() {
-
+      toggleDisabled() {
+        this.content.disabled = !this.content.disabled;
       },
 
       remove() {
-        this.$emit('delete');
+        Phoenix.confirm('確定要刪除嗎?')
+          .then(() => this.$emit('delete'));
       },
 
       getEmptyRow() {
         return {
           id: 'row-' + Phoenix.uniqid(),
+          disabled: false,
           options: {
             label: '',
             title: {

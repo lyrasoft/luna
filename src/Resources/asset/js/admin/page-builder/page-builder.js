@@ -78,6 +78,128 @@ $(function () {
  */
 
 $(function () {
+  Vue.component('single-image', {
+    template: '\n<div class="c-single-image-uploader">\n    <div class="form-group c-single-image-preview text-center" v-if="url !== \'\' && !uploading">\n        <img :src="url" alt="Image" class="img-fluid rounded" style="max-height: 450px;">\n    </div>\n    \n    <div class="c-single-image-placeholder text-center p-4 mb-3 border rounded" v-if="url === \'\' && !uploading">\n        <small class="text-muted">\u62D6\u62C9\u5716\u7247</small>\n    </div>\n    \n    <div class="form-group d-flex align-items-center" v-if="uploading" style="min-height: 450px;">\n        <img :src="loadingImage" class="mx-auto" alt="Loading">\n    </div>\n\n    <div class="form-group">\n        <div class="input-group">\n            <input :id="id" type="text"\n                v-model="url" class="form-control" :disabled="uploading" />\n            <div class="input-group-append">\n                <button type="button" class="btn btn-primary" @click="chooseFile()"\n                    :disabled="uploading">\n                    \u4E0A\u50B3\u5716\u7247\n                </button>\n                <button v-if="url !== \'\'" type="button" class="btn btn-primary" @click="url = \'\'"\n                    :disabled="uploading">\n                    <span class="fa fa-times"></span>\n                </button>\n            </div>\n        </div>\n        <small class="form-text text-muted">\n            \u8CBC\u4E0A\u5716\u7247\u7DB2\u5740\uFF0C\u6216\u8005\u4E0A\u50B3\u5716\u7247\uFF0C\u4E5F\u53EF\u4EE5\u5C07\u672C\u5730\u7AEF\u5716\u7247\u62D6\u62C9\u81F3\u6B64\u3002\n        </small>\n    </div>\n</div>\n    ',
+    data: function data() {
+      return {
+        url: '',
+        loadingImage: Phoenix.route('loading_image'),
+        uploading: false
+      };
+    },
+
+    props: {
+      value: String,
+      id: String,
+      accepted: {
+        type: Array,
+        default: function _default() {
+          return ['image/jpeg', 'image/png', 'image/gif'];
+        }
+      }
+    },
+    created: function created() {
+      this.url = this.value;
+    },
+    mounted: function mounted() {
+      var _this = this;
+
+      var $el = $(this.$el);
+
+      $el.on('dragover', function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        $el.addClass('c-single-image-uploader--hover');
+      });
+
+      $el.on('dragleave', function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        $el.removeClass('c-single-image-uploader--hover');
+      });
+
+      // File drop
+      $el.on("drop", function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        $el.removeClass('c-single-image-uploader--hover');
+
+        var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
+
+        _this.uploadFile(files[0]);
+      });
+    },
+
+    methods: {
+      chooseFile: function chooseFile() {
+        var _this2 = this;
+
+        var input = $('<input type="file">');
+
+        input.on('change', function (event) {
+          var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
+
+          _this2.uploadFile(files[0]);
+        });
+
+        input.click();
+      },
+      uploadFile: function uploadFile(file) {
+        var _this3 = this;
+
+        if (!this.checkFile(file)) {
+          return;
+        }
+
+        var formData = new FormData();
+        formData.append('file', file);
+
+        this.uploading = true;
+
+        $.post({
+          url: Phoenix.route('single_image_upload'),
+          data: formData,
+          processData: false,
+          contentType: false
+        }).done(function (res) {
+          _this3.url = res.data.url;
+        }).fail(function (xhr) {
+          console.error(xhr.responseJSON.message);
+          alert(xhr.responseJSON.message);
+        }).always(function () {
+          _this3.uploading = false;
+        });
+      },
+      checkFile: function checkFile(file) {
+        if (this.accepted.indexOf(file.type) < 0) {
+          alert('不允許的格式');
+          return false;
+        }
+
+        return true;
+      }
+    },
+    watch: {
+      value: function value() {
+        this.url = this.value;
+      },
+      url: function url() {
+        this.$emit('change', this.url);
+        this.$emit('input', this.url);
+      }
+    }
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
   Vue.component('title-options', {
     template: '\n<div class="c-title-options">\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Element -->\n            <div class="form-group">\n                <label :for="id + \'title-element\'">\n                    \u6A19\u984C\u5143\u7D20\n                </label>\n                <select :id="id + \'title-element\'"\n                    v-model="options.title.element" class="form-control">\n                    <option v-for="i of [1, 2, 3, 4, 5, 6]" :value="\'h\' + i">\n                        h{{ i }}\n                    </option>\n                </select>\n            </div>\n        </div>\n        <div class="col-6">\n            <!-- Title Color -->\n            <div class="form-group">\n                <label :for="id + \'title-color\'">\u6A19\u984C\u984F\u8272</label>\n                <input :id="id + \'title-color\'" type="text"\n                    v-model.lazy="options.title.color" v-color class="form-control" />\n            </div>\n        </div>\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Font Size -->\n            <rwd-group class-name="c-title-font-size">\n                <label slot="label">\n                    \u6A19\u984C\u5B57\u9AD4\u5927\u5C0F\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-font-size__\' + size">\n                    <div class="d-flex">\n                        <vue-slide-bar v-model="options.title.font_size[size]" class="flex-grow-1" :max="500"></vue-slide-bar>\n                        <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                            v-model="options.title.font_size[size]" />\n                    </div>\n                </div>\n            </rwd-group>\n        </div>\n        <div class="col-6">\n            <!-- Title Font Weight -->\n            <div class="form-group">\n                <label>\n                    \u6A19\u984C\u5B57\u9AD4\u7C97\u7D30\n                </label>\n                <div class="d-flex">\n                    <vue-slide-bar v-model="options.title.font_weight" class="flex-grow-1"\n                        :data="[100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000]"></vue-slide-bar>\n                    <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                        v-model="options.title.font_weight" />\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Margin Top -->\n            <rwd-group class-name="c-title-margin_top">\n                <label slot="label">\n                    \u6A19\u984C\u4E0A\u65B9\u9593\u8DDD Margin Top\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-margin_top__\' + size">\n                    <input type="number" v-model="options.title.margin_top[size]" class="form-control" />\n                </div>\n            </rwd-group>\n        </div>\n        <div class="col-6">\n            <!-- Title Margin Bottom -->\n            <rwd-group class-name="c-title-margin_bottom">\n                <label slot="label">\n                    \u6A19\u984C\u4E0B\u65B9\u9593\u8DDD Margin Bottom\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-margin_bottom__\' + size">\n                    <input type="number" v-model="options.title.margin_bottom[size]" class="form-control" />\n                </div>\n            </rwd-group>\n        </div>\n    </div>\n</div>\n    ',
     data: function data() {
@@ -236,11 +358,11 @@ $(function () {
       }
     },
     mounted: function mounted() {
-      var _this = this;
+      var _this4 = this;
 
       // Fix DOM loading issues
       setTimeout(function () {
-        _this.currentSize = 'lg';
+        _this4.currentSize = 'lg';
       }, 150);
     },
 
@@ -296,22 +418,22 @@ $(function () {
       value: Object
     },
     mounted: function mounted() {
-      var _this2 = this;
+      var _this5 = this;
 
       underscore.each(this.offsets, function (offset, size) {
         underscore.each(offset, function (value, pos) {
-          _this2.$watch('offsets.' + size + '.' + pos, function (v) {
-            if (_this2.lock) {
+          _this5.$watch('offsets.' + size + '.' + pos, function (v) {
+            if (_this5.lock) {
               offset.top = v;
               offset.right = v;
               offset.bottom = v;
               offset.left = v;
             }
 
-            var allValue = _this2.getAllValues();
+            var allValue = _this5.getAllValues();
 
-            _this2.$emit('change', allValue);
-            _this2.$emit('input', allValue);
+            _this5.$emit('change', allValue);
+            _this5.$emit('input', allValue);
           });
         });
       });
@@ -330,7 +452,7 @@ $(function () {
     },
     watch: {
       value: function value(_value) {
-        var _this3 = this;
+        var _this6 = this;
 
         console.log(_value);
         underscore.each(_value, function (offset, size) {
@@ -343,10 +465,10 @@ $(function () {
               bottom = _offset$split2[2],
               left = _offset$split2[3];
 
-          _this3.offsets[size].top = top;
-          _this3.offsets[size].right = right;
-          _this3.offsets[size].bottom = bottom;
-          _this3.offsets[size].left = left;
+          _this6.offsets[size].top = top;
+          _this6.offsets[size].right = right;
+          _this6.offsets[size].bottom = bottom;
+          _this6.offsets[size].left = left;
         });
       }
     }
@@ -376,12 +498,12 @@ $(function () {
       }
     },
     mounted: function mounted() {
-      var _this4 = this;
+      var _this7 = this;
 
       this.active = this.$parent.value === this.value;
 
       this.$parent.$on('button-selected', function (value) {
-        _this4.active = value === _this4.value;
+        _this7.active = value === _this7.value;
       });
     },
 
@@ -402,11 +524,11 @@ $(function () {
       value: String
     },
     mounted: function mounted() {
-      var _this5 = this;
+      var _this8 = this;
 
       this.$on('button-selected', function (value) {
-        _this5.$emit('change', value);
-        _this5.$emit('input', value);
+        _this8.$emit('change', value);
+        _this8.$emit('input', value);
       });
 
       // this.$nextTick(() => {
@@ -557,6 +679,10 @@ $(function () {
           Vue.set(editData, 'options', this.getAddonBasicOptions());
         }
 
+        if (typeof editData.disabled === 'undefined') {
+          Vue.set(editData, 'disabled', false);
+        }
+
         this.values = editData;
 
         $(this.$refs.generalTab).click();
@@ -574,12 +700,12 @@ $(function () {
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
-        var _this6 = this;
+        var _this9 = this;
 
         $(this.$refs.modal).modal('hide');
 
         setTimeout(function () {
-          _this6.values = {};
+          _this9.values = {};
         }, 300);
 
         this.sticky = false;
@@ -621,6 +747,7 @@ $(function () {
             md: '',
             lg: ''
           },
+          custom_css: '',
           text_color: '',
           display: {
             xs: 'd-block',
@@ -724,9 +851,18 @@ $(function () {
       edit: function edit() {
         Phoenix.trigger('addon:edit', this.content, this.column);
       },
-      disable: function disable() {},
+      toggleDisabled: function toggleDisabled() {
+        this.content.disabled = !this.content.disabled;
+      },
+      copy: function copy() {
+        this.$emit('copy');
+      },
       remove: function remove() {
-        this.$emit('delete');
+        var _this10 = this;
+
+        Phoenix.confirm('確定要刪除嗎?').then(function () {
+          return _this10.$emit('delete');
+        });
       },
       addAddon: function addAddon() {
         Phoenix.trigger('addon:add', this.content);
@@ -793,12 +929,12 @@ $(function () {
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
-        var _this7 = this;
+        var _this11 = this;
 
         $(this.$refs.modal).modal('hide');
 
         setTimeout(function () {
-          _this7.values = {};
+          _this11.values = {};
         }, 300);
 
         this.sticky = false;
@@ -851,13 +987,13 @@ $(function () {
     },
 
     created: function created() {
-      var _this8 = this;
+      var _this12 = this;
 
       this.content = this.value;
 
       if (typeof this.content.id === 'undefined') {
         underscore.each(this.getEmptyColumn(), function (v, k) {
-          Vue.set(_this8.content, k, v);
+          Vue.set(_this12.content, k, v);
         });
       }
     },
@@ -867,9 +1003,22 @@ $(function () {
       edit: function edit() {
         Phoenix.trigger('column:edit', this.content);
       },
-      disable: function disable() {},
+      toggleDisabled: function toggleDisabled() {
+        this.content.disabled = !this.content.disabled;
+      },
       remove: function remove() {
-        this.$emit('delete');
+        var _this13 = this;
+
+        Phoenix.confirm('確定要刪除嗎?').then(function () {
+          return _this13.$emit('delete');
+        });
+      },
+      copyAddon: function copyAddon(item, i) {
+        var newItem = JSON.parse(JSON.stringify(item));
+
+        newItem.id = Phoenix.uniqid();
+
+        this.addons.splice(i, 0, newItem);
       },
       addAddon: function addAddon() {
         Phoenix.trigger('addon:add', this.content);
@@ -877,9 +1026,13 @@ $(function () {
       addNewRow: function addNewRow() {
         this.content.addons.push({ type: 'row' });
       },
+      deleteAddon: function deleteAddon(i) {
+        this.addons.splice(i, 1);
+      },
       getEmptyColumn: function getEmptyColumn() {
         return {
           id: 'col-' + Phoenix.uniqid(),
+          disabled: false,
           addons: [],
           options: {
             html_class: '',
@@ -1019,14 +1172,14 @@ $(function () {
         this.sticky = false;
       },
       close: function close() {
-        var _this9 = this;
+        var _this14 = this;
 
         $(this.$refs.modal).modal('hide');
 
         this.sticky = false;
 
         setTimeout(function () {
-          _this9.values = {};
+          _this14.values = {};
         }, 300);
       }
     },
@@ -1073,13 +1226,13 @@ $(function () {
     },
 
     created: function created() {
-      var _this10 = this;
+      var _this15 = this;
 
       this.content = this.value;
 
       if (typeof this.content.id === 'undefined') {
         underscore.each(this.getEmptyRow(), function (v, k) {
-          Vue.set(_this10.content, k, v);
+          Vue.set(_this15.content, k, v);
         });
       }
     },
@@ -1092,13 +1245,20 @@ $(function () {
       edit: function edit() {
         Phoenix.trigger('row:edit', this.content);
       },
-      disable: function disable() {},
+      toggleDisabled: function toggleDisabled() {
+        this.content.disabled = !this.content.disabled;
+      },
       remove: function remove() {
-        this.$emit('delete');
+        var _this16 = this;
+
+        Phoenix.confirm('確定要刪除嗎?').then(function () {
+          return _this16.$emit('delete');
+        });
       },
       getEmptyRow: function getEmptyRow() {
         return {
           id: 'row-' + Phoenix.uniqid(),
+          disabled: false,
           options: {
             label: '',
             title: {
@@ -1242,62 +1402,62 @@ $(function () {
       'addon-edit': Phoenix.data('component:addon-edit')
     },
     mounted: function mounted() {
-      var _this11 = this;
+      var _this17 = this;
 
       Phoenix.on('row:edit', function (content, column) {
-        _this11.editing.row = content;
-        _this11.editing.column = content;
-        _this11.$refs.rowEdit.edit(content);
+        _this17.editing.row = content;
+        _this17.editing.column = content;
+        _this17.$refs.rowEdit.edit(content);
       });
 
       Phoenix.on('row:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this11.editing.row[k] = v;
+          _this17.editing.row[k] = v;
         });
 
-        _this11.editing.column = {};
-        _this11.editing.row = {};
+        _this17.editing.column = {};
+        _this17.editing.row = {};
       });
 
       Phoenix.on('column:edit', function (content) {
-        _this11.editing.column = content;
-        _this11.$refs.columnEdit.edit(content);
+        _this17.editing.column = content;
+        _this17.$refs.columnEdit.edit(content);
       });
 
       Phoenix.on('column:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this11.editing.column[k] = v;
+          _this17.editing.column[k] = v;
         });
 
-        _this11.editing.column = {};
+        _this17.editing.column = {};
       });
 
       Phoenix.on('addon:add', function (column) {
-        _this11.editing.column = column;
+        _this17.editing.column = column;
 
-        $(_this11.$refs.addonList).modal('show');
+        $(_this17.$refs.addonList).modal('show');
       });
 
       Phoenix.on('addon:edit', function (addon, column) {
-        _this11.editing.addon = addon;
-        _this11.editing.column = column;
+        _this17.editing.addon = addon;
+        _this17.editing.column = column;
 
-        _this11.$refs.addonEdit.edit(addon);
+        _this17.$refs.addonEdit.edit(addon);
       });
 
       Phoenix.on('addon:save', function (addon) {
-        if (_this11.editing.column.addons.filter(function (item) {
+        if (_this17.editing.column.addons.filter(function (item) {
           return item.id === addon.id;
         }).length === 0) {
-          _this11.editing.column.addons.push(addon);
+          _this17.editing.column.addons.push(addon);
         }
 
         underscore.each(addon, function (v, k) {
-          _this11.editing.addon[k] = v;
+          _this17.editing.addon[k] = v;
         });
 
-        _this11.editing.column = {};
-        _this11.editing.addon = {};
+        _this17.editing.column = {};
+        _this17.editing.addon = {};
       });
     },
 
@@ -1312,14 +1472,14 @@ $(function () {
         row.columns = $event.columns;
       },
       selectAddon: function selectAddon(type) {
-        var _this12 = this;
+        var _this18 = this;
 
         $(this.$refs.addonList).modal('hide');
 
         var addonData = Phoenix.data('addon.type.' + type);
 
         setTimeout(function () {
-          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this12.editing.column);
+          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this18.editing.column);
           $('body').addClass('modal-open');
         }, 365);
       },

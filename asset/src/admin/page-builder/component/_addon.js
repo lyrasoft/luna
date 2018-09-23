@@ -31,12 +31,17 @@ $(() => {
         Phoenix.trigger('addon:edit', this.content, this.column);
       },
 
-      disable() {
+      toggleDisabled() {
+        this.content.disabled = !this.content.disabled;
+      },
 
+      copy() {
+        this.$emit('copy');
       },
 
       remove() {
-        this.$emit('delete');
+        Phoenix.confirm('確定要刪除嗎?')
+          .then(() => this.$emit('delete'));
       },
 
       addAddon() {

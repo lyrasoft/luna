@@ -25,6 +25,7 @@ fusion.task('js', function () {
       'asset/src/admin/page-builder/addons/_text.js',
 
       // Widgets
+      'asset/src/admin/page-builder/widgets/_single-image.js',
       'asset/src/admin/page-builder/widgets/_title-options.js',
       'asset/src/admin/page-builder/widgets/_animation.js',
       'asset/src/admin/page-builder/widgets/_gradient.js',
@@ -59,7 +60,7 @@ fusion.task('scss', function () {
   // Watch end
 
   // Compile Start
-  fusion.sass('asset/scss/**/*.scss', 'src/Resources/asset/css/');
+  fusion.sass('asset/scss/**/*.scss', 'src/Resources/asset/css/', { rebase: false });
   // Compile end
 });
 

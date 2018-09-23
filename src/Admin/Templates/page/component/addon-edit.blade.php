@@ -109,9 +109,9 @@
                                     <div v-if="['image'].indexOf(options.background.type) !== -1">
                                         {{-- BG Image --}}
                                         <div class="form-group">
-                                            <label for="input-addon-edit-bg-image">背景圖片</label>
-                                            <input id="input-addon-edit-bg-image" type="text"
-                                                v-model="options.background.image.url" class="form-control" />
+                                            <label for="input-row-edit-bg-image">背景圖片</label>
+                                            <single-image v-model="options.background.image.url"
+                                                id="input-addon-edit-bg-image"></single-image>
                                         </div>
 
                                         <div class="form-row">

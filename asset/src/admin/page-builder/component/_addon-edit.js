@@ -30,6 +30,10 @@ $(() => {
           Vue.set(editData, 'options', this.getAddonBasicOptions());
         }
 
+        if (typeof editData.disabled === 'undefined') {
+          Vue.set(editData, 'disabled', false);
+        }
+
         this.values = editData;
 
         $(this.$refs.generalTab).click();
@@ -95,6 +99,7 @@ $(() => {
             md: '',
             lg: '',
           },
+          custom_css: '',
           text_color: '',
           display: {
             xs: 'd-block',

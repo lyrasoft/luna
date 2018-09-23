@@ -87,8 +87,8 @@
                                         {{-- BG Image --}}
                                         <div class="form-group">
                                             <label for="input-column-edit-bg-image">背景圖片</label>
-                                            <input id="input-column-edit-bg-image" type="text"
-                                                v-model="options.background.image.url" class="form-control" />
+                                            <single-image v-model="options.background.image.url"
+                                                id="input-column-edit-bg-image"></single-image>
                                         </div>
 
                                         <div class="form-row">

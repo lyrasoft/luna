@@ -9,14 +9,17 @@
 namespace Lyrasoft\Luna\Admin\View\Page;
 
 use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\AddonHelper;
 use Lyrasoft\Luna\PageBuilder\AddonType;
 use Phoenix\Script\BootstrapScript;
+use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Asset\Asset;
 use Windwalker\Core\Asset\AssetManager;
+use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Data\Data;
 
 /**
@@ -86,6 +89,7 @@ class PageHtmlView extends EditView
      * @param Data $data
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function prepareScripts(Data $data)
     {
@@ -95,6 +99,12 @@ class PageHtmlView extends EditView
         BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
         BootstrapScript::buttonRadio();
         BootstrapScript::tooltip('.has-tooltip');
+
+        JQueryScript::csrfToken();
+        PhoenixScript::addRoute('single_image_upload', $this->router->route('_luna_img_upload'));
+        PhoenixScript::addRoute('loading_image', Asset::path(
+            PackageHelper::getAlias(LunaPackage::class) . '/images/ring-loading.gif'
+        ));
 
         PhoenixScript::data('builder-content', json_decode($data->item->content, true) ?: []);
 

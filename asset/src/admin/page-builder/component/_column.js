@@ -44,12 +44,21 @@ $(() => {
         Phoenix.trigger('column:edit', this.content);
       },
 
-      disable() {
-
+      toggleDisabled() {
+        this.content.disabled = !this.content.disabled;
       },
 
       remove() {
-        this.$emit('delete');
+        Phoenix.confirm('確定要刪除嗎?')
+          .then(() => this.$emit('delete'));
+      },
+
+      copyAddon(item, i) {
+        const newItem = JSON.parse(JSON.stringify(item));
+
+        newItem.id = Phoenix.uniqid();
+
+        this.addons.splice(i, 0, newItem);
       },
 
       addAddon() {
@@ -60,9 +69,14 @@ $(() => {
         this.content.addons.push({ type: 'row' });
       },
 
+      deleteAddon(i) {
+        this.addons.splice(i, 1);
+      },
+
       getEmptyColumn() {
         return {
           id: 'col-' + Phoenix.uniqid(),
+          disabled: false,
           addons: [],
           options: {
             html_class: '',
