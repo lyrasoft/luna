@@ -92,21 +92,24 @@ class ModuleHtmlView extends EditView
         }
 
         if (!$data->type) {
-            $this->package->app->addMessage(__($this->langPrefix . 'module.edit.message.no.type'),
-                Bootstrap::MSG_WARNING)
+            $this->package->app->addMessage(
+                __($this->langPrefix . 'module.edit.message.no.type'),
+                Bootstrap::MSG_WARNING
+            )
                 ->redirect($this->router->route('modules'));
         }
 
-        $data->moduleType = ModuleHelper::getModuleType($data->type);;
+        $data->moduleType = ModuleHelper::getModuleType($data->type);
         $data->module = $data->moduleType->createInstance($data->item);
 
         // Add layout path
         $this->addPath($data->module->getDir() . '/Templates', PriorityQueue::BELOW_NORMAL);
 
         $this->setTitle(
-            Translator::sprintf('phoenix.title.edit',
-                __($this->langPrefix . $this->getName() . '.title')) .
-            ': ' . $data->moduleType->name
+            Translator::sprintf(
+                'phoenix.title.edit',
+                __($this->langPrefix . $this->getName() . '.title')
+            ) . ': ' . $data->moduleType->name
         );
     }
 

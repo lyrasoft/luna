@@ -7,7 +7,7 @@ $form->setAttributes('labelWidth', 'col-12', 'basic');
 $form->setAttributes('fieldWidth', 'col-12', 'basic');
 ?>
 
-<div class="modal fade" id="options-modal" tabindex="-1" role="dialog" aria-labelledby="options-modal-label" aria-hidden="true">
+<div class="modal fade" id="options-modal" role="dialog" aria-labelledby="options-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -30,3 +30,18 @@ $form->setAttributes('fieldWidth', 'col-12', 'basic');
         </div>
     </div>
 </div>
+
+@push('script')
+<script>
+    $('#options-modal').on('hide.bs.modal', function (e) {
+        var v = $('#admin-form').validation();
+
+        var result = v.validateAll();
+
+        if (!result) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    });
+</script>
+@endpush

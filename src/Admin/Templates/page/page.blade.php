@@ -39,15 +39,14 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 @stop
 
 @push('script')
-    {{-- Add Script Here --}}
 @endpush
 
 @section('admin-body')
-    <div id="page-builder" class="card bg-light border-0">
-        <div class="card-body">
-            <form name="admin-form" id="admin-form" action="{{ $router->route('page', ['id' => $item->id]) }}" method="POST"
-                enctype="multipart/form-data">
+    <form name="admin-form" id="admin-form" action="{{ $router->route('page', ['id' => $item->id]) }}" method="POST"
+        enctype="multipart/form-data">
 
+        <div id="page-builder" class="card bg-light border-0">
+            <div class="card-body">
                 <div class="page-builder__body body">
 
                     <draggable v-model="content" @start="drag = true" @end="drag = false"
@@ -73,8 +72,6 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
                     @formToken
                 </div>
 
-                @include('modal-options')
-
                 <textarea name="item[content]" id="input-item-content" style="display: none;">@{{ getSaveValue() }}</textarea>
 
                 {{-- Inline Components --}}
@@ -84,9 +81,11 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
                 @include('component.column-edit')
                 @include('component.addon-edit')
                 @include('modal.addons')
-            </form>
+            </div>
         </div>
-    </div>
+
+        @include('modal-options')
+    </form>
 
     {{-- Components --}}
     @include('component.row')

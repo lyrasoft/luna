@@ -6,13 +6,12 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Admin\Field\Module;
+namespace Lyrasoft\Luna\Admin\Field\Page;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
-use Windwalker\Core\Language\Translator;
 use Windwalker\Ioc;
 
 /**
@@ -20,21 +19,21 @@ use Windwalker\Ioc;
  *
  * @since  1.0
  */
-class PositionListField extends ItemListField
+class ExtendListField extends ItemListField
 {
     /**
      * Property table.
      *
      * @var  string
      */
-    protected $table = LunaTable::MODULES;
+    protected $table = LunaTable::PAGES;
 
     /**
      * Property valueField.
      *
      * @var  string
      */
-    protected $valueField = 'position';
+    protected $valueField = 'extends';
 
     /**
      * Property textField.
@@ -55,7 +54,7 @@ class PositionListField extends ItemListField
      *
      * @param array $attrs
      *
-     * @return  mixed|void
+     * @return  mixed
      */
     public function buildInput($attrs)
     {
@@ -80,33 +79,33 @@ class PositionListField extends ItemListField
             return [];
         }
 
-        $select = $this->get('select', 'DISTINCT position');
+        $select = $this->get('select', 'DISTINCT extends');
 
         $query->select($select)
             ->from($table)
-            ->where('position != ""')
-            ->order('position');
+            ->where('extends != ""')
+            ->order('extends');
 
         $this->postQuery($query);
 
         $postQuery = $this->get('postQuery');
 
         if (is_callable($postQuery)) {
-            call_user_func($postQuery, $query, $this);
+            $postQuery($query, $this);
         }
 
         $items = (array) $db->setQuery($query)->loadColumn();
 
         $items = array_combine($items, $items);
 
-        $positions = LunaHelper::getPackage()->get('module.positions');
+        $extends = LunaHelper::getPackage()->get('page.extends');
 
-        foreach ((array) $positions as $position => $name) {
-            if (is_numeric($position)) {
-                $position = $name;
+        foreach ((array) $extends as $extend => $name) {
+            if (is_numeric($extend)) {
+                $extend = $name;
             }
 
-            $items[$position] = $name;
+            $items[$extend] = $name;
         }
 
         ksort($items);
@@ -118,7 +117,7 @@ class PositionListField extends ItemListField
 
             $options[] = (object) [
                 'name' => $name,
-                'position' => $k,
+                'extends' => $k,
             ];
         }
 

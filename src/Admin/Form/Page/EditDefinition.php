@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Page;
 
+use Lyrasoft\Luna\Admin\Field\Page\ExtendListField;
 use Lyrasoft\Luna\Admin\Field\Page\PageListField;
 use Lyrasoft\Luna\Admin\Field\Page\PageModalField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
@@ -58,6 +59,12 @@ class EditDefinition extends AbstractFieldDefinition
                 ->label(__('luna.page.field.alias'))
                 ->description(__('luna.page.field.alias.desc'))
                 ->maxlength(255);
+
+            $this->add('extends', ExtendListField::class)
+                ->label(__('luna.page.field.extends'))
+                ->description(__('luna.page.field.extends.desc'))
+                ->set('allow_add', true)
+                ->required(true);
 
             $this->group('meta', function () {
                 $this->text('meta_title')

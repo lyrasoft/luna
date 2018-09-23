@@ -32,7 +32,7 @@ class ModuleType extends Data
      *
      * @return AbstractModule
      */
-    public function createInstance(array $data = [], $engine = 'edge')
+    public function createInstance($data = [], $engine = 'edge')
     {
         $class = $this->class;
 

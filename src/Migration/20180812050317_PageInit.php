@@ -24,6 +24,7 @@ class PageInit extends AbstractMigration
     {
         $this->createTable(LunaTable::PAGES, function (Schema $schema) {
             $schema->primary('id')->comment('Primary Key');
+            $schema->varchar('extends')->comment('Extends Layout');
             $schema->varchar('title')->comment('Title');
             $schema->varchar('alias')->comment('Alias');
             $schema->longtext('content')->comment('Page data');
@@ -37,6 +38,7 @@ class PageInit extends AbstractMigration
             $schema->char('language')->length(7)->comment('Language');
             $schema->text('params')->comment('Params');
 
+            $schema->addIndex('extends(150)');
             $schema->addIndex('alias(150)');
             $schema->addIndex('language');
             $schema->addIndex('created_by');
