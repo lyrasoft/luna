@@ -15,24 +15,32 @@ $(() => {
 
     data() {
       return {
-        columns: [],
-        options: {},
+        content: {},
         drag: false
       }
     },
 
     props: {
-      content: Object
+      value: Object,
+      child: {
+        type: Boolean,
+        default: false
+      }
     },
 
     created() {
-      this.columns = this.content.columns || [];
-      this.options = this.content.options || {};
+      this.content = this.value;
+
+      if (typeof this.content.id === 'undefined') {
+        underscore.each(this.getEmptyRow(), (v, k) => {
+          Vue.set(this.content, k, v);
+        });
+      }
     },
 
     methods: {
       addNewColumn() {
-        this.columns.push(this.getEmptyColumn());
+        this.content.columns.push({foo: Phoenix.uniqid()});
       },
 
       edit() {
@@ -47,58 +55,62 @@ $(() => {
         this.$emit('delete');
       },
 
-      getEmptyColumn() {
+      getEmptyRow() {
         return {
-          id: 'col-' + Phoenix.uniqid(),
-          addons: [],
+          id: 'row-' + Phoenix.uniqid(),
           options: {
+            label: '',
+            title: {
+              text: '',
+              element: 'h3',
+              font_size: {
+                lg: '',
+                md: '',
+                xs: ''
+              },
+              font_weight: '',
+              color: '',
+              margin_top: {
+                lg: '',
+                md: '',
+                xs: ''
+              },
+              margin_bottom: {
+                lg: '',
+                md: '',
+                xs: ''
+              }
+            },
+            subtitle: {
+              text: '',
+              font_size: {
+                lg: '',
+                md: '',
+                xs: ''
+              }
+            },
+            html_id: '',
             html_class: '',
-            align: 'center',
+            title_align: 'center',
             valign: 'top',
+            fluid_row: false,
+            no_gutter: false,
             padding: {
-              xs: '',
+              xl: '',
               md: '',
-              lg: '',
+              xs: ''
             },
             margin: {
-              xs: '',
+              xl: '',
               md: '',
-              lg: '',
-            },
-            text_color: '',
-            width: {
-              xs: '',
-              md: '',
-              lg: 'col-lg-3',
+              xs: ''
             },
             display: {
               xs: 'd-block',
               md: 'd-md-block',
               lg: 'd-lg-block'
             },
-            box_shadow: {
-              enabled: 0,
-              color: 'rgba(0, 0, 0, 1)',
-              hoffset: 0,
-              voffset: 0,
-              blur: 0,
-              spread: 0
-            },
-            border: {
-              enabled: 0,
-              width: {
-                lg: 1,
-                md: 1,
-                xs: 1,
-              },
-              color: '',
-              style: '',
-              radius: {
-                lg: 0,
-                md: 0,
-                xs: 0,
-              }
-            },
+            text_color: '',
             background: {
               type: 'none',
               color: '',
@@ -118,19 +130,20 @@ $(() => {
                 end_color: '',
                 end_pos: ''
               },
-              video: ''
+              video: {
+                url: '',
+                overlay: ''
+              },
+              parallax: false
             },
             animation: {
               name: '',
               duration: 300,
               delay: 0
             }
-          }
+          },
+          columns: [],
         };
-      },
-
-      getColumnWidth(columnOptions) {
-        return underscore.values(columnOptions.width).join(' ');
       },
 
       deleteColumn(i) {
@@ -139,14 +152,6 @@ $(() => {
     },
 
     watch: {
-      content: {
-        handler(c) {
-          console.log(c);
-          this.options = this.content.options;
-          this.columns = this.content.columns;
-        },
-        deep: true
-      },
       columns: {
         handler() {
           this.$emit('columns-change', {columns: this.columns});
@@ -156,7 +161,14 @@ $(() => {
     },
 
     computed: {
-
+      columns() {
+        return this.content.columns;
+      },
+      options() {
+        return this.content.options;
+      }
     }
   });
+
+  Vue.component('row', Phoenix.data('component:row'));
 });

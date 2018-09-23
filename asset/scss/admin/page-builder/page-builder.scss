@@ -5,7 +5,7 @@
 }
 
 .btn-mini {
-  padding: .2rem .12rem;
+  padding: .2rem .4rem;
   line-height: 1.1;
   font-size: .875rem;
 }
@@ -13,13 +13,57 @@
 $gutter: 7px;
 
 #page-builder {
-  row {
+  .row {
     margin-left: -$gutter;
     margin-right: -$gutter;
+
+    > [class^=col] {
+      padding-left: $gutter;
+      padding-right: $gutter;
+    }
   }
 
-  [class^=col] {
-    padding-left: $gutter;
-    padding-right: $gutter;
+  // Columns
+  .column {
+    &__addon {
+      margin-bottom: .5rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__addon-placeholder {
+      display: none;
+
+      &:only-child {
+        display: block;
+      }
+    }
+  }
+
+
+  // Addons
+  .c-addon-instance {
+    .card-body {
+      position: relative;
+    }
+
+    &__toolbar {
+      position: absolute;
+      top: .75rem;
+      right: .75rem;
+    }
+  }
+}
+
+.c-addon-list {
+  .c-addon__link {
+    border: 1px solid #ccc;
+
+    &:hover {
+      text-decoration: none;
+      background-color: #eee;
+    }
   }
 }

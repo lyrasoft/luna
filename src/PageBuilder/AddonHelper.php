@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Lyrasoft\Luna\Module\AbstractAddon;
 use Windwalker\Cache\Cache;
 use Windwalker\Cache\Serializer\RawSerializer;
 use Windwalker\Cache\Storage\ArrayStorage;
@@ -143,6 +142,7 @@ class AddonHelper
                 'icon' => $class::getIcon(),
                 'description' => $class::getDescription(),
                 'langPrefix' => $class::getLangPrefix(),
+                'componentName' => $class::getVueComponentName(),
                 'class' => $class,
             ]
         );
@@ -164,7 +164,7 @@ class AddonHelper
 
             foreach ($folders as $folder) {
                 /** @var AbstractAddon $class */
-                $class = $namespace . '\\' . ucfirst($folder) . '\\' . ucfirst($folder) . 'Module';
+                $class = $namespace . '\\' . ucfirst($folder) . '\\' . ucfirst($folder) . 'Addon';
 
                 if (class_exists($class)) {
                     if (!is_subclass_of($class, AbstractAddon::class)) {

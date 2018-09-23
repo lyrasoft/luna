@@ -1,7 +1,7 @@
 {{-- Part of earth project. --}}
 
 <script id="row-component-tmpl" type="text/template">
-    <div class="page-row__wrapper">
+    <div class="page-row__wrapper bg-light" :class="{'p-2': child, 'rounded': child}">
         <div class="page-row__title-bar d-flex mb-2">
             <div class="page-row__title d-flex">
                 <div class="page-row__move-cursor">
@@ -9,26 +9,30 @@
                         <span class="fa fa-fw fa-arrows-alt-v row-move-handle"></span>
                     </span>
                 </div>
-                <h5>
+                <div :is="child ? 'strong' : 'h5'">
                     @{{ options.label === '' ? 'ROW' : options.label }}
-                </h5>
+                </div>
 
                 @debug
-                <div class="ml-3">
+                <small class="ml-3">
                     @{{ content.id }}
-                </div>
+                </small>
                 @enddebug
             </div>
             <div class="page-row__actions ml-auto">
                 <button type="button" class="btn btn-sm btn-primary"
                     @click="addNewColumn()">
                     <span class="fa fa-plus"></span>
-                    Add Column
+                    <span v-if="!child">
+                        Add Column
+                    </span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-secondary"
                     @click="edit()">
                     <span class="fa fa-edit"></span>
+                    <span v-if="!child">
                     Edit Row
+                    </span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-danger"
                     @click="remove()">
@@ -38,14 +42,15 @@
         </div>
 
         <div class="card">
-            <div is="draggable" class="card-body page-row__body row"
-                v-model="columns" @start="drag = true" @end="drag = false"
-                :options="{handle: '.column-move-handle', group: 'column'}">
-                <column v-for="(column, i) of columns" class="page-row__column column mb-3" :class="[getColumnWidth(column.options)]"
+            <div is="draggable" class="card-body page-row__body row" :class="{'p-2': child}"
+                v-model="content.columns" @start="drag = true" @end="drag = false"
+                :options="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : '')}" style="min-height: 50px;">
+                <column v-for="(column, i) of columns" class="page-row__column column mb-2"
                     @delete="deleteColumn(i)"
                     :index="i"
                     :key="column.id"
-                    :content="column">
+                    :value="column"
+                    :child="child">
 
                 </column>
             </div>

@@ -1,1 +1,0 @@
-{{-- Part of earth project. --}}

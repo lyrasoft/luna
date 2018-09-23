@@ -1,33 +1,80 @@
 {{-- Part of earth project. --}}
 
 <script id="column-component-tmpl" type="text/template">
-    <div class="column__wrapper">
+    <div class="column__wrapper" :class="width">
         <div class="card column__body">
-            <div class="column__top-bar d-flex card-header">
+            <div class="column__top-bar d-flex card-header" :class="{'p-2': child}">
                 <div class="column__title mb-2">
                     <div class="badge badge-secondary column-move-handle mr-2" style="cursor: move">
                         <span class="fa fa-fw fa-arrows-alt"></span>
                     </div>
-                    Column: <code>@{{ content.id }}</code>
+                    @debug
+                    <code>@{{ content.id }}</code>
+                    @enddebug
                 </div>
 
-                <div class="column__actions ml-auto">
-                    <div class="dropdown">
+                <div class="column__actions ml-auto text-nowrap">
+                    <button type="button" class="btn btn-mini btn-primary"
+                        @click="addAddon()">
+                        <span class="fa fa-plus"></span>
+                        <span v-if="!child">
+                            Addon
+                        </span>
+                    </button>
+
+                    <span class="dropdown">
                         <button href="javascript://" class="btn btn-mini btn-outline-secondary"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="fa fa-cog fa-fw"></span>
+                            <span class="fa fa-cog"></span>
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="javascript://" @click="edit()">選項</a>
-                            <a class="dropdown-item" href="javascript://" @click="disable()">關閉</a>
-                            <a class="dropdown-item" href="javascript://" @click="remove()">刪除</a>
+                            <a class="dropdown-item" href="javascript://" @click="edit()">
+                                <span class="fa fa-edit"></span>
+                                編輯
+                            </a>
+                            <a class="dropdown-item" href="javascript://" @click="disable()">
+                                <span class="fa fa-ban"></span>
+                                停用
+                            </a>
+                            <a class="dropdown-item" href="javascript://" @click="addNewRow()" v-if="!child">
+                                <span class="fa fa-plus"></span>
+                                新增列
+                            </a>
+                            <a class="dropdown-item" href="javascript://" @click="remove()">
+                                <span class="fa fa-trash"></span>
+                                刪除
+                            </a>
                         </div>
-                    </div>
+                    </span>
                 </div>
             </div>
-            <div class="card-body">
-                Column: <code>@{{ content.id }}</code>
+            <div class="card-body p-2">
+                <draggable v-model="content.addons" @start="drag = true" @end="drag = false"
+                    :options="{handle: '.move-handle', group: 'addon'}" style="min-height: 50px;" class="column__draggable">
+                    <div class="column__addon" v-for="(addon, i) of addons">
+                        <addon v-if="addon.type !== 'row'"
+                            @delete="deleteAddon(i)"
+                            :index="i"
+                            :key="addon.id"
+                            :content="addon"
+                            :column="content"></addon>
+                        <row v-else
+                            :index="i"
+                            :key="addon.id"
+                            :value="addon"
+                            :child="true"
+                            {{--@columns-change="columnsChange(addon, $event)"--}}
+                            @delete="deleteAddon(i)"
+                        ></row>
+                    </div>
+
+                    <a class="column__addon-placeholder text-center p-3 border text-secondary"
+                        {{--v-if="addons.length === 0 && !drag"--}}
+                        href="javascript://" @click="addAddon()">
+                        <span class="fa fa-plus-square fa-3x"></span>
+                    </a>
+                </draggable>
             </div>
         </div>
     </div>

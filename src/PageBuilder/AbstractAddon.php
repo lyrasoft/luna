@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-namespace Lyrasoft\Luna\Module;
+namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Form\Renderer\InputRenderer;

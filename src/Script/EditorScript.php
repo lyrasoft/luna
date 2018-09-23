@@ -98,7 +98,7 @@ JS;
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public static function tinymce($selector, $options = [])
+    public static function tinymce($selector = null, $options = [])
     {
         $asset = static::getAsset();
 
@@ -122,7 +122,7 @@ CSS;
             $asset->internalStyle($css);
         }
 
-        if (!static::inited(__METHOD__, func_get_args())) {
+        if ($selector !== null && !static::inited(__METHOD__, func_get_args())) {
             $defaultOptions = [
                 'branding' => false,
             ];

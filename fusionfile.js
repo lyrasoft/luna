@@ -18,12 +18,27 @@ fusion.task('js', function () {
   // Compile Start
   fusion.babel(
     [
+      // Mixin (Make sure this go first)
+      'asset/src/admin/page-builder/addons/_base.js',
+
+      // Addons
+      'asset/src/admin/page-builder/addons/_text.js',
+
+      // Widgets
+      'asset/src/admin/page-builder/widgets/_title-options.js',
       'asset/src/admin/page-builder/widgets/_animation.js',
       'asset/src/admin/page-builder/widgets/_gradient.js',
       'asset/src/admin/page-builder/widgets/_rwd-group.js',
       'asset/src/admin/page-builder/widgets/_box-offset.js',
       'asset/src/admin/page-builder/widgets/_button-radio.js',
+
+      // Directives
+      'asset/src/admin/page-builder/directives/_tinymce.js',
       'asset/src/admin/page-builder/directives/_colorpicker.js',
+
+      // Main components
+      'asset/src/admin/page-builder/component/_addon-edit.js',
+      'asset/src/admin/page-builder/component/_addon.js',
       'asset/src/admin/page-builder/component/_column-edit.js',
       'asset/src/admin/page-builder/component/_column.js',
       'asset/src/admin/page-builder/component/_row-edit.js',

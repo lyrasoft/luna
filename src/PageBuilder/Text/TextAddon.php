@@ -6,9 +6,13 @@
  * @license    __LICENSE__
  */
 
-namespace Lyrasoft\Luna\Addon\Text;
+namespace Lyrasoft\Luna\PageBuilder\Text;
 
-use Lyrasoft\Luna\Module\AbstractAddon;
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\PageBuilder\AbstractAddon;
+use Lyrasoft\Luna\Script\EditorScript;
+use Phoenix\Script\PhoenixScript;
+use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Data\DataInterface;
 
 /**
@@ -19,11 +23,18 @@ use Windwalker\Data\DataInterface;
 class TextAddon extends AbstractAddon
 {
     /**
-     * Property name.
+     * Property type.
      *
      * @var  string
      */
-    protected static $name = 'text';
+    protected static $type = 'text';
+
+    /**
+     * Property icon.
+     *
+     * @var string
+     */
+    protected static $icon = 'fa fa-font';
 
     /**
      * prepareData
@@ -35,5 +46,26 @@ class TextAddon extends AbstractAddon
     protected function prepareData(DataInterface $data)
     {
         //
+    }
+
+    /**
+     * loadVueComponent
+     *
+     * @param AssetManager $asset
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public static function loadVueComponent(AssetManager $asset)
+    {
+        // Vue component loaded from core
+        EditorScript::tinymce();
+
+        $uploadUrl = LunaHelper::getPackage()
+            ->getCurrentPackage()->router->route('_luna_img_upload');
+
+        PhoenixScript::addRoute('addon-text:image-upload-url', $uploadUrl);
     }
 }

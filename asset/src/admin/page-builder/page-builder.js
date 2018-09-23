@@ -13,18 +13,22 @@ $(() => {
       drag: false,
       editing: {
         column: {},
-        row: {}
+        row: {},
+        addon: {}
       }
     },
     components: {
       'row': Phoenix.data('component:row'),
       'row-edit': Phoenix.data('component:row-edit'),
       'column': Phoenix.data('component:column'),
-      'column-edit': Phoenix.data('component:column-edit')
+      'column-edit': Phoenix.data('component:column-edit'),
+      'addon': Phoenix.data('component:addon'),
+      'addon-edit': Phoenix.data('component:addon-edit'),
     },
     mounted() {
-      Phoenix.on('row:edit', content => {
+      Phoenix.on('row:edit', (content, column) => {
         this.editing.row = content;
+        this.editing.column = content;
         this.$refs.rowEdit.edit(content);
       });
 
@@ -33,6 +37,7 @@ $(() => {
           this.editing.row[k] = v;
         });
 
+        this.editing.column = {};
         this.editing.row = {};
       });
 
@@ -48,16 +53,52 @@ $(() => {
 
         this.editing.column = {};
       });
+
+      Phoenix.on('addon:add', (column) => {
+        this.editing.column = column;
+
+        $(this.$refs.addonList).modal('show');
+      });
+
+      Phoenix.on('addon:edit', (addon, column) => {
+        this.editing.addon = addon;
+        this.editing.column = column;
+
+        this.$refs.addonEdit.edit(addon);
+      });
+
+      Phoenix.on('addon:save', (addon) => {
+        if (this.editing.column.addons.filter(item => item.id === addon.id).length === 0) {
+          this.editing.column.addons.push(addon);
+        }
+
+        underscore.each(addon, (v, k) => {
+          this.editing.addon[k] = v;
+        });
+
+        this.editing.column = {};
+        this.editing.addon = {};
+      });
     },
     methods: {
       addNewRow() {
-        this.content.push(this.getEmptyRow());
+        this.content.push({});
       },
       deleteRow(i) {
         this.content.splice(i, 1);
       },
       columnsChange(row, $event) {
         row.columns = $event.columns;
+      },
+      selectAddon(type) {
+        $(this.$refs.addonList).modal('hide');
+        
+        const addonData = Phoenix.data('addon.type.' + type);
+
+        setTimeout(() => {
+          Phoenix.trigger('addon:edit', { ...addonData, id: 'addon-' + Phoenix.uniqid(), is: 'addon' }, this.editing.column);
+          $('body').addClass('modal-open');
+        }, 365);
       },
       getEmptyRow() {
         return {

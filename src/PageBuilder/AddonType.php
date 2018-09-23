@@ -8,18 +8,18 @@
 
 namespace Lyrasoft\Luna\PageBuilder;
 
-use Lyrasoft\Luna\Module\AbstractAddon;
 use Windwalker\Data\Data;
 
 /**
  * The AddonType class.
  *
- * @property-read  string type
- * @property-read  string name
- * @property-read  string description
- * @property-read  string icon
- * @property-read  string class
- * @property-read  string langPrefix
+ * @property-read  string               type
+ * @property-read  string               name
+ * @property-read  string               description
+ * @property-read  string               icon
+ * @property-read  string               componentName
+ * @property-read  string|AbstractAddon class
+ * @property-read  string               langPrefix
  *
  * @since  __DEPLOY_VERSION__
  */

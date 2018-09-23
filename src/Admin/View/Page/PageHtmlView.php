@@ -8,10 +8,15 @@
 
 namespace Lyrasoft\Luna\Admin\View\Page;
 
+use Lyrasoft\Luna\Language\Locale;
+use Lyrasoft\Luna\PageBuilder\AddonHelper;
+use Lyrasoft\Luna\PageBuilder\AddonType;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Phoenix\View\ItemView;
+use Windwalker\Core\Asset\Asset;
+use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Data\Data;
 
 /**
@@ -68,6 +73,8 @@ class PageHtmlView extends EditView
     protected function prepareData($data)
     {
         parent::prepareData($data);
+        
+        $data->addonTypes = AddonHelper::getAddonTypes();
 
         $this->prepareScripts($data);
         $this->prepareMetadata();
@@ -90,6 +97,20 @@ class PageHtmlView extends EditView
         BootstrapScript::tooltip('.has-tooltip');
 
         PhoenixScript::data('builder-content', json_decode($data->item->content, true) ?: []);
+
+        /** @var AssetManager $asset */
+        $asset = Asset::getInstance();
+
+        /** @var AddonType $addonType */
+        foreach ($data->addonTypes as $addonType) {
+            $class = $addonType->class;
+
+            $class::loadVueComponent($asset);
+
+            PhoenixScript::data('addon.type.' . $addonType->type, $addonType);
+        }
+
+        PhoenixScript::data('asset:locale', str_replace('-', '_', Locale::getLocale()));
     }
 
     /**
