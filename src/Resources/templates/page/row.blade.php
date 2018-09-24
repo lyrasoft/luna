@@ -15,7 +15,7 @@
  * View variables
  * --------------------------------------------------------------
  * @var $row      \Windwalker\Structure\Structure
- * @var $builder  \Lyrasoft\Luna\PageBuilder\PageBuilder
+ * @var $pageRenderer \Lyrasoft\Luna\PageBuilder\Renderer\RowRenderer
  */
 
 $options = $row->extract('options');
@@ -29,26 +29,9 @@ $attrs = [];
 $classes[] = implode(' ', $options['display']);
 $classes[] = $options['html_class'];
 
-if ($options['animation.name'] !== '') {
-    \Lyrasoft\Luna\Script\LunaScript::wow(true);
-    \Lyrasoft\Luna\Script\LunaScript::animate();
+$pageRenderer::prepareElement($options, $classes, $attrs);
 
-    $classes[] = 'wow';
-    $classes[] = $options['animation.name'];
-
-    $attrs['data-wow-duration'] = $options['animation.duration'] . 'ms';
-    $attrs['data-wow-delay'] = $options['animation.delay'] . 'ms';
-}
-
-if ($options['background.type'] === 'video') {
-    \Lyrasoft\Luna\Script\LunaScript::vide();
-
-    $attrs['data-vide-bg'] = sprintf(
-        'mp4: %s, poster: %s',
-        $options['background.video.url'],
-        $options['background.image.url']
-    );
-}
+$classes = array_filter($classes, '\strlen');
 ?>
 <section id="{{ $row['options.html_id'] }}" class="l-section l-bg-container {{ implode(' ', $classes) }}"
     {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
@@ -69,10 +52,8 @@ if ($options['background.type'] === 'video') {
 
         <div class="row {{ $noGutter }} l-section__row">
             @foreach ($row['columns'] as $column)
-                C
+                {!! $pageRenderer->getFactory()->create('column')->render($column) !!}
             @endforeach
         </div>
     </div>
 </section>
-
-@shown($row['options'])

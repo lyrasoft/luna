@@ -9,6 +9,23 @@
   // Title
   .l-section__header {
     margin-bottom: 50px;
+
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+    }
+  }
+
+  // SubTitle
+  .c-section-subtitle {
+    //color: #999;
+    margin: 0;
+  }
+
+  // Column
+  .l-column {
+    &__body {
+      display: flex;
+    }
   }
 
   // BG

@@ -1,5 +1,15 @@
 .l-page-container .l-section__header {
   margin-bottom: 50px; }
+  .l-page-container .l-section__header h1, .l-page-container .l-section__header h2, .l-page-container .l-section__header h3, .l-page-container .l-section__header h4, .l-page-container .l-section__header h5, .l-page-container .l-section__header h6 {
+    margin: 0; }
+
+.l-page-container .c-section-subtitle {
+  margin: 0; }
+
+.l-page-container .l-column__body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
 
 .l-page-container .l-bg-container {
   z-index: 1;

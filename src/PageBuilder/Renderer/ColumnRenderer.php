@@ -8,11 +8,8 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Lyrasoft\Luna\PageBuilder\PageBuilder;
 use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
-use Lyrasoft\Luna\PageBuilder\StyleHelper;
 use Windwalker\Core\Widget\WidgetHelper;
-use Windwalker\DI\Annotation\Inject;
 use Windwalker\Structure\Structure;
 
 /**
@@ -20,7 +17,7 @@ use Windwalker\Structure\Structure;
  *
  * @since  __DEPLOY_VERSION__
  */
-class RowRenderer extends AbstractPageRenderer
+class ColumnRenderer extends AbstractPageRenderer
 {
     /**
      * render
@@ -33,17 +30,17 @@ class RowRenderer extends AbstractPageRenderer
      */
     public function render(array $content)
     {
-        $row = new Structure($content);
+        $col = new Structure($content);
 
-        if ($row['options.html_id'] === '') {
-            $row['options.html_id'] = 'luna-' . $row['id'];
+        if ((string) $col['options.html_id'] === '') {
+            $col['options.html_id'] = 'luna-' . $col['id'];
         }
 
-        $this->prepareAssets($row);
+        $this->prepareAssets($col);
 
-        return WidgetHelper::render('page.row', [
+        return WidgetHelper::render('page.column', [
             'pageRenderer' => $this,
-            'row' => $row
+            'col' => $col
         ], 'edge');
     }
 
@@ -65,29 +62,10 @@ class RowRenderer extends AbstractPageRenderer
         // Basic
         $this->prepareBasicCSS($options, $styles);
 
-        // Title
-        $this->prepareTitleCSS($options, $styles);
-
         // Background
         $this->prepareBackgroundCSS($options, $styles);
 
         $this->asset->internalCSS($styles->render());
-    }
-
-    /**
-     * prepareBasicCSS
-     *
-     * @param Structure      $options
-     * @param StyleContainer $styles
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function prepareBasicCSS(Structure $options, StyleContainer $styles)
-    {
-        $styles->self()
-            ->add('color', $options['text_color']);
     }
 
     /**
@@ -101,5 +79,23 @@ class RowRenderer extends AbstractPageRenderer
      */
     protected function prepareJS(Structure $content)
     {
+    }
+
+    /**
+     * prepareElement
+     *
+     * @param Structure $options
+     * @param array     $classes
+     * @param array     $attrs
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function prepareElement(Structure $options, array &$classes, array &$attrs)
+    {
+        $classes = array_merge($classes, array_values($options['display']));
+
+        parent::prepareElement($options, $classes, $attrs);
     }
 }

@@ -122,4 +122,20 @@ class LunaScript extends AbstractScript
             static::addJS(static::packageName() . '/js/vide/jquery.vide.min.js');
         }
     }
+
+    /**
+     * jarallax
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function jarallax()
+    {
+        if (!static::inited(__METHOD__)) {
+            static::addCSS(static::packageName() . '/js/jarallax/jarallax.min.css');
+            static::addJS(static::packageName() . '/js/jarallax/jarallax.min.js');
+            static::addJS(static::packageName() . '/js/jarallax/jarallax-video.min.js');
+        }
+    }
 }

@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\PageBuilder\Renderer\PageRendererFactory;
 use Lyrasoft\Luna\PageBuilder\Renderer\RowRenderer;
 use Lyrasoft\Luna\Script\LunaScript;
 use Windwalker\Core\Asset\AssetManager;
@@ -23,13 +24,13 @@ use Windwalker\DI\Annotation\Inject;
 class PageBuilder
 {
     /**
-     * Property rowStyle.
+     * Property rendererFactory.
      *
      * @Inject()
      *
-     * @var RowRenderer
+     * @var PageRendererFactory
      */
-    protected $rowRenderer;
+    protected $rendererFactory;
 
     /**
      * Property asset.
@@ -60,8 +61,10 @@ class PageBuilder
 
         $html = [];
 
+        $rowRenderer = $this->rendererFactory->create('row');
+
         foreach ($rows as $row) {
-            $html[] = $this->rowRenderer->render($row);
+            $html[] = $rowRenderer->render($row, $this);
         }
 
         return implode("\n", $html);
