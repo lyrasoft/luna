@@ -9,7 +9,9 @@
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
 use Phoenix\Form\Renderer\InputRenderer;
+use Windwalker\Core\Asset\Asset;
 use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Core\Renderer\BladeRenderer;
@@ -200,6 +202,8 @@ abstract class AbstractAddon
     {
         $data = $this->data;
 
+        $this->prepareOptions($data);
+
         $this->prepareData($data);
 
         $this->prepareGlobals($data);
@@ -241,6 +245,68 @@ abstract class AbstractAddon
      * @return  void
      */
     abstract protected function prepareData(DataInterface $data);
+
+    /**
+     * prepareOptions
+     *
+     * @param DataInterface $data
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function prepareOptions(DataInterface $data)
+    {
+        /**
+         * @var Structure $options
+         * @var StyleContainer $styles
+         * @var array $classes
+         * @var array $attrs
+         */
+        $options = $data->options;
+        $styles  = $data->styles;
+        $classes = $data->classes;
+        $attrs   = $data->attrs;
+
+        $this->prepareCSS($options, $styles);
+        $this->prepareElement($options, $classes, $attrs);
+
+        Asset::internalCSS($styles->render());
+
+        $data->classes = $classes;
+        $data->attrs = $attrs;
+    }
+
+    /**
+     * prepareCSS
+     *
+     * @param Structure      $options
+     * @param StyleContainer $styles
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function prepareCSS(Structure $options, StyleContainer $styles)
+    {
+        //
+    }
+
+    /**
+     * prepareElement
+     *
+     * @param Structure $options
+     * @param array     $classes
+     * @param array     $attrs
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function prepareElement(Structure $options, array &$classes, array &$attrs)
+    {
+        //
+    }
 
     /**
      * getVueComponentName
@@ -374,6 +440,7 @@ abstract class AbstractAddon
 
         $globals = RendererHelper::getGlobals();
 
+        $globals['addon']   = $this;
         $globals['router']  = $package->router;
         $globals['package'] = PackageHelper::getCurrentPackage();
 

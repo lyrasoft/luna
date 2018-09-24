@@ -99,10 +99,10 @@ $(() => {
         underscore.each(value, (offset, size) => {
           const [top, right, bottom, left] = offset.split(',');
 
-          this.offsets[size].top = top;
-          this.offsets[size].right = right;
-          this.offsets[size].bottom = bottom;
-          this.offsets[size].left = left;
+          this.offsets[size].top = top || '';
+          this.offsets[size].right = right || '';
+          this.offsets[size].bottom = bottom || '';
+          this.offsets[size].left = left || '';
         });
       }
     },

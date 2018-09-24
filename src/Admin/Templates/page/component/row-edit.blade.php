@@ -63,7 +63,7 @@
                                 </div>
 
                                 <title-options v-if="options.title.text !== ''"
-                                    id="input-row-edit" v-model="options"></title-options>
+                                    id="input-row-edit" v-model="values.options"></title-options>
 
                                 <hr />
 

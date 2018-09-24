@@ -61,7 +61,8 @@ $(() => {
           xhr.send(formData);
         },
         setup: function (editor) {
-          editor.on('keyup', () => {
+          editor.on('change', () => {
+            el.value = editor.getContent();
             el.dispatchEvent(new Event('change', {bubbles: true}));
             el.dispatchEvent(new Event('input', {bubbles: true}));
           });

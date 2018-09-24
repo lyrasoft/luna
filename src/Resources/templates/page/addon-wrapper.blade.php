@@ -14,30 +14,20 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $col      \Windwalker\Structure\Structure
- * @var $pageRenderer \Lyrasoft\Luna\PageBuilder\Renderer\ColumnRenderer
+ * @var $addon      \Lyrasoft\Luna\PageBuilder\AbstractAddon
+ * @var $classes    array
+ * @var $attrs      array
+ * @var $content    \Windwalker\Structure\Structure
+ * @var $options    \Windwalker\Structure\Structure
+ * @var $addonRenderer \Lyrasoft\Luna\PageBuilder\Renderer\AddonRenderer
  */
-
-$options = $col->extract('options');
-
-$classes = [];
-$attrs = [];
-
-$classes[] = $options['html_class'];
-
-$pageRenderer::prepareElement($options, $classes, $attrs);
-
-$classes = array_filter($classes, '\strlen');
 ?>
-<div class="l-column {{ implode(' ', array_filter($options['width'], 'strlen')) }}"
+<div id="{{ $options['html_id'] }}" class="c-addon {{ implode(' ', $classes) }}"
     {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
     @if ($options['background.overlay'])
         <div class="l-bg-overlay"></div>
     @endif
-
-    <div id="{{ $options['html_id'] }}" class="l-column__body l-bg-content {{ implode(' ', $classes) }}">
-        @foreach ($col['addons'] as $addon)
-            {!! $pageRenderer->getFactory()->create('addon')->render($addon) !!}
-        @endforeach
+    <div class="l-bg-content c-addon__body">
+        @yield('body', 'Addon Body')
     </div>
 </div>

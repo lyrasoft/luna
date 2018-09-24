@@ -53,6 +53,27 @@ class AddonHelper
     protected static $addons = [];
 
     /**
+     * getAddonInstance
+     *
+     * @param string $type
+     * @param array  $data
+     *
+     * @return  AbstractAddon
+     *
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAddonInstance($type, array $data = [])
+    {
+        $addonType = static::getAddonType($type);
+
+        $class = $addonType->class;
+
+        return Ioc::getContainer()->newInstance($class, ['data' => $data]);
+    }
+
+    /**
      * getModuleTypes
      *
      * @param bool $refresh

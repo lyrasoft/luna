@@ -20,7 +20,7 @@
 
 $options = $row->extract('options');
 
-$container = $options['fluid_row'] ? 'container-fluid' : 'container';
+$container = $options['fluid_row'] ? 'container-full' : 'container';
 $noGutter = $options['no_gutter'] ? 'no-gutters' : '';
 
 $classes = [];
@@ -40,11 +40,11 @@ $classes = array_filter($classes, '\strlen');
     @endif
     <div class="l-section__container l-bg-content {{ $container }}">
         @if ($options['title.text'] !== '')
-            <div class="l-section__header">
-                <{{ $options['title.element'] ?: 'h3' }} class="c-section-title">
+            <div class="l-section__header c-box-header">
+                <{{ $options['title.element'] ?: 'h3' }} class="l-section__title c-box-header__title">
                     {{ $options['title.text'] }}
                 </{{ $options['title.element'] ?: 'h3' }}>
-                <p class="c-section-subtitle">
+                <p class="l-section__subtitle c-box-header__subtitle">
                     {{ $options['subtitle.text'] }}
                 </p>
             </div>

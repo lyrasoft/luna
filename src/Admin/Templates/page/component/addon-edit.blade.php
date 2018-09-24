@@ -65,6 +65,16 @@
                             {{-- Tab RWD --}}
                             <div class="tab-pane fade" id="addon-edit-layout" role="tabpanel" aria-labelledby="addon-edit-layout-tab">
 
+                                {{-- Padding --}}
+                                <box-offset v-model="options.padding">
+                                    <span slot="label">Padding</span>
+                                </box-offset>
+
+                                {{-- Margin --}}
+                                <box-offset v-model="options.margin">
+                                    <span slot="label">Margin</span>
+                                </box-offset>
+
                                 {{-- Text Color --}}
                                 <div class="form-group">
                                     <label for="input-addon-edit-text-color">文字顏色</label>

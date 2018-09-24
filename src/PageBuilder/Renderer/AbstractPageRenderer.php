@@ -22,6 +22,15 @@ use Windwalker\Structure\Structure;
  */
 abstract class AbstractPageRenderer implements PageRendererInterface
 {
+    use BoxRendererTrait;
+
+    /**
+     * Property type.
+     *
+     * @var  string
+     */
+    protected $cssPrefix = 'unlnown';
+
     /**
      * Property asset.
      *
@@ -156,15 +165,15 @@ abstract class AbstractPageRenderer implements PageRendererInterface
         $styles->self()
             ->add('color', $options['text_color'])
             ->add('text-align', $options['align'])
-            ;
+        ;
 
         switch ($options['valign']) {
             case 'middle':
-                $styles->select('.l-column__body')->add('align-items', 'center');
+                $styles->select($this->cssPrefix . '__body')->add('align-items', 'center');
                 break;
 
             case 'bottom':
-                $styles->select('.l-column__body')->add('align-items', 'end');
+                $styles->select($this->cssPrefix . '__body')->add('align-items', 'end');
                 break;
         }
 
@@ -198,6 +207,12 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
             $styles->self()->add('box-shadow', $shadow);
         }
+
+        // Padding & Margin
+        $styles->rwd(function (StyleContainer $style, $size) use ($options) {
+            StyleHelper::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
+            StyleHelper::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
+        });
     }
 
     /**
@@ -213,12 +228,12 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     protected function prepareTitleCSS(Structure $options, StyleContainer $styles)
     {
         // Title
-        $styles->select('.c-section-title')
+        $styles->select($this->cssPrefix . '__title')
             ->add('color', $options['title.color'])
             ->add('font-weight', $options['title.font_weight']);
 
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
-            $style->select('.c-section-title')
+            $style->select($this->cssPrefix . '__title')
                 ->add('font-size', $options['title.font_size.' . $size], 'px')
                 ->add('margin-top', $options['title.margin_top.' . $size], 'px')
                 ->add('margin-bottom', $options['title.margin_bottom.' . $size], 'px');
@@ -226,18 +241,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
         // Subtitle
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
-            $style->select('.c-section-subtitle')
+            $style->select($this->cssPrefix . '__subtitle')
                 ->add('font-size', $options['title.font_size.' . $size], 'px');
-        });
-
-        // Title & Subtitle
-        $styles->select('.l-section__header')
-            ->add('text-align', $options['title_align']);
-
-        // Padding & Margin
-        $styles->rwd(function (StyleContainer $style, $size) use ($options) {
-            StyleHelper::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
-            StyleHelper::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
         });
     }
 

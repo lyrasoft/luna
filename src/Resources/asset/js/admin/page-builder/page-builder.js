@@ -22,7 +22,15 @@ var LunaAddonMixin = {
     value: Object
   },
   created: function created() {
-    this.options = Object.assign(this.options, this.value);
+    var options = this.options;
+
+    underscore.each(this.value, function (v, k) {
+      Vue.set(options, k, v);
+    });
+
+    console.log(options);
+
+    this.options = options;
   },
   mounted: function mounted() {},
 
@@ -201,10 +209,11 @@ $(function () {
 
 $(function () {
   Vue.component('title-options', {
-    template: '\n<div class="c-title-options">\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Element -->\n            <div class="form-group">\n                <label :for="id + \'title-element\'">\n                    \u6A19\u984C\u5143\u7D20\n                </label>\n                <select :id="id + \'title-element\'"\n                    v-model="options.title.element" class="form-control">\n                    <option v-for="i of [1, 2, 3, 4, 5, 6]" :value="\'h\' + i">\n                        h{{ i }}\n                    </option>\n                </select>\n            </div>\n        </div>\n        <div class="col-6">\n            <!-- Title Color -->\n            <div class="form-group">\n                <label :for="id + \'title-color\'">\u6A19\u984C\u984F\u8272</label>\n                <input :id="id + \'title-color\'" type="text"\n                    v-model.lazy="options.title.color" v-color class="form-control" />\n            </div>\n        </div>\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Font Size -->\n            <rwd-group class-name="c-title-font-size">\n                <label slot="label">\n                    \u6A19\u984C\u5B57\u9AD4\u5927\u5C0F\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-font-size__\' + size">\n                    <div class="d-flex">\n                        <vue-slide-bar v-model="options.title.font_size[size]" class="flex-grow-1" :max="500"></vue-slide-bar>\n                        <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                            v-model="options.title.font_size[size]" />\n                    </div>\n                </div>\n            </rwd-group>\n        </div>\n        <div class="col-6">\n            <!-- Title Font Weight -->\n            <div class="form-group">\n                <label>\n                    \u6A19\u984C\u5B57\u9AD4\u7C97\u7D30\n                </label>\n                <div class="d-flex">\n                    <vue-slide-bar v-model="options.title.font_weight" class="flex-grow-1"\n                        :data="[100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000]"></vue-slide-bar>\n                    <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                        v-model="options.title.font_weight" />\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Margin Top -->\n            <rwd-group class-name="c-title-margin_top">\n                <label slot="label">\n                    \u6A19\u984C\u4E0A\u65B9\u9593\u8DDD Margin Top\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-margin_top__\' + size">\n                    <input type="number" v-model="options.title.margin_top[size]" class="form-control" />\n                </div>\n            </rwd-group>\n        </div>\n        <div class="col-6">\n            <!-- Title Margin Bottom -->\n            <rwd-group class-name="c-title-margin_bottom">\n                <label slot="label">\n                    \u6A19\u984C\u4E0B\u65B9\u9593\u8DDD Margin Bottom\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-margin_bottom__\' + size">\n                    <input type="number" v-model="options.title.margin_bottom[size]" class="form-control" />\n                </div>\n            </rwd-group>\n        </div>\n    </div>\n</div>\n    ',
+    template: '\n<div class="c-title-options">\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Element -->\n            <div class="form-group">\n                <label :for="id + \'title-element\'">\n                    \u6A19\u984C\u5143\u7D20\n                </label>\n                <select :id="id + \'title-element\'"\n                    v-model="options.title.element" class="form-control">\n                    <option v-for="i of [1, 2, 3, 4, 5, 6]" :value="\'h\' + i">\n                        h{{ i }}\n                    </option>\n                </select>\n            </div>\n        </div>\n        <div class="col-6">\n            <!-- Title Color -->\n            <div class="form-group">\n                <label :for="id + \'title-color\'">\u6A19\u984C\u984F\u8272</label>\n                <input :id="id + \'title-color\'" type="text"\n                    v-model.lazy="options.title.color" v-color class="form-control" />\n            </div>\n        </div>\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Font Size -->\n            <rwd-group class-name="c-title-font-size">\n                <label slot="label">\n                    \u6A19\u984C\u5B57\u9AD4\u5927\u5C0F\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-font-size__\' + size">\n                    <div class="d-flex">\n                        <vue-slide-bar v-model="options.title.font_size[size]" class="flex-grow-1" :max="500"></vue-slide-bar>\n                        <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                            v-model="options.title.font_size[size]" />\n                    </div>\n                </div>\n            </rwd-group>\n        </div>\n        <div class="col-6">\n            <!-- Title Font Weight -->\n            <div class="form-group">\n                <label>\n                    \u6A19\u984C\u5B57\u9AD4\u7C97\u7D30\n                </label>\n                <div class="d-flex" v-if="prepared">\n                    <vue-slide-bar v-model="options.title.font_weight" class="flex-grow-1"\n                        :data="[\'\', 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000]"\n                        :max="1000" :min="100"></vue-slide-bar>\n                    <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                        v-model="options.title.font_weight" />\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Margin Top -->\n            <rwd-group class-name="c-title-margin_top">\n                <label slot="label">\n                    \u6A19\u984C\u4E0A\u65B9\u9593\u8DDD Margin Top\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-margin_top__\' + size">\n                    <input type="number" v-model="options.title.margin_top[size]" class="form-control" />\n                </div>\n            </rwd-group>\n        </div>\n        <div class="col-6">\n            <!-- Title Margin Bottom -->\n            <rwd-group class-name="c-title-margin_bottom">\n                <label slot="label">\n                    \u6A19\u984C\u4E0B\u65B9\u9593\u8DDD Margin Bottom\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-margin_bottom__\' + size">\n                    <input type="number" v-model="options.title.margin_bottom[size]" class="form-control" />\n                </div>\n            </rwd-group>\n        </div>\n    </div>\n</div>\n    ',
     data: function data() {
       return {
-        options: {}
+        options: {},
+        prepared: false
       };
     },
 
@@ -213,9 +222,16 @@ $(function () {
       value: Object
     },
     created: function created() {
-      this.options = Object.assign(this.options, this.value);
+      this.options = this.value;
     },
-    mounted: function mounted() {},
+    mounted: function mounted() {
+      var _this4 = this;
+
+      // Set a delay time then show slider to fix bug
+      setTimeout(function () {
+        _this4.prepared = true;
+      }, 150);
+    },
 
     methods: {},
     watch: {
@@ -358,11 +374,11 @@ $(function () {
       }
     },
     mounted: function mounted() {
-      var _this4 = this;
+      var _this5 = this;
 
       // Fix DOM loading issues
       setTimeout(function () {
-        _this4.currentSize = 'lg';
+        _this5.currentSize = 'lg';
       }, 150);
     },
 
@@ -418,24 +434,24 @@ $(function () {
       value: Object
     },
     mounted: function mounted() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.extractValue(this.value);
 
       underscore.each(this.offsets, function (offset, size) {
         underscore.each(offset, function (value, pos) {
-          _this5.$watch('offsets.' + size + '.' + pos, function (v) {
-            if (_this5.lock) {
+          _this6.$watch('offsets.' + size + '.' + pos, function (v) {
+            if (_this6.lock) {
               offset.top = v;
               offset.right = v;
               offset.bottom = v;
               offset.left = v;
             }
 
-            var allValue = _this5.getAllValues();
+            var allValue = _this6.getAllValues();
 
-            _this5.$emit('change', allValue);
-            _this5.$emit('input', allValue);
+            _this6.$emit('change', allValue);
+            _this6.$emit('input', allValue);
           });
         });
       });
@@ -452,7 +468,7 @@ $(function () {
         return values;
       },
       extractValue: function extractValue(value) {
-        var _this6 = this;
+        var _this7 = this;
 
         underscore.each(value, function (offset, size) {
           var _offset$split = offset.split(','),
@@ -462,10 +478,10 @@ $(function () {
               bottom = _offset$split2[2],
               left = _offset$split2[3];
 
-          _this6.offsets[size].top = top;
-          _this6.offsets[size].right = right;
-          _this6.offsets[size].bottom = bottom;
-          _this6.offsets[size].left = left;
+          _this7.offsets[size].top = top || '';
+          _this7.offsets[size].right = right || '';
+          _this7.offsets[size].bottom = bottom || '';
+          _this7.offsets[size].left = left || '';
         });
       }
     },
@@ -500,12 +516,12 @@ $(function () {
       }
     },
     mounted: function mounted() {
-      var _this7 = this;
+      var _this8 = this;
 
       this.active = this.$parent.value === this.value;
 
       this.$parent.$on('button-selected', function (value) {
-        _this7.active = value === _this7.value;
+        _this8.active = value === _this8.value;
       });
     },
 
@@ -526,11 +542,11 @@ $(function () {
       value: String
     },
     mounted: function mounted() {
-      var _this8 = this;
+      var _this9 = this;
 
       this.$on('button-selected', function (value) {
-        _this8.$emit('change', value);
-        _this8.$emit('input', value);
+        _this9.$emit('change', value);
+        _this9.$emit('input', value);
       });
 
       // this.$nextTick(() => {
@@ -605,7 +621,8 @@ $(function () {
           xhr.send(formData);
         },
         setup: function setup(editor) {
-          editor.on('keyup', function () {
+          editor.on('change', function () {
+            el.value = editor.getContent();
             el.dispatchEvent(new Event('change', { bubbles: true }));
             el.dispatchEvent(new Event('input', { bubbles: true }));
           });
@@ -702,12 +719,12 @@ $(function () {
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
-        var _this9 = this;
+        var _this10 = this;
 
         $(this.$refs.modal).modal('hide');
 
         setTimeout(function () {
-          _this9.values = {};
+          _this10.values = {};
         }, 300);
 
         this.sticky = false;
@@ -860,10 +877,10 @@ $(function () {
         this.$emit('copy');
       },
       remove: function remove() {
-        var _this10 = this;
+        var _this11 = this;
 
         Phoenix.confirm('確定要刪除嗎?').then(function () {
-          return _this10.$emit('delete');
+          return _this11.$emit('delete');
         });
       },
       addAddon: function addAddon() {
@@ -931,12 +948,12 @@ $(function () {
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
-        var _this11 = this;
+        var _this12 = this;
 
         $(this.$refs.modal).modal('hide');
 
         setTimeout(function () {
-          _this11.values = {};
+          _this12.values = {};
         }, 300);
 
         this.sticky = false;
@@ -989,13 +1006,13 @@ $(function () {
     },
 
     created: function created() {
-      var _this12 = this;
+      var _this13 = this;
 
       this.content = this.value;
 
       if (typeof this.content.id === 'undefined') {
         underscore.each(this.getEmptyColumn(), function (v, k) {
-          Vue.set(_this12.content, k, v);
+          Vue.set(_this13.content, k, v);
         });
       }
     },
@@ -1009,10 +1026,10 @@ $(function () {
         this.content.disabled = !this.content.disabled;
       },
       remove: function remove() {
-        var _this13 = this;
+        var _this14 = this;
 
         Phoenix.confirm('確定要刪除嗎?').then(function () {
-          return _this13.$emit('delete');
+          return _this14.$emit('delete');
         });
       },
       copyAddon: function copyAddon(item, i) {
@@ -1150,9 +1167,7 @@ $(function () {
     },
 
 
-    props: {
-      content: Object
-    },
+    props: {},
 
     created: function created() {},
 
@@ -1174,14 +1189,14 @@ $(function () {
         this.sticky = false;
       },
       close: function close() {
-        var _this14 = this;
+        var _this15 = this;
 
         $(this.$refs.modal).modal('hide');
 
         this.sticky = false;
 
         setTimeout(function () {
-          _this14.values = {};
+          _this15.values = {};
         }, 300);
       }
     },
@@ -1228,13 +1243,13 @@ $(function () {
     },
 
     created: function created() {
-      var _this15 = this;
+      var _this16 = this;
 
       this.content = this.value;
 
       if (typeof this.content.id === 'undefined') {
         underscore.each(this.getEmptyRow(), function (v, k) {
-          Vue.set(_this15.content, k, v);
+          Vue.set(_this16.content, k, v);
         });
       }
     },
@@ -1251,10 +1266,10 @@ $(function () {
         this.content.disabled = !this.content.disabled;
       },
       remove: function remove() {
-        var _this16 = this;
+        var _this17 = this;
 
         Phoenix.confirm('確定要刪除嗎?').then(function () {
-          return _this16.$emit('delete');
+          return _this17.$emit('delete');
         });
       },
       getEmptyRow: function getEmptyRow() {
@@ -1403,62 +1418,62 @@ $(function () {
       'addon-edit': Phoenix.data('component:addon-edit')
     },
     mounted: function mounted() {
-      var _this17 = this;
+      var _this18 = this;
 
       Phoenix.on('row:edit', function (content, column) {
-        _this17.editing.row = content;
-        _this17.editing.column = content;
-        _this17.$refs.rowEdit.edit(content);
+        _this18.editing.row = content;
+        _this18.editing.column = content;
+        _this18.$refs.rowEdit.edit(content);
       });
 
       Phoenix.on('row:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this17.editing.row[k] = v;
+          _this18.editing.row[k] = v;
         });
 
-        _this17.editing.column = {};
-        _this17.editing.row = {};
+        _this18.editing.column = {};
+        _this18.editing.row = {};
       });
 
       Phoenix.on('column:edit', function (content) {
-        _this17.editing.column = content;
-        _this17.$refs.columnEdit.edit(content);
+        _this18.editing.column = content;
+        _this18.$refs.columnEdit.edit(content);
       });
 
       Phoenix.on('column:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this17.editing.column[k] = v;
+          _this18.editing.column[k] = v;
         });
 
-        _this17.editing.column = {};
+        _this18.editing.column = {};
       });
 
       Phoenix.on('addon:add', function (column) {
-        _this17.editing.column = column;
+        _this18.editing.column = column;
 
-        $(_this17.$refs.addonList).modal('show');
+        $(_this18.$refs.addonList).modal('show');
       });
 
       Phoenix.on('addon:edit', function (addon, column) {
-        _this17.editing.addon = addon;
-        _this17.editing.column = column;
+        _this18.editing.addon = addon;
+        _this18.editing.column = column;
 
-        _this17.$refs.addonEdit.edit(addon);
+        _this18.$refs.addonEdit.edit(addon);
       });
 
       Phoenix.on('addon:save', function (addon) {
-        if (_this17.editing.column.addons.filter(function (item) {
+        if (_this18.editing.column.addons.filter(function (item) {
           return item.id === addon.id;
         }).length === 0) {
-          _this17.editing.column.addons.push(addon);
+          _this18.editing.column.addons.push(addon);
         }
 
         underscore.each(addon, function (v, k) {
-          _this17.editing.addon[k] = v;
+          _this18.editing.addon[k] = v;
         });
 
-        _this17.editing.column = {};
-        _this17.editing.addon = {};
+        _this18.editing.column = {};
+        _this18.editing.addon = {};
       });
     },
 
@@ -1473,14 +1488,14 @@ $(function () {
         row.columns = $event.columns;
       },
       selectAddon: function selectAddon(type) {
-        var _this18 = this;
+        var _this19 = this;
 
         $(this.$refs.addonList).modal('hide');
 
         var addonData = Phoenix.data('addon.type.' + type);
 
         setTimeout(function () {
-          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this18.editing.column);
+          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this19.editing.column);
           $('body').addClass('modal-open');
         }, 365);
       },

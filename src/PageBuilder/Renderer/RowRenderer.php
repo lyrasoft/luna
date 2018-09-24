@@ -8,11 +8,9 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Lyrasoft\Luna\PageBuilder\PageBuilder;
 use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
 use Lyrasoft\Luna\PageBuilder\StyleHelper;
 use Windwalker\Core\Widget\WidgetHelper;
-use Windwalker\DI\Annotation\Inject;
 use Windwalker\Structure\Structure;
 
 /**
@@ -22,6 +20,13 @@ use Windwalker\Structure\Structure;
  */
 class RowRenderer extends AbstractPageRenderer
 {
+    /**
+     * Property type.
+     *
+     * @var  string
+     */
+    protected $cssPrefix = '.l-section';
+
     /**
      * render
      *
@@ -68,6 +73,10 @@ class RowRenderer extends AbstractPageRenderer
         // Title
         $this->prepareTitleCSS($options, $styles);
 
+        // Title & Subtitle
+        $styles->select('.l-section__header')
+            ->add('text-align', $options['title_align']);
+
         // Background
         $this->prepareBackgroundCSS($options, $styles);
 
@@ -88,6 +97,12 @@ class RowRenderer extends AbstractPageRenderer
     {
         $styles->self()
             ->add('color', $options['text_color']);
+
+        // Padding & Margin
+        $styles->rwd(function (StyleContainer $style, $size) use ($options) {
+            StyleHelper::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
+            StyleHelper::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
+        });
     }
 
     /**

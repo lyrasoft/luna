@@ -15,7 +15,15 @@ const LunaAddonMixin = {
     value: Object
   },
   created() {
-    this.options = Object.assign(this.options, this.value);
+    const options = this.options;
+
+    underscore.each(this.value, (v, k) => {
+      Vue.set(options, k, v);
+    });
+
+    console.log(options);
+
+    this.options = options;
   },
   mounted() {
 

@@ -57,9 +57,10 @@ $(() => {
                 <label>
                     標題字體粗細
                 </label>
-                <div class="d-flex">
+                <div class="d-flex" v-if="prepared">
                     <vue-slide-bar v-model="options.title.font_weight" class="flex-grow-1"
-                        :data="[100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000]"></vue-slide-bar>
+                        :data="['', 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000]"
+                        :max="1000" :min="100"></vue-slide-bar>
                     <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"
                         v-model="options.title.font_weight" />
                 </div>
@@ -97,7 +98,8 @@ $(() => {
     `,
     data() {
       return {
-        options: {}
+        options: {},
+        prepared: false
       };
     },
     props: {
@@ -105,10 +107,13 @@ $(() => {
       value: Object
     },
     created() {
-      this.options = Object.assign(this.options, this.value);
+      this.options = this.value;
     },
     mounted() {
-
+      // Set a delay time then show slider to fix bug
+      setTimeout(() => {
+        this.prepared = true;
+      }, 150);
     },
     methods: {
 

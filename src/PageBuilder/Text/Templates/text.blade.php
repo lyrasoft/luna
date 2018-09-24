@@ -14,30 +14,32 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $col      \Windwalker\Structure\Structure
- * @var $pageRenderer \Lyrasoft\Luna\PageBuilder\Renderer\ColumnRenderer
+ * @var $addon      \Lyrasoft\Luna\PageBuilder\Text\TextAddon
+ * @var $classes    array
+ * @var $attrs      array
+ * @var $content    \Windwalker\Structure\Structure
+ * @var $options    \Windwalker\Structure\Structure
+ * @var $addonRenderer \Lyrasoft\Luna\PageBuilder\Renderer\AddonRenderer
  */
 
-$options = $col->extract('options');
+$text = $options['content'];
 
-$classes = [];
-$attrs = [];
-
-$classes[] = $options['html_class'];
-
-$pageRenderer::prepareElement($options, $classes, $attrs);
-
-$classes = array_filter($classes, '\strlen');
+$text = \Windwalker\Filter\OutputFilter::stripScript($text);
+$text = \Windwalker\Filter\OutputFilter::stripStyle($text);
 ?>
-<div class="l-column {{ implode(' ', array_filter($options['width'], 'strlen')) }}"
-    {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
-    @if ($options['background.overlay'])
-        <div class="l-bg-overlay"></div>
+
+@extends('page.addon-wrapper')
+
+@section('body')
+    @if ($options['title.text'] !== '')
+        <div class="c-addon__header c-box-header">
+            <{{ $options['title.element'] ?: 'h3' }} class="c-addon__title c-box-header__title">
+                {{ $options['title.text'] }}
+            </{{ $options['title.element'] ?: 'h3' }}>
+        </div>
     @endif
 
-    <div id="{{ $options['html_id'] }}" class="l-column__body l-bg-content {{ implode(' ', $classes) }}">
-        @foreach ($col['addons'] as $addon)
-            {!! $pageRenderer->getFactory()->create('addon')->render($addon) !!}
-        @endforeach
-    </div>
-</div>
+    <p class="c-addon__content-text">
+        {!! $text !!}
+    </p>
+@stop

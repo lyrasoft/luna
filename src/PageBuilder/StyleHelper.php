@@ -30,7 +30,7 @@ class StyleHelper
      */
     public static function addOffsets(StyleRules $rules, $rule, $value)
     {
-        list($top, $right, $bottom, $left) = explode(',', $value);
+        list($top, $right, $bottom, $left) = array_pad(explode(',', $value), 4, '');
 
         $rules->add($rule . '-top', $top);
         $rules->add($rule . '-right', $right);

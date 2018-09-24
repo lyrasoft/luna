@@ -10,10 +10,12 @@ namespace Lyrasoft\Luna\PageBuilder\Text;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\PageBuilder\AbstractAddon;
+use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
 use Lyrasoft\Luna\Script\EditorScript;
 use Phoenix\Script\PhoenixScript;
 use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Data\DataInterface;
+use Windwalker\Structure\Structure;
 
 /**
  * The TextAddon class.
@@ -44,6 +46,41 @@ class TextAddon extends AbstractAddon
      * @return  void
      */
     protected function prepareData(DataInterface $data)
+    {
+        //
+    }
+
+    /**
+     * prepareCSS
+     *
+     * @param Structure      $options
+     * @param StyleContainer $styles
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function prepareCSS(Structure $options, StyleContainer $styles)
+    {
+        $styles->rwd(function (StyleContainer $styles, $size) use ($options) {
+            $styles->select('.c-addon__content-text')
+                ->add('font-size', $options['content_font_size.' . $size], 'px')
+                ->add('line-height', $options['content_line_height.' . $size], 'px');
+        });
+    }
+
+    /**
+     * prepareElement
+     *
+     * @param Structure $options
+     * @param array     $classes
+     * @param array     $attrs
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function prepareElement(Structure $options, array &$classes, array &$attrs)
     {
         //
     }

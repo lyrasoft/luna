@@ -17,7 +17,6 @@ $(() => {
     },
 
     props: {
-      content: Object
     },
 
     created() {

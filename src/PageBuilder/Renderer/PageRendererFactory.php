@@ -35,14 +35,15 @@ class PageRendererFactory implements ContainerAwareInterface
      *
      * @return  PageRendererInterface
      *
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      * @since  __DEPLOY_VERSION__
      */
     public function create($type)
     {
         $class = sprintf(__NAMESPACE__ . '\%sRenderer', ucfirst($type));
 
-        /** @var PageRendererInterface $result */
-        return $result = $this->getContainer()->createSharedObject($class);
+        return $this->getContainer()->newInstance($class);
     }
 
     /**

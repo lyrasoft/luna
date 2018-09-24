@@ -3,22 +3,20 @@
 .l-page-container {
   // Section
   .l-section {
+    // Title
+    &__header {
+      margin-bottom: 50px;
 
-  }
+      h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+      }
+    }
 
-  // Title
-  .l-section__header {
-    margin-bottom: 50px;
-
-    h1, h2, h3, h4, h5, h6 {
+    // SubTitle
+    &__subtitle {
+      //color: #999;
       margin: 0;
     }
-  }
-
-  // SubTitle
-  .c-section-subtitle {
-    //color: #999;
-    margin: 0;
   }
 
   // Column

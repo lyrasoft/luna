@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
+use Lyrasoft\Luna\PageBuilder\AddonHelper;
 use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
-use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Structure\Structure;
 
 /**
@@ -17,14 +17,21 @@ use Windwalker\Structure\Structure;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ColumnRenderer extends AbstractPageRenderer
+class AddonRenderer extends AbstractPageRenderer
 {
+    /**
+     * Property styles.
+     *
+     * @var StyleContainer
+     */
+    protected $styles;
+
     /**
      * Property type.
      *
      * @var  string
      */
-    protected $cssPrefix = '.l-column';
+    protected $cssPrefix = '.c-addon';
 
     /**
      * render
@@ -33,22 +40,38 @@ class ColumnRenderer extends AbstractPageRenderer
      *
      * @return  string
      *
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      * @since  __DEPLOY_VERSION__
      */
     public function render(array $content)
     {
-        $col = new Structure($content);
+        $addon = new Structure($content);
 
-        if ((string) $col['options.html_id'] === '') {
-            $col['options.html_id'] = 'luna-' . $col['id'];
+        if ((string) $addon['options.html_id'] === '') {
+            $addon['options.html_id'] = 'luna-' . $addon['id'];
         }
 
-        $this->prepareAssets($col);
+        $this->prepareAssets($addon);
 
-        return WidgetHelper::render('page.column', [
-            'pageRenderer' => $this,
-            'col' => $col
-        ], 'edge');
+        $options = $addon->extract('options');
+        $classes = [];
+        $attrs = [];
+
+        static::prepareElement($options, $classes, $attrs);
+
+        $data = [
+            'content' => $addon,
+            'options' => $options,
+            'classes' => $classes,
+            'attrs' => $attrs,
+            'styles' => $this->styles,
+            'addonRenderer' => $this
+        ];
+
+        $addonInstance = AddonHelper::getAddonInstance($addon['type'], $data);
+
+        return $addonInstance->render();
     }
 
     /**
@@ -62,17 +85,18 @@ class ColumnRenderer extends AbstractPageRenderer
      */
     protected function prepareCSS(Structure $content)
     {
-        $styles = new StyleContainer('#' . $content['options.html_id']);
+        $this->styles = $styles = new StyleContainer('#' . $content['options.html_id']);
 
         $options = $content->extract('options');
 
         // Basic
         $this->prepareBasicCSS($options, $styles);
 
+        // Title
+        $this->prepareTitleCSS($options, $styles);
+
         // Background
         $this->prepareBackgroundCSS($options, $styles);
-
-        $this->asset->internalCSS($styles->render());
     }
 
     /**
