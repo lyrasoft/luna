@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\View\Page;
 
 use Lyrasoft\Luna\Admin\Record\PageRecord;
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Warder\Warder;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
@@ -38,6 +39,33 @@ class PageHtmlView extends ItemView
      */
     protected function prepareData($data)
     {
+        $paths = $data->paths;
+
+        $paths = implode('.', $paths);
+
+        // Handle static pages
+        if ($paths && $this->getRenderer()->findFile($paths, '.blade.php')) {
+            $allow = true;
+
+            if (!WINDWALKER_DEBUG) {
+                $protects = LunaHelper::getPackage()->get('page.protects');
+
+                $matched = array_filter($protects, function ($prefix) use ($paths) {
+                    return strpos($paths, $prefix) === 0;
+                });
+                
+                if ($matched) {
+                    $allow = false;
+                }
+            }
+
+            if ($allow) {
+                $this->layout = $paths;
+
+                return;
+            }
+        }
+
         parent::prepareData($data);
 
         $user = Warder::getUser();

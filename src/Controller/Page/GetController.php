@@ -74,6 +74,8 @@ class GetController extends ItemDisplayController
 
         $paths = array_filter($paths, '\strlen');
 
+        $view['paths'] = $paths;
+
         if ($paths !== []) {
             $repository['load.conditions'] = ['alias' => implode('/', $paths)];
         }

@@ -54,6 +54,7 @@ class CategoryHtmlView extends ListView
      * @param \Windwalker\Data\Data $data
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function prepareData($data)
     {
@@ -80,7 +81,7 @@ class CategoryHtmlView extends ListView
             $item->tags = $tags;
 
             if ($item->page_id) {
-                $item->link = $this->router->route('page', ['path' => $item->page_alias]);
+                $item->link = $this->router->route('page', ['paths' => $item->page_alias]);
             } else {
                 $item->link = $this->router->route('article', ['alias' => $item->alias, 'id' => $item->id]);
             }

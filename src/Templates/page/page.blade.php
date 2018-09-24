@@ -22,7 +22,7 @@
 $builder = $package->getContainer()->get(\Lyrasoft\Luna\PageBuilder\PageBuilder::class);
 ?>
 
-@extends('_global.html')
+@extends($item->extends)
 
 @push('script')
     {{-- Add Script Here --}}

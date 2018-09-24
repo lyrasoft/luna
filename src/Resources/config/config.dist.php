@@ -84,6 +84,9 @@ return [
         'positions' => [
 
         ],
+        'protects' => [
+            'theme.'
+        ]
     ],
 
     'providers' => [

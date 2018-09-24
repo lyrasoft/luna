@@ -57,8 +57,8 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
     {
         $this->addTable('article', LunaTable::ARTICLES);
 
-        if (LunaHelper::tableExists('categories') && in_array('category_id',
-                $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'))) {
+        if (LunaHelper::tableExists('categories')
+            && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'), true)) {
             $this->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
         }
 
@@ -77,16 +77,19 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
      */
     protected function prepareGetQuery(Query $query)
     {
-        $query->leftJoin(LunaTable::PAGES . ' AS page', 'page.id = article.page_id')
-            ->select(['page.id AS page_id', 'page.alias AS page_alias']);
+        if (LunaHelper::tableExists('pages')
+            && in_array('page_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('page_id'), true)) {
+            $query->leftJoin(LunaTable::PAGES . ' AS page', 'page.id = article.page_id')
+                ->select(['page.id AS page_id', 'page.alias AS page_alias']);
+        }
 
         $select = [
             'article.*',
         ];
 
         if (LunaHelper::tableExists('categories')
-            && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'))) {
-            $select = $select + [
+            && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'), true)) {
+            $select += [
                 'category.id AS category_id',
                 'category.title AS category_title',
                 'category.alias AS category_alias',
@@ -95,7 +98,7 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
         }
 
         if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps')) {
-            $select = $select + [
+            $select += [
                 'tag.title AS tag_title',
                 'tag.alias AS tag_alias',
             ];
