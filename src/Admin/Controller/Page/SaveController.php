@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Controller\Page;
 
 use Lyrasoft\Luna\Admin\Repository\PageRepository;
+use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\DataInterface;
 
@@ -88,6 +89,8 @@ class SaveController extends AbstractSaveController
     protected function preSave(DataInterface $data)
     {
         parent::preSave($data);
+        
+        unset($data->meta['og_image']);
     }
 
     /**
@@ -96,10 +99,22 @@ class SaveController extends AbstractSaveController
      * @param DataInterface $data Data saved.
      *
      * @return  void
+     * @throws \Exception
      */
     protected function postSave(DataInterface $data)
     {
         parent::postSave($data);
+        
+        $meta = json_decode($data->meta, true);
+
+        $meta['og_image'] = SingleImageDragField::uploadBase64(
+            $this->data['meta']['og_image'],
+            'page/' . md5('Luna:Page:' . $data->id) . '.jpg'
+        );
+
+        $data->meta = $meta;
+
+        $this->repository->save($data);
     }
 
     /**

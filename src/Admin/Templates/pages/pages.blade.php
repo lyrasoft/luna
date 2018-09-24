@@ -89,9 +89,9 @@
                             </th>
 
                             {{-- LANGUAGE --}}
-                            <th width="7%" class="text-nowrap">
-                                {!! $grid->sortTitle('luna.page.field.language', 'page.language') !!}
-                            </th>
+                            {{--<th width="7%" class="text-nowrap">--}}
+                                {{--{!! $grid->sortTitle('luna.page.field.language', 'page.language') !!}--}}
+                            {{--</th>--}}
 
                             {{-- DELETE --}}
                             <th width="1%" class="text-nowrap">
@@ -147,16 +147,16 @@
 
                                 {{-- CREATED --}}
                                 <td class="text-nowrap">
-                            <span class="has-tooltip"
-                                title="{{ $datetime::toLocalTime($item->created, 'Y-m-d H:i:s') }}">
-                                {{ $datetime::toLocalTime($item->created, 'Y-m-d') }}
-                            </span>
+                                    <span class="has-tooltip"
+                                        title="{{ $datetime::toLocalTime($item->created, 'Y-m-d H:i:s') }}">
+                                        {{ $datetime::toLocalTime($item->created, 'Y-m-d') }}
+                                    </span>
                                 </td>
 
                                 {{-- LANGUAGE --}}
-                                <td class="text-nowrap">
-                                    {{ $item->language }}
-                                </td>
+                                {{--<td class="text-nowrap">--}}
+                                    {{--{{ $item->language }}--}}
+                                {{--</td>--}}
 
                                 {{-- DELETE --}}
                                 <td class="text-center">

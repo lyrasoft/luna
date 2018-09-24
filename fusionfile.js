@@ -42,6 +42,10 @@ fusion.task('js', function () {
       'asset/src/admin/page-builder/directives/_colorpicker.js',
       'asset/src/admin/page-builder/directives/_select2.js',
 
+      // Filters
+      'asset/src/admin/page-builder/filters/_lang.js',
+      'asset/src/admin/page-builder/filters/_addon-prop.js',
+
       // Main components
       'asset/src/admin/page-builder/component/_addon-edit.js',
       'asset/src/admin/page-builder/component/_addon.js',

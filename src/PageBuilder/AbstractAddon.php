@@ -10,8 +10,8 @@ namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
+use Phoenix\Script\PhoenixScript;
 use Windwalker\Core\Asset\Asset;
-use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Core\Renderer\RendererHelper;
@@ -23,7 +23,7 @@ use Windwalker\Utilities\Queue\PriorityQueue;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
- * The AbstractModule class.
+ * The AbstractAddon class.
  *
  * @property  string    title
  * @property  string    content
@@ -255,10 +255,10 @@ abstract class AbstractAddon implements AdminVueComponentInterface
     protected function prepareOptions(DataInterface $data)
     {
         /**
-         * @var Structure $options
+         * @var Structure      $options
          * @var StyleContainer $styles
-         * @var array $classes
-         * @var array $attrs
+         * @var array          $classes
+         * @var array          $attrs
          */
         $styles = $data->styles;
 
@@ -271,7 +271,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
             $this->prepareElement($options, $classes, $attrs);
 
             $data->classes = $classes;
-            $data->attrs = $attrs;
+            $data->attrs   = $attrs;
         }
 
         Asset::internalCSS($styles->render());
@@ -314,6 +314,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
     public static function getName()
     {
         if (static::$name === null) {
+            PhoenixScript::translate(static::$langPrefix . 'addon.' . static::getType() . '.name');
+
             return __(static::$langPrefix . 'addon.' . static::getType() . '.name');
         }
 
@@ -340,7 +342,9 @@ abstract class AbstractAddon implements AdminVueComponentInterface
     public static function getDescription()
     {
         if (static::$description === null) {
-            return __(static::$langPrefix . 'module.' . static::getType() . '.desc');
+            PhoenixScript::translate(static::$langPrefix . 'addon.' . static::getType() . '.desc');
+
+            return __(static::$langPrefix . 'addon.' . static::getType() . '.desc');
         }
 
         return static::$description;

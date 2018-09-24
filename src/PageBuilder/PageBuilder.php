@@ -10,7 +10,6 @@ namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\Renderer\PageRendererFactory;
-use Lyrasoft\Luna\PageBuilder\Renderer\RowRenderer;
 use Lyrasoft\Luna\Script\LunaScript;
 use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Core\Package\PackageHelper;
@@ -48,6 +47,8 @@ class PageBuilder
      *
      * @return  string
      *
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      * @since  __DEPLOY_VERSION__
      */
     public function renderPage(array $rows)
@@ -64,7 +65,11 @@ class PageBuilder
         $rowRenderer = $this->rendererFactory->create('row');
 
         foreach ($rows as $row) {
-            $html[] = $rowRenderer->render($row, $this);
+            if ($row['disabled']) {
+                continue;
+            }
+
+            $html[] = $rowRenderer->render($row);
         }
 
         return implode("\n", $html);

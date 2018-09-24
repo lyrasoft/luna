@@ -60,6 +60,7 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
                             :key="row.id"
                             :value="row"
                             @columns-change="columnsChange(row, $event)"
+                            @copy="copyRow(row, i)"
                             @delete="deleteRow(i)">
                         </row>
                     </draggable>

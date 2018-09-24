@@ -47,6 +47,10 @@
                                 <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                                 @{{ content.disabled ? '啟用' : '停用' }}
                             </a>
+                            <a class="dropdown-item" href="javascript://" @click="copy()" v-if="!content.disabled">
+                                <span class="fa fa-copy"></span>
+                                複製
+                            </a>
                             <a class="dropdown-item" href="javascript://" @click="remove()">
                                 <span class="fa fa-trash"></span>
                                 刪除
@@ -62,6 +66,7 @@
                 :options="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : '')}" style="min-height: 50px;">
                 <column v-for="(column, i) of columns" class="page-row__column column mb-2"
                     @delete="deleteColumn(i)"
+                    @copy="copyColumn(column, i)"
                     :index="i"
                     :key="column.id"
                     :value="column"

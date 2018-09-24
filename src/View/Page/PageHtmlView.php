@@ -10,7 +10,9 @@ namespace Lyrasoft\Luna\View\Page;
 
 use Lyrasoft\Luna\Admin\Record\PageRecord;
 use Lyrasoft\Warder\Warder;
+use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
+use Windwalker\Data\Data;
 use Windwalker\Router\Exception\RouteNotFoundException;
 
 /**
@@ -53,7 +55,7 @@ class PageHtmlView extends ItemView
         $data->rows = json_decode($item->content, true);
 
         $this->prepareScripts();
-        $this->prepareMetadata();
+        $this->prepareMetadata($data);
     }
 
     /**
@@ -68,10 +70,32 @@ class PageHtmlView extends ItemView
     /**
      * prepareMetadata
      *
+     * @param Data $data
+     *
      * @return  void
      */
-    protected function prepareMetadata()
+    protected function prepareMetadata(Data $data)
     {
-        $this->setTitle();
+        $meta = new Data(json_decode($data->item->meta, true));
+
+        $this->setTitle($meta->meta_title ?: $data->item->title);
+
+        if ($meta->meta_desc) {
+            HtmlHeader::addMetadata('description', $meta->meta_desc, true);
+        }
+
+        if ($meta->meta_keyword) {
+            HtmlHeader::addMetadata('keyword', $meta->meta_keyword, true);
+        }
+
+        if ($meta->og_image) {
+            HtmlHeader::addOpenGraph('og:image', $meta->og_image, true);
+        }
+
+        $ogDesc = $meta->og_desc ?: $meta->meta_desc;
+
+        if ($ogDesc) {
+            HtmlHeader::addOpenGraph('og:description', $ogDesc, true);
+        }
     }
 }

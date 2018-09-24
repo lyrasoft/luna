@@ -49,11 +49,11 @@
     </ul>
 </div>
 
-<button type="button" class="btn btn-default btn-dark btn-sm phoenix-btn-batch" data-toggle="modal"
-    data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">
-    <span class="fa fa-sliders fa-sliders-h"></span>
-    @lang('phoenix.toolbar.batch')
-</button>
+{{--<button type="button" class="btn btn-default btn-dark btn-sm phoenix-btn-batch" data-toggle="modal"--}}
+    {{--data-target="#batch-modal" onclick="Phoenix.Grid.hasChecked(null, event);">--}}
+    {{--<span class="fa fa-sliders fa-sliders-h"></span>--}}
+    {{--@lang('phoenix.toolbar.batch')--}}
+{{--</button>--}}
 
 <button type="button" class="btn btn-default btn-outline-danger btn-sm phoenix-btn-delete"
     onclick="Phoenix.Grid.hasChecked().deleteList();">

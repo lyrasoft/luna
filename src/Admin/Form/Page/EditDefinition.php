@@ -9,16 +9,12 @@
 namespace Lyrasoft\Luna\Admin\Form\Page;
 
 use Lyrasoft\Luna\Admin\Field\Page\ExtendListField;
-use Lyrasoft\Luna\Admin\Field\Page\PageListField;
-use Lyrasoft\Luna\Admin\Field\Page\PageModalField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Form\Filter\MaxLengthFilter;
 use Windwalker\Form\Form;
-use Windwalker\Validator\Rule;
 
 /**
  * The PageEditDefinition class.
@@ -98,6 +94,7 @@ class EditDefinition extends AbstractFieldDefinition
                     ->version(2)
                     ->maxWidth(2000)
                     ->maxHeight(2000)
+                    ->crop(false)
                     ->showSizeNotice(true);
             });
         });

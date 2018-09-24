@@ -43,6 +43,42 @@ $(() => {
         this.content.columns.push({foo: Phoenix.uniqid()});
       },
 
+      copy() {
+        this.$emit('copy');
+      },
+
+      copyColumn(column, i) {
+        column = JSON.parse(JSON.stringify(column));
+
+        column.id = 'col-' + Phoenix.uniqid();
+
+        column.addons = this.handleCopyAddons(column.addons);
+
+        this.columns.splice(i + 1, 0, column);
+      },
+
+      handleCopyAddons(addons) {
+        return addons.map(addon => {
+          if (addon.type !== 'row') {
+            addon.id = 'addon-' + Phoenix.uniqid();
+            return addon;
+          }
+
+          // Is row
+          addon.id = 'row-' + Phoenix.uniqid();
+
+          addon.columns = addon.columns.map(column => {
+            column.id = 'col-' + Phoenix.uniqid();
+
+            column.addons = this.handleCopyAddons(column.addons);
+
+            return column;
+          });
+
+          return addon;
+        });
+      },
+
       edit() {
         Phoenix.trigger('row:edit', this.content);
       },
@@ -98,19 +134,19 @@ $(() => {
             fluid_row: false,
             no_gutter: false,
             padding: {
-              xl: '',
+              lg: '',
               md: '',
               xs: ''
             },
             margin: {
-              xl: '',
+              lg: '',
               md: '',
               xs: ''
             },
             display: {
-              xs: 'd-block',
+              lg: 'd-lg-block',
               md: 'd-md-block',
-              lg: 'd-lg-block'
+              xs: 'd-block'
             },
             text_color: '',
             background: {

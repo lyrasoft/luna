@@ -22,7 +22,7 @@ $form->setAttributes('fieldWidth', 'col-12', 'basic');
                 {!! $form->renderFields('basic') !!}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
                     <span class="fa fa-check"></span>
                     @lang('luna.page.modal.basic.button.ok')
                 </button>

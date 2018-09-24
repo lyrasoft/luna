@@ -87,13 +87,53 @@ $(() => {
       deleteRow(i) {
         this.content.splice(i, 1);
       },
+      copyRow(row, i) {
+        row = JSON.parse(JSON.stringify(row));
+
+        row.id = 'row-' + Phoenix.uniqid();
+
+        row.columns = this.handleCopyColumns(row.columns);
+
+        this.content.splice(i + 1, 0, row);
+      },
+      handleCopyColumns(columns) {
+        return columns.map(column => {
+          column.id = 'col-' + Phoenix.uniqid();
+
+          column.addons = this.handleCopyAddons(column.addons);
+
+          return column;
+        });
+      },
+      handleCopyAddons(addons) {
+        return addons.map(addon => {
+          if (addon.type !== 'row') {
+            addon.id = 'addon-' + Phoenix.uniqid();
+            return addon;
+          }
+
+          // Is row
+          addon.id = 'row-' + Phoenix.uniqid();
+
+          addon.columns = addon.columns.map(column => {
+            column.id = 'col-' + Phoenix.uniqid();
+
+            column.addons = this.handleCopyAddons(column.addons);
+
+            return column;
+          });
+
+          return addon;
+        });
+      },
+
       columnsChange(row, $event) {
         row.columns = $event.columns;
       },
       selectAddon(type) {
         $(this.$refs.addonList).modal('hide');
         
-        const addonData = Phoenix.data('addon.type.' + type);
+        const addonData = Phoenix.data('addons')[type];
 
         setTimeout(() => {
           Phoenix.trigger('addon:edit', { ...addonData, id: 'addon-' + Phoenix.uniqid(), is: 'addon' }, this.editing.column);

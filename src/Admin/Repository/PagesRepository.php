@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Repository;
 
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Table\Table;
+use Lyrasoft\Warder\Table\WarderTable;
 use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
 use Windwalker\Database\Driver\AbstractDatabaseDriver;
@@ -64,7 +65,8 @@ class PagesRepository extends ListRepository
      */
     protected function configureTables()
     {
-        $this->addTable('page', LunaTable::PAGES);
+        $this->addTable('page', LunaTable::PAGES)
+            ->leftJoin('user', WarderTable::USERS, 'user.id = page.created_by');
     }
 
     /**

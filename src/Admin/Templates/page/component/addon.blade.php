@@ -8,7 +8,7 @@
             </div>
             <div class="c-addon-instance__title ml-2">
                 <h6 class="m-0">
-                    @{{ content.name }}
+                    @{{ 'name' | addonProp(content.type) }}
                 </h6>
                 <small class="text-muted">
                     @{{ options.label || options.title.text }}

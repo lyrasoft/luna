@@ -105,7 +105,7 @@ class PageRepository extends AdminRepository
      */
     protected function postGetItem(DataInterface $item)
     {
-        // Do some stuff
+        $item->meta = json_decode($item->meta, true);
     }
 
     /**
@@ -122,6 +122,10 @@ class PageRepository extends AdminRepository
 
         if (!$data->preview_secret) {
             $data->preview_secret = $this->genPreviewSecret();
+        }
+
+        if (!is_string($data->meta)) {
+            $data->meta = json_encode($data->meta);
         }
     }
 

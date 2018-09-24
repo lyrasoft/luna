@@ -44,6 +44,10 @@ $(() => {
         Phoenix.trigger('column:edit', this.content);
       },
 
+      copy() {
+        this.$emit('copy');
+      },
+
       toggleDisabled() {
         this.content.disabled = !this.content.disabled;
       },

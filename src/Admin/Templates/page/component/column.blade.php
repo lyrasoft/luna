@@ -35,6 +35,11 @@
                                 <span class="fa fa-edit"></span>
                                 編輯
                             </a>
+                            <a class="dropdown-item" href="javascript://" @click="copy()"
+                                v-if="!content.disabled">
+                                <span class="fa fa-copy"></span>
+                                複製
+                            </a>
                             <a class="dropdown-item" href="javascript://" @click="toggleDisabled()">
                                 <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                                 @{{ content.disabled ? '啟用' : '停用' }}

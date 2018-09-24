@@ -52,6 +52,10 @@ $classes = array_filter($classes, '\strlen');
 
         <div class="row {{ $noGutter }} l-section__row">
             @foreach ($row['columns'] as $column)
+                @if ($column['disabled'])
+                    @continue
+                @endif
+
                 {!! $pageRenderer->getFactory()->create('column')->render($column) !!}
             @endforeach
         </div>

@@ -125,8 +125,16 @@ $(function () {
             },
             color: '',
             bg_color: '',
-            margin_top: '',
-            margin_bottom: '',
+            margin_top: {
+              lg: '',
+              md: '',
+              xs: ''
+            },
+            margin_bottom: {
+              lg: '',
+              md: '',
+              xs: ''
+            },
             padding: {
               lg: '',
               md: '',
@@ -853,6 +861,38 @@ $(function () {
  */
 
 $(function () {
+  Vue.filter('lang', function (value) {
+    var _Phoenix;
+
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    return (_Phoenix = Phoenix).__.apply(_Phoenix, [value].concat(args));
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
+  Vue.filter('addonProp', function (prop, type) {
+    return Phoenix.data('addons')[type][prop];
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
   Phoenix.data('component:addon-edit', {
     name: 'addon-edit',
 
@@ -1201,6 +1241,9 @@ $(function () {
       edit: function edit() {
         Phoenix.trigger('column:edit', this.content);
       },
+      copy: function copy() {
+        this.$emit('copy');
+      },
       toggleDisabled: function toggleDisabled() {
         this.content.disabled = !this.content.disabled;
       },
@@ -1438,6 +1481,41 @@ $(function () {
       addNewColumn: function addNewColumn() {
         this.content.columns.push({ foo: Phoenix.uniqid() });
       },
+      copy: function copy() {
+        this.$emit('copy');
+      },
+      copyColumn: function copyColumn(column, i) {
+        column = JSON.parse(JSON.stringify(column));
+
+        column.id = 'col-' + Phoenix.uniqid();
+
+        column.addons = this.handleCopyAddons(column.addons);
+
+        this.columns.splice(i + 1, 0, column);
+      },
+      handleCopyAddons: function handleCopyAddons(addons) {
+        var _this18 = this;
+
+        return addons.map(function (addon) {
+          if (addon.type !== 'row') {
+            addon.id = 'addon-' + Phoenix.uniqid();
+            return addon;
+          }
+
+          // Is row
+          addon.id = 'row-' + Phoenix.uniqid();
+
+          addon.columns = addon.columns.map(function (column) {
+            column.id = 'col-' + Phoenix.uniqid();
+
+            column.addons = _this18.handleCopyAddons(column.addons);
+
+            return column;
+          });
+
+          return addon;
+        });
+      },
       edit: function edit() {
         Phoenix.trigger('row:edit', this.content);
       },
@@ -1445,10 +1523,10 @@ $(function () {
         this.content.disabled = !this.content.disabled;
       },
       remove: function remove() {
-        var _this18 = this;
+        var _this19 = this;
 
         Phoenix.confirm('確定要刪除嗎?').then(function () {
-          return _this18.$emit('delete');
+          return _this19.$emit('delete');
         });
       },
       getEmptyRow: function getEmptyRow() {
@@ -1493,19 +1571,19 @@ $(function () {
             fluid_row: false,
             no_gutter: false,
             padding: {
-              xl: '',
+              lg: '',
               md: '',
               xs: ''
             },
             margin: {
-              xl: '',
+              lg: '',
               md: '',
               xs: ''
             },
             display: {
-              xs: 'd-block',
+              lg: 'd-lg-block',
               md: 'd-md-block',
-              lg: 'd-lg-block'
+              xs: 'd-block'
             },
             text_color: '',
             background: {
@@ -1597,62 +1675,62 @@ $(function () {
       'addon-edit': Phoenix.data('component:addon-edit')
     },
     mounted: function mounted() {
-      var _this19 = this;
+      var _this20 = this;
 
       Phoenix.on('row:edit', function (content, column) {
-        _this19.editing.row = content;
-        _this19.editing.column = content;
-        _this19.$refs.rowEdit.edit(content);
+        _this20.editing.row = content;
+        _this20.editing.column = content;
+        _this20.$refs.rowEdit.edit(content);
       });
 
       Phoenix.on('row:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this19.editing.row[k] = v;
+          _this20.editing.row[k] = v;
         });
 
-        _this19.editing.column = {};
-        _this19.editing.row = {};
+        _this20.editing.column = {};
+        _this20.editing.row = {};
       });
 
       Phoenix.on('column:edit', function (content) {
-        _this19.editing.column = content;
-        _this19.$refs.columnEdit.edit(content);
+        _this20.editing.column = content;
+        _this20.$refs.columnEdit.edit(content);
       });
 
       Phoenix.on('column:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this19.editing.column[k] = v;
+          _this20.editing.column[k] = v;
         });
 
-        _this19.editing.column = {};
+        _this20.editing.column = {};
       });
 
       Phoenix.on('addon:add', function (column) {
-        _this19.editing.column = column;
+        _this20.editing.column = column;
 
-        $(_this19.$refs.addonList).modal('show');
+        $(_this20.$refs.addonList).modal('show');
       });
 
       Phoenix.on('addon:edit', function (addon, column) {
-        _this19.editing.addon = addon;
-        _this19.editing.column = column;
+        _this20.editing.addon = addon;
+        _this20.editing.column = column;
 
-        _this19.$refs.addonEdit.edit(addon);
+        _this20.$refs.addonEdit.edit(addon);
       });
 
       Phoenix.on('addon:save', function (addon) {
-        if (_this19.editing.column.addons.filter(function (item) {
+        if (_this20.editing.column.addons.filter(function (item) {
           return item.id === addon.id;
         }).length === 0) {
-          _this19.editing.column.addons.push(addon);
+          _this20.editing.column.addons.push(addon);
         }
 
         underscore.each(addon, function (v, k) {
-          _this19.editing.addon[k] = v;
+          _this20.editing.addon[k] = v;
         });
 
-        _this19.editing.column = {};
-        _this19.editing.addon = {};
+        _this20.editing.column = {};
+        _this20.editing.addon = {};
       });
     },
 
@@ -1663,18 +1741,61 @@ $(function () {
       deleteRow: function deleteRow(i) {
         this.content.splice(i, 1);
       },
+      copyRow: function copyRow(row, i) {
+        row = JSON.parse(JSON.stringify(row));
+
+        row.id = 'row-' + Phoenix.uniqid();
+
+        row.columns = this.handleCopyColumns(row.columns);
+
+        this.content.splice(i + 1, 0, row);
+      },
+      handleCopyColumns: function handleCopyColumns(columns) {
+        var _this21 = this;
+
+        return columns.map(function (column) {
+          column.id = 'col-' + Phoenix.uniqid();
+
+          column.addons = _this21.handleCopyAddons(column.addons);
+
+          return column;
+        });
+      },
+      handleCopyAddons: function handleCopyAddons(addons) {
+        var _this22 = this;
+
+        return addons.map(function (addon) {
+          if (addon.type !== 'row') {
+            addon.id = 'addon-' + Phoenix.uniqid();
+            return addon;
+          }
+
+          // Is row
+          addon.id = 'row-' + Phoenix.uniqid();
+
+          addon.columns = addon.columns.map(function (column) {
+            column.id = 'col-' + Phoenix.uniqid();
+
+            column.addons = _this22.handleCopyAddons(column.addons);
+
+            return column;
+          });
+
+          return addon;
+        });
+      },
       columnsChange: function columnsChange(row, $event) {
         row.columns = $event.columns;
       },
       selectAddon: function selectAddon(type) {
-        var _this20 = this;
+        var _this23 = this;
 
         $(this.$refs.addonList).modal('hide');
 
-        var addonData = Phoenix.data('addon.type.' + type);
+        var addonData = Phoenix.data('addons')[type];
 
         setTimeout(function () {
-          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this20.editing.column);
+          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this23.editing.column);
           $('body').addClass('modal-open');
         }, 365);
       },

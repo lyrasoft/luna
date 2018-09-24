@@ -29,6 +29,8 @@ class LunaSeeder extends AbstractSeeder
 
         $this->execute(CategorySeeder::class);
 
+        $this->execute(PageSeeder::class);
+
         $this->execute(ArticleSeeder::class);
 
         $this->execute(CommentSeeder::class);
@@ -53,6 +55,8 @@ class LunaSeeder extends AbstractSeeder
         $this->clear(TagSeeder::class);
 
         $this->clear(CategorySeeder::class);
+
+        $this->clear(PageSeeder::class);
 
         $this->clear(ArticleSeeder::class);
 

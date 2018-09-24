@@ -58,20 +58,28 @@ class PageHtmlView extends EditView
     protected $formLoadData = true;
 
     /**
+     * Property langPrefix.
+     *
+     * @var  string
+     */
+    protected $langPrefix = 'luna.';
+
+    /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data            $data
+     * @param \Windwalker\Data\Data           $data
      *
      * @see  ItemView
      * ------------------------------------------------------
-     * @var  \WindWalker\Structure\Structure   $data ->state
-     * @var  \Lyrasoft\Luna\Record\PageRecord $data ->item
+     * @var  \WindWalker\Structure\Structure  $data ->state
+     * @var  \Lyrasoft\Luna\Admin\Record\PageRecord $data ->item
      *
      * @see  EditView
      * ------------------------------------------------------
-     * @var    \Windwalker\Form\Form           $data ->form
+     * @var    \Windwalker\Form\Form          $data ->form
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function prepareData($data)
     {
@@ -117,7 +125,7 @@ class PageHtmlView extends EditView
 
             $class::loadVueComponent($asset);
 
-            PhoenixScript::data('addon.type.' . $addonType->type, $addonType);
+            PhoenixScript::data('addons', [$addonType->type => $addonType], true);
         }
 
         PhoenixScript::data('asset:locale', str_replace('-', '_', Locale::getLocale()));

@@ -30,6 +30,8 @@ $builder = $package->getContainer()->get(\Lyrasoft\Luna\PageBuilder\PageBuilder:
 
 @section('content')
     <div class="l-page-container">
-        {!! $builder->renderPage($rows) !!}
+        @if (is_array($rows))
+            {!! $builder->renderPage($rows) !!}
+        @endif
     </div>
 @stop

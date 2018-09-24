@@ -65,9 +65,7 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
                 ->add('border-color', $options['icon.border.color'])
                 ->add('border-style', $options['icon.border.style'])
                 ->add('color', $options['icon.color'])
-                ->add('background-color', $options['icon.bg_color'])
-                ->add('margin-top', $options['icon.margin_top'])
-                ->add('margin-bottom', $options['icon.margin_bottom']);
+                ->add('background-color', $options['icon.bg_color']);
 
             $styles->select('.c-feature-icon__wrapper')
                 ->add('border-color', $options['icon.border.color'])
@@ -76,7 +74,9 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
             $styles->rwd(function (StyleContainer $styles, $size) use ($options) {
                 $styles->select('.c-feature-icon__wrapper')
                     ->add('border-width', $options['icon.border.width.' . $size], 'px')
-                    ->add('border-radius', $options['icon.border.radius.' . $size], 'px');
+                    ->add('border-radius', $options['icon.border.radius.' . $size], 'px')
+                    ->add('margin-top', $options['icon.margin_top.' . $size], 'px')
+                    ->add('margin-bottom', $options['icon.margin_bottom.' . $size], 'px');
 
                 AbstractPageRenderer::addOffsets(
                     $styles->select('.c-feature-icon__wrapper'),

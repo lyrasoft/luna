@@ -39,8 +39,16 @@ $(() => {
             },
             color: '',
             bg_color: '',
-            margin_top: '',
-            margin_bottom: '',
+            margin_top: {
+              lg: '',
+              md: '',
+              xs: ''
+            },
+            margin_bottom: {
+              lg: '',
+              md: '',
+              xs: ''
+            },
             padding: {
               lg: '',
               md: '',

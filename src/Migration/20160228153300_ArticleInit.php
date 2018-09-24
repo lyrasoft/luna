@@ -23,6 +23,7 @@ class ArticleInit extends AbstractMigration
         $this->createTable(LunaTable::ARTICLES, function (Schema $sc) {
             $sc->primary('id')->comment('Primary Key');
             $sc->integer('category_id')->comment('Category ID');
+            $sc->integer('page_id')->comment('Page ID');
             $sc->varchar('title')->comment('Title');
             $sc->varchar('alias')->comment('Alias');
             $sc->varchar('image')->comment('Main Image');
@@ -37,6 +38,7 @@ class ArticleInit extends AbstractMigration
             $sc->char('language')->length(7)->comment('Language');
             $sc->text('params')->comment('Params');
 
+            $sc->addIndex('page_id');
             $sc->addIndex('category_id');
             $sc->addIndex('alias(150)');
             $sc->addIndex('language');
