@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
-use Lyrasoft\Luna\PageBuilder\StyleHelper;
+use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
+use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleRules;
 use Lyrasoft\Luna\Script\LunaScript;
 use Windwalker\Core\Asset\AssetManager;
 use Windwalker\DI\Annotation\Inject;
@@ -22,8 +22,6 @@ use Windwalker\Structure\Structure;
  */
 abstract class AbstractPageRenderer implements PageRendererInterface
 {
-    use BoxRendererTrait;
-
     /**
      * Property type.
      *
@@ -48,6 +46,27 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      * @var PageRendererFactory
      */
     protected $factory;
+
+    /**
+     * addOffsets
+     *
+     * @param StyleRules $rules
+     * @param string     $rule
+     * @param string     $value
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function addOffsets(StyleRules $rules, $rule, $value)
+    {
+        list($top, $right, $bottom, $left) = array_pad(explode(',', $value), 4, '');
+
+        $rules->add($rule . '-top', $top);
+        $rules->add($rule . '-right', $right);
+        $rules->add($rule . '-bottom', $bottom);
+        $rules->add($rule . '-left', $left);
+    }
 
     /**
      * Method to get property Factory
@@ -119,7 +138,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
             $classes[] = $options['animation.name'];
 
             $attrs['data-wow-duration'] = $options['animation.duration'] . 'ms';
-            $attrs['data-wow-delay'] = $options['animation.delay'] . 'ms';
+            $attrs['data-wow-delay']    = $options['animation.delay'] . 'ms';
         }
 
         // Video Background
@@ -145,7 +164,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
             $classes[] = 'jarallax';
 
-            $attrs['data-speed'] = '0.5';
+            $attrs['data-speed']    = '0.5';
             $attrs['data-jarallax'] = true;
         }
     }
@@ -164,8 +183,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     {
         $styles->self()
             ->add('color', $options['text_color'])
-            ->add('text-align', $options['align'])
-        ;
+            ->add('text-align', $options['align']);
 
         switch ($options['valign']) {
             case 'middle':
@@ -210,8 +228,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
         // Padding & Margin
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
-            StyleHelper::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
-            StyleHelper::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
+            static::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
+            static::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
         });
     }
 

@@ -6,7 +6,7 @@
  * @license    __LICENSE__
  */
 
-namespace Lyrasoft\Luna\PageBuilder\Style;
+namespace Lyrasoft\Luna\PageBuilder\Renderer\Style;
 
 /**
  * The StyleRules class.

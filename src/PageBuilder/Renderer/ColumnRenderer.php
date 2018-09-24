@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
+use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Structure\Structure;
 

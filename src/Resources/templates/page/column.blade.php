@@ -37,7 +37,12 @@ $classes = array_filter($classes, '\strlen');
 
     <div id="{{ $options['html_id'] }}" class="l-column__body l-bg-content {{ implode(' ', $classes) }}">
         @foreach ($col['addons'] as $addon)
-            {!! $pageRenderer->getFactory()->create('addon')->render($addon) !!}
+            @if (isset($addon['is']) && $addon['is'] === 'addon')
+                {!! $pageRenderer->getFactory()->create('addon')->render($addon) !!}
+            @else
+                @php($addon['child'] = true)
+                {!! $pageRenderer->getFactory()->create('row')->render($addon) !!}
+            @endif
         @endforeach
     </div>
 </div>

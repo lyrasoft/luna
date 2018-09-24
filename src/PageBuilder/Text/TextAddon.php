@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\PageBuilder\Text;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\PageBuilder\AbstractAddon;
-use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
+use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Lyrasoft\Luna\Script\EditorScript;
 use Phoenix\Script\PhoenixScript;
 use Windwalker\Core\Asset\AssetManager;

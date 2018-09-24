@@ -8,8 +8,7 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Lyrasoft\Luna\PageBuilder\Style\StyleContainer;
-use Lyrasoft\Luna\PageBuilder\StyleHelper;
+use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Structure\Structure;
 
@@ -100,8 +99,8 @@ class RowRenderer extends AbstractPageRenderer
 
         // Padding & Margin
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
-            StyleHelper::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
-            StyleHelper::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
+            static::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
+            static::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
         });
     }
 
