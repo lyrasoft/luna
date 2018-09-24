@@ -35,7 +35,7 @@ use Windwalker\Utilities\Reflection\ReflectionHelper;
  *
  * @since  1.0
  */
-abstract class AbstractAddon
+abstract class AbstractAddon implements AdminVueComponentInterface
 {
     /**
      * Property isEnabled.
@@ -260,49 +260,21 @@ abstract class AbstractAddon
          * @var array $classes
          * @var array $attrs
          */
-        $options = $data->options;
-        $styles  = $data->styles;
-        $classes = $data->classes;
-        $attrs   = $data->attrs;
+        $styles = $data->styles;
 
-        $this->prepareCSS($options, $styles);
-        $this->prepareElement($options, $classes, $attrs);
+        if ($this instanceof HasOwnStyleInterface) {
+            $options = $data->options;
+            $classes = $data->classes;
+            $attrs   = $data->attrs;
+
+            $this->prepareCSS($options, $styles);
+            $this->prepareElement($options, $classes, $attrs);
+
+            $data->classes = $classes;
+            $data->attrs = $attrs;
+        }
 
         Asset::internalCSS($styles->render());
-
-        $data->classes = $classes;
-        $data->attrs = $attrs;
-    }
-
-    /**
-     * prepareCSS
-     *
-     * @param Structure      $options
-     * @param StyleContainer $styles
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function prepareCSS(Structure $options, StyleContainer $styles)
-    {
-        //
-    }
-
-    /**
-     * prepareElement
-     *
-     * @param Structure $options
-     * @param array     $classes
-     * @param array     $attrs
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function prepareElement(Structure $options, array &$classes, array &$attrs)
-    {
-        //
     }
 
     /**
@@ -315,20 +287,6 @@ abstract class AbstractAddon
     public static function getVueComponentName()
     {
         return 'addon-' . static::getType();
-    }
-
-    /**
-     * loadVueComponent
-     *
-     * @param AssetManager $asset
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function loadVueComponent(AssetManager $asset)
-    {
-        throw new \LogicException('Please override: ' . __METHOD__);
     }
 
     /**

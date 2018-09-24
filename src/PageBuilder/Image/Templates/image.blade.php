@@ -14,7 +14,7 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $addon      \Lyrasoft\Luna\PageBuilder\AbstractAddon
+ * @var $addon      \Lyrasoft\Luna\PageBuilder\Image\ImageAddon
  * @var $classes    array
  * @var $attrs      array
  * @var $content    \Windwalker\Structure\Structure
@@ -22,12 +22,25 @@
  * @var $addonRenderer \Lyrasoft\Luna\PageBuilder\Renderer\AddonRenderer
  */
 ?>
-<div id="{{ $options['html_id'] }}" class="c-addon c-addon--{{ $content['type'] }} {{ implode(' ', $classes) }}"
-    {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
-    @if ($options['background.overlay'])
-        <div class="l-bg-overlay"></div>
+
+@extends('page.addon-wrapper')
+
+@section('body')
+    @if ($options['title.text'] !== '')
+        <div class="c-addon__header c-box-header">
+            <{{ $options['title.element'] ?: 'h3' }} class="c-addon__title c-box-header__title">
+                {{ $options['title.text'] }}
+            </{{ $options['title.element'] ?: 'h3' }}>
+        </div>
     @endif
-    <div class="l-bg-content c-addon__body">
-        @yield('body', 'Addon Body')
-    </div>
-</div>
+
+    @if ($options['link'] !== '')
+        <a href="{{ $options['link'] }}" @attr('target', $options['link_target'])>
+    @endif
+
+            <img class="img-fluid c-image" src="{{ $options['image'] }}" alt="{{ $options['alt'] ?: $options['title.text'] }}">
+
+    @if ($options['link'] !== '')
+        </a>
+    @endif
+@stop

@@ -2,7 +2,7 @@
 
 <addon-edit inline-template ref="addonEdit">
     <div>
-        <div class="modal fade" id="addon-edit-modal" tabindex="-1" role="dialog" aria-labelledby="addon-edit-modal-label"
+        <div class="modal fade" id="addon-edit-modal" role="dialog" aria-labelledby="addon-edit-modal-label"
             data-backdrop="static"
             aria-hidden="true" ref="modal">
             <div class="modal-dialog modal-lg" role="document">
@@ -46,8 +46,8 @@
                             <div class="tab-pane fade show active" id="addon-edit-general" role="tabpanel" aria-labelledby="addon-edit-general-tab">
                                 {{-- Admin Label --}}
                                 <div class="form-group">
-                                    <label for="input-row-edit-label">管理用標題</label>
-                                    <input id="input-row-edit-label" type="text"
+                                    <label for="input-addon-edit-label">管理用標題</label>
+                                    <input id="input-addon-edit-label" type="text"
                                         v-model="options.label" class="form-control" />
                                     <small class="form-text text-muted">用來在編輯頁面辨識的標題</small>
                                 </div>
@@ -56,8 +56,8 @@
 
                                 {{-- Class --}}
                                 <div class="form-group">
-                                    <label for="input-row-edit-html-class">CSS Class</label>
-                                    <input id="input-row-edit-html-class" type="text"
+                                    <label for="input-addon-edit-html-class">CSS Class</label>
+                                    <input id="input-addon-edit-html-class" type="text"
                                         v-model="options.html_class" class="form-control" />
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
                                     <div v-if="['image'].indexOf(options.background.type) !== -1">
                                         {{-- BG Image --}}
                                         <div class="form-group">
-                                            <label for="input-row-edit-bg-image">背景圖片</label>
+                                            <label for="input-addon-edit-bg-image">背景圖片</label>
                                             <single-image v-model="options.background.image.url"
                                                 id="input-addon-edit-bg-image"></single-image>
                                         </div>

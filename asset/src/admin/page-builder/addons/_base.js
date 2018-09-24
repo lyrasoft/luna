@@ -8,7 +8,8 @@
 const LunaAddonMixin = {
   data() {
     return {
-      options: {}
+      options: {},
+      prepared: false
     }
   },
   props: {
@@ -21,12 +22,13 @@ const LunaAddonMixin = {
       Vue.set(options, k, v);
     });
 
-    console.log(options);
-
     this.options = options;
   },
   mounted() {
-
+    // Fix slider bug
+    setTimeout(() => {
+      this.prepared = true;
+    }, 150);
   },
   methods: {
 

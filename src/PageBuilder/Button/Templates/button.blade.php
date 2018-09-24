@@ -14,20 +14,26 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $addon      \Lyrasoft\Luna\PageBuilder\AbstractAddon
+ * @var $addon      \Lyrasoft\Luna\PageBuilder\Button\ButtonAddon
  * @var $classes    array
  * @var $attrs      array
  * @var $content    \Windwalker\Structure\Structure
  * @var $options    \Windwalker\Structure\Structure
  * @var $addonRenderer \Lyrasoft\Luna\PageBuilder\Renderer\AddonRenderer
  */
+
+$btnClasses = [
+    $options['style'],
+    $options['size'],
+    $options['block'] ? 'btn-block' : '',
+];
 ?>
-<div id="{{ $options['html_id'] }}" class="c-addon c-addon--{{ $content['type'] }} {{ implode(' ', $classes) }}"
-    {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
-    @if ($options['background.overlay'])
-        <div class="l-bg-overlay"></div>
-    @endif
-    <div class="l-bg-content c-addon__body">
-        @yield('body', 'Addon Body')
-    </div>
-</div>
+
+@extends('page.addon-wrapper')
+
+@section('body')
+    <a href="{{ $options['link'] }}" @attr('target', $options['link_target'])
+        class="c-button btn {{ implode(' ', $btnClasses) }}">
+        {{ $options['text'] }}
+    </a>
+@stop

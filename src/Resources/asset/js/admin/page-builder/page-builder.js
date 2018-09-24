@@ -14,7 +14,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 var LunaAddonMixin = {
   data: function data() {
     return {
-      options: {}
+      options: {},
+      prepared: false
     };
   },
 
@@ -28,11 +29,16 @@ var LunaAddonMixin = {
       Vue.set(options, k, v);
     });
 
-    console.log(options);
-
     this.options = options;
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    // Fix slider bug
+    setTimeout(function () {
+      _this.prepared = true;
+    }, 150);
+  },
 
   methods: {},
   watch: {
@@ -86,6 +92,151 @@ $(function () {
  */
 
 $(function () {
+  Vue.component('addon-feature', {
+    template: '#addon-tmpl-feature',
+    mixins: [LunaAddonMixin],
+    data: function data() {
+      return {
+        options: {
+          link: '',
+          link_element: 'title',
+          layout_type: 'icon',
+          image: '',
+          icon: {
+            name: 'fa fa-star',
+            border: {
+              width: {
+                lg: 1,
+                md: 1,
+                xs: 1
+              },
+              color: '',
+              style: '',
+              radius: {
+                lg: 0,
+                md: 0,
+                xs: 0
+              }
+            },
+            font_size: {
+              lg: '',
+              md: '',
+              xs: ''
+            },
+            color: '',
+            bg_color: '',
+            margin_top: '',
+            margin_bottom: '',
+            padding: {
+              lg: '',
+              md: '',
+              xs: ''
+            }
+          },
+          content: '大哉乾元，萬物資始，山風蠱，山火賁，先天而天弗違，風澤中孚，水地比利見大人，雷天大壯，堅冰至，' + '風澤中孚，利永貞，元亨利貞，山天大畜天雷無妄，地澤臨，地山謙，履霜，水火既濟，水火既濟，利永貞聖人作，' + '積善之家，六二之動，風地觀，山澤損，賢人在下，火山旅必有餘慶，山水蒙，同氣相求，厚德載物，天風姤，風天小畜，' + '無咎無譽龍戰於野，雷水解，風從虎，天地否，地天泰，元亨利貞',
+          content_font_size: {
+            lg: '',
+            md: '',
+            xs: ''
+          },
+          content_line_height: {
+            lg: '',
+            md: '',
+            xs: ''
+          }
+        }
+      };
+    }
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
+  Vue.component('addon-image', {
+    template: '#addon-tmpl-image',
+    mixins: [LunaAddonMixin],
+    data: function data() {
+      return {
+        options: {
+          image: '',
+          border_radius: '',
+          alt: '',
+          link: '',
+          link_target: ''
+        }
+      };
+    }
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
+  Vue.component('addon-button', {
+    template: '#addon-tmpl-button',
+    mixins: [LunaAddonMixin],
+    data: function data() {
+      return {
+        options: {
+          text: '',
+          link: '',
+          link_target: '',
+          style: 'btn-primary',
+          border_radius: '',
+          size: '',
+          block: false,
+          icon: '',
+          icon_position: 'left'
+        }
+      };
+    }
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
+  Vue.component('addon-emptyspace', {
+    template: '#addon-tmpl-emptyspace',
+    mixins: [LunaAddonMixin],
+    data: function data() {
+      return {
+        options: {
+          height: {
+            lg: '',
+            md: '',
+            xs: ''
+          }
+        }
+      };
+    }
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
   Vue.component('single-image', {
     template: '\n<div class="c-single-image-uploader">\n    <div class="form-group c-single-image-preview text-center" v-if="url !== \'\' && !uploading">\n        <img :src="url" alt="Image" class="img-fluid rounded" style="max-height: 450px;">\n    </div>\n    \n    <div class="c-single-image-placeholder text-center p-4 mb-3 border rounded" v-if="url === \'\' && !uploading">\n        <small class="text-muted">\u62D6\u62C9\u5716\u7247</small>\n    </div>\n    \n    <div class="form-group d-flex align-items-center" v-if="uploading" style="min-height: 450px;">\n        <img :src="loadingImage" class="mx-auto" alt="Loading">\n    </div>\n\n    <div class="form-group">\n        <div class="input-group">\n            <input :id="id" type="text"\n                v-model="url" class="form-control" :disabled="uploading" />\n            <div class="input-group-append">\n                <button type="button" class="btn btn-primary" @click="chooseFile()"\n                    :disabled="uploading">\n                    \u4E0A\u50B3\u5716\u7247\n                </button>\n                <button v-if="url !== \'\'" type="button" class="btn btn-primary" @click="url = \'\'"\n                    :disabled="uploading">\n                    <span class="fa fa-times"></span>\n                </button>\n            </div>\n        </div>\n        <small class="form-text text-muted">\n            \u8CBC\u4E0A\u5716\u7247\u7DB2\u5740\uFF0C\u6216\u8005\u4E0A\u50B3\u5716\u7247\uFF0C\u4E5F\u53EF\u4EE5\u5C07\u672C\u5730\u7AEF\u5716\u7247\u62D6\u62C9\u81F3\u6B64\u3002\n        </small>\n    </div>\n</div>\n    ',
     data: function data() {
@@ -110,7 +261,7 @@ $(function () {
       this.url = this.value;
     },
     mounted: function mounted() {
-      var _this = this;
+      var _this2 = this;
 
       var $el = $(this.$el);
 
@@ -135,26 +286,26 @@ $(function () {
 
         var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
 
-        _this.uploadFile(files[0]);
+        _this2.uploadFile(files[0]);
       });
     },
 
     methods: {
       chooseFile: function chooseFile() {
-        var _this2 = this;
+        var _this3 = this;
 
         var input = $('<input type="file">');
 
         input.on('change', function (event) {
           var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
 
-          _this2.uploadFile(files[0]);
+          _this3.uploadFile(files[0]);
         });
 
         input.click();
       },
       uploadFile: function uploadFile(file) {
-        var _this3 = this;
+        var _this4 = this;
 
         if (!this.checkFile(file)) {
           return;
@@ -171,12 +322,12 @@ $(function () {
           processData: false,
           contentType: false
         }).done(function (res) {
-          _this3.url = res.data.url;
+          _this4.url = res.data.url;
         }).fail(function (xhr) {
           console.error(xhr.responseJSON.message);
           alert(xhr.responseJSON.message);
         }).always(function () {
-          _this3.uploading = false;
+          _this4.uploading = false;
         });
       },
       checkFile: function checkFile(file) {
@@ -225,11 +376,11 @@ $(function () {
       this.options = this.value;
     },
     mounted: function mounted() {
-      var _this4 = this;
+      var _this5 = this;
 
       // Set a delay time then show slider to fix bug
       setTimeout(function () {
-        _this4.prepared = true;
+        _this5.prepared = true;
       }, 150);
     },
 
@@ -374,11 +525,11 @@ $(function () {
       }
     },
     mounted: function mounted() {
-      var _this5 = this;
+      var _this6 = this;
 
       // Fix DOM loading issues
       setTimeout(function () {
-        _this5.currentSize = 'lg';
+        _this6.currentSize = 'lg';
       }, 150);
     },
 
@@ -434,24 +585,24 @@ $(function () {
       value: Object
     },
     mounted: function mounted() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.extractValue(this.value);
 
       underscore.each(this.offsets, function (offset, size) {
         underscore.each(offset, function (value, pos) {
-          _this6.$watch('offsets.' + size + '.' + pos, function (v) {
-            if (_this6.lock) {
+          _this7.$watch('offsets.' + size + '.' + pos, function (v) {
+            if (_this7.lock) {
               offset.top = v;
               offset.right = v;
               offset.bottom = v;
               offset.left = v;
             }
 
-            var allValue = _this6.getAllValues();
+            var allValue = _this7.getAllValues();
 
-            _this6.$emit('change', allValue);
-            _this6.$emit('input', allValue);
+            _this7.$emit('change', allValue);
+            _this7.$emit('input', allValue);
           });
         });
       });
@@ -468,7 +619,7 @@ $(function () {
         return values;
       },
       extractValue: function extractValue(value) {
-        var _this7 = this;
+        var _this8 = this;
 
         underscore.each(value, function (offset, size) {
           var _offset$split = offset.split(','),
@@ -478,10 +629,10 @@ $(function () {
               bottom = _offset$split2[2],
               left = _offset$split2[3];
 
-          _this7.offsets[size].top = top || '';
-          _this7.offsets[size].right = right || '';
-          _this7.offsets[size].bottom = bottom || '';
-          _this7.offsets[size].left = left || '';
+          _this8.offsets[size].top = top || '';
+          _this8.offsets[size].right = right || '';
+          _this8.offsets[size].bottom = bottom || '';
+          _this8.offsets[size].left = left || '';
         });
       }
     },
@@ -516,12 +667,12 @@ $(function () {
       }
     },
     mounted: function mounted() {
-      var _this8 = this;
+      var _this9 = this;
 
       this.active = this.$parent.value === this.value;
 
       this.$parent.$on('button-selected', function (value) {
-        _this8.active = value === _this8.value;
+        _this9.active = value === _this9.value;
       });
     },
 
@@ -542,11 +693,11 @@ $(function () {
       value: String
     },
     mounted: function mounted() {
-      var _this9 = this;
+      var _this10 = this;
 
       this.$on('button-selected', function (value) {
-        _this9.$emit('change', value);
-        _this9.$emit('input', value);
+        _this10.$emit('change', value);
+        _this10.$emit('input', value);
       });
 
       // this.$nextTick(() => {
@@ -674,6 +825,34 @@ $(function () {
  */
 
 $(function () {
+  function updateFunction(el, binding) {
+    // get options from binding value.
+    // v-select="THIS-IS-THE-BINDING-VALUE"
+    var options = binding.value || {};
+
+    // set up select2
+    $(el).select2(options).on("select2:select", function (e) {
+      // v-model looks for
+      //  - an event named "change"
+      //  - a value with property path "$event.target.value"
+      el.dispatchEvent(new Event('change', { target: e.target }));
+    });
+  }
+
+  Vue.directive('select2', {
+    inserted: updateFunction,
+    componentUpdated: updateFunction
+  });
+});
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+$(function () {
   Phoenix.data('component:addon-edit', {
     name: 'addon-edit',
 
@@ -719,12 +898,12 @@ $(function () {
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
-        var _this10 = this;
+        var _this11 = this;
 
         $(this.$refs.modal).modal('hide');
 
         setTimeout(function () {
-          _this10.values = {};
+          _this11.values = {};
         }, 300);
 
         this.sticky = false;
@@ -877,10 +1056,10 @@ $(function () {
         this.$emit('copy');
       },
       remove: function remove() {
-        var _this11 = this;
+        var _this12 = this;
 
         Phoenix.confirm('確定要刪除嗎?').then(function () {
-          return _this11.$emit('delete');
+          return _this12.$emit('delete');
         });
       },
       addAddon: function addAddon() {
@@ -948,12 +1127,12 @@ $(function () {
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
-        var _this12 = this;
+        var _this13 = this;
 
         $(this.$refs.modal).modal('hide');
 
         setTimeout(function () {
-          _this12.values = {};
+          _this13.values = {};
         }, 300);
 
         this.sticky = false;
@@ -1006,13 +1185,13 @@ $(function () {
     },
 
     created: function created() {
-      var _this13 = this;
+      var _this14 = this;
 
       this.content = this.value;
 
       if (typeof this.content.id === 'undefined') {
         underscore.each(this.getEmptyColumn(), function (v, k) {
-          Vue.set(_this13.content, k, v);
+          Vue.set(_this14.content, k, v);
         });
       }
     },
@@ -1026,18 +1205,18 @@ $(function () {
         this.content.disabled = !this.content.disabled;
       },
       remove: function remove() {
-        var _this14 = this;
+        var _this15 = this;
 
         Phoenix.confirm('確定要刪除嗎?').then(function () {
-          return _this14.$emit('delete');
+          return _this15.$emit('delete');
         });
       },
       copyAddon: function copyAddon(item, i) {
         var newItem = JSON.parse(JSON.stringify(item));
 
-        newItem.id = Phoenix.uniqid();
+        newItem.id = 'addon-' + Phoenix.uniqid();
 
-        this.addons.splice(i, 0, newItem);
+        this.addons.splice(i + 1, 0, newItem);
       },
       addAddon: function addAddon() {
         Phoenix.trigger('addon:add', this.content);
@@ -1189,14 +1368,14 @@ $(function () {
         this.sticky = false;
       },
       close: function close() {
-        var _this15 = this;
+        var _this16 = this;
 
         $(this.$refs.modal).modal('hide');
 
         this.sticky = false;
 
         setTimeout(function () {
-          _this15.values = {};
+          _this16.values = {};
         }, 300);
       }
     },
@@ -1243,13 +1422,13 @@ $(function () {
     },
 
     created: function created() {
-      var _this16 = this;
+      var _this17 = this;
 
       this.content = this.value;
 
       if (typeof this.content.id === 'undefined') {
         underscore.each(this.getEmptyRow(), function (v, k) {
-          Vue.set(_this16.content, k, v);
+          Vue.set(_this17.content, k, v);
         });
       }
     },
@@ -1266,10 +1445,10 @@ $(function () {
         this.content.disabled = !this.content.disabled;
       },
       remove: function remove() {
-        var _this17 = this;
+        var _this18 = this;
 
         Phoenix.confirm('確定要刪除嗎?').then(function () {
-          return _this17.$emit('delete');
+          return _this18.$emit('delete');
         });
       },
       getEmptyRow: function getEmptyRow() {
@@ -1418,62 +1597,62 @@ $(function () {
       'addon-edit': Phoenix.data('component:addon-edit')
     },
     mounted: function mounted() {
-      var _this18 = this;
+      var _this19 = this;
 
       Phoenix.on('row:edit', function (content, column) {
-        _this18.editing.row = content;
-        _this18.editing.column = content;
-        _this18.$refs.rowEdit.edit(content);
+        _this19.editing.row = content;
+        _this19.editing.column = content;
+        _this19.$refs.rowEdit.edit(content);
       });
 
       Phoenix.on('row:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this18.editing.row[k] = v;
+          _this19.editing.row[k] = v;
         });
 
-        _this18.editing.column = {};
-        _this18.editing.row = {};
+        _this19.editing.column = {};
+        _this19.editing.row = {};
       });
 
       Phoenix.on('column:edit', function (content) {
-        _this18.editing.column = content;
-        _this18.$refs.columnEdit.edit(content);
+        _this19.editing.column = content;
+        _this19.$refs.columnEdit.edit(content);
       });
 
       Phoenix.on('column:save', function (content) {
         underscore.each(content, function (v, k) {
-          _this18.editing.column[k] = v;
+          _this19.editing.column[k] = v;
         });
 
-        _this18.editing.column = {};
+        _this19.editing.column = {};
       });
 
       Phoenix.on('addon:add', function (column) {
-        _this18.editing.column = column;
+        _this19.editing.column = column;
 
-        $(_this18.$refs.addonList).modal('show');
+        $(_this19.$refs.addonList).modal('show');
       });
 
       Phoenix.on('addon:edit', function (addon, column) {
-        _this18.editing.addon = addon;
-        _this18.editing.column = column;
+        _this19.editing.addon = addon;
+        _this19.editing.column = column;
 
-        _this18.$refs.addonEdit.edit(addon);
+        _this19.$refs.addonEdit.edit(addon);
       });
 
       Phoenix.on('addon:save', function (addon) {
-        if (_this18.editing.column.addons.filter(function (item) {
+        if (_this19.editing.column.addons.filter(function (item) {
           return item.id === addon.id;
         }).length === 0) {
-          _this18.editing.column.addons.push(addon);
+          _this19.editing.column.addons.push(addon);
         }
 
         underscore.each(addon, function (v, k) {
-          _this18.editing.addon[k] = v;
+          _this19.editing.addon[k] = v;
         });
 
-        _this18.editing.column = {};
-        _this18.editing.addon = {};
+        _this19.editing.column = {};
+        _this19.editing.addon = {};
       });
     },
 
@@ -1488,14 +1667,14 @@ $(function () {
         row.columns = $event.columns;
       },
       selectAddon: function selectAddon(type) {
-        var _this19 = this;
+        var _this20 = this;
 
         $(this.$refs.addonList).modal('hide');
 
         var addonData = Phoenix.data('addon.type.' + type);
 
         setTimeout(function () {
-          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this19.editing.column);
+          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this20.editing.column);
           $('body').addClass('modal-open');
         }, 365);
       },

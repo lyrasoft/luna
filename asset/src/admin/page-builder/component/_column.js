@@ -56,9 +56,9 @@ $(() => {
       copyAddon(item, i) {
         const newItem = JSON.parse(JSON.stringify(item));
 
-        newItem.id = Phoenix.uniqid();
+        newItem.id = 'addon-' + Phoenix.uniqid();
 
-        this.addons.splice(i, 0, newItem);
+        this.addons.splice(i + 1, 0, newItem);
       },
 
       addAddon() {

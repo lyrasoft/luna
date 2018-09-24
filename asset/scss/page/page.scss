@@ -44,3 +44,15 @@
     position: relative;
   }
 }
+
+// Addons
+.c-addon--feature {
+  .c-feature-icon {
+    text-align: center;
+  }
+
+  .c-feature-icon__wrapper,
+  .c-feature-icon__wrapper > span {
+    display: inline-block;
+  }
+}

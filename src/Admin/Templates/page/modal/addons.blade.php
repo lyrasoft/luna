@@ -17,7 +17,7 @@
             <div class="modal-body">
                 <div class="row c-addon-list">
                     @foreach ($addonTypes as $addonType)
-                        <div class="col-6 col-md-4 c-addon-list__item c-addon">
+                        <div class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
                             <a class="d-block p-4 c-addon__link text-dark text-center rounded has-tooltip" href="javascript://"
                                 title="{{ $addonType->description }}"
                                 @click="selectAddon('{{ $addonType->type }}')">

@@ -14,7 +14,7 @@
  *
  * View variables
  * --------------------------------------------------------------
- * @var $addon      \Lyrasoft\Luna\PageBuilder\AbstractAddon
+ * @var $addon      \Lyrasoft\Luna\PageBuilder\Emptyspace\EmptyspaceAddon
  * @var $classes    array
  * @var $attrs      array
  * @var $content    \Windwalker\Structure\Structure
@@ -22,12 +22,9 @@
  * @var $addonRenderer \Lyrasoft\Luna\PageBuilder\Renderer\AddonRenderer
  */
 ?>
-<div id="{{ $options['html_id'] }}" class="c-addon c-addon--{{ $content['type'] }} {{ implode(' ', $classes) }}"
-    {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
-    @if ($options['background.overlay'])
-        <div class="l-bg-overlay"></div>
-    @endif
-    <div class="l-bg-content c-addon__body">
-        @yield('body', 'Addon Body')
-    </div>
-</div>
+
+@extends('page.addon-wrapper')
+
+@section('body')
+    <div class="c-empty-space"></div>
+@stop

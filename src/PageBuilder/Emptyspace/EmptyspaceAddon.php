@@ -6,38 +6,35 @@
  * @license    __LICENSE__
  */
 
-namespace Lyrasoft\Luna\PageBuilder\Text;
+namespace Lyrasoft\Luna\PageBuilder\Emptyspace;
 
-use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\PageBuilder\AbstractAddon;
 use Lyrasoft\Luna\PageBuilder\HasOwnStyleInterface;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
-use Lyrasoft\Luna\Script\EditorScript;
-use Phoenix\Script\PhoenixScript;
 use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Data\DataInterface;
 use Windwalker\Structure\Structure;
 
 /**
- * The TextAddon class.
+ * The EmptyspaceAddon class.
  *
  * @since  __DEPLOY_VERSION__
  */
-class TextAddon extends AbstractAddon implements HasOwnStyleInterface
+class EmptyspaceAddon extends AbstractAddon implements HasOwnStyleInterface
 {
     /**
      * Property type.
      *
      * @var  string
      */
-    protected static $type = 'text';
+    protected static $type = 'emptyspace';
 
     /**
      * Property icon.
      *
-     * @var string
+     * @var  string
      */
-    protected static $icon = 'fa fa-font';
+    protected static $icon = 'far fa-square';
 
     /**
      * prepareData
@@ -48,7 +45,19 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
      */
     protected function prepareData(DataInterface $data)
     {
-        //
+    }
+
+    /**
+     * loadVueComponent
+     *
+     * @param AssetManager $asset
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function loadVueComponent(AssetManager $asset)
+    {
     }
 
     /**
@@ -64,9 +73,8 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
     public function prepareCSS(Structure $options, StyleContainer $styles)
     {
         $styles->rwd(function (StyleContainer $styles, $size) use ($options) {
-            $styles->select('.c-addon__content-text')
-                ->add('font-size', $options['content_font_size.' . $size], 'px')
-                ->add('line-height', $options['content_line_height.' . $size], 'px');
+            $styles->select('.c-empty-space')
+                ->add('height', $options['height.' . $size], 'px');
         });
     }
 
@@ -83,27 +91,5 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
      */
     public function prepareElement(Structure $options, array &$classes, array &$attrs)
     {
-        //
-    }
-
-    /**
-     * loadVueComponent
-     *
-     * @param AssetManager $asset
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     * @throws \Psr\Cache\InvalidArgumentException
-     */
-    public static function loadVueComponent(AssetManager $asset)
-    {
-        // Vue component loaded from core
-        EditorScript::tinymce();
-
-        $uploadUrl = LunaHelper::getPackage()
-            ->getCurrentPackage()->router->route('_luna_img_upload');
-
-        PhoenixScript::addRoute('addon-text:image-upload-url', $uploadUrl);
     }
 }

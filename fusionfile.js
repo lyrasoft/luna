@@ -23,6 +23,10 @@ fusion.task('js', function () {
 
       // Addons
       'asset/src/admin/page-builder/addons/_text.js',
+      'asset/src/admin/page-builder/addons/_feature.js',
+      'asset/src/admin/page-builder/addons/_image.js',
+      'asset/src/admin/page-builder/addons/_button.js',
+      'asset/src/admin/page-builder/addons/_empty.js',
 
       // Widgets
       'asset/src/admin/page-builder/widgets/_single-image.js',
@@ -36,6 +40,7 @@ fusion.task('js', function () {
       // Directives
       'asset/src/admin/page-builder/directives/_tinymce.js',
       'asset/src/admin/page-builder/directives/_colorpicker.js',
+      'asset/src/admin/page-builder/directives/_select2.js',
 
       // Main components
       'asset/src/admin/page-builder/component/_addon-edit.js',

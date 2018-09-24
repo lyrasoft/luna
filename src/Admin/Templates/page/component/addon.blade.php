@@ -13,6 +13,10 @@
                 <small class="text-muted">
                     @{{ options.label || options.title.text }}
                 </small>
+
+                @if (WINDWALKER_DEBUG)
+                    <code class="small">@{{ content.id }}</code>
+                @endif
             </div>
 
             <div class="c-addon-instance__toolbar">

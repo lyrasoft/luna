@@ -25,4 +25,11 @@
 .l-page-container .l-bg-content {
   position: relative; }
 
+.c-addon--feature .c-feature-icon {
+  text-align: center; }
+
+.c-addon--feature .c-feature-icon__wrapper,
+.c-addon--feature .c-feature-icon__wrapper > span {
+  display: inline-block; }
+
 /*# sourceMappingURL=page.css.map */

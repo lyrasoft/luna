@@ -110,20 +110,6 @@ class LunaScript extends AbstractScript
     }
 
     /**
-     * vide
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function vide()
-    {
-        if (!static::inited(__METHOD__)) {
-            static::addJS(static::packageName() . '/js/vide/jquery.vide.min.js');
-        }
-    }
-
-    /**
      * jarallax
      *
      * @return  void

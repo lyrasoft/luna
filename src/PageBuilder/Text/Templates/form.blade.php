@@ -4,14 +4,14 @@
     <div>
         {{-- Title --}}
         <div class="form-group">
-            <label for="input-row-edit-title-text">主標題</label>
-            <textarea id="input-row-edit-title-text"
+            <label for="input-addon-edit-title-text">主標題</label>
+            <textarea id="input-addon-edit-title-text"
                 v-model="options.title.text" class="form-control"></textarea>
             <small class="form-text text-muted">這個區塊的標題，不需要的話保持空白即可</small>
         </div>
 
         <title-options v-if="options.title.text !== ''"
-            id="input-row-edit" v-model="options"></title-options>
+            id="input-addon-edit" v-model="options"></title-options>
 
         <hr />
 
@@ -22,7 +22,7 @@
 
         {{-- Content Align --}}
         <div class="form-group">
-            <label for="input-row-edit-title-align">內文靠齊</label>
+            <label for="input-addon-edit-title-align">內文靠齊</label>
             <div class="mt-2">
                 <radio-buttons v-model="options.align" class="btn-block">
                     <radio-button value="">
