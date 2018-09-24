@@ -29,24 +29,26 @@ $pageRenderer::prepareElement($options, $classes, $attrs);
 
 $classes = array_filter($classes, '\strlen');
 ?>
-<div class="l-column {{ implode(' ', array_filter($options['width'], 'strlen')) }}"
-    {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
-    @if ($options['background.overlay'])
-        <div class="l-bg-overlay"></div>
-    @endif
+<div class="l-column {{ implode(' ', array_filter($options['width'], 'strlen')) }}">
+    <div id="{{ $options['html_id'] }}" class="l-column__body {{ implode(' ', $classes) }}"
+        {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
+        @if ($options['background.overlay'])
+            <div class="l-bg-overlay"></div>
+        @endif
 
-    <div id="{{ $options['html_id'] }}" class="l-column__body l-bg-content {{ implode(' ', $classes) }}">
-        @foreach ($col['addons'] as $addon)
-            @if ($addon['disabled'])
-                @continue
-            @endif
+        <div class="l-column__content l-bg-content">
+            @foreach ($col['addons'] as $addon)
+                @if ($addon['disabled'])
+                    @continue
+                @endif
 
-            @if (isset($addon['is']) && $addon['is'] === 'addon')
-                {!! $pageRenderer->getFactory()->create('addon')->render($addon) !!}
-            @else
-                @php($addon['child'] = true)
-                {!! $pageRenderer->getFactory()->create('row')->render($addon) !!}
-            @endif
-        @endforeach
+                @if (isset($addon['is']) && $addon['is'] === 'addon')
+                    {!! $pageRenderer->getFactory()->create('addon')->render($addon) !!}
+                @else
+                    @php($addon['child'] = true)
+                    {!! $pageRenderer->getFactory()->create('row')->render($addon) !!}
+                @endif
+            @endforeach
+        </div>
     </div>
 </div>

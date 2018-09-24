@@ -137,8 +137,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
             $classes[] = 'wow';
             $classes[] = $options['animation.name'];
 
-            $attrs['data-wow-duration'] = $options['animation.duration'] . 'ms';
-            $attrs['data-wow-delay']    = $options['animation.delay'] . 'ms';
+            $attrs['data-wow-duration'] = ($options['animation.duration'] / 1000) . 's';
+            $attrs['data-wow-delay']    = ($options['animation.delay'] / 1000) . 's';
         }
 
         // Video Background
