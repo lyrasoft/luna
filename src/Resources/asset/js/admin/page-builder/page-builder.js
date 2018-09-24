@@ -1736,7 +1736,13 @@ $(function () {
 
     methods: {
       addNewRow: function addNewRow() {
-        this.content.push({});
+        var i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+        if (i != null) {
+          this.content.splice(i + 1, 0, {});
+        } else {
+          this.content.push({});
+        }
       },
       deleteRow: function deleteRow(i) {
         this.content.splice(i, 1);

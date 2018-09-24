@@ -81,8 +81,12 @@ $(() => {
       });
     },
     methods: {
-      addNewRow() {
-        this.content.push({});
+      addNewRow(i = null) {
+        if (i != null) {
+          this.content.splice(i + 1, 0, {});
+        } else {
+          this.content.push({});
+        }
       },
       deleteRow(i) {
         this.content.splice(i, 1);

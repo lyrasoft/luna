@@ -1,3 +1,11 @@
+.l-page-container .container-full > .row {
+  margin-left: 0;
+  margin-right: 0; }
+  .l-page-container .container-full > .row > [class*=col-]:first-child {
+    padding-left: 0; }
+  .l-page-container .container-full > .row > [class*=col-]:last-child {
+    padding-right: 0; }
+
 .l-page-container .l-section__header {
   margin-bottom: 50px; }
   .l-page-container .l-section__header h1, .l-page-container .l-section__header h2, .l-page-container .l-section__header h3, .l-page-container .l-section__header h4, .l-page-container .l-section__header h5, .l-page-container .l-section__header h6 {

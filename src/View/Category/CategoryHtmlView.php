@@ -78,6 +78,12 @@ class CategoryHtmlView extends ListView
             }, $tags);
 
             $item->tags = $tags;
+
+            if ($item->page_id) {
+                $item->link = $this->router->route('page', ['path' => $item->page_alias]);
+            } else {
+                $item->link = $this->router->route('article', ['alias' => $item->alias, 'id' => $item->id]);
+            }
         }
 
         $this->prepareHeader($data);

@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Page;
 
-use Lyrasoft\Luna\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
 
 /**
@@ -23,7 +23,7 @@ class PageListField extends ItemListField
      *
      * @var  string
      */
-    protected $table = Table::PAGES;
+    protected $table = LunaTable::PAGES;
 
     /**
      * Property ordering.

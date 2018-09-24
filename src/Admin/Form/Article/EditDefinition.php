@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Article;
 
+use Lyrasoft\Luna\Admin\Field\Page\PageModalField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
@@ -75,6 +76,10 @@ class EditDefinition extends AbstractFieldDefinition
                     ->label(__($langPrefix . 'tag.title'))
                     ->multiple(true);
             }
+
+            // Page
+            $this->add('page_id', PageModalField::class)
+                ->label(__($langPrefix . 'page.title'));
 
             // Images
             $this->singleImageDrag('image')

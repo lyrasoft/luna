@@ -77,26 +77,28 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
      */
     protected function prepareGetQuery(Query $query)
     {
+        $query->leftJoin(LunaTable::PAGES . ' AS page', 'page.id = article.page_id')
+            ->select(['page.id AS page_id', 'page.alias AS page_alias']);
 
         $select = [
             'article.*',
         ];
 
-        if (LunaHelper::tableExists('categories') && in_array('category_id',
-                $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'))) {
+        if (LunaHelper::tableExists('categories')
+            && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'))) {
             $select = $select + [
-                    'category.id AS category_id',
-                    'category.title AS category_title',
-                    'category.alias AS category_alias',
-                    'category.path AS category_path',
-                ];
+                'category.id AS category_id',
+                'category.title AS category_title',
+                'category.alias AS category_alias',
+                'category.path AS category_path',
+            ];
         }
 
         if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps')) {
             $select = $select + [
-                    'tag.title AS tag_title',
-                    'tag.alias AS tag_alias',
-                ];
+                'tag.title AS tag_title',
+                'tag.alias AS tag_alias',
+            ];
 
             $subQuery = $this->db->getQuery(true)
                 ->select('tag_id, target_id')

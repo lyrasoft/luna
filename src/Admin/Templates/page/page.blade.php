@@ -60,6 +60,7 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
                             :key="row.id"
                             :value="row"
                             @columns-change="columnsChange(row, $event)"
+                            @add="addNewRow(i)"
                             @copy="copyRow(row, i)"
                             @delete="deleteRow(i)">
                         </row>
@@ -67,7 +68,7 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 
                 </div>
 
-                <div class="page-builder__bottom-toolbar text-center">
+                <div class="page-builder__bottom-toolbar text-center" v-if="content.length === 0">
                     <button type="button" class="btn btn-outline-secondary btn-sm"
                         @click="addNewRow()">
                         Add New Row

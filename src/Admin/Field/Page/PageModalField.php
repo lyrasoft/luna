@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Page;
 
-use Lyrasoft\Luna\Table\Table;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ModalField;
 
 /**
@@ -23,7 +23,7 @@ class PageModalField extends ModalField
      *
      * @var  string
      */
-    protected $table = Table::PAGES;
+    protected $table = LunaTable::PAGES;
 
     /**
      * Property view.
@@ -37,7 +37,7 @@ class PageModalField extends ModalField
      *
      * @var  string
      */
-    protected $package = 'luna';
+    protected $package = 'admin';
 
     /**
      * Property titleField.

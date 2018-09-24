@@ -81,5 +81,12 @@
                 </a>
             </div>
         </div>
+
+        <div class="page-row__bottom-toolbar mt-3 text-center">
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+                @click="$emit('add')">
+                Add New Row
+            </button>
+        </div>
     </div>
 </script>

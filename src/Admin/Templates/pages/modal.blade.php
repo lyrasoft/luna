@@ -27,7 +27,7 @@
  */
 ?>
 
-@extends('_global.luna.pure')
+@extends('_global.' . \Lyrasoft\Luna\Helper\LunaHelper::getAdminPackage(true) . '.pure')
 
 @section('toolbar')
     @include('toolbar')

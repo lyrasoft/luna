@@ -29,7 +29,7 @@ class GetController extends ItemDisplayController
      *
      * @var  ArticleRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.
@@ -54,7 +54,35 @@ class GetController extends ItemDisplayController
     {
         parent::prepareViewModel($view, $model);
 
-        $this->model->published(true);
+        $model->published(true);
+    }
+
+    /**
+     * The main execution process.
+     *
+     * @return  mixed
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Throwable
+     */
+    protected function doExecute()
+    {
+        $view = parent::doExecute();
+
+        $item = $this->repository->getItem();
+
+        if ($item->page_id) {
+            $this->app->set('route.extra.layout', 'page');
+
+            return $this->hmvc(
+                \Lyrasoft\Luna\Controller\Page\GetController::class,
+                [
+                    'id' => $item->page_id
+                ]
+            );
+        }
+
+        return $view;
     }
 
     /**
@@ -69,7 +97,7 @@ class GetController extends ItemDisplayController
     public function authorise()
     {
         // Model will cache data so we can get item first before view
-        $item = $this->model->getItem();
+        $item = $this->repository->getItem();
 
         if ($item->isNull()) {
             throw new RouteNotFoundException('Article not found.', 404);
@@ -88,5 +116,4 @@ class GetController extends ItemDisplayController
 
         return true;
     }
-
 }
