@@ -79,7 +79,6 @@ fusion.task('install', function () {
   const destPath = 'src/Resources/asset';
 
   fusion.copy(`${nodePath}/vuedraggable/dist/*`, `${destPath}/js/vue/`);
-  fusion.copy(`${nodePath}/sortablejs/*.js`, `${destPath}/js/sortablejs/`);
   fusion.copy(`${nodePath}/vue-slide-bar/dist/*`, `${destPath}/js/vue/`);
   fusion.copy(`${nodePath}/animate.css/*.css`, `${destPath}/css/animate/`);
   fusion.copy(`${nodePath}/wowjs/dist/*.js`, `${destPath}/js/wow/`);

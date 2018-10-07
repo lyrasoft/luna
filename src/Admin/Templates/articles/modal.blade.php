@@ -89,8 +89,8 @@
                         <tr>
                             {{-- CHECKBOX --}}
                             <td class="hasHighlight">
-                                <a href="#"
-                                   onclick="parent.{{ $function }}('{{ $selector }}', '{{ $item->id }}', '{{ $item->title }}');">
+                                <a href="javascript://"
+                                   onclick="parent.{{ $function }}('{{ $selector }}', { value: '{{ $item->id }}', title: '{{ $item->title }}' });">
                                     <span
                                         class="glyphicon glyphicon-menu-left fa fa-angle-right text-muted"></span> {{ $item->title }}
                                 </a>

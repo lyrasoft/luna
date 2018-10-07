@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\LunaPackage;
+use Phoenix\Script\PhoenixScript;
 use Phoenix\Script\VueScript;
 use Windwalker\Core\Asset\AbstractScript;
 
@@ -37,23 +38,9 @@ class LunaScript extends AbstractScript
     {
         if (!static::inited(__METHOD__)) {
             VueScript::core();
-            static::sortableJS();
+            PhoenixScript::sortableJS();
 
             static::addJS(static::packageName() . '/js/vue/vuedraggable.min.js');
-        }
-    }
-
-    /**
-     * sortableJS
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function sortableJS()
-    {
-        if (!static::inited(__METHOD__)) {
-            static::addJS(static::packageName() . '/js/sortablejs/Sortable.min.js');
         }
     }
 
