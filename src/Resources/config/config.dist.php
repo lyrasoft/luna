@@ -71,6 +71,25 @@ return [
     ],
 
     /*
+     * The page builder configuration.
+     * ------------------------------------------------
+     */
+    'page' => [
+        'includes' => [
+
+        ],
+        'excludes' => [
+
+        ],
+        'extends' => [
+            '_global.html' => 'luna.page.extends.global.html'
+        ],
+        'protects' => [
+            'theme.'
+        ]
+    ],
+
+    /*
      * The modules configuration.
      * ------------------------------------------------
      */
