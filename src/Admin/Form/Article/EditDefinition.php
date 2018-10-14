@@ -17,7 +17,6 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Filter\MaxLengthFilter;
 use Windwalker\Form\Form;
 
@@ -77,9 +76,11 @@ class EditDefinition extends AbstractFieldDefinition
                     ->multiple(true);
             }
 
-            // Page
-            $this->add('page_id', PageModalField::class)
-                ->label(__($langPrefix . 'page.title'));
+            if (LunaHelper::tableExists('pages') && LunaHelper::tableExists('tag_maps')) {
+                // Page
+                $this->add('page_id', PageModalField::class)
+                    ->label(__($langPrefix . 'page.title'));
+            }
 
             // Images
             $this->singleImageDrag('image')

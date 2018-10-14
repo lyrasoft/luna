@@ -12,11 +12,14 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
+use Windwalker\Ioc;
+use Windwalker\Query\QueryElement;
 
 /**
  * The TagField class.
  *
- * @method $this|mixed select2Options(array $value)
+ * @method $this|mixed select2Options(array $value = null)
+ * @method $this|bool ajax(bool $value = null)
  *
  * @since  1.0
  */
@@ -48,7 +51,9 @@ class TagListField extends ItemListField
     {
         $id = $attrs['id'];
 
-        Select2Script::tag('#' . $id, (array) $this->get('select2_options', []));
+        if ($this->get('ajax', true)) {
+            Select2Script::tag('#' . $id, (array) $this->get('select2_options', []));
+        }
 
         return parent::buildInput($attrs);
     }
@@ -68,6 +73,63 @@ class TagListField extends ItemListField
     }
 
     /**
+     * getItems
+     *
+     * @return  \stdClass[]
+     */
+    protected function getItems()
+    {
+        $db = Ioc::getDatabase();
+
+        $query = $db->getQuery(true);
+        $table = $this->get('table', $this->table);
+
+        if (!$table) {
+            return [];
+        }
+
+        if ($this->get('published')) {
+            $query->where($query->quoteName($this->get('state_field', 'state')) . ' >= 1');
+        }
+
+        if ($ordering = $this->get('ordering', $this->ordering)) {
+            $query->order($ordering);
+        }
+
+        $select = $this->get('select', '*');
+
+        $query->select($select)
+            ->from($query->quoteName($table));
+
+        if ($this->get('ajax', true)) {
+            $valueField = $this->get('value_field', $this->valueField);
+            $value = $this->getValue();
+
+            if (is_string($value)) {
+                $value = array_filter(explode(',', $value), 'strlen');
+            }
+
+            $value = (array) $value;
+
+            if ($value === []) {
+                return [];
+            }
+
+            $query->where('%n %r', $valueField, new QueryElement('IN()', $value));
+        }
+
+        $this->postQuery($query);
+
+        $postQuery = $this->get('post_query', $this->get('postQuery'));
+
+        if (is_callable($postQuery)) {
+            $postQuery($query, $this);
+        }
+
+        return (array) $db->setQuery($query)->loadAll();
+    }
+
+    /**
      * getAccessors
      *
      * @return  array
@@ -78,6 +140,7 @@ class TagListField extends ItemListField
     {
         return array_merge(parent::getAccessors(), [
             'select2Options' => 'select2_options',
+            'ajax',
         ]);
     }
 }

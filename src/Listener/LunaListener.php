@@ -62,12 +62,20 @@ class LunaListener
 
         // In Warder
         if ($this->luna->isEnabled()) {
-            RecordResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/Record',
-                PriorityQueue::LOW);
-            DataMapperResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '/Admin/DataMapper',
-                PriorityQueue::LOW);
-            FieldDefinitionResolver::addNamespace(ReflectionHelper::getNamespaceName($package) . '/Form',
-                PriorityQueue::NORMAL + 1); // TODO: Rewrite PriorityQueue of form fields
+            RecordResolver::addNamespace(
+                ReflectionHelper::getNamespaceName($this->luna) . '/Admin/Record',
+                PriorityQueue::LOW
+            );
+
+            DataMapperResolver::addNamespace(
+                ReflectionHelper::getNamespaceName($this->luna) . '/Admin/DataMapper',
+                PriorityQueue::LOW
+            );
+
+            FieldDefinitionResolver::addNamespace(
+                ReflectionHelper::getNamespaceName($package) . '/Form',
+                PriorityQueue::NORMAL + 1
+            ); // TODO: Rewrite PriorityQueue of form fields
         }
 
         // Frontend
@@ -75,7 +83,7 @@ class LunaListener
             $package->getMvcResolver()
                 ->addNamespace(ReflectionHelper::getNamespaceName($this->luna), PriorityQueue::BELOW_NORMAL);
 
-            FieldDefinitionResolver::addNamespace((ReflectionHelper::getNamespaceName($this->luna) . '\Form'));
+            FieldDefinitionResolver::addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '\Form');
         } elseif ($this->luna->isAdmin()) {
             $package->getMvcResolver()
                 ->addNamespace(ReflectionHelper::getNamespaceName($this->luna) . '\Admin', PriorityQueue::BELOW_NORMAL);
@@ -111,7 +119,7 @@ class LunaListener
         // Prepare View data
         if ($this->luna->isFrontend()) {
             // Extends
-            $data                 = new Data;
+            $data                 = new Data();
             $data['extends']      = $this->luna->get('frontend.view.extends', '_global.html');
             $data['errorExtends'] = $this->luna->get('frontend.view.error_extends', $data['extends']);
             $data['langPrefix']   = $this->luna->getLangPrefix();
@@ -123,7 +131,7 @@ class LunaListener
             $renderer->addPath(LUNA_SOURCE . '/Templates/' . strtolower($name), PriorityQueue::LOW - 25);
         } elseif ($this->luna->isAdmin()) {
             // Extends
-            $data                 = new Data;
+            $data                 = new Data();
             $data['extends']      = $this->luna->get('admin.view.extends', '_global.admin.admin');
             $data['errorExtends'] = $this->luna->get('admin.view.error_extends', $data['extends']);
             $data['langPrefix']   = $this->luna->getLangPrefix();

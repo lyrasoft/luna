@@ -11,7 +11,8 @@ const fusion = require('windwalker-fusion');
 fusion.task('js', function () {
   // Watch start
   fusion.watch([
-    'asset/src/**/*.js'
+    'asset/page-builder/**/*.js',
+    'asset/src/**/*.js',
   ]);
   // Watch end
 
@@ -19,44 +20,46 @@ fusion.task('js', function () {
   fusion.babel(
     [
       // Mixin (Make sure this go first)
-      'asset/src/admin/page-builder/addons/_base.js',
+      'asset/page-builder/addons/_base.js',
 
       // Addons
-      'asset/src/admin/page-builder/addons/_text.js',
-      'asset/src/admin/page-builder/addons/_feature.js',
-      'asset/src/admin/page-builder/addons/_image.js',
-      'asset/src/admin/page-builder/addons/_button.js',
-      'asset/src/admin/page-builder/addons/_empty.js',
+      'asset/page-builder/addons/_text.js',
+      'asset/page-builder/addons/_feature.js',
+      'asset/page-builder/addons/_image.js',
+      'asset/page-builder/addons/_button.js',
+      'asset/page-builder/addons/_empty.js',
 
       // Widgets
-      'asset/src/admin/page-builder/widgets/_single-image.js',
-      'asset/src/admin/page-builder/widgets/_title-options.js',
-      'asset/src/admin/page-builder/widgets/_animation.js',
-      'asset/src/admin/page-builder/widgets/_gradient.js',
-      'asset/src/admin/page-builder/widgets/_rwd-group.js',
-      'asset/src/admin/page-builder/widgets/_box-offset.js',
-      'asset/src/admin/page-builder/widgets/_button-radio.js',
+      'asset/page-builder/widgets/_single-image.js',
+      'asset/page-builder/widgets/_title-options.js',
+      'asset/page-builder/widgets/_animation.js',
+      'asset/page-builder/widgets/_gradient.js',
+      'asset/page-builder/widgets/_rwd-group.js',
+      'asset/page-builder/widgets/_box-offset.js',
+      'asset/page-builder/widgets/_button-radio.js',
 
       // Directives
-      'asset/src/admin/page-builder/directives/_tinymce.js',
-      'asset/src/admin/page-builder/directives/_colorpicker.js',
-      'asset/src/admin/page-builder/directives/_select2.js',
+      'asset/page-builder/directives/_tinymce.js',
+      'asset/page-builder/directives/_colorpicker.js',
+      'asset/page-builder/directives/_select2.js',
 
       // Filters
-      'asset/src/admin/page-builder/filters/_lang.js',
-      'asset/src/admin/page-builder/filters/_addon-prop.js',
+      'asset/page-builder/filters/_lang.js',
+      'asset/page-builder/filters/_addon-prop.js',
 
       // Main components
-      'asset/src/admin/page-builder/component/_addon-edit.js',
-      'asset/src/admin/page-builder/component/_addon.js',
-      'asset/src/admin/page-builder/component/_column-edit.js',
-      'asset/src/admin/page-builder/component/_column.js',
-      'asset/src/admin/page-builder/component/_row-edit.js',
-      'asset/src/admin/page-builder/component/_row.js',
-      'asset/src/admin/page-builder/page-builder.js',
+      'asset/page-builder/component/_addon-edit.js',
+      'asset/page-builder/component/_addon.js',
+      'asset/page-builder/component/_column-edit.js',
+      'asset/page-builder/component/_column.js',
+      'asset/page-builder/component/_row-edit.js',
+      'asset/page-builder/component/_row.js',
+      'asset/page-builder/page-builder.js',
     ],
     'src/Resources/asset/js/admin/page-builder/page-builder.js'
   );
+
+  fusion.babel('asset/src/**/*.js', 'src/Resources/asset/js/');
   // Compile end
 });
 
