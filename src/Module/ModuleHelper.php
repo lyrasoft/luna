@@ -18,6 +18,7 @@ use Windwalker\Cache\Serializer\RawSerializer;
 use Windwalker\Cache\Storage\ArrayStorage;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
+use Windwalker\Database\Schema\Column\Date;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Filesystem\Path\PathCollection;
 use Windwalker\Ioc;
@@ -92,14 +93,33 @@ class ModuleHelper
             $modules = [];
 
             foreach ($items as $item) {
-                $type  = static::getModuleType($item->type);
-                $class = $type->class;
-
-                $modules[] = new $class(['item' => $item, 'params' => new Structure($item->params)]);
+                $modules[] = static::getModuleInstance($item);
             }
 
             return $modules;
         });
+    }
+
+    /**
+     * getModuleInstance
+     *
+     * @param Data $item
+     *
+     * @return  mixed
+     *
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getModuleInstance(Data $item)
+    {
+        $type  = static::getModuleType($item->type);
+        $class = $type->class;
+
+        return Ioc::getContainer()->newInstance($class, [
+            'data' => ['item' => $item, 'params' => new Structure($item->params)]
+        ]);
     }
 
     /**
