@@ -17,7 +17,7 @@
   };
 
   var VueDragUploaderItem = {
-    template: '\n<a class="vue-drag-uploader__item preview-img" :href="item.url || \'#\'" target="_blank">\n    <slot name="item" :item="item">\n        <div class="preview-img__body"\n            :style="{\'background-image\': \'url(\' + (item.url || item.thumbUrl) + \')\'}"></div>\n        <div class="preview-img__overlay">\n          <span class="preview-img__remove-icon fa fa-times"\n              @click.stop.prevent="deleteSelf()"></span>\n          <slot name="extra" :item="item"></slot>\n        </div>\n\n        <div class="preview-img__progress" v-if="state === \'uploading\'">\n            <div class="preview-img__progress-bar"\n                :style="{width: (progress * 100) + \'%\'}"\n            ></div>\n        </div>\n        <div class="preview-img__error-message error-message" v-if="state === \'fail\'" @click.stop.prevent="">\n            <span class="error-message__notice">\u4E0A\u50B3\u5931\u6557</span>\n            <span class="error-message__message">{{ messages.error }}</span>\n        </div>\n    </slot>\n</a>\n    ',
+    template: '\n<div class="vue-drag-uploader__item preview-img"\n    @click="$emit(\'click\', item, i, $event)">\n    <slot name="item" :item="item">\n        <div class="preview-img__body"\n            :style="{\'background-image\': \'url(\' + (item.thumb_url || item.url) + \')\'}"></div>\n\n        <div class="preview-img__overlay">\n          <span class="preview-img__remove-icon fa fa-times"\n              @click.stop.prevent="deleteSelf()"></span>\n          <slot name="extra" :item="item"></slot>\n        </div>\n\n        <div class="preview-img__progress" v-if="state === \'uploading\'">\n            <div class="preview-img__progress-bar"\n                :style="{width: (progress * 100) + \'%\'}"\n            ></div>\n        </div>\n        <div class="preview-img__error-message error-message" v-if="state === \'fail\'" @click.stop.prevent="">\n            <span class="error-message__notice">Upload fail</span>\n            <span class="error-message__message">{{ messages.error }}</span>\n        </div>\n    </slot>\n</div>\n    ',
     data: function data() {
       return {
         state: itemStates.COMPLETED,
@@ -30,6 +30,7 @@
 
     props: {
       item: Object,
+      i: Number,
       initState: String,
       uploadUrl: String
     },
@@ -78,6 +79,7 @@
         }).done(function (res) {
           _this.state = itemStates.COMPLETED;
           _this.item.url = res.data.url;
+          _this.item.thumb_url = res.data.thumb_url || res.data.url;
         }).fail(function (xhr) {
           console.warn(xhr.responseJSON.message, xhr);
           _this.state = itemStates.FAIL;
@@ -99,7 +101,7 @@
     components: {
       'vue-drag-uploader-item': VueDragUploaderItem
     },
-    template: '\n<div class="vue-drag-uploader">\n    <div class="vue-drag-uploader__wrapper">\n        <slot name="items" \n            :items="items"\n            :url="url"\n            :max-files="maxFiles"\n            :files-limited="maxFiles"\n        >\n            <draggable v-model="items" class="vue-drag-uploader__draggable-wrapper" \n                :options="{draggable: \'.preview-img\'}">\n                <slot name="items" :item="items">\n                    <vue-drag-uploader-item\n                        v-for="(item, i) of items"\n                        :item="item"\n                        :init-state="item.uploadState"\n                        :key="item.key"\n                        :upload-url="url"\n                        @delete="deleteItem"\n                        @upload-start="uploadStart"\n                        @upload-end="uploadEnd"\n                        @upload-progress="uploadProgress"\n                        >\n                        <template slot="item">\n                            <slot name="item" \n                                :item="item" \n                                :i="i" \n                                :url="url"\n                                :max-files="maxFiles"\n                                :files-limited="maxFiles"></slot>\n                        </template>\n                        <template slot="extra">\n                            <slot name="extra" \n                                :item="item" \n                                :i="i" \n                                :url="url"\n                                :max-files="maxFiles"\n                                :files-limited="maxFiles"></slot>\n                        </template>\n                    </vue-drag-uploader-item>\n                </slot>\n                \n                <div v-if="canUpload" class="vue-drag-uploader__item add-button" :key="\'empty\'"\n                    @click="clickAdd()">\n                    <div class="add-button__body">\n                        <div class="add-button__icon">\n                            <span class="fa fa-upload fa-2x"></span>\n                        </div>\n                        <div class="add-button__text">\n                            \u62D6\u62C9\u5716\u7247\u6216\u6309\u6B64\u4E0A\u50B3\n                        </div>\n                    </div>\n                </div>\n            </draggable>\n        </slot>\n    </div>\n</div>\n    ',
+    template: '\n<div class="vue-drag-uploader">\n    <div class="vue-drag-uploader__wrapper">\n        <slot name="items" \n            :items="items"\n            :url="url"\n            :max-files="maxFiles"\n            :files-limited="maxFiles"\n        >\n            <draggable v-model="items" class="vue-drag-uploader__draggable-wrapper" \n                :options="{draggable: \'.preview-img\'}">\n                <slot name="items" :item="items">\n                    <vue-drag-uploader-item\n                        v-for="(item, i) of items"\n                        :item="item"\n                        :i="i"\n                        :init-state="item.uploadState"\n                        :key="item.key"\n                        :upload-url="url"\n                        @delete="deleteItem"\n                        @upload-start="uploadStart"\n                        @upload-end="uploadEnd"\n                        @upload-progress="uploadProgress"\n                        @click="itemClick"\n                        >\n                        <template slot="item">\n                            <slot name="item" \n                                :item="item" \n                                :i="i" \n                                :url="url"\n                                :max-files="maxFiles"\n                                :files-limited="maxFiles"></slot>\n                        </template>\n                        <template slot="extra">\n                            <slot name="extra" \n                                :item="item" \n                                :i="i" \n                                :url="url"\n                                :max-files="maxFiles"\n                                :files-limited="maxFiles"></slot>\n                        </template>\n                    </vue-drag-uploader-item>\n                </slot>\n                \n                <div v-if="canUpload" class="vue-drag-uploader__item add-button" :key="\'empty\'"\n                    @click="clickAdd()">\n                    <div class="add-button__body">\n                        <div class="add-button__icon">\n                            <span class="fa fa-upload fa-2x"></span>\n                        </div>\n                        <div class="add-button__text">\n                            {{ placeholder }}\n                        </div>\n                    </div>\n                </div>\n            </draggable>\n        </slot>\n    </div>\n</div>\n    ',
     data: function data() {
       return {
         items: [],
@@ -110,7 +112,8 @@
     props: {
       url: String,
       images: Array,
-      maxFiles: [String, Number]
+      maxFiles: [String, Number],
+      placeholder: String
     },
     created: function created() {
       var _this2 = this;
@@ -200,9 +203,12 @@
             id: '',
             key: _this5.getKey(),
             url: '',
-            thumbUrl: url,
+            thumb_url: url,
             uploadState: itemStates.NEW,
-            file: file
+            file: file,
+            title: '',
+            alt: '',
+            description: ''
           };
 
           _this5.items.push(item);
@@ -210,7 +216,7 @@
           reader.onload = function (event) {
             var url = event.target.result;
 
-            item.thumbUrl = url;
+            item.thumb_url = url;
           };
 
           reader.readAsDataURL(file);
@@ -239,6 +245,9 @@
       },
       uploadProgress: function uploadProgress(uniqid, progress) {
         this.uploadQueue[uniqid] = progress;
+      },
+      itemClick: function itemClick(item, i, $event) {
+        this.$emit('item-click', item, i, $event);
       }
     },
     watch: {

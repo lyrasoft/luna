@@ -8,8 +8,6 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Luna;
 
-use Lyrasoft\Unidev\Controller\AbstractAjaxController;
-
 /**
  * The ImageUploadController class.
  *

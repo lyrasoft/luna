@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\LunaPackage;
+use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\Script\VueScript;
 use Windwalker\Core\Asset\AbstractScript;
@@ -41,6 +42,25 @@ class LunaScript extends AbstractScript
             PhoenixScript::sortableJS();
 
             static::addJS(static::packageName() . '/js/vue/vuedraggable.min.js');
+        }
+    }
+
+    /**
+     * vueDragUploader
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function vueDragUploader()
+    {
+        if (!static::inited(__METHOD__)) {
+            VueScript::core();
+            static::vueDraggable();
+            VueScript::animate();
+            JQueryScript::csrfToken(); // todo: remove if phoenix.ajax fix
+            static::addJS(static::packageName() . '/js/vue/vue-drag-uploader.min.js');
+            static::addCSS(static::packageName() . '/css/vue/vue-drag-uploader.min.css');
         }
     }
 

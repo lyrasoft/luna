@@ -16,10 +16,12 @@
 
   const VueDragUploaderItem = {
     template: `
-<a class="vue-drag-uploader__item preview-img" :href="item.url || '#'" target="_blank">
+<div class="vue-drag-uploader__item preview-img"
+    @click="$emit('click', item, i, $event)">
     <slot name="item" :item="item">
         <div class="preview-img__body"
-            :style="{'background-image': 'url(' + (item.url || item.thumbUrl) + ')'}"></div>
+            :style="{'background-image': 'url(' + (item.thumb_url || item.url) + ')'}"></div>
+
         <div class="preview-img__overlay">
           <span class="preview-img__remove-icon fa fa-times"
               @click.stop.prevent="deleteSelf()"></span>
@@ -32,11 +34,11 @@
             ></div>
         </div>
         <div class="preview-img__error-message error-message" v-if="state === 'fail'" @click.stop.prevent="">
-            <span class="error-message__notice">上傳失敗</span>
+            <span class="error-message__notice">Upload fail</span>
             <span class="error-message__message">{{ messages.error }}</span>
         </div>
     </slot>
-</a>
+</div>
     `,
     data() {
       return {
@@ -49,6 +51,7 @@
     },
     props: {
       item: Object,
+      i: Number,
       initState: String,
       uploadUrl: String
     },
@@ -97,6 +100,7 @@
           .done(res => {
             this.state = itemStates.COMPLETED;
             this.item.url = res.data.url;
+            this.item.thumb_url = res.data.thumb_url || res.data.url;
           })
           .fail(xhr => {
             console.warn(xhr.responseJSON.message, xhr);
@@ -137,6 +141,7 @@
                     <vue-drag-uploader-item
                         v-for="(item, i) of items"
                         :item="item"
+                        :i="i"
                         :init-state="item.uploadState"
                         :key="item.key"
                         :upload-url="url"
@@ -144,6 +149,7 @@
                         @upload-start="uploadStart"
                         @upload-end="uploadEnd"
                         @upload-progress="uploadProgress"
+                        @click="itemClick"
                         >
                         <template slot="item">
                             <slot name="item" 
@@ -171,7 +177,7 @@
                             <span class="fa fa-upload fa-2x"></span>
                         </div>
                         <div class="add-button__text">
-                            拖拉圖片或按此上傳
+                            {{ placeholder }}
                         </div>
                     </div>
                 </div>
@@ -189,7 +195,8 @@
     props: {
       url: String,
       images: Array,
-      maxFiles: [String, Number]
+      maxFiles: [String, Number],
+      placeholder: String
     },
     created() {
       this.images.map(image => {
@@ -272,9 +279,12 @@
             id: '',
             key: this.getKey(),
             url: '',
-            thumbUrl: url,
+            thumb_url: url,
             uploadState: itemStates.NEW,
-            file: file
+            file: file,
+            title: '',
+            alt: '',
+            description: ''
           };
 
           this.items.push(item);
@@ -282,7 +292,7 @@
           reader.onload = (event) => {
             const url = event.target.result;
 
-            item.thumbUrl = url;
+            item.thumb_url = url;
           };
 
           reader.readAsDataURL(file);
@@ -316,6 +326,10 @@
       uploadProgress(uniqid, progress) {
         this.uploadQueue[uniqid] = progress;
       },
+
+      itemClick(item, i, $event) {
+        this.$emit('item-click', item, i, $event);
+      }
     },
     watch: {
       images(images) {
