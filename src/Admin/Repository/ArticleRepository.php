@@ -66,7 +66,7 @@ class ArticleRepository extends AdminRepository
      */
     public function handleAlias($alias)
     {
-        return (new MaxLengthFilter(255))->clean(SlugHelper::slugify($alias));
+        return (new MaxLengthFilter(255))->clean(SlugHelper::safe($alias));
     }
 
     /**
