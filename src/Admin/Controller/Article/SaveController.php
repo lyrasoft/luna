@@ -89,8 +89,6 @@ class SaveController extends AbstractSaveController
         parent::preSave($data);
 
         $data->text = $this->input->get($this->formControl . '.text', null, InputFilter::RAW);
-
-        $data->test = json_encode($data->test);
     }
 
     /**

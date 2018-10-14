@@ -18,8 +18,6 @@
  * @var $state    \Windwalker\Structure\Structure
  * @var $form     \Windwalker\Form\Form
  */
-
-\Lyrasoft\Luna\Script\LunaScript::vueDragUploader();
 ?>
 
 @extends($luna->extends)
@@ -28,57 +26,11 @@
     @include('toolbar')
 @stop
 
-@push('script')
-    <script>
-        {{--new Vue({--}}
-            {{--name: 'image',--}}
-            {{--el: '#product-images',--}}
-            {{--data: {--}}
-                {{--images: [],--}}
-                {{--uploadUrl: '{!! $router->route('_luna_img_upload', ['crop' => 1, 'size' => '300x300']) !!}',--}}
-            {{--},--}}
-            {{--mounted() {--}}
-                {{--this.addFancybox();--}}
-            {{--},--}}
-            {{--updated() {--}}
-
-            {{--},--}}
-            {{--methods: {--}}
-                {{--addFancybox() {--}}
-                    {{--$(this.$el).find('.preview-img').attr('data-fancybox', 'product-images');--}}
-                {{--}--}}
-            {{--},--}}
-            {{--watch: {--}}
-                {{--images() {--}}
-                    {{--this.$nextTick(() => {--}}
-                        {{--this.addFancybox();--}}
-                    {{--});--}}
-                {{--}--}}
-            {{--}--}}
-        {{--});--}}
-    </script>
-@endpush
-
 @section('admin-body')
     <form name="admin-form" id="admin-form" action="{{ $router->route('article', ['id' => $item->id]) }}" method="POST"
           enctype="multipart/form-data">
 
         @include('luna.form.title-bar')
-
-        {{--<div id="product-images">--}}
-            {{--<vue-drag-uploader--}}
-                {{--:images="images"--}}
-                {{--:url="uploadUrl"--}}
-                {{--:max-files="6"--}}
-                {{--@change="images = $event"--}}
-            {{-->--}}
-                {{--<template slot="extra" slot-scope="{ item, i }">--}}
-                    {{--<div class="d-none">--}}
-                        {{--<input type="hidden" :name="`item[images][${i}]`" :value="item.url" />--}}
-                    {{--</div>--}}
-                {{--</template>--}}
-            {{--</vue-drag-uploader>--}}
-        {{--</div>--}}
 
         <div class="row">
             <div class="col-md-8">

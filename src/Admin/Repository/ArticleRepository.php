@@ -54,7 +54,6 @@ class ArticleRepository extends AdminRepository
 
         // tags
         $item->tags = TagHelper::getTags('article', $item->id)->id;
-        $item->test = json_decode($item->test, true);
     }
 
     /**

@@ -61,13 +61,6 @@ class EditDefinition extends AbstractFieldDefinition
             // ID
             $this->hidden('id');
 
-            $this->multiUploader('test')
-                ->label('Test')
-                ->maxFiles(3)
-                ->imageMeta(true)
-                ->required(true)
-                ;
-
             if (LunaHelper::tableExists('categories')) {
                 // Category
                 $this->categoryList('category_id')
