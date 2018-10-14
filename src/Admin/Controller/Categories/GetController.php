@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Categories;
 use Lyrasoft\Luna\Admin\Repository\CategoriesRepository;
 use Lyrasoft\Luna\Admin\View\Categories\CategoriesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Windwalker\Core\Model\ModelRepository;
+use Windwalker\Core\Repository\Repository;
 use Windwalker\Core\View\AbstractView;
 
 /**
@@ -69,12 +69,12 @@ class GetController extends ListDisplayController
      * Remember to call parent to make sure default model already set in view.
      *
      * @param AbstractView    $view  The view to render page.
-     * @param ModelRepository $model The default mode.
+     * @param Repository $model The default mode.
      *
      * @return  void
      * @throws \ReflectionException
      */
-    protected function prepareViewModel(AbstractView $view, ModelRepository $model)
+    protected function prepareViewModel(AbstractView $view, Repository $model)
     {
         /** @var CategoriesRepository $model */
         parent::prepareViewModel($view, $model);

@@ -103,7 +103,7 @@ class ContactsHtmlView extends GridView
     {
         parent::prepareData($data);
 
-        $data->entity = $this->model->getRecord('Contact');
+        $data->entity = $this->repository->getRecord('Contact');
 
         $this->prepareScripts();
         $this->prepareMetadata();

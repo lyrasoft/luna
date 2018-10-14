@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\View\Article\ArticleHtmlView;
 use Phoenix\Controller\Display\ItemDisplayController;
-use Windwalker\Core\Model\ModelRepository;
+use Windwalker\Core\Repository\Repository;
 use Windwalker\Core\Security\Exception\UnauthorizedException;
 use Windwalker\Core\View\AbstractView;
 use Windwalker\Router\Exception\RouteNotFoundException;
@@ -45,12 +45,12 @@ class GetController extends ItemDisplayController
      * Remember to call parent to make sure default model already set in view.
      *
      * @param AbstractView    $view  The view to render page.
-     * @param ModelRepository $model The default mode.
+     * @param Repository $model The default mode.
      *
      * @return  void
      * @throws \ReflectionException
      */
-    protected function prepareViewModel(AbstractView $view, ModelRepository $model)
+    protected function prepareViewModel(AbstractView $view, Repository $model)
     {
         parent::prepareViewModel($view, $model);
 

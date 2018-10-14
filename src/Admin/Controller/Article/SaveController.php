@@ -110,7 +110,7 @@ class SaveController extends AbstractSaveController
             $data,
             ArticleImageHelper::getPath($data->id)
         )) {
-            $this->model->save($data);
+            $this->repository->save($data);
         }
 
         // Tag

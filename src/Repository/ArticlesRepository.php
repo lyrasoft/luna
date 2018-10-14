@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
-use Phoenix\Model\Filter\FilterHelperInterface;
+use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
 use Windwalker\Query\Query;
 use Windwalker\Query\QueryElement;

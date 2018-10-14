@@ -85,7 +85,7 @@ class SaveController extends AbstractSaveController
 
         $type = $this->input->get('type');
 
-        $this->model['category.type'] = $type;
+        $this->repository['category.type'] = $type;
     }
 
     /**
@@ -116,7 +116,7 @@ class SaveController extends AbstractSaveController
             ;
         }
         {
-            $this->model->save($data);
+            $this->repository->save($data);
         }
     }
 
