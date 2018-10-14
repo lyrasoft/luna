@@ -6,6 +6,7 @@ $meta = $field->get('image_meta');
 <div v-pre>
     <div id="{{ $attrs['id'] }}-wrap" class="multi-uploader">
         <vue-drag-uploader
+            id="{{ $attrs['id'] }}"
             :images="images"
             :url="uploadUrl"
             :max-files="maxFiles"
@@ -75,5 +76,11 @@ $meta = $field->get('image_meta');
                 </div>
             </div>
         </div>
+
+        @if ($field->get('required'))
+            <input type="text" class="form-control" style="display: none" required
+                @attr('data-value-missing-message', $field->attr('data-value-missing-message'))
+                :disabled="images.length > 0" />
+        @endif
     </div>
 </div>
