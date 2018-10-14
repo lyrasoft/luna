@@ -154,10 +154,10 @@ class LunaListener
     public function onLunaCommentModelPrepareGetQuery(Event $event)
     {
         if ($event['type'] === 'article') {
-            /** @var CommentsRepository $model */
-            $model = $event['model'];
+            /** @var CommentsRepository $repository */
+            $repository = $event['model'];
 
-            $model->addTable('target', LunaTable::ARTICLES, 'target.id = comment.target_id');
+            $repository->addTable('target', LunaTable::ARTICLES, 'target.id = comment.target_id');
         }
     }
 }

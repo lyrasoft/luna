@@ -45,16 +45,16 @@ class GetController extends ItemDisplayController
      * Remember to call parent to make sure default model already set in view.
      *
      * @param AbstractView    $view  The view to render page.
-     * @param Repository $model The default mode.
+     * @param Repository $repository The default mode.
      *
      * @return  void
      * @throws \ReflectionException
      */
-    protected function prepareViewModel(AbstractView $view, Repository $model)
+    protected function prepareViewModel(AbstractView $view, Repository $repository)
     {
-        parent::prepareViewModel($view, $model);
+        parent::prepareViewModel($view, $repository);
 
-        $model->published(true);
+        $repository->published(true);
     }
 
     /**

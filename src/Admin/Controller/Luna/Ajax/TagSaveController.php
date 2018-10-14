@@ -34,10 +34,10 @@ class TagSaveController extends AbstractAjaxController
         $data->title = $title;
         $data->state = 1;
 
-        /** @var TagRepository $model */
-        $model = $this->getModel('Tag');
+        /** @var TagRepository $repository */
+        $repository = $this->getModel('Tag');
 
-        $model->save($data);
+        $repository->save($data);
 
         return $this->responseSuccess('Save success', $data->dump());
     }

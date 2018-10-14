@@ -24,7 +24,7 @@ class GetController extends ListDisplayController
      *
      * @var  TagsRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.

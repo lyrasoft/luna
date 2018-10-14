@@ -318,14 +318,14 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
      */
     public static function find($conditions = [], $order = 'lft', $start = null, $limit = null)
     {
-        $model = static::getInstance();
+        $repository = static::getInstance();
 
         if (is_object($conditions)) {
             $conditions = get_object_vars($conditions);
         }
 
         if (!is_array($conditions)) {
-            $conditions = [$model->getRecord()->getKeyName() => $conditions];
+            $conditions = [$repository->getRecord()->getKeyName() => $conditions];
         }
 
         foreach ($conditions as $key => $condition) {
@@ -334,9 +334,9 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
                     $key = 'category.' . $key;
                 }
 
-                $model->addFilter($key, $condition);
+                $repository->addFilter($key, $condition);
             } else {
-                $model->getState()->push('query.where', $condition);
+                $repository->getState()->push('query.where', $condition);
             }
         }
 
@@ -349,18 +349,18 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
             $dir   = strtoupper(array_pop($order));
 
             if ($dir === 'ASC' || $dir === 'DESC') {
-                $model['list.direction'] = $dir;
+                $repository['list.direction'] = $dir;
             } else {
                 array_push($order, $dir);
             }
 
-            $model['list.ordering'] = implode(' ', $order);
+            $repository['list.ordering'] = implode(' ', $order);
         }
 
-        $model['list.start'] = $start;
-        $model['list.limit'] = $limit;
+        $repository['list.start'] = $start;
+        $repository['list.limit'] = $limit;
 
-        return $model->getItems();
+        return $repository->getItems();
     }
 
     /**

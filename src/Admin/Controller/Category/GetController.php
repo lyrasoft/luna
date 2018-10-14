@@ -26,7 +26,7 @@ class GetController extends EditDisplayController
      *
      * @var  CategoryRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.
@@ -53,18 +53,18 @@ class GetController extends EditDisplayController
      * Remember to call parent to make sure default model already set in view.
      *
      * @param AbstractView    $view  The view to render page.
-     * @param Repository $model The default mode.
+     * @param Repository $repository The default mode.
      *
      * @return  void
      * @throws \ReflectionException
      */
-    protected function prepareViewModel(AbstractView $view, Repository $model)
+    protected function prepareViewModel(AbstractView $view, Repository $repository)
     {
-        parent::prepareViewModel($view, $model);
+        parent::prepareViewModel($view, $repository);
 
         $type = $this->input->get('type');
 
-        $model['category.type'] = $type;
+        $repository['category.type'] = $type;
 
         $this->view['type'] = $type;
     }

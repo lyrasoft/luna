@@ -33,7 +33,7 @@ class SaveController extends AbstractSaveController
      *
      * @var  ContactRepository
      */
-    protected $model = 'Contact';
+    protected $repository = 'Contact';
 
     /**
      * A hook before main process executing.

@@ -53,7 +53,7 @@ class SaveController extends AbstractSaveController
      *
      * @var  CommentRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.

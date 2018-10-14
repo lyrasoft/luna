@@ -69,13 +69,13 @@ class GetController extends ItemDisplayController
     /**
      * prepareModelState
      *
-     * @param   Repository $model
+     * @param   Repository $repository
      *
      * @return  void
      */
-    protected function prepareModelState(Repository $model)
+    protected function prepareModelState(Repository $repository)
     {
-        parent::prepareModelState($model);
+        parent::prepareModelState($repository);
     }
 
     /**

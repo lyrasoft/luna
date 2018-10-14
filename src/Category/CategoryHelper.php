@@ -29,7 +29,7 @@ class CategoryHelper
      *
      * @var  CategoriesRepository
      */
-    protected static $model;
+    protected static $repository;
 
     /**
      * createTree
@@ -182,14 +182,14 @@ class CategoryHelper
      */
     public static function find($conditions = [], $order = 'lft', $start = null, $limit = null)
     {
-        $model = static::getModel(true);
+        $repository = static::getModel(true);
 
         if (is_object($conditions)) {
             $conditions = get_object_vars($conditions);
         }
 
         if (!is_array($conditions)) {
-            $conditions = [$model->getKeyName() => $conditions];
+            $conditions = [$repository->getKeyName() => $conditions];
         }
 
         foreach ($conditions as $key => $condition) {
@@ -198,9 +198,9 @@ class CategoryHelper
                     $key = 'category.' . $key;
                 }
 
-                $model->addFilter($key, $condition);
+                $repository->addFilter($key, $condition);
             } else {
-                $model->getState()->push('query.where', $condition);
+                $repository->getState()->push('query.where', $condition);
             }
         }
 
@@ -213,18 +213,18 @@ class CategoryHelper
             $dir   = strtoupper(array_pop($order));
 
             if ($dir === 'ASC' || $dir === 'DESC') {
-                $model['list.direction'] = $dir;
+                $repository['list.direction'] = $dir;
             } else {
                 array_push($order, strtolower($dir));
             }
 
-            $model['list.ordering'] = implode(' ', $order);
+            $repository['list.ordering'] = implode(' ', $order);
         }
 
-        $model['list.start'] = $start;
-        $model['list.limit'] = $limit;
+        $repository['list.start'] = $start;
+        $repository['list.limit'] = $limit;
 
-        return $model->getItems();
+        return $repository->getItems();
     }
 
     /**
@@ -236,27 +236,27 @@ class CategoryHelper
      */
     public static function getModel($reset = false)
     {
-        if (!static::$model) {
-            static::$model = new CategoriesRepository;
+        if (!static::$repository) {
+            static::$repository = new CategoriesRepository;
         }
 
         if ($reset) {
-            static::$model->reset();
-            static::$model->resetCache();
+            static::$repository->reset();
+            static::$repository->resetCache();
         }
 
-        return static::$model;
+        return static::$repository;
     }
 
     /**
      * Method to set property model
      *
-     * @param   CategoriesRepository $model
+     * @param   CategoriesRepository $repository
      *
      * @return  void
      */
-    public static function setModel($model)
+    public static function setModel($repository)
     {
-        static::$model = $model;
+        static::$repository = $repository;
     }
 }

@@ -24,5 +24,5 @@ class BatchController extends BatchDelegatingController
      *
      * @var  string
      */
-    protected $model = 'Contact';
+    protected $repository = 'Contact';
 }

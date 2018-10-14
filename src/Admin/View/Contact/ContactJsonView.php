@@ -29,8 +29,8 @@ class ContactJsonView extends StructureView
      */
     protected function prepareData($data)
     {
-        $data['item'] = $this->pipe(function (ContactRepository $model) {
-            $item = $model->getItem();
+        $data['item'] = $this->pipe(function (ContactRepository $repository) {
+            $item = $repository->getItem();
 
             if ($item->created_by) {
                 $item->user = User::get($item->created_by);
