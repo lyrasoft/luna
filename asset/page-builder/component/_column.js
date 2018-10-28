@@ -16,7 +16,8 @@ $(() => {
     data() {
       return {
         content: {},
-        drag: false
+        drag: false,
+        widthMenuOpen: ''
       }
     },
 
@@ -75,6 +76,10 @@ $(() => {
 
       deleteAddon(i) {
         this.addons.splice(i, 1);
+      },
+
+      widthRange() {
+        return underscore.range(1, 13); // 1 to 12 in array
       },
 
       getEmptyColumn() {

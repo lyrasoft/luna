@@ -26,8 +26,51 @@
                         </span>
                     </button>
 
-                    <span class="dropdown">
-                        <button href="javascript://" class="btn btn-mini btn-outline-secondary"
+                    <div class="dropdown d-inline-block" :class="widthMenuOpen">
+                        <button type="button" href="javascript://" class="btn btn-mini btn-outline-secondary"
+                            @click="widthMenuOpen = widthMenuOpen === 'show' ? '' : 'show'">
+                            <span class="fa fa-arrows-alt-h"></span>
+                        </button>
+
+                        <div class="dropdown-menu dropdown-menu-right px-3" :class="widthMenuOpen">
+                            <div class="form-group">
+                                <label for="input-column-edit-width-desktop">桌面版寬度 Desktop</label>
+                                <select id="input-column-edit-width-desktop"
+                                    v-model="content.options.width.lg" class="form-control">
+                                    <option v-for="w of widthRange()" :value="'col-lg-' + w">
+                                        col-lg-@{{ w }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            {{-- Tablet Layout --}}
+                            <div class="form-group">
+                                <label for="input-column-edit-width-tablet">平板寬度 Tablet</label>
+                                <select id="input-column-edit-width-tablet"
+                                    v-model="content.options.width.md" class="form-control">
+                                    <option value="">- 不設定 -</option>
+                                    <option v-for="w of widthRange()" :value="'col-md-' + w">
+                                        col-md-@{{ w }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            {{-- Mobile Layout --}}
+                            <div class="form-group">
+                                <label for="input-column-edit-width-mobile">手機寬度 Mobile</label>
+                                <select id="input-column-edit-width-mobile"
+                                    v-model="content.options.width.xs" class="form-control">
+                                    <option value="">- 不設定 -</option>
+                                    <option v-for="w of widthRange()" :value="'col-' + w">
+                                        col-@{{ w }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn btn-mini btn-outline-secondary"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="fa fa-cog"></span>
                         </button>
@@ -57,7 +100,7 @@
                                 刪除
                             </a>
                         </div>
-                    </span>
+                    </div>
                 </div>
             </div>
             <div class="card-body p-2">

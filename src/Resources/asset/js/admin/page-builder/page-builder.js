@@ -1210,7 +1210,8 @@ $(function () {
     data: function data() {
       return {
         content: {},
-        drag: false
+        drag: false,
+        widthMenuOpen: ''
       };
     },
 
@@ -1269,6 +1270,9 @@ $(function () {
       },
       deleteAddon: function deleteAddon(i) {
         this.addons.splice(i, 1);
+      },
+      widthRange: function widthRange() {
+        return underscore.range(1, 13); // 1 to 12 in array
       },
       getEmptyColumn: function getEmptyColumn() {
         return {
