@@ -62,6 +62,13 @@ class PagesHtmlView extends GridView
     protected $simplePagination = false;
 
     /**
+     * Property langPrefix.
+     *
+     * @var  string
+     */
+    protected $langPrefix = 'luna.';
+
+    /**
      * prepareData
      *
      * @param \Windwalker\Data\Data                 $data

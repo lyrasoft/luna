@@ -4,10 +4,13 @@
     <div class="" :class="width" :disabled="content.disabled">
         <div class="card column__body">
             <div class="column__top-bar d-flex card-header" :class="{'p-2': child}">
-                <div class="column__title mb-2">
-                    <div class="badge badge-secondary column-move-handle mr-2" style="cursor: move">
-                        <span class="fa fa-fw fa-arrows-alt"></span>
+                <div class="column__title mb-2 d-flex align-items-center">
+                    <div class="column__move">
+                        <div class="badge badge-secondary column-move-handle mr-2" style="cursor: move">
+                            <span class="fa fa-fw fa-arrows-alt"></span>
+                        </div>
                     </div>
+                    <h6 class="m-0">COL</h6>
                     @debug
                     <code>@{{ content.id }}</code>
                     @enddebug
