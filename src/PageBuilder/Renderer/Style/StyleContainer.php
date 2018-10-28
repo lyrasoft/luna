@@ -157,6 +157,10 @@ class StyleContainer
     {
         $styles = [];
 
+        uksort($this->selectors, function ($a, $b) {
+            return strpos($a, '@media') === 0 ? 1 : -1;
+        });
+
         foreach ($this->selectors as $selector => $rules) {
             $styles[] = $rules->render($selector);
         }
@@ -164,5 +168,17 @@ class StyleContainer
         $lf = WINDWALKER_DEBUG ? "\n\n" : ' ';
 
         return implode($lf, $styles);
+    }
+
+    /**
+     * __toString
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function __toString()
+    {
+        return $this->render();
     }
 }
