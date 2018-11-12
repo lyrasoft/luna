@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
-use Phoenix\Model\Filter\FilterHelperInterface;
+use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
 use Windwalker\Query\Query;
 use Windwalker\Query\QueryElement;
@@ -57,8 +57,8 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
     {
         $this->addTable('article', LunaTable::ARTICLES);
 
-        if (LunaHelper::tableExists('categories') && in_array('category_id',
-                $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'))) {
+        if (LunaHelper::tableExists('categories')
+            && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'), true)) {
             $this->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
         }
 
@@ -77,26 +77,31 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
      */
     protected function prepareGetQuery(Query $query)
     {
+        if (LunaHelper::tableExists('pages')
+            && in_array('page_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('page_id'), true)) {
+            $query->leftJoin(LunaTable::PAGES . ' AS page', 'page.id = article.page_id')
+                ->select(['page.id AS page_id', 'page.alias AS page_alias']);
+        }
 
         $select = [
             'article.*',
         ];
 
-        if (LunaHelper::tableExists('categories') && in_array('category_id',
-                $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'))) {
-            $select = $select + [
-                    'category.id AS category_id',
-                    'category.title AS category_title',
-                    'category.alias AS category_alias',
-                    'category.path AS category_path',
-                ];
+        if (LunaHelper::tableExists('categories')
+            && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'), true)) {
+            $select += [
+                'category.id AS category_id',
+                'category.title AS category_title',
+                'category.alias AS category_alias',
+                'category.path AS category_path',
+            ];
         }
 
         if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps')) {
-            $select = $select + [
-                    'tag.title AS tag_title',
-                    'tag.alias AS tag_alias',
-                ];
+            $select += [
+                'tag.title AS tag_title',
+                'tag.alias AS tag_alias',
+            ];
 
             $subQuery = $this->db->getQuery(true)
                 ->select('tag_id, target_id')

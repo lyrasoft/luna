@@ -17,6 +17,8 @@ return [
         'tags' => 'tags',
         'tag_maps' => 'tag_maps',
         'languages' => 'languages',
+        'contacts' => 'contacts',
+        'pages' => 'pages',
     ],
 
     /*
@@ -69,6 +71,25 @@ return [
     ],
 
     /*
+     * The page builder configuration.
+     * ------------------------------------------------
+     */
+    'page' => [
+        'includes' => [
+
+        ],
+        'excludes' => [
+
+        ],
+        'extends' => [
+            '_global.html' => 'luna.page.extends.global.html'
+        ],
+        'protects' => [
+            'theme.'
+        ]
+    ],
+
+    /*
      * The modules configuration.
      * ------------------------------------------------
      */
@@ -82,6 +103,9 @@ return [
         'positions' => [
 
         ],
+        'protects' => [
+            'theme.'
+        ]
     ],
 
     'providers' => [

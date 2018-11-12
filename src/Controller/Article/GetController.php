@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\View\Article\ArticleHtmlView;
 use Phoenix\Controller\Display\ItemDisplayController;
-use Windwalker\Core\Model\ModelRepository;
+use Windwalker\Core\Repository\Repository;
 use Windwalker\Core\Security\Exception\UnauthorizedException;
 use Windwalker\Core\View\AbstractView;
 use Windwalker\Router\Exception\RouteNotFoundException;
@@ -29,7 +29,7 @@ class GetController extends ItemDisplayController
      *
      * @var  ArticleRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.
@@ -45,16 +45,44 @@ class GetController extends ItemDisplayController
      * Remember to call parent to make sure default model already set in view.
      *
      * @param AbstractView    $view  The view to render page.
-     * @param ModelRepository $model The default mode.
+     * @param Repository $repository The default mode.
      *
      * @return  void
      * @throws \ReflectionException
      */
-    protected function prepareViewModel(AbstractView $view, ModelRepository $model)
+    protected function prepareViewModel(AbstractView $view, Repository $repository)
     {
-        parent::prepareViewModel($view, $model);
+        parent::prepareViewModel($view, $repository);
 
-        $this->model->published(true);
+        $repository->published(true);
+    }
+
+    /**
+     * The main execution process.
+     *
+     * @return  mixed
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Throwable
+     */
+    protected function doExecute()
+    {
+        $view = parent::doExecute();
+
+        $item = $this->repository->getItem();
+
+        if ($item->page_id) {
+            $this->app->set('route.extra.layout', 'page');
+
+            return $this->hmvc(
+                \Lyrasoft\Luna\Controller\Page\GetController::class,
+                [
+                    'id' => $item->page_id
+                ]
+            );
+        }
+
+        return $view;
     }
 
     /**
@@ -69,7 +97,7 @@ class GetController extends ItemDisplayController
     public function authorise()
     {
         // Model will cache data so we can get item first before view
-        $item = $this->model->getItem();
+        $item = $this->repository->getItem();
 
         if ($item->isNull()) {
             throw new RouteNotFoundException('Article not found.', 404);
@@ -88,5 +116,4 @@ class GetController extends ItemDisplayController
 
         return true;
     }
-
 }

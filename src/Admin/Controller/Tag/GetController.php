@@ -24,7 +24,7 @@ class GetController extends EditDisplayController
      *
      * @var  TagRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.

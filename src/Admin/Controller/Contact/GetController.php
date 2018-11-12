@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Contact;
 use Lyrasoft\Luna\Admin\Repository\ContactRepository;
 use Lyrasoft\Luna\Admin\View\Contact\ContactHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
-use Windwalker\Core\Model\ModelRepository;
+use Windwalker\Core\Repository\Repository;
 use Windwalker\Core\View\AbstractView;
 
 /**
@@ -28,7 +28,7 @@ class GetController extends EditDisplayController
      *
      * @var  ContactRepository
      */
-    protected $model = 'Contact';
+    protected $repository = 'Contact';
 
     /**
      * Main View.
@@ -57,18 +57,18 @@ class GetController extends EditDisplayController
      * Remember to call parent to make sure default model already set in view.
      *
      * @param AbstractView    $view  The view to render page.
-     * @param ModelRepository $model The default mode.
+     * @param Repository $repository The default mode.
      *
      * @return  void
      * @throws \ReflectionException
      */
-    protected function prepareViewModel(AbstractView $view, ModelRepository $model)
+    protected function prepareViewModel(AbstractView $view, Repository $repository)
     {
         /**
          * @var $view  ContactHtmlView
-         * @var $model ContactRepository
+         * @var $repository ContactRepository
          */
-        parent::prepareViewModel($view, $model);
+        parent::prepareViewModel($view, $repository);
 
         // Configure view and model here...
     }

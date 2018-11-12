@@ -10,6 +10,9 @@ namespace Lyrasoft\Luna\Admin\Controller\Module;
 
 use Lyrasoft\Luna\Admin\Repository\ModuleRepository;
 use Lyrasoft\Luna\Admin\View\Module\ModuleHtmlView;
+use Lyrasoft\Luna\Module\AbstractModule;
+use Lyrasoft\Luna\Module\ModuleHelper;
+use Lyrasoft\Luna\Module\ModuleSaveInterface;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\DataInterface;
 use Windwalker\DataMapper\Entity\Entity;
@@ -54,7 +57,7 @@ class SaveController extends AbstractSaveController
      *
      * @var  ModuleRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.
@@ -69,6 +72,13 @@ class SaveController extends AbstractSaveController
      * @var  array
      */
     protected $params;
+
+    /**
+     * Property module.
+     *
+     * @var AbstractModule
+     */
+    protected $module;
 
     /**
      * Property redirectQueryFields.
@@ -99,10 +109,18 @@ class SaveController extends AbstractSaveController
      * @param DataInterface $data
      *
      * @return void
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      */
     protected function preSave(DataInterface $data)
     {
+        $this->module = ModuleHelper::getModuleInstance($data);
+        
         parent::preSave($data);
+
+        if ($this->module instanceof ModuleSaveInterface) {
+            $this->module->preSave($data, $this->repository);
+        }
     }
 
     /**
@@ -115,6 +133,10 @@ class SaveController extends AbstractSaveController
     protected function postSave(DataInterface $data)
     {
         parent::postSave($data);
+
+        if ($this->module instanceof ModuleSaveInterface) {
+            $this->module->postSave($data, $this->repository);
+        }
     }
 
     /**

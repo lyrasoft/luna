@@ -33,7 +33,7 @@
                 <div class="article-item card mb-4">
                     <div class="card-body">
                         <h2>
-                            <a href="{{ $router->route('article', ['id' => $item->id, 'alias' => $item->alias]) }}">
+                            <a href="{{ $item->link }}">
                                 {{ $item->title }}
                             </a>
                         </h2>

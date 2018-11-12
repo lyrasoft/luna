@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Article;
 
+use Lyrasoft\Luna\Admin\Field\Page\PageModalField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
@@ -16,7 +17,6 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Filter\MaxLengthFilter;
 use Windwalker\Form\Form;
 
@@ -74,6 +74,12 @@ class EditDefinition extends AbstractFieldDefinition
                 $this->tagList('tags')
                     ->label(__($langPrefix . 'tag.title'))
                     ->multiple(true);
+            }
+
+            if (LunaHelper::tableExists('pages') && LunaHelper::tableExists('tag_maps')) {
+                // Page
+                $this->add('page_id', PageModalField::class)
+                    ->label(__($langPrefix . 'page.title'));
             }
 
             // Images

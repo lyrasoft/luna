@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Admin\Record\Traits\CategoryDataTrait;
 use Lyrasoft\Luna\Admin\Record\Traits\ContentValidationTrait;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Model\Exception\ValidateFailException;
+use Windwalker\Core\Repository\Exception\ValidateFailException;
 use Windwalker\Event\Event;
 use Windwalker\Record\NestedRecord;
 
@@ -76,7 +76,7 @@ class CategoryRecord extends NestedRecord
      * @return  static  True if all checks pass.
      *
      * @since   2.0
-     * @throws  \Windwalker\Core\Model\Exception\ValidateFailException
+     * @throws  \Windwalker\Core\Repository\Exception\ValidateFailException
      * @throws  \Exception
      * @throws  \RuntimeException on database error.
      * @throws  \UnexpectedValueException

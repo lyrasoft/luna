@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Part of earth project.
  *
@@ -5,18 +7,9 @@
  * @license    __LICENSE__
  */
 
-;(function($) {
+(function ($) {
   var ContactPreview = {
-    fields: [
-      'id',
-      'subject',
-      'name',
-      'email',
-      'phone',
-      'url',
-      'created',
-      'content'
-    ],
+    fields: ['id', 'subject', 'name', 'email', 'phone', 'url', 'created', 'content'],
 
     options: {
       lang_prefix: 'luna.'
@@ -24,7 +17,7 @@
 
     handlers: {},
 
-    init: function() {
+    init: function init() {
       this.modal = $('#preview-modal');
       this.buttons = $('[data-preview-button]');
       this.table = this.modal.find('#preview-table');
@@ -41,10 +34,9 @@
         this.showContact(id);
       }
     },
-
-    bindEvents: function() {
+    bindEvents: function bindEvents() {
       var self = this;
-      this.buttons.on('click', function(event) {
+      this.buttons.on('click', function (event) {
         event.preventDefault();
 
         var id = $(this).data('preview-id');
@@ -52,16 +44,15 @@
         self.showContact(id);
       });
 
-      this.modal.on('hide.bs.modal', function() {
+      this.modal.on('hide.bs.modal', function () {
         window.location.hash = '';
       });
     },
-
-    showContact: function(id) {
+    showContact: function showContact(id) {
       var self = this;
 
       if (!id) {
-        throw new Error('No preview ID.')
+        throw new Error('No preview ID.');
       }
 
       self.table.empty().hide();
@@ -69,17 +60,16 @@
 
       window.location.hash = 'contact-' + id;
 
-      Phoenix.Ajax.get(Phoenix.Router.route('contact_preview'), {'id': id})
-        .done(function(response) {
-          if (response.success) {
-            self.updateTable(response.data.item);
-          } else {
-            console.log(response.message);
-          }
-        }).then(function() {
+      Phoenix.Ajax.get(Phoenix.Router.route('contact_preview'), { 'id': id }).done(function (response) {
+        if (response.success) {
+          self.updateTable(response.data.item);
+        } else {
+          console.log(response.message);
+        }
+      }).then(function () {
         self.loading.hide();
         self.table.fadeIn();
-      }).fail(function(error) {
+      }).fail(function (error) {
         console.log(error);
       });
 
@@ -90,13 +80,12 @@
       url.setVar('id', id);
       this.editButton.attr('href', url.toString());
     },
-
-    updateTable: function(item) {
+    updateTable: function updateTable(item) {
       var self = this;
 
       this.table.empty();
 
-      $.each(this.fields, function() {
+      $.each(this.fields, function () {
         var key = this.toString();
 
         if (item[key] !== undefined) {
@@ -110,12 +99,11 @@
         this.table.append(tr);
       }
 
-      $.each(item.details, function(k, e) {
+      $.each(item.details, function (k, e) {
         self.addRow(k, e ? e.toString() : '');
       });
     },
-
-    addRow: function(key, value) {
+    addRow: function addRow(key, value) {
       var tr = $('<tr class="row-' + key + '"></tr>');
 
       value = this.cast(key, value);
@@ -127,8 +115,7 @@
 
       this.table.append(tr);
     },
-
-    cast: function(key, value) {
+    cast: function cast(key, value) {
       if (value !== '') {
         if (this.handlers[key] !== undefined) {
           var callback = this.handlers[key];
@@ -152,17 +139,17 @@
 
       return value;
     },
-
-    addFieldHandler: function(key, callback) {
+    addFieldHandler: function addFieldHandler(key, callback) {
       this.handlers[key] = callback;
 
       return this;
     }
   };
 
-  $(function() {
+  $(function () {
     ContactPreview.init();
   });
 
   window.ContactPreview = ContactPreview;
 })(jQuery);
+//# sourceMappingURL=contacts.js.map

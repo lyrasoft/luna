@@ -53,7 +53,7 @@ class SaveController extends AbstractSaveController
      *
      * @var  LanguageRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.

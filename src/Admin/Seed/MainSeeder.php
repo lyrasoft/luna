@@ -23,8 +23,6 @@ class MainSeeder extends AbstractSeeder
      */
     public function doExecute()
     {
-        $this->execute(ContactSeeder::class);
-
         // @muse-placeholder  seeder-execute  Do not remove this.
     }
 
@@ -36,8 +34,6 @@ class MainSeeder extends AbstractSeeder
      */
     public function doClear()
     {
-        $this->clear(ContactSeeder::class);
-
         // @muse-placeholder  seeder-clear  Do not remove this.
     }
 }

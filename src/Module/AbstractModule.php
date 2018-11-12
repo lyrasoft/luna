@@ -10,7 +10,6 @@ namespace Lyrasoft\Luna\Module;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Form\Renderer\InputRenderer;
-use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Core\Renderer\BladeRenderer;
 use Windwalker\Core\Renderer\RendererHelper;
@@ -247,12 +246,12 @@ abstract class AbstractModule
     {
         $form = new Form('params');
 
-        $form->setRenderer(new InputRenderer);
+        $form->setRenderer(new InputRenderer());
 
-        $class = ReflectionHelper::getNamespaceName(get_called_class()) . '\Form\EditDefinition';
+        $class = ReflectionHelper::getNamespaceName(static::class) . '\Form\EditDefinition';
 
         if (class_exists($class)) {
-            $form->defineFormFields(new $class);
+            $form->defineFormFields(new $class());
         }
 
         $form->bind($data);

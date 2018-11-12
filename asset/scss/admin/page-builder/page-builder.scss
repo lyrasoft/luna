@@ -1,0 +1,139 @@
+// Part of earth file.
+
+@mixin disable-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .05) url(../../../images/disable-pattern.png);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btn-mini {
+  padding: .2rem .4rem;
+  line-height: 1.1;
+  font-size: .875rem;
+}
+
+$gutter: 7px;
+
+#page-builder {
+
+  .row {
+    margin-left: -$gutter;
+    margin-right: -$gutter;
+
+    > [class*=col] {
+      padding-left: $gutter;
+      padding-right: $gutter;
+    }
+  }
+
+  // Row
+  .page-row {
+    &[disabled] {
+      overflow: hidden;
+
+      .page-row__body::after {
+        @include disable-overlay;
+      }
+    }
+
+    &__body {
+      position: relative;
+    }
+
+    &__body-placeholder {
+      display: none;
+
+      &:only-child {
+        display: block;
+      }
+    }
+  }
+
+  // Columns
+  .column {
+    &[disabled] .column__body .card-body{
+      overflow: hidden;
+
+      &::after {
+        @include disable-overlay;
+      }
+    }
+
+    &__body .card-body {
+      position: relative;
+    }
+
+    &__addon {
+      margin-bottom: .5rem;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    &__addon-placeholder {
+      display: none;
+
+      &:only-child {
+        display: block;
+      }
+    }
+  }
+
+
+  // Addons
+  .c-addon-instance {
+    &[disabled] {
+      position: relative;
+
+      .card-body {
+        overflow: hidden;
+
+        &::after {
+          @include disable-overlay;
+        }
+      }
+    }
+
+    .card-body {
+      position: relative;
+    }
+
+    &__toolbar {
+      position: absolute;
+      top: .25rem;
+      right: .75rem;
+      z-index: 5;
+    }
+  }
+}
+
+.c-addon-list {
+  .c-addon__link {
+    border: 1px solid #ccc;
+
+    &:hover {
+      text-decoration: none;
+      background-color: #eee;
+    }
+  }
+}
+
+// Components
+
+// Single image
+.c-single-image-uploader {
+  border-radius: 3px;
+
+  &--hover  {
+    background-color: #f8f8f8;
+  }
+}

@@ -24,6 +24,7 @@ use Lyrasoft\Warder\Admin\Field\User\UserModalField;
  * @method  TagListField          tagList($name = null, $label = null)
  * @method  LanguageListField     languageList($name = null, $label = null)
  * @method  UserModalField        userModal($name = null, $label = null)
+ * @method  MultiUploaderField    multiUploader($name = null, $label = null)
  *
  * @since  {DEPLOY_VERSION}
  */
@@ -37,6 +38,7 @@ trait LunaFieldTrait
     public function bootLunaFieldTrait()
     {
         $this->addNamespace('Lyrasoft\Luna\Field\Editor');
+        $this->addNamespace('Lyrasoft\Luna\Field');
 
         $this->addMap('categoryList', CategoryListField::class);
         $this->addMap('tagList', TagListField::class);

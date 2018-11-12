@@ -57,7 +57,7 @@ class SaveController extends AbstractSaveController
      *
      * @var  ArticleRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.
@@ -108,13 +108,13 @@ class SaveController extends AbstractSaveController
             $data,
             ArticleImageHelper::getPath($data->id)
         )) {
-            $this->model->save($data);
+            $this->repository->save($data);
         }
 
         // Tag
-        /** @var TagRepository $model */
-        $model = $this->getModel('Tag');
-        $model->saveTagMaps('article', $data->id, $data->tags);
+        /** @var TagRepository $repository */
+        $repository = $this->getModel('Tag');
+        $repository->saveTagMaps('article', $data->id, $data->tags);
     }
 
     /**

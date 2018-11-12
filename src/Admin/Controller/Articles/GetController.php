@@ -24,7 +24,7 @@ class GetController extends ListDisplayController
      *
      * @var  ArticlesRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.

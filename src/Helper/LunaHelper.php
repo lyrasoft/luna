@@ -73,7 +73,7 @@ abstract class LunaHelper
     /**
      * getFrontendRouting
      *
-     * @return  array
+     * @return  string
      */
     public static function getFrontendRouting()
     {
@@ -83,7 +83,7 @@ abstract class LunaHelper
     /**
      * getFrontendRouting
      *
-     * @return  array
+     * @return  static
      */
     public static function getAdminRouting()
     {

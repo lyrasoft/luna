@@ -53,7 +53,7 @@ class SaveController extends AbstractSaveController
      *
      * @var  CommentRepository
      */
-    protected $model;
+    protected $repository;
 
     /**
      * Property view.
@@ -83,7 +83,7 @@ class SaveController extends AbstractSaveController
 
         $type = $this->input->get('type');
 
-        $this->model['comment.type'] = $type;
+        $this->repository['comment.type'] = $type;
     }
 
     /**

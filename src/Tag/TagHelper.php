@@ -35,9 +35,9 @@ class TagHelper
      */
     public static function saveTags($type, $targetId, $tags)
     {
-        $model = new TagRepository;
+        $repository = new TagRepository;
 
-        $model->saveTagMaps($type, $targetId, $tags);
+        $repository->saveTagMaps($type, $targetId, $tags);
     }
 
     /**

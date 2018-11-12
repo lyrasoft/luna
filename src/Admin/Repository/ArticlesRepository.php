@@ -13,7 +13,7 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Lyrasoft\Warder\Table\WarderTable;
-use Phoenix\Model\Filter\FilterHelperInterface;
+use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
 use Windwalker\Query\Query;
 

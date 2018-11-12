@@ -18,6 +18,7 @@ use Windwalker\Cache\Serializer\RawSerializer;
 use Windwalker\Cache\Storage\ArrayStorage;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
+use Windwalker\Database\Schema\Column\Date;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Filesystem\Path\PathCollection;
 use Windwalker\Ioc;
@@ -92,14 +93,33 @@ class ModuleHelper
             $modules = [];
 
             foreach ($items as $item) {
-                $type  = static::getModuleType($item->type);
-                $class = $type->class;
-
-                $modules[] = new $class(['item' => $item, 'params' => new Structure($item->params)]);
+                $modules[] = static::getModuleInstance($item);
             }
 
             return $modules;
         });
+    }
+
+    /**
+     * getModuleInstance
+     *
+     * @param Data $item
+     *
+     * @return  mixed
+     *
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getModuleInstance(Data $item)
+    {
+        $type  = static::getModuleType($item->type);
+        $class = $type->class;
+
+        return Ioc::getContainer()->newInstance($class, [
+            'data' => ['item' => $item, 'params' => new Structure($item->params)]
+        ]);
     }
 
     /**
@@ -147,7 +167,7 @@ class ModuleHelper
         if (static::$types === null || $refresh) {
             $classes = static::getModuleClasses($refresh);
 
-            static::$types = new DataSet;
+            static::$types = new DataSet();
 
             $luna     = LunaHelper::getPackage();
             $includes = (array) $luna->get('module.includes');
@@ -158,11 +178,11 @@ class ModuleHelper
                 $type   = $class::getType();
                 $accept = true;
 
-                if ($includes && !in_array($type, $includes) && !in_array('*', $includes)) {
+                if ($includes && !in_array($type, $includes, true) && !in_array('*', $includes, true)) {
                     $accept = false;
                 }
 
-                if ($excludes && (in_array($type, $excludes) || in_array('*', $excludes))) {
+                if ($excludes && (in_array($type, $excludes, true) || in_array('*', $excludes, true))) {
                     $accept = false;
                 }
 
@@ -221,7 +241,7 @@ class ModuleHelper
      */
     public static function findModuleClasses()
     {
-        $paths = ModuleHelper::getPaths();
+        $paths = static::getPaths();
 
         $classes = [];
 
@@ -234,7 +254,9 @@ class ModuleHelper
 
                 if (class_exists($class)) {
                     if (!is_subclass_of($class, AbstractModule::class)) {
-                        throw new \LogicException('Class: ' . $class . ' must be sub class of: ' . AbstractModule::class);
+                        throw new \LogicException(
+                            'Class: ' . $class . ' must be sub class of: ' . AbstractModule::class
+                        );
                     }
 
                     if ($class::$isEnabled) {
@@ -263,7 +285,7 @@ class ModuleHelper
     /**
      * Method to get property Namespaces
      *
-     * @return  PathCollection
+     * @return array
      */
     public static function getPaths()
     {
@@ -316,7 +338,7 @@ class ModuleHelper
 
         if (!Ioc::exists($key)) {
             Ioc::getContainer()->share($key, function () {
-                return new ModulesRepository;
+                return new ModulesRepository();
             });
         }
 
@@ -336,7 +358,7 @@ class ModuleHelper
 
         if (!Ioc::exists($key)) {
             Ioc::getContainer()->share($key, function () {
-                return new Cache(new ArrayStorage, new RawSerializer);
+                return new Cache(new ArrayStorage(), new RawSerializer());
             });
         }
 
@@ -355,7 +377,7 @@ class ModuleHelper
      */
     public static function getTextColor($bgHex, $sep = 200)
     {
-        list($r, $g, $b) = sscanf($bgHex, "#%02x%02x%02x");
+        list($r, $g, $b) = sscanf($bgHex, '#%02x%02x%02x');
 
         $luma = $r * 0.2126 + $g * 0.7152 + $b * 0.0722;
 

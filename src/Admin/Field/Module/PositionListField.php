@@ -137,7 +137,7 @@ class PositionListField extends ItemListField
         if ($this->get('allow_add', false)) {
             $options['tags'] = true;
 
-            Select2Script::select2('#' . $this->getId(), ['tags' => true]);
+            Select2Script::select2('#' . $this->getId(), ['tags' => true, 'minimumResultsForSearch' => 0]);
         }
     }
 }
