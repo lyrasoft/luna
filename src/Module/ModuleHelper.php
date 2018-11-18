@@ -101,6 +101,23 @@ class ModuleHelper
     }
 
     /**
+     * has
+     *
+     * @param   string $position
+     * @param   string $language
+     *
+     * @return  bool
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function has($position, $language = null)
+    {
+        return count(static::getModules($position, $language)) > 0;
+    }
+
+    /**
      * getModuleInstance
      *
      * @param Data $item
