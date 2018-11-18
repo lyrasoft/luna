@@ -12,6 +12,8 @@ use Lyrasoft\Luna\Admin\Record\ConfigRecord;
 use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Database\Driver\AbstractDatabaseDriver;
+use Windwalker\DataMapper\Entity\Entity;
+use Windwalker\Record\Exception\NoResultException;
 use Windwalker\Record\Record;
 use Windwalker\Structure\Structure;
 
@@ -68,6 +70,70 @@ class ConfigRepository extends AdminRepository
     public function __construct($config = null, AbstractDatabaseDriver $db = null)
     {
         parent::__construct($config, $db);
+    }
+
+    /**
+     * save
+     *
+     * @param DataInterface|Entity $data
+     *
+     * @return  DataInterface|Entity
+     *
+     * @throws \Exception
+     */
+    public function save(DataInterface $data)
+    {
+        // Prepare Record object, primary keys and dump input data
+        $record = $this->getRecord();
+        $dumped = $data->dump(true);
+        $new = false;
+
+        // Let's check if primary exists, do action for update.
+        $conditions = [
+            'type' => $data->type
+        ];
+
+        if ((string) $data->subtype !== '') {
+            $conditions['subtype'] = $data->subtype;
+        }
+
+        try {
+            $record->load($conditions);
+        } catch (NoResultException $e) {
+            $new = true;
+        }
+
+        $record->bind($dumped);
+
+        $this->triggerEvent('BeforeSave', [
+            'conditions'  => $conditions,
+            'data'        => $data,
+            'record'      => $record,
+            'updateNulls' => $this->updateNulls,
+        ]);
+
+        $this->prepareSave($record);
+
+        $record->validate();
+
+        if ($new) {
+            $record->create();
+        } else {
+            $record->update($this->updateNulls);
+        }
+
+        $this->postSave($record);
+
+        $this->triggerEvent('AfterSave', [
+            'conditions'  => $conditions,
+            'data'        => $data,
+            'record'      => $record,
+            'updateNulls' => $this->updateNulls,
+        ]);
+
+        $data->bind($record->dump(true));
+
+        return $data;
     }
 
     /**
