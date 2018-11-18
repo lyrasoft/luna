@@ -38,10 +38,6 @@
 
             {{-- FILTER BAR --}}
             <div class="filter-bar">
-                <button class="btn btn-default pull-right" onclick="parent.{{ $function }}('{{ $selector }}', '', '');">
-                    <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
-                    @translate('phoenix.grid.modal.button.cancel')
-                </button>
                 {!! $filterBar->render(array('form' => $form, 'show' => $showFilterBar)) !!}
             </div>
 
