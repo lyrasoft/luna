@@ -18,7 +18,7 @@ use Windwalker\DI\Annotation\Inject;
 /**
  * The PageBuilder class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class PageBuilder
 {
@@ -49,7 +49,7 @@ class PageBuilder
      *
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function renderPage(array $rows)
     {

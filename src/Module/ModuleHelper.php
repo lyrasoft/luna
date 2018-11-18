@@ -110,7 +110,7 @@ class ModuleHelper
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function has($position, $language = null)
     {
@@ -127,7 +127,7 @@ class ModuleHelper
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function getModuleInstance(Data $item)
     {

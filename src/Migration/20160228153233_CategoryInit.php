@@ -68,7 +68,7 @@ class CategoryInit extends AbstractMigration
      *
      * @throws Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function importCategoriesFromFile($type, $file, $parentId = 1)
     {
@@ -89,7 +89,7 @@ class CategoryInit extends AbstractMigration
      * @return  void
      *
      * @throws Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function importCategories($type, array $categories, $parentId = 1)
     {

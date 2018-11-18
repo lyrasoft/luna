@@ -30,7 +30,7 @@ use Windwalker\Utilities\Arr;
  * @method  mixed|$this  maxFiles(int $value = null)
  * @method  mixed|$this  imageMeta(bool $value = null)
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class MultiUploaderField extends AbstractField
 {

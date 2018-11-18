@@ -18,7 +18,7 @@ use Windwalker\Structure\Structure;
 /**
  * The ImageAddon class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class ImageAddon extends AbstractAddon implements HasOwnStyleInterface
 {
@@ -54,7 +54,7 @@ class ImageAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function loadVueComponent(AssetManager $asset)
     {
@@ -68,7 +68,7 @@ class ImageAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function prepareCSS(Structure $options, StyleContainer $styles)
     {
@@ -85,7 +85,7 @@ class ImageAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function prepareElement(Structure $options, array &$classes, array &$attrs)
     {

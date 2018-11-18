@@ -148,7 +148,7 @@ class PageRepository extends AdminRepository
      *
      * @throws \Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function genPreviewSecret()
     {

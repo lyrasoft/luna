@@ -15,7 +15,7 @@ use Windwalker\DI\ContainerAwareInterface;
 /**
  * The PageRendererFactory class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class PageRendererFactory implements ContainerAwareInterface
 {
@@ -37,7 +37,7 @@ class PageRendererFactory implements ContainerAwareInterface
      *
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function create($type)
     {

@@ -21,7 +21,7 @@ use Windwalker\Data\Data;
  * @property-read  string|AbstractAddon class
  * @property-read  string               langPrefix
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class AddonType extends Data
 {

@@ -21,7 +21,7 @@ use Windwalker\Structure\Structure;
  * @method static Data       getConfigItem(string $type, string $subtype = null, array $conditions = [], bool $refresh = false)
  *
  * phpcs:enable
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class ConfigHelper extends AbstractProxyFacade
 {

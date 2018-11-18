@@ -13,7 +13,7 @@ use Windwalker\Core\Asset\AssetManager;
 /**
  * Interface AdminVueComponentInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 interface AdminVueComponentInterface
 {
@@ -22,7 +22,7 @@ interface AdminVueComponentInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function getVueComponentName();
 
@@ -33,7 +33,7 @@ interface AdminVueComponentInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function loadVueComponent(AssetManager $asset);
 

@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 /**
  * Interface PageRendererInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 interface PageRendererInterface
 {
@@ -22,7 +22,7 @@ interface PageRendererInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function render(array $content);
 }

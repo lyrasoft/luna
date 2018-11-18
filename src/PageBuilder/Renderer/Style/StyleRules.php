@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer\Style;
 /**
  * The StyleRules class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class StyleRules
 {
@@ -31,7 +31,7 @@ class StyleRules
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function add($name, $value, $unit = '')
     {
@@ -49,7 +49,7 @@ class StyleRules
      *
      * @return  $this
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function addStyles(StyleContainer $style)
     {
@@ -65,7 +65,7 @@ class StyleRules
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function render($selector = '')
     {

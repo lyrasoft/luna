@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer\Style;
 /**
  * The StyleContainer class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class StyleContainer
 {
@@ -46,7 +46,7 @@ class StyleContainer
      *
      * @return  StyleRules
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function self($suffix = '')
     {
@@ -61,7 +61,7 @@ class StyleContainer
      *
      * @return  StyleRules
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function select($selector, callable $callback = null)
     {
@@ -78,7 +78,7 @@ class StyleContainer
      *
      * @return  StyleRules
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function doSelect($selector, callable $callback = null)
     {
@@ -103,7 +103,7 @@ class StyleContainer
      *
      * @return  StyleContainer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function wrap($selector, callable $callback = null)
     {
@@ -130,7 +130,7 @@ class StyleContainer
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function rwd(callable $callback)
     {
@@ -151,7 +151,7 @@ class StyleContainer
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function render()
     {
@@ -175,7 +175,7 @@ class StyleContainer
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function __toString()
     {

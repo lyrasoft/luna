@@ -19,7 +19,7 @@ use Windwalker\Structure\Structure;
 /**
  * The FeatureAddon class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
 {
@@ -56,7 +56,7 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function prepareCSS(Structure $options, StyleContainer $styles)
     {
@@ -108,7 +108,7 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function prepareElement(Structure $options, array &$classes, array &$attrs)
     {
@@ -121,7 +121,7 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function loadVueComponent(AssetManager $asset)
     {

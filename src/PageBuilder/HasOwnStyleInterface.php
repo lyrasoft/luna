@@ -14,7 +14,7 @@ use Windwalker\Structure\Structure;
 /**
  * Interface HasOwnStyleInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 interface HasOwnStyleInterface
 {
@@ -26,7 +26,7 @@ interface HasOwnStyleInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function prepareCSS(Structure $options, StyleContainer $styles);
 
@@ -39,7 +39,7 @@ interface HasOwnStyleInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function prepareElement(Structure $options, array &$classes, array &$attrs);
 }

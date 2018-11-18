@@ -17,7 +17,7 @@ use Windwalker\Structure\Structure;
 /**
  * The ConfigService class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class ConfigService
 {
@@ -42,7 +42,7 @@ class ConfigService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function getConfig($type, $subtype = null, array $conditions = [], $refresh = false)
     {
@@ -75,7 +75,7 @@ class ConfigService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function getConfigItem($type, $subtype = null, array $conditions = [], $refresh = false)
     {

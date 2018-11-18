@@ -18,7 +18,7 @@ use Windwalker\Structure\Structure;
 /**
  * The AbstractPageRenderer class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 abstract class AbstractPageRenderer implements PageRendererInterface
 {
@@ -56,7 +56,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function addOffsets(StyleRules $rules, $rule, $value)
     {
@@ -73,7 +73,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  PageRendererFactory
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function getFactory()
     {
@@ -87,7 +87,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function prepareAssets(Structure $content)
     {
@@ -102,7 +102,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     abstract protected function prepareCSS(Structure $content);
 
@@ -113,7 +113,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     abstract protected function prepareJS(Structure $content);
 
@@ -126,7 +126,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function prepareElement(Structure $options, array &$classes, array &$attrs)
     {
@@ -177,7 +177,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function prepareBasicCSS(Structure $options, StyleContainer $styles)
     {
@@ -241,7 +241,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function prepareTitleCSS(Structure $options, StyleContainer $styles)
     {
@@ -272,7 +272,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function prepareBackgroundCSS(Structure $options, StyleContainer $styles)
     {
