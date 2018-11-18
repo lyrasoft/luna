@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Lyrasoft\Luna\PageBuilder\AddonHelper;
-use Phoenix\Language\TranslatorHelper;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Package\AbstractPackage;
 
 define('LUNA_ROOT', dirname(__DIR__));
@@ -44,7 +44,7 @@ class LunaPackage extends AbstractPackage
     {
         parent::boot();
 
-        TranslatorHelper::loadAll($this);
+        Translator::loadAll($this);
 
         ModuleHelper::addPath(__NAMESPACE__ . '\Module', $this->getDir() . '/Module');
         AddonHelper::addPath(__NAMESPACE__ . '\PageBuilder', $this->getDir() . '/PageBuilder');
