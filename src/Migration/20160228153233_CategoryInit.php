@@ -6,8 +6,12 @@
  * @license    GNU General Public License version 2 or later;
  */
 
+use Faker\Factory;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Table\LunaTable;
+use Lyrasoft\Unidev\Helper\UnsplashHelper;
+use Lyrasoft\Unidev\Seo\SlugHelper;
+use Symfony\Component\Yaml\Yaml;
 use Windwalker\Core\Migration\AbstractMigration;
 use Windwalker\Database\Schema\Schema;
 
@@ -18,6 +22,7 @@ class CategoryInit extends AbstractMigration
 {
     /**
      * Migrate Up.
+     * @throws Exception
      */
     public function up()
     {
@@ -48,8 +53,81 @@ class CategoryInit extends AbstractMigration
             $schema->addIndex('created_by');
         });
 
-        $record = new CategoryRecord;
+        $record = new CategoryRecord();
         $record->createRoot();
+    }
+
+    /**
+     * importCategoriesFromFile
+     *
+     * @param string $type
+     * @param string $file
+     * @param int    $parentId
+     *
+     * @return  void
+     *
+     * @throws Exception
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function importCategoriesFromFile($type, $file, $parentId = 1)
+    {
+        $this->importCategories(
+            $type,
+            Yaml::parse(file_get_contents($file)),
+            $parentId
+        );
+    }
+
+    /**
+     * importCategories
+     *
+     * @param string $type
+     * @param array  $categories
+     * @param int    $parentId
+     *
+     * @return  void
+     *
+     * @throws Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function importCategories($type, array $categories, $parentId = 1)
+    {
+        $faker = Factory::create('en_GB');
+
+        $record = new CategoryRecord();
+
+        $userId = 1;
+
+        foreach ($categories as $alias => $category) {
+            $record->reset();
+
+            $record['title']       = $category['title'];
+            $record['alias']       = SlugHelper::safe($alias);
+            $record['type']        = $type;
+            $record['description'] = $faker->paragraph(5);
+            $record['image']       = UnsplashHelper::getImageUrl();
+            $record['state']       = 1;
+            $record['version']     = random_int(1, 50);
+            $record['created']     = $faker->dateTime->format($this->getDateFormat());
+            $record['created_by']  = $userId;
+            $record['modified']    = $faker->dateTime->format($this->getDateFormat());
+            $record['modified_by'] = $userId;
+            $record['language']    = '*';
+            $record['params']      = '';
+
+            $record->setLocation($parentId, $record::LOCATION_LAST_CHILD);
+
+            $record->store();
+
+            $record->rebuildPath();
+
+            $this->outCounting();
+
+            if (isset($category['children'])) {
+                $this->importCategories($type, $category['children'], $record->id);
+            }
+        }
     }
 
     /**

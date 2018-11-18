@@ -66,8 +66,9 @@ class CategoryHelper
         $start = null,
         $limit = null
     ) {
-        return static::createTree(static::getCategories($type, $parent, $maxLevel, $conditions, $order, $start,
-            $limit));
+        return static::createTree(
+            static::getCategories($type, $parent, $maxLevel, $conditions, $order, $start, $limit)
+        );
     }
 
     /**
@@ -237,7 +238,7 @@ class CategoryHelper
     public static function getModel($reset = false)
     {
         if (!static::$repository) {
-            static::$repository = new CategoriesRepository;
+            static::$repository = new CategoriesRepository();
         }
 
         if ($reset) {
