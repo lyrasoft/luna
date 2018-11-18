@@ -26,7 +26,7 @@
 @stop
 
 @section('admin-body')
-    <form name="admin-form" id="admin-form" action="{{ $router->route('category', array('type' => $type)) }}"
+    <form name="admin-form" id="admin-form" action="{{ $router->route('category', ['type' => $type]) }}"
           method="POST" enctype="multipart/form-data">
 
         @include('luna.form.title-bar')

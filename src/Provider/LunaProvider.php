@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Provider;
 
+use Lyrasoft\Luna\Config\ConfigService;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\PageBuilder;
 use Windwalker\Core\Renderer\RendererManager;
@@ -48,6 +49,10 @@ class LunaProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
+        $container->getParent()->prepareSharedObject(ConfigService::class);
+
+        $this->registerClassAlias();
+
         if ($container->get('application')->isConsole()) {
             return;
         }
@@ -62,8 +67,6 @@ class LunaProvider implements ServiceProviderInterface
         );
 
         $container->prepareSharedObject(PageBuilder::class);
-
-        $this->registerClassAlias();
     }
 
     /**

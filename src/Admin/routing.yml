@@ -180,6 +180,15 @@ pages:
         menu:
             mainmenu: pages
 
+# Config
+config:
+    pattern: /config/(type)(/subtype)
+    controller: Config
+    extra:
+        layout: config
+        menu:
+            mainmenu: config
+
 # Luna
 _luna_img_upload:
     pattern: /_luna/image/upload

@@ -19,6 +19,7 @@ return [
         'languages' => 'languages',
         'contacts' => 'contacts',
         'pages' => 'pages',
+        'configs' => 'configs',
     ],
 
     /*

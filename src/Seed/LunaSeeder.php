@@ -23,6 +23,8 @@ class LunaSeeder extends AbstractSeeder
      */
     public function doExecute()
     {
+        $this->execute(ConfigSeeder::class);
+
         $this->execute(LanguageSeeder::class);
 
         $this->execute(TagSeeder::class);
@@ -50,6 +52,8 @@ class LunaSeeder extends AbstractSeeder
      */
     public function doClear()
     {
+        $this->clear(ConfigSeeder::class);
+
         $this->clear(LanguageSeeder::class);
 
         $this->clear(TagSeeder::class);
