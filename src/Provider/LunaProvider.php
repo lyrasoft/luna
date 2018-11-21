@@ -74,11 +74,17 @@ class LunaProvider implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since  1.5.2
+     * @since  __DEPLOY_VERSION__
      */
     protected function registerClassAlias()
     {
-        class_alias(\Lyrasoft\Luna\Repository\CategoriesRepository::class, \Lyrasoft\Luna\Repository\CategoriesModel::class);
-        class_alias(\Lyrasoft\Luna\Repository\ArticlesRepository::class, \Lyrasoft\Luna\Repository\ArticlesModel::class);
+        static $registered = false;
+
+        if (!$registered) {
+            class_alias(\Lyrasoft\Luna\Repository\CategoriesRepository::class, \Lyrasoft\Luna\Repository\CategoriesModel::class);
+            class_alias(\Lyrasoft\Luna\Repository\ArticlesRepository::class, \Lyrasoft\Luna\Repository\ArticlesModel::class);
+        }
+
+        $registered = true;
     }
 }
