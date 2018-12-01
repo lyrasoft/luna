@@ -250,7 +250,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function prepareOptions(DataInterface $data)
     {
@@ -282,7 +282,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function getVueComponentName()
     {

@@ -19,6 +19,7 @@ define('LUNA_TABLE_COMMENTS', LunaHelper::getTable('comments'));
 define('LUNA_TABLE_MODULES', LunaHelper::getTable('modules'));
 define('LUNA_TABLE_CONTACTS', LunaHelper::getTable('contacts'));
 define('LUNA_TABLE_PAGES', LunaHelper::getTable('pages'));
+define('LUNA_TABLE_CONFIGS', LunaHelper::getTable('configs'));
 
 /**
  * The Table class.
@@ -44,6 +45,8 @@ interface LunaTable
     const CONTACTS = LUNA_TABLE_CONTACTS;
 
     const PAGES = LUNA_TABLE_PAGES;
+
+    const CONFIGS = LUNA_TABLE_CONFIGS;
 
     // @muse-placeholder  db-table  Do not remove this.
 }

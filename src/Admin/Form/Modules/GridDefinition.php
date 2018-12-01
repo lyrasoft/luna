@@ -121,10 +121,10 @@ class GridDefinition extends AbstractFieldDefinition
             }
 
             // Position
-            $this->add('position', new PositionListField)
+            $this->add('position', PositionListField::class)
                 ->label(__($langPrefix . 'module.field.position'))
                 ->class('has-select2')
-                ->option(__($langPrefix . 'module.field.position.select'))
+                ->option(__($langPrefix . 'module.field.position.select'), '')
                 ->set('allow_add', true);
 
             if (WarderHelper::tableExists('users')) {

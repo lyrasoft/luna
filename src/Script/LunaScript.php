@@ -17,7 +17,7 @@ use Windwalker\Core\Asset\AbstractScript;
 /**
  * The LunaScript class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class LunaScript extends AbstractScript
 {
@@ -33,7 +33,7 @@ class LunaScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function vueDraggable()
     {
@@ -50,7 +50,7 @@ class LunaScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function vueDragUploader()
     {
@@ -71,7 +71,7 @@ class LunaScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function vueSlider()
     {
@@ -87,7 +87,7 @@ class LunaScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function animate()
     {
@@ -103,7 +103,7 @@ class LunaScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function wow($init = false)
     {
@@ -121,7 +121,7 @@ class LunaScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function jarallax()
     {

@@ -15,7 +15,7 @@ use Windwalker\Structure\Structure;
 /**
  * The RowStyleRenderer class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class RowRenderer extends AbstractPageRenderer
 {
@@ -33,7 +33,7 @@ class RowRenderer extends AbstractPageRenderer
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function render(array $content)
     {
@@ -58,7 +58,7 @@ class RowRenderer extends AbstractPageRenderer
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function prepareCSS(Structure $content)
     {
@@ -90,7 +90,7 @@ class RowRenderer extends AbstractPageRenderer
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function prepareBasicCSS(Structure $options, StyleContainer $styles)
     {
@@ -111,7 +111,7 @@ class RowRenderer extends AbstractPageRenderer
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function prepareJS(Structure $content)
     {

@@ -14,6 +14,8 @@ use Phoenix\Field\ModalField;
 /**
  * The CategoryModalField class.
  *
+ * @method  mixed|$this  categoryType(string $value = null)
+ *
  * @since  1.0
  */
 class CategoryModalField extends ModalField
@@ -52,4 +54,33 @@ class CategoryModalField extends ModalField
      * @var  string
      */
     protected $keyField = 'id';
+
+    /**
+     * getUrl
+     *
+     * @return  string
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    protected function getUrl()
+    {
+        $query = $this->get('query', []);
+
+        $query['type'] = $this->categoryType();
+
+        $this->set('query', $query);
+
+        return parent::getUrl();
+    }
+
+    /**
+     * getAccessors
+     *
+     * @return  array
+     */
+    protected function getAccessors()
+    {
+        return array_merge(parent::getAccessors(), [
+            'categoryType' => 'type'
+        ]);
+    }
 }

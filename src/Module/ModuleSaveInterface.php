@@ -15,7 +15,7 @@ use Windwalker\Data\DataInterface;
 /**
  * Interface ModuleSaveInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 interface ModuleSaveInterface
 {
@@ -27,7 +27,7 @@ interface ModuleSaveInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function preSave(Data $data, ModuleRepository $repository);
 
@@ -39,7 +39,7 @@ interface ModuleSaveInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function postSave(Data $data, ModuleRepository $repository);
 }

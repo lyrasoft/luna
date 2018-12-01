@@ -101,6 +101,23 @@ class ModuleHelper
     }
 
     /**
+     * has
+     *
+     * @param   string $position
+     * @param   string $language
+     *
+     * @return  bool
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     *
+     * @since  1.5.2
+     */
+    public static function has($position, $language = null)
+    {
+        return count(static::getModules($position, $language)) > 0;
+    }
+
+    /**
      * getModuleInstance
      *
      * @param Data $item
@@ -110,7 +127,7 @@ class ModuleHelper
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function getModuleInstance(Data $item)
     {

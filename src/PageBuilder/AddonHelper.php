@@ -21,7 +21,7 @@ use Windwalker\String\StringNormalise;
 /**
  * The AddonHelper class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class AddonHelper
 {
@@ -63,7 +63,7 @@ class AddonHelper
      *
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public static function getAddonInstance($type, array $data = [])
     {
