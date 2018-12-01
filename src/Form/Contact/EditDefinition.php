@@ -81,8 +81,6 @@ class EditDefinition extends AbstractFieldDefinition
                 ->rows(10);
 
             $this->captcha('captcha')
-                ->label('Captcha')
-                ->profile('image')
                 ->jsVerify(true)
                 ->required(true)
                 ->autoValidate(true);

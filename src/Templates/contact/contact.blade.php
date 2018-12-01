@@ -87,18 +87,20 @@
                         </fieldset>
                     @endif
 
-                    {!! $form->getField('captcha')->renderInput() !!}
+                    <div class="contact-captcha form-group">
+                        {!! $form->getField('captcha')->renderInput() !!}
+                    </div>
 
                     <div class="hidden-inputs">
                         @formToken
                     </div>
 
-                    <hr/>
-
-                    <button type="button" class="btn btn-primary btn-block btn-lg"
+                    <div class="contact-actions">
+                        <button type="button" class="btn btn-primary btn-block btn-lg"
                             onclick="jQuery(this.form).submit();">
-                        @translate($luna->langPrefix . 'contact.button.submit')
-                    </button>
+                            @translate($luna->langPrefix . 'contact.button.submit')
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>
