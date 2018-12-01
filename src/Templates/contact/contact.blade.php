@@ -87,6 +87,8 @@
                         </fieldset>
                     @endif
 
+                    {!! $form->getField('captcha')->renderInput() !!}
+
                     <div class="hidden-inputs">
                         @formToken
                     </div>

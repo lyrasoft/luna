@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Form\Contact;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Form;
@@ -21,6 +22,8 @@ use Windwalker\Validator\Rule;
  */
 class EditDefinition extends AbstractFieldDefinition
 {
+    use UnidevFieldTrait;
+
     /**
      * Define the form fields.
      *
@@ -76,6 +79,13 @@ class EditDefinition extends AbstractFieldDefinition
                 ->label(__($langPrefix . 'contact.field.content'))
                 ->placeholder(__($langPrefix . 'contact.field.placeholder.content'))
                 ->rows(10);
+
+            $this->captcha('captcha')
+                ->label('Captcha')
+                ->profile('image')
+                ->jsVerify(true)
+                ->required(true)
+                ->autoValidate(true);
         });
 
         $this->group('details', function (Form $form) use ($langPrefix) {

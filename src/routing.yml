@@ -82,3 +82,10 @@ contact:
         layout: contact
         active:
             mainmenu: contact
+
+# Captcha
+_captcha_image:
+    pattern: /_captcha/image
+    controller: Captcha
+    action:
+        '*': CaptchaImageController

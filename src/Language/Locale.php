@@ -76,7 +76,9 @@ class Locale
             case static::CLIENT_CURRENT:
                 if (LunaHelper::isFrontend()) {
                     return $luna->get('frontend.language.enabled');
-                } elseif (LunaHelper::isAdmin()) {
+                }
+
+                if (LunaHelper::isAdmin()) {
                     return $luna->get('admin.language.enabled');
                 }
         }
@@ -92,11 +94,9 @@ class Locale
     public static function getAvailableLanguages()
     {
         if (!static::$languages) {
-            $mapper = new LanguageMapper;
+            $languages = LanguageMapper::find(['state' => 1], 'ordering');
 
-            $languages = $mapper->find(['state' => 1], 'ordering');
-
-            static::$languages = new DataSet;
+            static::$languages = new DataSet();
 
             foreach ($languages as $language) {
                 static::$languages[$language->code] = $language;
@@ -180,6 +180,37 @@ class Locale
         $config = Ioc::getConfig();
 
         return $config->get('language.locale') ?: $config->get('language.default', 'en-GB');
+    }
+
+    /**
+     * getBrowserLanguage
+     *
+     * @param array  $available
+     * @param string $default
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getBrowserLanguage(array $available = [], $default = 'en-GB')
+    {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+
+            if (empty($available)) {
+                return $langs[0];
+            }
+
+            foreach ($langs as $lang) {
+                list($lang) = explode(';', $lang);
+
+                if (in_array($lang, $available, true)) {
+                    return $lang;
+                }
+            }
+        }
+
+        return $default;
     }
 
     /**

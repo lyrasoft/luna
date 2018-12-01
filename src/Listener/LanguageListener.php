@@ -62,7 +62,7 @@ class LanguageListener
         if (!$language) {
             // Language not found, return and use default language.
             // Keep it in object and set into session later if we make sure current client enabled language filter.
-            $this->locale = Locale::getLocale();
+//            $this->locale = Locale::getLocale();
 
             return;
         }
@@ -95,13 +95,25 @@ class LanguageListener
 
         if ($luna->isFrontend()) {
             $config->set('language.enabled', $luna->get('frontend.language.enabled', false));
+            $useBrowser = $luna->get('frontend.language.use_browser', false);
         } elseif ($luna->isAdmin()) {
             $config->set('frontend.enabled', $luna->get('frontend.language.enabled', false));
+            $useBrowser = $luna->get('admin.language.use_browser', false);
         }
 
         // Let's set locale
-        if (Locale::isEnabled(Locale::CLIENT_CURRENT) && $this->locale) {
-            Locale::setLocale($this->locale);
+        if (Locale::isEnabled(Locale::CLIENT_CURRENT)) {
+            if ($this->locale) {
+                Locale::setLocale($this->locale);
+            } elseif ($useBrowser) {
+                $availableCodes = Locale::getAvailableLanguages()->code;
+
+                $locale = Locale::getBrowserLanguage($availableCodes, null);
+
+                if ($locale) {
+                    Locale::setLocale($locale);
+                }
+            }
         }
     }
 
