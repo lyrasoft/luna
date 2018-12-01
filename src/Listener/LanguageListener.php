@@ -12,7 +12,6 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Windwalker\Core\Ioc;
 use Windwalker\Event\Event;
-use Windwalker\String\StringHelper;
 
 /**
  * The LanguageListener class.
@@ -21,13 +20,6 @@ use Windwalker\String\StringHelper;
  */
 class LanguageListener
 {
-    /**
-     * Property locale.
-     *
-     * @var string
-     */
-    protected $locale;
-
     /**
      * onBeforeRouting
      *
@@ -47,7 +39,7 @@ class LanguageListener
 
         $segments = trim($route, '/');
 
-        if (!count($segments)) {
+        if ($segments === '') {
             // No segments, means this is home route, return.
             return;
         }
@@ -60,10 +52,6 @@ class LanguageListener
         $language = Locale::getLanguageByAlias($alias);
 
         if (!$language) {
-            // Language not found, return and use default language.
-            // Keep it in object and set into session later if we make sure current client enabled language filter.
-//            $this->locale = Locale::getLocale();
-
             return;
         }
 
@@ -103,16 +91,19 @@ class LanguageListener
 
         // Let's set locale
         if (Locale::isEnabled(Locale::CLIENT_CURRENT)) {
-            if ($this->locale) {
-                Locale::setLocale($this->locale);
-            } elseif ($useBrowser) {
+            $locale = null;
+
+            if ($useBrowser) {
                 $availableCodes = Locale::getAvailableLanguages()->code;
 
                 $locale = Locale::getBrowserLanguage($availableCodes, null);
+            }
 
-                if ($locale) {
-                    Locale::setLocale($locale);
-                }
+            if ($locale) {
+                Locale::setLocale($locale);
+            } else {
+                // Force set default locale to session.
+                Locale::setLocale(Locale::getLocale());
             }
         }
     }
@@ -132,7 +123,7 @@ class LanguageListener
 
         $route = $event['route'];
 
-        list($package, $route) = StringHelper::explode('@', $route, 2, 'array_unshift');
+        list($package, $route) = array_pad(explode('@', $route, 2), -2, null);
 
         if (!$package) {
             return;

@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Application\WebApplication;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Package\Resolver\DataMapperResolver;
 use Windwalker\Core\Package\Resolver\FieldDefinitionResolver;
 use Windwalker\Core\Package\Resolver\RecordResolver;

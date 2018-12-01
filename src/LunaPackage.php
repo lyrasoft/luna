@@ -44,7 +44,9 @@ class LunaPackage extends AbstractPackage
     {
         parent::boot();
 
-        Translator::loadAll($this);
+        $this->getDispatcher()->listen('onPackageBeforeExecute', function () {
+            Translator::loadAll($this);
+        });
 
         ModuleHelper::addPath(__NAMESPACE__ . '\Module', $this->getDir() . '/Module');
         AddonHelper::addPath(__NAMESPACE__ . '\PageBuilder', $this->getDir() . '/PageBuilder');
