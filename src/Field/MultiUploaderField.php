@@ -11,9 +11,16 @@ namespace Lyrasoft\Luna\Field;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\LunaScript;
 use Windwalker\Core\Asset\Asset;
+use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Form\Field\AbstractField;
+use Windwalker\Form\Field\TextareaField;
+use Windwalker\Form\Field\TextField;
+use Windwalker\Form\Field\UrlField;
+use Windwalker\Form\Form;
 use Windwalker\Html\Helper\HtmlHelper;
+use Windwalker\Ioc;
+use Windwalker\String\Str;
 use Windwalker\Utilities\Arr;
 
 /**
@@ -28,7 +35,7 @@ use Windwalker\Utilities\Arr;
  * @method  mixed|$this  height(int $value = null)
  * @method  mixed|$this  quality(int $value = null)
  * @method  mixed|$this  maxFiles(int $value = null)
- * @method  mixed|$this  imageMeta(bool $value = null)
+ * @method  mixed|$this  imageMeta(bool|callable|AbstractFieldDefinition $value = null)
  *
  * @since  1.5.2
  */
@@ -66,7 +73,9 @@ class MultiUploaderField extends AbstractField
      */
     public function buildInput($attrs)
     {
-        $this->prepareScript($attrs);
+        $form = $this->getImageMetaForm();
+
+        $this->prepareScript($attrs, $form);
 
         $id  = $this->getId();
 
@@ -77,7 +86,8 @@ class MultiUploaderField extends AbstractField
             'input' => '',
             'attrs' => $attrs,
             'field' => $this,
-            'items' => []
+            'items' => [],
+            'imageMetaForm' => $form
         ], WidgetHelper::EDGE);
     }
 
@@ -85,11 +95,12 @@ class MultiUploaderField extends AbstractField
      * prepareScript
      *
      * @param array $attrs
+     * @param Form  $form
      *
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    protected function prepareScript(array $attrs)
+    protected function prepareScript(array $attrs, Form $form)
     {
         static $inited = false;
 
@@ -109,8 +120,12 @@ class MultiUploaderField extends AbstractField
 
         $values = $this->getValue() ?: [];
 
-        if (is_string($this->getValue())) {
-            $values = array_filter(explode(',', $this->getValue()), 'strlen');
+        if (is_string($values)) {
+            if (Str::startsWith($values, '[') || Str::startsWith($values, '{')) {
+                $values = json_decode($values);
+            } else {
+                $values = array_filter(explode(',', $this->getValue()), 'strlen');
+            }
         }
 
         foreach ($values as &$value) {
@@ -120,12 +135,16 @@ class MultiUploaderField extends AbstractField
 
             if (!is_array($value)) {
                 $value = [
-                    'title' => '',
-                    'alt' => '',
-                    'description' => '',
                     'url' => $value,
                     'thumb_url' => ''
                 ];
+            }
+
+            // Prepare default value placeholder
+            foreach ($form->getFields() as $field) {
+                if (!isset($value[$field->getName()])) {
+                    $value[$field->getName()] = '';
+                }
             }
         }
 
@@ -185,6 +204,79 @@ $(function () {
 JS;
 
         Asset::internalJS($js);
+    }
+
+    /**
+     * getImageMetaForm
+     *
+     * @return  Form
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function getImageMetaForm()
+    {
+        $imageMeta = $this->imageMeta();
+
+        $form = new Form($this->getId() . '-meta');
+
+//        if (PHP_VERSION_ID < 70000) {
+//            throw new \LogicException('Image meta with form must use PHP 7 or higher.');
+//        }
+
+        if ($imageMeta === true || is_array($imageMeta)) {
+            if ($imageMeta === true) {
+                $imageMeta = [
+                    'title' => true,
+                    'alt' => true,
+                    'link' => true,
+                    'description' => true,
+                ];
+            }
+
+            $imageMeta = function (Form $form) use ($imageMeta) {
+                if (!empty($imageMeta['title'])) {
+                    $form->add('title', TextField::class)
+                        ->label(__('luna.form.field.multi.image.meta.title'))
+                        ->class('form-control');
+                }
+
+                if (!empty($imageMeta['alt'])) {
+                    $form->add('alt', TextField::class)
+                        ->label(__('luna.form.field.multi.image.meta.alt'))
+                        ->class('form-control');
+                }
+
+                if (!empty($imageMeta['link'])) {
+                    $form->add('link', UrlField::class)
+                        ->label(__('luna.form.field.multi.image.meta.link'))
+                        ->class('form-control');
+                }
+
+                if (!empty($imageMeta['description'])) {
+                    $form->add('description', TextareaField::class)
+                        ->label(__('luna.form.field.multi.image.meta.description'))
+                        ->class('form-control')
+                        ->rows(5);
+                }
+            };
+        } elseif (is_string($imageMeta) && is_subclass_of($imageMeta, AbstractFieldDefinition::class)) {
+            $imageMeta = Ioc::make($imageMeta, ['form' => $form]);
+        }
+
+        if (is_callable($imageMeta)) {
+            $imageMeta($form);
+        } elseif ($imageMeta instanceof AbstractFieldDefinition) {
+            $form->defineFormFields($imageMeta);
+        } else {
+            throw new \InvalidArgumentException('Wrong image meta format.');
+        }
+
+        foreach ($form->getFields() as $field) {
+            $field->setValue(null);
+            $field->attr('v-model', 'current.' . $field->getName());
+        }
+
+        return $form;
     }
 
     /**

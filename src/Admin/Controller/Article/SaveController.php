@@ -71,6 +71,7 @@ class SaveController extends AbstractSaveController
      *
      * @return  void
      * @throws \ReflectionException
+     * @throws \Exception
      */
     protected function prepareExecute()
     {

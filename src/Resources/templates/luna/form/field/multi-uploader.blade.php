@@ -1,6 +1,8 @@
 {{-- Part of earth project. --}}
 <?php
-$meta = $field->get('image_meta');
+$meta = (bool) $field->get('image_meta');
+/** @var \Windwalker\Form\Form $form */
+$form = $imageMetaForm;
 ?>
 
 <div v-pre>
@@ -21,9 +23,9 @@ $meta = $field->get('image_meta');
                 <div class="d-none">
                     @if ($meta)
                         <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][url]`" :value="item.url" />
-                        <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][title]`" :value="item.title" />
-                        <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][alt]`" :value="item.alt" />
-                        <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][description]`" :value="item.description" />
+                        @foreach ($form->getFields() as $field)
+                            <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][{{ $field->getName() }}]`" :value="item.{{ $field->getName() }}" />
+                        @endforeach
                     @else
                         <input type="hidden" :name="`{{ $attrs['name'] }}[${i}]`" :value="item.url" />
                     @endif
@@ -49,19 +51,11 @@ $meta = $field->get('image_meta');
                                 </a>
                             </div>
                             <div class="col-lg-5">
+                                @foreach ($form->getFields() as $field)
                                 <div class="form-group">
-                                    <label for="current.title" id="{{ $attrs['id'] }}-meta-title">@lang('luna.form.field.multi.image.meta.title')</label>
-                                    <input type="text" v-model="current.title" class="form-control" id="{{ $attrs['id'] }}-meta-title"/>
+                                    {!! $field->render() !!}
                                 </div>
-                                <div class="form-group">
-                                    <label for="current.alt" id="{{ $attrs['id'] }}-meta-alt">@lang('luna.form.field.multi.image.meta.alt')</label>
-                                    <input type="text" v-model="current.alt" class="form-control" id="{{ $attrs['id'] }}-meta-alt"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="current.description" id="{{ $attrs['id'] }}-meta-description">@lang('luna.form.field.multi.image.meta.description')</label>
-                                    <textarea v-model="current.description" class="form-control" id="{{ $attrs['id'] }}-meta-description"
-                                        rows="5"></textarea>
-                                </div>
+                                @endforeach
                                 <div class="form-group">
                                     <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">
                                         @lang('luna.form.field.multi.image.meta.button.ok')
