@@ -22,11 +22,15 @@
             /*font-size: 1.3em;*/
             /*line-height: 34px;*/
         }
+
+        .form-group {
+            position: relative;
+        }
     </style>
     <div class="container contact-item">
         <form id="contact-form" action="{{ $router->to('contact') }}" method="post" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-8 col-md-offset-2 mx-auto">
                     <h1>@translate($luna->langPrefix . 'contact.title')</h1>
 
                     <p>

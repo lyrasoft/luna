@@ -58,7 +58,7 @@ class ContactHtmlView extends EditView
      */
     protected function prepareScripts()
     {
-        PhoenixScript::formValidation('#contact-form');
+        PhoenixScript::validation('#contact-form');
     }
 
     /**

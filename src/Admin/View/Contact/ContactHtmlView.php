@@ -106,7 +106,7 @@ class ContactHtmlView extends EditView
     {
         PhoenixScript::core();
         PhoenixScript::chosen('select.has-select2');
-        PhoenixScript::formValidation();
+        PhoenixScript::validation();
         BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
         BootstrapScript::buttonRadio();
         BootstrapScript::tooltip();
