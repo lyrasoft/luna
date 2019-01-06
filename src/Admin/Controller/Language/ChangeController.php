@@ -24,6 +24,7 @@ class ChangeController extends AbstractPhoenixController
      *
      * @return  mixed
      * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Throwable
      */
     protected function doExecute()
     {
@@ -40,6 +41,9 @@ class ChangeController extends AbstractPhoenixController
         $uri = $this->container->get('uri');
 
         $luna = LunaHelper::getPackage();
+
+        // Clear cache to build route with new locale
+        $this->router->getRouter()->clearCache();
 
         if ($luna->isFrontend()) {
             $redirect = $luna->get('frontend.redirect.language', 'home');
@@ -59,7 +63,7 @@ class ChangeController extends AbstractPhoenixController
             }
 
             Locale::setLocale($lang);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if (WINDWALKER_DEBUG) {
                 throw $e;
             }
@@ -70,8 +74,8 @@ class ChangeController extends AbstractPhoenixController
         }
 
         if ($return) {
-            $return = $uri->path . '/' . ltrim($uri->script . '/',
-                    '/') . $language->alias . '/' . $return;
+            $return = $uri->path . '/' .
+                ltrim($uri->script . '/', '/') . $language->alias . '/' . $return;
         } else {
             $return = $this->router->route($redirect);
         }
