@@ -45,7 +45,7 @@ class LanguageInit extends AbstractMigration
         $fixtures = Yaml::parse(file_get_contents(__DIR__ . '/fixtures/languages.yml'));
 
         foreach ($fixtures['languages'] as $language) {
-            $data = new \Windwalker\Data\Data;
+            $data = new \Windwalker\Data\Data();
 
             $data->bind($language);
 

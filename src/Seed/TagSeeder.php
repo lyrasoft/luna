@@ -11,7 +11,6 @@ use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 use Windwalker\Filter\OutputFilter;
@@ -30,7 +29,7 @@ class TagSeeder extends AbstractSeeder
      */
     public function doExecute()
     {
-        $faker = Factory::create();
+        $faker = $this->faker->create();
 
         if (WarderHelper::tableExists('users')) {
             $userIds = UserMapper::findAll()->id;
@@ -39,7 +38,7 @@ class TagSeeder extends AbstractSeeder
         }
 
         foreach (range(1, 30) as $i) {
-            $data = new Data;
+            $data = new Data();
 
             $data['title']       = ucfirst($faker->word);
             $data['alias']       = OutputFilter::stringURLSafe($data['title']);

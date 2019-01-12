@@ -12,7 +12,6 @@ use Lyrasoft\Luna\Admin\DataMapper\CommentMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 
@@ -27,10 +26,11 @@ class CommentSeeder extends AbstractSeeder
      * doExecute
      *
      * @return  void
+     * @throws Exception
      */
     public function doExecute()
     {
-        $faker = Factory::create();
+        $faker = $this->faker->create();
 
         $articleIds = ArticleMapper::findAll()->id;
 
@@ -42,7 +42,7 @@ class CommentSeeder extends AbstractSeeder
 
         foreach ($articleIds as $articleId) {
             foreach (range(3, random_int(5, 7)) as $i) {
-                $data = new Data;
+                $data = new Data();
 
                 $data['target_id']     = $articleId;
                 $data['type']          = 'article';
