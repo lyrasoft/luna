@@ -60,7 +60,11 @@ class ArticlesRepository extends ListRepository
         }
 
         if (WarderHelper::tableExists('users')) {
-            $this->leftJoin('user', WarderTable::USERS, 'user.id = article.created_by');
+            $this->leftJoin(
+                'user',
+                WarderTable::USERS,
+                $this->db->quoteName('user.id') . ' = article.created_by'
+            );
         }
 
         if (Locale::isEnabled() && LunaHelper::tableExists('languages')) {

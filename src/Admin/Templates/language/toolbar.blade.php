@@ -46,7 +46,7 @@
     </ul>
 </div>
 
-<button type="button" class="btn btn-primary btn-outline-primary btn-sm phoenix-btn-save2close"
+<button type="button" class="btn  btn-primary btn-sm phoenix-btn-save2close"
         onclick="Phoenix.post(null, {task: 'save2close'});">
     <span class="fa fa-check"></span>
     @translate('phoenix.toolbar.save2close')
