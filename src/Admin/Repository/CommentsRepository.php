@@ -54,7 +54,7 @@ class CommentsRepository extends ListRepository
         $this->addTable('comment', LunaTable::COMMENTS);
 
         if (WarderHelper::tableExists('users')) {
-            $this->addTable('user', WarderTable::USERS, 'comment.user_id = user.id')
+            $this->addTable('user', WarderTable::USERS, $this->db->format('comment.user_id = %n', 'user.id'))
                 ->addTable('replyer', WarderTable::USERS, 'comment.reply_user_id = replyer.id');
         }
     }

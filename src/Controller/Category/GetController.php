@@ -112,6 +112,7 @@ class GetController extends ListDisplayController
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
+     * @throws \Exception
      */
     protected function prepareViewRepository(AbstractView $view, Repository $repository)
     {
@@ -161,7 +162,7 @@ class GetController extends ListDisplayController
                 $repository->category($category->id);
             }
         } else {
-            $view['category'] = new CategoryRecord;
+            $view['category'] = new CategoryRecord();
         }
 
         if ($tagAlias) {
@@ -180,7 +181,7 @@ class GetController extends ListDisplayController
             // Set article filters
             $repository->tag($tag->id);
         } else {
-            $view['tag'] = new TagRecord;
+            $view['tag'] = new TagRecord();
         }
 
         if (Locale::isEnabled(Locale::CLIENT_FRONTEND)) {

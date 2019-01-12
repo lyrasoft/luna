@@ -82,7 +82,11 @@ class TagHelper
 
         return DataMapper::newRelation('tag', LunaTable::TAGS)
             ->addTable('map', LunaTable::TAG_MAPS, 'map.tag_id = tag.id')
-            ->group('tag.id')
+            ->group([
+                'tag.id',
+                'tag.title',
+                'tag.alias'
+            ])
             ->select($fields)
             ->find($conditions, 'tag.title');
     }

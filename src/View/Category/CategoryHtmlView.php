@@ -8,7 +8,9 @@
 
 namespace Lyrasoft\Luna\View\Category;
 
+use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ListView;
 use Windwalker\Core\Renderer\RendererHelper;
@@ -32,13 +34,6 @@ class CategoryHtmlView extends ListView
     protected $name = 'category';
 
     /**
-     * Property renderer.
-     *
-     * @var  string
-     */
-    protected $renderer = RendererHelper::EDGE;
-
-    /**
      * init
      *
      * @return  void
@@ -60,23 +55,20 @@ class CategoryHtmlView extends ListView
     {
         parent::prepareData($data);
 
+        // Load tags
+        $ids = $data->items->id;
+        $db = TagMapper::getDb();
+
+        $tagItems = TagMapper::leftJoin(
+            'map',
+            LunaTable::TAG_MAPS,
+            $db->format('%n = %n AND map.type = %q', 'map.tag_id', 'tags.id', 'article')
+        )->find(['map.target_id' => $ids ?: [0], 'tags.state' => 1], 'tags.title');
+
         foreach ($data->items as $item) {
-            $tags = (array) explode('||', $item->tags);
-
-            $tags = array_filter($tags, 'strlen');
-
-            sort($tags);
-
-            $tags = array_map(function ($value) {
-                list($title, $alias) = StringHelper::explode(':', $value);
-
-                return new Data(
-                    [
-                        'title' => $title,
-                        'alias' => $alias,
-                    ]
-                );
-            }, $tags);
+            $tags = $tagItems->filter(function (Data $tag) use ($item) {
+                return $tag->map_target_id === $item->id;
+            });
 
             $item->tags = $tags;
 

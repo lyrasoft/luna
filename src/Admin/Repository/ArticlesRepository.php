@@ -63,7 +63,7 @@ class ArticlesRepository extends ListRepository
             $this->leftJoin(
                 'user',
                 WarderTable::USERS,
-                $this->db->quoteName('user.id') . ' = article.created_by'
+                $this->db->format('%n = %n', 'user.id', 'article.created_by')
             );
         }
 

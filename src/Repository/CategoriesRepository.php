@@ -70,7 +70,11 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
         $this->addTable('category', LunaTable::CATEGORIES);
 
         if (WarderHelper::tableExists('users')) {
-            $this->addTable('user', WarderTable::USERS, 'user.id = category.created_by');
+            $this->addTable(
+                'user',
+                WarderTable::USERS,
+                $this->db->qn('user.id') . ' = category.created_by'
+            );
         }
     }
 

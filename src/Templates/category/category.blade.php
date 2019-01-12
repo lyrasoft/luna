@@ -39,7 +39,7 @@
                         </h2>
 
                         <span class="text-muted">
-                        {{ $item->created }}
+                        {{ \Windwalker\Core\DateTime\Chronos::toLocalTime($item->created) }}
                     </span>
 
                         <div class="article-content">

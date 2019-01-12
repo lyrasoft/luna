@@ -75,7 +75,7 @@
                                 <div class="panel-heading card-header">
                                     <div class="panel-title">
                                         {{ $comment->user_name }}
-                                        <small class="pull-right float-right">{{ $comment->created }}</small>
+                                        <small class="pull-right float-right">{{ $chronos::toLocalTime($comment->created) }}</small>
                                     </div>
                                 </div>
                                 <div class="panel-body card-body">

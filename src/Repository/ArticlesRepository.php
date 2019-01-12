@@ -61,11 +61,6 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
             && in_array('category_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('category_id'), true)) {
             $this->addTable('category', LunaTable::CATEGORIES, 'category.id = article.category_id');
         }
-
-        if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps')) {
-            $this->addTable('map', LunaTable::TAG_MAPS, 'map.target_id = article.id AND map.type = "article"')
-                ->addTable('tag', LunaTable::TAGS, 'tag.id = map.tag_id AND tag.state = 1');
-        }
     }
 
     /**
@@ -77,6 +72,22 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
      */
     protected function prepareGetQuery(Query $query)
     {
+        $query->group([
+            'page.id',
+            'page.alias',
+            'article.id',
+            'article.page_id',
+            'article.title',
+            'article.alias',
+            'article.category_id',
+            'article.introtext',
+            'article.fulltext',
+            'article.created_by',
+            'article.created',
+            'category.title',
+            'comment.count',
+        ]);
+
         if (LunaHelper::tableExists('pages')
             && in_array('page_id', $this->db->getTable(LunaTable::ARTICLES)->getColumns('page_id'), true)) {
             $query->leftJoin(LunaTable::PAGES . ' AS page', 'page.id = article.page_id')
@@ -84,7 +95,13 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
         }
 
         $select = [
-            'article.*',
+            'article.id',
+            'article.title',
+            'article.alias',
+            'article.introtext',
+            'article.fulltext',
+            'article.created_by',
+            'article.created',
         ];
 
         if (LunaHelper::tableExists('categories')
@@ -106,7 +123,7 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
             $subQuery = $this->db->getQuery(true)
                 ->select('tag_id, target_id')
                 ->from(LunaTable::TAG_MAPS)
-                ->where('type = "article"');
+                ->where('type = %q', 'article');
 
             $query->leftJoin(sprintf('(%s) AS mapping', $subQuery), 'mapping.target_id = article.id');
         }
@@ -123,23 +140,17 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
      */
     protected function postGetQuery(Query $query)
     {
-        $query->group('article.id');
-
         if (LunaHelper::tableExists('comments')) {
             $subQuery = $this->db->getQuery(true);
 
             $subQuery->select(['COUNT(target_id) AS count', 'target_id'])
                 ->from(LunaTable::COMMENTS)
-                ->where('type = "article"')
+                ->where('type = %q', 'article')
                 ->where('state = 1')
                 ->group('target_id');
 
             $query->select('comment.count AS comments')
                 ->leftJoin(sprintf('(%s) AS comment', $subQuery), 'comment.target_id = article.id');
-        }
-
-        if (LunaHelper::tableExists('tags') && LunaHelper::tableExists('tag_maps')) {
-            $query->select('GROUP_CONCAT(DISTINCT CONCAT(tag.title, ":" , tag.alias) SEPARATOR "||") AS tags');
         }
     }
 
