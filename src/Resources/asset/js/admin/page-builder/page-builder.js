@@ -1,8 +1,16 @@
-'use strict';
+"use strict";
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 /**
  * Part of earth project.
@@ -10,7 +18,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
  * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
  * @license    __LICENSE__
  */
-
 var LunaAddonMixin = {
   data: function data() {
     return {
@@ -18,17 +25,14 @@ var LunaAddonMixin = {
       prepared: false
     };
   },
-
   props: {
     value: Object
   },
   created: function created() {
     var options = this.options;
-
     underscore.each(this.value, function (v, k) {
       Vue.set(options, k, v);
     });
-
     this.options = options;
   },
   mounted: function mounted() {
@@ -39,7 +43,6 @@ var LunaAddonMixin = {
       _this.prepared = true;
     }, 150);
   },
-
   methods: {},
   watch: {
     options: {
@@ -47,12 +50,10 @@ var LunaAddonMixin = {
         this.$emit('change', this.options);
         this.$emit('input', this.options);
       },
-
       deep: true
     }
   }
 };
-
 /**
  * Part of earth project.
  *
@@ -83,7 +84,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -157,7 +157,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -182,7 +181,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -211,7 +209,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -236,7 +233,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -246,7 +242,7 @@ $(function () {
 
 $(function () {
   Vue.component('single-image', {
-    template: '\n<div class="c-single-image-uploader">\n    <div class="form-group c-single-image-preview text-center" v-if="url !== \'\' && !uploading">\n        <img :src="url" alt="Image" class="img-fluid rounded" style="max-height: 450px;">\n    </div>\n    \n    <div class="c-single-image-placeholder text-center p-4 mb-3 border rounded" v-if="url === \'\' && !uploading">\n        <small class="text-muted">\u62D6\u62C9\u5716\u7247</small>\n    </div>\n    \n    <div class="form-group d-flex align-items-center" v-if="uploading" style="min-height: 450px;">\n        <img :src="loadingImage" class="mx-auto" alt="Loading">\n    </div>\n\n    <div class="form-group">\n        <div class="input-group">\n            <input :id="id" type="text"\n                v-model="url" class="form-control" :disabled="uploading" />\n            <div class="input-group-append">\n                <button type="button" class="btn btn-primary" @click="chooseFile()"\n                    :disabled="uploading">\n                    \u4E0A\u50B3\u5716\u7247\n                </button>\n                <button v-if="url !== \'\'" type="button" class="btn btn-primary" @click="url = \'\'"\n                    :disabled="uploading">\n                    <span class="fa fa-times"></span>\n                </button>\n            </div>\n        </div>\n        <small class="form-text text-muted">\n            \u8CBC\u4E0A\u5716\u7247\u7DB2\u5740\uFF0C\u6216\u8005\u4E0A\u50B3\u5716\u7247\uFF0C\u4E5F\u53EF\u4EE5\u5C07\u672C\u5730\u7AEF\u5716\u7247\u62D6\u62C9\u81F3\u6B64\u3002\n        </small>\n    </div>\n</div>\n    ',
+    template: "\n<div class=\"c-single-image-uploader\">\n    <div class=\"form-group c-single-image-preview text-center\" v-if=\"url !== '' && !uploading\">\n        <img :src=\"url\" alt=\"Image\" class=\"img-fluid rounded\" style=\"max-height: 450px;\">\n    </div>\n    \n    <div class=\"c-single-image-placeholder text-center p-4 mb-3 border rounded\" v-if=\"url === '' && !uploading\">\n        <small class=\"text-muted\">\u62D6\u62C9\u5716\u7247</small>\n    </div>\n    \n    <div class=\"form-group d-flex align-items-center\" v-if=\"uploading\" style=\"min-height: 450px;\">\n        <img :src=\"loadingImage\" class=\"mx-auto\" alt=\"Loading\">\n    </div>\n\n    <div class=\"form-group\">\n        <div class=\"input-group\">\n            <input :id=\"id\" type=\"text\"\n                v-model=\"url\" class=\"form-control\" :disabled=\"uploading\" />\n            <div class=\"input-group-append\">\n                <button type=\"button\" class=\"btn btn-primary\" @click=\"chooseFile()\"\n                    :disabled=\"uploading\">\n                    \u4E0A\u50B3\u5716\u7247\n                </button>\n                <button v-if=\"url !== ''\" type=\"button\" class=\"btn btn-primary\" @click=\"url = ''\"\n                    :disabled=\"uploading\">\n                    <span class=\"fa fa-times\"></span>\n                </button>\n            </div>\n        </div>\n        <small class=\"form-text text-muted\">\n            \u8CBC\u4E0A\u5716\u7247\u7DB2\u5740\uFF0C\u6216\u8005\u4E0A\u50B3\u5716\u7247\uFF0C\u4E5F\u53EF\u4EE5\u5C07\u672C\u5730\u7AEF\u5716\u7247\u62D6\u62C9\u81F3\u6B64\u3002\n        </small>\n    </div>\n</div>\n    ",
     data: function data() {
       return {
         url: '',
@@ -254,7 +250,6 @@ $(function () {
         uploading: false
       };
     },
-
     props: {
       value: String,
       id: String,
@@ -272,44 +267,36 @@ $(function () {
       var _this2 = this;
 
       var $el = $(this.$el);
-
       $el.on('dragover', function (event) {
         event.stopPropagation();
         event.preventDefault();
         $el.addClass('c-single-image-uploader--hover');
       });
-
       $el.on('dragleave', function (event) {
         event.stopPropagation();
         event.preventDefault();
         $el.removeClass('c-single-image-uploader--hover');
-      });
+      }); // File drop
 
-      // File drop
       $el.on("drop", function (event) {
         event.stopPropagation();
         event.preventDefault();
-
         $el.removeClass('c-single-image-uploader--hover');
-
         var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
 
         _this2.uploadFile(files[0]);
       });
     },
-
     methods: {
       chooseFile: function chooseFile() {
         var _this3 = this;
 
         var input = $('<input type="file">');
-
         input.on('change', function (event) {
           var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
 
           _this3.uploadFile(files[0]);
         });
-
         input.click();
       },
       uploadFile: function uploadFile(file) {
@@ -321,9 +308,7 @@ $(function () {
 
         var formData = new FormData();
         formData.append('file', file);
-
         this.uploading = true;
-
         $.post({
           url: Phoenix.route('single_image_upload'),
           data: formData,
@@ -358,7 +343,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -368,14 +352,13 @@ $(function () {
 
 $(function () {
   Vue.component('title-options', {
-    template: '\n<div class="c-title-options">\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Element -->\n            <div class="form-group">\n                <label :for="id + \'title-element\'">\n                    \u6A19\u984C\u5143\u7D20\n                </label>\n                <select :id="id + \'title-element\'"\n                    v-model="options.title.element" class="form-control">\n                    <option v-for="i of [1, 2, 3, 4, 5, 6]" :value="\'h\' + i">\n                        h{{ i }}\n                    </option>\n                </select>\n            </div>\n        </div>\n        <div class="col-6">\n            <!-- Title Color -->\n            <div class="form-group">\n                <label :for="id + \'title-color\'">\u6A19\u984C\u984F\u8272</label>\n                <input :id="id + \'title-color\'" type="text"\n                    v-model.lazy="options.title.color" v-color class="form-control" />\n            </div>\n        </div>\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Font Size -->\n            <rwd-group class-name="c-title-font-size">\n                <label slot="label">\n                    \u6A19\u984C\u5B57\u9AD4\u5927\u5C0F\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-font-size__\' + size">\n                    <div class="d-flex">\n                        <vue-slide-bar v-model="options.title.font_size[size]" class="flex-grow-1" :max="500"></vue-slide-bar>\n                        <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                            v-model="options.title.font_size[size]" />\n                    </div>\n                </div>\n            </rwd-group>\n        </div>\n        <div class="col-6">\n            <!-- Title Font Weight -->\n            <div class="form-group">\n                <label>\n                    \u6A19\u984C\u5B57\u9AD4\u7C97\u7D30\n                </label>\n                <div class="d-flex" v-if="prepared">\n                    <vue-slide-bar v-model="options.title.font_weight" class="flex-grow-1"\n                        :data="[\'\', 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000]"\n                        :max="1000" :min="100"></vue-slide-bar>\n                    <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                        v-model="options.title.font_weight" />\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <!-- Title Margin Top -->\n            <rwd-group class-name="c-title-margin_top">\n                <label slot="label">\n                    \u6A19\u984C\u4E0A\u65B9\u9593\u8DDD Margin Top\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-margin_top__\' + size">\n                    <input type="number" v-model="options.title.margin_top[size]" class="form-control" />\n                </div>\n            </rwd-group>\n        </div>\n        <div class="col-6">\n            <!-- Title Margin Bottom -->\n            <rwd-group class-name="c-title-margin_bottom">\n                <label slot="label">\n                    \u6A19\u984C\u4E0B\u65B9\u9593\u8DDD Margin Bottom\n                </label>\n                <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size"\n                    :class="\'c-title-margin_bottom__\' + size">\n                    <input type="number" v-model="options.title.margin_bottom[size]" class="form-control" />\n                </div>\n            </rwd-group>\n        </div>\n    </div>\n</div>\n    ',
+    template: "\n<div class=\"c-title-options\">\n    <div class=\"form-row\">\n        <div class=\"col-6\">\n            <!-- Title Element -->\n            <div class=\"form-group\">\n                <label :for=\"id + 'title-element'\">\n                    \u6A19\u984C\u5143\u7D20\n                </label>\n                <select :id=\"id + 'title-element'\"\n                    v-model=\"options.title.element\" class=\"form-control\">\n                    <option v-for=\"i of [1, 2, 3, 4, 5, 6]\" :value=\"'h' + i\">\n                        h{{ i }}\n                    </option>\n                </select>\n            </div>\n        </div>\n        <div class=\"col-6\">\n            <!-- Title Color -->\n            <div class=\"form-group\">\n                <label :for=\"id + 'title-color'\">\u6A19\u984C\u984F\u8272</label>\n                <input :id=\"id + 'title-color'\" type=\"text\"\n                    v-model.lazy=\"options.title.color\" v-color class=\"form-control\" />\n            </div>\n        </div>\n    </div>\n\n    <div class=\"form-row\">\n        <div class=\"col-6\">\n            <!-- Title Font Size -->\n            <rwd-group class-name=\"c-title-font-size\">\n                <label slot=\"label\">\n                    \u6A19\u984C\u5B57\u9AD4\u5927\u5C0F\n                </label>\n                <div v-for=\"size of ['lg', 'md', 'xs']\" class=\"form-group\" :slot=\"size\"\n                    :class=\"'c-title-font-size__' + size\">\n                    <div class=\"d-flex\">\n                        <vue-slide-bar v-model=\"options.title.font_size[size]\" class=\"flex-grow-1\" :max=\"500\"></vue-slide-bar>\n                        <input type=\"text\" class=\"form-control ml-2 mt-2\" style=\"width: 3.5rem;\"\n                            v-model=\"options.title.font_size[size]\" />\n                    </div>\n                </div>\n            </rwd-group>\n        </div>\n        <div class=\"col-6\">\n            <!-- Title Font Weight -->\n            <div class=\"form-group\">\n                <label>\n                    \u6A19\u984C\u5B57\u9AD4\u7C97\u7D30\n                </label>\n                <div class=\"d-flex\" v-if=\"prepared\">\n                    <vue-slide-bar v-model=\"options.title.font_weight\" class=\"flex-grow-1\"\n                        :data=\"['', 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000]\"\n                        :max=\"1000\" :min=\"100\"></vue-slide-bar>\n                    <input type=\"text\" class=\"form-control ml-2 mt-2\" style=\"width: 3.5rem;\"\n                        v-model=\"options.title.font_weight\" />\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"form-row\">\n        <div class=\"col-6\">\n            <!-- Title Margin Top -->\n            <rwd-group class-name=\"c-title-margin_top\">\n                <label slot=\"label\">\n                    \u6A19\u984C\u4E0A\u65B9\u9593\u8DDD Margin Top\n                </label>\n                <div v-for=\"size of ['lg', 'md', 'xs']\" class=\"form-group\" :slot=\"size\"\n                    :class=\"'c-title-margin_top__' + size\">\n                    <input type=\"number\" v-model=\"options.title.margin_top[size]\" class=\"form-control\" />\n                </div>\n            </rwd-group>\n        </div>\n        <div class=\"col-6\">\n            <!-- Title Margin Bottom -->\n            <rwd-group class-name=\"c-title-margin_bottom\">\n                <label slot=\"label\">\n                    \u6A19\u984C\u4E0B\u65B9\u9593\u8DDD Margin Bottom\n                </label>\n                <div v-for=\"size of ['lg', 'md', 'xs']\" class=\"form-group\" :slot=\"size\"\n                    :class=\"'c-title-margin_bottom__' + size\">\n                    <input type=\"number\" v-model=\"options.title.margin_bottom[size]\" class=\"form-control\" />\n                </div>\n            </rwd-group>\n        </div>\n    </div>\n</div>\n    ",
     data: function data() {
       return {
         options: {},
         prepared: false
       };
     },
-
     props: {
       id: String,
       value: Object
@@ -391,7 +374,6 @@ $(function () {
         _this5.prepared = true;
       }, 150);
     },
-
     methods: {},
     watch: {
       options: {
@@ -399,13 +381,11 @@ $(function () {
           this.$emit('change', this.options);
           this.$emit('input', this.options);
         },
-
         deep: true
       }
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -415,13 +395,12 @@ $(function () {
 
 $(function () {
   Vue.component('animation-selector', {
-    template: '\n<div class="cation-selector">\n    <div class="form-group">\n        <label :for="id + \'-name\'">\u52D5\u756B\u540D\u7A31</label>\n        <select :id="id + \'-name\'" class="form-control" v-model="animation.name">\n            <option value="">\u7121</option>\n            <option v-for="anim of getAnimations()" :value="anim">\n                {{ anim }}\n            </option>\n        </select>\n    </div>\n    \n    <div class="form-group">\n        <label :for="id + \'-duration\'">\u52D5\u756B\u6301\u7E8C\u6642\u9593</label>\n        <input type="number" :id="id + \'-duration\'" class="form-control" v-model="animation.duration" min="0" />\n        <small class="form-text text-muted">\n            \u52D5\u756B\u7684\u901F\u5EA6\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n    \n    <div class="form-group">\n        <label :for="id + \'-delay\'">\u7B49\u5F85\u6642\u9593</label>\n        <input type="number" :id="id + \'-delay\'" class="form-control" v-model="animation.delay" min="0" />\n        <small class="form-text text-muted">\n            \u7B49\u5F85\u4E00\u5B9A\u6642\u9593\u5F8C\u624D\u767C\u751F\u52D5\u756B\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n</div>\n',
+    template: "\n<div class=\"cation-selector\">\n    <div class=\"form-group\">\n        <label :for=\"id + '-name'\">\u52D5\u756B\u540D\u7A31</label>\n        <select :id=\"id + '-name'\" class=\"form-control\" v-model=\"animation.name\">\n            <option value=\"\">\u7121</option>\n            <option v-for=\"anim of getAnimations()\" :value=\"anim\">\n                {{ anim }}\n            </option>\n        </select>\n    </div>\n    \n    <div class=\"form-group\">\n        <label :for=\"id + '-duration'\">\u52D5\u756B\u6301\u7E8C\u6642\u9593</label>\n        <input type=\"number\" :id=\"id + '-duration'\" class=\"form-control\" v-model=\"animation.duration\" min=\"0\" />\n        <small class=\"form-text text-muted\">\n            \u52D5\u756B\u7684\u901F\u5EA6\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n    \n    <div class=\"form-group\">\n        <label :for=\"id + '-delay'\">\u7B49\u5F85\u6642\u9593</label>\n        <input type=\"number\" :id=\"id + '-delay'\" class=\"form-control\" v-model=\"animation.delay\" min=\"0\" />\n        <small class=\"form-text text-muted\">\n            \u7B49\u5F85\u4E00\u5B9A\u6642\u9593\u5F8C\u624D\u767C\u751F\u52D5\u756B\uFF0C\u55AE\u4F4D: \u5FAE\u79D2 (1/1000 \u79D2)\n        </small>\n    </div>\n</div>\n",
     data: function data() {
       return {
         animation: {}
       };
     },
-
     props: {
       value: Object,
       id: String
@@ -429,7 +408,6 @@ $(function () {
     mounted: function mounted() {
       this.animation = this.value;
     },
-
     methods: {
       getAnimations: function getAnimations() {
         return ['fadeIn', 'fadeInDown', 'fadeInDownBig', 'fadeInLeft', 'fadeInLeftBig', 'fadeInRight', 'fadeInRightBig', 'fadeInUp', 'fadeInUpBig', 'flip', 'flipInX', 'flipInY', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'zoomIn', 'zoomInDown', 'zoomInLeft', 'zoomInRight', 'zoomInUp', 'bounceIn', 'bounceInDown', 'bounceInLeft', 'bounceInRight', 'bounceInUp'];
@@ -441,13 +419,11 @@ $(function () {
           this.$emit('change', anim);
           this.$emit('input', anim);
         },
-
         deep: true
       }
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -457,7 +433,7 @@ $(function () {
 
 $(function () {
   Vue.component('gradient', {
-    template: '\n<div class="c-box-offset">\n    <div class="c-gradient-preview mb-3" style="height: 100px; border: 1px solid rgba(0, 0, 0, .2);" \n        :style="{\'background-image\': backgroundImage}">\n    </div>\n\n    <div class="form-row">\n        <div class="col-6">\n            <div class="form-group">\n                <label :for="id + \'-color1\'">\u984F\u8272 1</label>\n                <input type="text" :id="id + \'-color1\'" v-model.lazy="gradient.start_color" v-color class="form-control" />\n            </div>\n            <div class="form-group">\n                <label :for="id + \'-color1-pos\'">\u984F\u8272 1 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model="gradient.start_pos"></vue-slide-bar>\n            </div>\n        </div>\n        <div class="col-6">\n            <div class="form-group">\n                <label :for="id + \'-color2\'">\u984F\u8272 2</label>\n                <input type="text" :id="id + \'-color2\'" v-model.lazy="gradient.end_color" v-color class="form-control" />\n            </div>\n            <div class="form-group">\n                <label :for="id + \'-color2-pos\'">\u984F\u8272 2 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model="gradient.end_pos"></vue-slide-bar>\n            </div>\n        </div>\n    </div>\n\n    <div class="form-group">\n        <label :for="id + \'-type\'">\u6F38\u5C64\u6A21\u5F0F</label>\n        <select :id="id + \'-type\'" v-model.lazy="gradient.type" class="form-control">\n            <option value="linear">\u7DDA\u6027 Linear</option>\n            <option value="radial">\u653E\u5C04 Radial</option>\n        </select>\n    </div>\n\n    <div class="form-group">\n        <label :for="id + \'-angle\'">\u89D2\u5EA6</label>\n        <div class="d-flex">\n            <vue-slide-bar :id="id + \'-angle\'" class="flex-grow-1" v-model="gradient.angle" :max="360">\n            </vue-slide-bar>\n            <input type="text" class="form-control ml-2 mt-2" style="width: 3.5rem;"\n                v-model="gradient.angle" />\n        </div>\n    </div>\n</div>\n    ',
+    template: "\n<div class=\"c-box-offset\">\n    <div class=\"c-gradient-preview mb-3\" style=\"height: 100px; border: 1px solid rgba(0, 0, 0, .2);\" \n        :style=\"{'background-image': backgroundImage}\">\n    </div>\n\n    <div class=\"form-row\">\n        <div class=\"col-6\">\n            <div class=\"form-group\">\n                <label :for=\"id + '-color1'\">\u984F\u8272 1</label>\n                <input type=\"text\" :id=\"id + '-color1'\" v-model.lazy=\"gradient.start_color\" v-color class=\"form-control\" />\n            </div>\n            <div class=\"form-group\">\n                <label :for=\"id + '-color1-pos'\">\u984F\u8272 1 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model=\"gradient.start_pos\"></vue-slide-bar>\n            </div>\n        </div>\n        <div class=\"col-6\">\n            <div class=\"form-group\">\n                <label :for=\"id + '-color2'\">\u984F\u8272 2</label>\n                <input type=\"text\" :id=\"id + '-color2'\" v-model.lazy=\"gradient.end_color\" v-color class=\"form-control\" />\n            </div>\n            <div class=\"form-group\">\n                <label :for=\"id + '-color2-pos'\">\u984F\u8272 2 \u4F4D\u7F6E</label>\n                <vue-slide-bar v-model=\"gradient.end_pos\"></vue-slide-bar>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"form-group\">\n        <label :for=\"id + '-type'\">\u6F38\u5C64\u6A21\u5F0F</label>\n        <select :id=\"id + '-type'\" v-model.lazy=\"gradient.type\" class=\"form-control\">\n            <option value=\"linear\">\u7DDA\u6027 Linear</option>\n            <option value=\"radial\">\u653E\u5C04 Radial</option>\n        </select>\n    </div>\n\n    <div class=\"form-group\">\n        <label :for=\"id + '-angle'\">\u89D2\u5EA6</label>\n        <div class=\"d-flex\">\n            <vue-slide-bar :id=\"id + '-angle'\" class=\"flex-grow-1\" v-model=\"gradient.angle\" :max=\"360\">\n            </vue-slide-bar>\n            <input type=\"text\" class=\"form-control ml-2 mt-2\" style=\"width: 3.5rem;\"\n                v-model=\"gradient.angle\" />\n        </div>\n    </div>\n</div>\n    ",
     data: function data() {
       return {
         gradient: {
@@ -470,7 +446,6 @@ $(function () {
         }
       };
     },
-
     props: {
       id: String,
       value: Object
@@ -478,7 +453,6 @@ $(function () {
     mounted: function mounted() {
       this.gradient = this.value;
     },
-
     methods: {
       updated: function updated() {
         this.$emit('change', this.gradient);
@@ -491,7 +465,6 @@ $(function () {
           this.$emit('change', this.gradient);
           this.$emit('input', this.gradient);
         },
-
         deep: true
       }
     },
@@ -500,15 +473,14 @@ $(function () {
         var gradient = this.gradient;
 
         if (gradient.type === 'linear') {
-          return gradient.type + '-gradient(' + gradient.angle + 'deg, ' + gradient.start_color + ' ' + gradient.start_pos + '%, ' + (gradient.end_color + ' ' + gradient.end_pos + '%)');
+          return "".concat(gradient.type, "-gradient(").concat(gradient.angle, "deg, ").concat(gradient.start_color, " ").concat(gradient.start_pos, "%, ") + "".concat(gradient.end_color, " ").concat(gradient.end_pos, "%)");
         }
 
-        return gradient.type + '-gradient(' + gradient.start_color + ' ' + gradient.start_pos + '%, ' + (gradient.end_color + ' ' + gradient.end_pos + '%)');
+        return "".concat(gradient.type, "-gradient(").concat(gradient.start_color, " ").concat(gradient.start_pos, "%, ") + "".concat(gradient.end_color, " ").concat(gradient.end_pos, "%)");
       }
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -518,13 +490,12 @@ $(function () {
 
 $(function () {
   Vue.component('rwd-group', {
-    template: '\n<div class="form-group" :class="getClassName()">\n    <div class="d-flex" :class="getClassName(\'__title\')">\n        <div class="">\n                <slot name="label"></slot>\n        </div>\n        <div class="ml-auto" :class="getClassName(\'__rwd-control\')">\n            <a href="javascript://" :class="[currentSize === \'lg\' ? \'active\' : \'text-dark\']" @click="currentSize = \'lg\'">\n                <span class="fa fa-fw fa-desktop"></span>\n            </a>\n            <a href="javascript://" :class="[currentSize === \'md\' ? \'active\' : \'text-dark\']" @click="currentSize = \'md\'">\n                <span class="fas fa-fw fa-tablet"></span>\n            </a>\n            <a href="javascript://" :class="[currentSize === \'xs\' ? \'active\' : \'text-dark\']" @click="currentSize = \'xs\'">\n                <span class="fas fa-fw fa-mobile"></span>\n            </a>\n        </div>\n    </div>\n\n    <div :class="getClassName(\'__inputs\')">\n        <slot name="lg" v-if="currentSize === \'lg\'"></slot>\n        <slot name="md" v-if="currentSize === \'md\'"></slot>\n        <slot name="xs" v-if="currentSize === \'xs\'"></slot>\n    </div>\n\n    <slot name="description"></slot>\n</div>\n    ',
+    template: "\n<div class=\"form-group\" :class=\"getClassName()\">\n    <div class=\"d-flex\" :class=\"getClassName('__title')\">\n        <div class=\"\">\n                <slot name=\"label\"></slot>\n        </div>\n        <div class=\"ml-auto\" :class=\"getClassName('__rwd-control')\">\n            <a href=\"javascript://\" :class=\"[currentSize === 'lg' ? 'active' : 'text-dark']\" @click=\"currentSize = 'lg'\">\n                <span class=\"fa fa-fw fa-desktop\"></span>\n            </a>\n            <a href=\"javascript://\" :class=\"[currentSize === 'md' ? 'active' : 'text-dark']\" @click=\"currentSize = 'md'\">\n                <span class=\"fas fa-fw fa-tablet\"></span>\n            </a>\n            <a href=\"javascript://\" :class=\"[currentSize === 'xs' ? 'active' : 'text-dark']\" @click=\"currentSize = 'xs'\">\n                <span class=\"fas fa-fw fa-mobile\"></span>\n            </a>\n        </div>\n    </div>\n\n    <div :class=\"getClassName('__inputs')\">\n        <slot name=\"lg\" v-if=\"currentSize === 'lg'\"></slot>\n        <slot name=\"md\" v-if=\"currentSize === 'md'\"></slot>\n        <slot name=\"xs\" v-if=\"currentSize === 'xs'\"></slot>\n    </div>\n\n    <slot name=\"description\"></slot>\n</div>\n    ",
     data: function data() {
       return {
         currentSize: ''
       };
     },
-
     props: {
       name: String,
       className: {
@@ -540,18 +511,15 @@ $(function () {
         _this6.currentSize = 'lg';
       }, 150);
     },
-
     methods: {
       getClassName: function getClassName() {
         var suffix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
         return this.className + suffix;
       }
     },
     watch: {}
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -561,7 +529,7 @@ $(function () {
 
 $(function () {
   Vue.component('box-offset', {
-    template: '\n<rwd-group class-name="c-box-offset">\n    <div slot="label" class="mb-3">\n        <slot name="label"></slot>\n        <a href="javascript://" @click="lock = !lock">\n            <span class="fa" :class="[lock ? \'fa-lock\' : \'fa-lock-open\']"></span>\n        </a>\n    </div>\n    <div v-for="size of [\'lg\', \'md\', \'xs\']" class="form-group" :slot="size" :class="\'c-box-offset__\' + size">\n        <div class="form-row">\n            <div class="col-3">\n                <input type="text" class="form-control" placeholder="Top" v-model="offsets[size].top" />\n            </div>\n            <div class="col-3">\n                <input type="text" class="form-control" placeholder="Right" v-model="offsets[size].right" />\n            </div>\n            <div class="col-3">\n                <input type="text" class="form-control" placeholder="Bottom" v-model="offsets[size].bottom" />\n            </div>\n            <div class="col-3">\n                <input type="text" class="form-control" placeholder="Left" v-model="offsets[size].left" />\n            </div>\n        </div>\n    </div>\n</rwd-group>\n\n    ',
+    template: "\n<rwd-group class-name=\"c-box-offset\">\n    <div slot=\"label\" class=\"mb-3\">\n        <slot name=\"label\"></slot>\n        <a href=\"javascript://\" @click=\"lock = !lock\">\n            <span class=\"fa\" :class=\"[lock ? 'fa-lock' : 'fa-lock-open']\"></span>\n        </a>\n    </div>\n    <div v-for=\"size of ['lg', 'md', 'xs']\" class=\"form-group\" :slot=\"size\" :class=\"'c-box-offset__' + size\">\n        <div class=\"form-row\">\n            <div class=\"col-3\">\n                <input type=\"text\" class=\"form-control\" placeholder=\"Top\" v-model=\"offsets[size].top\" />\n            </div>\n            <div class=\"col-3\">\n                <input type=\"text\" class=\"form-control\" placeholder=\"Right\" v-model=\"offsets[size].right\" />\n            </div>\n            <div class=\"col-3\">\n                <input type=\"text\" class=\"form-control\" placeholder=\"Bottom\" v-model=\"offsets[size].bottom\" />\n            </div>\n            <div class=\"col-3\">\n                <input type=\"text\" class=\"form-control\" placeholder=\"Left\" v-model=\"offsets[size].left\" />\n            </div>\n        </div>\n    </div>\n</rwd-group>\n\n    ",
     data: function data() {
       return {
         offsets: {
@@ -588,7 +556,6 @@ $(function () {
         lock: false
       };
     },
-
     props: {
       value: Object
     },
@@ -596,10 +563,9 @@ $(function () {
       var _this7 = this;
 
       this.extractValue(this.value);
-
       underscore.each(this.offsets, function (offset, size) {
         underscore.each(offset, function (value, pos) {
-          _this7.$watch('offsets.' + size + '.' + pos, function (v) {
+          _this7.$watch("offsets.".concat(size, ".").concat(pos), function (v) {
             if (_this7.lock) {
               offset.top = v;
               offset.right = v;
@@ -610,20 +576,18 @@ $(function () {
             var allValue = _this7.getAllValues();
 
             _this7.$emit('change', allValue);
+
             _this7.$emit('input', allValue);
           });
         });
       });
     },
-
     methods: {
       getAllValues: function getAllValues() {
         var values = {};
-
         underscore.each(this.offsets, function (offset, size) {
-          values[size] = offset.top + ',' + offset.right + ',' + offset.bottom + ',' + offset.left;
+          values[size] = "".concat(offset.top, ",").concat(offset.right, ",").concat(offset.bottom, ",").concat(offset.left);
         });
-
         return values;
       },
       extractValue: function extractValue(value) {
@@ -651,7 +615,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -661,13 +624,12 @@ $(function () {
 
 $(function () {
   Vue.component('radio-button', {
-    template: '\n<button type="button" class="btn flex-fill" :data-value="value"\n    @click="select()"\n    :class="[active ? activeClass : \'btn-outline-secondary\']">\n    <slot></slot>\n</button>',
+    template: "\n<button type=\"button\" class=\"btn flex-fill\" :data-value=\"value\"\n    @click=\"select()\"\n    :class=\"[active ? activeClass : 'btn-outline-secondary']\">\n    <slot></slot>\n</button>",
     data: function data() {
       return {
         active: false
       };
     },
-
     props: {
       value: String,
       activeClass: {
@@ -678,25 +640,21 @@ $(function () {
       var _this9 = this;
 
       this.active = this.$parent.value === this.value;
-
       this.$parent.$on('button-selected', function (value) {
         _this9.active = value === _this9.value;
       });
     },
-
     methods: {
       select: function select() {
         this.$parent.$emit('button-selected', this.value);
       }
     }
   });
-
   Vue.component('radio-buttons', {
-    template: '\n<div class="btn-group">\n  <slot></slot>\n</div>\n    ',
+    template: "\n<div class=\"btn-group\">\n  <slot></slot>\n</div>\n    ",
     data: function data() {
       return {};
     },
-
     props: {
       value: String
     },
@@ -705,14 +663,12 @@ $(function () {
 
       this.$on('button-selected', function (value) {
         _this10.$emit('change', value);
-        _this10.$emit('input', value);
-      });
 
-      // this.$nextTick(() => {
+        _this10.$emit('input', value);
+      }); // this.$nextTick(() => {
       //   this.$parent.$emit('button-selected', this.value);
       // });
     },
-
     methods: {},
     watch: {
       value: function value(_value2) {
@@ -721,7 +677,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -733,7 +688,6 @@ $(function () {
   Vue.directive('tinymce', {
     inserted: function inserted(el) {
       tinymce.remove();
-
       tinymce.init({
         target: el,
         height: 350,
@@ -741,11 +695,8 @@ $(function () {
         images_upload_url: Phoenix.route('addon-text:image-upload-url'),
         images_upload_handler: function images_upload_handler(blobInfo, success, failure) {
           var editorElement = jQuery(el);
-
           editorElement.trigger('image-upload-start');
-
           var xhr, formData;
-
           xhr = new XMLHttpRequest();
           xhr.withCredentials = false;
           xhr.open('POST', Phoenix.route('addon-text:image-upload-url'));
@@ -770,33 +721,33 @@ $(function () {
             }
 
             success(json.data.url);
-
             editorElement.trigger('image-upload-success');
           };
 
           formData = new FormData();
           formData.append('file', blobInfo.blob(), blobInfo.filename());
-
           xhr.send(formData);
         },
         setup: function setup(editor) {
           editor.on('change', function () {
             el.value = editor.getContent();
-            el.dispatchEvent(new Event('change', { bubbles: true }));
-            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', {
+              bubbles: true
+            }));
+            el.dispatchEvent(new Event('input', {
+              bubbles: true
+            }));
           });
         }
       });
     }
   });
 });
-
 $(document).on('focusin', function (e) {
   if ($(e.target).closest(".mce-window").length) {
     e.stopImmediatePropagation();
   }
 });
-
 /**
  * Part of earth project.
  *
@@ -814,7 +765,9 @@ $(function () {
         format: 'rgb',
         theme: 'bootstrap',
         change: function change(value) {
-          var event = new Event('change', { bubbles: true });
+          var event = new Event('change', {
+            bubbles: true
+          });
           el.dispatchEvent(event);
         }
       });
@@ -824,7 +777,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -836,14 +788,15 @@ $(function () {
   function updateFunction(el, binding) {
     // get options from binding value.
     // v-select="THIS-IS-THE-BINDING-VALUE"
-    var options = binding.value || {};
+    var options = binding.value || {}; // set up select2
 
-    // set up select2
     $(el).select2(options).on("select2:select", function (e) {
       // v-model looks for
       //  - an event named "change"
       //  - a value with property path "$event.target.value"
-      el.dispatchEvent(new Event('change', { target: e.target }));
+      el.dispatchEvent(new Event('change', {
+        target: e.target
+      }));
     });
   }
 
@@ -852,7 +805,6 @@ $(function () {
     componentUpdated: updateFunction
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -864,14 +816,13 @@ $(function () {
   Vue.filter('lang', function (value) {
     var _Phoenix;
 
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
 
     return (_Phoenix = Phoenix).__.apply(_Phoenix, [value].concat(args));
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -884,7 +835,6 @@ $(function () {
     return Phoenix.data('addons')[type][prop];
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -895,20 +845,14 @@ $(function () {
 $(function () {
   Phoenix.data('component:addon-edit', {
     name: 'addon-edit',
-
     data: function data() {
       return {
         values: {},
         sticky: false
       };
     },
-
-
     props: {},
-
     created: function created() {},
-
-
     methods: {
       edit: function edit(data) {
         var editData = JSON.parse(JSON.stringify(data));
@@ -922,30 +866,23 @@ $(function () {
         }
 
         this.values = editData;
-
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
-
         this.sticky = true;
       },
       save: function save() {
         Phoenix.trigger('addon:save', JSON.parse(JSON.stringify(this.values)));
-
         this.values = {};
-
         this.sticky = false;
-
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
         var _this11 = this;
 
         $(this.$refs.modal).modal('hide');
-
         setTimeout(function () {
           _this11.values = {};
         }, 300);
-
         this.sticky = false;
       },
       getAddonBasicOptions: function getAddonBasicOptions() {
@@ -1044,9 +981,7 @@ $(function () {
         };
       }
     },
-
     watch: {},
-
     computed: {
       options: function options() {
         return this.values.options;
@@ -1054,7 +989,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -1066,25 +1000,19 @@ $(function () {
   Phoenix.data('component:addon', {
     name: 'addon',
     template: '#addon-component-tmpl',
-
     data: function data() {
       return {
         options: {}
       };
     },
-
-
     props: {
       content: Object,
       column: Object,
       index: Number
     },
-
     created: function created() {
       this.options = this.content.options;
     },
-
-
     methods: {
       edit: function edit() {
         Phoenix.trigger('addon:edit', this.content, this.column);
@@ -1109,21 +1037,17 @@ $(function () {
         this.addons.splice(i, 1);
       }
     },
-
     watch: {
       content: {
         handler: function handler() {
           this.options = this.content.options;
         },
-
         deep: true
       }
     },
-
     computed: {}
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -1134,56 +1058,41 @@ $(function () {
 $(function () {
   Phoenix.data('component:column-edit', {
     name: 'column-edit',
-
     data: function data() {
       return {
         values: {},
         sticky: false
       };
     },
-
-
     props: {},
-
     created: function created() {},
-
-
     methods: {
       edit: function edit(data) {
         this.values = JSON.parse(JSON.stringify(data));
-
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
-
         this.sticky = true;
       },
       save: function save() {
         Phoenix.trigger('column:save', JSON.parse(JSON.stringify(this.values)));
-
         this.values = {};
-
         this.sticky = false;
-
         $(this.$refs.modal).modal('hide');
       },
       close: function close() {
         var _this13 = this;
 
         $(this.$refs.modal).modal('hide');
-
         setTimeout(function () {
           _this13.values = {};
         }, 300);
-
         this.sticky = false;
       },
       widthRange: function widthRange() {
         return underscore.range(1, 13); // 1 to 12 in array
       }
     },
-
     watch: {},
-
     computed: {
       options: function options() {
         return this.values.options;
@@ -1191,7 +1100,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -1206,7 +1114,6 @@ $(function () {
     components: {
       addon: Phoenix.data('component:addon')
     },
-
     data: function data() {
       return {
         content: {},
@@ -1214,8 +1121,6 @@ $(function () {
         widthMenuOpen: ''
       };
     },
-
-
     props: {
       value: Object,
       index: Number,
@@ -1224,7 +1129,6 @@ $(function () {
         default: false
       }
     },
-
     created: function created() {
       var _this14 = this;
 
@@ -1236,8 +1140,6 @@ $(function () {
         });
       }
     },
-
-
     methods: {
       edit: function edit() {
         Phoenix.trigger('column:edit', this.content);
@@ -1257,16 +1159,16 @@ $(function () {
       },
       copyAddon: function copyAddon(item, i) {
         var newItem = JSON.parse(JSON.stringify(item));
-
         newItem.id = 'addon-' + Phoenix.uniqid();
-
         this.addons.splice(i + 1, 0, newItem);
       },
       addAddon: function addAddon() {
         Phoenix.trigger('addon:add', this.content);
       },
       addNewRow: function addNewRow() {
-        this.content.addons.push({ type: 'row' });
+        this.content.addons.push({
+          type: 'row'
+        });
       },
       deleteAddon: function deleteAddon(i) {
         this.addons.splice(i, 1);
@@ -1357,9 +1259,7 @@ $(function () {
         };
       }
     },
-
     watch: {},
-
     computed: {
       addons: function addons() {
         return this.content.addons;
@@ -1373,7 +1273,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -1384,51 +1283,37 @@ $(function () {
 $(function () {
   Phoenix.data('component:row-edit', {
     name: 'row-edit',
-
     data: function data() {
       return {
         values: {},
         sticky: false
       };
     },
-
-
     props: {},
-
     created: function created() {},
-
-
     methods: {
       edit: function edit(data) {
         this.values = JSON.parse(JSON.stringify(data));
-
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
-
         this.sticky = true;
       },
       save: function save() {
         Phoenix.trigger('row:save', JSON.parse(JSON.stringify(this.values)));
-
         $(this.$refs.modal).modal('hide');
-
         this.sticky = false;
       },
       close: function close() {
         var _this16 = this;
 
         $(this.$refs.modal).modal('hide');
-
         this.sticky = false;
-
         setTimeout(function () {
           _this16.values = {};
         }, 300);
       }
     },
-
     watch: {},
-
     computed: {
       options: function options() {
         return this.values.options;
@@ -1436,7 +1321,6 @@ $(function () {
     }
   });
 });
-
 /**
  * Part of earth project.
  *
@@ -1451,15 +1335,12 @@ $(function () {
     components: {
       column: Phoenix.data('component:column')
     },
-
     data: function data() {
       return {
         content: {},
         drag: false
       };
     },
-
-
     props: {
       value: Object,
       child: {
@@ -1467,7 +1348,6 @@ $(function () {
         default: false
       }
     },
-
     created: function created() {
       var _this17 = this;
 
@@ -1479,22 +1359,19 @@ $(function () {
         });
       }
     },
-
-
     methods: {
       addNewColumn: function addNewColumn() {
-        this.content.columns.push({ foo: Phoenix.uniqid() });
+        this.content.columns.push({
+          foo: Phoenix.uniqid()
+        });
       },
       copy: function copy() {
         this.$emit('copy');
       },
       copyColumn: function copyColumn(column, i) {
         column = JSON.parse(JSON.stringify(column));
-
         column.id = 'col-' + Phoenix.uniqid();
-
         column.addons = this.handleCopyAddons(column.addons);
-
         this.columns.splice(i + 1, 0, column);
       },
       handleCopyAddons: function handleCopyAddons(addons) {
@@ -1504,19 +1381,15 @@ $(function () {
           if (addon.type !== 'row') {
             addon.id = 'addon-' + Phoenix.uniqid();
             return addon;
-          }
+          } // Is row
 
-          // Is row
+
           addon.id = 'row-' + Phoenix.uniqid();
-
           addon.columns = addon.columns.map(function (column) {
             column.id = 'col-' + Phoenix.uniqid();
-
             column.addons = _this18.handleCopyAddons(column.addons);
-
             return column;
           });
-
           return addon;
         });
       },
@@ -1627,17 +1500,16 @@ $(function () {
         this.columns.splice(i, 1);
       }
     },
-
     watch: {
       columns: {
         handler: function handler() {
-          this.$emit('columns-change', { columns: this.columns });
+          this.$emit('columns-change', {
+            columns: this.columns
+          });
         },
-
         deep: true
       }
     },
-
     computed: {
       columns: function columns() {
         return this.content.columns;
@@ -1647,10 +1519,8 @@ $(function () {
       }
     }
   });
-
   Vue.component('row', Phoenix.data('component:row'));
 });
-
 /**
  * Part of earth project.
  *
@@ -1684,44 +1554,37 @@ $(function () {
       Phoenix.on('row:edit', function (content, column) {
         _this20.editing.row = content;
         _this20.editing.column = content;
+
         _this20.$refs.rowEdit.edit(content);
       });
-
       Phoenix.on('row:save', function (content) {
         underscore.each(content, function (v, k) {
           _this20.editing.row[k] = v;
         });
-
         _this20.editing.column = {};
         _this20.editing.row = {};
       });
-
       Phoenix.on('column:edit', function (content) {
         _this20.editing.column = content;
+
         _this20.$refs.columnEdit.edit(content);
       });
-
       Phoenix.on('column:save', function (content) {
         underscore.each(content, function (v, k) {
           _this20.editing.column[k] = v;
         });
-
         _this20.editing.column = {};
       });
-
       Phoenix.on('addon:add', function (column) {
         _this20.editing.column = column;
-
         $(_this20.$refs.addonList).modal('show');
       });
-
       Phoenix.on('addon:edit', function (addon, column) {
         _this20.editing.addon = addon;
         _this20.editing.column = column;
 
         _this20.$refs.addonEdit.edit(addon);
       });
-
       Phoenix.on('addon:save', function (addon) {
         if (_this20.editing.column.addons.filter(function (item) {
           return item.id === addon.id;
@@ -1732,12 +1595,10 @@ $(function () {
         underscore.each(addon, function (v, k) {
           _this20.editing.addon[k] = v;
         });
-
         _this20.editing.column = {};
         _this20.editing.addon = {};
       });
     },
-
     methods: {
       addNewRow: function addNewRow() {
         var i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -1753,11 +1614,8 @@ $(function () {
       },
       copyRow: function copyRow(row, i) {
         row = JSON.parse(JSON.stringify(row));
-
         row.id = 'row-' + Phoenix.uniqid();
-
         row.columns = this.handleCopyColumns(row.columns);
-
         this.content.splice(i + 1, 0, row);
       },
       handleCopyColumns: function handleCopyColumns(columns) {
@@ -1765,9 +1623,7 @@ $(function () {
 
         return columns.map(function (column) {
           column.id = 'col-' + Phoenix.uniqid();
-
           column.addons = _this21.handleCopyAddons(column.addons);
-
           return column;
         });
       },
@@ -1778,19 +1634,15 @@ $(function () {
           if (addon.type !== 'row') {
             addon.id = 'addon-' + Phoenix.uniqid();
             return addon;
-          }
+          } // Is row
 
-          // Is row
+
           addon.id = 'row-' + Phoenix.uniqid();
-
           addon.columns = addon.columns.map(function (column) {
             column.id = 'col-' + Phoenix.uniqid();
-
             column.addons = _this22.handleCopyAddons(column.addons);
-
             return column;
           });
-
           return addon;
         });
       },
@@ -1801,11 +1653,12 @@ $(function () {
         var _this23 = this;
 
         $(this.$refs.addonList).modal('hide');
-
         var addonData = Phoenix.data('addons')[type];
-
         setTimeout(function () {
-          Phoenix.trigger('addon:edit', _extends({}, addonData, { id: 'addon-' + Phoenix.uniqid(), is: 'addon' }), _this23.editing.column);
+          Phoenix.trigger('addon:edit', _objectSpread({}, addonData, {
+            id: 'addon-' + Phoenix.uniqid(),
+            is: 'addon'
+          }), _this23.editing.column);
           $('body').addClass('modal-open');
         }, 365);
       },
