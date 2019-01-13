@@ -37,12 +37,7 @@ class LunaScript extends AbstractScript
      */
     public static function vueDraggable()
     {
-        if (!static::inited(__METHOD__)) {
-            VueScript::core();
-            PhoenixScript::sortableJS();
-
-            static::addJS(static::packageName() . '/js/vue/vuedraggable.min.js');
-        }
+        VueScript::draggable();
     }
 
     /**

@@ -73,21 +73,25 @@ abstract class LunaHelper
     /**
      * getFrontendRouting
      *
+     * @param string $ext
+     *
      * @return  string
      */
-    public static function getFrontendRouting()
+    public static function getFrontendRouting(string $ext = 'php')
     {
-        return LUNA_SOURCE . '/routing.yml';
+        return LUNA_SOURCE . '/routing.' . $ext;
     }
 
     /**
      * getFrontendRouting
      *
-     * @return  static
+     * @param string $ext
+     *
+     * @return  string
      */
-    public static function getAdminRouting()
+    public static function getAdminRouting(string $ext = 'php')
     {
-        return LUNA_SOURCE_ADMIN . '/routing.yml';
+        return LUNA_SOURCE_ADMIN . '/routing.' . $ext;
     }
 
     /**

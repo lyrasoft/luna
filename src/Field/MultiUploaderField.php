@@ -219,10 +219,6 @@ JS;
 
         $form = new Form($this->getId() . '-meta');
 
-//        if (PHP_VERSION_ID < 70000) {
-//            throw new \LogicException('Image meta with form must use PHP 7 or higher.');
-//        }
-
         if ($imageMeta === true || is_array($imageMeta)) {
             if ($imageMeta === true) {
                 $imageMeta = [
