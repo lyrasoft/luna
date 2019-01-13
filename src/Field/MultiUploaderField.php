@@ -211,7 +211,7 @@ JS;
      *
      * @return  Form
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.5
      */
     protected function getImageMetaForm()
     {

@@ -74,7 +74,7 @@ class LunaProvider implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.5
      */
     protected function registerClassAlias()
     {

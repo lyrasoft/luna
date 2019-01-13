@@ -16,7 +16,7 @@ use Phoenix\Controller\AbstractPhoenixController;
 /**
  * The CaptchaImageController class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.5
  */
 class CaptchaImageController extends AbstractPhoenixController
 {

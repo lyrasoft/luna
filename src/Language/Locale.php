@@ -190,7 +190,7 @@ class Locale
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.5
      */
     public static function getBrowserLanguage(array $available = [], $default = 'en-GB')
     {
