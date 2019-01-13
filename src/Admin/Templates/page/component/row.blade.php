@@ -37,21 +37,21 @@
                     </span>
                 </button>
                 <span class="dropdown">
-                    <button href="javascript://" class="btn btn-sm btn-outline-secondary"
+                    <button href="#" class="btn btn-sm btn-outline-secondary"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="fa fa-cog"></span>
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="javascript://" @click="toggleDisabled()">
+                            <a class="dropdown-item" href="#" @click="toggleDisabled()">
                                 <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                                 @{{ content.disabled ? '啟用' : '停用' }}
                             </a>
-                            <a class="dropdown-item" href="javascript://" @click="copy()" v-if="!content.disabled">
+                            <a class="dropdown-item" href="#" @click="copy()" v-if="!content.disabled">
                                 <span class="fa fa-copy"></span>
                                 複製
                             </a>
-                            <a class="dropdown-item" href="javascript://" @click="remove()">
+                            <a class="dropdown-item" href="#" @click="remove()">
                                 <span class="fa fa-trash"></span>
                                 刪除
                             </a>
@@ -77,7 +77,7 @@
 
                 <a class="page-row__body-placeholder text-center p-4 border text-secondary col-12"
                 {{--v-if="addons.length === 0 && !drag"--}}
-                href="javascript://" @click="addNewColumn()">
+                href="#" @click="addNewColumn()">
                 <span class="fa fa-plus-square fa-3x"></span>
                 </a>
             </div>

@@ -29,7 +29,7 @@
     <ul class="dropdown-menu dropdown-menu-right">
         <li>
             <a class="dropdown-item phoenix-btn-save2copy"
-                href="javascript://"
+                href="#"
                 onclick="Phoenix.post(null, {task: 'save2copy'});">
                 <span class="fa fa-fw fa-copy text-info"></span>
                 @lang('phoenix.toolbar.save2copy')
@@ -38,7 +38,7 @@
 
         <li>
             <a class="dropdown-item phoenix-btn-save2new"
-                href="javascript://"
+                href="#"
                 onclick="Phoenix.post(null, {task: 'save2new'});">
                 <span class="fa fa-fw fa-plus text-primary"></span>
                 @lang('phoenix.toolbar.save2new')

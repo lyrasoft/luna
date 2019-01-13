@@ -27,7 +27,7 @@
                     </button>
 
                     <div class="dropdown d-inline-block" :class="widthMenuOpen">
-                        <button type="button" href="javascript://" class="btn btn-mini btn-outline-secondary"
+                        <button type="button" href="#" class="btn btn-mini btn-outline-secondary"
                             @click="widthMenuOpen = widthMenuOpen === 'show' ? '' : 'show'">
                             <span class="fa fa-arrows-alt-h"></span>
                         </button>
@@ -76,26 +76,26 @@
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="javascript://" @click="edit()"
+                            <a class="dropdown-item" href="#" @click="edit()"
                                 v-if="!content.disabled">
                                 <span class="fa fa-edit"></span>
                                 編輯
                             </a>
-                            <a class="dropdown-item" href="javascript://" @click="copy()"
+                            <a class="dropdown-item" href="#" @click="copy()"
                                 v-if="!content.disabled">
                                 <span class="fa fa-copy"></span>
                                 複製
                             </a>
-                            <a class="dropdown-item" href="javascript://" @click="toggleDisabled()">
+                            <a class="dropdown-item" href="#" @click="toggleDisabled()">
                                 <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                                 @{{ content.disabled ? '啟用' : '停用' }}
                             </a>
-                            <a class="dropdown-item" href="javascript://" @click="addNewRow()"
+                            <a class="dropdown-item" href="#" @click="addNewRow()"
                                 v-if="!content.disabled && !child">
                                 <span class="fa fa-plus"></span>
                                 新增列
                             </a>
-                            <a class="dropdown-item" href="javascript://" @click="remove()">
+                            <a class="dropdown-item" href="#" @click="remove()">
                                 <span class="fa fa-trash"></span>
                                 刪除
                             </a>
@@ -127,7 +127,7 @@
 
                     <a class="column__addon-placeholder text-center p-3 border text-secondary"
                         {{--v-if="addons.length === 0 && !drag"--}}
-                        href="javascript://" @click="addAddon()">
+                        href="#" @click="addAddon()">
                         <span class="fa fa-plus-circle fa-3x"></span>
                     </a>
                 </draggable>
