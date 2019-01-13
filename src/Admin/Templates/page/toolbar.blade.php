@@ -53,13 +53,7 @@
     @lang('phoenix.toolbar.save2close')
 </button>
 
-<a role="button" class="btn btn-default btn-outline-secondary btn-sm phoenix-btn-cancel"
-    href="{{ $router->route('pages') }}">
-    <span class="fa fa-remove fa-times"></span>
-    @lang('phoenix.toolbar.cancel')
-</a>
-
-<button type="button" class="btn btn-primary btn-sm ml-auto luna-button-options"
+<button type="button" class="btn btn-info btn-sm ml-auto luna-button-options"
     data-toggle="modal" data-target="#options-modal">
     <span class="fa fa-cog"></span>
     @lang('luna.page.button.options')
@@ -73,3 +67,9 @@
         @lang('luna.page.button.preview')
     </a>
 @endif
+
+<a role="button" class="btn btn-default btn-outline-secondary btn-sm phoenix-btn-cancel"
+    href="{{ $router->route('pages') }}">
+    <span class="fa fa-remove fa-times"></span>
+    @lang('phoenix.toolbar.cancel')
+</a>
