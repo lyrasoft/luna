@@ -63,7 +63,8 @@
         <div class="card">
             <div is="draggable" class="card-body page-row__body row" :class="{'p-2': child}"
                 v-model="content.columns" @start="drag = true" @end="drag = false"
-                :options="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : '')}" style="min-height: 50px;">
+                :options="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : ''), animation: 300}"
+                style="min-height: 50px;">
                 <column v-for="(column, i) of columns" class="page-row__column column mb-2"
                     @delete="deleteColumn(i)"
                     @copy="copyColumn(column, i)"

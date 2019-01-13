@@ -105,7 +105,8 @@
             </div>
             <div class="card-body p-2">
                 <draggable v-model="content.addons" @start="drag = true" @end="drag = false"
-                    :options="{handle: '.move-handle', group: 'addon'}" style="min-height: 50px;" class="column__draggable">
+                    :options="{handle: '.move-handle', group: 'addon', animation: 300}"
+                    style="min-height: 50px;" class="column__draggable">
                     <div class="column__addon" v-for="(addon, i) of addons">
                         <addon v-if="addon.type !== 'row'"
                             @delete="deleteAddon(i)"

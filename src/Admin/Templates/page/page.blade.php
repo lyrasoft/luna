@@ -55,7 +55,7 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
                 <div class="page-builder__body body">
 
                     <draggable v-model="content" @start="drag = true" @end="drag = false"
-                        :options="{handle: '.row-move-handle'}">
+                        :options="{handle: '.row-move-handle', animation: 300}">
                         <row v-for="(row, i) of content" class="body__row page-row mb-4"
                             :key="row.id"
                             :value="row"
