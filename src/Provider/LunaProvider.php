@@ -81,8 +81,8 @@ class LunaProvider implements ServiceProviderInterface
         static $registered = false;
 
         if (!$registered) {
-            class_alias(\Lyrasoft\Luna\Repository\CategoriesRepository::class, \Lyrasoft\Luna\Repository\CategoriesModel::class);
-            class_alias(\Lyrasoft\Luna\Repository\ArticlesRepository::class, \Lyrasoft\Luna\Repository\ArticlesModel::class);
+            class_alias(\Lyrasoft\Luna\Repository\CategoriesRepository::class, \Lyrasoft\Luna\Model\CategoriesModel::class);
+            class_alias(\Lyrasoft\Luna\Repository\ArticlesRepository::class, \Lyrasoft\Luna\Model\ArticlesModel::class);
         }
 
         $registered = true;
