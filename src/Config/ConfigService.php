@@ -56,7 +56,7 @@ class ConfigService
 
         $id = 'config:' . json_encode($conditions);
 
-        return $this->fetch($id, function () use ($conditions) {
+        return $this->once($id, function () use ($conditions) {
             $config = ConfigMapper::findOne($conditions);
 
             return new Structure($config->content);
@@ -89,7 +89,7 @@ class ConfigService
 
         $id = 'config:' . json_encode($conditions);
 
-        return $this->fetch($id, function () use ($conditions) {
+        return $this->once($id, function () use ($conditions) {
             return ConfigMapper::findOne($conditions);
         }, $refresh);
     }
