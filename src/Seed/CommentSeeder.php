@@ -6,7 +6,6 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-use Faker\Factory;
 use Lyrasoft\Luna\Admin\DataMapper\ArticleMapper;
 use Lyrasoft\Luna\Admin\DataMapper\CommentMapper;
 use Lyrasoft\Luna\Table\LunaTable;

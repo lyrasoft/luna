@@ -6,7 +6,6 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-use Faker\Factory;
 use Lyrasoft\Luna\Admin\DataMapper\ConfigMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
@@ -30,7 +29,7 @@ class ConfigSeeder extends AbstractSeeder
      */
     public function doExecute()
     {
-        $faker   = Factory::create('en_GB');
+        $faker   = $this->faker->create();
         $userIds = UserMapper::findColumn('id');
 
         $created = $faker->dateTimeThisYear;

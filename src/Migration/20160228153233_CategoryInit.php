@@ -6,10 +6,8 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-use Faker\Factory;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Table\LunaTable;
-use Lyrasoft\Unidev\Helper\UnsplashHelper;
 use Lyrasoft\Unidev\Seo\SlugHelper;
 use Symfony\Component\Yaml\Yaml;
 use Windwalker\Core\Migration\AbstractMigration;
@@ -93,7 +91,7 @@ class CategoryInit extends AbstractMigration
      */
     protected function importCategories($type, array $categories, $parentId = 1)
     {
-        $faker = Factory::create('en_GB');
+        $faker = $this->faker->create();
 
         $record = new CategoryRecord();
 
@@ -106,7 +104,7 @@ class CategoryInit extends AbstractMigration
             $record['alias']       = SlugHelper::safe($alias);
             $record['type']        = $type;
             $record['description'] = $faker->paragraph(5);
-            $record['image']       = UnsplashHelper::getImageUrl();
+            $record['image']       = $faker->unsplashImage();
             $record['state']       = 1;
             $record['version']     = random_int(1, 50);
             $record['created']     = $faker->dateTime->format($this->getDateFormat());

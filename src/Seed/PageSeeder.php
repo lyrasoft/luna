@@ -6,7 +6,6 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-use Faker\Factory;
 use Lyrasoft\Luna\Admin\DataMapper\PageMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
@@ -31,7 +30,7 @@ class PageSeeder extends AbstractSeeder
      */
     public function doExecute()
     {
-        $faker   = Factory::create('en_GB');
+        $faker   = $this->faker->create();
         $userIds = UserMapper::findColumn('id');
 
         $content = file_get_contents(__DIR__ . '/fixtures/page.json');
@@ -46,7 +45,7 @@ class PageSeeder extends AbstractSeeder
             $data['content']        = $content;
             $data['meta']           = '{}';
             $data['fulltext']       = $faker->paragraph(5);
-            $data['image']          = $faker->imageUrl();
+            $data['image']          = $faker->unsplashImage();
             $data['state']          = 1;
             $data['ordering']       = $i;
             $data['created']        = $created->format($this->getDateFormat());
