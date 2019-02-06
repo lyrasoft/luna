@@ -257,7 +257,7 @@ JS;
             };
         } elseif (is_string($imageForm) && is_subclass_of($imageForm, AbstractFieldDefinition::class)) {
             $imageForm = Ioc::make($imageForm, ['form' => $form]);
-        } else {
+        } elseif (!$imageForm) {
             return $form;
         }
 
