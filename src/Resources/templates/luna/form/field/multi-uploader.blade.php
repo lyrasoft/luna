@@ -1,6 +1,6 @@
 {{-- Part of earth project. --}}
 <?php
-$meta = (bool) $field->get('image_meta');
+$meta = (bool) $field->get('image_form');
 /** @var \Windwalker\Form\Form $form */
 $form = $imageMetaForm;
 ?>

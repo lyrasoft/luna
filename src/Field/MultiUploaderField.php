@@ -35,7 +35,7 @@ use Windwalker\Utilities\Arr;
  * @method  mixed|$this  height(int $value = null)
  * @method  mixed|$this  quality(int $value = null)
  * @method  mixed|$this  maxFiles(int $value = null)
- * @method  mixed|$this  imageMeta(bool|callable|AbstractFieldDefinition $value = null)
+ * @method  mixed|$this  imageForm(bool|callable|AbstractFieldDefinition $value = null)
  *
  * @since  1.5.2
  */
@@ -150,7 +150,7 @@ class MultiUploaderField extends AbstractField
 
         $data = [
             'images' => $values,
-            'uploadUrl' => $url,
+            'uploadUrl' => (string) $url,
             'maxFiles' => $this->maxFiles(),
             'current' => new \stdClass(),
             'currentIndex' => null
@@ -215,13 +215,13 @@ JS;
      */
     protected function getImageMetaForm()
     {
-        $imageMeta = $this->imageMeta();
+        $imageForm = $this->imageForm();
 
         $form = new Form($this->getId() . '-meta');
 
-        if ($imageMeta === true || is_array($imageMeta)) {
-            if ($imageMeta === true) {
-                $imageMeta = [
+        if ($imageForm === true || is_array($imageForm)) {
+            if ($imageForm === true) {
+                $imageForm = [
                     'title' => true,
                     'alt' => true,
                     'link' => true,
@@ -229,40 +229,42 @@ JS;
                 ];
             }
 
-            $imageMeta = function (Form $form) use ($imageMeta) {
-                if (!empty($imageMeta['title'])) {
+            $imageForm = function (Form $form) use ($imageForm) {
+                if (!empty($imageForm['title'])) {
                     $form->add('title', TextField::class)
                         ->label(__('luna.form.field.multi.image.meta.title'))
                         ->class('form-control');
                 }
 
-                if (!empty($imageMeta['alt'])) {
+                if (!empty($imageForm['alt'])) {
                     $form->add('alt', TextField::class)
                         ->label(__('luna.form.field.multi.image.meta.alt'))
                         ->class('form-control');
                 }
 
-                if (!empty($imageMeta['link'])) {
+                if (!empty($imageForm['link'])) {
                     $form->add('link', UrlField::class)
                         ->label(__('luna.form.field.multi.image.meta.link'))
                         ->class('form-control');
                 }
 
-                if (!empty($imageMeta['description'])) {
+                if (!empty($imageForm['description'])) {
                     $form->add('description', TextareaField::class)
                         ->label(__('luna.form.field.multi.image.meta.description'))
                         ->class('form-control')
                         ->rows(5);
                 }
             };
-        } elseif (is_string($imageMeta) && is_subclass_of($imageMeta, AbstractFieldDefinition::class)) {
-            $imageMeta = Ioc::make($imageMeta, ['form' => $form]);
+        } elseif (is_string($imageForm) && is_subclass_of($imageForm, AbstractFieldDefinition::class)) {
+            $imageForm = Ioc::make($imageForm, ['form' => $form]);
+        } else {
+            return $form;
         }
 
-        if (is_callable($imageMeta)) {
-            $imageMeta($form);
-        } elseif ($imageMeta instanceof AbstractFieldDefinition) {
-            $form->defineFormFields($imageMeta);
+        if (is_callable($imageForm)) {
+            $imageForm($form);
+        } elseif ($imageForm instanceof AbstractFieldDefinition) {
+            $form->defineFormFields($imageForm);
         } else {
             throw new \InvalidArgumentException('Wrong image meta format.');
         }
@@ -292,7 +294,7 @@ JS;
             'width',
             'quality',
             'maxFiles' => 'max_files',
-            'imageMeta' => 'image_meta',
+            'imageForm' => 'image_form',
         ]);
     }
 }
