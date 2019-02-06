@@ -119,6 +119,10 @@ class MultiUploaderField extends AbstractField
             ]);
 
         $values = $this->getValue() ?: [];
+        $current = [
+            'url' => '',
+            'thumb_url' => ''
+        ];
 
         if (is_string($values)) {
             if (Str::startsWith($values, '[') || Str::startsWith($values, '{')) {
@@ -143,16 +147,21 @@ class MultiUploaderField extends AbstractField
             // Prepare default value placeholder
             foreach ($form->getFields() as $field) {
                 if (!isset($value[$field->getName()])) {
-                    $value[$field->getName()] = '';
+                    $value[$field->getName()] = $field->get('multiple') ? [] : '';
                 }
             }
         }
 
+        // Prepare default value placeholder
+        foreach ($form->getFields() as $field) {
+            $current[$field->getName()] = $field->get('multiple') ? [] : '';
+        }
+
         $data = [
             'images' => $values,
-            'uploadUrl' => (string) $url,
+            'uploadUrl' => $url,
             'maxFiles' => $this->maxFiles(),
-            'current' => new \stdClass(),
+            'current' => $current,
             'currentIndex' => null
         ];
 
