@@ -54,7 +54,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->option(__($langPrefix . 'module.field.title'), 'module.title');
 
             // Search Content
-            $this->text('content')
+            $this->search('content')
                 ->label(__('phoenix.grid.search.label'))
                 ->placeholder(__('phoenix.grid.search.label'));
         });

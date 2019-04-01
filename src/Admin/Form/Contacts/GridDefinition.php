@@ -50,7 +50,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->option(__($langPrefix . 'contact.field.alias'), 'contact.content');
 
             // Search Content
-            $this->text('content')
+            $this->search('content')
                 ->label(__('phoenix.grid.search.label'))
                 ->placeholder(__('phoenix.grid.search.label'));
         });

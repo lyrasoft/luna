@@ -52,7 +52,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->option('Target Title', 'target.title');
 
             // Search Content
-            $this->text('content')
+            $this->search('content')
                 ->label(__('phoenix.grid.search.label'))
                 ->placeholder(__('phoenix.grid.search.label'));
         });
