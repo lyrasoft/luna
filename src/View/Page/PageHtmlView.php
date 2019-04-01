@@ -44,7 +44,7 @@ class PageHtmlView extends ItemView
         $paths = implode('.', $paths);
 
         // Handle static pages
-        if ($paths && $this->getRenderer()->findFile($paths, '.blade.php')) {
+        if ($paths && $this->getRenderer()->has($paths)) {
             $allow = true;
 
             if (!WINDWALKER_DEBUG) {

@@ -19,7 +19,7 @@
  * @var $builder  \Lyrasoft\Luna\PageBuilder\PageBuilder
  */
 
-$builder = $package->getContainer()->get(\Lyrasoft\Luna\PageBuilder\PageBuilder::class);
+$builder = $app->make(\Lyrasoft\Luna\PageBuilder\PageBuilder::class);
 ?>
 
 @extends($item->extends)
