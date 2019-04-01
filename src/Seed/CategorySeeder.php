@@ -9,6 +9,7 @@
 use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Table\LunaTable;
+use Lyrasoft\Unidev\Seo\SlugHelper;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\Seeder\AbstractSeeder;
@@ -63,7 +64,7 @@ class CategorySeeder extends AbstractSeeder
             $lang = $faker->randomElement($languages);
 
             $record['title']       = $faker->sentence(random_int(1, 3)) . ' - [' . $lang . ']';
-            $record['alias']       = OutputFilter::stringURLSafe($record['title']);
+            $record['alias']       = SlugHelper::safe($record['title']);
             $record['type']        = $faker->randomElement($this->types);
             $record['description'] = $faker->paragraph(5);
             $record['image']       = $faker->unsplashImage();
