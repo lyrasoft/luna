@@ -8,10 +8,12 @@
 
 use Lyrasoft\Luna\Admin\DataMapper\PageMapper;
 use Lyrasoft\Luna\Table\LunaTable;
+use Lyrasoft\Unidev\Seo\SlugHelper;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 use Windwalker\Filter\OutputFilter;
+use Windwalker\String\Mbstring;
 
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace -- Ignore seeder file
 
@@ -40,8 +42,8 @@ class PageSeeder extends AbstractSeeder
             $data    = new Data();
 
             $data['extends']        = '_global.html';
-            $data['title']          = ucwords(trim($faker->sentence(random_int(3, 5)), '.'));
-            $data['alias']          = OutputFilter::stringURLUnicodeSlug($data['title']);
+            $data['title']          = Mbstring::ucwords(trim($faker->sentence(2), '.'));
+            $data['alias']          = SlugHelper::safe($data['title']);
             $data['content']        = $content;
             $data['meta']           = '{}';
             $data['fulltext']       = $faker->paragraph(5);

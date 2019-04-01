@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Table\LunaTable;
+use Lyrasoft\Unidev\Seo\SlugHelper;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\Seeder\AbstractSeeder;
@@ -61,7 +62,7 @@ class ArticleSeeder extends AbstractSeeder
 
                 $data['category_id'] = $category->id;
                 $data['title']       = '(' . $lang . ') ' . $faker->sentence(2);
-                $data['alias']       = OutputFilter::stringURLSafe($data['title']);
+                $data['alias']       = SlugHelper::safe($data['title']);
                 $data['introtext']   = '(' . $lang . ') ' . $faker->paragraph(5);
                 $data['fulltext']    = $faker->paragraph(5);
                 $data['image']       = $faker->unsplashImage();

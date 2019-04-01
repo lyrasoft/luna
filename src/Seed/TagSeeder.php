@@ -13,6 +13,7 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\Seeder\AbstractSeeder;
 use Windwalker\Data\Data;
 use Windwalker\Filter\OutputFilter;
+use Windwalker\String\Mbstring;
 
 /**
  * The TagSeeder class.
@@ -39,7 +40,7 @@ class TagSeeder extends AbstractSeeder
         foreach (range(1, 30) as $i) {
             $data = new Data();
 
-            $data['title']       = ucfirst($faker->word);
+            $data['title']       = Mbstring::ucfirst($faker->word);
             $data['alias']       = OutputFilter::stringURLSafe($data['title']);
             $data['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
             $data['created']     = $faker->dateTime->format($this->getDateFormat());
