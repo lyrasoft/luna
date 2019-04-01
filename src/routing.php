@@ -40,7 +40,8 @@ $router->any('article_category', '/category/(*path)')
             'view' => 'Category',
             'ordering' => 'article.created',
             'direction' => 'DESC',
-            'deep' => '1'
+            'limit' => 15,
+            'deep' => 1
         ],
         'active' => [
             'manimenu' => 'category'
