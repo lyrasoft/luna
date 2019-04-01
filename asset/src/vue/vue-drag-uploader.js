@@ -136,7 +136,7 @@
             :files-limited="maxFiles"
         >
             <draggable v-model="items" class="vue-drag-uploader__draggable-wrapper" 
-                :options="{draggable: '.preview-img'}">
+                :options="{draggable: '.preview-img', animation: 300}">
                 <slot name="items" :item="items">
                     <vue-drag-uploader-item
                         v-for="(item, i) of items"
