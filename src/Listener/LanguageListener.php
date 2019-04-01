@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Listener;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Windwalker\Core\Ioc;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Event\Event;
 
 /**
@@ -20,6 +21,13 @@ use Windwalker\Event\Event;
  */
 class LanguageListener
 {
+    /**
+     * Property locale.
+     *
+     * @var string
+     */
+    protected $locale;
+
     /**
      * onBeforeRouting
      *
@@ -51,12 +59,13 @@ class LanguageListener
 
         $language = Locale::getLanguageByAlias($alias);
 
+        // No language path, set as default.
         if (!$language) {
             return;
         }
 
         // Set current language
-        Locale::setLocale($language->code);
+        $this->locale = $language->code;
 
         // Remove first segment and store back to Uri object
         array_shift($segments);
@@ -69,41 +78,53 @@ class LanguageListener
     }
 
     /**
-     * onRouterAfterRouteMatch
-     *
-     * @param Event $event
+     * prepareBrowserLocale
      *
      * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
      */
-    public function onAfterRouting(Event $event)
+    protected function prepareBrowserLocale(): void
     {
-        $config = Ioc::getConfig();
-
+        $useBrowser = null;
         $luna = LunaHelper::getPackage();
 
         if ($luna->isFrontend()) {
-            $config->set('language.enabled', $luna->get('frontend.language.enabled', false));
             $useBrowser = $luna->get('frontend.language.use_browser', false);
         } elseif ($luna->isAdmin()) {
-            $config->set('frontend.enabled', $luna->get('frontend.language.enabled', false));
             $useBrowser = $luna->get('admin.language.use_browser', false);
         }
 
-        // Let's set locale
+        if ($useBrowser) {
+            $availableCodes = Locale::getAvailableLanguages()->code;
+
+            $locale = Locale::getBrowserLanguage($availableCodes, null);
+
+            Locale::setLocale($locale);
+        }
+    }
+
+    /**
+     * onAfterRouting
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function onAfterRouting()
+    {
+        // Prepare default locale
         if (Locale::isEnabled(Locale::CLIENT_CURRENT)) {
-            $locale = null;
-
-            if ($useBrowser) {
-                $availableCodes = Locale::getAvailableLanguages()->code;
-
-                $locale = Locale::getBrowserLanguage($availableCodes, null);
-            }
-
-            if ($locale) {
-                Locale::setLocale($locale);
+            // Locale found from URL, set it to system and cached
+            if ($this->locale) {
+                Locale::setLocale($this->locale, true);
             } else {
-                // Force set default locale to session.
-                Locale::setLocale(Locale::getLocale());
+                // Not found, try to get from cache
+                if ($locale = Locale::getCachedLocale()) {
+                    Locale::setLocale($locale);
+                } else {
+                    $this->prepareBrowserLocale();
+                }
             }
         }
     }

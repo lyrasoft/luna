@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Language;
 use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\LanguageScript;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
 use Windwalker\Ioc;
@@ -22,14 +23,14 @@ use Windwalker\Ioc;
  */
 class Locale
 {
-    const FLAG_NORMAL = 1;
-    const FLAG_SQUARE = 2;
+    public const FLAG_NORMAL = 1;
+    public const FLAG_SQUARE = 2;
 
-    const CLIENT_FRONTEND = 1;
-    const CLIENT_ADMIN = 2;
-    const CLIENT_EITHER = 4;
-    const CLIENT_BOTH = 8;
-    const CLIENT_CURRENT = 16;
+    public const CLIENT_FRONTEND = 1;
+    public const CLIENT_ADMIN = 2;
+    public const CLIENT_EITHER = 4;
+    public const CLIENT_BOTH = 8;
+    public const CLIENT_CURRENT = 16;
 
     /**
      * Property languages.
@@ -129,6 +130,10 @@ class Locale
      */
     public static function getLanguageByAlias($alias)
     {
+        if ($alias === '') {
+            return null;
+        }
+
         $languages = static::getAvailableLanguages();
 
         foreach ($languages as $language) {
@@ -155,19 +160,35 @@ class Locale
      *
      * @return  string
      */
-    public static function getLocale()
+    public static function getLocale(): string
+    {
+        return Translator::getLocale();
+    }
+
+    /**
+     * getCachedLocale
+     *
+     * @return  string|null
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getCachedLocale():? string
     {
         $session = Ioc::getSession();
 
-        $locale = $session->get(static::$sessionKey);
+        return $session->get(static::$sessionKey);
+    }
 
-        if (!$locale) {
-            $locale = static::getSystemLocal();
-
-            $session->set(static::$sessionKey, $locale);
-        }
-
-        return $locale;
+    /**
+     * getSystemLocal
+     *
+     * @return  string
+     *
+     * @deprecated Use getSystemLocale()
+     */
+    public static function getSystemLocal()
+    {
+        return static::getSystemLocale();
     }
 
     /**
@@ -175,11 +196,11 @@ class Locale
      *
      * @return  string
      */
-    public static function getSystemLocal()
+    public static function getSystemLocale(): string
     {
         $config = Ioc::getConfig();
 
-        return $config->get('language.locale') ?: $config->get('language.default', 'en-GB');
+        return (string) ($config->get('language.locale') ?: $config->get('language.default', 'en-GB'));
     }
 
     /**
@@ -216,19 +237,20 @@ class Locale
     /**
      * setLocale
      *
-     * @param   string $code
+     * @param string $code
+     * @param bool   $asCached
      *
      * @return  void
      */
-    public static function setLocale($code)
+    public static function setLocale($code, bool $asCached = false)
     {
-        $session = Ioc::getSession();
+        if ($asCached) {
+            $session = Ioc::getSession();
 
-        $session->set(static::$sessionKey, $code);
+            $session->set(static::$sessionKey, $code);
+        }
 
-        $config = Ioc::getConfig();
-
-        $config->set('language.locale', $code);
+        Translator::setLocale($code);
     }
 
     /**
