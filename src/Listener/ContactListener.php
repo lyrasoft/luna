@@ -37,6 +37,15 @@ class ContactListener
         $this->config = $config;
     }
 
+    /**
+     * onLunaContactSendMail
+     *
+     * @param Event $event
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
     public function onLunaContactSendMail(Event $event)
     {
         $data = $event['data'];
