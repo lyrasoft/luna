@@ -30,7 +30,7 @@ class CategoryInit extends AbstractMigration
             $schema->integer('lft')->signed(true)->comment('Left Key');
             $schema->integer('rgt')->signed(true)->comment('Right key');
             $schema->integer('level')->comment('Nested Level');
-            $schema->varchar('path')->comment('Alias Path');
+            $schema->varchar('path')->length(1024)->comment('Alias Path');
             $schema->varchar('type')->length(50)->comment('Content Type');
             $schema->varchar('title')->comment('Title');
             $schema->varchar('alias')->comment('Alias');
