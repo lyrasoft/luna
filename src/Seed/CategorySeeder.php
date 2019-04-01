@@ -32,6 +32,13 @@ class CategorySeeder extends AbstractSeeder
     ];
 
     /**
+     * Property maxLevel.
+     *
+     * @var  int
+     */
+    protected $maxLevel = 3;
+
+    /**
      * doExecute
      *
      * @return  void
@@ -86,7 +93,9 @@ class CategorySeeder extends AbstractSeeder
 
             $record->rebuildPath();
 
-            $existsRecordIds[$record['type']][] = $record->id;
+            if ($record->level < $this->maxLevel) {
+                $existsRecordIds[$record['type']][] = $record->id;
+            }
 
             $this->outCounting();
         }
