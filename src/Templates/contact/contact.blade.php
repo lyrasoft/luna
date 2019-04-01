@@ -50,7 +50,7 @@
                                     {!! $form->getField('name')->renderInput() !!}
                                 </div>
                                 <div class="col-md-6">
-                                    {!! $form->getField('email')->renderInput() !!}
+                                    {!! $form->getField('phone')->renderInput() !!}
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
-                                    {!! $form->getField('phone')->renderInput() !!}
+                                    {!! $form->getField('email')->renderInput() !!}
                                 </div>
                                 <div class="col-md-6">
                                     {!! $form->getField('url')->renderInput() !!}

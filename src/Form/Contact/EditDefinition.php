@@ -62,7 +62,7 @@ class EditDefinition extends AbstractFieldDefinition
                 ->required(true);
 
             // URL
-            $this->text('url')
+            $this->url('url')
                 ->label(__($langPrefix . 'contact.field.url'))
                 ->placeholder(__($langPrefix . 'contact.field.placeholder.url'))
                 ->addValidator(Rule\UrlValidator::class)
