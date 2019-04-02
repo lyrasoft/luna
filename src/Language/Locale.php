@@ -170,7 +170,7 @@ class Locale
      *
      * @return  string|null
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.6.3
      */
     public static function getCachedLocale():? string
     {

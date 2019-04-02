@@ -44,7 +44,7 @@ class ContactListener
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.6.3
      */
     public function onLunaContactSendMail(Event $event)
     {

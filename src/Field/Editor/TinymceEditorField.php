@@ -47,7 +47,7 @@ class TinymceEditorField extends AbstractEditorField
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.6.3
      */
     public static function getDefaultOptions(): array
     {
@@ -61,7 +61,7 @@ class TinymceEditorField extends AbstractEditorField
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.6.3
      */
     public static function setDefaultOptions(array $defaultOptions): void
     {
