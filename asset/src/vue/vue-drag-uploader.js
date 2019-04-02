@@ -17,6 +17,7 @@
   const VueDragUploaderItem = {
     template: `
 <div class="vue-drag-uploader__item preview-img"
+    :style="{ width: size ? size + 'px' : null, height: size ? size + 'px' : null }"
     @click="$emit('click', item, i, $event)">
     <slot name="item" :item="item">
         <div class="preview-img__body"
@@ -53,7 +54,8 @@
       item: Object,
       i: Number,
       initState: String,
-      uploadUrl: String
+      uploadUrl: String,
+      size: Number
     },
     created() {
       this.state = this.initState;
@@ -145,6 +147,7 @@
                         :init-state="item.uploadState"
                         :key="item.key"
                         :upload-url="url"
+                        :size="thumbSize"
                         @delete="deleteItem"
                         @upload-start="uploadStart"
                         @upload-end="uploadEnd"
@@ -157,6 +160,7 @@
                                 :i="i" 
                                 :url="url"
                                 :max-files="maxFiles"
+                                :thumb-size="thumbSize"
                                 :files-limited="maxFiles"></slot>
                         </template>
                         <template slot="extra">
@@ -165,13 +169,15 @@
                                 :i="i" 
                                 :url="url"
                                 :max-files="maxFiles"
+                                :thumb-size="thumbSize"
                                 :files-limited="maxFiles"></slot>
                         </template>
                     </vue-drag-uploader-item>
                 </slot>
                 
                 <div v-if="canUpload" class="vue-drag-uploader__item add-button" :key="'empty'"
-                    @click="clickAdd()">
+                    @click="clickAdd()"
+                    :style="{ width: thumbSize ? thumbSize + 'px' : null, height: thumbSize ? thumbSize + 'px' : null }">
                     <div class="add-button__body">
                         <div class="add-button__icon">
                             <span class="fa fa-upload fa-2x"></span>
@@ -196,6 +202,7 @@
       url: String,
       images: Array,
       maxFiles: [String, Number],
+      thumbSize: Number,
       placeholder: String
     },
     created() {
