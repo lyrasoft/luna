@@ -7,7 +7,11 @@
         "prod": "cross-env NODE_ENV=production node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js"
     },
     "dependencies": {
+        "@babel/core": "^7.4.0",
+        "@babel/plugin-proposal-class-properties": "^7.4.0",
+        "@babel/preset-env": "^7.4.2",
         "animate.css": "^3.7.0",
+        "cross-env": "^5.2.0",
         "jarallax": "^1.10.5",
         "vue-slide-bar": "^1.1.5",
         "wowjs": "^1.1.3"

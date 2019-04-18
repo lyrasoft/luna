@@ -36,6 +36,7 @@ use Windwalker\Utilities\Arr;
  * @method  mixed|$this  quality(int $value = null)
  * @method  mixed|$this  maxFiles(int $value = null)
  * @method  mixed|$this  imageForm(bool|callable|AbstractFieldDefinition $value = null)
+ * @method  mixed|$this  thumbSize(int $value = null)
  *
  * @since  1.5.2
  */
@@ -162,7 +163,8 @@ class MultiUploaderField extends AbstractField
             'uploadUrl' => $url,
             'maxFiles' => $this->maxFiles(),
             'current' => $current,
-            'currentIndex' => null
+            'currentIndex' => null,
+            'thumbSize' => $this->thumbSize()
         ];
 
         $options = HtmlHelper::getJSObject($data);
@@ -304,6 +306,7 @@ JS;
             'quality',
             'maxFiles' => 'max_files',
             'imageForm' => 'image_form',
+            'thumbSize' => 'thumb_size',
         ]);
     }
 }

@@ -12,6 +12,7 @@ $form = $imageMetaForm;
             :images="images"
             :url="uploadUrl"
             :max-files="maxFiles"
+            :thumb-size="thumbSize"
             placeholder="{{ $attrs['placeholder'] }}"
             @change="images = $event"
             @attr('@item-click', $meta ? 'itemClick' : 'openImage')

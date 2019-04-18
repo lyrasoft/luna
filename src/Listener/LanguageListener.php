@@ -82,7 +82,7 @@ class LanguageListener
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.6.3
      */
     protected function prepareBrowserLocale(): void
     {
@@ -109,7 +109,7 @@ class LanguageListener
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.6.3
      */
     public function onAfterRouting()
     {

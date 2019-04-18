@@ -25,8 +25,8 @@ use Windwalker\Utilities\Arr;
  */
 class TinymceEditorField extends AbstractEditorField
 {
-    const TOOLBAR_SIMPLE = 'simple';
-    const TOOLBAR_FULL = 'full';
+    public const TOOLBAR_SIMPLE = 'simple';
+    public const TOOLBAR_FULL = 'full';
 
     /**
      * Property editorName.
@@ -34,6 +34,39 @@ class TinymceEditorField extends AbstractEditorField
      * @var  string
      */
     protected $editorName = null;
+
+    /**
+     * Property defaultOptions.
+     *
+     * @var  array
+     */
+    protected static $defaultOptions = [];
+
+    /**
+     * Method to get property DefaultOptions
+     *
+     * @return  array
+     *
+     * @since  1.6.3
+     */
+    public static function getDefaultOptions(): array
+    {
+        return static::$defaultOptions;
+    }
+
+    /**
+     * Method to set property defaultOptions
+     *
+     * @param   array $defaultOptions
+     *
+     * @return  void
+     *
+     * @since  1.6.3
+     */
+    public static function setDefaultOptions(array $defaultOptions): void
+    {
+        static::$defaultOptions = $defaultOptions;
+    }
 
     /**
      * prepareScipt
@@ -50,7 +83,7 @@ class TinymceEditorField extends AbstractEditorField
         $luna    = LunaHelper::getPackage();
         $options = (array) $this->get('options', []);
 
-        $defaultOptions = [];
+        $defaultOptions = static::$defaultOptions;
 
         // Language
         $this->loadLanguage($defaultOptions);

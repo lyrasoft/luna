@@ -99,7 +99,7 @@ class GetController extends ListDisplayController
         $this->type             = Arr::get($params, 'type', 'article');
         $this->repository       = Arr::get($params, 'repository', Arr::get($params, 'model', 'Articles'));
         $this->view             = Arr::get($params, 'view', 'Category');
-        $this->limit            = Arr::get($params, 'limit', true);
+        $this->limit            = Arr::get($params, 'limit', $this->limit);
         $this->deep             = Arr::get($params, 'deep', true);
         $this->defaultOrdering  = Arr::get($params, 'ordering', 'article.created');
         $this->defaultDirection = Arr::get($params, 'direction', 'DESC');
