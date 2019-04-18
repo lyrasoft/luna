@@ -88,9 +88,6 @@ class EditDefinition extends AbstractFieldDefinition
                 ->set('force_v1', true)
                 ->width(400)
                 ->height(300);
-
-            $this->multiUploader('i')
-                ->label('M');
         });
 
         // Text Fieldset

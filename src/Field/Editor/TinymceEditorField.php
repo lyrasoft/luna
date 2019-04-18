@@ -20,6 +20,7 @@ use Windwalker\Utilities\Arr;
  *
  * @method  mixed|$this  contentCss(string | array $value = null)
  * @method  mixed|$this  langFolder(string $value = null)
+ * @method  mixed|$this  imageUploadUrl(string $value = null)
  *
  * @since  1.0
  */
@@ -110,14 +111,14 @@ class TinymceEditorField extends AbstractEditorField
          * @link  https://www.tinymce.com/docs/plugins/paste/
          */
         if ($this->get('image_upload', true)) {
-            $url = $luna->getCurrentPackage()->router->route('_luna_img_upload');
+            $url = $this->imageUploadUrl() ?: $luna->getCurrentPackage()->router->route('_luna_img_upload');
 
             $defaultOptions['paste_data_images']  = true;
             $defaultOptions['remove_script_host'] = false;
             $defaultOptions['relative_urls']      = false;
 
             // Image uploader
-            $defaultOptions['images_upload_url']     = $url;
+            $defaultOptions['images_upload_url']     = (string) $url;
             $defaultOptions['images_upload_handler'] = <<<JS
 \\function (blobInfo, success, failure) {
     var editorElement = jQuery('#{$this->getId()}');
@@ -260,6 +261,7 @@ JS
         return array_merge(parent::getAccessors(), [
             'contentCss' => 'content_css',
             'langFolder' => 'lang_folder',
+            'imageUploadUrl' => 'image_upload_url',
         ]);
     }
 }
