@@ -14,6 +14,7 @@ use Lyrasoft\Warder\Warder;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Data\Data;
+use Windwalker\Renderer\EdgeRenderer;
 use Windwalker\Router\Exception\RouteNotFoundException;
 
 /**
@@ -65,6 +66,12 @@ class PageHtmlView extends ItemView
                 return;
             }
         }
+
+        // Reset renderer loader and engine to reload
+        /** @var EdgeRenderer $renderer */
+        $renderer = $this->getRenderer();
+        $renderer->setLoader(null);
+        $renderer->setEngine(null);
 
         parent::prepareData($data);
 
