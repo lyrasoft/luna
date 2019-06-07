@@ -32,7 +32,7 @@
     <div class="container article-item">
         <p style="margin-top: 40px">
             <a class="btn btn-default btn-outline-secondary"
-               href="{{ $router->route('article_category', ['path' => $item->category->path]) }}">
+               href="{{ $router->to('article_category', ['path' => $item->category->path]) }}">
                 <span class="glyphicon glyphicon-chevron-left fa fas fa-chevron-left"></span>
                 Back to List
             </a>
