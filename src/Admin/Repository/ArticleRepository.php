@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Admin\Repository;
 
 use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Tag\TagHelper;
-use Lyrasoft\Unidev\Seo\SlugHelper;
+use Phoenix\Utilities\SlugHelper;
 use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Form\Filter\MaxLengthFilter;
@@ -59,9 +59,10 @@ class ArticleRepository extends AdminRepository
     /**
      * handleAlias
      *
-     * @param   string $alias
+     * @param string $alias
      *
      * @return  string
+     * @throws \Exception
      */
     public function handleAlias($alias)
     {

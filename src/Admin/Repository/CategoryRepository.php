@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Repository;
 
-use Lyrasoft\Unidev\Seo\SlugHelper;
+use Phoenix\Utilities\SlugHelper;
 use Phoenix\Repository\NestedAdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Form\Filter\MaxLengthFilter;
@@ -60,18 +60,6 @@ class CategoryRepository extends NestedAdminRepository
         $record->type = $record->type ?: $this['category.type'];
 
         parent::prepareRecord($record);
-    }
-
-    /**
-     * handleAlias
-     *
-     * @param   string $alias
-     *
-     * @return  string
-     */
-    public function handleAlias($alias)
-    {
-        return (new MaxLengthFilter(255))->clean(SlugHelper::safe($alias));
     }
 
     /**

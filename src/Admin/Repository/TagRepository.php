@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Repository;
 
-use Lyrasoft\Unidev\Seo\SlugHelper;
+use Phoenix\Utilities\SlugHelper;
 use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;

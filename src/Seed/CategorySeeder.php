@@ -9,7 +9,7 @@
 use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Table\LunaTable;
-use Lyrasoft\Unidev\Seo\SlugHelper;
+use Phoenix\Utilities\SlugHelper;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Windwalker\Core\Seeder\AbstractSeeder;

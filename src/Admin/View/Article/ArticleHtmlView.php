@@ -88,6 +88,7 @@ class ArticleHtmlView extends EditView
     protected function prepareScripts()
     {
         PhoenixScript::core();
+        PhoenixScript::form('#nope');
         PhoenixScript::select2('.has-select2');
         PhoenixScript::validation();
         BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);

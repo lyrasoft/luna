@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Repository;
 
 use Lyrasoft\Luna\Admin\Record\PageRecord;
-use Lyrasoft\Unidev\Seo\SlugHelper;
+use Phoenix\Utilities\SlugHelper;
 use Phoenix\Repository\AdminRepository;
 use Windwalker\Data\DataInterface;
 use Windwalker\Database\Driver\AbstractDatabaseDriver;

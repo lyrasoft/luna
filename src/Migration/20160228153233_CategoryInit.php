@@ -8,7 +8,7 @@
 
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Table\LunaTable;
-use Lyrasoft\Unidev\Seo\SlugHelper;
+use Phoenix\Utilities\SlugHelper;
 use Symfony\Component\Yaml\Yaml;
 use Windwalker\Core\Migration\AbstractMigration;
 use Windwalker\Database\Schema\Schema;
