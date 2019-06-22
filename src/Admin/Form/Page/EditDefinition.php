@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Admin\Form\Page;
 use Lyrasoft\Luna\Admin\Field\Page\ExtendListField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
-use Phoenix\Form\Filter\UtcFilter;
+use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Form\Form;
@@ -112,12 +112,12 @@ class EditDefinition extends AbstractFieldDefinition
             // Created
             $this->calendar('created')
                 ->label(__('luna.page.field.created'))
-                ->addFilter(UtcFilter::class);
+                ->addFilter(ServerTZFilter::class);
 
             // Modified
             $this->calendar('modified')
                 ->label(__('luna.page.field.modified'))
-                ->addFilter(UtcFilter::class)
+                ->addFilter(ServerTZFilter::class)
                 ->disabled();
 
             // Author

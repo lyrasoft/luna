@@ -14,9 +14,10 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Phoenix\Form\Filter\UtcFilter;
+use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
+use Windwalker\Form\Field\TextField;
 use Windwalker\Form\Filter\MaxLengthFilter;
 use Windwalker\Form\Form;
 
@@ -60,6 +61,13 @@ class EditDefinition extends AbstractFieldDefinition
         $this->fieldset('basic', function (Form $form) use ($langPrefix) {
             // ID
             $this->hidden('id');
+
+            $this->inline('test')
+                ->label('Test')
+                ->configure(function (Form $form) {
+                    $form->add('a', TextField::class)->label('A');
+                    $form->add('b', TextField::class)->label('B');
+                });
 
             if (LunaHelper::tableExists('categories')) {
                 // Category
@@ -123,7 +131,7 @@ class EditDefinition extends AbstractFieldDefinition
             // Created
             $this->calendar('created')
                 ->label(__($langPrefix . 'article.field.created'))
-                ->addFilter(UtcFilter::class);
+                ->addFilter(ServerTZFilter::class);
 
             // Modified
             $this->calendar('modified')

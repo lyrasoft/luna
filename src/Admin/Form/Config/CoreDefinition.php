@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Config;
 
 use Lyrasoft\Luna\Admin\Field\Config\ConfigListField;
 use Lyrasoft\Luna\Admin\Field\Config\ConfigModalField;
-use Phoenix\Form\Filter\UtcFilter;
+use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Form\Filter\MaxLengthFilter;

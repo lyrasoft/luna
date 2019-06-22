@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Contact;
 
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Phoenix\Form\Filter\UtcFilter;
+use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
@@ -100,7 +100,7 @@ class EditDefinition extends AbstractFieldDefinition
             // Created
             $this->calendar('created')
                 ->label(__($langPrefix . '.contact.field.created'))
-                ->addFilter(UtcFilter::class);
+                ->addFilter(ServerTZFilter::class);
 
             // Modified
             $this->calendar('modified')

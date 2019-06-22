@@ -14,7 +14,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Phoenix\Form\Filter\UtcFilter;
+use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Ioc;
@@ -123,7 +123,7 @@ class EditDefinition extends AbstractFieldDefinition
             // Created
             $this->calendar('created')
                 ->label(__($langPrefix . 'category.field.created'))
-                ->addFilter(UtcFilter::class);
+                ->addFilter(ServerTZFilter::class);
 
             // Modified
             $this->calendar('modified')

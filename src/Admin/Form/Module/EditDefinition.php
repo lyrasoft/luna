@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Phoenix\Form\Filter\UtcFilter;
+use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
 use Windwalker\Core\Language\Translator;
@@ -96,7 +96,7 @@ class EditDefinition extends AbstractFieldDefinition
                 // Created
                 $this->calendar('created')
                     ->label(__($langPrefix . 'module.field.created'))
-                    ->addFilter(UtcFilter::class);
+                    ->addFilter(ServerTZFilter::class);
 
                 // Author
                 $this->userModal('created_by')
