@@ -98,6 +98,8 @@ class SaveController extends AbstractSaveController
     protected function preSave(DataInterface $data)
     {
         parent::preSave($data);
+
+        unset($data->image);
     }
 
     /**
@@ -111,11 +113,23 @@ class SaveController extends AbstractSaveController
     protected function postSave(DataInterface $data)
     {
         // Save base64 from single upload field
-        if (false !== SingleImageDragField::uploadFromController($this, 'image', $data,
-                CategoryImageHelper::getPath($data->id))) {
-            ;
-        }
-        {
+        if ($this->data['image'] ?? null) {
+            // V2
+            $data->image = SingleImageDragField::uploadBase64(
+                $this->data['image'],
+                CategoryImageHelper::getPath($data->id),
+                null,
+                true
+            );
+
+            $this->repository->save($data);
+            // V1
+        } elseif (false !== SingleImageDragField::uploadFromController(
+            $this,
+            'image',
+            $data,
+            CategoryImageHelper::getPath($data->id)
+        )) {
             $this->repository->save($data);
         }
     }

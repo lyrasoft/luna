@@ -109,7 +109,8 @@ class SaveController extends AbstractSaveController
 
         $meta['og_image'] = SingleImageDragField::uploadBase64(
             $this->data['meta']['og_image'],
-            'page/' . md5('Luna:Page:' . $data->id) . '.jpg'
+            'page/' . md5('Luna:Page:' . $data->id) . '.jpg',
+            true
         );
 
         $data->meta = $meta;

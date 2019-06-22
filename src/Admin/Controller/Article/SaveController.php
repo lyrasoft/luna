@@ -90,6 +90,8 @@ class SaveController extends AbstractSaveController
         parent::preSave($data);
 
         $data->text = $this->input->get($this->formControl . '.text', null, InputFilter::RAW);
+
+        unset($data->image);
     }
 
     /**
@@ -103,7 +105,19 @@ class SaveController extends AbstractSaveController
     protected function postSave(DataInterface $data)
     {
         // Image
-        if (false !== SingleImageDragField::uploadFromController(
+        if ($this->data['image'] ?? null) {
+            // V2
+            $data->image = SingleImageDragField::uploadBase64(
+                $this->data['image'],
+                ArticleImageHelper::getPath($data->id),
+                null,
+                true
+            );
+
+            $this->repository->save($data);
+
+            // V1
+        } elseif (false !== SingleImageDragField::uploadFromController(
             $this,
             'image',
             $data,
