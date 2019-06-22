@@ -24,12 +24,13 @@ class CategorySeeder extends AbstractSeeder
     /**
      * Property types.
      *
-     * (type) => (max level)
-     *
      * @var  array
      */
     protected $types = [
-        'article' => 3,
+        'article' => [
+            'max_level' => 3,
+            'number' => 30,
+        ],
     ];
 
     /**
@@ -55,45 +56,45 @@ class CategorySeeder extends AbstractSeeder
 
         $existsRecordIds = [];
 
-        foreach ($this->types as $type => $maxLevel) {
+        foreach ($this->types as $type => $detail) {
+            $maxLevel = $detail['max_level'];
+
             $existsRecordIds[$type] = [1];
-        }
 
-        foreach (range(1, 30) as $i) {
-            $record->reset();
+            foreach (range(1, $detail['number']) as $i) {
+                $record->reset();
 
-            $lang     = $faker->randomElement($languages);
-            $type     = $faker->randomElement(array_keys($this->types));
-            $maxLevel = $this->types[$type];
+                $lang = $faker->randomElement($languages);
 
-            $record['title']       = $faker->sentence(random_int(1, 3)) . ' - [' . $lang . ']';
-            $record['alias']       = SlugHelper::safe($record['title']);
-            $record['type']        = $type;
-            $record['description'] = $faker->paragraph(5);
-            $record['image']       = $faker->unsplashImage();
-            $record['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
-            $record['version']     = random_int(1, 50);
-            $record['created']     = $faker->dateTime->format($this->getDateFormat());
-            $record['created_by']  = $faker->randomElement($userIds);
-            $record['modified']    = $faker->dateTime->format($this->getDateFormat());
-            $record['modified_by'] = $faker->randomElement($userIds);
-            $record['language']    = $lang;
-            $record['params']      = '';
+                $record['title']       = $faker->sentence(random_int(1, 3)) . ' - [' . $lang . ']';
+                $record['alias']       = SlugHelper::safe($record['title']);
+                $record['type']        = $type;
+                $record['description'] = $faker->paragraph(5);
+                $record['image']       = $faker->unsplashImage();
+                $record['state']       = $faker->randomElement([1, 1, 1, 1, 0, 0]);
+                $record['version']     = random_int(1, 50);
+                $record['created']     = $faker->dateTime->format($this->getDateFormat());
+                $record['created_by']  = $faker->randomElement($userIds);
+                $record['modified']    = $faker->dateTime->format($this->getDateFormat());
+                $record['modified_by'] = $faker->randomElement($userIds);
+                $record['language']    = $lang;
+                $record['params']      = '';
 
-            $record->setLocation(
-                $faker->randomElement($existsRecordIds[$record['type']]),
-                $record::LOCATION_LAST_CHILD
-            );
+                $record->setLocation(
+                    $faker->randomElement($existsRecordIds[$record['type']]),
+                    $record::LOCATION_LAST_CHILD
+                );
 
-            $record->store();
+                $record->store();
 
-            $record->rebuildPath();
+                $record->rebuildPath();
 
-            if ($record->level < $maxLevel) {
-                $existsRecordIds[$record['type']][] = $record->id;
+                if ($record->level < $maxLevel) {
+                    $existsRecordIds[$record['type']][] = $record->id;
+                }
+
+                $this->outCounting();
             }
-
-            $this->outCounting();
         }
     }
 
