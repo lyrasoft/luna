@@ -43,7 +43,6 @@ class ContactMessage extends MailMessage
         );
 
         $message = (new static($subject))
-            ->to($config->get('mail.from.email'), $config->get('mail.from.name'))
             ->renderBody(
                 'mail.contact',
                 ['data' => $data, 'receiver' => $config->extract('mail.from')],

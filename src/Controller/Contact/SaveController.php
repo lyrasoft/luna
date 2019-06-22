@@ -8,12 +8,16 @@
 
 namespace Lyrasoft\Luna\Controller\Contact;
 
+use Lyrasoft\Luna\Contact\ContactService;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Warder\Warder;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
+use Windwalker\Data\DataSet;
 use Windwalker\DataMapper\Entity\Entity;
+use Windwalker\DI\Annotation\Inject;
 
 /**
  * The SaveController class.
@@ -30,6 +34,15 @@ class SaveController extends AbstractSaveController
     protected $name = 'Contact';
 
     /**
+     * Property contactService.
+     *
+     * @Inject()
+     *
+     * @var ContactService
+     */
+    protected $contactService;
+
+    /**
      * Process success.
      *
      * @param  mixed $result
@@ -39,12 +52,28 @@ class SaveController extends AbstractSaveController
      */
     public function processSuccess($result)
     {
+        $users = $this->getReceiveMailUsers();
+
+        $this->contactService->sendContactMail($this->dataObject, $users);
+
         $this->triggerEvent('onLunaContactSendMail', [
             'controller' => $this,
             'data' => $this->dataObject,
         ]);
 
         return parent::processSuccess($result);
+    }
+
+    /**
+     * getReceiveMailUsers
+     *
+     * @return  iterable|Data[]
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function getReceiveMailUsers(): iterable
+    {
+        return Warder::getReceiveMailUsers();
     }
 
     /**
