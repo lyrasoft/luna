@@ -31,12 +31,12 @@ class ContactHelper
         ],
         0 => [
             'symbol' => 'pending',
-            'icon' => 'fa fa-clock-o',
+            'icon' => 'fa fa-clock fa-clock-o',
             'color' => 'warning',
         ],
         1 => [
             'symbol' => 'handling',
-            'icon' => 'fa fa-exchange',
+            'icon' => 'fa fa-exchange-alt fa-exchange',
             'color' => 'info',
         ],
         2 => [
@@ -85,7 +85,7 @@ class ContactHelper
      */
     public static function getStateIcon($state)
     {
-        return static::getStateData('icon', $state, 'glyphicon glyphicon-question-sign fa fa-question-circle');
+        return static::getStateData('icon', $state, 'far fa-question-circle');
     }
 
     /**

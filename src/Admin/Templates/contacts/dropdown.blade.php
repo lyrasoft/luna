@@ -21,7 +21,7 @@
                 <a class="dropdown-item" href="javascript:void(0);"
                    onclick="Phoenix.Grid.doTask('{{ \Lyrasoft\Luna\Contact\ContactHelper::getStateSymbol($k) }}', {{ $i }});">
                     <span
-                        class="{{ \Lyrasoft\Luna\Contact\ContactHelper::getStateIcon($k) }} text-{{ \Lyrasoft\Luna\Contact\ContactHelper::getStateColor($k) }}"></span>
+                        class="{{ \Lyrasoft\Luna\Contact\ContactHelper::getStateIcon($k) }} fa-fw text-{{ \Lyrasoft\Luna\Contact\ContactHelper::getStateColor($k) }}"></span>
                     {{ \Lyrasoft\Luna\Contact\ContactHelper::translateState($k) }}
                 </a>
             </li>

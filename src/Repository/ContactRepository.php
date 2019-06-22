@@ -28,24 +28,20 @@ class ContactRepository extends CrudRepository
     protected $name = 'Contact';
 
     /**
-     * prepareRecord
+     * prepareSave
      *
-     * @param Record $record
+     * @param Record $data
      *
      * @return  void
+     *
+     * @throws \Exception
      */
-    protected function prepareRecord(Record $record)
+    protected function prepareSave(Record $data)
     {
-        parent::prepareRecord($record);
+        parent::prepareSave($data);
 
-        $user = User::get();
         $date = Chronos::create();
 
-        $record->created = $date->toSql();
-
-        if ($user->isMember()) {
-            $record->created_by = $user->id;
-            $record->name       = $user->name;
-        }
+        $data->created = $date->toSql();
     }
 }

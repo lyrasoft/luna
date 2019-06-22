@@ -9,8 +9,10 @@
 namespace Lyrasoft\Luna\View\Contact;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Warder\Warder;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
+use Windwalker\Form\Form;
 
 /**
  * The ContactHtmlView class.
@@ -46,6 +48,21 @@ class ContactHtmlView extends EditView
     protected function prepareData($data)
     {
         parent::prepareData($data);
+
+        /** @var Form $form */
+        $form = $data->form;
+        $user = Warder::getUser();
+
+        if ($user->isMember()) {
+            $form->getField('name')->setValue($user->name)->readonly(true);
+            $form->getField('email')->setValue($user->email)->readonly(true);
+        }
+
+        $url = $this->package->app->input->get->get('url');
+
+        if ($url) {
+            $form->getField('url')->setValue(base64_decode($url));
+        }
 
         $this->prepareScripts();
         $this->prepareMetadata();
