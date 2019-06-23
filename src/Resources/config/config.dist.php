@@ -20,6 +20,7 @@ return [
         'contacts' => 'contacts',
         'pages' => 'pages',
         'configs' => 'configs',
+        'menus' => 'menus',
     ],
 
     /*

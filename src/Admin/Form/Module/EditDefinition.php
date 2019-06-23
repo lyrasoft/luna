@@ -49,7 +49,7 @@ class EditDefinition extends AbstractFieldDefinition
 
         // Basic fieldset
         $this->fieldset('basic', function (Form $form) use ($langPrefix) {
-
+            //
         });
 
         // Text Fieldset
@@ -74,7 +74,7 @@ class EditDefinition extends AbstractFieldDefinition
                 ->defaultValue(1);
 
             // Position
-            $this->add('position', new PositionListField)
+            $this->add('position', new PositionListField())
                 ->label(__($langPrefix . 'module.field.position'))
                 ->option(__($langPrefix . 'field.position.select'), '')
                 ->set('allow_add', true);

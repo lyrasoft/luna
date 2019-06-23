@@ -21,7 +21,7 @@ $router->any('category', '/category/(type)(/id)')
     ]);
 
 // Categories
-$router->any('categories', '/categories/(type)(/page)')
+$router->any('categories', '/categories/(type)')
     ->controller('Categories')
     ->postAction('CopyController')
     ->patchAction('BatchController')
@@ -44,7 +44,7 @@ $router->any('article', '/article(/id)')
     ]);
 
 // Articles
-$router->any('articles', '/articles(/page)')
+$router->any('articles', '/articles')
     ->controller('Articles')
     ->postAction('CopyController')
     ->patchAction('BatchController')
@@ -67,7 +67,7 @@ $router->any('tag', '/tag(/id)')
     ]);
 
 // Tags
-$router->any('tags', '/tags(/page)')
+$router->any('tags', '/tags')
     ->controller('Tags')
     ->postAction('CopyController')
     ->patchAction('BatchController')
@@ -90,7 +90,7 @@ $router->any('comment', '/comment/(type)(/id)')
     ]);
 
 // Comments
-$router->any('comments', '/comments/(type)(/page)')
+$router->any('comments', '/comments/(type)')
     ->controller('Comments')
     ->postAction('CopyController')
     ->patchAction('BatchController')
@@ -113,7 +113,7 @@ $router->any('language', '/language(/id)')
     ]);
 
 // Languages
-$router->any('languages', '/languages(/page)')
+$router->any('languages', '/languages')
     ->controller('Languages')
     ->postAction('CopyController')
     ->patchAction('BatchController')
@@ -136,7 +136,7 @@ $router->any('module', '/module(/id)')
     ]);
 
 // Modules
-$router->any('modules', '/modules(/page)')
+$router->any('modules', '/modules')
     ->controller('Modules')
     ->postAction('CopyController')
     ->patchAction('BatchController')
@@ -166,7 +166,7 @@ $router->any('contact_preview', '/contact-preview')
     ]);
 
 // Contacts
-$router->any('contacts', '/contacts(/page)')
+$router->any('contacts', '/contacts')
     ->controller('Contacts')
     ->postAction('CopyController')
     ->patchAction('BatchController')
@@ -189,7 +189,7 @@ $router->any('page', '/page(/id)')
     ]);
 
 // Pages
-$router->any('pages', '/pages(/page)')
+$router->any('pages', '/pages')
     ->controller('Pages')
     ->postAction('CopyController')
     ->patchAction('BatchController')
@@ -210,6 +210,26 @@ $router->any('config', '/config/(type)(/subtype)')
             'mainmenu' => 'config'
         ],
     ]);
+
+// Menu
+$router->group('menu')
+    // Set menu active name
+    ->extra('menu', ['mainmenu' => 'menus'])
+    ->middleware(\Lyrasoft\Luna\Admin\Middleware\MenuTypeWebMiddleware::class)
+    ->register(function (RouteCreator $router) {
+        // Menu
+        $router->any('menu', '/menu/(type)(/id)')
+            ->controller('Menu')
+            ->extra('layout', 'menu');
+
+        // Menus
+        $router->any('menus', '/menus/(type)')
+            ->controller('Menus')
+            ->postAction('CopyController')
+            ->putAction('FilterController')
+            ->patchAction('BatchController')
+            ->extra('layout', 'menus');
+    });
 
 //  Luna Img Upload
 $router->any('_luna_img_upload', '/_luna/image/upload')
