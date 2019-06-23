@@ -90,7 +90,7 @@
                                 <hr />
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        @lang($luna->langPrefix . 'menu.type.desc.title')
+                                        @lang($luna->langPrefix . 'menu.view.desc.title')
                                     </h4>
                                     {!! html_escape($viewInstance::getDescription()) !!}
                                 </div>
