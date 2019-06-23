@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Menu;
 /**
  * Interface SeldRenderMenuInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 interface SelfRenderMenuInterface
 {
@@ -24,7 +24,7 @@ interface SelfRenderMenuInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function render(MenuNode $menu, array $variables, array $params): string;
 }

@@ -20,7 +20,7 @@ use Windwalker\Ioc;
 /**
  * The RouteMenuView class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class RouteMenuView extends AbstractMenuView
 {
@@ -29,7 +29,7 @@ class RouteMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getName(): string
     {
@@ -43,7 +43,7 @@ class RouteMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineVariables(Form $form): void
     {
@@ -77,7 +77,7 @@ class RouteMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineParams(Form $form): void
     {
@@ -92,7 +92,7 @@ class RouteMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function route(RouteBuilderInterface $router, array $variables, array $params): string
     {
@@ -110,7 +110,7 @@ class RouteMenuView extends AbstractMenuView
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function isActive(array $variables, array $params): bool
     {
@@ -124,7 +124,7 @@ class RouteMenuView extends AbstractMenuView
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function getQuery(array $variables): array
     {

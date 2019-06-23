@@ -69,7 +69,7 @@ class SaveController extends AbstractSaveController
      *
      * @return  iterable|Data[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function getReceiveMailUsers(): iterable
     {

@@ -13,7 +13,7 @@ use Windwalker\Core\Widget\WidgetHelper;
 /**
  * The SelfRenderMenuTrait class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 trait SelfRenderMenuTrait
 {
@@ -25,7 +25,7 @@ trait SelfRenderMenuTrait
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     abstract protected function getLayout(array $variables, array $params): string;
 
@@ -38,7 +38,7 @@ trait SelfRenderMenuTrait
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function render(MenuNode $menu, array $variables, array $params): string
     {

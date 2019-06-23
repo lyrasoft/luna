@@ -20,7 +20,7 @@ use Windwalker\Ioc;
 /**
  * The AliasMenuView class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class AliasMenuView extends AbstractMenuView
 {
@@ -29,7 +29,7 @@ class AliasMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getName(): string
     {
@@ -43,7 +43,7 @@ class AliasMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineVariables(Form $form): void
     {
@@ -58,7 +58,7 @@ class AliasMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineParams(Form $form): void
     {
@@ -71,7 +71,7 @@ class AliasMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function prepareVariablesStore(array &$variables): void
     {
@@ -93,7 +93,7 @@ class AliasMenuView extends AbstractMenuView
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function route(RouteBuilderInterface $router, array $variables, array $params): string
     {
@@ -117,7 +117,7 @@ class AliasMenuView extends AbstractMenuView
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function isActive(array $variables, array $params): bool
     {
@@ -142,7 +142,7 @@ class AliasMenuView extends AbstractMenuView
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function findTarget(array $variables, array $params): ?MenuNode
     {

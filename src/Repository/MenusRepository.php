@@ -19,7 +19,7 @@ use Windwalker\Query\Query;
 /**
  * The MenusRepository class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class MenusRepository extends ListRepository implements
     StateRepositoryInterface,

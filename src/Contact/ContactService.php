@@ -25,7 +25,7 @@ use Windwalker\String\SimpleTemplate;
 /**
  * The ContactService class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class ContactService
 {
@@ -47,7 +47,7 @@ class ContactService
      * @return bool
      *
      * @throws \ReflectionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function sendContactMail(Data $data, iterable $users = []): bool
     {
@@ -69,7 +69,7 @@ class ContactService
      *
      * @throws \ReflectionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getContactMessage(Data $data): MailMessage
     {
@@ -97,7 +97,7 @@ class ContactService
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getSubject(Data $data): string
     {
@@ -121,7 +121,7 @@ class ContactService
      *
      * @throws \ReflectionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getWidget(
         string $layout,

@@ -17,7 +17,7 @@ use Windwalker\Form\Form;
 /**
  * The PlaceholderMenuView class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInterface
 {
@@ -28,7 +28,7 @@ class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInte
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getName(): string
     {
@@ -42,7 +42,7 @@ class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInte
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineVariables(Form $form): void
     {
@@ -80,7 +80,7 @@ class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInte
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineParams(Form $form): void
     {
@@ -96,7 +96,7 @@ class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInte
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function route(RouteBuilderInterface $router, array $variables, array $params): string
     {
@@ -111,7 +111,7 @@ class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInte
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function isActive(array $variables, array $params): bool
     {
@@ -126,7 +126,7 @@ class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInte
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function getLayout(array $variables, array $params): string
     {

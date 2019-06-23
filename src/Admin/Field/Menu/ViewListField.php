@@ -17,7 +17,7 @@ use Windwalker\Ioc;
 /**
  * The ViewListField class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class ViewListField extends ListField
 {

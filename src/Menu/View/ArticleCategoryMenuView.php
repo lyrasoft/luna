@@ -17,7 +17,7 @@ use Windwalker\Form\Form;
 /**
  * The ArticleCategoryMenuView class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class ArticleCategoryMenuView extends AbstractMenuView
 {
@@ -26,7 +26,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getName(): string
     {
@@ -38,7 +38,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getGroup(): string
     {
@@ -52,7 +52,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineVariables(Form $form): void
     {
@@ -68,7 +68,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineParams(Form $form): void
     {
@@ -84,7 +84,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function route(RouteBuilderInterface $router, array $variables, array $params): string
     {
@@ -100,7 +100,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function prepareVariablesStore(array &$variables): void
     {
@@ -118,7 +118,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function isActive(array $variables, array $params): bool
     {

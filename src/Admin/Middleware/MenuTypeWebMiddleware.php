@@ -19,7 +19,7 @@ use Windwalker\Middleware\MiddlewareInterface;
 /**
  * The MenuTypeWrbMiddleware class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class MenuTypeWebMiddleware extends AbstractWebMiddleware
 {

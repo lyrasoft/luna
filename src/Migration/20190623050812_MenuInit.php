@@ -74,7 +74,7 @@ class MenuInit extends AbstractMigration
      *
      * @throws Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function importFromFile($type, $file, $parentId = 1)
     {
@@ -95,7 +95,7 @@ class MenuInit extends AbstractMigration
      * @return  void
      *
      * @throws Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function import($type, array $menus, $parentId = 1): void
     {

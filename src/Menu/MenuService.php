@@ -27,7 +27,7 @@ use Windwalker\DI\Container;
 /**
  * The MenuService class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class MenuService
 {
@@ -86,7 +86,7 @@ class MenuService
      * @return  array
      *
      * @throws \Psr\Cache\InvalidArgumentException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getViews(bool $group = false): array
     {
@@ -123,7 +123,7 @@ class MenuService
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getViewInstance(string $name): ?AbstractMenuView
     {
@@ -141,7 +141,7 @@ class MenuService
      *
      * @return  LunaPackage
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getLuna(): LunaPackage
     {
@@ -153,7 +153,7 @@ class MenuService
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getMenuTypes(): array
     {
@@ -208,7 +208,7 @@ class MenuService
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getMenusTree(string $type, bool $onlyAvailable = true, $parent = 1): Node
     {
@@ -241,7 +241,7 @@ class MenuService
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getMenus(string $type, bool $onlyAvailable = true, $parent = 1): DataSet
     {
@@ -257,7 +257,7 @@ class MenuService
      *
      * @return  ListRepositoryInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getRepositoryWithAvailableConditions(
         string $type,
@@ -292,7 +292,7 @@ class MenuService
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function renderMenuItems($menus, string $layout = 'luna.menu.menu-items'): string
     {
@@ -314,7 +314,7 @@ class MenuService
      *
      * @return  MenusRepository
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getRepository(bool $reset = false): ListRepositoryInterface
     {
@@ -333,7 +333,7 @@ class MenuService
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function setRepository(ListRepositoryInterface $repository)
     {

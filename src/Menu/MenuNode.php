@@ -16,7 +16,7 @@ use Windwalker\Data\Data;
 /**
  * The MenuNode class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class MenuNode extends Node
 {
@@ -54,7 +54,7 @@ class MenuNode extends Node
      *
      * @return  AbstractMenuView
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getViewInstance(): AbstractMenuView
     {
@@ -68,7 +68,7 @@ class MenuNode extends Node
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function setViewInstance(AbstractMenuView $viewInstance)
     {
@@ -84,7 +84,7 @@ class MenuNode extends Node
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function route(RouteBuilderInterface $router): string
     {
@@ -102,7 +102,7 @@ class MenuNode extends Node
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function isActive(bool $checkChildren = false): bool
     {
@@ -128,7 +128,7 @@ class MenuNode extends Node
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function render(): string
     {
@@ -152,7 +152,7 @@ class MenuNode extends Node
      *
      * @return  MenuNode|null
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getMenuById(int $id): ?MenuNode
     {
@@ -168,7 +168,7 @@ class MenuNode extends Node
      *
      * @return  MenuNode|null
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function findFirst(callable $callback): ?MenuNode
     {

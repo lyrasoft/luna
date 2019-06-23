@@ -21,7 +21,7 @@ use Windwalker\Form\Form;
 /**
  * The AbstractView class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 abstract class AbstractMenuView implements
     CoreFieldDefinitionInterface,
@@ -62,7 +62,7 @@ abstract class AbstractMenuView implements
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     abstract public static function getName(): string;
 
@@ -71,7 +71,7 @@ abstract class AbstractMenuView implements
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getTitle(): string
     {
@@ -83,7 +83,7 @@ abstract class AbstractMenuView implements
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getDescription(): string
     {
@@ -95,7 +95,7 @@ abstract class AbstractMenuView implements
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getGroup(): string
     {
@@ -132,7 +132,7 @@ abstract class AbstractMenuView implements
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     abstract protected function defineVariables(Form $form): void;
 
@@ -143,7 +143,7 @@ abstract class AbstractMenuView implements
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     abstract protected function defineParams(Form $form): void;
 
@@ -156,7 +156,7 @@ abstract class AbstractMenuView implements
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function tab(string $fieldset, ?string $title, callable $callback): self
     {
@@ -178,7 +178,7 @@ abstract class AbstractMenuView implements
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function getTabs(): array
     {
@@ -192,7 +192,7 @@ abstract class AbstractMenuView implements
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function prepareVariablesStore(array &$variables): void
     {
@@ -208,7 +208,7 @@ abstract class AbstractMenuView implements
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     abstract public function route(RouteBuilderInterface $router, array $variables, array $params): string;
 
@@ -220,7 +220,7 @@ abstract class AbstractMenuView implements
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     abstract public function isActive(array $variables, array $params): bool;
 }

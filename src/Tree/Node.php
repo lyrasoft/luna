@@ -290,7 +290,7 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function hasChildren(): bool
     {

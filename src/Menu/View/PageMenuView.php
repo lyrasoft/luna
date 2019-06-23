@@ -18,7 +18,7 @@ use Windwalker\Form\Form;
 /**
  * The PageMenuView class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7
  */
 class PageMenuView extends AbstractMenuView
 {
@@ -27,7 +27,7 @@ class PageMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getName(): string
     {
@@ -39,7 +39,7 @@ class PageMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public static function getGroup(): string
     {
@@ -53,7 +53,7 @@ class PageMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineVariables(Form $form): void
     {
@@ -71,7 +71,7 @@ class PageMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     protected function defineParams(Form $form): void
     {
@@ -84,7 +84,7 @@ class PageMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function prepareVariablesStore(array &$variables): void
     {
@@ -108,7 +108,7 @@ class PageMenuView extends AbstractMenuView
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function route(RouteBuilderInterface $router, array $variables, array $params): string
     {
@@ -123,7 +123,7 @@ class PageMenuView extends AbstractMenuView
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7
      */
     public function isActive(array $variables, array $params): bool
     {
