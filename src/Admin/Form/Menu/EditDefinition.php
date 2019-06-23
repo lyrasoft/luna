@@ -17,6 +17,7 @@ use Lyrasoft\Luna\Admin\Field\Menu\ViewListField;
 use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Phoenix\Form\Filter\UtcFilter;
@@ -136,6 +137,13 @@ class EditDefinition extends AbstractFieldDefinition
                 ->defaultValue('_self')
                 ->class('has-select2')
                 ->required(true);
+
+            if (Locale::isEnabled()) {
+                // Language
+                $this->languageList('language')
+                    ->label(__($langPrefix . 'category.field.language'))
+                    ->option(__($langPrefix . 'field.language.all'), '*');
+            }
 
             // Created
             $this->calendar('created')

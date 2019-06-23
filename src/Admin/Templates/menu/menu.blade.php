@@ -17,6 +17,7 @@
  * @var $item     \Lyrasoft\Luna\Admin\Record\MenuRecord
  * @var $state    \Windwalker\Structure\Structure
  * @var $form     \Windwalker\Form\Form
+ * @var $viewInstance     \Lyrasoft\Luna\Menu\AbstractMenuView
  */
 ?>
 
@@ -34,6 +35,7 @@
 
             typeField.on('change', function (e) {
                 if (typeField.val() !== currentType) {
+                    Phoenix.validation('#admin-form').options.enabled = false;
                     Phoenix.post(null, { task: 'switch_type' });
                 }
             });
@@ -43,6 +45,7 @@
 
             viewField.on('change', function (e) {
                 if (viewField.val() !== currentView) {
+                    Phoenix.validation('#admin-form').options.enabled = false;
                     Phoenix.post(null, { task: 'switch_view' });
                 }
             });
@@ -81,9 +84,17 @@
                         <div id="fieldset-basic" class="fieldset-card form-horizontal card mb-4">
                             <h5 class="card-header">@lang($luna->langPrefix . 'menu.edit.fieldset.basic')</h5>
                             <div class="card-body">
-
                                 {!! $form->renderFields('basic') !!}
                             </div>
+                            @if (isset($viewInstance))
+                                <hr />
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        @lang($luna->langPrefix . 'menu.type.desc.title')
+                                    </h4>
+                                    {!! html_escape($viewInstance::getDescription()) !!}
+                                </div>
+                            @endif
                         </div>
 
                         @if (isset($viewInstance))

@@ -45,7 +45,7 @@ class MenusRepository extends ListRepository implements
      * @var  array
      */
     protected $fieldMapping = [
-        'locale' => 'category.locale',
+        'locale' => 'menu.locale',
     ];
 
     /**
@@ -112,11 +112,11 @@ class MenusRepository extends ListRepository implements
         $filterHelper->setHandler('menu.locale', function (Query $query, $field, $value) {
             if ('' !== (string) $value) {
                 $langs = [
-                    $query->quote('*'),
-                    $query->quote($value),
+                    '*',
+                    $value,
                 ];
 
-                $query->whereIn('menu.language ', $langs);
+                $query->whereIn('menu.language', $langs);
             }
         });
 
@@ -142,7 +142,7 @@ class MenusRepository extends ListRepository implements
             }
 
             if (count($value) < 2) {
-                throw new \LogicException('Need category lft & rgt keys to search tree node.');
+                throw new \LogicException('Need lft & rgt keys to search tree node.');
             }
 
             $query->where('menu.lft >= ' . $value[0])
@@ -222,7 +222,7 @@ class MenusRepository extends ListRepository implements
     }
 
     /**
-     * filterCategory
+     * parent
      *
      * @param int $id
      *

@@ -25,6 +25,9 @@
  * @var $i             integer
  * @var $pagination    \Windwalker\Core\Pagination\Pagination
  */
+
+$url = new \Windwalker\Uri\Uri($uri->full);
+$url->delVar('page');
 ?>
 
 @extends($luna->extends)
@@ -34,7 +37,21 @@
 @stop
 
 @push('script')
-    {{-- Add Script Here --}}
+    <script>
+        $(function () {
+            var route = '{!! $router->to('menus', $url->getQuery(true))->var('type', '@{{type}}') !!}';
+
+            var typeField = $('#input-type');
+
+            typeField.on('change', function () {
+                var type = typeField.val();
+
+                if (type) {
+                    location.href = route.replace(/\{\{type\}\}/, type);
+                }
+            });
+        });
+    </script>
 @endpush
 
 @section('admin-body')
@@ -45,6 +62,11 @@
             {{-- FILTER BAR --}}
             <div class="filter-bar">
                 @component('phoenix.grid.filterbar', ['form' => $form, 'show' => $showFilterBar])
+                    @slot('bar')
+                        <div class="ml-2" style="min-width: 325px">
+                            {!! $typeField->renderInput() !!}
+                        </div>
+                    @endslot
                 @endcomponent
             </div>
 

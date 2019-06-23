@@ -28,6 +28,10 @@
 
 $url = new \Windwalker\Uri\Uri($uri->full);
 $url->delVar('page');
+
+$typeField = (new \Lyrasoft\Luna\Admin\Field\Menu\TypeListField('type'))
+    ->class('form-control')
+    ->setValue($type);
 ?>
 
 @extends('_global.' . \Lyrasoft\Luna\Helper\LunaHelper::getAdminPackage(true) . '.pure')
@@ -37,7 +41,21 @@ $url->delVar('page');
 @stop
 
 @push('script')
-    {{-- Add Script Here --}}
+    <script>
+        $(function () {
+            var route = '{!! $router->to('menus', $url->getQuery(true))->var('type', '@{{type}}') !!}';
+
+            var typeField = $('#input-type');
+
+            typeField.on('change', function () {
+                var type = typeField.val();
+
+                if (type) {
+                    location.href = route.replace(/\{\{type\}\}/, type);
+                }
+            });
+        });
+    </script>
 @endpush
 
 @section('body')
@@ -46,7 +64,13 @@ $url->delVar('page');
 
             {{-- FILTER BAR --}}
             <div class="filter-bar">
-                {!! $filterBar->render(['form' => $form, 'show' => $showFilterBar]) !!}
+                @component('phoenix.grid.filterbar', ['form' => $form, 'show' => $showFilterBar])
+                    @slot('bar')
+                        <div class="ml-2" style="min-width: 325px">
+                            {!! $typeField->renderInput() !!}
+                        </div>
+                    @endslot
+                @endcomponent
             </div>
 
             {{-- RESPONSIVE TABLE DESC --}}

@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\View\Menus;
 
+use Lyrasoft\Luna\Admin\Field\Menu\TypeListField;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Script\BootstrapScript;
@@ -117,6 +118,10 @@ class MenusHtmlView extends GridView
         foreach ($data->items as $item) {
             $item->viewInstance = $this->menuService->getViewInstance($item->view);
         }
+
+        $data->typeField = (new TypeListField('type'))
+            ->class('form-control')
+            ->setValue($data->type);
 
         $this->prepareScripts($data);
         $this->prepareMetadata($data);
