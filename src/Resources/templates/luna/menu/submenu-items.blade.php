@@ -17,15 +17,24 @@
 
 <ul class="dropdown-menu">
     @foreach ($menus->getChildren() as $menu)
-        @php($hasChildren = $menu->hasChildren())
-        <li class="{{ $hasChildren ? 'dropdown-submenu' : '' }}">
-            <a href="{{ $menu->route($router) }}" class="dropdown-item  {{ $menu->isActive(true) ? 'active' : '' }}">
-                {{ $menu->getValue()->title }}
-            </a>
+        @if ($menu->getViewInstance() instanceof \Lyrasoft\Luna\Menu\SelfRenderMenuInterface)
+            {!! $menu->render() !!}
+        @else
+            @php($hasChildren = $menu->hasChildren())
 
-            @if ($menu->hasChildren())
-                @include('luna.menu.submenu-items', ['menus' => $menu])
-            @endif
-        </li>
+            <li class="{{ $hasChildren ? 'dropdown-submenu' : '' }}"
+                data-menu-id="{{ $menu->getValue()->id }}">
+                <a href="{{ $menu->route($router) }}"
+                    class="dropdown-item  {{ $menu->isActive(true) ? 'active' : '' }}"
+                    target="{{ $menu->getValue()->target }}"
+                >
+                    {{ $menu->getValue()->title }}
+                </a>
+
+                @if ($menu->hasChildren())
+                    @include('luna.menu.submenu-items', ['menus' => $menu])
+                @endif
+            </li>
+        @endif
     @endforeach
 </ul>

@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Luna\Admin\Field\Menu;
 
+use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Menu\MenuService;
-use Lyrasoft\Luna\Menu\View\AbstractMenuView;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Html\Option;
 use Windwalker\Ioc;

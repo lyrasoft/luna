@@ -9,8 +9,8 @@
 namespace Lyrasoft\Luna\Menu\View;
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
-use Lyrasoft\Luna\Admin\Field\Article\ArticleModalField;
 use Lyrasoft\Luna\Admin\Field\Category\CategoryModalField;
+use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Windwalker\Core\Router\RouteBuilderInterface;
 use Windwalker\Form\Form;
 
@@ -54,7 +54,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function defineView(Form $form): void
+    protected function defineVariables(Form $form): void
     {
         $this->add('id', CategoryModalField::class)
             ->label(__('luna.category.title'))
@@ -80,11 +80,13 @@ class ArticleCategoryMenuView extends AbstractMenuView
      * @param RouteBuilderInterface $router
      * @param array                 $variables
      *
+     * @param array                 $params
+     *
      * @return  string
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function route(RouteBuilderInterface $router, array $variables): string
+    public function route(RouteBuilderInterface $router, array $variables, array $params): string
     {
         return $router->to('article_category')
             ->var('path', $variables['path'])
@@ -112,11 +114,13 @@ class ArticleCategoryMenuView extends AbstractMenuView
      *
      * @param array $variables
      *
+     * @param array $params
+     *
      * @return  bool
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function isActive(array $variables): bool
+    public function isActive(array $variables, array $params): bool
     {
         return $this->menuHelper->is('article_category', ['path' => $variables['path']]);
     }

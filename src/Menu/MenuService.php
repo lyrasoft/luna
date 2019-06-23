@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Menu;
 use Lyrasoft\Luna\Admin\DataMapper\MenuMapper;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\LunaPackage;
-use Lyrasoft\Luna\Menu\View\AbstractMenuView;
 use Lyrasoft\Luna\Repository\MenusRepository;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Tree\Node;

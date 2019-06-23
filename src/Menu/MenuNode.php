@@ -9,7 +9,6 @@
 namespace Lyrasoft\Luna\Menu;
 
 use Lyrasoft\Luna\Admin\Record\Columns\MenuDataInterface;
-use Lyrasoft\Luna\Menu\View\AbstractMenuView;
 use Lyrasoft\Luna\Tree\Node;
 use Windwalker\Core\Router\RouteBuilderInterface;
 use Windwalker\Data\Data;
@@ -38,12 +37,12 @@ class MenuNode extends Node
     public function setValue($value)
     {
         if ($value instanceof Data) {
-            if (is_string($value->variables)) {
-                $value->variables = json_decode($value->variables, true);
+            if (!is_array($value->variables)) {
+                $value->variables = (array) json_decode($value->variables, true);
             }
 
-            if (is_string($value->paraqms)) {
-                $value->paraqms = json_decode($value->params, true);
+            if (!is_array($value->params)) {
+                $value->params = (array) json_decode($value->params, true);
             }
         }
 
@@ -89,7 +88,11 @@ class MenuNode extends Node
      */
     public function route(RouteBuilderInterface $router): string
     {
-        return $this->getViewInstance()->route($router, $this->getValue()->variables);
+        return $this->getViewInstance()->route(
+            $router,
+            $this->getValue()->variables,
+            $this->getValue()->params
+        );
     }
 
     /**
@@ -103,7 +106,10 @@ class MenuNode extends Node
      */
     public function isActive(bool $checkChildren = false): bool
     {
-        $active = $this->getViewInstance()->isActive($this->getValue()->variables);
+        $active = $this->getViewInstance()->isActive(
+            $this->getValue()->variables,
+            $this->getValue()->params
+        );
 
         if (!$active && $checkChildren) {
             /** @var MenuNode $child */
@@ -115,6 +121,28 @@ class MenuNode extends Node
         }
 
         return $active;
+    }
+
+    /**
+     * render
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function render(): string
+    {
+        $instance = $this->getViewInstance();
+
+        if (!$instance instanceof SelfRenderMenuInterface) {
+            return '';
+        }
+
+        return $instance->render(
+            $this,
+            $this->getValue()->variables,
+            $this->getValue()->params
+        );
     }
 
     /**

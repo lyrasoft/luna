@@ -6,14 +6,13 @@
  * @license    __LICENSE__
  */
 
-namespace Lyrasoft\Luna\Menu\View;
+namespace Lyrasoft\Luna\Menu;
 
 use Phoenix\Html\MenuHelper;
 use Windwalker\Core\Event\EventDispatcher;
 use Windwalker\Core\Form\CoreFieldDefinitionInterface;
 use Windwalker\Core\Form\CoreFieldDefinitionTrait;
 use Windwalker\Core\Router\RouteBuilderInterface;
-use Windwalker\Core\Router\RouteString;
 use Windwalker\DI\Annotation\Inject;
 use Windwalker\Event\DispatcherAwareTrait;
 use Windwalker\Event\DispatcherInterface;
@@ -30,6 +29,8 @@ abstract class AbstractMenuView implements
 {
     use CoreFieldDefinitionTrait;
     use DispatcherAwareTrait;
+
+    public const NO_LINK = '__NO_LINK__';
 
     /**
      * Property tabs.
@@ -102,18 +103,6 @@ abstract class AbstractMenuView implements
     }
 
     /**
-     * route
-     *
-     * @param RouteBuilderInterface $router
-     * @param array                 $variables
-     *
-     * @return  string
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    abstract public function route(RouteBuilderInterface $router, array $variables): string;
-
-    /**
      * Define the form fields.
      *
      * @param Form $form The Windwalker form object.
@@ -123,7 +112,7 @@ abstract class AbstractMenuView implements
     protected function doDefine(Form $form)
     {
         $this->group('variables', function (Form $form) {
-            $this->defineView($form);
+            $this->defineVariables($form);
         });
 
         $this->group('params', function (Form $form) {
@@ -145,10 +134,10 @@ abstract class AbstractMenuView implements
      *
      * @since  __DEPLOY_VERSION__
      */
-    abstract protected function defineView(Form $form): void;
+    abstract protected function defineVariables(Form $form): void;
 
     /**
-     * You must use tab('name', funcstion () { ... }) to wrap your fields.
+     * You must use tab('name', function () { ... }) to wrap your fields.
      *
      * @param Form $form
      *
@@ -211,13 +200,27 @@ abstract class AbstractMenuView implements
     }
 
     /**
+     * route
+     *
+     * @param RouteBuilderInterface $router
+     * @param array                 $variables
+     * @param array                 $params
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    abstract public function route(RouteBuilderInterface $router, array $variables, array $params): string;
+
+    /**
      * isActive
      *
      * @param array $variables
+     * @param array $params
      *
      * @return  bool
      *
      * @since  __DEPLOY_VERSION__
      */
-    abstract public function isActive(array $variables): bool;
+    abstract public function isActive(array $variables, array $params): bool;
 }

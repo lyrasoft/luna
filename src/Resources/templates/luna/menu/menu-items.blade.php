@@ -15,18 +15,28 @@
  */
 
 \Phoenix\Script\BootstrapScript::multiLevelDropdown();
+
+$click_toggle = $click_toggle ?? false;
 ?>
 
 @foreach ($menus->getChildren() as $menu)
-    @php($hasChildren = $menu->hasChildren())
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $menu->isActive(true) ? 'active' : '' }}"
-            data-toggle="dropdown">
-            {{ $menu->getValue()->title }}
-        </a>
+    @if ($menu->getViewInstance() instanceof \Lyrasoft\Luna\Menu\SelfRenderMenuInterface)
+        {!! $menu->render() !!}
+    @else
+        @php($hasChildren = $menu->hasChildren())
 
-        @if ($menu->hasChildren())
-            @include('luna.menu.submenu-items', ['menus' => $menu])
-        @endif
-    </li>
+        <li class="nav-item dropdown"
+            data-menu-id="{{ $menu->getValue()->id }}">
+            <a href="{{ $menu->route($router) }}"
+            class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $menu->isActive(true) ? 'active' : '' }}"
+                target="{{ $menu->getValue()->target }}"
+                @attr('data-toggle', $click_toggle ? 'dropdown' : false)>
+                {{ $menu->getValue()->title }}
+            </a>
+
+            @if ($menu->hasChildren())
+                @include('luna.menu.submenu-items', ['menus' => $menu])
+            @endif
+        </li>
+    @endif
 @endforeach

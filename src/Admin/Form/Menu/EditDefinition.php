@@ -127,6 +127,16 @@ class EditDefinition extends AbstractFieldDefinition
                 ->required(true)
                 ->set('allow_add', false);
 
+            $this->list('target')
+                ->label(__($langPrefix . 'menu.field.target'))
+                ->option(__($langPrefix . 'menu.field.target.option.blank'), '_blank')
+                ->option(__($langPrefix . 'menu.field.target.option.self'), '_self')
+                ->option(__($langPrefix . 'menu.field.target.option.parent'), '_parent')
+                ->option(__($langPrefix . 'menu.field.target.option.top'), '_top')
+                ->defaultValue('_self')
+                ->class('has-select2')
+                ->required(true);
+
             // Created
             $this->calendar('created')
                 ->label(__($langPrefix . 'menu.field.created'))

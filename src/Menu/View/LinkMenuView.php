@@ -8,18 +8,16 @@
 
 namespace Lyrasoft\Luna\Menu\View;
 
-use Lyrasoft\Luna\Admin\DataMapper\ArticleMapper;
-use Lyrasoft\Luna\Admin\Field\Article\ArticleModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Windwalker\Core\Router\RouteBuilderInterface;
 use Windwalker\Form\Form;
 
 /**
- * The ArticleMenuView class.
+ * The LinkMenuView class.
  *
  * @since  __DEPLOY_VERSION__
  */
-class ArticleMenuView extends AbstractMenuView
+class LinkMenuView extends AbstractMenuView
 {
     /**
      * getName
@@ -30,19 +28,7 @@ class ArticleMenuView extends AbstractMenuView
      */
     public static function getName(): string
     {
-        return 'article';
-    }
-
-    /**
-     * getGroup
-     *
-     * @return  string
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function getGroup(): string
-    {
-        return 'article';
+        return 'link';
     }
 
     /**
@@ -56,8 +42,8 @@ class ArticleMenuView extends AbstractMenuView
      */
     protected function defineVariables(Form $form): void
     {
-        $this->add('id', ArticleModalField::class)
-            ->label(__('luna.article.title'))
+        $this->url('url')
+            ->label(__('luna.menu.field.url'))
             ->required(true);
     }
 
@@ -72,7 +58,6 @@ class ArticleMenuView extends AbstractMenuView
      */
     protected function defineParams(Form $form): void
     {
-        //
     }
 
     /**
@@ -80,7 +65,6 @@ class ArticleMenuView extends AbstractMenuView
      *
      * @param RouteBuilderInterface $router
      * @param array                 $variables
-     *
      * @param array                 $params
      *
      * @return  string
@@ -89,30 +73,13 @@ class ArticleMenuView extends AbstractMenuView
      */
     public function route(RouteBuilderInterface $router, array $variables, array $params): string
     {
-        return $router->to('article', $variables);
-    }
-
-    /**
-     * prepareVariablesStore
-     *
-     * @param array $variables
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function prepareVariablesStore(array &$variables): void
-    {
-        if ($variables['id']) {
-            $variables['alias'] = (string) ArticleMapper::findOne($variables['id'])->alias;
-        }
+        return $variables['url'];
     }
 
     /**
      * isActive
      *
      * @param array $variables
-     *
      * @param array $params
      *
      * @return  bool
@@ -121,6 +88,6 @@ class ArticleMenuView extends AbstractMenuView
      */
     public function isActive(array $variables, array $params): bool
     {
-        return $this->menuHelper->is('article', ['id' => $variables['id']]);
+        return false;
     }
 }

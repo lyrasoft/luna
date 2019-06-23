@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Record\Columns;
 
-use Lyrasoft\Luna\Menu\View\AbstractMenuView;
+use Lyrasoft\Luna\Menu\AbstractMenuView;
 
 /**
  * The MenuDataInterface class.
@@ -30,7 +30,7 @@ use Lyrasoft\Luna\Menu\View\AbstractMenuView;
  * @property    string  title
  * @property    string  alias
  * @property    string  url
- * @property    string  route
+ * @property    string  target
  * @property    string  variables
  * @property    string  image
  * @property    int  state
