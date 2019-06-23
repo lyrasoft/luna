@@ -8,7 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Controller\Menus\Batch;
 
+use Lyrasoft\Luna\Admin\DataMapper\MenuMapper;
 use Phoenix\Controller\Batch\AbstractUnpublishController;
+use Windwalker\Data\DataInterface;
 
 /**
  * The UnpublishController class.
@@ -17,5 +19,25 @@ use Phoenix\Controller\Batch\AbstractUnpublishController;
  */
 class UnpublishController extends AbstractUnpublishController
 {
-    //
+    /**
+     * save
+     *
+     * @param int|string    $pk
+     * @param DataInterface $data
+     *
+     * @return  void
+     * @throws \Exception
+     */
+    protected function save($pk, DataInterface $data)
+    {
+        parent::save($pk, clone $data);
+
+        // Find Children
+        $parent = MenuMapper::findOne($pk);
+
+        MenuMapper::updateBatch($data, [
+            'lft > ' . $parent->lft,
+            'rgt < ' . $parent->rgt,
+        ]);
+    }
 }

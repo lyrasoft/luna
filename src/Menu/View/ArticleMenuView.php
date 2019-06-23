@@ -110,4 +110,18 @@ class ArticleMenuView extends AbstractMenuView
             $variables['alias'] = (string) ArticleMapper::findOne($variables['id'])->alias;
         }
     }
+
+    /**
+     * isActive
+     *
+     * @param array $variables
+     *
+     * @return  bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function isActive(array $variables): bool
+    {
+        return $this->menuHelper->is('article', ['id' => $variables['id']]);
+    }
 }

@@ -25,7 +25,7 @@ class UnpublishController extends AbstractUnpublishController
      * @param int|string    $pk
      * @param DataInterface $data
      *
-     * @return  boolean
+     * @return  void
      * @throws \Exception
      */
     protected function save($pk, DataInterface $data)
@@ -33,14 +33,11 @@ class UnpublishController extends AbstractUnpublishController
         parent::save($pk, clone $data);
 
         // Find Children
-        $mapper = new CategoryMapper;
+        $parent = CategoryMapper::findOne($pk);
 
-        $parent = $mapper->findOne($pk);
-
-        return $mapper->updateBatch($data, [
-                'lft > ' . $parent->lft,
-                'rgt < ' . $parent->rgt,
-            ]
-        );
+        CategoryMapper::updateBatch($data, [
+            'lft > ' . $parent->lft,
+            'rgt < ' . $parent->rgt,
+        ]);
     }
 }

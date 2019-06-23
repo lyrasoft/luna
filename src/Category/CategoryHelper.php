@@ -34,7 +34,7 @@ class CategoryHelper
     /**
      * createTree
      *
-     * @param   array|DataSet|Data[] $categories
+     * @param array|DataSet|Data[] $categories
      *
      * @return  Node|Node[]
      */
@@ -99,11 +99,11 @@ class CategoryHelper
             $rgt   = ArrayHelper::getValue($parent, 'rgt');
             $level = ArrayHelper::getValue($parent, 'level');
         } else {
-            $mapper = new CategoryMapper;
+            $mapper = new CategoryMapper();
             $root   = $mapper->findOne($parent);
 
             if ($root->isNull()) {
-                return new DataSet;
+                return new DataSet();
             }
 
             $lft   = $root->lft;
@@ -126,7 +126,7 @@ class CategoryHelper
     /**
      * getCategory
      *
-     * @param   int|array $conditions
+     * @param int|array $conditions
      *
      * @return  Data
      * @throws \Psr\Cache\InvalidArgumentException
@@ -252,7 +252,7 @@ class CategoryHelper
     /**
      * Method to set property model
      *
-     * @param   CategoriesRepository $repository
+     * @param CategoriesRepository $repository
      *
      * @return  void
      */

@@ -8,6 +8,8 @@
 
 namespace Lyrasoft\Luna\Tree;
 
+use RecursiveIteratorIterator;
+
 /**
  * The Node class.
  *
@@ -284,6 +286,18 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Alias of isLeaf.
+     *
+     * @return  bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function hasChildren(): bool
+    {
+        return !$this->isLeaf();
+    }
+
+    /**
      * Return the distance from the current node to the root
      *
      * @return int
@@ -368,7 +382,10 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
      */
     public function getIterator()
     {
-        return new \RecursiveIteratorIterator(new RecursiveNodeIterator($this->children));
+        return new \RecursiveIteratorIterator(
+            new RecursiveNodeIterator($this->children),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
     }
 
     /**

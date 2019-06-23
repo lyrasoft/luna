@@ -42,6 +42,13 @@ class MenuMapper extends AbstractDatabaseMapperProxy
     protected static $dataClass = MenuRecord::class;
 
     /**
+     * Property alias.
+     *
+     * @var  string
+     */
+    protected static $alias = 'menu';
+
+    /**
      * onAfterFind
      *
      * @param Event $event

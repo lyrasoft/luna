@@ -33,14 +33,11 @@ class PublishController extends AbstractPublishController
         parent::save($pk, clone $data);
 
         // Find Children
-        $mapper = new CategoryMapper;
+        $parent = CategoryMapper::findOne($pk);
 
-        $parent = $mapper->findOne($pk);
-
-        $mapper->updateBatch($data, [
-                'lft > ' . $parent->lft,
-                'rgt < ' . $parent->rgt,
-            ]
-        );
+        CategoryMapper::updateBatch($data, [
+            'lft > ' . $parent->lft,
+            'rgt < ' . $parent->rgt,
+        ]);
     }
 }

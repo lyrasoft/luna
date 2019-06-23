@@ -24,16 +24,26 @@ class TreeBuilder
      * @param string                $keyName
      * @param string                $parentIdName
      * @param string                $levelName
+     * @param string                $nodeClass
      *
      * @return Node|Node[]
      */
-    public static function create($dataSet, $keyName = 'id', $parentIdName = 'parent_id', $levelName = 'level')
-    {
+    public static function create(
+        $dataSet,
+        $keyName = 'id',
+        $parentIdName = 'parent_id',
+        $levelName = 'level',
+        $nodeClass = Node::class
+    ) {
         /** @var Node[] $tree */
-        $tree   = [];
+        $tree = [];
         $levels = [];
 
-        $root = new Node;
+        $root = new $nodeClass();
+
+        if (!count($dataSet)) {
+            return $root;
+        }
 
         foreach ($dataSet as $data) {
             $pk = ArrayHelper::getValue($data, $keyName);
@@ -43,7 +53,7 @@ class TreeBuilder
             }
 
             $levels[]  = ArrayHelper::getValue($data, $levelName);
-            $tree[$pk] = new Node($data);
+            $tree[$pk] = new $nodeClass($data);
         }
 
         $minLevel = min($levels);

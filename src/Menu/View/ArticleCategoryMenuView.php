@@ -86,7 +86,9 @@ class ArticleCategoryMenuView extends AbstractMenuView
      */
     public function route(RouteBuilderInterface $router, array $variables): string
     {
-        return $router->to('article_category');
+        return $router->to('article_category')
+            ->var('path', $variables['path'])
+            ->__toString();
     }
 
     /**
@@ -103,5 +105,19 @@ class ArticleCategoryMenuView extends AbstractMenuView
         if ($variables['id']) {
             $variables['path'] = (string) CategoryMapper::findOne($variables['id'])->path;
         }
+    }
+
+    /**
+     * isActive
+     *
+     * @param array $variables
+     *
+     * @return  bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function isActive(array $variables): bool
+    {
+        return $this->menuHelper->is('article_category', ['path' => $variables['path']]);
     }
 }

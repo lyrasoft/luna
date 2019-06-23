@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Menu\View;
 
+use Phoenix\Html\MenuHelper;
 use Windwalker\Core\Event\EventDispatcher;
 use Windwalker\Core\Form\CoreFieldDefinitionInterface;
 use Windwalker\Core\Form\CoreFieldDefinitionTrait;
@@ -45,6 +46,15 @@ abstract class AbstractMenuView implements
      * @var EventDispatcher
      */
     protected $dispatcher;
+
+    /**
+     * Property menuHelper.
+     *
+     * @Inject()
+     *
+     * @var MenuHelper
+     */
+    protected $menuHelper;
 
     /**
      * getName
@@ -199,4 +209,15 @@ abstract class AbstractMenuView implements
     {
         //
     }
+
+    /**
+     * isActive
+     *
+     * @param array $variables
+     *
+     * @return  bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    abstract public function isActive(array $variables): bool;
 }

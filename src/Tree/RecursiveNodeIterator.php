@@ -22,20 +22,20 @@ class RecursiveNodeIterator implements \RecursiveIterator
      *
      * @var  NodeInterface[]
      */
-    protected $children = [];
+    protected $nodes = [];
 
     /**
      * RecursiveNodeIterator constructor.
      *
-     * @param NodeInterface[]|NodeInterface $children
+     * @param NodeInterface[]|NodeInterface $nodes
      */
-    public function __construct($children)
+    public function __construct($nodes)
     {
-        if ($children instanceof Node) {
-            $children = $children->getChildren();
+        if ($nodes instanceof Node) {
+            $nodes = $nodes->getChildren();
         }
 
-        $this->children = $children;
+        $this->nodes = $nodes;
     }
 
     /**
@@ -45,7 +45,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      */
     public function current()
     {
-        return $this->children[$this->key()];
+        return $this->nodes[$this->key()];
     }
 
     /**
@@ -55,7 +55,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      */
     public function next()
     {
-        next($this->children);
+        next($this->nodes);
     }
 
     /**
@@ -65,7 +65,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      */
     public function key()
     {
-        return key($this->children);
+        return key($this->nodes);
     }
 
     /**
@@ -76,7 +76,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      */
     public function valid()
     {
-        return key($this->children) !== null;
+        return key($this->nodes) !== null;
     }
 
     /**
@@ -86,7 +86,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      */
     public function rewind()
     {
-        reset($this->children);
+        reset($this->nodes);
     }
 
     /**
