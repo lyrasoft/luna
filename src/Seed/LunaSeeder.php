@@ -43,6 +43,8 @@ class LunaSeeder extends AbstractSeeder
         $this->execute(ContactSeeder::class);
 
         $this->execute(PageSeeder::class);
+
+        $this->execute(MenuSeeder::class);
     }
 
     /**
@@ -72,5 +74,7 @@ class LunaSeeder extends AbstractSeeder
         $this->clear(ContactSeeder::class);
 
         $this->clear(PageSeeder::class);
+
+        $this->clear(MenuSeeder::class);
     }
 }
