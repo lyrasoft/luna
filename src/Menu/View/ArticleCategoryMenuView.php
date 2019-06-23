@@ -57,7 +57,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
     protected function defineView(Form $form): void
     {
         $this->add('id', CategoryModalField::class)
-            ->label('Category')
+            ->label(__('luna.category.title'))
             ->required(true);
     }
 

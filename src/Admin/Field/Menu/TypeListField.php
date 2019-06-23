@@ -73,7 +73,20 @@ class TypeListField extends ItemListField
     {
         $menuService = Ioc::service(MenuService::class);
 
-        return $menuService->getMenuTypes();
+        $types = $menuService->getMenuTypes();
+
+        $values = (array) $this->getValue();
+
+        foreach ($values as $value) {
+            if (!isset($types[$value])) {
+                $types[$value] = (object) [
+                    'name' => $value,
+                    'type' => $value
+                ];
+            }
+        }
+
+        return $types;
     }
 
     /**
@@ -83,12 +96,9 @@ class TypeListField extends ItemListField
      */
     protected function prepareScript()
     {
-        $options = (array) $this->get('options');
-
-        if ($this->get('allow_add', false)) {
-            $options['tags'] = true;
-
-            Select2Script::select2('#' . $this->getId(), ['tags' => true, 'minimumResultsForSearch' => 0]);
-        }
+        Select2Script::select2('#' . $this->getId(), [
+            'tags' => $this->get('allow_add', false),
+            'minimumResultsForSearch' => 0
+        ]);
     }
 }

@@ -188,7 +188,7 @@ class MenuService
         foreach ($items as $k => $n) {
             $name = $k === $n ? $n : $k . ' (' . __($n) . ')';
 
-            $options[] = (object) [
+            $options[$k] = (object) [
                 'name' => $name,
                 'type' => $k,
             ];

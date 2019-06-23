@@ -8,11 +8,13 @@
 
 namespace Lyrasoft\Luna\Admin\View\Menu;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Phoenix\View\ItemView;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Data\Data;
 use Windwalker\DI\Annotation\Inject;
 use Windwalker\Form\Form;
@@ -62,6 +64,16 @@ class MenuHtmlView extends EditView
     protected $menuService;
 
     /**
+     * init
+     *
+     * @return  void
+     */
+    protected function init()
+    {
+        $this->langPrefix = LunaHelper::getLangPrefix();
+    }
+
+    /**
      * prepareData
      *
      * @param \Windwalker\Data\Data $data
@@ -87,7 +99,7 @@ class MenuHtmlView extends EditView
         $form->getField('type')->setValue($type);
 
         $data->viewInstance = $viewInstance = $this->menuService->getViewInstance(
-            $form->getField('view')->getValue() ?: $data->item->view
+            $form->getField('view')->getValue() ?: (string) $data->item->view
         );
 
         if ($viewInstance) {
@@ -131,6 +143,13 @@ class MenuHtmlView extends EditView
      */
     protected function prepareMetadata(Data $data)
     {
-        $this->setTitle();
+        $type = $data->state->get('menu.type');
+
+        $title = __(
+            $this->langPrefix . 'menu.edit.title',
+            __($this->langPrefix . 'menu.type.' . $type)
+        );
+
+        $this->setTitle($title);
     }
 }

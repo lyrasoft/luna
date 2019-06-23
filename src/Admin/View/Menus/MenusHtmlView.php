@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\View\Menus;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
@@ -16,6 +17,7 @@ use Phoenix\View\GridView;
 use Phoenix\View\ListView;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Data\Data;
+use Windwalker\DI\Annotation\Inject;
 
 /**
  * The MenusHtmlView class.
@@ -65,7 +67,14 @@ class MenusHtmlView extends GridView
      */
     protected $simplePagination = false;
 
-
+    /**
+     * Property menuService.
+     *
+     * @Inject()
+     *
+     * @var MenuService
+     */
+    protected $menuService;
 
     /**
      * init
@@ -80,27 +89,16 @@ class MenusHtmlView extends GridView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data                 $data
-     *
-     * @see ListView
-     * ------------------------------------------------------
-     * @var  \Windwalker\Structure\Structure        $data ->state
-     * @var  \Windwalker\Data\DataSet               $data ->items
-     * @var  \Windwalker\Core\Pagination\Pagination $data ->pagination
-     * @var  int                                    $data ->total
-     * @var  int                                    $data ->limit
-     * @var  int                                    $data ->start
-     * @var  int                                    $data ->page
-     *
-     * @see GridView
-     * ------------------------------------------------------
-     * @var  \Windwalker\Form\Form                  $data ->filterForm
-     * @var  \Windwalker\Form\Form                  $data ->batchForm
-     * @var  \Windwalker\Core\Widget\Widget         $data ->filterBar
-     * @var  boolean                                $data ->showFilterBar
-     * @var  \Phoenix\View\Helper\GridHelper        $data ->grid
+     * @param \Windwalker\Data\Data $data
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @see ListView
+     * ------------------------------------------------------
+     * @see GridView
+     * ------------------------------------------------------
      */
     protected function prepareData($data)
     {
@@ -114,6 +112,10 @@ class MenusHtmlView extends GridView
             foreach ($data->items as $i => $item) {
                 $data->ordering[$item->parent_id][] = $item->id;
             }
+        }
+
+        foreach ($data->items as $item) {
+            $item->viewInstance = $this->menuService->getViewInstance($item->view);
         }
 
         $this->prepareScripts($data);
@@ -153,7 +155,7 @@ class MenusHtmlView extends GridView
 
         $title = Translator::sprintf(
             $this->langPrefix . 'menu.manager.title',
-            __($this->langPrefix . $type . '.title')
+            __($this->langPrefix . 'menu.type.' . $type)
         );
 
         $this->setTitle($title);

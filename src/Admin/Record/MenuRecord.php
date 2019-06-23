@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Admin\Record;
 use Lyrasoft\Luna\Admin\Record\Columns\MenuDataInterface;
 use Lyrasoft\Luna\Admin\Record\Traits\ContentValidationTrait;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Repository\Exception\ValidateFailException;
 use Windwalker\Event\Event;
 use Windwalker\Record\NestedRecord;

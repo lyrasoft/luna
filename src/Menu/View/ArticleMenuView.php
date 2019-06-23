@@ -57,7 +57,7 @@ class ArticleMenuView extends AbstractMenuView
     protected function defineView(Form $form): void
     {
         $this->add('id', ArticleModalField::class)
-            ->label('Article')
+            ->label(__('luna.article.title'))
             ->required(true);
     }
 
@@ -72,12 +72,7 @@ class ArticleMenuView extends AbstractMenuView
      */
     protected function defineParams(Form $form): void
     {
-        $this->tab('view', null, function () {
-            $this->list('show_title')
-                ->label('Show Title')
-                ->option('YES', 1)
-                ->option('NO', 0);
-        });
+        //
     }
 
     /**

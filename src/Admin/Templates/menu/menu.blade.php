@@ -38,7 +38,7 @@
                 }
             });
 
-            var currentView = '{{ $viewInstance::getName() ?? '' }}';
+            var currentView = '{{ $viewInstance ? $viewInstance::getName() : '' }}';
             var viewField = $('#input-item-view');
 
             viewField.on('change', function (e) {
@@ -65,7 +65,7 @@
                         </a>
                     </li>
 
-                    @if ($tabs)
+                    @if (isset($tabs))
                         @foreach ($tabs as $name => $tab)
                             <li class="nav-item">
                                 <a href="#tab-{{ $name }}" class="nav-link" data-toggle="tab">
@@ -86,7 +86,7 @@
                             </div>
                         </div>
 
-                        @if ($viewInstance)
+                        @if (isset($viewInstance))
                             <div id="fieldset-variables" class="fieldset-card form-horizontal card mb-4">
                                 <h5 class="card-header">
                                     @lang($luna->langPrefix . 'menu.edit.fieldset.variables')
@@ -98,7 +98,7 @@
                         @endif
                     </div>
 
-                    @if ($tabs)
+                    @if (isset($tabs))
                         @foreach ($tabs as $name => $tab)
                             <div class="tab-pane fade" id="tab-{{ $name }}"
                                 role="tabpanel" aria-labelledby="{{ $name }}-tab">
@@ -107,7 +107,6 @@
                                 </div>
                             </div>
                         @endforeach
-
                     @endif
                 </div>
             </div>

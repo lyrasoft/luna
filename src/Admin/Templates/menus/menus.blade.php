@@ -73,15 +73,15 @@
                                 {!! $grid->sortTitle($luna->langPrefix . 'menu.field.title', 'menu.title') !!}
                             </th>
 
+                            {{-- VIEW --}}
+                            <th class="text-nowrap" width="5%">
+                                {!! $grid->sortTitle($luna->langPrefix . 'menu.field.view', 'menu.view') !!}
+                            </th>
+
                             {{-- ORDERING --}}
                             <th width="5%" class="text-nowrap">
                                 {!! $grid->sortTitle($luna->langPrefix . 'menu.field.ordering', 'menu.lft') !!}
                                 {!! $grid->saveOrderButton() !!}
-                            </th>
-
-                            {{-- AUTHOR --}}
-                            <th width="10%" class="text-nowrap">
-                                {!! $grid->sortTitle($luna->langPrefix . 'menu.field.author', 'menu.created_by') !!}
                             </th>
 
                             {{-- CREATED --}}
@@ -141,17 +141,21 @@
                                     <a href="{{ $router->route('menu', ['id' => $item->id]) }}">
                                         {{ $item->title }}
                                     </a>
-                                    <small>({{ $item->alias }})</small>
+                                </td>
+
+                                {{-- VIEW --}}
+                                <td class="text-nowrap">
+                                    <div class="small text-muted">
+                                        @lang('luna.menu.group.' . $item->viewInstance::getGroup())
+                                    </div>
+                                    <div class="has-tooltip" title="{{ $item->view }}">
+                                        {{ $item->viewInstance::getTitle() }}
+                                    </div>
                                 </td>
 
                                 {{-- ORDERING --}}
                                 <td class="text-right">
                                     {!! $grid->orderButton() !!}
-                                </td>
-
-                                {{-- AUTHOR --}}
-                                <td class="text-nowrap">
-                                    {{ property_exists($item, 'user_name') ? $item->user_name : $item->created_by }}
                                 </td>
 
                                 {{-- CREATED --}}

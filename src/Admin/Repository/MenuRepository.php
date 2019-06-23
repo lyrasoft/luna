@@ -120,6 +120,10 @@ class MenuRepository extends NestedAdminRepository
     {
         $data->type = $data->type ?: $this['menu.type'];
 
+        if (!$data->alias) {
+            $data->alias = uniqid();
+        }
+
         parent::prepareSave($data);
     }
 

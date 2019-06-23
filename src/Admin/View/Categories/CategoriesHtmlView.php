@@ -125,10 +125,16 @@ class CategoriesHtmlView extends GridView
     {
         $type = $this->data->state->get('category.type');
 
-        $title = Translator::sprintf(
-            $this->langPrefix . 'category.manager.title',
-            __($this->langPrefix . $type . '.title')
-        );
+        $langKey = $this->langPrefix . $type . '.categories';
+
+        if (Translator::has($langKey)) {
+            $title = __($langKey);
+        } else {
+            $title = __(
+                $this->langPrefix . 'category.manager.title',
+                __($this->langPrefix . $type . '.title')
+            );
+        }
 
         return parent::setTitle($title);
     }

@@ -91,7 +91,8 @@ class EditDefinition extends AbstractFieldDefinition
             $this->add('view', ViewListField::class)
                 ->label(__($langPrefix . 'menu.field.view'))
                 ->class('has-select2')
-                ->option(__($langPrefix . 'menu.field.view.select'));
+                ->option(__($langPrefix . 'menu.field.view.select'), '')
+                ->required(true);
 
             // Image
 //            $this->text('image')
@@ -104,21 +105,6 @@ class EditDefinition extends AbstractFieldDefinition
 //                ->maxlength(255)
 //                ->addValidator(Rule\UrlValidator::class)
 //                ->attr('data-validate', 'url');
-        });
-
-        // Text Fieldset
-        $this->fieldset('text', function (Form $form) use ($langPrefix) {
-            // Introtext
-            $this->textarea('introtext')
-                ->label(__($langPrefix . 'menu.field.introtext'))
-                ->maxlength(static::TEXT_MAX_UTF8)
-                ->rows(10);
-
-            // Fulltext
-            $this->textarea('fulltext')
-                ->label(__($langPrefix . 'menu.field.fulltext'))
-                ->maxlength(static::TEXT_MAX_UTF8)
-                ->rows(10);
         });
 
         // Created fieldset
@@ -138,7 +124,8 @@ class EditDefinition extends AbstractFieldDefinition
                 ->label(__($langPrefix . 'menu.field.type'))
                 ->option(__($langPrefix . 'menu.field.type.select'), '')
                 ->defaultValue($type)
-                ->set('allow_add', true);
+                ->required(true)
+                ->set('allow_add', false);
 
             // Created
             $this->calendar('created')
