@@ -104,7 +104,8 @@ class MenuRepository extends NestedAdminRepository
      */
     protected function postGetItem(DataInterface $item)
     {
-        // Do some stuff
+        $item->variables = json_decode($item->variables, true);
+        $item->params = json_decode($item->params, true);
     }
 
     /**

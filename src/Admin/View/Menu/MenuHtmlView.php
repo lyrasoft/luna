@@ -8,11 +8,13 @@
 
 namespace Lyrasoft\Luna\Admin\View\Menu;
 
+use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Phoenix\View\ItemView;
 use Windwalker\Data\Data;
+use Windwalker\DI\Annotation\Inject;
 use Windwalker\Form\Form;
 
 /**
@@ -51,20 +53,27 @@ class MenuHtmlView extends EditView
     protected $formLoadData = true;
 
     /**
+     * Property menuService.
+     *
+     * @Inject()
+     *
+     * @var MenuService
+     */
+    protected $menuService;
+
+    /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data            $data
-     *
-     * @see  ItemView
-     * ------------------------------------------------------
-     * @var  \WindWalker\Structure\Structure   $data ->state
-     * @var  \Lyrasoft\Luna\Admin\Record\MenuRecord $data ->item
-     *
-     * @see  EditView
-     * ------------------------------------------------------
-     * @var    \Windwalker\Form\Form           $data ->form
+     * @param \Windwalker\Data\Data $data
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @see  ItemView
+     * ------------------------------------------------------
+     * @see  EditView
+     * ------------------------------------------------------
      */
     protected function prepareData($data)
     {
@@ -76,6 +85,18 @@ class MenuHtmlView extends EditView
         $form = $data->form;
 
         $form->getField('type')->setValue($type);
+
+        $data->viewInstance = $viewInstance = $this->menuService->getViewInstance(
+            $form->getField('view')->getValue() ?: $data->item->view
+        );
+
+        if ($viewInstance) {
+            $form->defineFormFields($viewInstance);
+            $form->bind(['variables' => $data->item->variables]);
+            $form->bind(['params' => $data->item->params]);
+
+            $data->tabs = $data->viewInstance->getTabs();
+        }
 
         $this->prepareScripts($data);
         $this->prepareMetadata($data);
@@ -98,6 +119,7 @@ class MenuHtmlView extends EditView
         BootstrapScript::tooltip('.has-tooltip');
         PhoenixScript::disableWhenSubmit();
         PhoenixScript::keepAlive($this->package->app->uri->root);
+        BootstrapScript::tabState();
     }
 
     /**

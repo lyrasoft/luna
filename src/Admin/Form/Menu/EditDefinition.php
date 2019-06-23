@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Admin\DataMapper\MenuMapper;
 use Lyrasoft\Luna\Admin\Field\Menu\MenuListField;
 use Lyrasoft\Luna\Admin\Field\Menu\MenuModalField;
 use Lyrasoft\Luna\Admin\Field\Menu\TypeListField;
+use Lyrasoft\Luna\Admin\Field\Menu\ViewListField;
 use Lyrasoft\Luna\Admin\Field\Module\PositionListField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
@@ -59,10 +60,10 @@ class EditDefinition extends AbstractFieldDefinition
             ->required(true);
 
         // Alias
-        $this->text('alias')
-            ->label(__($langPrefix . 'menu.field.alias'))
-            ->description(__($langPrefix . 'menu.field.alias.desc'))
-            ->maxlength(255);
+//        $this->text('alias')
+//            ->label(__($langPrefix . 'menu.field.alias'))
+//            ->description(__($langPrefix . 'menu.field.alias.desc'))
+//            ->maxlength(255);
         
         // Basic fieldset
         $this->fieldset('basic', function (Form $form) use ($langPrefix) {
@@ -86,6 +87,11 @@ class EditDefinition extends AbstractFieldDefinition
                         $query->where('(lft < ' . $self->lft . ' OR rgt > ' . $self->rgt . ')');
                     }
                 });
+
+            $this->add('view', ViewListField::class)
+                ->label(__($langPrefix . 'menu.field.view'))
+                ->class('has-select2')
+                ->option(__($langPrefix . 'menu.field.view.select'));
 
             // Image
 //            $this->text('image')

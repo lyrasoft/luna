@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Field\Menu;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Menu\MenuService;
 use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
@@ -70,58 +71,9 @@ class TypeListField extends ItemListField
      */
     protected function getItems()
     {
-        $db = Ioc::getDatabase();
+        $menuService = Ioc::service(MenuService::class);
 
-        $query = $db->getQuery(true);
-        $table = $this->get('table', $this->table);
-
-        if (!$table) {
-            return [];
-        }
-
-        $select = $this->get('select', 'DISTINCT type');
-
-        $query->select($select)
-            ->from($table)
-            ->where("type != ''")
-            ->order('type');
-
-        $this->postQuery($query);
-
-        $postQuery = $this->get('postQuery');
-
-        if (is_callable($postQuery)) {
-            $postQuery($query, $this);
-        }
-
-        $items = (array) $db->setQuery($query)->loadColumn();
-
-        $items = array_combine($items, $items);
-
-        $positions = LunaHelper::getPackage()->get('menu.types');
-
-        foreach ((array) $positions as $position => $name) {
-            if (is_numeric($position)) {
-                $position = $name;
-            }
-
-            $items[$position] = $name;
-        }
-
-        ksort($items);
-
-        $options = [];
-
-        foreach ($items as $k => $n) {
-            $name = $k === $n ? $n : $k . ' (' . __($n) . ')';
-
-            $options[] = (object) [
-                'name' => $name,
-                'type' => $k,
-            ];
-        }
-
-        return $options;
+        return $menuService->getMenuTypes();
     }
 
     /**

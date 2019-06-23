@@ -9,8 +9,10 @@
 namespace Lyrasoft\Luna\Admin\Controller\Menu;
 
 use Lyrasoft\Luna\Admin\Repository\MenuRepository;
+use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Data\DataInterface;
+use Windwalker\DI\Annotation\Inject;
 
 /**
  * The SaveController class.
@@ -43,6 +45,15 @@ class SaveController extends AbstractSaveController
     protected $repository = 'Menu';
 
     /**
+     * Property menuService.
+     *
+     * @Inject()
+     *
+     * @var MenuService
+     */
+    protected $menuService;
+
+    /**
      * Class init.
      */
     public function __construct()
@@ -70,6 +81,16 @@ class SaveController extends AbstractSaveController
                         ->id($this->data['id'])
                         ->var('type', $this->data['type'])
                 );
+                break;
+
+            case 'switch_view':
+                $this->setUserState($this->getContext('edit.data'), $this->data);
+
+                $this->redirect(
+                    $this->router->to('menu')
+                        ->id($this->data['id'])
+                );
+                break;
         }
     }
 
@@ -96,10 +117,25 @@ class SaveController extends AbstractSaveController
      * @param DataInterface $data Data to save.
      *
      * @return void
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      */
     protected function preSave(DataInterface $data)
     {
         parent::preSave($data);
+
+        $view = $data->view;
+
+        if ($view) {
+            $viewInstance = $this->menuService->getViewInstance($view);
+
+            if ($viewInstance) {
+                $viewInstance->prepareVariablesStore($data->variables);
+            }
+        }
+
+        $data->variables = json_encode($data->variables);
     }
 
     /**

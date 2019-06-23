@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app      \Windwalker\Web\Application                 Global Application
- * @var $package  \Lyrasoft\Luna\Admin\AdminPackage                 Package object.
+ * @var $package  \Lyrasoft\Luna\LunaPackage                 Package object.
  * @var $view     \Lyrasoft\Luna\Admin\View\Menu\MenuHtmlView    View object.
  * @var $uri      \Windwalker\Uri\UriData                     Uri information, example: $uri->path
  * @var $chronos  \Windwalker\Core\DateTime\DateTime          PHP DateTime object of current time.
@@ -37,6 +37,15 @@
                     Phoenix.post(null, { task: 'switch_type' });
                 }
             });
+
+            var currentView = '{{ $viewInstance::getName() ?? '' }}';
+            var viewField = $('#input-item-view');
+
+            viewField.on('change', function (e) {
+                if (viewField.val() !== currentView) {
+                    Phoenix.post(null, { task: 'switch_view' });
+                }
+            });
         });
     </script>
 @endpush
@@ -49,19 +58,57 @@
 
         <div class="row">
             <div class="col-md-7">
-                <div id="fieldset-basic" class="fieldset-card form-horizontal card mb-4">
-                    <h5 class="card-header">@lang($luna->langPrefix . 'menu.edit.fieldset.basic')</h5>
-                    <div class="card-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a href="#basic" class="nav-link active" data-toggle="tab">
+                            @lang($luna->langPrefix . 'menu.edit.fieldset.basic')
+                        </a>
+                    </li>
 
-                        {!! $form->renderFields('basic') !!}
-                    </div>
-                </div>
+                    @if ($tabs)
+                        @foreach ($tabs as $name => $tab)
+                            <li class="nav-item">
+                                <a href="#tab-{{ $name }}" class="nav-link" data-toggle="tab">
+                                    {{ $tab['title'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
+                </ul>
 
-                <div id="fieldset-text" class="fieldset-card form-horizontal card mb-4">
-                    <h5 class="card-header">@lang($luna->langPrefix . 'menu.edit.fieldset.params.basic')</h5>
-                    <div class="card-body">
-                        {!! $form->renderFields('basic', 'params') !!}
+                <div class="tab-content mt-3" id="field-tabs">
+                    <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+                        <div id="fieldset-basic" class="fieldset-card form-horizontal card mb-4">
+                            <h5 class="card-header">@lang($luna->langPrefix . 'menu.edit.fieldset.basic')</h5>
+                            <div class="card-body">
+
+                                {!! $form->renderFields('basic') !!}
+                            </div>
+                        </div>
+
+                        @if ($viewInstance)
+                            <div id="fieldset-variables" class="fieldset-card form-horizontal card mb-4">
+                                <h5 class="card-header">
+                                    @lang($luna->langPrefix . 'menu.edit.fieldset.variables')
+                                </h5>
+                                <div class="card-body">
+                                    {!! $form->renderFields(null, 'variables') !!}
+                                </div>
+                            </div>
+                        @endif
                     </div>
+
+                    @if ($tabs)
+                        @foreach ($tabs as $name => $tab)
+                            <div class="tab-pane fade" id="tab-{{ $name }}"
+                                role="tabpanel" aria-labelledby="{{ $name }}-tab">
+                                <div class="card-body">
+                                    {!! $form->renderFields($name, 'params') !!}
+                                </div>
+                            </div>
+                        @endforeach
+
+                    @endif
                 </div>
             </div>
             <div class="col-md-5">
