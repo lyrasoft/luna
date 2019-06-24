@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Admin\Record\Columns\MenuDataInterface;
 use Lyrasoft\Luna\Tree\Node;
 use Windwalker\Core\Router\RouteBuilderInterface;
 use Windwalker\Data\Data;
+use Windwalker\Utilities\Arr;
 
 /**
  * The MenuNode class.
@@ -126,11 +127,13 @@ class MenuNode extends Node
     /**
      * render
      *
+     * @param array $params
+     *
      * @return  string
      *
      * @since  1.7
      */
-    public function render(): string
+    public function render(array $params = []): string
     {
         $instance = $this->getViewInstance();
 
@@ -141,7 +144,10 @@ class MenuNode extends Node
         return $instance->render(
             $this,
             $this->getValue()->variables,
-            $this->getValue()->params
+            Arr::mergeRecursive(
+                $this->getValue()->params,
+                $params
+            )
         );
     }
 
@@ -180,5 +186,23 @@ class MenuNode extends Node
         }
 
         return null;
+    }
+
+    /**
+     * hasVisibleChildren
+     *
+     * @return  bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function hasVisibleChildren(): bool
+    {
+        foreach ($this->getChildren() as $child) {
+            if (!$child->getValue()->hidden) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

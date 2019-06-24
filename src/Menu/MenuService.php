@@ -286,6 +286,7 @@ class MenuService
      *
      * @param MenuNode|string $menus
      * @param string          $layout
+     * @param array           $data
      *
      * @return  string
      *
@@ -294,15 +295,17 @@ class MenuService
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      * @since  1.7
      */
-    public function renderMenuItems($menus, string $layout = 'luna.menu.menu-items'): string
+    public function renderMenuItems($menus, array $data = [], string $layout = 'luna.menu.menu-items'): string
     {
         if (is_string($menus)) {
             $menus = $this->getMenusTree($menus);
         }
 
+        $data['menus'] = $menus;
+
         return WidgetHelper::render(
             $layout,
-            ['menus' => $menus],
+            $data,
             'edge'
         );
     }

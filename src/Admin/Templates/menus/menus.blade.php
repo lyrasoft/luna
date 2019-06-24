@@ -163,12 +163,16 @@ $url->delVar('page');
                                     <a href="{{ $router->route('menu', ['id' => $item->id]) }}">
                                         {{ $item->title }}
                                     </a>
+                                    @if ($item->hidden)
+                                        <span class="fas fa-eye-slash has-tooltip"
+                                        title="@lang($luna->langPrefix . 'menu.field.hidden')"></span>
+                                    @endif
                                 </td>
 
                                 {{-- VIEW --}}
                                 <td class="text-nowrap">
                                     <div class="small text-muted">
-                                        @lang('luna.menu.group.' . $item->viewInstance::getGroup())
+                                        @lang($luna->langPrefix . 'menu.group.' . $item->viewInstance::getGroup())
                                     </div>
                                     <div class="has-tooltip" title="{{ $item->view }}">
                                         {{ $item->viewInstance::getTitle() }}

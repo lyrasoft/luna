@@ -145,6 +145,14 @@ class EditDefinition extends AbstractFieldDefinition
                     ->option(__($langPrefix . 'field.language.all'), '*');
             }
 
+            // State
+            $this->switch('hidden')
+                ->label(__($langPrefix . 'menu.field.hidden'))
+                ->class('')
+                ->color('warning')
+                ->circle(true)
+                ->defaultValue(0);
+
             // Created
             $this->calendar('created')
                 ->label(__($langPrefix . 'menu.field.created'))

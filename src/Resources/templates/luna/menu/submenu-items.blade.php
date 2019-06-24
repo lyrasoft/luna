@@ -17,10 +17,14 @@
 
 <ul class="dropdown-menu">
     @foreach ($menus->getChildren() as $menu)
+        @if ($menu->getValue()->hidden)
+            @continue
+        @endif
+
         @if ($menu->getViewInstance() instanceof \Lyrasoft\Luna\Menu\SelfRenderMenuInterface)
-            {!! $menu->render() !!}
+            {!! $menu->render(['click' => $click]) !!}
         @else
-            @php($hasChildren = $menu->hasChildren())
+            @php($hasChildren = $menu->hasVisibleChildren())
 
             <li class="{{ $hasChildren ? 'dropdown-submenu' : '' }}"
                 data-menu-id="{{ $menu->getValue()->id }}">
@@ -31,7 +35,7 @@
                     {{ $menu->getValue()->title }}
                 </a>
 
-                @if ($menu->hasChildren())
+                @if ($hasChildren)
                     @include('luna.menu.submenu-items', ['menus' => $menu])
                 @endif
             </li>

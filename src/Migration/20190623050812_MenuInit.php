@@ -43,6 +43,7 @@ class MenuInit extends AbstractMigration
             $schema->text('variables')->comment('Vars');
             $schema->varchar('image')->comment('Main Image');
             $schema->tinyint('state')->signed(true)->comment('0: unpublished, 1:published');
+            $schema->tinyint('hidden');
             $schema->datetime('created')->comment('Created Date');
             $schema->integer('created_by')->comment('Author');
             $schema->datetime('modified')->comment('Modified Date');
@@ -74,7 +75,7 @@ class MenuInit extends AbstractMigration
      *
      * @throws Exception
      *
-     * @since  1.7
+     * @since  __DEPLOY_VERSION__
      */
     protected function importFromFile($type, $file, $parentId = 1)
     {
@@ -95,7 +96,7 @@ class MenuInit extends AbstractMigration
      * @return  void
      *
      * @throws Exception
-     * @since  1.7
+     * @since  __DEPLOY_VERSION__
      */
     protected function import($type, array $menus, $parentId = 1): void
     {
@@ -114,6 +115,7 @@ class MenuInit extends AbstractMigration
             $record['view']        = $menu['view'];
             $record['image']       = $faker->unsplashImage();
             $record['state']       = 1;
+            $record['hidden']      = $menu['hidden'] ?? 0;
             $record['target']      = $menu['target'] ?? '_self';
             $record['variables']   = json_encode($menu['varialbes'] ?? []);
             $record['created']     = $faker->dateTime->format($this->getDateFormat());
