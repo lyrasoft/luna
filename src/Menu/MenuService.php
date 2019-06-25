@@ -221,7 +221,14 @@ class MenuService
 
                 /** @var MenuNode $menuNode */
                 foreach ($node as $menuNode) {
-                    $menuNode->setViewInstance($this->getViewInstance($menuNode->getValue()->view));
+                    if (!$instance = $this->getViewInstance($menuNode->getValue()->view)) {
+                        throw new \DomainException(sprintf(
+                            'Menu View: %s not found',
+                            $menuNode->getValue()->view
+                        ));
+                    }
+
+                    $menuNode->setViewInstance($instance);
                 }
 
                 return $node;
