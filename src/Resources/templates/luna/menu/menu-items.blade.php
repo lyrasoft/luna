@@ -18,7 +18,7 @@ $click = $click ?? false;
 $dropdown = $dropdown ?? false;
 
 if ($dropdown) {
-    \Phoenix\Script\BootstrapScript::multiLevelDropdown();
+    \Phoenix\Script\BootstrapScript::multiLevelMenu();
 }
 ?>
 
