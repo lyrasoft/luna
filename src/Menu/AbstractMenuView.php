@@ -194,6 +194,20 @@ abstract class AbstractMenuView implements
      *
      * @since  1.7
      */
+    public function prepareVariablesForm(array &$variables): void
+    {
+        //
+    }
+
+    /**
+     * prepareVariablesStore
+     *
+     * @param array $variables
+     *
+     * @return  void
+     *
+     * @since  1.7
+     */
     public function prepareVariablesStore(array &$variables): void
     {
         //

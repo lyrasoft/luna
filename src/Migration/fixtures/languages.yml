@@ -158,7 +158,7 @@ languages:
     -
         id: '12'
         title: 'Chinese Traditional'
-        title_native: 中文(台灣．繁體)
+        title_native: 中文(臺灣．繁體)
         code: zh-TW
         alias: tw
         image: tw

@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Menu\View;
 
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Phoenix\Field\RepeatableField;
+use function Windwalker\arr;
 use Windwalker\Core\Router\CoreRouter;
 use Windwalker\Core\Router\MainRouter;
 use Windwalker\Core\Router\RouteBuilderInterface;
@@ -84,6 +85,45 @@ class RouteMenuView extends AbstractMenuView
     }
 
     /**
+     * prepareVariablesStore
+     *
+     * @param array $variables
+     *
+     * @return  void
+     *
+     * @since  1.7
+     */
+    public function prepareVariablesForm(array &$variables): void
+    {
+        $vars = $variables['variables'];
+
+        $variables['variables'] = [];
+
+        foreach ($vars as $key => $value) {
+            $variables['variables'][] = [
+                'key' => $key,
+                'value' => $value
+            ];
+        }
+    }
+
+    /**
+     * prepareVariablesStore
+     *
+     * @param array $variables
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function prepareVariablesStore(array &$variables): void
+    {
+        parent::prepareVariablesStore($variables);
+
+        $variables['variables'] = $this->getQuery($variables['variables']);
+    }
+
+    /**
      * route
      *
      * @param RouteBuilderInterface $router
@@ -98,7 +138,7 @@ class RouteMenuView extends AbstractMenuView
     {
         return $router->to(
             $variables['route'],
-            $this->getQuery($variables['variables'])
+            $variables['variables']
         )->__toString();
     }
 
@@ -114,7 +154,7 @@ class RouteMenuView extends AbstractMenuView
      */
     public function isActive(array $variables, array $params): bool
     {
-        return $this->menuHelper->is($variables['route'], $this->getQuery($variables['variables']));
+        return $this->menuHelper->is($variables['route'], $variables['variables']);
     }
 
     /**
