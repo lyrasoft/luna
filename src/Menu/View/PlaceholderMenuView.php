@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Menu\View;
 
 use Lyrasoft\Luna\Menu\AbstractMenuView;
+use Lyrasoft\Luna\Menu\LayoutRenderedMenuInterface;
 use Lyrasoft\Luna\Menu\SelfRenderMenuInterface;
 use Lyrasoft\Luna\Menu\SelfRenderMenuTrait;
 use Windwalker\Core\Router\RouteBuilderInterface;
@@ -19,10 +20,8 @@ use Windwalker\Form\Form;
  *
  * @since  1.7
  */
-class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInterface
+class PlaceholderMenuView extends AbstractMenuView implements LayoutRenderedMenuInterface
 {
-    use SelfRenderMenuTrait;
-
     /**
      * getName
      *
@@ -128,8 +127,8 @@ class PlaceholderMenuView extends AbstractMenuView implements SelfRenderMenuInte
      *
      * @since  1.7
      */
-    protected function getLayout(array $variables, array $params): string
+    public function getLayout(): string
     {
-        return 'luna.menu.placeholder.' . $variables['type'];
+        return 'luna.menu.placeholder.placeholder';
     }
 }

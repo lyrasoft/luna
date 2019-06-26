@@ -11,26 +11,19 @@
  * @var $helper        \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
  * @var $router        \Windwalker\Core\Router\PackageRouter       Router object.
  * @var $asset         \Windwalker\Core\Asset\AssetManager         The Asset manager.
- * @var $menus         \Lyrasoft\Luna\Menu\MenuNode
  */
 
-$dropdown = $dropdown ?? false;
-$vertical = $vertical ?? false;
+/**
+ * @var $menu \Lyrasoft\Luna\Menu\MenuNode
+ * @var $viewInstance \Lyrasoft\Luna\Menu\AbstractMenuView|\Lyrasoft\Luna\Menu\SelfRenderMenuInterface
+ */
+
+$level = $menu->getDepth();
+$type = $menu->getValue()->variables['type'];
 ?>
 
-<ul class="{{ $dropdown ? 'dropdown-menu' : ($vertical ? 'subnav flex-column' : 'subnav') }}"
-    data-id="{{ $menu->getValue()->id }}" data-level="{{ $menu->getDepth() }}">
-    @foreach ($menus->getChildren() as $menu)
-        @if ($menu->getValue()->hidden)
-            @continue
-        @endif
-
-        @php($viewInstance = $menu->getViewInstance())
-
-        @if ($viewInstance instanceof \Lyrasoft\Luna\Menu\LayoutRenderedMenuInterface)
-            @include($viewInstance->getLayout())
-        @else
-            @include('luna.menu.layout.link')
-        @endif
-    @endforeach
-</ul>
+@if ($level === 1 || $type === 'link')
+    @include('luna.menu.placeholder.link')
+@else
+    @include('luna.menu.placeholder.' . $type)
+@endif

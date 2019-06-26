@@ -14,9 +14,12 @@
  * @var $menus         \Lyrasoft\Luna\Menu\MenuNode
  */
 
-\Phoenix\Script\BootstrapScript::multiLevelDropdown();
-
 $click = $click ?? false;
+$dropdown = $dropdown ?? false;
+
+if ($dropdown) {
+    \Phoenix\Script\BootstrapScript::multiLevelDropdown();
+}
 ?>
 
 @foreach ($menus->getChildren() as $menu)
@@ -24,23 +27,11 @@ $click = $click ?? false;
         @continue
     @endif
 
-    @if ($menu->getViewInstance() instanceof \Lyrasoft\Luna\Menu\SelfRenderMenuInterface)
-        {!! $menu->render(['click' => $click]) !!}
+    @php($viewInstance = $menu->getViewInstance())
+
+    @if ($viewInstance instanceof \Lyrasoft\Luna\Menu\LayoutRenderedMenuInterface)
+        @include($viewInstance->getLayout())
     @else
-        @php($hasChildren = $menu->hasVisibleChildren())
-
-        <li class="nav-item dropdown"
-            data-menu-id="{{ $menu->getValue()->id }}">
-            <a href="{{ $menu->route($router) }}"
-                class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $menu->isActive(true) ? 'active' : '' }}"
-                target="{{ $menu->getValue()->target }}"
-                @attr('data-toggle', $click && $hasChildren ? 'dropdown' : false)>
-                {{ $menu->getValue()->title }}
-            </a>
-
-            @if ($hasChildren)
-                @include('luna.menu.submenu-items', ['menus' => $menu])
-            @endif
-        </li>
+        @include('luna.menu.layout.link')
     @endif
 @endforeach

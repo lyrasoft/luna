@@ -18,18 +18,6 @@ use Windwalker\Core\Widget\WidgetHelper;
 trait SelfRenderMenuTrait
 {
     /**
-     * getLayout
-     *
-     * @param array $variables
-     * @param array $params
-     *
-     * @return  string
-     *
-     * @since  1.7
-     */
-    abstract protected function getLayout(array $variables, array $params): string;
-
-    /**
      * render
      *
      * @param MenuNode $menu

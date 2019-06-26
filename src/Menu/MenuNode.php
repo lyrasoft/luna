@@ -154,23 +154,23 @@ class MenuNode extends Node
      *
      * @since  1.7
      */
-    public function render(array $params = []): string
-    {
-        $instance = $this->getViewInstance();
-
-        if (!$instance instanceof SelfRenderMenuInterface) {
-            return '';
-        }
-
-        return $instance->render(
-            $this,
-            $this->getValue()->variables,
-            Arr::mergeRecursive(
-                $this->getValue()->params,
-                $params
-            )
-        );
-    }
+//    public function render(array $params = []): string
+//    {
+//        $instance = $this->getViewInstance();
+//
+//        if (!$instance instanceof SelfRenderMenuInterface) {
+//            return '';
+//        }
+//
+//        return $instance->render(
+//            $this,
+//            $this->getValue()->variables,
+//            Arr::mergeRecursive(
+//                $this->getValue()->params,
+//                $params
+//            )
+//        );
+//    }
 
     /**
      * getMenuById

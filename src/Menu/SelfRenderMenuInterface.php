@@ -13,7 +13,7 @@ namespace Lyrasoft\Luna\Menu;
  *
  * @since  1.7
  */
-interface SelfRenderMenuInterface
+interface SelfRenderMenuInterface extends LayoutRenderedMenuInterface
 {
     /**
      * render

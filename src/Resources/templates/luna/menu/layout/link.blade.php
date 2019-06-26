@@ -1,4 +1,4 @@
-{{-- Part of earth project. --}}
+{{-- Part of csie project. --}}
 <?php
 /**
  * Global variables
@@ -15,7 +15,7 @@
 
 /**
  * @var $menu \Lyrasoft\Luna\Menu\MenuNode
- * @var $viewInstance \Lyrasoft\Luna\Menu\AbstractMenuView|\Lyrasoft\Luna\Menu\SelfRenderMenuInterface
+ * @var $viewInstance \Lyrasoft\Luna\Menu\AbstractMenuView
  */
 
 $level = (int) $menu->getDepth();
@@ -34,10 +34,10 @@ $submenuItemClass = $dropdown ? 'dropdown-item' : 'subnav-link';
 @if ($level === 1)
     <li class="nav-item {{ $dropdown ? 'dropdown' : '' }}"
         data-menu-id="{{ $menu->getValue()->id }}">
-        <a @attr('href', $link === $viewInstance::NO_LINK ? false : $link)
+        <a href="{{ $link }}"
             class="nav-link {{ $hasChildren ? $submenuToggleClass : '' }} {{ $menu->isActive(true) ? 'active' : '' }}"
-            @attr('data-toggle', $click && $hasChildren ? 'dropdown' : false)
-            >
+            target="{{ $menu->getValue()->target }}"
+            @attr('data-toggle', $click && $hasChildren ? 'dropdown' : false)>
             {{ $menu->getValue()->title }}
         </a>
 
@@ -48,9 +48,10 @@ $submenuItemClass = $dropdown ? 'dropdown-item' : 'subnav-link';
 @else
     <li class="{{ $dropdown ? '' : 'subnav-item' }} {{ $hasChildren ? $submenuDropdownClass : '' }}"
         data-menu-id="{{ $menu->getValue()->id }}">
-        <a @attr('href', $link === $viewInstance::NO_LINK ? false : $link)
+        <a href="{{ $link }}"
             class="{{ $submenuItemClass }} {{ $menu->isActive(true) ? 'active' : '' }}"
-            >
+            target="{{ $menu->getValue()->target }}"
+        >
             {{ $menu->getValue()->title }}
         </a>
 
@@ -59,4 +60,3 @@ $submenuItemClass = $dropdown ? 'dropdown-item' : 'subnav-link';
         @endif
     </li>
 @endif
-
