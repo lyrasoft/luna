@@ -62,13 +62,6 @@ class EditDefinition extends AbstractFieldDefinition
             // ID
             $this->hidden('id');
 
-            $this->inline('test')
-                ->label('Test')
-                ->configure(function (Form $form) {
-                    $form->add('a', TextField::class)->label('A');
-                    $form->add('b', TextField::class)->label('B');
-                });
-
             if (LunaHelper::tableExists('categories')) {
                 // Category
                 $this->categoryList('category_id')
