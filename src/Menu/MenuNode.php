@@ -189,6 +189,20 @@ class MenuNode extends Node
     }
 
     /**
+     * getActive
+     *
+     * @return  MenuNode|null
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getActive(): ?MenuNode
+    {
+        return $this->findFirst(function (MenuNode $menuNode) {
+            return $menuNode->isActive();
+        });
+    }
+
+    /**
      * hasVisibleChildren
      *
      * @return  bool

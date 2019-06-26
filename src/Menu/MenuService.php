@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Menu;
 
+use Admin\Table\Table;
 use Lyrasoft\Luna\Admin\DataMapper\MenuMapper;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\LunaPackage;
@@ -253,6 +254,47 @@ class MenuService
     public function getMenus(string $type, bool $onlyAvailable = true, $parent = 1): DataSet
     {
         return $this->getRepositoryWithAvailableConditions($type, $onlyAvailable, $parent)->getItems();
+    }
+
+    /**
+     * getActiveMenu
+     *
+     * @param string $type
+     *
+     * @return  MenuNode|null
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getActiveMenu(?string $type): ?MenuNode
+    {
+        if ($type)  {
+            return $this->getMenusTree($type)->getActive();
+        }
+
+        $query = $this->db->getQuery(true);
+
+        $query->select(['DISTINCT type'])
+            ->from(LunaTable::MENUS);
+
+        $types = $this->db->prepare($query)->loadColumn();
+
+        foreach ($types as $type) {
+            if (!$type) {
+                continue;
+            }
+
+            $menus = $this->getMenusTree($type);
+
+            if ($menu = $menus->getActive()) {
+                return $menu;
+            }
+        }
+
+        return null;
     }
 
     /**
