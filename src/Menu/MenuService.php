@@ -17,6 +17,10 @@ use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Phoenix\Repository\ListRepositoryInterface;
+use Windwalker\Cache\Cache;
+use Windwalker\Cache\Serializer\RawSerializer;
+use Windwalker\Cache\Storage\ArrayStorage;
+use Windwalker\Cache\Storage\RuntimeArrayStorage;
 use Windwalker\Core\Cache\RuntimeCacheTrait;
 use Windwalker\Core\Database\DatabaseAdapter;
 use Windwalker\Core\Widget\WidgetHelper;
@@ -238,6 +242,39 @@ class MenuService
     }
 
     /**
+     * getAllMenusTree
+     *
+     * @return  MenuNode[]
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getAllMenusTree(): array
+    {
+        return $this->once('all.menus', function () {
+            $query = $this->db->getQuery(true);
+
+            $query->select(['DISTINCT type'])
+                ->from(LunaTable::MENUS);
+
+            $types = $this->db->prepare($query)->loadColumn();
+
+            $trees = [];
+
+            foreach ($types as $type) {
+                if (!$type) {
+                    continue;
+                }
+
+                $trees[] = $this->getMenusTree($type);
+            }
+
+            return $trees;
+        });
+    }
+
+    /**
      * getMenus
      *
      * @param string     $type
@@ -269,27 +306,38 @@ class MenuService
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getActiveMenu(?string $type): ?MenuNode
+    public function getActiveMenu(?string $type = null): ?MenuNode
     {
         if ($type)  {
             return $this->getMenusTree($type)->getActive();
         }
 
-        $query = $this->db->getQuery(true);
+        $trees = $this->getAllMenusTree();
 
-        $query->select(['DISTINCT type'])
-            ->from(LunaTable::MENUS);
-
-        $types = $this->db->prepare($query)->loadColumn();
-
-        foreach ($types as $type) {
-            if (!$type) {
-                continue;
-            }
-
-            $menus = $this->getMenusTree($type);
-
+        foreach ($trees as $menus) {
             if ($menu = $menus->getActive()) {
+                return $menu;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * findMenu
+     *
+     * @param callable $callback
+     *
+     * @return  MenuNode|null
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function findMenu(callable $callback): ?MenuNode
+    {
+        foreach ($this->getAllMenusTree() as $tree) {
+            if ($menu = $tree->findFirst($callback)) {
                 return $menu;
             }
         }
@@ -390,6 +438,18 @@ class MenuService
     public function setRepository(ListRepositoryInterface $repository)
     {
         $this->repository = $repository;
+
+        return $this;
+    }
+
+    /**
+     * resetCache
+     *
+     * @return  static
+     */
+    public function resetCache()
+    {
+        $this->cache = new Cache(new RuntimeArrayStorage(), new RawSerializer());
 
         return $this;
     }

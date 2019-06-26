@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\Menu;
 
 use Lyrasoft\Luna\Admin\Record\Columns\MenuDataInterface;
+use Lyrasoft\Luna\Admin\Record\MenuRecord;
 use Lyrasoft\Luna\Tree\Node;
 use Windwalker\Core\Router\RouteBuilderInterface;
 use Windwalker\Data\Data;
@@ -17,16 +18,32 @@ use Windwalker\Utilities\Arr;
 /**
  * The MenuNode class.
  *
+ * @method MenuRecord getValue()
+ *
  * @since  1.7
  */
 class MenuNode extends Node
 {
+    /**
+     * Property value.
+     *
+     * @var MenuRecord
+     */
+    protected $value;
+
     /**
      * Property instance.
      *
      * @var AbstractMenuView
      */
     protected $viewInstance;
+
+    /**
+     * Property active.
+     *
+     * @var bool|null
+     */
+    protected $forceActive;
 
     /**
      * Set the value of the current node
@@ -107,6 +124,10 @@ class MenuNode extends Node
      */
     public function isActive(bool $checkChildren = false): bool
     {
+        if ($this->forceActive !== null) {
+            return $this->forceActive;
+        }
+
         $active = $this->getViewInstance()->isActive(
             $this->getValue()->variables,
             $this->getValue()->params
@@ -218,5 +239,21 @@ class MenuNode extends Node
         }
 
         return false;
+    }
+
+    /**
+     * foraceActive
+     *
+     * @param bool|null $active
+     *
+     * @return  MenuNode
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function forceActive(?bool $active): self
+    {
+        $this->forceActive = $active;
+
+        return $this;
     }
 }

@@ -114,6 +114,8 @@ return [
 
     'providers' => [
         'luna' => \Lyrasoft\Luna\Provider\LunaProvider::class,
+        'menu' => \Lyrasoft\Luna\Menu\MenuService::class,
+        'page_builder' => \Lyrasoft\Luna\PageBuilder\PageBuilder::class
     ],
 
     'listeners' => [
