@@ -19,7 +19,7 @@ $vertical = $vertical ?? false;
 ?>
 
 <ul class="{{ $dropdown ? 'dropdown-menu' : ($vertical ? 'subnav flex-column' : 'subnav') }}"
-    data-id="{{ $menu->getValue()->id }}" data-level="{{ $menu->getDepth() }}">
+    data-id="{{ $menu->getValue()->id }}" data-level="{{ $menu->getDepth() + 1 }}">
     @foreach ($menus->getChildren() as $menu)
         @if ($menu->getValue()->hidden)
             @continue

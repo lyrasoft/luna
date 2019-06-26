@@ -23,8 +23,9 @@ $level = (int) $menu->getDepth();
 $click = $params['click'] ?? false;
 $dropdown = $dropdown ?? false;
 
+$dropdownClass = $dropdown ? 'dropdown' : 'accordion-submenu';
 $submenuToggleClass = $dropdown ? 'dropdown-toggle' : '';
-$submenuDropdownClass = $dropdown ? 'dropdown-submenu' : '';
+$submenuDropdownClass = $dropdown ? 'dropdown-submenu' : 'accordion-submenu';
 $submenuItemClass = $dropdown ? 'dropdown-item' : 'subnav-link';
 ?>
 
@@ -32,8 +33,8 @@ $submenuItemClass = $dropdown ? 'dropdown-item' : 'subnav-link';
 @php($link = $menu->route($router))
 
 @if ($level === 1)
-    <li class="nav-item {{ $dropdown ? 'dropdown' : '' }}"
-        data-menu-id="{{ $menu->getValue()->id }}">
+    <li class="nav-item {{ $hasChildren ? $dropdownClass : '' }}"
+        data-menu-id="{{ $menu->getValue()->id }}" data-level="{{ $menu->getDepth() }}">
         <a @attr('href', $link === $viewInstance::NO_LINK ? false : $link)
             class="nav-link {{ $hasChildren ? $submenuToggleClass : '' }} {{ $menu->isActive(true) ? 'active' : '' }}"
             @attr('data-toggle', $click && $hasChildren ? 'dropdown' : false)
