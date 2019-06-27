@@ -8,7 +8,6 @@
 
 namespace Lyrasoft\Luna\Menu;
 
-use Admin\Table\Table;
 use Lyrasoft\Luna\Admin\DataMapper\MenuMapper;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\LunaPackage;
@@ -19,7 +18,6 @@ use Lyrasoft\Luna\Tree\TreeBuilder;
 use Phoenix\Repository\ListRepositoryInterface;
 use Windwalker\Cache\Cache;
 use Windwalker\Cache\Serializer\RawSerializer;
-use Windwalker\Cache\Storage\ArrayStorage;
 use Windwalker\Cache\Storage\RuntimeArrayStorage;
 use Windwalker\Core\Cache\RuntimeCacheTrait;
 use Windwalker\Core\Database\DatabaseAdapter;
@@ -308,7 +306,7 @@ class MenuService
      */
     public function getActiveMenu(?string $type = null): ?MenuNode
     {
-        if ($type)  {
+        if ($type) {
             return $this->getMenusTree($type)->getActive();
         }
 
@@ -348,9 +346,9 @@ class MenuService
     /**
      * getRepositoryWithAvailableConditions
      *
-     * @param string      $type
-     * @param bool        $onlyAvailable
-     * @param int|object  $parent
+     * @param string     $type
+     * @param bool       $onlyAvailable
+     * @param int|object $parent
      *
      * @return  ListRepositoryInterface
      *
@@ -379,11 +377,51 @@ class MenuService
     }
 
     /**
+     * renderMenu
+     *
+     * @param MenuNode|string $menus  MenuNode of menu type name.
+     * @param array           $data   Some configure settings date.
+     *                                - vertical: (bool) Vertical menu with flex-column class
+     *                                - dropdown: (bool) Top navbar doprdown menu.
+     *                                - fade: (bool) Fade in-out submenu. (Only for dropdown)
+     *                                - click: (bool) Click show submenu, otherwise will be hover. (Only for dropdown)
+     *                                - level: (int) Firset level number, default is 1.
+     * @param string          $layout Layout parh.
+     *
+     * @return  string
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function renderMenu($menus, array $data = [], string $layout = 'luna.menu.nav'): string
+    {
+        if (is_string($menus)) {
+            $menus = $this->getMenusTree($menus);
+        }
+
+        $data['menus'] = $menus;
+
+        return WidgetHelper::render(
+            $layout,
+            $data,
+            'edge'
+        );
+    }
+
+    /**
      * renderMenuItems
      *
-     * @param MenuNode|string $menus
-     * @param string          $layout
-     * @param array           $data
+     * @param MenuNode|string $menus  MenuNode of menu type name.
+     * @param array           $data   Some configure settings date.
+     *                                - vertical: (bool) Vertical menu with flex-column class
+     *                                - dropdown: (bool) Top navbar doprdown menu.
+     *                                - fade: (bool) Fade in-out submenu. (Only for dropdown)
+     *                                - click: (bool) Click show submenu, otherwise will be hover. (Only for dropdown)
+     *                                - level: (int) Firset level number, default is 1.
+     * @param string          $layout Layout parh.
      *
      * @return  string
      *

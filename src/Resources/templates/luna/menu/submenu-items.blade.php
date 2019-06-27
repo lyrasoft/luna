@@ -14,23 +14,21 @@
  * @var $menus         \Lyrasoft\Luna\Menu\MenuNode
  */
 
+$level = $level ?? 2;
 $dropdown = $dropdown ?? false;
 $vertical = $vertical ?? false;
 ?>
 
-<ul class="{{ $dropdown ? 'dropdown-menu' : ($vertical ? 'subnav flex-column' : 'subnav') }}"
-    data-id="{{ $menu->getValue()->id }}" data-level="{{ $menu->getDepth() + 1 }}">
-    @foreach ($menus->getChildren() as $menu)
-        @if ($menu->getValue()->hidden)
-            @continue
-        @endif
+@foreach ($menus->getChildren() as $menu)
+    @if ($menu->getValue()->hidden)
+        @continue
+    @endif
 
-        @php($viewInstance = $menu->getViewInstance())
+    @php($viewInstance = $menu->getViewInstance())
 
-        @if ($viewInstance instanceof \Lyrasoft\Luna\Menu\LayoutRenderedMenuInterface)
-            @include($viewInstance->getLayout())
-        @else
-            @include('luna.menu.layout.link')
-        @endif
-    @endforeach
-</ul>
+    @if ($viewInstance instanceof \Lyrasoft\Luna\Menu\LayoutRenderedMenuInterface)
+        @include($viewInstance->getLayout())
+    @else
+        @include('luna.menu.layout.link')
+    @endif
+@endforeach

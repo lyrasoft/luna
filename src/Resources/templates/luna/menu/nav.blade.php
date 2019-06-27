@@ -1,4 +1,4 @@
-{{-- Part of earth project. --}}
+{{-- Part of csie project. --}}
 <?php
 /**
  * Global variables
@@ -11,14 +11,22 @@
  * @var $helper        \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
  * @var $router        \Windwalker\Core\Router\PackageRouter       Router object.
  * @var $asset         \Windwalker\Core\Asset\AssetManager         The Asset manager.
+ * @var $menus         \Lyrasoft\Luna\Menu\MenuNode
  */
 
-/**
- * @var $menu \Lyrasoft\Luna\Menu\MenuNode
- * @var $viewInstance \Lyrasoft\Luna\Menu\AbstractMenuView|\Lyrasoft\Luna\Menu\SelfRenderMenuInterface
- */
+$click = $click ?? false;
+$fade = $fade ?? false;
+$vertical = $vertical ?? false;
+$dropdown = $dropdown ?? false;
+$level = (int) ($level ?? 1);
+
+if ($dropdown) {
+    \Phoenix\Script\BootstrapScript::multiLevelMenu();
+}
 ?>
 
-@include('luna.menu.layout.link')
-
-
+<div class="nav {{ $class ?? '' }} {{ $vertical ? 'flex-column' : '' }} {{ $click ? '' : 'dropdown-hover' }} {{ $fade ? 'drodown-fade' : '' }}"
+    data-menu-id="{{ $menus->getValue()->id ?? '1' }}"
+    data-level="1">
+    @include('luna.menu.menu-items')
+</div>

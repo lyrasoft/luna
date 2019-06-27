@@ -16,6 +16,7 @@
 
 $click = $click ?? false;
 $dropdown = $dropdown ?? false;
+$level = (int) ($level ?? 1);
 
 if ($dropdown) {
     \Phoenix\Script\BootstrapScript::multiLevelMenu();
