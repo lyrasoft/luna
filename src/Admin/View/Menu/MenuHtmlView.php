@@ -103,7 +103,7 @@ class MenuHtmlView extends EditView
         );
 
         if ($viewInstance) {
-            $vars = $data->item->variables;
+            $vars = (array) $data->item->variables;
 
             $viewInstance->prepareVariablesForm($vars);
 
