@@ -19,11 +19,12 @@
  */
 
 $level = (int) ($level ?? 1);
+$maxLevel = $maxLevel ?? 0;
 
 $click = $click ?? false;
 $dropdown = $dropdown ?? false;
 
-$hasChildren = $menu->hasVisibleChildren();
+$hasChildren = $menu->hasVisibleChildren() && (!$maxLevel || $level < $maxLevel);
 $link = $menu->route($router);
 ?>
 
