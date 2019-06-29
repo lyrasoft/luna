@@ -218,7 +218,7 @@
         Vue.set(this.uploadQueue, uniqid, 0);
       },
       uploadEnd: function uploadEnd(uniqid) {
-        Vue.delete(this.uploadQueue, uniqid);
+        Vue["delete"](this.uploadQueue, uniqid);
       },
       uploadProgress: function uploadProgress(uniqid, progress) {
         this.uploadQueue[uniqid] = progress;

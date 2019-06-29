@@ -76,26 +76,26 @@
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#" @click="edit()"
+                            <a class="dropdown-item" href="#" @click.prevent="edit()"
                                 v-if="!content.disabled">
                                 <span class="fa fa-edit"></span>
                                 編輯
                             </a>
-                            <a class="dropdown-item" href="#" @click="copy()"
+                            <a class="dropdown-item" href="#" @click.prevent="copy()"
                                 v-if="!content.disabled">
                                 <span class="fa fa-copy"></span>
                                 複製
                             </a>
-                            <a class="dropdown-item" href="#" @click="toggleDisabled()">
+                            <a class="dropdown-item" href="#" @click.prevent="toggleDisabled()">
                                 <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                                 @{{ content.disabled ? '啟用' : '停用' }}
                             </a>
-                            <a class="dropdown-item" href="#" @click="addNewRow()"
+                            <a class="dropdown-item" href="#" @click.prevent="addNewRow()"
                                 v-if="!content.disabled && !child">
                                 <span class="fa fa-plus"></span>
                                 新增列
                             </a>
-                            <a class="dropdown-item" href="#" @click="remove()">
+                            <a class="dropdown-item" href="#" @click.prevent="remove()">
                                 <span class="fa fa-trash"></span>
                                 刪除
                             </a>
@@ -120,6 +120,7 @@
                             :key="addon.id"
                             :value="addon"
                             :child="true"
+                            move-handle="move-handle"
                             {{--@columns-change="columnsChange(addon, $event)"--}}
                             @delete="deleteAddon(i)"
                         ></row>

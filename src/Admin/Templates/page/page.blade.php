@@ -59,6 +59,7 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
                         <row v-for="(row, i) of content" class="body__row page-row mb-4"
                             :key="row.id"
                             :value="row"
+                            move-handle="row-move-handle"
                             @columns-change="columnsChange(row, $event)"
                             @add="addNewRow(i)"
                             @copy="copyRow(row, i)"

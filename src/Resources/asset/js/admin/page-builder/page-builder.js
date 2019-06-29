@@ -255,7 +255,7 @@ $(function () {
       id: String,
       accepted: {
         type: Array,
-        default: function _default() {
+        "default": function _default() {
           return ['image/jpeg', 'image/png', 'image/gif'];
         }
       }
@@ -499,7 +499,7 @@ $(function () {
     props: {
       name: String,
       className: {
-        default: 'c-rwd-group',
+        "default": 'c-rwd-group',
         type: String
       }
     },
@@ -633,7 +633,7 @@ $(function () {
     props: {
       value: String,
       activeClass: {
-        default: 'btn-success'
+        "default": 'btn-success'
       }
     },
     mounted: function mounted() {
@@ -1126,7 +1126,7 @@ $(function () {
       index: Number,
       child: {
         type: Boolean,
-        default: false
+        "default": false
       }
     },
     created: function created() {
@@ -1345,7 +1345,11 @@ $(function () {
       value: Object,
       child: {
         type: Boolean,
-        default: false
+        "default": false
+      },
+      moveHandle: {
+        type: String,
+        "default": 'move-handle'
       }
     },
     created: function created() {

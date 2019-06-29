@@ -6,7 +6,8 @@
             <div class="page-row__title d-flex">
                 <div class="page-row__move-cursor">
                     <span class="badge badge-secondary mr-2" style="cursor: move">
-                        <span class="fa fa-fw fa-arrows-alt-v row-move-handle"></span>
+                        <span class="fa fa-fw fa-arrows-alt-v"
+                            :class="[moveHandle]"></span>
                     </span>
                 </div>
                 <div :is="child ? 'strong' : 'h5'">
@@ -43,15 +44,15 @@
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#" @click="toggleDisabled()">
+                            <a class="dropdown-item" href="#" @click.prevent="toggleDisabled()">
                                 <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                                 @{{ content.disabled ? '啟用' : '停用' }}
                             </a>
-                            <a class="dropdown-item" href="#" @click="copy()" v-if="!content.disabled">
+                            <a class="dropdown-item" href="#" @click.prevent="copy()" v-if="!content.disabled">
                                 <span class="fa fa-copy"></span>
                                 複製
                             </a>
-                            <a class="dropdown-item" href="#" @click="remove()">
+                            <a class="dropdown-item" href="#" @click.prevent="remove()">
                                 <span class="fa fa-trash"></span>
                                 刪除
                             </a>

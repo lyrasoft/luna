@@ -25,6 +25,10 @@ $(() => {
       child: {
         type: Boolean,
         default: false
+      },
+      moveHandle: {
+        type: String,
+        default: 'move-handle'
       }
     },
 

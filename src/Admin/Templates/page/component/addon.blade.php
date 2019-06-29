@@ -20,18 +20,18 @@
             </div>
 
             <div class="c-addon-instance__toolbar">
-                <a href="#" class="text-dark" @click="edit()"
+                <a href="#" class="text-dark" @click.prevent="edit()"
                     v-if="!content.disabled">
                     <span class="fa fa-fw fa-edit"></span>
                 </a>
                 <a href="#" class="text-dark"
-                    v-if="!content.disabled" @click="copy()">
+                    v-if="!content.disabled" @click.prevent="copy()">
                     <span class="fa fa-fw fa-copy"></span>
                 </a>
-                <a href="#" class="text-dark" @click="toggleDisabled()">
+                <a href="#" class="text-dark" @click.prevent="toggleDisabled()">
                     <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye-slash' : 'fa-eye']"></span>
                 </a>
-                <a href="#" class="text-dark" @click="remove()">
+                <a href="#" class="text-dark" @click.prevent="remove()">
                     <span class="fa fa-fw fa-trash"></span>
                 </a>
             </div>
