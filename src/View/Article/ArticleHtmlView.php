@@ -9,10 +9,13 @@
 namespace Lyrasoft\Luna\View\Article;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Menu\MenuNode;
+use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Data\DataInterface;
+use Windwalker\DI\Annotation\Inject;
 use Windwalker\String\Mbstring;
 
 /**
@@ -37,6 +40,15 @@ class ArticleHtmlView extends ItemView
     protected $renderer = RendererHelper::EDGE;
 
     /**
+     * Property menuService.
+     *
+     * @Inject()
+     *
+     * @var MenuService
+     */
+    protected $menuService;
+
+    /**
      * init
      *
      * @return  void
@@ -52,6 +64,9 @@ class ArticleHtmlView extends ItemView
      * @param \Windwalker\Data\Data $data
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      */
     protected function prepareData($data)
     {
@@ -68,9 +83,18 @@ class ArticleHtmlView extends ItemView
      * @param DataInterface $data
      *
      * @return  void
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      */
     protected function prepareHeader(DataInterface $data)
     {
+        // Menu
+        if (!$this->menuService->getActiveMenu()) {
+            $this->menuService->forceMenuActive('article_category', ['id' => $data->item->category_id]);
+        }
+
+        // Header
         $this->setTitle($data->item->title);
 
         $desc = str(strip_tags($data->item->introtext))->truncate(150, '...')->__toString();

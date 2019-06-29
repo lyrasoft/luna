@@ -86,6 +86,8 @@ class ArticlesRepository extends ListRepository implements ContentRepositoryInte
             'article.created_by',
             'article.created',
             'category.title',
+            'category.alias',
+            'category.path',
             'comment.count',
         ]);
 

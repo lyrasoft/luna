@@ -31,7 +31,7 @@ use Lyrasoft\Luna\Menu\AbstractMenuView;
  * @property    string  alias
  * @property    string  url
  * @property    string  target
- * @property    string  variables
+ * @property    string|array  variables
  * @property    string  image
  * @property    int  state
  * @property    string  created
@@ -39,7 +39,7 @@ use Lyrasoft\Luna\Menu\AbstractMenuView;
  * @property    string  modified
  * @property    int  modified_by
  * @property    string  language
- * @property    string  params
+ * @property    string|array  params
  *
  * @property    AbstractMenuView  viewInstance
  */

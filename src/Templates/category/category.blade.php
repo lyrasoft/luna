@@ -25,9 +25,10 @@
 @extends('_global.html')
 
 @section('content')
-    <div class="container category-item">
-        <h1>Category</h1>
-        <p>Hello World.</p>
+    <div class="container category-item mt-5">
+        @if ($category->notNull())
+            <h2 class="mb-4">{{ $category->title }}</h2>
+        @endif
         <div class="articles-items">
             @foreach ($items as $i => $item)
                 <div class="article-item card mb-4">

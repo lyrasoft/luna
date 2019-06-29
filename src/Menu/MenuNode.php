@@ -14,6 +14,7 @@ use Lyrasoft\Luna\Tree\Node;
 use Windwalker\Core\Router\RouteBuilderInterface;
 use Windwalker\Data\Data;
 use Windwalker\Utilities\Arr;
+use Windwalker\Utilities\ArrayHelper;
 
 /**
  * The MenuNode class.
@@ -22,7 +23,7 @@ use Windwalker\Utilities\Arr;
  *
  * @since  1.7
  */
-class MenuNode extends Node
+class MenuNode extends Node implements MenuDataInterface
 {
     /**
      * Property value.
@@ -218,7 +219,7 @@ class MenuNode extends Node
      */
     public function getActive(): ?MenuNode
     {
-        return $this->findFirst(function (MenuNode $menuNode) {
+        return $this->findFirst(static function (MenuNode $menuNode) {
             return $menuNode->isActive();
         });
     }
@@ -255,5 +256,65 @@ class MenuNode extends Node
         $this->forceActive = $active;
 
         return $this;
+    }
+
+    /**
+     * is
+     *
+     * @param string $view
+     * @param array  $variablesQuery
+     *
+     * @return  bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function is(string $view, array $variablesQuery = []): bool
+    {
+        $menu = $this->getValue();
+
+        return $menu->view === $view && Arr::query([$menu->variables], $variablesQuery) !== [];
+    }
+
+    /**
+     * __get
+     *
+     * @param string $name
+     *
+     * @return  mixed
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function __get($name)
+    {
+        return $this->getValue()->$name;
+    }
+
+    /**
+     * __set
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function __set($name, $value)
+    {
+        $this->getValue()->$name = $value;
+    }
+
+    /**
+     * __isset
+     *
+     * @param string $name
+     *
+     * @return  bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function __isset($name)
+    {
+        return isset($this->getValue()->$name);
     }
 }

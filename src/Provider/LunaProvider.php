@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Provider;
 
 use Lyrasoft\Luna\Config\ConfigService;
 use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\Menu\MenuService;
 use Lyrasoft\Luna\PageBuilder\PageBuilder;
 use Windwalker\Core\Renderer\RendererManager;
 use Windwalker\DI\Container;
@@ -49,7 +50,9 @@ class LunaProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container->getParent()->prepareSharedObject(ConfigService::class);
+        $parentContainer = $container->getParent();
+
+        $parentContainer->prepareSharedObject(ConfigService::class);
 
         $this->registerClassAlias();
 
@@ -57,7 +60,7 @@ class LunaProvider implements ServiceProviderInterface
             return;
         }
 
-        $container->getParent()->extend(
+        $parentContainer->extend(
             RendererManager::class,
             function (RendererManager $manager, Container $container) {
                 $manager->addGlobalPath($this->luna->getDir() . '/Resources/templates', PriorityQueue::LOW - 25);
@@ -66,7 +69,8 @@ class LunaProvider implements ServiceProviderInterface
             }
         );
 
-        $container->prepareSharedObject(PageBuilder::class);
+        $parentContainer->prepareSharedObject(PageBuilder::class);
+        $parentContainer->prepareSharedObject(MenuService::class);
     }
 
     /**

@@ -39,6 +39,16 @@ class MenuRecord extends NestedRecord implements MenuDataInterface
     protected $keys = 'id';
 
     /**
+     * Property casts.
+     *
+     * @var  array
+     */
+    protected $casts = [
+        'variables' => 'json',
+        'params' => 'json'
+    ];
+
+    /**
      * Checks that the object is valid and able to be stored.
      *
      * This method checks that the parent_id is non-zero and exists in the database.

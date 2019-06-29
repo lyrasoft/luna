@@ -16,6 +16,7 @@ use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Phoenix\Repository\ListRepositoryInterface;
+use Phoenix\Script\BootstrapScript;
 use Windwalker\Cache\Cache;
 use Windwalker\Cache\Serializer\RawSerializer;
 use Windwalker\Cache\Storage\RuntimeArrayStorage;
@@ -344,6 +345,36 @@ class MenuService
     }
 
     /**
+     * forceActiveMenu
+     *
+     * @param string $view
+     * @param array  $variablesQuery
+     * @param bool   $onlyFirst
+     *
+     * @return  static
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function forceMenuActive(string $view, $variablesQuery = [], $onlyFirst = true): self
+    {
+        $this->findMenu(static function (MenuNode $menuNode) use ($view, $variablesQuery, $onlyFirst) {
+            if ($menuNode->is($view, $variablesQuery)) {
+                $menuNode->forceActive(true);
+
+                if ($onlyFirst) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
+        return $this;
+    }
+
+    /**
      * getRepositoryWithAvailableConditions
      *
      * @param string     $type
@@ -481,13 +512,15 @@ class MenuService
     }
 
     /**
-     * resetCache
+     * registerMenuStyles
      *
      * @return  static
+     *
+     * @since  __DEPLOY_VERSION__
      */
-    public function resetCache()
+    public function registerMenuStyles(): self
     {
-        $this->cache = new Cache(new RuntimeArrayStorage(), new RawSerializer());
+        BootstrapScript::multiLevelMenu();
 
         return $this;
     }

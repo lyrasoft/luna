@@ -15,6 +15,7 @@
 
 $id = $id ?? 'menu-' . uniqid();
 $click = $click ?? false;
+$vertical = $vertical ?? false;
 $link = ($link === $viewInstance::NO_LINK || (string) $link === '') ? false : $link;
 ?>
 

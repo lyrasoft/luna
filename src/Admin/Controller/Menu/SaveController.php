@@ -134,9 +134,6 @@ class SaveController extends AbstractSaveController
                 $viewInstance->prepareVariablesStore($data->variables);
             }
         }
-
-        $data->variables = json_encode($data->variables);
-        $data->params = json_encode($data->params);
     }
 
     /**
