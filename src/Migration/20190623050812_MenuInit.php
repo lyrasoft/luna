@@ -146,8 +146,5 @@ class MenuInit extends AbstractMigration
     public function down()
     {
         $this->drop(LunaTable::MENUS);
-
-        $record = new MenuRecord();
-        $record->createRoot();
     }
 }
