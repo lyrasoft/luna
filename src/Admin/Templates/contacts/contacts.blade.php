@@ -117,10 +117,10 @@
                             </span>
                             </td>
 
-                            <td>
+                            <td class="text-center">
                                 <a class="btn btn-default btn-sm"
                                    href="{{ $router->route('contact', ['id' => $item->id]) }}">
-                                    <span class="glyphicon glyphicon-edit fa fa-pencil"></span>
+                                    <span class="fa fa-edit"></span>
                                 </a>
                             </td>
 
