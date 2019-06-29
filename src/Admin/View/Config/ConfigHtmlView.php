@@ -94,6 +94,7 @@ class ConfigHtmlView extends EditView
         BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
         BootstrapScript::buttonRadio();
         BootstrapScript::tooltip('.has-tooltip');
+        PhoenixScript::disableWhenSubmit();
     }
 
     /**

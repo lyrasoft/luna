@@ -111,9 +111,9 @@
                             <td>
                             <span class="btn-group">
                                 {!! $grid->published($item->state) !!}
-                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip"
-                                        onclick="Phoenix.Grid.deleteRow({{ $i }});"
-                                        title="@translate('phoenix.toolbar.delete')">
+                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip disable-on-submit"
+                                    onclick="Phoenix.Grid.deleteRow({{ $i }});"
+                                    title="@translate('phoenix.toolbar.delete')">
                                     <span class="glyphicon glyphicon-trash fa fa-trash"></span>
                                 </button>
                             </span>

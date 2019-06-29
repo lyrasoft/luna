@@ -99,6 +99,7 @@ class TagsHtmlView extends GridView
         PhoenixScript::multiSelect('#admin-form table', ['duration' => 100]);
         BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
         BootstrapScript::tooltip();
+        PhoenixScript::disableWhenSubmit();
 
         \Phoenix\Script\JQueryScript::highlight('.hasHighlight', $this->data->state['input.search.content']);
     }

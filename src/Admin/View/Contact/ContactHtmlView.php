@@ -110,6 +110,7 @@ class ContactHtmlView extends EditView
         BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
         BootstrapScript::buttonRadio();
         BootstrapScript::tooltip();
+        PhoenixScript::disableWhenSubmit();
     }
 
     /**

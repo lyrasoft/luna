@@ -120,9 +120,10 @@ $originOrdering = [];
                             <td class="state-col">
                             <span class="btn-group">
                                 {!! $grid->published($item->state) !!}
-                                <button type="button" class="btn btn-default btn-light btn-sm hasTooltip"
-                                        onclick="Phoenix.Grid.copyRow({{ $i }});"
-                                        title="@translate('phoenix.toolbar.duplicate')">
+                                <button type="button"
+                                    class="btn btn-default btn-light btn-sm hasTooltip disable-on-submit"
+                                    onclick="Phoenix.Grid.copyRow({{ $i }});"
+                                    title="@translate('phoenix.toolbar.duplicate')">
                                     <span class="glyphicon glyphicon-duplicate fa fa-copy"></span>
                                 </button>
                             </span>

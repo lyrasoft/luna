@@ -107,6 +107,7 @@ class PageHtmlView extends EditView
         BootstrapScript::checkbox(BootstrapScript::FONTAWESOME);
         BootstrapScript::buttonRadio();
         BootstrapScript::tooltip('.has-tooltip');
+        PhoenixScript::disableWhenSubmit();
 
         JQueryScript::csrfToken();
         PhoenixScript::addRoute('single_image_upload', $this->router->route('_luna_img_upload'));

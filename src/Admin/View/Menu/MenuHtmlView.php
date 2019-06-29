@@ -138,6 +138,7 @@ class MenuHtmlView extends EditView
         PhoenixScript::disableWhenSubmit();
         PhoenixScript::keepAlive($this->package->app->uri->root);
         BootstrapScript::tabState();
+        PhoenixScript::disableWhenSubmit();
     }
 
     /**
