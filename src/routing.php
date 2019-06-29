@@ -81,6 +81,10 @@ $router->any('page', '/page/(*path)')
         ],
     ]);
 
+// Menu
+$router->any('menu_to', '/_menu/to(/id)')
+    ->controller(\Lyrasoft\Luna\Controller\Menu\MenuRedirectController::class);
+
 // Change Language
 $router->any('change_language', '/language/checkout/(lang)')
     ->controller('Language')
