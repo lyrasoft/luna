@@ -19,4 +19,6 @@
  */
 ?>
 
-<div class="dropdown-divider" data-menu-id="{{ $menu->getValue()->id }}"></div>
+<div class="dropdown-divider"
+    data-menu-id="{{ $menu->getValue()->id }}"
+    data-lavel="{{ $menu->getDepth() }}"></div>

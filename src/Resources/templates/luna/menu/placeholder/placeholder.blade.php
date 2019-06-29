@@ -19,7 +19,7 @@
  */
 
 $level = $menu->getDepth();
-$type = $menu->getValue()->variables['type'];
+$type = $menu->variables['type'];
 ?>
 
 @if ($level === 1 || $type === 'link')

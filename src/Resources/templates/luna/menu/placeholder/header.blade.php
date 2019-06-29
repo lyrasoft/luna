@@ -17,8 +17,12 @@
  * @var $menu \Lyrasoft\Luna\Menu\MenuNode
  * @var $viewInstance \Lyrasoft\Luna\Menu\AbstractMenuView|\Lyrasoft\Luna\Menu\SelfRenderMenuInterface
  */
+
+$variables = $menu->variables;
 ?>
 
-<h6 class="dropdown-header" data-menu-id="{{ $menu->getValue()->id }}">
+<h6 class="dropdown-header"
+    data-menu-id="{{ $menu->getValue()->id }}"
+    data-lavel="{{ $menu->getDepth() }}">
     {{ $variables['header'] === '' ? $menu->getValue()->title : $variables['header'] }}
 </h6>
