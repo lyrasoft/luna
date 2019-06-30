@@ -215,7 +215,7 @@ class MenuNode extends Node implements MenuDataInterface
      *
      * @return  MenuNode|null
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function getActive(): ?MenuNode
     {
@@ -229,7 +229,7 @@ class MenuNode extends Node implements MenuDataInterface
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function hasVisibleChildren(): bool
     {
@@ -249,7 +249,7 @@ class MenuNode extends Node implements MenuDataInterface
      *
      * @return  MenuNode
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function forceActive(?bool $active): self
     {
@@ -266,7 +266,7 @@ class MenuNode extends Node implements MenuDataInterface
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function is(string $view, array $variablesQuery = []): bool
     {
@@ -282,7 +282,7 @@ class MenuNode extends Node implements MenuDataInterface
      *
      * @return  mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function __get($name)
     {
@@ -297,7 +297,7 @@ class MenuNode extends Node implements MenuDataInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function __set($name, $value)
     {
@@ -311,7 +311,7 @@ class MenuNode extends Node implements MenuDataInterface
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function __isset($name)
     {

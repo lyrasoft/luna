@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Menu;
 /**
  * Interface LayoutRenderedMenuInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.6
  */
 interface LayoutRenderedMenuInterface
 {
@@ -20,7 +20,7 @@ interface LayoutRenderedMenuInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function getLayout(): string;
 }

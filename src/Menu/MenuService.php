@@ -247,7 +247,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function getAllMenusTree(): array
     {
@@ -303,7 +303,7 @@ class MenuService
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function getActiveMenu(?string $type = null): ?MenuNode
     {
@@ -331,7 +331,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function findMenu(callable $callback): ?MenuNode
     {
@@ -355,7 +355,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function forceMenuActive(string $view, $variablesQuery = [], $onlyFirst = true): self
     {
@@ -425,7 +425,7 @@ class MenuService
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function renderMenu($menus, array $data = [], string $layout = 'luna.menu.nav'): string
     {
@@ -516,7 +516,7 @@ class MenuService
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function registerMenuStyles(): self
     {

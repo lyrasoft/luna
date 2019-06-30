@@ -20,7 +20,7 @@ use Windwalker\Router\Exception\RouteNotFoundException;
 /**
  * The MenuRedirectController class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.6
  */
 class MenuRedirectController extends AbstractController
 {

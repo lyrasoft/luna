@@ -114,7 +114,7 @@ class RouteMenuView extends AbstractMenuView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.6
      */
     public function prepareVariablesStore(array &$variables): void
     {
