@@ -58,6 +58,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
     {
         $this->add('id', CategoryModalField::class)
             ->label(__('luna.category.title'))
+            ->categoryType('article')
             ->required(true);
     }
 
