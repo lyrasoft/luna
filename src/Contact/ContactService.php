@@ -21,6 +21,7 @@ use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Data\Data;
 use Windwalker\DI\Annotation\Inject;
 use Windwalker\String\SimpleTemplate;
+use Windwalker\Utilities\Queue\PriorityQueue;
 
 /**
  * The ContactService class.
@@ -54,7 +55,7 @@ class ContactService
         $message = $this->getContactMessage($data);
 
         foreach ($users as $user) {
-            $message->to($user->email, $user->name);
+            $message->bcc($user->email, $user->name);
         }
 
         return Mailer::send($message);
@@ -133,7 +134,8 @@ class ContactService
         $widget->setPathPrefix($prefix)->registerPaths(true);
 
         $widget->addPath(
-            LunaHelper::getPackage()->getDir() . '/Resources/templates/mail'
+            LunaHelper::getPackage()->getDir() . '/Resources/templates/mail',
+            PriorityQueue::MIN
         );
 
         return $widget;
