@@ -52,6 +52,22 @@ class SaveController extends AbstractSaveController
      */
     public function processSuccess($result)
     {
+        $this->sendMail();
+
+        return parent::processSuccess($result);
+    }
+
+    /**
+     * sendMail
+     *
+     * @return  void
+     *
+     * @throws \ReflectionException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function sendMail(): void
+    {
         $users = $this->getReceiveMailUsers();
 
         $this->contactService->sendContactMail($this->dataObject, $users);
@@ -60,8 +76,6 @@ class SaveController extends AbstractSaveController
             'controller' => $this,
             'data' => $this->dataObject,
         ]);
-
-        return parent::processSuccess($result);
     }
 
     /**
