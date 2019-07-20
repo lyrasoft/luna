@@ -44,18 +44,19 @@ class ContactService
      *
      * @param Data                $data
      * @param iterable|UserData[] $users
+     * @param string              $recipient
      *
      * @return bool
      *
      * @throws \ReflectionException
      * @since  1.7
      */
-    public function sendContactMail(Data $data, iterable $users = []): bool
+    public function sendContactMail(Data $data, iterable $users = [], string $recipient = 'bcc'): bool
     {
         $message = $this->getContactMessage($data);
 
         foreach ($users as $user) {
-            $message->bcc($user->email, $user->name);
+            $message->$recipient($user->email, $user->name);
         }
 
         return Mailer::send($message);

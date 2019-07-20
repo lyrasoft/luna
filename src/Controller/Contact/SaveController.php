@@ -43,6 +43,13 @@ class SaveController extends AbstractSaveController
     protected $contactService;
 
     /**
+     * Property bcc.
+     *
+     * @var  bool
+     */
+    protected $bcc = true;
+
+    /**
      * Process success.
      *
      * @param  mixed $result
