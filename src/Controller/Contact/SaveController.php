@@ -45,9 +45,9 @@ class SaveController extends AbstractSaveController
     /**
      * Property bcc.
      *
-     * @var  bool
+     * @var  string
      */
-    protected $bcc = true;
+    protected $recipient = 'bcc';
 
     /**
      * Process success.
@@ -77,7 +77,13 @@ class SaveController extends AbstractSaveController
     {
         $users = $this->getReceiveMailUsers();
 
-        $this->contactService->sendContactMail($this->dataObject, $users);
+        $this->triggerEvent('onLunaContactGetReceivers', [
+            'controller' => $this,
+            'data' => $this->dataObject,
+            'users' => &$users
+        ]);
+
+        $this->contactService->sendContactMail($this->dataObject, [], $this->recipient);
 
         $this->triggerEvent('onLunaContactSendMail', [
             'controller' => $this,

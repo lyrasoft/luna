@@ -59,6 +59,10 @@ class ContactService
             $message->$recipient($user->email, $user->name);
         }
 
+        if (!$message->getTo() && !$message->getCc() && !$message->getBcc()) {
+            return false;
+        }
+
         return Mailer::send($message);
     }
 
