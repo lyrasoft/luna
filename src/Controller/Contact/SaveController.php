@@ -83,7 +83,7 @@ class SaveController extends AbstractSaveController
             'users' => &$users
         ]);
 
-        $this->contactService->sendContactMail($this->dataObject, [], $this->recipient);
+        $this->contactService->sendContactMail($this->dataObject, $users, $this->recipient);
 
         $this->triggerEvent('onLunaContactSendMail', [
             'controller' => $this,

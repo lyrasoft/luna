@@ -82,11 +82,12 @@ class ContactService
         $config = $this->config;
 
         $message = (new MailMessage($this->getSubject($data)))
-            ->body(
-                $this->getWidget(
-                    'contact',
-                    'edge'
-                )->render(['data' => $data, 'receiver' => $config->extract('mail.from')])
+            ->renderBody(
+                'mail.contact',
+                ['data' => $data, 'receiver' => $config->extract('mail.from')],
+                'edge',
+                null,
+                ''
             );
 
         if ($data->email) {
