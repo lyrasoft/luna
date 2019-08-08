@@ -197,6 +197,24 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * getTopParent
+     *
+     * @param bool $selfAsDefault Return self if already top node.
+     *
+     * @return  Node|mixed
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getTopParent(bool $selfAsDefault = true)
+    {
+        $parents = $this->getAncestors();
+
+        array_shift($parents);
+
+        return $parents[array_key_first($parents)] ?? ($selfAsDefault ? $this : null);
+    }
+
+    /**
      * Retrieves all ancestors of node excluding current node.
      *
      * @return array

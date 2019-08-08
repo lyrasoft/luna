@@ -27,6 +27,7 @@ use Windwalker\Data\Data;
 use Windwalker\Data\DataSet;
 use Windwalker\DI\Annotation\Inject;
 use Windwalker\DI\Container;
+use Windwalker\Utilities\Arr;
 
 /**
  * The MenuService class.
@@ -342,6 +343,68 @@ class MenuService
         }
 
         return null;
+    }
+
+    /**
+     * each
+     *
+     * @param callable    $callback
+     * @param string|null $type
+     *
+     * @return  MenuService
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function each(callable $callback, ?string $type = null): self
+    {
+        if ($type) {
+            $menus = [$this->getMenusTree($type)];
+        } else {
+            $menus = $this->getAllMenusTree();
+        }
+
+        foreach ($menus as $tree) {
+            foreach ($tree as $menu) {
+                $callback($menu);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * If there are no current active menu, find a menu to make it active.
+     *
+     * @param string $view
+     * @param array  $conditions
+     *
+     * @return  MenuService
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function forceActiveIfNoExists(string $view, array $conditions = []): self
+    {
+        $active = $this->getActiveMenu();
+
+        if ($active) {
+            return $this;
+        }
+
+        $this->each(static function (MenuNode $menuNode) use ($view, $conditions) {
+            if ($menuNode->view === $view && array_intersect($menuNode->variables, $conditions) === $conditions) {
+                $menuNode->forceActive(true);
+            }
+        });
+
+        return $this;
     }
 
     /**
