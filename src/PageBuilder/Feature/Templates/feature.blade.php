@@ -65,7 +65,7 @@ $text = \Windwalker\Filter\OutputFilter::stripStyle($text);
         </div>
     @endif
 
-    <p class="c-addon__content-text">
+    <div class="c-addon__content-text">
         {!! $text !!}
-    </p>
+    </div>
 @stop
