@@ -79,6 +79,16 @@ class GridDefinition extends AbstractFieldDefinition
                 ->option(__('phoenix.grid.state.published'), '1')
                 ->option(__('phoenix.grid.state.unpublished'), '0')
                 ->onchange('this.form.submit()');
+
+            if (Locale::isEnabled()) {
+                // Language
+                $this->languageList('menu.language')
+                    ->label(__($langPrefix . 'menu.field.language'))
+                    ->class('has-select2')
+                    ->option(__($langPrefix . 'field.language.select'), '')
+                    ->option(__($langPrefix . 'field.language.all'), '*')
+                    ->onchange('this.form.submit()');
+            }
         });
 
         /*

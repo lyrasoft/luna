@@ -173,10 +173,18 @@ $url->delVar('page');
                                 {{-- VIEW --}}
                                 <td class="text-nowrap">
                                     <div class="small text-muted">
-                                        @lang($luna->langPrefix . 'menu.group.' . $item->viewInstance::getGroup())
+                                        @if ($item->viewInstance)
+                                            @lang($luna->langPrefix . 'menu.group.' . $item->viewInstance::getGroup())
+                                        @else
+                                            未知
+                                        @endif
                                     </div>
                                     <div class="has-tooltip" title="{{ $item->view }}">
-                                        {{ $item->viewInstance::getTitle() }}
+                                        @if ($item->viewInstance)
+                                            {{ $item->viewInstance::getTitle() }}
+                                        @else
+                                            未知
+                                        @endif
                                     </div>
                                 </td>
 

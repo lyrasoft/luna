@@ -146,11 +146,11 @@ class AliasMenuView extends AbstractMenuView
      */
     protected function findTarget(array $variables, array $params): ?MenuNode
     {
-        $menuId = $variables['target'];
+        $menuId = $variables['target'] ?? 0;
 
         $menuService = Ioc::service(MenuService::class);
 
-        $menus = $menuService->getMenusTree($variables['type']);
+        $menus = $menuService->getMenusTree($variables['type'] ?? '');
 
         return $menus->getMenuById($menuId);
     }

@@ -80,7 +80,7 @@ class GridDefinition extends AbstractFieldDefinition
 
             if (Locale::isEnabled()) {
                 // Language
-                $this->languageList('article.language')
+                $this->languageList('category.language')
                     ->label(__($langPrefix . 'category.field.language'))
                     ->option(__($langPrefix . 'field.language.select'), '')
                     ->option(__($langPrefix . 'field.language.all'), '*')
