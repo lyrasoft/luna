@@ -138,7 +138,7 @@ class RouteMenuView extends AbstractMenuView
     {
         return $router->to(
             $variables['route'],
-            $variables['variables']
+            $variables['variables'] ?? []
         )->__toString();
     }
 
@@ -154,7 +154,7 @@ class RouteMenuView extends AbstractMenuView
      */
     public function isActive(array $variables, array $params): bool
     {
-        return $this->menuHelper->is($variables['route'], $variables['variables']);
+        return $this->menuHelper->is($variables['route'], $variables['variables'] ?? []);
     }
 
     /**
