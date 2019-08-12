@@ -84,7 +84,7 @@ class TinymceEditorField extends AbstractEditorField
         $luna    = LunaHelper::getPackage();
         $options = (array) $this->get('options', []);
 
-        $defaultOptions = static::$defaultOptions;
+        $defaultOptions = [];
 
         // Language
         $this->loadLanguage($defaultOptions);
@@ -205,7 +205,7 @@ JS
             $defaultOptions['plugins'][] = 'lunadragdrop';
         }
 
-        $options = Arr::mergeRecursive($defaultOptions, $options);
+        $options = Arr::mergeRecursive($defaultOptions, static::$defaultOptions, $options);
 
         // Set global settings
         $contentCss = (array) Arr::get($options, 'content_css', $this->get('content_css'));
