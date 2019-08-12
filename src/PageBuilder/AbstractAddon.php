@@ -226,7 +226,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
 
         $paths->insert(WINDWALKER_TEMPLATES . '/luna/addons/' . static::getType(), PriorityQueue::LOW);
 
-        $paths->insert($package->getDir() . '/addons/' . static::getType(), PriorityQueue::LOW);
+        $paths->insert($package->getDir() . '/Templates/page/addons/' . static::getType(), PriorityQueue::LOW);
 
         $paths->insert(
             dirname(ReflectionHelper::getPath(static::class)) . '/Templates',
