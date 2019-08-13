@@ -10,8 +10,6 @@ namespace Lyrasoft\Luna\Menu\View;
 
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Phoenix\Field\RepeatableField;
-use function Windwalker\arr;
-use Windwalker\Core\Router\CoreRouter;
 use Windwalker\Core\Router\MainRouter;
 use Windwalker\Core\Router\RouteBuilderInterface;
 use Windwalker\Form\Field\TextField;
@@ -62,7 +60,7 @@ class RouteMenuView extends AbstractMenuView
             ->label(__('luna.menu.route.variables'))
             ->sortable(true)
             ->ensureFirstRow(true)
-            ->configure(function (Form $form) {
+            ->configure(static function (Form $form) {
                 $form->add('key', TextField::class)
                     ->label('Key');
 
@@ -95,7 +93,7 @@ class RouteMenuView extends AbstractMenuView
      */
     public function prepareVariablesForm(array &$variables): void
     {
-        $vars = $variables['variables'];
+        $vars = $variables['variables'] ?? [];
 
         $variables['variables'] = [];
 
@@ -120,7 +118,7 @@ class RouteMenuView extends AbstractMenuView
     {
         parent::prepareVariablesStore($variables);
 
-        $variables['variables'] = $this->getQuery($variables['variables']);
+        $variables['variables'] = $this->getQuery($variables['variables'] ?? []);
     }
 
     /**
@@ -136,10 +134,10 @@ class RouteMenuView extends AbstractMenuView
      */
     public function route(RouteBuilderInterface $router, array $variables, array $params): string
     {
-        return $router->to(
+        return (string) $router->to(
             $variables['route'],
             $variables['variables'] ?? []
-        )->__toString();
+        );
     }
 
     /**
@@ -171,7 +169,7 @@ class RouteMenuView extends AbstractMenuView
         $query = [];
 
         foreach ($variables as $variable) {
-            if (trim($variable['key']) !== '') {
+            if (trim($variable['key'] ?? '') !== '') {
                 $query[$variable['key']] = $variable['value'];
             }
         }
