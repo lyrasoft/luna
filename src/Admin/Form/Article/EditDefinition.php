@@ -102,7 +102,7 @@ class EditDefinition extends AbstractFieldDefinition
                     'height' => 450,
                 ])
                 ->includes('readmore')
-                ->addFilter(new MaxLengthFilter(21844))// @see https://stackoverflow.com/a/4420195
+                ->maxlength(static::LONGTEXT_MAX_UTF8)
                 ->rows(10);
         });
 
