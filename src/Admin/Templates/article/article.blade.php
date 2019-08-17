@@ -34,11 +34,9 @@
 
         <div class="row">
             <div class="col-md-8">
-                <fieldset class="form-horizontal">
-                    <legend>@translate($luna->langPrefix . 'article.edit.fieldset.basic')</legend>
-
-                    {!! $form->renderFields('basic') !!}
-                </fieldset>
+                <div class="content-editor">
+                    {!! $form->getField('text')->renderInput() !!}
+                </div>
 
                 {{--<fieldset class="form-horizontal">--}}
                 {{--<legend>@translate($luna->langPrefix . 'article.edit.fieldset.text')</legend>--}}
@@ -48,17 +46,15 @@
             </div>
             <div class="col-md-4">
                 <fieldset class="form-horizontal">
+                    <legend>@translate($luna->langPrefix . 'article.edit.fieldset.basic')</legend>
+
+                    {!! $form->renderFields('basic') !!}
+                </fieldset>
+
+                <fieldset class="form-horizontal">
                     <legend>@translate($luna->langPrefix . 'article.edit.fieldset.created')</legend>
 
                     {!! $form->renderFields('created') !!}
-                </fieldset>
-            </div>
-        </div>
-
-        <div class="row" style="margin-top: 40px">
-            <div class="col-md-12">
-                <fieldset class="form-horizontal">
-                    {!! $form->getField('text')->renderInput() !!}
                 </fieldset>
             </div>
         </div>

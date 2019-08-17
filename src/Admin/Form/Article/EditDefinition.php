@@ -59,8 +59,22 @@ class EditDefinition extends AbstractFieldDefinition
 
         // Basic fieldset
         $this->fieldset('basic', function (Form $form) use ($langPrefix) {
-            // ID
-            $this->hidden('id');
+            // Images
+            $this->singleImageDrag('image')
+                ->label(__($langPrefix . 'article.field.images'))
+                ->version(2)
+                ->exportZoom(2)
+                ->showSizeNotice(true)
+                ->width(400)
+                ->height(300);
+
+            // State
+            $this->switch('state')
+                ->label(__($langPrefix . 'article.field.published'))
+                ->class('')
+                ->circle(true)
+                ->color('success')
+                ->defaultValue(1);
 
             if (LunaHelper::tableExists('categories')) {
                 // Category
@@ -82,15 +96,6 @@ class EditDefinition extends AbstractFieldDefinition
                 $this->add('page_id', PageModalField::class)
                     ->label(__($langPrefix . 'page.title'));
             }
-
-            // Images
-            $this->singleImageDrag('image')
-                ->label(__($langPrefix . 'article.field.images'))
-                ->version(2)
-                ->exportZoom(2)
-                ->showSizeNotice(true)
-                ->width(400)
-                ->height(300);
         });
 
         // Text Fieldset
@@ -99,7 +104,7 @@ class EditDefinition extends AbstractFieldDefinition
             $this->tinymceEditor('text')
                 ->label(__($langPrefix . 'article.field.introtext'))
                 ->editorOptions([
-                    'height' => 450,
+                    'height' => 550,
                 ])
                 ->includes('readmore')
                 ->maxlength(static::LONGTEXT_MAX_UTF8)
@@ -108,14 +113,6 @@ class EditDefinition extends AbstractFieldDefinition
 
         // Created fieldset
         $this->fieldset('created', function (Form $form) use ($langPrefix) {
-            // State
-            $this->switch('state')
-                ->label(__($langPrefix . 'article.field.published'))
-                ->class('')
-                ->circle(true)
-                ->color('success')
-                ->defaultValue(1);
-
             if (Locale::isEnabled()) {
                 // Language
                 $this->languageList('language')
@@ -143,6 +140,9 @@ class EditDefinition extends AbstractFieldDefinition
                     ->label(__($langPrefix . 'article.field.modifiedby'))
                     ->readonly();
             }
+
+            // ID
+            $this->hidden('id');
         });
     }
 }
