@@ -8,13 +8,25 @@
 
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Migration\AbstractMigration;
+use Windwalker\Data\Data;
 use Windwalker\Database\Schema\Schema;
+use Windwalker\Filesystem\File;
+use Windwalker\Structure\Structure;
 
 /**
  * Migration class of ArticleInit.
  */
 class ArticleInit extends AbstractMigration
 {
+    /**
+     * Property importer.
+     *
+     * @\Windwalker\DI\Annotation\Inject()
+     *
+     * @var \Lyrasoft\Luna\Importer\ArticleImporter
+     */
+    protected $articleImporter;
+
     /**
      * Migrate Up.
      */
@@ -44,6 +56,53 @@ class ArticleInit extends AbstractMigration
             $sc->addIndex('language');
             $sc->addIndex('created_by');
         });
+    }
+
+    /**
+     * importCategoriesFromFile
+     *
+     * @param string $file
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function importFromFile($file): void
+    {
+        $this->import(
+            (new Structure($file, File::getExtension($file)))->toArray()
+        );
+    }
+
+    /**
+     * importCategories
+     *
+     * @param array $items
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function import(array $items): void
+    {
+        $faker = $this->faker->create();
+
+        $this->articleImporter
+            ->listen('onItemImported', $handler = function () {
+                $this->outCounting();
+            })
+            ->import(
+                $items,
+                [],
+                static function (Data $item, string $key) use ($faker) {
+                    $item->alias     = $key;
+                    $item->image     = $faker->unsplashImage();
+                    $item->introtext = $faker->paragraph(10);
+                    $item->fulltext  = $faker->paragraph(10);
+                }
+            )
+            ->getDispatcher()
+            ->removeListener($handler);
     }
 
     /**

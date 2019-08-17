@@ -8,15 +8,28 @@
 
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace -- Ignore migration file
 
+use Lyrasoft\Luna\Importer\PageImporter;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Migration\AbstractMigration;
+use Windwalker\Data\Data;
 use Windwalker\Database\Schema\Schema;
+use Windwalker\Filesystem\File;
+use Windwalker\Structure\Structure;
 
 /**
  * Migration class of PageInit.
  */
 class PageInit extends AbstractMigration
 {
+    /**
+     * Property pageImporter.
+     *
+     * @\Windwalker\DI\Annotation\Inject()
+     *
+     * @var PageImporter
+     */
+    protected $pageImporter;
+
     /**
      * Migrate Up.
      */
@@ -45,6 +58,54 @@ class PageInit extends AbstractMigration
             $schema->addIndex('preview_secret');
             $schema->addIndex('created_by');
         });
+    }
+
+    /**
+     * importCategoriesFromFile
+     *
+     * @param string $file
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function importFromFile($file): void
+    {
+        $this->import(
+            (new Structure($file, File::getExtension($file)))->toArray()
+        );
+    }
+
+    /**
+     * importCategories
+     *
+     * @param array $items
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function import(array $items): void
+    {
+        $faker = $this->faker->create();
+
+        $content = file_get_contents(__DIR__ . '/../seeders/fixtures/page.json');
+
+        $this->pageImporter
+            ->listen('onItemImported', $handler = function () {
+                $this->outCounting();
+            })
+            ->import(
+                $items,
+                [],
+                static function (Data $item, string $key) use ($faker, $content) {
+                    $item->alias   = $key;
+                    $item->image   = $faker->unsplashImage();
+                    $item->content = $content;
+                }
+            )
+            ->getDispatcher()
+            ->removeListener($handler);
     }
 
     /**

@@ -7,17 +7,28 @@
  */
 
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
+use Lyrasoft\Luna\Importer\CategoryImporter;
 use Lyrasoft\Luna\Table\LunaTable;
-use Phoenix\Utilities\SlugHelper;
-use Symfony\Component\Yaml\Yaml;
 use Windwalker\Core\Migration\AbstractMigration;
+use Windwalker\Data\Data;
 use Windwalker\Database\Schema\Schema;
+use Windwalker\Filesystem\File;
+use Windwalker\Structure\Structure;
 
 /**
  * Migration class of CategoryInit.
  */
 class CategoryInit extends AbstractMigration
 {
+    /**
+     * Property categoryImporter.
+     *
+     * @\Windwalker\DI\Annotation\Inject()
+     *
+     * @var CategoryImporter
+     */
+    protected $categoryImporter;
+
     /**
      * Migrate Up.
      * @throws Exception
@@ -66,13 +77,13 @@ class CategoryInit extends AbstractMigration
      *
      * @throws Exception
      *
-     * @since  1.5.2
+     * @since  __DEPLOY_VERSION__
      */
-    protected function importCategoriesFromFile($type, $file, $parentId = 1)
+    protected function importFromFile($type, $file, $parentId = 1): void
     {
-        $this->importCategories(
+        $this->import(
             $type,
-            Yaml::parse(file_get_contents($file)),
+            (new Structure($file, File::getExtension($file)))->toArray(),
             $parentId
         );
     }
@@ -81,51 +92,35 @@ class CategoryInit extends AbstractMigration
      * importCategories
      *
      * @param string $type
-     * @param array  $categories
+     * @param array  $menus
      * @param int    $parentId
      *
      * @return  void
      *
      * @throws Exception
-     * @since  1.5.2
+     * @since  __DEPLOY_VERSION__
      */
-    protected function importCategories($type, array $categories, $parentId = 1)
+    protected function import($type, array $menus, $parentId = 1): void
     {
         $faker = $this->faker->create();
 
-        $record = new CategoryRecord();
-
-        $userId = 1;
-
-        foreach ($categories as $alias => $category) {
-            $record->reset();
-
-            $record['title']       = $category['title'];
-            $record['alias']       = SlugHelper::safe($alias);
-            $record['type']        = $type;
-            $record['description'] = $faker->paragraph(5);
-            $record['image']       = $faker->unsplashImage();
-            $record['state']       = 1;
-            $record['version']     = random_int(1, 50);
-            $record['created']     = $faker->dateTime->format($this->getDateFormat());
-            $record['created_by']  = $userId;
-            $record['modified']    = $faker->dateTime->format($this->getDateFormat());
-            $record['modified_by'] = $userId;
-            $record['language']    = '*';
-            $record['params']      = '';
-
-            $record->setLocation($parentId, $record::LOCATION_LAST_CHILD);
-
-            $record->store();
-
-            $record->rebuildPath();
-
-            $this->outCounting();
-
-            if (isset($category['children'])) {
-                $this->importCategories($type, $category['children'], $record->id);
-            }
-        }
+        $this->categoryImporter
+            ->listen('onItemImported', $handler = function () {
+                $this->outCounting();
+            })
+            ->import(
+                $menus,
+                [
+                    'type' => $type,
+                    'parent_id' => $parentId
+                ],
+                static function (Data $item, string $key) use ($faker) {
+                    $item->alias = $key;
+                    $item->image = $faker->unsplashImage();
+                }
+            )
+            ->getDispatcher()
+            ->removeListener($handler);
     }
 
     /**
