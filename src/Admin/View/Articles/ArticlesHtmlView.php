@@ -8,12 +8,16 @@
 
 namespace Lyrasoft\Luna\Admin\View\Articles;
 
+use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
+use Windwalker\Core\Cache\RuntimeCacheTrait;
 use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Data\Collection;
+use function Windwalker\arr;
 
 /**
  * The ArticlesHtmlView class.
@@ -22,6 +26,8 @@ use Windwalker\Core\Renderer\RendererHelper;
  */
 class ArticlesHtmlView extends GridView
 {
+    use RuntimeCacheTrait;
+
     /**
      * Property name.
      *
@@ -115,5 +121,30 @@ class ArticlesHtmlView extends GridView
     public function setTitle($title = null)
     {
         return parent::setTitle($title);
+    }
+
+    /**
+     * getCategoryPath
+     *
+     * @param int $categoryId
+     * @param int $limit
+     *
+     * @return  Collection
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getCategoryPath(int $categoryId, int $limit = 3): Collection
+    {
+        return $this->once('category:' . $categoryId, function () use ($categoryId, $limit) {
+            $catRecord = new CategoryRecord();
+            $categories = arr($catRecord->getAncestors($categoryId, true));
+
+            // Remove root
+            $categories->shift();
+
+            return $categories->splice(-$limit);
+        });
     }
 }

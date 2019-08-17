@@ -5,7 +5,7 @@
  * --------------------------------------------------------------
  * @var $app           \Windwalker\Web\Application                 Global Application
  * @var $package       \Lyrasoft\Luna\LunaPackage                 Package object.
- * @var $view          \Windwalker\Data\Data                       Some information of this view.
+ * @var $view          \Lyrasoft\Luna\Admin\View\Articles\ArticlesHtmlView  Some information of this view.
  * @var $uri           \Windwalker\Uri\UriData               Uri information, example: $uri->path
  * @var $datetime      \DateTime                                   PHP DateTime object of current time.
  * @var $helper        \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
@@ -154,11 +154,17 @@
                                 @if ($item->category_title)
                                     <div class="article-category-field" style="padding-left: 10px">
                                         <small class="text-muted">
-                                            <span class="glyphicon glyphicon-folder-close fa fa-folder"></span>
-                                            <a class="text-muted"
-                                               href="{{ $router->route('articles', ['filter' => ['article.category_id' => $item->category_id]]) }}">
-                                                {{ $item->category_title }}
-                                            </a>
+                                            <span class="fa fa-folder"></span>
+                                            @foreach ($view->getCategoryPath($item->category_id) as $i => $category)
+                                                @if ($i !== 0)
+                                                    /
+                                                @endif
+
+                                                <a class="text-muted"
+                                                    href="{{ $router->route('articles', ['filter' => ['article.category_id' => $category->id]]) }}">
+                                                    {{ $category->title }}
+                                                </a>
+                                            @endforeach
                                         </small>
                                     </div>
                                 @endif
