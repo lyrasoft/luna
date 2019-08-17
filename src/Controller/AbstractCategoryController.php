@@ -38,20 +38,6 @@ abstract class AbstractCategoryController extends ListDisplayController
     use FilterWithoutStateTrait;
 
     /**
-     * Property repository.
-     *
-     * @var  ListRepository
-     */
-    protected $repository;
-
-    /**
-     * Property view.
-     *
-     * @var  AbstractPhoenixHtmView
-     */
-    protected $view;
-
-    /**
      * Property type.
      *
      * @var  string
