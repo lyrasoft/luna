@@ -256,7 +256,7 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
         return array_values(
             array_filter(
                 $neighbors,
-                function ($item) use ($current) {
+                static function ($item) use ($current) {
                     return $item !== $current;
                 }
             )
@@ -443,5 +443,48 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
     public function jsonSerialize()
     {
         return $this->dump(true, true);
+    }
+
+    /**
+     * __get
+     *
+     * @param string $name
+     *
+     * @return  mixed
+     *
+     * @since  1.7.6
+     */
+    public function __get($name)
+    {
+        return $this->getValue()->$name;
+    }
+
+    /**
+     * __set
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return  void
+     *
+     * @since  1.7.6
+     */
+    public function __set($name, $value)
+    {
+        $this->getValue()->$name = $value;
+    }
+
+    /**
+     * __isset
+     *
+     * @param string $name
+     *
+     * @return  bool
+     *
+     * @since  1.7.6
+     */
+    public function __isset($name)
+    {
+        return isset($this->getValue()->$name);
     }
 }

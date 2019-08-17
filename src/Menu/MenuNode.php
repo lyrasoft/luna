@@ -274,47 +274,4 @@ class MenuNode extends Node implements MenuDataInterface
 
         return $menu->view === $view && Arr::query([$menu->variables], $variablesQuery) !== [];
     }
-
-    /**
-     * __get
-     *
-     * @param string $name
-     *
-     * @return  mixed
-     *
-     * @since  1.7.6
-     */
-    public function __get($name)
-    {
-        return $this->getValue()->$name;
-    }
-
-    /**
-     * __set
-     *
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return  void
-     *
-     * @since  1.7.6
-     */
-    public function __set($name, $value)
-    {
-        $this->getValue()->$name = $value;
-    }
-
-    /**
-     * __isset
-     *
-     * @param string $name
-     *
-     * @return  bool
-     *
-     * @since  1.7.6
-     */
-    public function __isset($name)
-    {
-        return isset($this->getValue()->$name);
-    }
 }
