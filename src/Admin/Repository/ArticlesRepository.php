@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Repository;
 
+use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Table\LunaTable;
@@ -116,7 +117,19 @@ class ArticlesRepository extends ListRepository
      */
     protected function configureFilters(FilterHelperInterface $filterHelper)
     {
-        // Configure filters
+        $filterHelper->setHandler(
+            'article.category_id',
+            static function (Query $query, string $field, string $value) {
+                if ($value !== '') {
+                    $category = CategoryMapper::findOne($value);
+
+                    if ($category->notNull()) {
+                        $query->where('category.lft >= %a', $category->lft);
+                        $query->where('category.rgt <= %a', $category->rgt);
+                    }
+                }
+            }
+        );
     }
 
     /**
