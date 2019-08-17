@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Field\Editor;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\EditorScript;
+use Phoenix\Script\PhoenixScript;
 use Windwalker\Core\Asset\Asset;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Ioc;
@@ -95,8 +96,8 @@ class TinymceEditorField extends AbstractEditorField
             $defaultOptions['plugins'] = [
                 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',
-                'insertdatetime media nonbreaking save table contextmenu directionality',
-                'emoticons template paste textcolor colorpicker textpattern imagetools',
+                'insertdatetime media nonbreaking save table directionality',
+                'emoticons template paste textpattern imagetools',
             ];
 
             $defaultOptions['toolbar1'] = 'insertfile undo redo | styleselect formatselect fontsizeselect ' .
@@ -227,7 +228,8 @@ JS
     protected function loadLanguage(array &$defaultOptions)
     {
         $lang = Translator::getLocale() ?: Translator::getDefaultLocale();
-        $lang = str_replace('-', '_', $lang);
+        [$first] = explode('-', $lang, 2);
+        $lang = PhoenixScript::shortLangCode($lang);
 
         $langFolder = $this->get('lang_folder');
 
@@ -238,13 +240,27 @@ JS
             $langPath    = WINDWALKER_PUBLIC . '/' . $assetFolder . '/' . $langFolder . '/' . $lang . '.js';
             $langUrl     = Ioc::getUriData()->path . '/' . $assetFolder . '/' . $langFolder . '/' . $lang . '.js';
 
+            if (!is_file($langPath)) {
+                $langPath = WINDWALKER_PUBLIC . '/' . $assetFolder . '/' . $langFolder . '/' . $first . '.js';
+                $langUrl  = Ioc::getUriData()->path . '/' . $assetFolder . '/' . $langFolder . '/' . $first . '.js';
+            }
+
             if (is_file($langPath)) {
                 $defaultOptions['language']     = $lang;
                 $defaultOptions['language_url'] = $langUrl;
             }
+
+            return;
         }
 
-        if (is_file(LUNA_SOURCE . '/Resources/asset/js/tinymce/langs/' . $lang . '.js')) {
+        $langPath = LUNA_SOURCE . '/Resources/asset/js/tinymce/langs/' . $lang . '.js';
+
+        if (!is_file($langPath)) {
+            $langPath = LUNA_SOURCE . '/Resources/asset/js/tinymce/langs/' . $first . '.js';
+            $lang = $first;
+        }
+
+        if (is_file($langPath)) {
             $defaultOptions['language'] = $lang;
         }
     }
@@ -263,5 +279,22 @@ JS
             'langFolder' => 'lang_folder',
             'imageUploadUrl' => 'image_upload_url',
         ]);
+    }
+
+    /**
+     * getV4Plugins
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getV4Plugins(): array
+    {
+        return [
+            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen',
+            'insertdatetime media nonbreaking save table contextmenu directionality',
+            'emoticons template paste textcolor colorpicker textpattern imagetools',
+        ];
     }
 }

@@ -85,6 +85,14 @@ fusion.task('install', function () {
   fusion.copy(`${nodePath}/animate.css/*.css`, `${destPath}/css/animate/`);
   fusion.copy(`${nodePath}/wowjs/dist/*.js`, `${destPath}/js/wow/`);
   fusion.copy(`${nodePath}/jarallax/dist/*`, `${destPath}/js/jarallax/`);
+  fusion.copy(`${nodePath}/tinymce/**/*`, `${destPath}/js/tinymce/`);
+  fusion.copy([
+    `${nodePath}/tinymce-i18n/langs5/zh_TW.js`,
+    `${nodePath}/tinymce-i18n/langs5/zh_CN.js`,
+    `${nodePath}/tinymce-i18n/langs5/en_GB.js`,
+    `${nodePath}/tinymce-i18n/langs5/ja.js`,
+    `${nodePath}/tinymce-i18n/langs5/ko_KR.js`,
+  ], `${destPath}/js/tinymce/langs/`);
 });
 
 fusion.default(['js', 'scss']);

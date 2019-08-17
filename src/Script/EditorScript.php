@@ -212,4 +212,21 @@ JS;
             $asset->internalScript($js);
         }
     }
+
+    /**
+     * registerVendorTinymce
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function registerVendorTinymce(): void
+    {
+        $luna = LunaHelper::getPackage();
+
+        static::getAsset()->alias(
+            $luna->name . '/js/tinymce/tinymce.min.js',
+            'vendor/tinymce/tinymce.min.js'
+        );
+    }
 }
