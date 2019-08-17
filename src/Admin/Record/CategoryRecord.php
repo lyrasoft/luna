@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\Record;
 
-use Lyrasoft\Luna\Admin\Record\Traits\CategoryDataTrait;
+use Lyrasoft\Luna\Admin\Record\Columns\CategoryDataInterface;
 use Lyrasoft\Luna\Admin\Record\Traits\ContentValidationTrait;
 use Lyrasoft\Luna\Table\LunaTable;
 use Windwalker\Core\Language\Translator;
@@ -21,9 +21,8 @@ use Windwalker\Record\NestedRecord;
  *
  * @since  1.0
  */
-class CategoryRecord extends NestedRecord
+class CategoryRecord extends NestedRecord implements CategoryDataInterface
 {
-    use CategoryDataTrait;
     use ContentValidationTrait;
 
     /**
@@ -55,7 +54,7 @@ class CategoryRecord extends NestedRecord
     /**
      * Method to store a node in the database table.
      *
-     * @param   boolean $updateNulls True to update null values as well.
+     * @param boolean $updateNulls True to update null values as well.
      *
      * @return NestedRecord True on success.
      *
@@ -75,11 +74,11 @@ class CategoryRecord extends NestedRecord
      *
      * @return  static  True if all checks pass.
      *
-     * @since   2.0
      * @throws  \Windwalker\Core\Repository\Exception\ValidateFailException
      * @throws  \Exception
      * @throws  \RuntimeException on database error.
      * @throws  \UnexpectedValueException
+     * @since   2.0
      */
     public function validate()
     {

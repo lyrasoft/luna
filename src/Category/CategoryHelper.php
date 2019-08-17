@@ -36,11 +36,17 @@ class CategoryHelper
      *
      * @param array|DataSet|Data[] $categories
      *
-     * @return  Node|Node[]
+     * @return  CategoryNode|CategoryNode[]
      */
     public static function createTree($categories)
     {
-        return TreeBuilder::create($categories);
+        return TreeBuilder::create(
+            $categories,
+            'id',
+            'parent_id',
+            'level',
+            CategoryNode::class
+        );
     }
 
     /**
@@ -54,7 +60,7 @@ class CategoryHelper
      * @param int              $start
      * @param int              $limit
      *
-     * @return  Node|Node[]
+     * @return  CategoryNode|CategoryNode[]
      * @throws \Psr\Cache\InvalidArgumentException
      */
     public static function getCategoryAsTree(
@@ -99,8 +105,7 @@ class CategoryHelper
             $rgt   = ArrayHelper::getValue($parent, 'rgt');
             $level = ArrayHelper::getValue($parent, 'level');
         } else {
-            $mapper = new CategoryMapper();
-            $root   = $mapper->findOne($parent);
+            $root = CategoryMapper::findOne($parent);
 
             if ($root->isNull()) {
                 return new DataSet();
@@ -111,9 +116,10 @@ class CategoryHelper
             $level = $root->level;
         }
 
-        $conditions[]                = 'category.lft > ' . $lft;
-        $conditions[]                = 'category.rgt < ' . $rgt;
-        $conditions[]                = 'category.parent_id > 0';
+        $conditions[] = 'category.lft > ' . $lft;
+        $conditions[] = 'category.rgt < ' . $rgt;
+        $conditions[] = 'category.parent_id > 0';
+
         $conditions['category.type'] = $type;
 
         if ($maxLevel) {

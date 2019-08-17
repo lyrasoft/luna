@@ -56,7 +56,7 @@ trait ContentValidationTrait
     public function checkAlias($fieldName = 'alias', array $condFields = [])
     {
         /** @var Record $record */
-        $record = new $this;
+        $record = new $this();
 
         $key = $this->getKeyName();
 
