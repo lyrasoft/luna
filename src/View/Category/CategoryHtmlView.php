@@ -95,9 +95,9 @@ class CategoryHtmlView extends ListView
 
         $desc = Utf8String::substr(strip_tags($data->category->description), 0, 150);
 
-        HtmlHeader::addOpenGraph('og:image', $data->category->image);
-        HtmlHeader::addOpenGraph('og:description', $desc);
-        HtmlHeader::addMetadata('description', $desc);
+        HtmlHeader::addOpenGraph('og:image', $data->category->image, true);
+        HtmlHeader::addOpenGraph('og:description', $desc, true);
+        HtmlHeader::addMetadata('description', $desc, true);
     }
 
     /**
