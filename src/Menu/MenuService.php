@@ -357,7 +357,7 @@ class MenuService
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function each(callable $callback, ?string $type = null): self
     {
@@ -388,7 +388,7 @@ class MenuService
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function forceActiveIfNoExists(string $view, array $conditions = []): self
     {

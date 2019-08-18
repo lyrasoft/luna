@@ -17,7 +17,7 @@ use Lyrasoft\Luna\Tree\Node;
  *
  * @method CategoryRecord getValue()
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.12
  */
 class CategoryNode extends Node implements CategoryDataInterface
 {

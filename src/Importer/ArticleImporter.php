@@ -17,7 +17,7 @@ use Windwalker\Data\Data;
 /**
  * The ArticleImporter class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.12
  */
 class ArticleImporter extends AbstractDataImporter
 {
@@ -29,7 +29,7 @@ class ArticleImporter extends AbstractDataImporter
      * @return  Data
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function store(Data $data): Data
     {

@@ -286,7 +286,7 @@ JS
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function getV4Plugins(): array
     {

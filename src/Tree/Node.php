@@ -203,7 +203,7 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
      *
      * @return  Node|mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function getTopParent(bool $selfAsDefault = true)
     {

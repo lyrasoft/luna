@@ -67,7 +67,7 @@ class PageInit extends AbstractMigration
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     protected function importFromFile($file): void
     {
@@ -83,7 +83,7 @@ class PageInit extends AbstractMigration
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     protected function import(array $items): void
     {

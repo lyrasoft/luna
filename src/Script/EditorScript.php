@@ -218,7 +218,7 @@ JS;
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public static function registerVendorTinymce(): void
     {

@@ -31,7 +31,7 @@ use Windwalker\Utilities\Arr;
 /**
  * The AbstractCategoryListController class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.12
  */
 abstract class AbstractCategoryController extends ListDisplayController
 {

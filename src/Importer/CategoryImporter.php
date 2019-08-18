@@ -20,7 +20,7 @@ use function Windwalker\tap;
 /**
  * The MenuImporter class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.12
  */
 class CategoryImporter extends AbstractDataImporter
 {
@@ -32,7 +32,7 @@ class CategoryImporter extends AbstractDataImporter
      * @return  Data
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function store(Data $data): Data
     {
@@ -68,7 +68,7 @@ class CategoryImporter extends AbstractDataImporter
      *
      * @return  Data
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function importItem(string $key, $item, array $defaultData = [], ?callable $dataHandler = null): Data
     {

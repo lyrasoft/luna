@@ -133,7 +133,7 @@ class ArticlesHtmlView extends GridView
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function getCategoryPath(int $categoryId, int $limit = 3): Collection
     {
