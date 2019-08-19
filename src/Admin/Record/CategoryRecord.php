@@ -85,10 +85,13 @@ class CategoryRecord extends NestedRecord implements CategoryDataInterface
         $this->checkParent();
 
         try {
-            $this->checkAlias('alias', ['parent_id']);
+            $this->checkAlias('alias', ['parent_id', 'language']);
         } catch (ValidateFailException $e) {
-            throw new ValidateFailException(Translator::sprintf('phoenix.message.same.alias.same.level', $this->alias),
-                $e->getCode(), $e);
+            throw new ValidateFailException(
+                __('phoenix.message.same.alias.same.level', $this->alias),
+                $e->getCode(),
+                $e
+            );
         }
 
         parent::validate();

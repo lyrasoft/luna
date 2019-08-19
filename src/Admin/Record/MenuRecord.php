@@ -66,7 +66,7 @@ class MenuRecord extends NestedRecord implements MenuDataInterface
         $this->checkParent();
 
         try {
-            $this->checkAlias('alias', ['parent_id']);
+            $this->checkAlias('alias', ['parent_id', 'language']);
         } catch (ValidateFailException $e) {
             throw new ValidateFailException(
                 __('phoenix.message.same.alias.same.level', $this->alias),
