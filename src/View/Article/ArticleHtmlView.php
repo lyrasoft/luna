@@ -90,29 +90,17 @@ class ArticleHtmlView extends ItemView
     protected function prepareHeader(DataInterface $data)
     {
         // Menu
-        if (!$this->menuService->getActiveMenu()) {
+        if (LunaHelper::tableExists('menus') && !$this->menuService->getActiveMenu()) {
             $this->menuService->forceMenuActive('article_category', ['id' => $data->item->category_id]);
         }
 
         // Header
         $this->setTitle($data->item->title);
 
-        $desc = str(strip_tags($data->item->introtext))->truncate(150, '...')->__toString();
+        $desc = (string) str(strip_tags($data->item->introtext))->truncate(150, '...');
 
         HtmlHeader::addOpenGraph('og:image', $data->item->image, true);
         HtmlHeader::addOpenGraph('og:description', $desc, true);
         HtmlHeader::addMetadata('description', $desc, true);
-    }
-
-    /**
-     * setTitle
-     *
-     * @param string $title
-     *
-     * @return  static
-     */
-    public function setTitle($title = null)
-    {
-        return parent::setTitle($title);
     }
 }
