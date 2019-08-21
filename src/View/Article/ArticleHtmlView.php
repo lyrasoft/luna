@@ -14,6 +14,7 @@ use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\DI\Annotation\Inject;
 use Windwalker\String\Mbstring;
@@ -89,10 +90,7 @@ class ArticleHtmlView extends ItemView
      */
     protected function prepareHeader(DataInterface $data)
     {
-        // Menu
-        if (LunaHelper::tableExists('menus') && !$this->menuService->getActiveMenu()) {
-            $this->menuService->forceMenuActive('article_category', ['id' => $data->item->category_id]);
-        }
+        $this->forceActiveMenu($data);
 
         // Header
         $this->setTitle($data->item->title);
@@ -102,5 +100,26 @@ class ArticleHtmlView extends ItemView
         HtmlHeader::addOpenGraph('og:image', $data->item->image, true);
         HtmlHeader::addOpenGraph('og:description', $desc, true);
         HtmlHeader::addMetadata('description', $desc, true);
+    }
+
+    /**
+     * forceActiveMenu
+     *
+     * @param Data $data
+     *
+     * @return  void
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function forceActiveMenu(Data $data): void
+    {
+        // Menu
+        if (LunaHelper::tableExists('menus') && !$this->menuService->getActiveMenu()) {
+            $this->menuService->forceMenuActive('article_category', ['id' => $data->item->category_id]);
+        }
     }
 }

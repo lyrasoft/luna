@@ -16,6 +16,7 @@ use Windwalker\Core\Repository\Repository;
 use Windwalker\Core\Security\Exception\UnauthorizedException;
 use Windwalker\Core\View\AbstractView;
 use Windwalker\Router\Exception\RouteNotFoundException;
+use function Windwalker\tap;
 
 /**
  * The GetController class.
@@ -67,6 +68,7 @@ class GetController extends ItemDisplayController
      */
     protected function doExecute()
     {
+        /** @var ArticleHtmlView $view */
         $view = parent::doExecute();
 
         $item = $this->repository->getItem();
@@ -74,11 +76,19 @@ class GetController extends ItemDisplayController
         if ($item->page_id) {
             $this->app->set('route.extra.layout', 'page');
 
-            return $this->hmvc(
-                \Lyrasoft\Luna\Controller\Page\GetController::class,
-                [
-                    'id' => $item->page_id
-                ]
+            return tap(
+                $this->hmvc(
+                    \Lyrasoft\Luna\Controller\Page\GetController::class,
+                    [
+                        'id' => $item->page_id
+                    ]
+                ),
+                static function () use ($view, $item) {
+                    $data = $view->getData();
+                    $data->item = $item;
+
+                    $view->forceActiveMenu($data);
+                }
             );
         }
 

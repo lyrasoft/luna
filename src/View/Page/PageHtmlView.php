@@ -16,6 +16,7 @@ use Phoenix\View\ItemView;
 use Windwalker\Data\Data;
 use Windwalker\Renderer\EdgeRenderer;
 use Windwalker\Router\Exception\RouteNotFoundException;
+use Windwalker\Test\TestHelper;
 
 /**
  * The PageHtmlView class.
@@ -71,7 +72,7 @@ class PageHtmlView extends ItemView
         /** @var EdgeRenderer $renderer */
         $renderer = $this->getRenderer();
         $renderer->setLoader(null);
-        $renderer->setEngine(null);
+        $renderer->setEngine($renderer->getEngine(true));
 
         parent::prepareData($data);
 
