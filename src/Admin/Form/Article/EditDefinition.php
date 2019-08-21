@@ -90,16 +90,16 @@ class EditDefinition extends AbstractFieldDefinition
                     ->label(__($langPrefix . 'tag.title'))
                     ->multiple(true);
             }
+        });
 
+        // Text Fieldset
+        $this->fieldset('text', function (Form $form) use ($langPrefix) {
             if (LunaHelper::tableExists('pages') && LunaHelper::tableExists('tag_maps')) {
                 // Page
                 $this->add('page_id', PageModalField::class)
                     ->label(__($langPrefix . 'page.title'));
             }
-        });
 
-        // Text Fieldset
-        $this->fieldset('text', function (Form $form) use ($langPrefix) {
             // Text
             $this->tinymceEditor('text')
                 ->label(__($langPrefix . 'article.field.introtext'))
