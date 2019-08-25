@@ -1,6 +1,6 @@
 /*!
  * Name    : Just Another Parallax [Jarallax]
- * Version : 1.11.0
+ * Version : 1.10.7
  * Author  : nK <https://nkdev.info>
  * GitHub  : https://github.com/nk-o/jarallax
  */
@@ -156,7 +156,7 @@ g = function () {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
+	g = g || Function("return this")() || (1, eval)("this");
 } catch (e) {
 	// This works if the window reference is available
 	if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
@@ -265,7 +265,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var isIE = navigator.userAgent.indexOf('MSIE ') > -1 || navigator.userAgent.indexOf('Trident/') > -1 || navigator.userAgent.indexOf('Edge/') > -1;
-var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 var supportTransform = function () {
     var prefixes = 'transform WebkitTransform MozTransform'.split(' ');
@@ -278,22 +277,6 @@ var supportTransform = function () {
     return false;
 }();
 
-var $deviceHelper = void 0;
-
-/**
- * The most popular mobile browsers changes height after page scroll and this generates image jumping.
- * We can fix it using this workaround with vh units.
- */
-function getDeviceHeight() {
-    if (!$deviceHelper && document.body) {
-        $deviceHelper = document.createElement('div');
-        $deviceHelper.style.cssText = 'position: fixed; top: -9999px; left: 0; height: 100vh; width: 0;';
-        document.body.appendChild($deviceHelper);
-    }
-
-    return ($deviceHelper ? $deviceHelper.clientHeight : 0) || _global.window.innerHeight || document.documentElement.clientHeight;
-}
-
 // Window data
 var wndW = void 0;
 var wndH = void 0;
@@ -302,13 +285,7 @@ var forceResizeParallax = false;
 var forceScrollParallax = false;
 function updateWndVars(e) {
     wndW = _global.window.innerWidth || document.documentElement.clientWidth;
-
-    if (isMobile) {
-        wndH = getDeviceHeight();
-    } else {
-        wndH = _global.window.innerHeight || document.documentElement.clientHeight;
-    }
-
+    wndH = _global.window.innerHeight || document.documentElement.clientHeight;
     if ((typeof e === 'undefined' ? 'undefined' : _typeof(e)) === 'object' && (e.type === 'load' || e.type === 'dom-loaded')) {
         forceResizeParallax = true;
     }
@@ -418,7 +395,6 @@ var Jarallax = function () {
             videoVolume: 0,
             videoLoop: true,
             videoPlayOnlyVisible: true,
-            videoLazyLoading: true,
 
             // events
             onScroll: null, // function(calculations) {}
@@ -426,6 +402,14 @@ var Jarallax = function () {
             onDestroy: null, // function() {}
             onCoverImage: null // function() {}
         };
+
+        // DEPRECATED: old data-options
+        var deprecatedDataAttribute = self.$item.getAttribute('data-jarallax');
+        var oldDataOptions = JSON.parse(deprecatedDataAttribute || '{}');
+        if (deprecatedDataAttribute) {
+            // eslint-disable-next-line no-console
+            console.warn('Detected usage of deprecated data-jarallax JSON options, you should use pure data-attribute options. See info here - https://github.com/nk-o/jarallax/issues/53');
+        }
 
         // prepare data-options
         var dataOptions = self.$item.dataset || {};
@@ -437,7 +421,7 @@ var Jarallax = function () {
             }
         });
 
-        self.options = self.extend({}, self.defaults, pureDataOptions, userOptions);
+        self.options = self.extend({}, self.defaults, oldDataOptions, pureDataOptions, userOptions);
         self.pureOptions = self.extend({}, self.options);
 
         // prepare 'true' and 'false' strings to boolean
@@ -451,6 +435,23 @@ var Jarallax = function () {
 
         // fix speed option [-1.0, 2.0]
         self.options.speed = Math.min(2, Math.max(-1, parseFloat(self.options.speed)));
+
+        // deprecated noAndroid and noIos options
+        if (self.options.noAndroid || self.options.noIos) {
+            // eslint-disable-next-line no-console
+            console.warn('Detected usage of deprecated noAndroid or noIos options, you should use disableParallax option. See info here - https://github.com/nk-o/jarallax/#disable-on-mobile-devices');
+
+            // prepare fallback if disableParallax option is not used
+            if (!self.options.disableParallax) {
+                if (self.options.noIos && self.options.noAndroid) {
+                    self.options.disableParallax = /iPad|iPhone|iPod|Android/;
+                } else if (self.options.noIos) {
+                    self.options.disableParallax = /iPad|iPhone|iPod/;
+                } else if (self.options.noAndroid) {
+                    self.options.disableParallax = /Android/;
+                }
+            }
+        }
 
         // prepare disableParallax callback
         if (typeof self.options.disableParallax === 'string') {
@@ -602,10 +603,9 @@ var Jarallax = function () {
 
             // get image src
             if (self.image.src === null) {
-                self.image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                self.image.bgImage = self.css(self.$item, 'background-image');
+                self.image.src = self.css(self.$item, 'background-image').replace(/^url\(['"]?/g, '').replace(/['"]?\)$/g, '');
             }
-            return !(!self.image.bgImage || self.image.bgImage === 'none');
+            return !(!self.image.src || self.image.src === 'none');
         }
     }, {
         key: 'canInitParallax',
@@ -688,7 +688,7 @@ var Jarallax = function () {
                         'background-position': self.options.imgPosition,
                         'background-size': self.options.imgSize,
                         'background-repeat': self.options.imgRepeat,
-                        'background-image': self.image.bgImage || 'url("' + self.image.src + '")'
+                        'background-image': 'url("' + self.image.src + '")'
                     }, containerStyles, imageStyles);
                 }
             }
@@ -1073,7 +1073,7 @@ exports.default = plugin;
 "use strict";
 
 
-var global = __webpack_require__(15);
+var global = __webpack_require__(4);
 
 /**
  * `requestAnimationFrame()`
@@ -1102,28 +1102,6 @@ if (Function.prototype.bind) {
 
 exports = module.exports = request;
 exports.cancel = cancel;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-
-var win;
-
-if (typeof window !== "undefined") {
-    win = window;
-} else if (typeof global !== "undefined") {
-    win = global;
-} else if (typeof self !== "undefined") {
-    win = self;
-} else {
-    win = {};
-}
-
-module.exports = win;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5)))
 
 /***/ })
 /******/ ]);

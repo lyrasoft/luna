@@ -200,16 +200,7 @@ function jarallaxElement() {
                     var thresholdArr = self.pureOptions.threshold.split(' ');
                     self.options.thresholdY = thresholdArr[0] ? parseFloat(thresholdArr[0]) : null;
                     self.options.thresholdX = thresholdArr[1] ? parseFloat(thresholdArr[1]) : null;
-
-                    def.apply(self, args);
-
-                    // restore background image if available.
-                    var originalStylesTag = self.$item.getAttribute('data-jarallax-original-styles');
-                    if (originalStylesTag) {
-                        self.$item.setAttribute('style', originalStylesTag);
-                    }
-
-                    return true;
+                    break;
                 case 'onResize':
                     var defTransform = self.css(self.$item, 'transform');
                     self.css(self.$item, { transform: '' });
@@ -285,7 +276,7 @@ g = function () {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
+	g = g || Function("return this")() || (1, eval)("this");
 } catch (e) {
 	// This works if the window reference is available
 	if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
