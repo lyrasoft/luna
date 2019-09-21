@@ -87,9 +87,6 @@ class TinymceEditorField extends AbstractEditorField
 
         $defaultOptions = [];
 
-        // Language
-        $this->loadLanguage($defaultOptions);
-
         $defaultOptions['plugins'] = [];
 
         if ($this->get('toolbar', static::TOOLBAR_FULL) === static::TOOLBAR_FULL) {
@@ -208,6 +205,9 @@ JS
 
         $options = Arr::mergeRecursive($defaultOptions, static::$defaultOptions, $options);
 
+        // Language
+        $this->loadLanguage($options);
+
         // Set global settings
         $contentCss = (array) Arr::get($options, 'content_css', $this->get('content_css'));
 
@@ -225,13 +225,13 @@ JS
      *
      * @return  void
      */
-    protected function loadLanguage(array &$defaultOptions)
+    protected function loadLanguage(array &$options)
     {
         $lang = Translator::getLocale() ?: Translator::getDefaultLocale();
         [$first] = explode('-', $lang, 2);
         $lang = PhoenixScript::shortLangCode($lang);
 
-        $langFolder = $this->get('lang_folder');
+        $langFolder = $options['lang_folder'] ?? null;
 
         if ($langFolder) {
             $config = Ioc::getConfig();
@@ -246,8 +246,8 @@ JS
             }
 
             if (is_file($langPath)) {
-                $defaultOptions['language']     = $lang;
-                $defaultOptions['language_url'] = $langUrl;
+                $options['language']     = $lang;
+                $options['language_url'] = $langUrl;
             }
 
             return;
@@ -261,7 +261,7 @@ JS
         }
 
         if (is_file($langPath)) {
-            $defaultOptions['language'] = $lang;
+            $options['language'] = $lang;
         }
     }
 
