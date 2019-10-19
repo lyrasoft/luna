@@ -203,6 +203,8 @@ JS
             $defaultOptions['plugins'][] = 'lunadragdrop';
         }
 
+        $defaultOptions['readonly'] = (bool) ($this->get('readonly') || $this->get('disabled'));
+
         $options = Arr::mergeRecursive($defaultOptions, static::$defaultOptions, $options);
 
         // Language
