@@ -99,7 +99,7 @@ class EditDefinition extends AbstractFieldDefinition
             $this->tinymceEditor('description')
                 ->label(__($langPrefix . 'category.field.description'))
                 ->editorOptions([
-                    'height' => 350,
+                    'height' => 450,
                 ])
                 ->rows(10);
         });

@@ -42,7 +42,9 @@ class TinymceEditorField extends AbstractEditorField
      *
      * @var  array
      */
-    protected static $defaultOptions = [];
+    protected static $defaultOptions = [
+        'height' => 450
+    ];
 
     /**
      * Method to get property DefaultOptions
