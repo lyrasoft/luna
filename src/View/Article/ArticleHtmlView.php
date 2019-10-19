@@ -118,8 +118,8 @@ class ArticleHtmlView extends ItemView
     public function forceActiveMenu(Data $data): void
     {
         // Menu
-        if (LunaHelper::tableExists('menus') && !$this->menuService->getActiveMenu()) {
-            $this->menuService->forceMenuActive('article_category', ['id' => $data->item->category_id]);
+        if (LunaHelper::tableExists('menus')) {
+            $this->menuService->forceActiveIfNoExists('article_category', ['id' => $data->item->category_id]);
         }
     }
 }

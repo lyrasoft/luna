@@ -398,8 +398,13 @@ class MenuService
             return $this;
         }
 
-        $this->each(static function (MenuNode $menuNode) use ($view, $conditions) {
-            if ($menuNode->view === $view && array_intersect($menuNode->variables, $conditions) === $conditions) {
+        $conditions = Arr::flatten($conditions);
+
+        $this->each(function (MenuNode $menuNode) use ($view, $conditions) {
+            if (
+                $menuNode->view === $view
+                && array_intersect(Arr::flatten($menuNode->variables), $conditions) === $conditions
+            ) {
                 $menuNode->forceActive(true);
             }
         });
