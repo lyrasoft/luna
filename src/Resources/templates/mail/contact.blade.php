@@ -1,4 +1,24 @@
-{{-- Part of earth project. --}}
+<?php
+
+/**
+ * Global variables
+ * --------------------------------------------------------------
+ * @var $app           \Windwalker\Web\Application                 Global Application
+ * @var $package       \Windwalker\Core\Package\AbstractPackage    Package object.
+ * @var $view          \Windwalker\Data\Data                       Some information of this view.
+ * @var $uri           \Windwalker\Uri\UriData                     Uri information, example: $uri->path
+ * @var $datetime      \DateTime                                   PHP DateTime object of current time.
+ * @var $helper        \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
+ * @var $router        \Windwalker\Core\Router\PackageRouter       Router object.
+ * @var $asset         \Windwalker\Core\Asset\AssetManager         The Asset manager.
+ *
+ * @var $message       \Windwalker\Core\Mailer\MailMessage
+ * @var $receiver      \Lyrasoft\Warder\Data\UserData
+ * @var $data          \Windwalker\Data\Data
+ */
+
+?>
+
 @extends('mail.mail-layout')
 
 @section('content')
@@ -36,10 +56,10 @@
     </tbody>
 </table>
 
-<p>
-    Please go to admin to manage this message:
-    <a href="{{ $router->to('admin@contacts')->full() . '#contact-' . $data->id }}">
-        {{ $router->to('admin@contacts')->full() . '#contact-' . $data->id }}
+<p style="margin-top: 30px">
+    <a class="btn btn-primary btn-block"
+        href="{{ $router->to('admin@contacts')->full() . '#contact-' . $data->id }}">
+        Go to admin to see this message
     </a>
 </p>
 @stop
