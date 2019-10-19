@@ -21,6 +21,7 @@ use Windwalker\Core\Ioc;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Form\Form;
 use Windwalker\Query\Query;
+use function Windwalker\h;
 
 /**
  * The CategoryEditDefinition class.

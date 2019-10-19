@@ -1,5 +1,7 @@
 {{-- Part of earth project. --}}
+@extends('mail.mail-layout')
 
+@section('content')
 <p>Hi: {{ $receiver['name'] }}</p>
 
 <p>
@@ -40,3 +42,4 @@
         {{ $router->to('admin@contacts')->full() . '#contact-' . $data->id }}
     </a>
 </p>
+@stop
