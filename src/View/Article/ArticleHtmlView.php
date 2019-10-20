@@ -2,7 +2,7 @@
 /**
  * Part of Front project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -113,7 +113,7 @@ class ArticleHtmlView extends ItemView
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.18
      */
     public function forceActiveMenu(Data $data): void
     {
