@@ -43,7 +43,8 @@ class TinymceEditorField extends AbstractEditorField
      * @var  array
      */
     protected static $defaultOptions = [
-        'height' => 450
+        'height' => 450,
+        'convert_urls' => false,
     ];
 
     /**
@@ -206,6 +207,14 @@ JS
         }
 
         $defaultOptions['readonly'] = (bool) ($this->get('readonly') || $this->get('disabled'));
+
+        // Auto sync to textarea, fix validation issues
+        // @see http://jsfiddle.net/9euk9/
+        $defaultOptions['setup'] = "\\function (editor) {
+            editor.on('change', function () {
+                tinymce.triggerSave();
+            });
+        }";
 
         $options = Arr::mergeRecursive($defaultOptions, static::$defaultOptions, $options);
 

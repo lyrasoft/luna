@@ -127,7 +127,7 @@ CSS;
                 'branding' => false,
             ];
 
-            $options['image_upload_url'] = LunaHelper::getPackage()
+            $options['image_upload_url'] = $options['image_upload_url'] ?? LunaHelper::getPackage()
                 ->getCurrentPackage()->router->route('_luna_img_upload');
 
             $options['selector'] = $selector;
