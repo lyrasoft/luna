@@ -41,6 +41,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__('luna.page.field.id'), 'page.id')
                 ->option(__('luna.page.field.title'), 'page.title')
                 ->option(__('luna.page.field.alias'), 'page.alias');
 

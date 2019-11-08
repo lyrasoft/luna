@@ -44,6 +44,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'language.field.title'), 'language.id')
                 ->option(__($langPrefix . 'language.field.title'), 'language.title')
                 ->option(__($langPrefix . 'language.field.titlenative'), 'language.title_native')
                 ->option(__($langPrefix . 'language.field.alias'), 'language.alias')

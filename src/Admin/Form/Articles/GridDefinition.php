@@ -49,6 +49,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'article.field.id'), 'article.id')
                 ->option(__($langPrefix . 'article.field.title'), 'article.title')
                 ->option(__($langPrefix . 'article.field.alias'), 'article.alias')
                 ->option(__($langPrefix . 'category.title'), 'category.title');

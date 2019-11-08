@@ -51,6 +51,8 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'module.field.id'), 'module.id')
+                ->option(__($langPrefix . 'module.field.position'), 'module.position')
                 ->option(__($langPrefix . 'module.field.title'), 'module.title');
 
             // Search Content

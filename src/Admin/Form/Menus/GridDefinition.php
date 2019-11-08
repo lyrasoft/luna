@@ -51,6 +51,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'menu.field.title'), 'menu.id')
                 ->option(__($langPrefix . 'menu.field.title'), 'menu.title')
                 ->option(__($langPrefix . 'menu.field.alias'), 'menu.alias');
 
