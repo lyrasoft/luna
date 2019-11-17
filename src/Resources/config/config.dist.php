@@ -61,7 +61,7 @@ return [
         'package' => 'admin',
         'view' => [
             'extends' => '_global.admin.admin',
-            'edit_extends' => '_global.admin.admin',
+            'edit_extends' => '_global.admin.admin-pure',
             'error_extends' => '_global.admin.admin'
         ],
         'redirect' => [
