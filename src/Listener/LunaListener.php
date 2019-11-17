@@ -122,6 +122,7 @@ class LunaListener
             // Extends
             $data                 = new Data();
             $data['extends']      = $this->luna->get('frontend.view.extends', '_global.html');
+            $data['editExtends']  = $this->luna->get('frontend.view.edit_extends', $data['extends']);
             $data['errorExtends'] = $this->luna->get('frontend.view.error_extends', $data['extends']);
             $data['langPrefix']   = $this->luna->getLangPrefix();
             $view['package']      = $this->luna;
@@ -134,6 +135,7 @@ class LunaListener
             // Extends
             $data                 = new Data();
             $data['extends']      = $this->luna->get('admin.view.extends', '_global.admin.admin');
+            $data['editExtends']  = $this->luna->get('admin.view.edit_extends', $data['extends']);
             $data['errorExtends'] = $this->luna->get('admin.view.error_extends', $data['extends']);
             $data['langPrefix']   = $this->luna->getLangPrefix();
             $view['package']      = $this->luna;

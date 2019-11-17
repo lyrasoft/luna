@@ -21,7 +21,7 @@
  */
 ?>
 
-@extends($luna->extends)
+@extends($luna->editExtends)
 
 @section('toolbar-buttons')
     @include('toolbar')
