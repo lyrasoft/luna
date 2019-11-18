@@ -6,6 +6,15 @@
  */
 
 (() => {
+  let swal;
+
+  $(() => {
+    // Polyfill sweetalert
+    swal = window.swal || function swal(title, message = null) {
+      alert(title + ' / ' + message);
+    };
+  });
+
   const itemStates = {
     NEW: 'new',
     UPLOADING: 'uploading',
@@ -15,18 +24,26 @@
   };
 
   const VueDragUploaderItem = {
-    template: `
-<div class="vue-drag-uploader__item preview-img"
+    template: `<div class="vue-drag-uploader__item preview-img"
     :style="{ width: size ? size + 'px' : null, height: size ? size + 'px' : null }"
     @click="$emit('click', item, i, $event)">
     <slot name="item" :item="item">
-        <div class="preview-img__body"
+        <div v-if="isImage" class="preview-img__body"
             :style="{'background-image': 'url(' + (item.thumb_url || item.url) + ')'}"></div>
+
+        <div v-if="!isImage" class="preview-img__body d-flex justify-content-center align-items-center">
+            <div class="text-center">
+                <div>
+                    <span :class="icon" class="fa-3x"></span>
+                </div>
+                <div style="word-break: break-word">{{ fileName }}</div>
+            </div>
+        </div>
 
         <div class="preview-img__overlay">
           <span class="preview-img__remove-icon fa fa-times"
               @click.stop.prevent="deleteSelf()"></span>
-          <slot name="extra" :item="item"></slot>
+            <slot name="extra" :item="item"></slot>
         </div>
 
         <div class="preview-img__progress" v-if="state === 'uploading'">
@@ -48,7 +65,7 @@
         messages: {
           error: ''
         }
-      }
+      };
     },
     props: {
       item: Object,
@@ -77,6 +94,8 @@
         const formData = new FormData();
         formData.append('file', this.item.file);
 
+        this.item.title = this.item.file.name;
+
         this.$emit('upload-start', uniqid);
 
         return $.post({
@@ -87,7 +106,7 @@
             xhr: () => {
               const xhr = new XMLHttpRequest();
 
-              if(xhr.upload){
+              if (xhr.upload) {
                 xhr.upload.addEventListener('progress', e => {
                   if (e.lengthComputable) {
                     this.progress = e.loaded / e.total;
@@ -98,11 +117,14 @@
 
               return xhr;
             },
-        })
+          })
           .done(res => {
             this.state = itemStates.COMPLETED;
             this.item.url = res.data.url;
-            this.item.thumb_url = res.data.thumb_url || res.data.url;
+
+            if (this.isImage) {
+              this.item.thumb_url = res.data.thumb_url || res.data.url;
+            }
           })
           .fail(xhr => {
             console.warn(xhr.responseJSON.message, xhr);
@@ -118,9 +140,67 @@
 
       deleteSelf() {
         this.$emit('delete', this.item);
-      }
+      },
     },
-    watch: {
+    watch: {},
+    computed: {
+      fileName() {
+        if (this.item.file) {
+          return this.item.file.name;
+        } else if (this.item.title) {
+          return this.item.title;
+        } else {
+          return this.item.url.split('/').pop();
+        }
+      },
+
+      isImage() {
+        const ext = this.item.file
+          ? this.item.file.name.split('.').pop()
+          : this.item.url.split('.').pop();
+
+        const allow = [
+          'png',
+          'jpeg',
+          'jpg',
+          'gif',
+          'bmp',
+          'webp',
+        ];
+
+        return allow.indexOf(ext) !== -1;
+      },
+
+      icon() {
+        const ext = this.item.file
+          ? this.item.file.name.split('.').pop()
+          : this.item.url.split('.').pop();
+
+        const icons = {
+          pdf: 'fas fa-file-pdf text-danger',
+          xls: 'fas fa-file-excel text-success',
+          xlsx: 'fas fa-file-excel text-success',
+          doc: 'fas fa-file-word text-primary',
+          docx: 'fas fa-file-word text-primary',
+          ppt: 'fas fa-file-powerpoint text-warning',
+          pptx: 'fas fa-file-powerpoint text-warning',
+          zip: 'fas fa-file-archive text-dark',
+          '7z': 'fas fa-file-archive text-dark',
+          rar: 'fas fa-file-archive text-dark',
+          mp4: 'fas fa-file-video text-dark',
+          avi: 'fas fa-file-video text-dark',
+          flv: 'fas fa-file-video text-dark',
+          mov: 'fas fa-file-video text-dark',
+          ogg: 'fas fa-file-video text-dark',
+          webm: 'fas fa-file-video text-dark',
+          mpg: 'fas fa-file-video text-dark',
+          mp3: 'fas fa-file-audio text-dark',
+          acc: 'fas fa-file-audio text-dark',
+          wav: 'fas fa-file-audio text-dark',
+        };
+
+        return icons[ext.toLowerCase()] || 'fas fa-file';
+      }
     }
   };
 
@@ -156,7 +236,7 @@
                         >
                         <template slot="item">
                             <slot name="item" 
-                                :item="item" 
+                                :item="item"
                                 :i="i" 
                                 :url="url"
                                 :max-files="maxFiles"
@@ -164,13 +244,14 @@
                                 :files-limited="maxFiles"></slot>
                         </template>
                         <template slot="extra">
-                            <slot name="extra" 
+                            <slot name="extra"
                                 :item="item" 
                                 :i="i" 
                                 :url="url"
                                 :max-files="maxFiles"
                                 :thumb-size="thumbSize"
-                                :files-limited="maxFiles"></slot>
+                                :files-limited="maxFiles">
+                            </slot>
                         </template>
                     </vue-drag-uploader-item>
                 </slot>
@@ -196,22 +277,26 @@
       return {
         items: [],
         uploadQueue: {}
-      }
+      };
     },
     props: {
       url: String,
-      images: Array,
+      value: Array,
       maxFiles: [String, Number],
       thumbSize: Number,
-      placeholder: String
+      placeholder: String,
+      accept: {
+        type: String,
+        default: ''
+      }
     },
     created() {
-      this.images.map(image => {
-        image.key = image.key || this.getKey();
-        image.uploadState = itemStates.COMPLETED;
+      this.value.map(item => {
+        item.key = item.key || this.getKey();
+        item.uploadState = itemStates.COMPLETED;
       });
 
-      this.items = this.images;
+      this.items = this.value;
 
       if (this.maxFiles != null) {
         if (this.maxFiles < this.items.length) {
@@ -235,7 +320,7 @@
       });
 
       // File drop
-      this.$el.addEventListener("drop", event => {
+      this.$el.addEventListener('drop', event => {
         event.stopPropagation();
         event.preventDefault();
 
@@ -248,8 +333,9 @@
     },
     methods: {
       clickAdd() {
-        const $input = document.createElement("INPUT");
+        const $input = document.createElement('INPUT');
         $input.setAttribute('type', 'file');
+        $input.setAttribute('accept', this.accept);
 
         $input.addEventListener('change', event => {
           const files = event.target.files || event.dataTransfer.files;
@@ -272,9 +358,7 @@
 
       uploadFiles(files) {
         Array.prototype.forEach.call(files, file => {
-          if (!this.checkFile(file)) {
-            return;
-          }
+          this.checkFile(file);
 
           if (!this.canUpload) {
             return;
@@ -306,14 +390,49 @@
         });
       },
 
-      checkFile: function(file) {
-        const types = [
-          'image/jpeg',
-          'image/png',
-          'image/gif'
-        ];
+      checkFile(file) {
+        const accepted = this.acceptedTypes;
+        const fileExt = file.name.split('.').pop();
 
-        return types.indexOf(file.type) !== -1;
+        if (accepted.length) {
+          let allow = false;
+
+          accepted.forEach((type) => {
+            if (allow) {
+              return;
+            }
+
+            if (type.indexOf('/') !== -1) {
+              if (this.compareMimeType(type, file.type)) {
+                allow = true;
+              }
+            } else {
+              if (type === fileExt) {
+                allow = true;
+              }
+            }
+          });
+
+          if (!allow) {
+            swal(
+              Phoenix.__('phoenix.form.field.drag.file.message.unaccepted.files'),
+              Phoenix.__('phoenix.form.field.drag.file.message.unaccepted.files.desc', accepted.join(', ')),
+              'warning'
+            );
+            throw new Error('Not accepted file ext');
+          }
+        }
+      },
+
+      compareMimeType(accepted, mime) {
+        const accepted2 = accepted.split('/');
+        const mime2 = mime.split('/');
+
+        if (accepted2[1] === '*') {
+          return accepted2[0] === mime2[0];
+        }
+
+        return accepted === mime;
       },
 
       deleteItem(child) {
@@ -339,12 +458,12 @@
       }
     },
     watch: {
-      images(images) {
-        images.map(image => {
-          image.key = image.key || this.getKey();
+      value(val) {
+        val.map(item => {
+          item.key = item.key || this.getKey();
         });
 
-        this.items = images;
+        this.items = val;
       },
 
       items: {
@@ -360,7 +479,7 @@
         } else {
           this.$emit('uploaded');
         }
-      }
+      },
     },
     computed: {
       canUpload() {
@@ -370,6 +489,19 @@
       uploading() {
         Object.keys(this.uploadQueue);
         return Object.keys(this.uploadQueue).length > 0;
+      },
+
+      acceptedTypes() {
+        return (Array.isArray(this.accept) ? this.accept : this.accept.split(','))
+          .map(v => v.trim())
+          .filter(v => v.length > 0)
+          .map(v => {
+            if (v.indexOf('/') === -1 && v[0] === '.') {
+              return v.substr(1);
+            }
+
+            return v;
+          });
       }
     }
   };

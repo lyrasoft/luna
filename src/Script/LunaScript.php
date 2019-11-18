@@ -54,6 +54,10 @@ class LunaScript extends AbstractScript
             static::vueDraggable();
             VueScript::animate();
             JQueryScript::csrfToken(); // todo: remove if phoenix.ajax fix
+
+            PhoenixScript::translate('phoenix.form.field.drag.file.message.unaccepted.files');
+            PhoenixScript::translate('phoenix.form.field.drag.file.message.unaccepted.files.desc');
+
             static::addJS(static::packageName() . '/js/vue/vue-drag-uploader.min.js');
             static::addCSS(static::packageName() . '/css/vue/vue-drag-uploader.min.css');
         }

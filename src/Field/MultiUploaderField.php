@@ -36,7 +36,9 @@ use Windwalker\Utilities\Arr;
  * @method  mixed|$this  quality(int $value = null)
  * @method  mixed|$this  maxFiles(int $value = null)
  * @method  mixed|$this  imageForm(bool|callable|AbstractFieldDefinition $value = null)
+ * @method  mixed|$this  editForm(bool|callable|AbstractFieldDefinition $value = null)
  * @method  mixed|$this  thumbSize(int $value = null)
+ * @method  mixed|$this  accept(string $value = null)
  *
  * @since  1.5.2
  */
@@ -54,7 +56,7 @@ class MultiUploaderField extends AbstractField
         $attrs['type'] = $this->type ?: 'hidden';
         $attrs['name'] = $this->getFieldName();
         $attrs['id'] = $this->getAttribute('id', $this->getId());
-        $attrs['placeholder'] = $this->getAttribute('placeholder') ?: __('luna.form.field.multi.image.placeholder');
+        $attrs['placeholder'] = $this->getAttribute('placeholder') ?: __('luna.form.field.multi.uploader.placeholder');
         $attrs['class'] = $this->getAttribute('class');
         $attrs['readonly'] = $this->getAttribute('readonly');
         $attrs['disabled'] = $this->getAttribute('disabled');
@@ -88,7 +90,8 @@ class MultiUploaderField extends AbstractField
             'attrs' => $attrs,
             'field' => $this,
             'items' => [],
-            'imageMetaForm' => $form
+            'imageMetaForm' => $form,
+            'editForm' => $form,
         ], WidgetHelper::EDGE);
     }
 
@@ -159,7 +162,7 @@ class MultiUploaderField extends AbstractField
         }
 
         $data = [
-            'images' => $values,
+            'value' => $values,
             'uploadUrl' => $url,
             'maxFiles' => $this->maxFiles(),
             'current' => $current,
@@ -182,9 +185,9 @@ $(function () {
 
     },
     methods: {
-      openImage(item) {
-        if (this.\$options.openImageHandler) {
-          this.\$options.openImageHandler(item);
+      openFile(item) {
+        if (this.\$options.openFileHandler) {
+          this.\$options.openFileHandler(item);
         } else {
           window.open(item.url);
         }
@@ -202,10 +205,25 @@ $(function () {
         this.currentIndex = null;
 
         this.\$options.metaModal.modal('hide');
+      },
+      
+      isImage(url) {
+        const ext = url.split('.').pop();
+
+        const allow = [
+          'png',
+          'jpeg',
+          'jpg',
+          'gif',
+          'bmp',
+          'webp',
+        ];
+
+        return allow.indexOf(ext) !== -1;
       }
     },
     watch: {
-      images: function () {
+      value: function () {
       }
     }
   });
@@ -226,13 +244,13 @@ JS;
      */
     protected function getImageMetaForm()
     {
-        $imageForm = $this->imageForm();
+        $editForm = $this->editForm() ?: $this->imageForm();
 
         $form = new Form($this->getId() . '-meta');
 
-        if ($imageForm === true || is_array($imageForm)) {
-            if ($imageForm === true) {
-                $imageForm = [
+        if ($editForm === true || is_array($editForm)) {
+            if ($editForm === true) {
+                $editForm = [
                     'title' => true,
                     'alt' => true,
                     'link' => true,
@@ -240,42 +258,42 @@ JS;
                 ];
             }
 
-            $imageForm = function (Form $form) use ($imageForm) {
-                if (!empty($imageForm['title'])) {
+            $editForm = function (Form $form) use ($editForm) {
+                if (!empty($editForm['title'])) {
                     $form->add('title', TextField::class)
-                        ->label(__('luna.form.field.multi.image.meta.title'))
+                        ->label(__('luna.form.field.multi.uploader.meta.title'))
                         ->class('form-control');
                 }
 
-                if (!empty($imageForm['alt'])) {
+                if (!empty($editForm['alt'])) {
                     $form->add('alt', TextField::class)
-                        ->label(__('luna.form.field.multi.image.meta.alt'))
+                        ->label(__('luna.form.field.multi.uploader.meta.alt'))
                         ->class('form-control');
                 }
 
-                if (!empty($imageForm['link'])) {
+                if (!empty($editForm['link'])) {
                     $form->add('link', UrlField::class)
-                        ->label(__('luna.form.field.multi.image.meta.link'))
+                        ->label(__('luna.form.field.multi.uploader.meta.link'))
                         ->class('form-control');
                 }
 
-                if (!empty($imageForm['description'])) {
+                if (!empty($editForm['description'])) {
                     $form->add('description', TextareaField::class)
-                        ->label(__('luna.form.field.multi.image.meta.description'))
+                        ->label(__('luna.form.field.multi.uploader.meta.description'))
                         ->class('form-control')
                         ->rows(5);
                 }
             };
-        } elseif (is_string($imageForm) && is_subclass_of($imageForm, AbstractFieldDefinition::class)) {
-            $imageForm = Ioc::make($imageForm, ['form' => $form]);
-        } elseif (!$imageForm) {
+        } elseif (is_string($editForm) && is_subclass_of($editForm, AbstractFieldDefinition::class)) {
+            $editForm = Ioc::make($editForm, ['form' => $form]);
+        } elseif (!$editForm) {
             return $form;
         }
 
-        if (is_callable($imageForm)) {
-            $imageForm($form);
-        } elseif ($imageForm instanceof AbstractFieldDefinition) {
-            $form->defineFormFields($imageForm);
+        if (is_callable($editForm)) {
+            $editForm($form);
+        } elseif ($editForm instanceof AbstractFieldDefinition) {
+            $form->defineFormFields($editForm);
         } else {
             throw new \InvalidArgumentException('Wrong image meta format.');
         }
@@ -306,7 +324,9 @@ JS;
             'quality',
             'maxFiles' => 'max_files',
             'imageForm' => 'image_form',
+            'editForm' => 'edit_form',
             'thumbSize' => 'thumb_size',
+            'accept',
         ]);
     }
 }
