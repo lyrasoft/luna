@@ -3,7 +3,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2019 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Luna\Category;
@@ -17,7 +17,7 @@ use Lyrasoft\Luna\Tree\Node;
  *
  * @method CategoryRecord getValue()
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.12
  */
 class CategoryNode extends Node implements CategoryDataInterface
 {

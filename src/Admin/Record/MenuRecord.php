@@ -2,7 +2,7 @@
 /**
  * Part of Admin project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -66,7 +66,7 @@ class MenuRecord extends NestedRecord implements MenuDataInterface
         $this->checkParent();
 
         try {
-            $this->checkAlias('alias', ['parent_id']);
+            $this->checkAlias('alias', ['parent_id', 'language']);
         } catch (ValidateFailException $e) {
             throw new ValidateFailException(
                 __('phoenix.message.same.alias.same.level', $this->alias),

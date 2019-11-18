@@ -12,7 +12,7 @@
         "@babel/preset-env": "^7.4.2",
         "animate.css": "^3.7.0",
         "cross-env": "^5.2.0",
-        "jarallax": "^1.10.7",
+        "jarallax": "1.10.7",
         "tinymce": "^5.0.13",
         "tinymce-i18n": "^19.5.15",
         "vue-slide-bar": "^1.1.5",

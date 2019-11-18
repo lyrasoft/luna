@@ -53,6 +53,15 @@
     @translate('phoenix.toolbar.save2close')
 </button>
 
+@if ($item->id)
+    <a href="{{ $router->route('front@article', ['id' => $item->id, 'alias' => $item->alias]) }}"
+        target="_blank"
+        class="btn btn-sm btn-outline-primary">
+        <span class="fa fa-eye"></span>
+        @lang('luna.article.button.preview')
+    </a>
+@endif
+
 <a role="button" class="btn btn-default btn-outline-secondary btn-sm" href="{{ $router->route('articles') }}">
     <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
     @translate('phoenix.toolbar.cancel')

@@ -2,7 +2,7 @@
 /**
  * Part of luna project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -28,7 +28,7 @@ return [
      * ------------------------------------------------
      */
     'type_table_map' => [
-        'article' => 'articles',
+        'article' => 'articles'
     ],
 
     /*
@@ -39,17 +39,18 @@ return [
         'package' => 'front',
         'view' => [
             'extends' => '_global.html',
-            'error_extends' => '_global.html',
+            'edit_extends' => '_global.html',
+            'error_extends' => '_global.html'
         ],
         'redirect' => [
-            'language' => 'home',
+            'language' => 'home'
         ],
         'language' => [
             'prefix' => 'luna.',
             'enabled' => false,
             'default' => 'en-GB',
             'use_browser' => false
-        ],
+        ]
     ],
 
     /*
@@ -60,10 +61,11 @@ return [
         'package' => 'admin',
         'view' => [
             'extends' => '_global.admin.admin',
-            'error_extends' => '_global.admin.admin',
+            'edit_extends' => '_global.admin.admin-pure',
+            'error_extends' => '_global.admin.admin'
         ],
         'redirect' => [
-            'language' => 'articles',
+            'language' => 'articles'
         ],
         'language' => [
             'prefix' => 'luna.',
@@ -71,7 +73,7 @@ return [
             'locale' => 'en-GB',
             'default' => 'en-GB',
             'use_browser' => false
-        ],
+        ]
     ],
 
     /*
@@ -106,9 +108,28 @@ return [
         ],
         'positions' => [
 
+        ]
+    ],
+
+    /*
+     * The menus configuration.
+     * ------------------------------------------------
+     */
+    'menu' => [
+        'types' => [
+            'mainmenu' => 'luna.menu.type.mainmenu',
         ],
-        'protects' => [
-            'theme.'
+
+        'views' => [
+            'link' => \Lyrasoft\Luna\Menu\View\LinkMenuView::class,
+            'placeholder' => \Lyrasoft\Luna\Menu\View\PlaceholderMenuView::class,
+            'route' => \Lyrasoft\Luna\Menu\View\RouteMenuView::class,
+            'menu_alias' => \Lyrasoft\Luna\Menu\View\AliasMenuView::class,
+
+            // Article
+            'article' => \Lyrasoft\Luna\Menu\View\ArticleMenuView::class,
+            'article_category' => \Lyrasoft\Luna\Menu\View\ArticleCategoryMenuView::class,
+            'page' => \Lyrasoft\Luna\Menu\View\PageMenuView::class,
         ]
     ],
 
@@ -123,5 +144,5 @@ return [
         'editor' => \Lyrasoft\Luna\Listener\EditorListener::class,
         'language' => \Lyrasoft\Luna\Listener\LanguageListener::class,
         'error' => \Lyrasoft\Luna\Listener\ErrorListener::class,
-    ],
+    ]
 ];

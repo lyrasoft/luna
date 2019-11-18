@@ -65,6 +65,13 @@
                             {!! $grid->sortTitle('luna.page.field.state', 'page.state') !!}
                         </th>
 
+                        @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
+                            {{-- LANGUAGE --}}
+                            <th width="7%" class="text-nowrap">
+                                {!! $grid->sortTitle('luna.page.field.language', 'page.language') !!}
+                            </th>
+                        @endif
+
                         {{-- CREATED --}}
                         <th width="15%" class="text-nowrap">
                             {!! $grid->sortTitle('luna.page.field.created', 'page.created') !!}
@@ -95,6 +102,22 @@
                             <td class="text-center">
                                 {!! $grid->published($item->state, ['only_icon' => true]) !!}
                             </td>
+
+                            @if (\Lyrasoft\Luna\Language\Locale::isEnabled())
+                                {{-- LANGUAGE --}}
+                                <td class="text-nowrap">
+                                    @if ($item->language === '*')
+                                        <span class="glyphicon glyphicon-globe fa fa-globe"></span>
+                                        @translate($luna->langPrefix . 'language.field.all')
+                                    @else
+                                        <span class="hasTooltip" title="{{ $item->lang_code }}">
+                                                <span
+                                                    class="{{ \Lyrasoft\Luna\Language\Locale::getFlagIconClass($item->lang_image) }}"></span>
+                                                    {{ $item->lang_title }}
+                                            </span>
+                                    @endif
+                                </td>
+                            @endif
 
                             {{-- CREATED --}}
                             <td>

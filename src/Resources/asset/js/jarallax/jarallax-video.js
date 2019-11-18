@@ -156,7 +156,7 @@ g = function () {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
+	g = g || Function("return this")() || (1, eval)("this");
 } catch (e) {
 	// This works if the window reference is available
 	if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
@@ -1122,18 +1122,14 @@ function jarallaxVideo() {
 
     var Jarallax = jarallax.constructor;
 
-    // append video after when block will be visible.
-    var defOnScroll = Jarallax.prototype.onScroll;
-    Jarallax.prototype.onScroll = function () {
+    // append video after init Jarallax
+    var defInit = Jarallax.prototype.init;
+    Jarallax.prototype.init = function () {
         var self = this;
 
-        defOnScroll.apply(self);
+        defInit.apply(self);
 
-        var isReady = !self.isVideoInserted && self.video && (!self.options.videoLazyLoading || self.isElementInViewport) && !self.options.disableVideo();
-
-        if (isReady) {
-            self.isVideoInserted = true;
-
+        if (self.video && !self.options.disableVideo()) {
             self.video.getVideo(function (video) {
                 var $parent = video.parentNode;
                 self.css(video, {
@@ -1271,6 +1267,7 @@ function jarallaxVideo() {
                         video.play();
                     }
                 });
+
                 video.on('started', function () {
                     self.image.$default_item = self.image.$item;
                     self.image.$item = self.$video;
@@ -1309,18 +1306,17 @@ function jarallaxVideo() {
 
                 // set image if not exists
                 if (!self.defaultInitImgResult) {
-                    // set empty image on local video if not defined
-                    self.image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-
                     if (video.type !== 'local') {
                         video.getImageURL(function (url) {
-                            self.image.bgImage = 'url("' + url + '")';
+                            self.image.src = url;
                             self.init();
                         });
 
                         return false;
                     }
 
+                    // set empty image on local video if not defined
+                    self.image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                     return true;
                 }
             }

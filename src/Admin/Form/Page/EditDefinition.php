@@ -2,7 +2,7 @@
 /**
  * Part of Luna project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Page;
 
 use Lyrasoft\Luna\Admin\Field\Page\ExtendListField;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
@@ -61,6 +62,13 @@ class EditDefinition extends AbstractFieldDefinition
                 ->description(__('luna.page.field.extends.desc'))
                 ->set('allow_add', true)
                 ->required(true);
+
+            if (Locale::isEnabled()) {
+                // Language
+                $this->languageList('language')
+                    ->label(__( 'luna.page.field.language'))
+                    ->option(__('luna.field.language.all'), '*');
+            }
 
             $this->group('meta', function () {
                 $this->text('meta_title')

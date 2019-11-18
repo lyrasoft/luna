@@ -2,7 +2,7 @@
 /**
  * Part of phoenix project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -44,6 +44,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'comment.field.id'), 'comment.id')
                 ->option(__($langPrefix . 'comment.field.title'), 'comment.title')
                 ->option('User Name', 'user.name')
                 ->option('Replyer Name', 'replyer.name')

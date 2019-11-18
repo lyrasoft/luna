@@ -2,7 +2,7 @@
 /**
  * Part of Luna project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -10,12 +10,14 @@ namespace Lyrasoft\Luna\View\Page;
 
 use Lyrasoft\Luna\Admin\Record\PageRecord;
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Warder;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Data\Data;
 use Windwalker\Renderer\EdgeRenderer;
 use Windwalker\Router\Exception\RouteNotFoundException;
+use Windwalker\Test\TestHelper;
 
 /**
  * The PageHtmlView class.
@@ -71,7 +73,7 @@ class PageHtmlView extends ItemView
         /** @var EdgeRenderer $renderer */
         $renderer = $this->getRenderer();
         $renderer->setLoader(null);
-        $renderer->setEngine(null);
+        $renderer->setEngine($renderer->getEngine(true));
 
         parent::prepareData($data);
 
@@ -84,6 +86,18 @@ class PageHtmlView extends ItemView
         if ($item->state < 1) {
             if ($user->isGuest() || ($user->isMember() && $data->previewSecret !== $item->preview_secret)) {
                 throw new RouteNotFoundException('Page not found.');
+            }
+        }
+
+        if (Locale::isEnabled() && $item->id) {
+            if (Locale::getLocale() !== $item->language && $item->language !== '*') {
+                throw new RouteNotFoundException(
+                    sprintf(
+                        'Language %s not support for this page',
+                        Locale::getLocale()
+                    ),
+                    404
+                );
             }
         }
 

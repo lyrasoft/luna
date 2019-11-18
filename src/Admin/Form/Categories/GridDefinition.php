@@ -2,7 +2,7 @@
 /**
  * Part of phoenix project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -50,6 +50,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'category.field.id'), 'category.id')
                 ->option(__($langPrefix . 'category.field.title'), 'category.title')
                 ->option(__($langPrefix . 'category.field.alias'), 'category.alias');
 

@@ -2,7 +2,7 @@
 /**
  * Part of phoenix project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -42,7 +42,10 @@ class TinymceEditorField extends AbstractEditorField
      *
      * @var  array
      */
-    protected static $defaultOptions = [];
+    protected static $defaultOptions = [
+        'height' => 450,
+        'convert_urls' => false,
+    ];
 
     /**
      * Method to get property DefaultOptions
@@ -86,9 +89,6 @@ class TinymceEditorField extends AbstractEditorField
         $options = (array) $this->get('options', []);
 
         $defaultOptions = [];
-
-        // Language
-        $this->loadLanguage($defaultOptions);
 
         $defaultOptions['plugins'] = [];
 
@@ -206,7 +206,20 @@ JS
             $defaultOptions['plugins'][] = 'lunadragdrop';
         }
 
+        $defaultOptions['readonly'] = (bool) ($this->get('readonly') || $this->get('disabled'));
+
+        // Auto sync to textarea, fix validation issues
+        // @see http://jsfiddle.net/9euk9/
+        $defaultOptions['setup'] = "\\function (editor) {
+            editor.on('change', function () {
+                tinymce.triggerSave();
+            });
+        }";
+
         $options = Arr::mergeRecursive($defaultOptions, static::$defaultOptions, $options);
+
+        // Language
+        $this->loadLanguage($options);
 
         // Set global settings
         $contentCss = (array) Arr::get($options, 'content_css', $this->get('content_css'));
@@ -225,13 +238,13 @@ JS
      *
      * @return  void
      */
-    protected function loadLanguage(array &$defaultOptions)
+    protected function loadLanguage(array &$options)
     {
         $lang = Translator::getLocale() ?: Translator::getDefaultLocale();
         [$first] = explode('-', $lang, 2);
         $lang = PhoenixScript::shortLangCode($lang);
 
-        $langFolder = $this->get('lang_folder');
+        $langFolder = $options['lang_folder'] ?? null;
 
         if ($langFolder) {
             $config = Ioc::getConfig();
@@ -246,8 +259,8 @@ JS
             }
 
             if (is_file($langPath)) {
-                $defaultOptions['language']     = $lang;
-                $defaultOptions['language_url'] = $langUrl;
+                $options['language']     = $lang;
+                $options['language_url'] = $langUrl;
             }
 
             return;
@@ -261,7 +274,7 @@ JS
         }
 
         if (is_file($langPath)) {
-            $defaultOptions['language'] = $lang;
+            $options['language'] = $lang;
         }
     }
 
@@ -286,7 +299,7 @@ JS
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function getV4Plugins(): array
     {

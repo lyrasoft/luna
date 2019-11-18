@@ -2,7 +2,7 @@
 /**
  * Part of Front project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -14,6 +14,7 @@ use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
 use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\DI\Annotation\Inject;
 use Windwalker\String\Mbstring;
@@ -89,15 +90,12 @@ class ArticleHtmlView extends ItemView
      */
     protected function prepareHeader(DataInterface $data)
     {
-        // Menu
-        if (!$this->menuService->getActiveMenu()) {
-            $this->menuService->forceMenuActive('article_category', ['id' => $data->item->category_id]);
-        }
+        $this->forceActiveMenu($data);
 
         // Header
         $this->setTitle($data->item->title);
 
-        $desc = str(strip_tags($data->item->introtext))->truncate(150, '...')->__toString();
+        $desc = (string) str(strip_tags($data->item->introtext))->truncate(150, '...');
 
         HtmlHeader::addOpenGraph('og:image', $data->item->image, true);
         HtmlHeader::addOpenGraph('og:description', $desc, true);
@@ -105,14 +103,23 @@ class ArticleHtmlView extends ItemView
     }
 
     /**
-     * setTitle
+     * forceActiveMenu
      *
-     * @param string $title
+     * @param Data $data
      *
-     * @return  static
+     * @return  void
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     *
+     * @since  1.7.18
      */
-    public function setTitle($title = null)
+    public function forceActiveMenu(Data $data): void
     {
-        return parent::setTitle($title);
+        // Menu
+        if (LunaHelper::tableExists('menus')) {
+            $this->menuService->forceActiveIfNoExists('article_category', ['id' => $data->item->category_id]);
+        }
     }
 }

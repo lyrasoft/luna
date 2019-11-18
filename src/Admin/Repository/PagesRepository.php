@@ -2,12 +2,14 @@
 /**
  * Part of Luna project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
 namespace Lyrasoft\Luna\Admin\Repository;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Luna\Table\Table;
 use Lyrasoft\Warder\Table\WarderTable;
@@ -67,6 +69,10 @@ class PagesRepository extends ListRepository
     {
         $this->addTable('page', LunaTable::PAGES)
             ->leftJoin('user', WarderTable::USERS, 'user.id = page.created_by');
+
+        if (Locale::isEnabled() && LunaHelper::tableExists('languages')) {
+            $this->leftJoin('lang', LunaTable::LANGUAGES, 'lang.code = page.language');
+        }
     }
 
     /**

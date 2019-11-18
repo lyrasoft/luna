@@ -2,7 +2,7 @@
 /**
  * Part of Luna project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -54,7 +54,7 @@ class PageSeeder extends AbstractSeeder
             $data['created_by']     = $faker->randomElement($userIds);
             $data['modified']       = $created->modify('+5 days')->format($this->getDateFormat());
             $data['modified_by']    = $faker->randomElement($userIds);
-            $data['language']       = 'en-GB';
+            $data['language']       = '＊';
             $data['preview_secret'] = md5(uniqid('Luna:page:', true));
             $data['params']         = '';
 

@@ -2,7 +2,7 @@
 /**
  * Part of Admin project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -51,6 +51,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'menu.field.title'), 'menu.id')
                 ->option(__($langPrefix . 'menu.field.title'), 'menu.title')
                 ->option(__($langPrefix . 'menu.field.alias'), 'menu.alias');
 

@@ -2,7 +2,7 @@
 /**
  * Part of Luna project.
  *
- * @copyright  Copyright (C) 2014 - 2015 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2014 - 2015 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later;
  */
 
@@ -67,7 +67,7 @@ class PageInit extends AbstractMigration
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     protected function importFromFile($file): void
     {
@@ -83,7 +83,7 @@ class PageInit extends AbstractMigration
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     protected function import(array $items): void
     {

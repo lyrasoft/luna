@@ -20,7 +20,7 @@
  */
 ?>
 
-@extends($luna->extends)
+@extends($luna->editExtends)
 
 @section('toolbar-buttons')
     @include('toolbar')
@@ -35,6 +35,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="content-editor">
+                    {!! $form->renderField('page_id') !!}
                     {!! $form->getField('text')->renderInput() !!}
                 </div>
 

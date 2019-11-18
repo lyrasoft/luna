@@ -2,7 +2,7 @@
 /**
  * Part of Admin project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -17,7 +17,6 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Form\Field\TextField;
 use Windwalker\Form\Filter\MaxLengthFilter;
 use Windwalker\Form\Form;
 
@@ -90,16 +89,16 @@ class EditDefinition extends AbstractFieldDefinition
                     ->label(__($langPrefix . 'tag.title'))
                     ->multiple(true);
             }
+        });
 
+        // Text Fieldset
+        $this->fieldset('text', function (Form $form) use ($langPrefix) {
             if (LunaHelper::tableExists('pages') && LunaHelper::tableExists('tag_maps')) {
                 // Page
                 $this->add('page_id', PageModalField::class)
                     ->label(__($langPrefix . 'page.title'));
             }
-        });
 
-        // Text Fieldset
-        $this->fieldset('text', function (Form $form) use ($langPrefix) {
             // Text
             $this->tinymceEditor('text')
                 ->label(__($langPrefix . 'article.field.introtext'))

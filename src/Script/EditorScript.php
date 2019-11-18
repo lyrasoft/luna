@@ -2,7 +2,7 @@
 /**
  * Part of earth project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -127,7 +127,7 @@ CSS;
                 'branding' => false,
             ];
 
-            $options['image_upload_url'] = LunaHelper::getPackage()
+            $options['image_upload_url'] = $options['image_upload_url'] ?? LunaHelper::getPackage()
                 ->getCurrentPackage()->router->route('_luna_img_upload');
 
             $options['selector'] = $selector;
@@ -218,7 +218,7 @@ JS;
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public static function registerVendorTinymce(): void
     {

@@ -2,7 +2,7 @@
 /**
  * Part of Luna project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -44,6 +44,7 @@ class GridDefinition extends AbstractFieldDefinition
                 ->set('display', false)
                 ->defaultValue('*')
                 ->option(__('phoenix.core.all'), '*')
+                ->option(__($langPrefix . 'contact.field.id'), 'contact.id')
                 ->option(__($langPrefix . 'contact.field.title'), 'contact.subject')
                 ->option(__($langPrefix . 'contact.field.title'), 'contact.name')
                 ->option(__($langPrefix . 'contact.field.title'), 'user.name')

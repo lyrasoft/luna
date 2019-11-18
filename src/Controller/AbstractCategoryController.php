@@ -3,7 +3,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2019 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Luna\Controller;
@@ -31,7 +31,7 @@ use Windwalker\Utilities\Arr;
 /**
  * The AbstractCategoryListController class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.12
  */
 abstract class AbstractCategoryController extends ListDisplayController
 {

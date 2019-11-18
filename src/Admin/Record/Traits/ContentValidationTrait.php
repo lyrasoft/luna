@@ -2,8 +2,8 @@
 /**
  * Part of earth project.
  *
- * @copyright  Copyright (C) 2017 ${ORGANIZATION}.
- * @license    __LICENSE__
+ * @copyright  Copyright (C) 2017 LYRASOFT.
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Luna\Admin\Record\Traits;
@@ -33,7 +33,8 @@ trait ContentValidationTrait
                 throw new ValidateFailException(__('phoenix.message.invalid.parent.id.is.self'));
             }
 
-            $tree        = $this->getTree($this->id);
+            $tree = $this->getTree($this->id);
+
             $childrenIds = array_column($tree, 'id');
 
             if (in_array($this->parent_id, $childrenIds)) {
@@ -63,7 +64,9 @@ trait ContentValidationTrait
         $conditions[$fieldName] = $this->$fieldName;
 
         foreach ($condFields as $field) {
-            $conditions[$field] = $this->$field;
+            if ($this->hasField($field)) {
+                $conditions[$field] = $this->$field;
+            }
         }
 
         try {

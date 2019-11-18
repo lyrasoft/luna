@@ -2,7 +2,7 @@
 /**
  * Part of earth project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -203,7 +203,7 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
      *
      * @return  Node|mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function getTopParent(bool $selfAsDefault = true)
     {

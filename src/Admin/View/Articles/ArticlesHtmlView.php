@@ -2,7 +2,7 @@
 /**
  * Part of Admin project.
  *
- * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -133,7 +133,7 @@ class ArticlesHtmlView extends GridView
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function getCategoryPath(int $categoryId, int $limit = 3): Collection
     {

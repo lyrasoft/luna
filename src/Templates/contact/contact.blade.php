@@ -12,6 +12,8 @@
  * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
  * @var $form     \Windwalker\Form\Form
  */
+
+\Phoenix\Script\PhoenixScript::disableWhenSubmit('#contact-form');
 ?>
 
 @extends('_global.html')
@@ -100,7 +102,7 @@
                     </div>
 
                     <div class="contact-actions">
-                        <button type="button" class="btn btn-primary btn-block btn-lg"
+                        <button type="button" class="btn btn-primary btn-block btn-lg disable-on-submit"
                             onclick="jQuery(this.form).submit();">
                             @translate($luna->langPrefix . 'contact.button.submit')
                         </button>

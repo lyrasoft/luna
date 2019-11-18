@@ -32,7 +32,7 @@ $asset->addJS($package->name . '/js/admin/page-builder/page-builder.min.js');
 $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 ?>
 
-@extends($luna->extends)
+@extends($luna->editExtends)
 
 @section('toolbar-buttons')
     @include('toolbar')

@@ -2,8 +2,8 @@
 /**
  * Part of earth project.
  *
- * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
- * @license    __LICENSE__
+ * @copyright  Copyright (C) 2018 LYRASOFT.
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
@@ -126,6 +126,7 @@ class AddonRenderer extends AbstractPageRenderer
     public static function prepareElement(Structure $options, array &$classes, array &$attrs)
     {
         $classes = array_merge($classes, array_values($options['display']));
+        $classes[] = $options['html_class'];
 
         parent::prepareElement($options, $classes, $attrs);
     }

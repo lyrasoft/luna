@@ -3,7 +3,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2019 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Luna\Menu;
@@ -357,7 +357,7 @@ class MenuService
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function each(callable $callback, ?string $type = null): self
     {
@@ -388,7 +388,7 @@ class MenuService
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function forceActiveIfNoExists(string $view, array $conditions = []): self
     {
@@ -398,8 +398,13 @@ class MenuService
             return $this;
         }
 
-        $this->each(static function (MenuNode $menuNode) use ($view, $conditions) {
-            if ($menuNode->view === $view && array_intersect($menuNode->variables, $conditions) === $conditions) {
+        $conditions = Arr::flatten($conditions);
+
+        $this->each(function (MenuNode $menuNode) use ($view, $conditions) {
+            if (
+                $menuNode->view === $view
+                && array_intersect(Arr::flatten($menuNode->variables), $conditions) === $conditions
+            ) {
                 $menuNode->forceActive(true);
             }
         });

@@ -3,7 +3,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2019 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Luna\Importer;
@@ -21,7 +21,7 @@ use function Windwalker\tap;
 /**
  * The DataImporter class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.12
  */
 abstract class AbstractDataImporter implements DispatcherInterface, DispatcherAwareInterface
 {
@@ -62,7 +62,7 @@ abstract class AbstractDataImporter implements DispatcherInterface, DispatcherAw
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function import(iterable $items, array $defaultData = [], ?callable $dataHandler = null)
     {
@@ -84,7 +84,7 @@ abstract class AbstractDataImporter implements DispatcherInterface, DispatcherAw
      *
      * @return  Data
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function importItem(string $key, $item, array $defaultData = [], ?callable $dataHandler = null): Data
     {
@@ -111,7 +111,7 @@ abstract class AbstractDataImporter implements DispatcherInterface, DispatcherAw
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     public function importFile(string $file, array $defaultData = [], ?callable $dataHandler = null)
     {
@@ -125,7 +125,7 @@ abstract class AbstractDataImporter implements DispatcherInterface, DispatcherAw
      *
      * @return  Data
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.12
      */
     abstract public function store(Data $data): Data;
 }
