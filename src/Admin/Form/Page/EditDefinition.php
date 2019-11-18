@@ -68,7 +68,7 @@ class EditDefinition extends AbstractFieldDefinition
                     ->description(__('luna.page.field.meta.title.desc'))
                     ->maxlength(255);
 
-                $this->text('meta_desc')
+                $this->textarea('meta_desc')
                     ->label(__('luna.page.field.meta.desc'))
                     ->description(__('luna.page.field.meta.desc.desc'))
                     ->maxlength(255);
