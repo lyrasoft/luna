@@ -101,6 +101,8 @@ class SaveController extends AbstractSaveController
 
         $this->params         = $this->input->getRaw('params');
         $this->data['params'] = $this->params;
+
+        $this->getDataObject()->bind($this->data);
     }
 
     /**
