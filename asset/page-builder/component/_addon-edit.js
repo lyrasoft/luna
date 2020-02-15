@@ -34,6 +34,8 @@ $(() => {
           Vue.set(editData, 'disabled', false);
         }
 
+        this.dataMigration(editData);
+
         this.values = editData;
 
         $(this.$refs.generalTab).click();
@@ -148,7 +150,9 @@ $(() => {
               end_color: '',
               end_pos: ''
             },
-            video: ''
+            video: {
+              url: ''
+            }
           },
           animation: {
             name: '',
@@ -156,6 +160,14 @@ $(() => {
             delay: 0
           }
         };
+      },
+
+      dataMigration(data) {
+        if (typeof data.options.background.video === 'string') {
+          data.options.background.video = { url: data.options.background.video };
+        }
+
+        console.log(data);
       }
     },
 
@@ -165,6 +177,7 @@ $(() => {
 
     computed: {
       options() {
+        console.log(this.values);
         return this.values.options;
       }
     }

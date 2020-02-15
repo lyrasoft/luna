@@ -867,6 +867,7 @@ $(function () {
           Vue.set(editData, 'disabled', false);
         }
 
+        this.dataMigration(editData);
         this.values = editData;
         $(this.$refs.generalTab).click();
         $(this.$refs.modal).modal('show');
@@ -973,7 +974,9 @@ $(function () {
               end_color: '',
               end_pos: ''
             },
-            video: ''
+            video: {
+              url: ''
+            }
           },
           animation: {
             name: '',
@@ -981,11 +984,21 @@ $(function () {
             delay: 0
           }
         };
+      },
+      dataMigration: function dataMigration(data) {
+        if (typeof data.options.background.video === 'string') {
+          data.options.background.video = {
+            url: data.options.background.video
+          };
+        }
+
+        console.log(data);
       }
     },
     watch: {},
     computed: {
       options: function options() {
+        console.log(this.values);
         return this.values.options;
       }
     }
