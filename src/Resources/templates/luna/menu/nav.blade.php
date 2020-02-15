@@ -25,7 +25,7 @@ if ($dropdown) {
 }
 ?>
 
-<div class="nav {{ $class ?? '' }} {{ $vertical ? 'flex-column' : '' }} {{ $click ? '' : 'dropdown-hover' }} {{ $fade ? 'drodown-fade' : '' }}"
+<div class="c-luna-menu nav {{ $class ?? '' }} {{ $vertical ? 'flex-column' : '' }} {{ $click ? '' : 'dropdown-hover' }} {{ $fade ? 'drodown-fade' : '' }}"
     data-menu-id="{{ $menus->getValue()->id ?? '1' }}"
     data-level="1">
     @include('luna.menu.menu-items')

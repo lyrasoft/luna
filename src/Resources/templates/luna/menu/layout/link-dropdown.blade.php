@@ -22,7 +22,7 @@ $link = ($link === $viewInstance::NO_LINK || (string) $link === '') ? false : $l
         <a @attr('href', $link)
             class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $menu->isActive(true) ? 'active' : '' }}"
             @attr('target', $link ? $menu->getValue()->target : false)
-            @attr('data-toggle', $click && $hasChildren ? 'doprdown' : false)>
+            @attr('data-toggle', $click && $hasChildren ? 'dropdown' : false)>
             {{ $menu->getValue()->title }}
         </a>
 
