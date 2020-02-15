@@ -459,8 +459,10 @@ class MenuService
         $parent = 1
     ): ListRepositoryInterface {
         $repo = $this->getRepository();
+        $repo->config->set('list.fix_page', false);
 
         $repo->type($type);
+        $repo->ordering('menu.lft', 'ASC');
 
         if ($onlyAvailable) {
             $repo->onlyAvailable();
