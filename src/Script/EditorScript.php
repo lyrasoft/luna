@@ -110,8 +110,8 @@ JS;
         if (!static::inited(__METHOD__)) {
             static::editor();
 
-            $asset->addScript($luna->name . '/js/tinymce/tinymce.min.js');
-            $asset->addScript($luna->name . '/js/tinymce/tinymce-luna.min.js');
+            $asset->addScript($luna->name . '/js/tinymce5/tinymce.min.js');
+            $asset->addScript($luna->name . '/js/tinymce5/tinymce-luna.min.js');
 
             $css = <<<CSS
 div.mce-fullscreen {

@@ -222,7 +222,7 @@ JS
         // Set global settings
         $contentCss = (array) Arr::get($options, 'content_css', $this->get('content_css'));
 
-        array_unshift($contentCss, Asset::root() . '/' . $luna->name . '/css/tinymce/content.css');
+        array_unshift($contentCss, Asset::root() . '/' . $luna->name . '/css/tinymce5/content.css');
 
         $options['content_css'] = implode(',', $contentCss);
 
@@ -264,10 +264,10 @@ JS
             return;
         }
 
-        $langPath = LUNA_SOURCE . '/Resources/asset/js/tinymce/langs/' . $lang . '.js';
+        $langPath = LUNA_SOURCE . '/Resources/asset/js/tinymce5/langs/' . $lang . '.js';
 
         if (!is_file($langPath)) {
-            $langPath = LUNA_SOURCE . '/Resources/asset/js/tinymce/langs/' . $first . '.js';
+            $langPath = LUNA_SOURCE . '/Resources/asset/js/tinymce5/langs/' . $first . '.js';
             $lang = $first;
         }
 
