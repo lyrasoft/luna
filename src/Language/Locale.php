@@ -223,7 +223,8 @@ class Locale
             }
 
             foreach ($langs as $lang) {
-                list($lang) = explode(';', $lang);
+                [$lang] = explode(';', $lang);
+                $lang = static::formatLangCode($lang);
 
                 if (in_array($lang, $available, true)) {
                     return $lang;
@@ -232,6 +233,32 @@ class Locale
         }
 
         return $default;
+    }
+
+    /**
+     * formatLangCode
+     *
+     * @param  string  $code
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function formatLangCode(string $code): string
+    {
+        if (strpos($code, '-') === false && strpos($code, '_') === false) {
+            return $code;
+        }
+
+        if (strpos($code, '_') !== false) {
+            $sep = '_';
+        } else {
+            $sep = '-';
+        }
+
+        [$first, $second] = explode($sep, $code, 2);
+
+        return $first . $sep . strtoupper($second);
     }
 
     /**
