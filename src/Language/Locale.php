@@ -242,7 +242,7 @@ class Locale
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.7.28
      */
     public static function formatLangCode(string $code): string
     {
