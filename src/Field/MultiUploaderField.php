@@ -189,7 +189,7 @@ $(function () {
         if (this.\$options.openFileHandler) {
           this.\$options.openFileHandler(item);
         } else {
-          window.open(item.download_url || itemn.url);
+          window.open(item.download_url || item.url);
         }
       },
       
