@@ -1,5 +1,6 @@
 <template>
-  <div class="vue-drag-uploader">
+  <div class="vue-drag-uploader"
+    :class="{ 'vue-drag-uploader--readonly': isReadonly }">
     <div class="vue-drag-uploader__wrapper">
       <slot name="items"
         :items="items"
@@ -8,7 +9,8 @@
         :files-limited="maxFiles"
       >
         <draggable v-model="items" class="vue-drag-uploader__draggable-wrapper"
-          :options="{draggable: '.preview-img', animation: 300}"
+          :options="{ draggable: '.preview-img', animation: 300 }"
+          :disabled="isReadonly"
           @sort="$emit('reorder', $event)">
           <slot name="items" :item="items">
             <vue-drag-uploader-item
@@ -19,6 +21,7 @@
               :key="item.key"
               :upload-url="url"
               :size="thumbSize"
+              :is-readonly="isReadonly"
               @delete="deleteItem"
               @upload-start="uploadStart"
               @upload-end="uploadEnd"
@@ -66,8 +69,8 @@
 </template>
 
 <script>
-  import { itemStates, swal } from './util';
   import VueDragUploaderItem from './item';
+  import { itemStates, swal } from './util';
 
   export default {
     name: 'vue-drag-uploader',
@@ -89,7 +92,13 @@
       accept: {
         type: String,
         default: ''
-      }
+      },
+      disabled: {
+        default: false
+      },
+      readonly: {
+        default: false
+      },
     },
     created() {
       this.value.map(item => {
@@ -158,6 +167,8 @@
       },
 
       uploadFiles(files) {
+        Array.prototype.forEach.call(files, this.checkFile);
+
         Array.prototype.forEach.call(files, file => {
           this.checkFile(file);
 
@@ -182,9 +193,7 @@
           this.items.push(item);
 
           reader.onload = (event) => {
-            const url = event.target.result;
-
-            item.thumb_url = url;
+            item.thumb_url = event.target.result;
           };
 
           reader.readAsDataURL(file);
@@ -285,7 +294,7 @@
     },
     computed: {
       canUpload() {
-        return this.maxFiles == null || this.items.length < this.maxFiles;
+        return (this.maxFiles == null || this.items.length < this.maxFiles) && !this.isReadonly;
       },
 
       uploading() {
@@ -304,6 +313,10 @@
 
             return v;
           });
+      },
+
+      isReadonly() {
+        return this.disabled || this.readonly;
       }
     }
   };

@@ -33,7 +33,7 @@ window.MultiUploader = Vue.extend({
       this.$options.metaModal.modal('hide');
     },
     isImage: function isImage(url) {
-      var ext = url.split('.').pop();
+      var ext = url.split('.').pop().split('?').shift();
       var allow = ['png', 'jpeg', 'jpg', 'gif', 'bmp', 'webp'];
       return allow.indexOf(ext) !== -1;
     }

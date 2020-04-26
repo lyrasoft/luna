@@ -76,8 +76,8 @@ fusion.task('vue', function () {
   // Compile end
 });
 
-// The task `scss`
-fusion.task('scss', function () {
+// The task `css`
+fusion.task('css', function () {
   // Watch start
   fusion.watch([
     'asset/scss/**/*.scss'

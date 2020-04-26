@@ -21,3 +21,18 @@ export const itemStates = {
   FAIL: 'fail',
   STOP: 'stop',
 };
+
+export function isImage(filePath) {
+  const ext = filePath.split('.').pop().split('?').shift();
+
+  const allow = [
+    'png',
+    'jpeg',
+    'jpg',
+    'gif',
+    'bmp',
+    'webp',
+  ];
+
+  return allow.indexOf(ext) !== -1;
+}

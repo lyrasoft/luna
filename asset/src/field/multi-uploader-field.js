@@ -41,7 +41,7 @@ window.MultiUploader = Vue.extend({
     },
 
     isImage(url) {
-      const ext = url.split('.').pop();
+      const ext = url.split('.').pop().split('?').shift();
 
       const allow = [
         'png',

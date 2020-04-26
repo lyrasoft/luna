@@ -14,10 +14,13 @@ $form = $editForm ?? $imageMetaForm;
             :url="uploadUrl"
             :max-files="maxFiles"
             :thumb-size="thumbSize"
+            :disabled="disabled"
+            :readonly="readonly"
             accept="{{ $field->accept() }}"
             placeholder="{{ $attrs['placeholder'] }}"
             @change="value = $event"
             @attr('@item-click', $meta ? 'itemClick' : 'openFile')
+            ref="app"
         >
             <template slot="extra" slot-scope="{ item, i }">
                 @if ($meta)
@@ -25,16 +28,18 @@ $form = $editForm ?? $imageMetaForm;
                         @{{ item.title }}
                     </h5>
                 @endif
-                <div class="d-none">
-                    @if ($meta)
-                        <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][url]`" :value="item.url" />
-                        @foreach ($form->getFields() as $field)
-                            <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][{{ $field->getName() }}]`" :value="item.{{ $field->getName() }}" />
-                        @endforeach
-                    @else
-                        <input type="hidden" :name="`{{ $attrs['name'] }}[${i}]`" :value="item.url" />
-                    @endif
-                </div>
+                @if (!$field->get('disabled'))
+                    <div class="d-none">
+                        @if ($meta)
+                            <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][url]`" :value="item.url" />
+                            @foreach ($form->getFields() as $field)
+                                <input type="hidden" :name="`{{ $attrs['name'] }}[${i}][{{ $field->getName() }}]`" :value="item.{{ $field->getName() }}" />
+                            @endforeach
+                        @else
+                            <input type="hidden" :name="`{{ $attrs['name'] }}[${i}]`" :value="item.url" />
+                        @endif
+                    </div>
+                @endif
             </template>
         </vue-drag-uploader>
 

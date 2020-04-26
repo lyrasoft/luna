@@ -170,7 +170,9 @@ class MultiUploaderField extends AbstractField
             'maxFiles' => $this->maxFiles(),
             'current' => $current,
             'currentIndex' => null,
-            'thumbSize' => $this->thumbSize()
+            'thumbSize' => $this->thumbSize(),
+            'disabled' => (bool) $this->get('disabled'),
+            'readonly' => (bool) $this->get('readonly'),
         ];
 
         $options = HtmlHelper::getJSObject($data);
@@ -255,6 +257,8 @@ JS;
         foreach ($form->getFields() as $field) {
             $field->setValue(null);
             $field->attr('v-model', 'current.' . $field->getName());
+            $field->disabled((bool) $this->get('disabled'));
+            $field->readonly((bool) $this->get('readonly'));
         }
 
         return $form;

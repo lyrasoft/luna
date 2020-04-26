@@ -10,6 +10,8 @@
   cursor: pointer;
   color: #999;
   min-height: 250px; }
+  .vue-drag-uploader--readonly {
+    border: 1px solid #999; }
   .vue-drag-uploader--ondrag {
     border: 2px solid #666;
     background-color: rgba(0, 0, 0, 0.05);

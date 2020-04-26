@@ -16,7 +16,7 @@
       </div>
 
       <div class="preview-img__overlay">
-          <span class="preview-img__remove-icon fa fa-times"
+          <span v-if="!isReadonly" class="preview-img__remove-icon fa fa-times"
             @click.stop.prevent="deleteSelf()"></span>
         <slot name="extra" :item="item"></slot>
       </div>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import { itemStates, swal } from './util';
+  import { isImage, itemStates, swal } from './util';
 
   export default {
     name: 'vue-drag-uploader-item',
@@ -53,7 +53,8 @@
       i: Number,
       initState: String,
       uploadUrl: String,
-      size: Number
+      size: Number,
+      isReadonly: Boolean
     },
     created() {
       this.state = this.initState;
@@ -102,13 +103,14 @@
           .done(res => {
             this.state = itemStates.COMPLETED;
             this.item.url = res.data.url;
+            this.item.download_url = res.data.download_url;
 
             if (this.isImage) {
               this.item.thumb_url = res.data.thumb_url || res.data.url;
             }
           })
           .fail(xhr => {
-            console.warn(xhr.responseJSON.message, xhr);
+            console.error(xhr.responseJSON.message, xhr);
             this.state = itemStates.FAIL;
             this.messages.error = xhr.responseJSON.message;
           })
@@ -120,6 +122,10 @@
       },
 
       deleteSelf() {
+        if (this.isReadonly) {
+          return;
+        }
+
         this.$emit('delete', this.item);
       },
     },
@@ -136,20 +142,11 @@
       },
 
       isImage() {
-        const ext = this.item.file
-          ? this.item.file.name.split('.').pop()
-          : this.item.url.split('.').pop();
-
-        const allow = [
-          'png',
-          'jpeg',
-          'jpg',
-          'gif',
-          'bmp',
-          'webp',
-        ];
-
-        return allow.indexOf(ext) !== -1;
+        return isImage(
+          this.item.file
+            ? this.item.file.name
+            : this.item.url
+        );
       },
 
       icon() {
