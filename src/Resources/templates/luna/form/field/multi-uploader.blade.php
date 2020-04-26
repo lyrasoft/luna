@@ -38,7 +38,7 @@ $form = $editForm ?? $imageMetaForm;
             </template>
         </vue-drag-uploader>
 
-        <div class="modal fade" id="{{ $attrs['id'] }}-meta-modal" tabindex="-1" role="dialog"
+        <div class="modal fade c-multi-uploader-modal" id="{{ $attrs['id'] }}-meta-modal" tabindex="-1" role="dialog"
             aria-labelledby="{{ $attrs['id'] }}-meta-modal-label" aria-hidden="true">
             <div class="modal-dialog" :class="[isImage(current.url) ? 'modal-lg' : '']"
                 role="document">

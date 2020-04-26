@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\Admin\Form\Config;
 
 use Lyrasoft\Luna\Admin\Field\Config\ConfigListField;
 use Lyrasoft\Luna\Admin\Field\Config\ConfigModalField;
+use Lyrasoft\Luna\Field\MultiUploaderField;
 use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
 use Windwalker\Core\Form\AbstractFieldDefinition;
@@ -40,6 +41,10 @@ class CoreDefinition extends AbstractFieldDefinition
         $this->fieldset('basic', function () {
             $this->text('ga')
                 ->label('Google Analytics');
+
+            $this->add('banners', MultiUploaderField::class)
+                ->label('Banners')
+                ->imageForm(true);
         });
 
         $this->fieldset('advanced', function () {

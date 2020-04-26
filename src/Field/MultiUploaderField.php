@@ -9,9 +9,11 @@
 namespace Lyrasoft\Luna\Field;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Script\LunaScript;
 use Windwalker\Core\Asset\Asset;
 use Windwalker\Core\Form\AbstractFieldDefinition;
+use Windwalker\Core\Package\PackageHelper;
 use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Form\Field\AbstractField;
 use Windwalker\Form\Field\TextareaField;
@@ -110,6 +112,7 @@ class MultiUploaderField extends AbstractField
 
         if (!$inited) {
             LunaScript::vueDragUploader();
+            Asset::addJS(PackageHelper::getAlias(LunaPackage::class) . '/js/field/multi-uploader-field.min.js');
         }
 
         $url = $this->url() ?: LunaHelper::getPackage()
@@ -174,61 +177,12 @@ class MultiUploaderField extends AbstractField
 
         $js = <<<JS
 $(function () {
-  var vm = new Vue({
-    name: 'multi-uploader',
-    el: '#{$attrs['id']}-wrap',
-    data: $options,
-    mounted: function () {
-      this.\$options.metaModal = $('#{$attrs['id']}-meta-modal');
-    },
-    updated: function () {
-
-    },
-    methods: {
-      openFile(item) {
-        if (this.\$options.openFileHandler) {
-          this.\$options.openFileHandler(item);
-        } else {
-          window.open(item.download_url || item.url);
-        }
-      },
-      
-      itemClick: function (item, i, event) {
-        this.current = item;
-        this.currentIndex = i;
-        
-        this.\$options.metaModal.modal('show');
-      },
-
-      metaSave() {
-        this.current = {};
-        this.currentIndex = null;
-
-        this.\$options.metaModal.modal('hide');
-      },
-      
-      isImage(url) {
-        const ext = url.split('.').pop();
-
-        const allow = [
-          'png',
-          'jpeg',
-          'jpg',
-          'gif',
-          'bmp',
-          'webp',
-        ];
-
-        return allow.indexOf(ext) !== -1;
-      }
-    },
-    watch: {
-      value: function () {
-      }
+  var opt = {
+    data: function () {
+        return $options;
     }
-  });
-
-  $('#{$attrs['id']}-wrap').data('multi-uploader', vm);
+  };
+  new MultiUploader(opt).\$mount('#{$attrs['id']}-wrap');
 });
 JS;
 

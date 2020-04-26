@@ -63,6 +63,19 @@ fusion.task('js', function () {
   // Compile end
 });
 
+// The task `vue`
+fusion.task('vue', function () {
+  // Watch start
+  fusion.watch([
+    'asset/vue/**/*',
+  ]);
+  // Watch end
+
+  // Compile Start
+  fusion.vue('asset/vue/entries/**/*.js', 'src/Resources/asset/js/');
+  // Compile end
+});
+
 // The task `scss`
 fusion.task('scss', function () {
   // Watch start
@@ -95,7 +108,7 @@ fusion.task('install', function () {
   ], `${destPath}/js/tinymce5/langs/`);
 });
 
-fusion.default(['js', 'scss']);
+fusion.default(['js', 'scss', 'vue']);
 
 /*
  * APIs
