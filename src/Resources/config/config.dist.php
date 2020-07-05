@@ -49,6 +49,7 @@ return [
             'prefix' => 'luna.',
             'enabled' => false,
             'default' => 'en-GB',
+            'route' => false,
             'use_browser' => false
         ]
     ],
@@ -72,6 +73,7 @@ return [
             'enabled' => false,
             'locale' => 'en-GB',
             'default' => 'en-GB',
+            'route' => false,
             'use_browser' => false
         ]
     ],

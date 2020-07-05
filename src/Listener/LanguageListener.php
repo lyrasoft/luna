@@ -143,6 +143,23 @@ class LanguageListener
         }
 
         $route = $event['route'];
+        $config = $event['config'];
+
+        if (!($config['locale'] ?? true)) {
+            return;
+        }
+
+        $luna = LunaHelper::getPackage();
+
+        if ($luna->isFrontend()) {
+            $enabled = $luna->get('frontend.language.route', true);
+        } elseif ($luna->isAdmin()) {
+            $enabled = $luna->get('admin.language.route', true);
+        }
+
+        if (!$enabled) {
+            return;
+        }
 
         list($package, $route) = array_pad(explode('@', $route, 2), -2, null);
 
