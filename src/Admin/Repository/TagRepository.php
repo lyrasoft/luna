@@ -8,8 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Repository;
 
-use Phoenix\Utilities\SlugHelper;
+use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Phoenix\Repository\AdminRepository;
+use Phoenix\Utilities\SlugHelper;
 use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 use Windwalker\Data\DataSet;
@@ -52,7 +53,7 @@ class TagRepository extends AdminRepository
     /**
      * handleAlias
      *
-     * @param   string $alias
+     * @param string $alias
      *
      * @return  string
      */
@@ -89,8 +90,8 @@ class TagRepository extends AdminRepository
     /**
      * Method to set new item ordering as first or last.
      *
-     * @param   Record $record   Item table to save.
-     * @param   string $position `first` or other are `last`.
+     * @param Record $record   Item table to save.
+     * @param string $position `first` or other are `last`.
      *
      * @return  void
      */
@@ -102,9 +103,9 @@ class TagRepository extends AdminRepository
     /**
      * saveTags
      *
-     * @param   string        $type
-     * @param   integer       $targetId
-     * @param   array|DataSet $tags
+     * @param string        $type
+     * @param integer       $targetId
+     * @param array|DataSet $tags
      *
      * @return  void
      * @throws \Exception
@@ -117,14 +118,11 @@ class TagRepository extends AdminRepository
 
         $tags = (array) $tags;
 
-        $tagMapMapper = $this->getDataMapper('TagMap');
-
-        $tagMapMapper->delete(['target_id' => $targetId, 'type' => 'article']);
+        $maps = [];
 
         foreach ($tags as $tagId) {
-            // If has new# prefix, create tag.
             if (strpos($tagId, 'new#') === 0) {
-                $data        = new Data;
+                $data        = new Data();
                 $data->title = substr($tagId, 4);
                 $data->state = 1;
 
@@ -133,7 +131,20 @@ class TagRepository extends AdminRepository
                 $tagId = $data->id;
             }
 
-            $tagMapMapper->createOne(['tag_id' => $tagId, 'target_id' => $targetId, 'type' => $type]);
+            $maps[] = [
+                'type' => $type,
+                'target_id' => $targetId,
+                'tag_id' => $tagId
+            ];
         }
+
+        TagMapMapper::sync(
+            $maps,
+            [
+                'type' => $type,
+                'target_id' => $targetId
+            ],
+            ['type', 'target_id', 'tag_id']
+        );
     }
 }
