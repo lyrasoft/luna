@@ -25,10 +25,8 @@
 <p>Hi: {{ $receiver['name'] }}</p>
 
 <p>
-    You receive a new message.
+    @lang('luna.contact.mail.intro')
 </p>
-
-<h3>Message Information</h3>
 
 <table border="0" class="table" style="width: 100%; border-collapse: collapse;">
     <tbody>
@@ -59,7 +57,7 @@
 <p style="margin-top: 30px">
     <a class="btn btn-primary btn-block"
         href="{{ $router->to('admin@contacts')->full() . '#contact-' . $data->id }}">
-        Go to admin to see this message
+        @lang('luna.contact.mail.button.manage')
     </a>
 </p>
 @stop
