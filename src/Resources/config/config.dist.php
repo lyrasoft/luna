@@ -94,6 +94,10 @@ return [
         ],
         'protects' => [
             'theme.'
+        ],
+        'styles' => [
+            'font_size_unit' => 'px',
+            'font_size_scale' => 1
         ]
     ],
 

@@ -8,6 +8,8 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleRules;
 use Lyrasoft\Luna\Script\LunaScript;
@@ -60,7 +62,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      */
     public static function addOffsets(StyleRules $rules, $rule, $value)
     {
-        list($top, $right, $bottom, $left) = array_pad(explode(',', $value), 4, '');
+        [$top, $right, $bottom, $left] = array_pad(explode(',', $value), 4, '');
 
         $rules->add($rule . '-top', $top);
         $rules->add($rule . '-right', $right);
@@ -252,7 +254,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
             $style->select($this->cssPrefix . '__title')
-                ->add('font-size', $options['title.font_size.' . $size], 'px')
+                ->add('font-size', $this->fontSize($options['title.font_size.' . $size]), $this->fontSizeUnit())
                 ->add('margin-top', $options['title.margin_top.' . $size], 'px')
                 ->add('margin-bottom', $options['title.margin_bottom.' . $size], 'px');
         });
@@ -260,7 +262,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
         // Subtitle
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
             $style->select($this->cssPrefix . '__subtitle')
-                ->add('font-size', $options['title.font_size.' . $size], 'px');
+                ->add('font-size', $this->fontSize($options['title.font_size.' . $size]), $this->fontSizeUnit());
         });
     }
 
@@ -320,5 +322,47 @@ abstract class AbstractPageRenderer implements PageRendererInterface
                 }
                 break;
         }
+    }
+
+    /**
+     * getLuna
+     *
+     * @return  LunaPackage
+     *
+     * @since  1.7.33
+     */
+    public static function getLuna(): LunaPackage
+    {
+        return LunaHelper::getPackage();
+    }
+
+    /**
+     * fontSize
+     *
+     * @param float|string|null $size
+     *
+     * @return  float|string|null
+     *
+     * @since  1.7.33
+     */
+    public function fontSize($size)
+    {
+        if ($size === null || $size === '') {
+            return $size;
+        }
+
+        return $size * static::getLuna()->get('page.styles.font_size_scale', 1);
+    }
+
+    /**
+     * fontSizeUnit
+     *
+     * @return  string
+     *
+     * @since  1.7.33
+     */
+    public function fontSizeUnit(): string
+    {
+        return static::getLuna()->get('page.styles.font_size_unit', 'px');
     }
 }
