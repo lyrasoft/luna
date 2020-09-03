@@ -1552,6 +1552,7 @@ $(function () {
  */
 
 $(function () {
+  Phoenix.trigger('page-builder.before-create');
   var PageBuilder = new Vue({
     el: '#page-builder',
     data: {
@@ -1570,6 +1571,9 @@ $(function () {
       'column-edit': Phoenix.data('component:column-edit'),
       'addon': Phoenix.data('component:addon'),
       'addon-edit': Phoenix.data('component:addon-edit')
+    },
+    created: function created() {
+      Phoenix.trigger('page-builder.created', this);
     },
     mounted: function mounted() {
       var _this20 = this;
@@ -1621,6 +1625,7 @@ $(function () {
         _this20.editing.column = {};
         _this20.editing.addon = {};
       });
+      Phoenix.trigger('page-builder.mounted', this);
     },
     methods: {
       addNewRow: function addNewRow() {

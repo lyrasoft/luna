@@ -6,6 +6,8 @@
  */
 
 $(() => {
+  Phoenix.trigger('page-builder.before-create');
+
   const PageBuilder = new Vue({
     el: '#page-builder',
     data: {
@@ -24,6 +26,9 @@ $(() => {
       'column-edit': Phoenix.data('component:column-edit'),
       'addon': Phoenix.data('component:addon'),
       'addon-edit': Phoenix.data('component:addon-edit'),
+    },
+    created() {
+      Phoenix.trigger('page-builder.created', this);
     },
     mounted() {
       Phoenix.on('row:edit', (content, column) => {
@@ -79,6 +84,8 @@ $(() => {
         this.editing.column = {};
         this.editing.addon = {};
       });
+
+      Phoenix.trigger('page-builder.mounted', this);
     },
     methods: {
       addNewRow(i = null) {
