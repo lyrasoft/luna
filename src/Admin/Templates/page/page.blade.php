@@ -50,49 +50,13 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
     <form name="admin-form" id="admin-form" action="{{ $router->route('page', ['id' => $item->id]) }}" method="POST"
         enctype="multipart/form-data">
 
-        <div id="page-builder" class="card bg-light border-0">
-            <div class="card-body">
-                <div class="page-builder__body body">
-
-                    <draggable v-model="content" @start="drag = true" @end="drag = false"
-                        :options="{handle: '.row-move-handle', animation: 300}">
-                        <row v-for="(row, i) of content" class="body__row page-row mb-4"
-                            :key="row.id"
-                            :value="row"
-                            move-handle="row-move-handle"
-                            @columns-change="columnsChange(row, $event)"
-                            @add="addNewRow(i)"
-                            @copy="copyRow(row, i)"
-                            @delete="deleteRow(i)">
-                        </row>
-                    </draggable>
-
-                </div>
-
-                <div class="page-builder__bottom-toolbar text-center" v-if="content.length === 0">
-                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                        @click="addNewRow()">
-                        Add New Row
-                    </button>
-                </div>
-
-                <div class="hidden-inputs">
-                    @formToken
-                </div>
-
-                <textarea name="item[content]" id="input-item-content" style="display: none;">@{{ getSaveValue() }}</textarea>
-
-                {{-- Inline Components --}}
-
-                {{-- Modals --}}
-                @include('component.row-edit')
-                @include('component.column-edit')
-                @include('component.addon-edit')
-                @include('modal.addons')
-            </div>
-        </div>
+        <page-builder-app class=""></page-builder-app>
 
         @include('modal-options')
+
+        <div class="hidden-inputs">
+            @formToken
+        </div>
     </form>
 
     {{-- Components --}}
