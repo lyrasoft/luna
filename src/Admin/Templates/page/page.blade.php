@@ -57,5 +57,11 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
         <div class="hidden-inputs">
             @formToken
         </div>
+
+        @foreach ($addonTypes as $addonType)
+            @php( $class = $addonType->class )
+
+            {!! $class::getVueComponentTemplate() !!}
+        @endforeach
     </form>
 @stop
