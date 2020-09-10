@@ -1,5 +1,5 @@
 <template>
-  <div class="card bg-light border-0">
+  <div id="page-builder" class="page-builder card bg-light border-0">
     <div class="card-body">
       <div class="page-builder__body body">
 
@@ -30,10 +30,42 @@
       <!-- Inline Components -->
 
       <!-- Modals -->
-      <row-edit />
-      <column-edit />
-      <addon-edit />
-      @include('modal.addons')
+      <row-edit ref="rowEdit" />
+      <column-edit ref="columnEdit" />
+      <addon-edit ref="addonEdit" />
+
+      <!-- Addon selector -->
+      <div class="modal fade" id="addon-list-modal" tabindex="-1" role="dialog" aria-labelledby="addon-list-modal-label"
+        aria-hidden="true" ref="addonList">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="m-0">建立新的 Addon</h3>
+              <button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">
+                <span class="fa fa-times"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row c-addon-list">
+                <div v-for="addon of addons" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
+                  <a class="d-block p-4 c-addon__link text-dark text-center rounded has-tooltip"
+                    href="#"
+                    :title="addon.description"
+                    @click="selectAddon(addon.type)">
+                    <div class="c-addon__icon">
+                      <span class="fa-3x" :class="addon.icon"></span>
+                    </div>
+                    <h5 class="m-0">
+                      {{ addon.name }}
+                    </h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -42,7 +74,9 @@
 import AddonEdit from '../components/page-builder/addon-edit';
 import ColumnEdit from '../components/page-builder/column-edit';
 import RowEdit from '../components/page-builder/row-edit';
+import Row from '../components/page-builder/row';
 import PageBuilderService from '../services/page-builder-services';
+import { each } from 'lodash';
 
 export default {
   name: 'page-builder-app',
@@ -54,14 +88,15 @@ export default {
         column: {},
         row: {},
         addon: {}
-      }
+      },
+      addons: Phoenix.data('addons')
     }
   },
   components: {
     AddonEdit,
     ColumnEdit,
-    RowEdit
-
+    RowEdit,
+    Row
   },
   created() {
     Phoenix.trigger('page-builder.created', this);
@@ -74,7 +109,7 @@ export default {
     });
 
     Phoenix.on('row:save', content => {
-      underscore.each(content, (v, k) => {
+      each(content, (v, k) => {
         this.editing.row[k] = v;
       });
 
@@ -88,7 +123,7 @@ export default {
     });
 
     Phoenix.on('column:save', content => {
-      underscore.each(content, (v, k) => {
+      each(content, (v, k) => {
         this.editing.column[k] = v;
       });
 
@@ -113,7 +148,7 @@ export default {
         this.editing.column.addons.push(addon);
       }
 
-      underscore.each(addon, (v, k) => {
+      each(addon, (v, k) => {
         this.editing.addon[k] = v;
       });
 

@@ -19,16 +19,16 @@
  * @var $form     \Windwalker\Form\Form
  */
 
-\Phoenix\Script\CoreScript::underscore();
 \Phoenix\Script\PhoenixScript::phoenix();
 \Phoenix\Script\JQueryScript::colorPicker();
 \Phoenix\Script\VueScript::core();
+\Phoenix\Script\VueScript::bootstrapVue();
 \Phoenix\Script\VueScript::animate();
 \Phoenix\Script\VueScript::switcher();
 \Lyrasoft\Luna\Script\LunaScript::vueDraggable();
 \Lyrasoft\Luna\Script\LunaScript::vueSlider();
 
-$asset->addJS($package->name . '/js/admin/page-builder/page-builder.min.js');
+$asset->addJS($package->name . '/js/vue/page-builder.js');
 $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 ?>
 
@@ -58,9 +58,4 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
             @formToken
         </div>
     </form>
-
-    {{-- Components --}}
-    @include('component.row')
-    @include('component.column')
-    @include('component.addon')
 @stop

@@ -303,6 +303,10 @@ abstract class AbstractAddon implements AdminVueComponentInterface
 
         static::registerPaths($renderer);
 
+        if (!$renderer->has('form')) {
+            return '';
+        }
+
         return $renderer->render('form', $data);
     }
 

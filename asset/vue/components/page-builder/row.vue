@@ -12,11 +12,9 @@
           {{ options.label === '' ? 'ROW' : options.label }}
         </div>
 
-        @debug
-        <small class="ml-3">
+        <small v-if="$debug" class="ml-3">
           {{ content.id }}
         </small>
-        @enddebug
       </div>
       <div class="page-row__actions ml-auto text-nowrap">
         <button type="button" class="btn btn-sm btn-primary"
@@ -76,7 +74,7 @@
 
         <a class="page-row__body-placeholder text-center p-4 border text-secondary col-12"
           commented-v-if="addons.length === 0 && !drag"
-          href="#" @click="addNewColumn()">
+          href="#" @click.prevent="addNewColumn()">
           <span class="fa fa-plus-square fa-3x"></span>
         </a>
       </div>
@@ -92,10 +90,13 @@
 </template>
 
 <script>
+import Column from "./column";
+import { each } from 'lodash';
+
 export default {
   name: 'row',
   components: {
-    column: Phoenix.data('component:column')
+    Column
   },
 
   data() {
@@ -121,7 +122,7 @@ export default {
     this.content = this.value;
 
     if (typeof this.content.id === 'undefined') {
-      underscore.each(this.getEmptyRow(), (v, k) => {
+      each(this.getEmptyRow(), (v, k) => {
         Vue.set(this.content, k, v);
       });
     }

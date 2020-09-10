@@ -11,53 +11,52 @@ const fusion = require('windwalker-fusion');
 fusion.task('js', function () {
   // Watch start
   fusion.watch([
-    'asset/page-builder/**/*.js',
     'asset/src/**/*.js',
   ]);
   // Watch end
 
   // Compile Start
-  fusion.babel(
-    [
-      // Mixin (Make sure this go first)
-      'asset/page-builder/addons/_base.js',
-
-      // Addons
-      'asset/page-builder/addons/_text.js',
-      'asset/page-builder/addons/_feature.js',
-      'asset/page-builder/addons/_image.js',
-      'asset/page-builder/addons/_button.js',
-      'asset/page-builder/addons/_empty.js',
-
-      // Widgets
-      'asset/page-builder/widgets/_single-image.js',
-      'asset/page-builder/widgets/_title-options.js',
-      'asset/page-builder/widgets/_animation.js',
-      'asset/page-builder/widgets/_gradient.js',
-      'asset/page-builder/widgets/_rwd-group.js',
-      'asset/page-builder/widgets/_box-offset.js',
-      'asset/page-builder/widgets/_button-radio.js',
-
-      // Directives
-      'asset/page-builder/directives/_tinymce.js',
-      'asset/page-builder/directives/_colorpicker.js',
-      'asset/page-builder/directives/_select2.js',
-
-      // Filters
-      'asset/page-builder/filters/_lang.js',
-      'asset/page-builder/filters/_addon-prop.js',
-
-      // Main components
-      'asset/page-builder/component/_addon-edit.js',
-      'asset/page-builder/component/_addon.js',
-      'asset/page-builder/component/_column-edit.js',
-      'asset/page-builder/component/_column.js',
-      'asset/page-builder/component/_row-edit.js',
-      'asset/page-builder/component/_row.js',
-      'asset/page-builder/page-builder.js',
-    ],
-    'src/Resources/asset/js/admin/page-builder/page-builder.js'
-  );
+  // fusion.babel(
+  //   [
+  //     // Mixin (Make sure this go first)
+  //     'asset/page-builder/addons/_base.js',
+  //
+  //     // Addons
+  //     'asset/page-builder/addons/_text.js',
+  //     'asset/page-builder/addons/_feature.js',
+  //     'asset/page-builder/addons/_image.js',
+  //     'asset/page-builder/addons/_button.js',
+  //     'asset/page-builder/addons/_empty.js',
+  //
+  //     // Widgets
+  //     'asset/page-builder/widgets/_single-image.js',
+  //     'asset/page-builder/widgets/_title-options.js',
+  //     'asset/page-builder/widgets/_animation.js',
+  //     'asset/page-builder/widgets/_gradient.js',
+  //     'asset/page-builder/widgets/_rwd-group.js',
+  //     'asset/page-builder/widgets/_box-offset.js',
+  //     'asset/page-builder/widgets/_button-radio.js',
+  //
+  //     // Directives
+  //     'asset/page-builder/directives/_tinymce.js',
+  //     'asset/page-builder/directives/colorpicker.js',
+  //     'asset/page-builder/directives/_select2.js',
+  //
+  //     // Filters
+  //     'asset/page-builder/filters/_lang.js',
+  //     'asset/page-builder/filters/_addon-prop.js',
+  //
+  //     // Main components
+  //     'asset/page-builder/component/_addon-edit.js',
+  //     'asset/page-builder/component/_addon.js',
+  //     'asset/page-builder/component/_column-edit.js',
+  //     'asset/page-builder/component/_column.js',
+  //     'asset/page-builder/component/_row-edit.js',
+  //     'asset/page-builder/component/_row.js',
+  //     'asset/page-builder/page-builder.js',
+  //   ],
+  //   'src/Resources/asset/js/admin/page-builder/page-builder.js'
+  // );
 
   fusion.babel('asset/src/**/*.js', 'src/Resources/asset/js/');
   // Compile end

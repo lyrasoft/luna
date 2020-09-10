@@ -9,9 +9,7 @@
             </div>
           </div>
           <h6 class="m-0">COL</h6>
-          @debug
-          <code>{{ content.id }}</code>
-          @enddebug
+          <code v-if="$debug">{{ content.id }}</code>
         </div>
 
         <div class="column__actions ml-auto text-nowrap">
@@ -119,14 +117,14 @@
               :value="addon"
               :child="true"
               move-handle="move-handle"
-              <!--@columns-change="columnsChange(addon, $event)"-->
+              comment-@columns-change="columnsChange(addon, $event)"
               @delete="deleteAddon(i)"
             ></row>
           </div>
 
           <a class="column__addon-placeholder text-center p-3 border text-secondary"
-            <!--v-if="addons.length === 0 && !drag"-->
-            href="#" @click="addAddon()">
+            comment-v-if="addons.length === 0 && !drag"
+            href="#" @click.prevent="addAddon()">
             <span class="fa fa-plus-circle fa-3x"></span>
           </a>
         </draggable>
@@ -136,10 +134,15 @@
 </template>
 
 <script>
+import { each, range, values } from 'lodash';
+import Addon from "./addon";
+import Row from "./row";
+
 export default {
   name: 'column',
   components: {
-    addon: Phoenix.data('component:addon'),
+    Addon,
+    Row
   },
 
   data() {
@@ -163,7 +166,7 @@ export default {
     this.content = this.value;
 
     if (typeof this.content.id === 'undefined') {
-      underscore.each(this.getEmptyColumn(), (v, k) => {
+      each(this.getEmptyColumn(), (v, k) => {
         Vue.set(this.content, k, v);
       });
     }
@@ -208,7 +211,7 @@ export default {
     },
 
     widthRange() {
-      return underscore.range(1, 13); // 1 to 12 in array
+      return range(1, 13); // 1 to 12 in array
     },
 
     getEmptyColumn() {
@@ -306,7 +309,7 @@ export default {
       return this.content.options;
     },
     width() {
-      return underscore.values(this.options.width).join(' ');
+      return values(this.options.width).join(' ');
     }
   }
 };

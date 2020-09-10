@@ -50,6 +50,7 @@
                   <small class="form-text text-muted">用來在編輯頁面辨識的標題</small>
                 </div>
 
+                <!-- Addon Edit Form -->
                 <div :is="values.componentName" v-model="values.options"></div>
 
                 <!-- Class -->
@@ -84,23 +85,24 @@
                 <div class="form-group">
                   <label for="input-addon-edit-background">背景樣式</label>
                   <div class="mt-2">
-                    <radio-buttons v-model="options.background.type" class="btn-block">
-                      <radio-button value="none">
+                    <b-form-radio-group v-model="options.background.type" class="btn-block"
+                      buttons button-variant="outline-primary">
+                      <b-form-radio value="none">
                         無
-                      </radio-button>
-                      <radio-button value="color">
+                      </b-form-radio>
+                      <b-form-radio value="color">
                         顏色
-                      </radio-button>
-                      <radio-button value="image">
+                      </b-form-radio>
+                      <b-form-radio value="image">
                         圖片
-                      </radio-button>
-                      <radio-button value="gradient">
+                      </b-form-radio>
+                      <b-form-radio value="gradient">
                         漸層
-                      </radio-button>
-                      <radio-button value="video">
+                      </b-form-radio>
+                      <b-form-radio value="video">
                         影片
-                      </radio-button>
-                    </radio-buttons>
+                      </b-form-radio>
+                    </b-form-radio-group>
                   </div>
                 </div>
 
@@ -258,7 +260,7 @@
 
               <!-- Tab Animation -->
               <div class="tab-pane fade" id="addon-edit-animation" role="tabpanel" aria-labelledby="addon-edit-animation-tab">
-                <animation-selector id="addon-edit-anim" :value="options.animation"></animation-selector>
+                <animations id="addon-edit-anim" :value="options.animation"></animations>
               </div>
             </div>
           </div>
@@ -279,9 +281,14 @@
 </template>
 
 <script>
+import BoxOffset from "./form/box-offset";
+import Animations from "./form/animations";
+import SingleImage from "./form/single-image";
+import Gradient from "./form/gradient";
+
 export default {
   name: 'addon-edit',
-
+  components: { Animations, BoxOffset, SingleImage, Gradient },
   data() {
     return {
       values: {},
@@ -439,8 +446,6 @@ export default {
       if (typeof data.options.background.video === 'string') {
         data.options.background.video = { url: data.options.background.video };
       }
-
-      console.log(data);
     }
   },
 
@@ -450,7 +455,6 @@ export default {
 
   computed: {
     options() {
-      console.log(this.values);
       return this.values.options;
     }
   }

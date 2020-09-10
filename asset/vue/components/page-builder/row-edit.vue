@@ -94,17 +94,18 @@
                 <div class="form-group">
                   <label for="input-row-edit-title-align">標題/子標題文字靠齊 (Align)</label>
                   <div class="mt-2">
-                    <radio-buttons v-model="options.title_align" class="btn-block">
-                      <radio-button value="left">
+                    <b-form-radio-group v-model="options.title_align" class="btn-block"
+                      buttons button-variant="outline-primary">
+                      <b-form-radio value="left">
                         左
-                      </radio-button>
-                      <radio-button value="center">
+                      </b-form-radio>
+                      <b-form-radio value="center">
                         中
-                      </radio-button>
-                      <radio-button value="right">
+                      </b-form-radio>
+                      <b-form-radio value="right">
                         右
-                      </radio-button>
-                    </radio-buttons>
+                      </b-form-radio>
+                    </b-form-radio-group>
                   </div>
                 </div>
 
@@ -149,23 +150,24 @@
                 <div class="form-group">
                   <label for="input-row-edit-background">背景樣式</label>
                   <div class="mt-2">
-                    <radio-buttons v-model="options.background.type" class="btn-block">
-                      <radio-button value="none">
+                    <b-form-radio-group v-model="options.background.type" class="btn-block"
+                      buttons button-variant="outline-primary">
+                      <b-form-radio value="none">
                         無
-                      </radio-button>
-                      <radio-button value="color">
+                      </b-form-radio>
+                      <b-form-radio value="color">
                         顏色
-                      </radio-button>
-                      <radio-button value="image">
+                      </b-form-radio>
+                      <b-form-radio value="image">
                         圖片
-                      </radio-button>
-                      <radio-button value="gradient">
+                      </b-form-radio>
+                      <b-form-radio value="gradient">
                         漸層
-                      </radio-button>
-                      <radio-button value="video">
+                      </b-form-radio>
+                      <b-form-radio value="video">
                         影片
-                      </radio-button>
-                    </radio-buttons>
+                      </b-form-radio>
+                    </b-form-radio-group>
                   </div>
                 </div>
 
@@ -379,7 +381,7 @@
 
               <!-- Tab Animation -->
               <div class="tab-pane fade" id="row-edit-animation" role="tabpanel" aria-labelledby="row-edit-animation-tab">
-                <animation-selector id="row-edit-anim" :value="options.animation"></animation-selector>
+                <animations id="row-edit-anim" :value="options.animation"></animations>
               </div>
             </div>
           </div>
@@ -400,8 +402,13 @@
 </template>
 
 <script>
+import Animations from "./form/animations";
+import BoxOffset from "./form/box-offset";
+import SingleImage from "./form/single-image";
+import Gradient from "./form/gradient";
 export default {
   name: 'row-edit',
+  components: { Animations, BoxOffset, SingleImage, Gradient },
   data() {
     return {
       values: {},
