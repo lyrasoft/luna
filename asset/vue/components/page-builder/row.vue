@@ -3,10 +3,10 @@
     <div class="page-row__title-bar d-flex mb-2">
       <div class="page-row__title d-flex">
         <div class="page-row__move-cursor">
-                    <span class="badge badge-secondary mr-2" style="cursor: move">
-                        <span class="fa fa-fw fa-arrows-alt-v"
-                          :class="[moveHandle]"></span>
-                    </span>
+          <span class="badge badge-secondary mr-2" style="cursor: move">
+            <span class="fa fa-fw fa-arrows-alt-v"
+              :class="[moveHandle]"></span>
+          </span>
         </div>
         <div :is="child ? 'strong' : 'h5'">
           {{ options.label === '' ? 'ROW' : options.label }}
@@ -22,8 +22,8 @@
           @click="addNewColumn()">
           <span class="fa fa-plus"></span>
           <span v-if="!child">
-                        新增欄
-                    </span>
+            新增欄
+          </span>
         </button>
         <button type="button" class="btn btn-sm btn-outline-secondary"
           v-if="!content.disabled"
@@ -55,6 +55,10 @@
                 <a class="dropdown-item" href="#" @click.prevent="paste" v-if="!content.disabled">
                     <span class="fa fa-paste"></span>
                     貼上
+                </a>
+                <a class="dropdown-item" href="#" @click.prevent="openTemplates" v-if="!content.disabled">
+                    <span class="fa fa-file-code"></span>
+                    插入模版
                 </a>
                 <a class="dropdown-item" href="#" @click.prevent="remove()">
                     <span class="fa fa-trash"></span>
@@ -97,6 +101,10 @@
           <b-dropdown-item @click="paste(true)">
             <span class="fa fa-fw fa-paste"></span>
             貼上
+          </b-dropdown-item>
+          <b-dropdown-item v-if="!child" @click="$emit('open-templates')">
+            <span class="fa fa-fw fa-file-code"></span>
+            插入模版
           </b-dropdown-item>
         </b-dropdown>
       </div>
@@ -156,51 +164,56 @@ export default {
 
     paste(append = false) {
       PageBuilderService.paste().then((text) => {
-        try {
-          const data = JSON.parse(text);
+        this.pasteData(text, append);
+      });
+    },
 
-          if (Array.isArray(data)) {
-            this.$emit('paste-page', data);
+    pasteData(text, append = false) {
+      try {
+        const data = JSON.parse(text);
+
+        if (Array.isArray(data)) {
+          this.$emit('paste-page', data);
+          return;
+        }
+
+        if (startsWith(data.id, 'addon-')) {
+          alert('Addon 不能貼在這裡');
+          return;
+        }
+
+        if (startsWith(data.id, 'col-')) {
+          this.duplicateColumn(data, this.content.columns.length - 1);
+          return;
+        }
+
+        if (startsWith(data.id, 'row-')) {
+          if (append) {
+            this.duplicate(data);
             return;
           }
 
-          if (startsWith(data.id, 'addon-')) {
-            alert('Addon 不能貼在這裡');
-            return;
-          }
-
-          if (startsWith(data.id, 'col-')) {
-            this.duplicateColumn(data, this.content.columns.length - 1);
-            return;
-          }
-
-          if (startsWith(data.id, 'row-')) {
-            if (append) {
-              this.duplicate(data);
-              return;
-            }
-
-            swal({
-              title: '您貼上的是一個行區塊',
-              text: '請選擇動作',
-              buttons: {
-                add: {
-                  text: '加上在後',
-                  value: 'add',
-                  className: 'btn-info'
-                },
-                replace: {
-                  text: '取代',
-                  value: 'replace',
-                  className: 'btn-warning'
-                },
-                append: {
-                  text: '貼到後方新的列',
-                  value: 'append',
-                  className: 'btn-dark'
-                }
+          swal({
+            title: '您貼上的是一個行區塊',
+            text: '請選擇動作',
+            buttons: {
+              add: {
+                text: '加上在後',
+                value: 'add',
+                className: 'btn-info'
+              },
+              replace: {
+                text: '取代',
+                value: 'replace',
+                className: 'btn-warning'
+              },
+              append: {
+                text: '貼到後方新的列',
+                value: 'append',
+                className: 'btn-dark'
               }
-            })
+            }
+          })
             .then((v) => {
               switch (v) {
                 case 'replace':
@@ -214,13 +227,12 @@ export default {
                   this.duplicate(data);
               }
             });
-            return;
-          }
-        } catch (e) {
-          console.error(e);
-          alert('不是正確的格式');
+          return;
         }
-      });
+      } catch (e) {
+        console.error(e);
+        alert('不是正確的格式');
+      }
     },
 
     duplicate(data = null) {
@@ -282,6 +294,12 @@ export default {
 
     deleteColumn(i) {
       this.columns.splice(i, 1);
+    },
+
+    openTemplates() {
+      Phoenix.trigger('tmpl.open', (item, type, i) => {
+        this.pasteData(item.content);
+      }, 'column,row', this.columns.length);
     }
   },
 

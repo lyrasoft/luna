@@ -101,6 +101,10 @@
                 <span class="fa fa-fw fa-plus"></span>
                 新增列
               </a>
+              <a class="dropdown-item" href="#" @click.prevent="openTemplates" v-if="!content.disabled">
+                <span class="fa fa-file-code"></span>
+                插入模版
+              </a>
               <a class="dropdown-item" href="#" @click.prevent="remove()">
                 <span class="fa fa-fw fa-trash"></span>
                 刪除
@@ -192,60 +196,64 @@ export default {
 
     paste() {
       PageBuilderService.paste().then((text) => {
-        try {
-          const data = JSON.parse(text);
-
-          if (!data.id) {
-            throw new Error('Invalid format');
-          }
-
-          if (startsWith(data.id, 'addon-') || startsWith(data.id, 'row-')) {
-            this.duplicateAddon(data, this.content.addons.length - 1);
-            return;
-          }
-
-          if (startsWith(data.id, 'col-')) {
-            swal({
-              title: '您在一個欄位貼上另一個欄位',
-              text: '請選擇動作',
-              buttons: {
-                add: {
-                  text: '貼上內容',
-                  value: 'add',
-                  className: 'btn-info'
-                },
-                replace: {
-                  text: '取代內容',
-                  value: 'replace',
-                  className: 'btn-warning'
-                },
-                append: {
-                  text: '貼到後方新的欄',
-                  value: 'append',
-                  className: 'btn-dark'
-                }
-              }
-            })
-              .then((v) => {
-                switch (v) {
-                  case 'replace':
-                    this.content.addons = [];
-                  case 'add':
-                    data.addons.forEach((addon) => {
-                      this.duplicateAddon(addon, this.addons.length - 1);
-                    });
-                    break;
-                  case 'append':
-                    this.duplicate(this.content);
-                }
-              });
-            return;
-          }
-        } catch (e) {
-          console.error(e);
-          alert('不是正確的格式');
-        }
+        this.pasteData(text);
       });
+    },
+
+    pasteData(text) {
+      try {
+        const data = JSON.parse(text);
+
+        if (!data.id) {
+          throw new Error('Invalid format');
+        }
+
+        if (startsWith(data.id, 'addon-') || startsWith(data.id, 'row-')) {
+          this.duplicateAddon(data, this.content.addons.length - 1);
+          return;
+        }
+
+        if (startsWith(data.id, 'col-')) {
+          swal({
+            title: '您在一個欄位貼上另一個欄位',
+            text: '請選擇動作',
+            buttons: {
+              add: {
+                text: '貼上內容',
+                value: 'add',
+                className: 'btn-info'
+              },
+              replace: {
+                text: '取代內容',
+                value: 'replace',
+                className: 'btn-warning'
+              },
+              append: {
+                text: '貼到後方新的欄',
+                value: 'append',
+                className: 'btn-dark'
+              }
+            }
+          })
+            .then((v) => {
+              switch (v) {
+                case 'replace':
+                  this.content.addons = [];
+                case 'add':
+                  data.addons.forEach((addon) => {
+                    this.duplicateAddon(addon, this.addons.length - 1);
+                  });
+                  break;
+                case 'append':
+                  this.duplicate(this.content);
+              }
+            });
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+        alert('不是正確的格式');
+      }
     },
 
     duplicate(data = null) {
@@ -293,6 +301,12 @@ export default {
 
     getEmptyColumn() {
       return emptyColumn(this.child);
+    },
+
+    openTemplates() {
+      Phoenix.trigger('tmpl.open', (item, type, i) => {
+        this.pasteData(item.content);
+      }, 'column,addon', this.addons.length);
     }
   },
 

@@ -248,4 +248,5 @@ $router->any('_luna_ajax_tag', '/_luna/ajax/tag')
     ->saveAction('TagSaveController');
 
 $router->any('_luna_ajax_page', '/_luna/ajax/page')
+    ->middleware(\Windwalker\Core\Application\Middleware\JsonApiWebMiddleware::class)
     ->controller(PageAjaxController::class);

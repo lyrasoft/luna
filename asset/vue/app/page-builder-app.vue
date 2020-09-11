@@ -2,7 +2,13 @@
   <div id="page-builder" class="page-builder card bg-light border-0">
     <div class="card-header page-builder__topbar d-flex">
       <div class="ml-auto">
-        <button type="button" class="btn btn-outline-secondary btn-sm" @click="copy">
+        <button type="button" class="btn btn-outline-secondary btn-sm" @click="openTemplates(content.length)"
+          style="min-width: 150px">
+          <span class="fa fa-file-code"></span>
+          模版
+        </button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" @click="copy"
+          style="min-width: 150px">
           <span class="fa fa-clone"></span>
           複製全頁內容
         </button>
@@ -10,7 +16,6 @@
     </div>
     <div class="card-body">
       <div class="page-builder__body body">
-
 
           <draggable v-model="content" @start="drag = true" @end="drag = false"
             :options="{ handle: '.row-move-handle', animation: 300 }">
@@ -23,6 +28,7 @@
                 @add="addNewRow(i)"
                 @duplicate="duplicateRow($event || row, i)"
                 @paste-page="pastePage($event, i)"
+                @open-templates="openTemplates(i)"
                 @delete="deleteRow(i)">
               </row>
             </transition-group>
@@ -81,6 +87,9 @@
         </div>
       </div>
 
+      <!-- Templates -->
+      <template-manager ref="tmpl" />
+
     </div>
   </div>
 </template>
@@ -90,6 +99,7 @@ import AddonEdit from '../components/page-builder/addon-edit';
 import ColumnEdit from '../components/page-builder/column-edit';
 import RowEdit from '../components/page-builder/row-edit';
 import Row from '../components/page-builder/row';
+import TemplateManager from '../components/page-builder/templates/template-manager';
 import { emptyRow } from '../services/empty-data';
 import PageBuilderService from '../services/page-builder-services';
 import { each, startsWith } from 'lodash';
@@ -109,6 +119,7 @@ export default {
     }
   },
   components: {
+    TemplateManager,
     AddonEdit,
     ColumnEdit,
     RowEdit,
@@ -172,6 +183,10 @@ export default {
       this.editing.addon = {};
     });
 
+    Phoenix.on('tmpl.open', (callback, type, i) => {
+      this.$refs['tmpl'].open(callback, type, i);
+    });
+
     Phoenix.trigger('page-builder.mounted', this);
   },
   methods: {
@@ -206,17 +221,21 @@ export default {
 
     pastePage(text, i) {
       PageBuilderService.paste().then((text) => {
-        try {
-          const data = JSON.parse(text);
-
-          data.forEach((item) => {
-            this.duplicateRow(item, i++);
-          });
-        } catch (e) {
-          console.error(e);
-          alert('不是正確的格式');
-        }
+        this.pasteTo(text, i);
       });
+    },
+
+    pasteTo(text, i) {
+      try {
+        const data = JSON.parse(text);
+
+        data.forEach((item) => {
+          this.duplicateRow(item, i++);
+        });
+      } catch (e) {
+        console.error(e);
+        alert('不是正確的格式');
+      }
     },
 
     duplicateRow(row, i) {
@@ -277,6 +296,11 @@ export default {
     },
     getSaveValue() {
       return JSON.stringify(this.content);
+    },
+    openTemplates(i = 0) {
+      Phoenix.trigger('tmpl.open', (item, i) => {
+        this.pasteTo(item.content, i);
+      }, 'page,row', i);
     }
   },
   watch: {
