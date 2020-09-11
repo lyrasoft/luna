@@ -19,6 +19,9 @@ import Row from '../../components/page-builder/row';
 
 $(() => {
   Vue.prototype.$debug = Phoenix.isDebug();
+  Vue.prototype.$trigger = (...args) => {
+    return Phoenix.trigger(...args);
+  };
   Vue.component('addon-button', AddonButton);
   Vue.component('addon-emptyspace', AddonEmptyspace);
   Vue.component('addon-feature', AddonFeature);

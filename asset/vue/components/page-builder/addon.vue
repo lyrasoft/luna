@@ -41,12 +41,22 @@
           @click.prevent="toggleDisabled()">
           <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye-slash' : 'fa-eye']"></span>
         </a>
-        <a href="#" class="text-dark"
-          v-b-tooltip.hover
-          title="刪除"
-          @click.prevent="remove()">
-          <span class="fa fa-fw fa-trash"></span>
-        </a>
+
+        <b-dropdown variant="link" size="sm" no-caret
+          toggle-class="px-0"
+          @click="openTemplates(content.length)">
+          <template v-slot:button-content>
+            <span class="fa fa-fw fa-gear text-dark"></span>
+          </template>
+          <b-dropdown-item @click="$trigger('tmpl.save', content, 'addon')">
+            <span class="fa fa-fw fa-save"></span>
+            儲存為模版
+          </b-dropdown-item>
+          <b-dropdown-item @click="remove">
+            <span class="fa fa-fw fa-trash"></span>
+            刪除
+          </b-dropdown-item>
+        </b-dropdown>
       </div>
     </div>
   </div>

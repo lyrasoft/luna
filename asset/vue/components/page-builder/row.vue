@@ -41,27 +41,31 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#" @click.prevent="toggleDisabled()">
-                    <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
+                    <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                     {{ content.disabled ? '啟用' : '停用' }}
                 </a>
                 <a class="dropdown-item" href="#" @click.prevent="duplicate" v-if="!content.disabled">
-                    <span class="fa fa-clone"></span>
+                    <span class="fa fa-fw fa-clone"></span>
                     複製一份
                 </a>
                 <a class="dropdown-item" href="#" @click.prevent="copy" v-if="!content.disabled">
-                    <span class="fa fa-copy"></span>
+                    <span class="fa fa-fw fa-copy"></span>
                     複製內容
                 </a>
                 <a class="dropdown-item" href="#" @click.prevent="paste" v-if="!content.disabled">
-                    <span class="fa fa-paste"></span>
+                    <span class="fa fa-fw fa-paste"></span>
                     貼上
                 </a>
                 <a class="dropdown-item" href="#" @click.prevent="openTemplates" v-if="!content.disabled">
-                    <span class="fa fa-file-code"></span>
+                    <span class="fa fa-fw fa-file-code"></span>
                     插入模版
                 </a>
+                <a class="dropdown-item" href="#" @click.prevent="$trigger('tmpl.save', content, 'row')">
+                  <span class="fa fa-fw fa-save"></span>
+                  儲存為模版
+                </a>
                 <a class="dropdown-item" href="#" @click.prevent="remove()">
-                    <span class="fa fa-trash"></span>
+                    <span class="fa fa-fw fa-trash"></span>
                     刪除
                 </a>
             </div>

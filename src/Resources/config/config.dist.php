@@ -98,6 +98,16 @@ return [
         'styles' => [
             'font_size_unit' => 'px',
             'font_size_scale' => 1
+        ],
+        'templates' => [
+            function (\Windwalker\Core\Asset\AssetManager  $asset) {
+                return [
+                    'title' => 'Page',
+                    'type' => 'page',
+                    'image' => $asset->path(\Lyrasoft\Luna\Helper\LunaHelper::getPackage()->name . '/images/page/templates/tmpl-a.jpg'),
+                    'file' => \Lyrasoft\Luna\LunaPackage::dir() . '/Resources/pages/tmpl-a.json'
+                ];
+            }
         ]
     ],
 

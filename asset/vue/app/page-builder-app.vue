@@ -2,11 +2,20 @@
   <div id="page-builder" class="page-builder card bg-light border-0">
     <div class="card-header page-builder__topbar d-flex">
       <div class="ml-auto">
-        <button type="button" class="btn btn-outline-secondary btn-sm" @click="openTemplates(content.length)"
-          style="min-width: 150px">
-          <span class="fa fa-file-code"></span>
-          模版
-        </button>
+        <b-dropdown variant="outline-secondary" split size="sm"
+          @click="openTemplates(content.length)">
+          <template v-slot:button-content>
+            <div style="min-width: 120px">
+              <span class="fa fa-file-code"></span>
+              插入模版
+            </div>
+          </template>
+          <b-dropdown-item @click="$trigger('tmpl.save', content, 'page')">
+            <span class="fa fa-fw fa-save"></span>
+            儲存為模版
+          </b-dropdown-item>
+        </b-dropdown>
+
         <button type="button" class="btn btn-outline-secondary btn-sm" @click="copy"
           style="min-width: 150px">
           <span class="fa fa-clone"></span>
@@ -185,6 +194,10 @@ export default {
 
     Phoenix.on('tmpl.open', (callback, type, i) => {
       this.$refs['tmpl'].open(callback, type, i);
+    });
+
+    Phoenix.on('tmpl.save', (content, type) => {
+      this.$refs['tmpl'].openSave(content, type);
     });
 
     Phoenix.trigger('page-builder.mounted', this);

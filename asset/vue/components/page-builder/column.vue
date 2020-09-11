@@ -102,8 +102,12 @@
                 新增列
               </a>
               <a class="dropdown-item" href="#" @click.prevent="openTemplates" v-if="!content.disabled">
-                <span class="fa fa-file-code"></span>
+                <span class="fa fa-fw fa-file-code"></span>
                 插入模版
+              </a>
+              <a class="dropdown-item" href="#" @click.prevent="$trigger('tmpl.save', content, 'column')">
+                <span class="fa fa-fw fa-save"></span>
+                儲存為模版
               </a>
               <a class="dropdown-item" href="#" @click.prevent="remove()">
                 <span class="fa fa-fw fa-trash"></span>
