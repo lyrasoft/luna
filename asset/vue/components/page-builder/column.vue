@@ -121,7 +121,7 @@
         <draggable v-model="content.addons" @start="drag = true" @end="drag = false"
           :options="{handle: '.move-handle', group: 'addon', animation: 300}"
           style="min-height: 50px;" class="column__draggable">
-          <transition-group v-if="addons.length" name="fade">
+<!--          <transition-group v-if="addons.length" name="fade">-->
             <div class="column__addon" v-for="(addon, i) of addons" :key="addon.id"
               style="animation-duration: .3s">
               <addon v-if="addon.type !== 'row'"
@@ -142,7 +142,7 @@
                 @delete="deleteAddon(i)"
               ></row>
             </div>
-          </transition-group>
+<!--          </transition-group>-->
 
           <a class="column__addon-placeholder text-center p-3 border text-secondary"
             comment-v-if="addons.length === 0 && !drag"

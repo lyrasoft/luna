@@ -43,6 +43,7 @@
         </a>
 
         <b-dropdown variant="link" size="sm" no-caret
+          right
           toggle-class="px-0"
           @click="openTemplates(content.length)">
           <template v-slot:button-content>

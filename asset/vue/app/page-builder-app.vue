@@ -34,7 +34,7 @@
 
           <draggable v-model="content" @start="drag = true" @end="drag = false"
             :options="{ handle: '.row-move-handle', animation: 300 }">
-            <transition-group name="fade" style="animation-duration: .3s">
+<!--            <transition-group name="fade" style="animation-duration: .3s">-->
               <row v-for="(row, i) of content" class="body__row page-row mb-4"
                 :key="row.id"
                 :value="row"
@@ -46,7 +46,7 @@
                 @open-templates="openTemplates(i)"
                 @delete="deleteRow(i)">
               </row>
-            </transition-group>
+<!--            </transition-group>-->
           </draggable>
 
       </div>

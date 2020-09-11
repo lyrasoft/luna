@@ -78,8 +78,9 @@
         v-model="content.columns" @start="drag = true" @end="drag = false"
         :options="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : ''), animation: 300}"
         style="min-height: 50px;">
-        <transition-group v-if="content.columns.length" name="fade" class="row" style="animation-duration: .3s">
+<!--        <transition-group v-if="content.columns.length" name="fade" class="row">-->
           <column v-for="(column, i) of columns" class="page-row__column column mb-2"
+            style="animation-duration: .3s"
             @delete="deleteColumn(i)"
             @duplicate="duplicateColumn($event || column, i)"
             :index="i"
@@ -88,7 +89,7 @@
             :child="child">
 
           </column>
-        </transition-group>
+<!--        </transition-group>-->
 
         <a class="page-row__body-placeholder text-center p-4 border text-secondary col-12"
           commented-v-if="addons.length === 0 && !drag"
