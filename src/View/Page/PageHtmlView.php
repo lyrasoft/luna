@@ -14,6 +14,7 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Warder;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
+use Windwalker\Core\Asset\Asset;
 use Windwalker\Data\Data;
 use Windwalker\Renderer\EdgeRenderer;
 use Windwalker\Router\Exception\RouteNotFoundException;
@@ -145,6 +146,10 @@ class PageHtmlView extends ItemView
 
         if ($ogDesc) {
             HtmlHeader::addOpenGraph('og:description', $ogDesc, true);
+        }
+
+        if ($data->item->css) {
+            Asset::internalCSS($data->item->css);
         }
     }
 }

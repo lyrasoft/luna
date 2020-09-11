@@ -130,4 +130,26 @@ class SaveController extends AbstractSaveController
     {
         return parent::postExecute($result);
     }
+
+    /**
+     * getSuccessRedirect
+     *
+     * @param DataInterface|Entity $data
+     *
+     * @return  string
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    protected function getSuccessRedirect(DataInterface $data = null)
+    {
+        $css = $this->input->get('css_edit');
+
+        $r = parent::getSuccessRedirect($data);
+
+        if ($css) {
+            $r .= '#css';
+        }
+
+        return $r;
+    }
 }

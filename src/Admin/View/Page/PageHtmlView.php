@@ -117,6 +117,7 @@ class PageHtmlView extends EditView
         ));
 
         PhoenixScript::data('builder-content', json_decode($data->item->content, true) ?: []);
+        PhoenixScript::data('css', $data->item->css);
 
         $asset = $this->app->service(AssetManager::class);
         $asset->addJS(PackageHelper::getAlias(LunaPackage::class) . '/js/page-builder/addon-mixin.min.js');

@@ -2,6 +2,12 @@
   <div id="page-builder" class="page-builder card bg-light border-0">
     <div class="card-header page-builder__topbar d-flex">
       <div class="ml-auto">
+        <button type="button" class="btn btn-outline-secondary btn-sm" @click="cssEdit"
+          style="min-width: 150px">
+          <span class="fa fa-css3"></span>
+          編輯CSS
+        </button>
+
         <b-dropdown variant="outline-secondary" split size="sm"
           @click="openTemplates(content.length)">
           <template v-slot:button-content>
@@ -99,6 +105,21 @@
       <!-- Templates -->
       <template-manager ref="tmpl" />
 
+      <b-modal title="CSS" ref="css-modal" size="xl">
+        <css-editor v-model="css"></css-editor>
+
+        <template v-slot:modal-footer>
+          <div class="ml-auto">
+            <button type="button" class="btn btn-primary" style="min-width: 200px"
+              @click="savePage">
+              <span class="fa fa-save"></span>
+              儲存
+            </button>
+          </div>
+        </template>
+      </b-modal>
+
+      <textarea name="item[css]" id="input-item-css" style="display: none;">{{ css }}</textarea>
     </div>
   </div>
 </template>
@@ -106,6 +127,7 @@
 <script>
 import AddonEdit from '../components/page-builder/addon-edit';
 import ColumnEdit from '../components/page-builder/column-edit';
+import CssEditor from '../components/page-builder/css-editor';
 import RowEdit from '../components/page-builder/row-edit';
 import Row from '../components/page-builder/row';
 import TemplateManager from '../components/page-builder/templates/template-manager';
@@ -124,10 +146,12 @@ export default {
         row: {},
         addon: {}
       },
-      addons: Phoenix.data('addons')
+      addons: Phoenix.data('addons'),
+      css: Phoenix.data('css')
     }
   },
   components: {
+    CssEditor,
     TemplateManager,
     AddonEdit,
     ColumnEdit,
@@ -138,6 +162,10 @@ export default {
     Phoenix.trigger('page-builder.created', this);
   },
   mounted() {
+    if (location.hash === '#css') {
+      this.cssEdit();
+    }
+
     Phoenix.on('row:edit', (content, column) => {
       this.editing.row = content;
       this.editing.column = content;
@@ -314,6 +342,13 @@ export default {
       Phoenix.trigger('tmpl.open', (item, i) => {
         this.pasteTo(item.content, i);
       }, 'page,row', i);
+    },
+    cssEdit() {
+      this.$refs['css-modal'].show();
+    },
+
+    savePage() {
+      Phoenix.post(null, { css_edit: 1 });
     }
   },
   watch: {

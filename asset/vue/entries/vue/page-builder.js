@@ -16,12 +16,14 @@ import AddonFeature from '../../components/page-builder/addons/addon-feature';
 import AddonImage from '../../components/page-builder/addons/addon-image';
 import AddonText from '../../components/page-builder/addons/addon-text';
 import Row from '../../components/page-builder/row';
+import VueCodemirror from 'vue-codemirror';
 
 $(() => {
   Vue.prototype.$debug = Phoenix.isDebug();
   Vue.prototype.$trigger = (...args) => {
     return Phoenix.trigger(...args);
   };
+  Vue.use(VueCodemirror);
   Vue.component('addon-button', AddonButton);
   Vue.component('addon-emptyspace', AddonEmptyspace);
   Vue.component('addon-feature', AddonFeature);
