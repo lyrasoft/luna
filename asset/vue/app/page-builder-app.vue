@@ -362,3 +362,9 @@ export default {
 <style scoped>
 
 </style>
+
+<style>
+.CodeMirror {
+  height: 450px !important;
+}
+</style>

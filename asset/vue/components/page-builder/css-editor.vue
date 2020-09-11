@@ -5,9 +5,7 @@
 </template>
 
 <script>
-import 'codemirror/mode/css/css.js';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/monokai.css';
+import { CodeMirrorOptions } from '../../services/page-builder/codemirror';
 
 export default {
   name: 'css-editor',
@@ -15,14 +13,7 @@ export default {
     return {
       css: '',
       show: false,
-      options: {
-        tabSize: 2,
-        mode: 'text/css',
-        styleActiveLine: true,
-        theme: 'monokai',
-        lineNumbers: true,
-        line: true,
-      }
+      options: CodeMirrorOptions
     }
   },
   props: {

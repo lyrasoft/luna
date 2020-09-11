@@ -41,6 +41,7 @@ export function emptyRow() {
       },
       html_id: '',
       html_class: '',
+      html_css: '',
       title_align: 'center',
       valign: 'top',
       fluid_row: false,

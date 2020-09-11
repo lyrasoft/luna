@@ -73,6 +73,13 @@ class ColumnRenderer extends AbstractPageRenderer
         $this->prepareBackgroundCSS($options, $styles);
 
         $this->asset->internalCSS($styles->render());
+
+        $css = addslashes($content['options.html_css']);
+
+        $js = <<<JS
+
+JS;
+
     }
 
     /**

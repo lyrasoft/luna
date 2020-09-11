@@ -410,6 +410,19 @@
                       false-value="d-lg-block"></phoenix-switch>
                   </div>
                 </div>
+
+                <hr />
+
+                <!-- CSS -->
+                <div class="form-group">
+                  <label for="input-column-edit-css">自訂 CSS</label>
+                  <div>
+                    <codemirror v-model="options.html_css" :options="cmOptions"></codemirror>
+                  </div>
+                  <div class="text-muted small">
+                    只會作用在這個區塊內
+                  </div>
+                </div>
               </div>
 
               <!-- Tab Animation -->
@@ -435,6 +448,7 @@
 
 <script>
 import { range } from 'lodash';
+import { CodeMirrorOptions } from '../../services/page-builder/codemirror';
 import Animations from "./form/animations";
 import BoxOffset from "./form/box-offset";
 import SingleImage from "./form/single-image";
@@ -447,7 +461,8 @@ export default {
   data() {
     return {
       values: {},
-      sticky: false
+      sticky: false,
+      cmOptions: CodeMirrorOptions
     }
   },
 
