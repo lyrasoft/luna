@@ -84,7 +84,7 @@ export default {
     },
 
     copy() {
-      PageBuilderService.addToClipboard(JSON.stringify(this.content));
+      PageBuilderService.addToClipboard(this.content);
     },
 
     duplicate() {

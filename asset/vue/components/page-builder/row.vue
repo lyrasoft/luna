@@ -66,19 +66,21 @@
     </div>
 
     <div class="card">
-      <div is="draggable" class="card-body page-row__body row" :class="{'p-2': child}"
+      <div is="draggable" class="card-body page-row__body" :class="{'p-2': child}"
         v-model="content.columns" @start="drag = true" @end="drag = false"
         :options="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : ''), animation: 300}"
         style="min-height: 50px;">
-        <column v-for="(column, i) of columns" class="page-row__column column mb-2"
-          @delete="deleteColumn(i)"
-          @duplicate="duplicateColumn($event || column, i)"
-          :index="i"
-          :key="column.id"
-          :value="column"
-          :child="child">
+        <transition-group v-if="content.columns.length" name="fade" class="row" style="animation-duration: .3s">
+          <column v-for="(column, i) of columns" class="page-row__column column mb-2"
+            @delete="deleteColumn(i)"
+            @duplicate="duplicateColumn($event || column, i)"
+            :index="i"
+            :key="column.id"
+            :value="column"
+            :child="child">
 
-        </column>
+          </column>
+        </transition-group>
 
         <a class="page-row__body-placeholder text-center p-4 border text-secondary col-12"
           commented-v-if="addons.length === 0 && !drag"
@@ -103,6 +105,7 @@
 </template>
 
 <script>
+import { emptyColumn, emptyRow } from '../../services/empty-data';
 import PageBuilderService from '../../services/page-builder-services';
 import Column from "./column";
 import { each, startsWith } from 'lodash';
@@ -144,11 +147,11 @@ export default {
 
   methods: {
     addNewColumn() {
-      this.content.columns.push({foo: Phoenix.uniqid()});
+      this.content.columns.push(emptyColumn(this.child));
     },
 
     copy() {
-      PageBuilderService.addToClipboard(JSON.stringify(this.content));
+      PageBuilderService.addToClipboard(this.content);
     },
 
     paste(append = false) {
@@ -156,8 +159,9 @@ export default {
         try {
           const data = JSON.parse(text);
 
-          if (!data.id) {
-            throw new Error('Invalid format');
+          if (Array.isArray(data)) {
+            this.$emit('paste-page', data);
+            return;
           }
 
           if (startsWith(data.id, 'addon-')) {
@@ -273,94 +277,7 @@ export default {
     },
 
     getEmptyRow() {
-      return {
-        id: 'row-' + Phoenix.uniqid(),
-        disabled: false,
-        options: {
-          label: '',
-          title: {
-            text: '',
-            element: 'h3',
-            font_size: {
-              lg: '',
-              md: '',
-              xs: ''
-            },
-            font_weight: '',
-            color: '',
-            margin_top: {
-              lg: '',
-              md: '',
-              xs: ''
-            },
-            margin_bottom: {
-              lg: '',
-              md: '',
-              xs: ''
-            }
-          },
-          subtitle: {
-            text: '',
-            font_size: {
-              lg: '',
-              md: '',
-              xs: ''
-            }
-          },
-          html_id: '',
-          html_class: '',
-          title_align: 'center',
-          valign: 'top',
-          fluid_row: false,
-          no_gutter: false,
-          padding: {
-            lg: '',
-            md: '',
-            xs: ''
-          },
-          margin: {
-            lg: '',
-            md: '',
-            xs: ''
-          },
-          display: {
-            lg: 'd-lg-block',
-            md: 'd-md-block',
-            xs: 'd-block'
-          },
-          text_color: '',
-          background: {
-            type: 'none',
-            color: '',
-            overlay: '',
-            image: {
-              url: '',
-              repeat: '',
-              position: 'center center',
-              attachment: 'inherit',
-              size: 'cover'
-            },
-            gradient: {
-              type: 'liner',
-              angle: '',
-              start_color: '',
-              start_pos: '',
-              end_color: '',
-              end_pos: ''
-            },
-            video: {
-              url: ''
-            },
-            parallax: false
-          },
-          animation: {
-            name: '',
-            duration: 300,
-            delay: 0
-          }
-        },
-        columns: [],
-      };
+      return emptyRow();
     },
 
     deleteColumn(i) {

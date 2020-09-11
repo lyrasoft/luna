@@ -110,6 +110,7 @@ class PageHtmlView extends EditView
         PhoenixScript::disableWhenSubmit();
 
         JQueryScript::csrfToken();
+        PhoenixScript::addRoute('page_ajax', $this->router->route('_luna_ajax_page'));
         PhoenixScript::addRoute('single_image_upload', $this->router->route('_luna_img_upload'));
         PhoenixScript::addRoute('loading_image', Asset::path(
             PackageHelper::getAlias(LunaPackage::class) . '/images/ring-loading.gif'

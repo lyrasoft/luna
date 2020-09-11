@@ -1,20 +1,32 @@
 <template>
   <div id="page-builder" class="page-builder card bg-light border-0">
+    <div class="card-header page-builder__topbar d-flex">
+      <div class="ml-auto">
+        <button type="button" class="btn btn-outline-secondary btn-sm" @click="copy">
+          <span class="fa fa-clone"></span>
+          複製全頁內容
+        </button>
+      </div>
+    </div>
     <div class="card-body">
       <div class="page-builder__body body">
 
-        <draggable v-model="content" @start="drag = true" @end="drag = false"
-          :options="{ handle: '.row-move-handle', animation: 300 }">
-          <row v-for="(row, i) of content" class="body__row page-row mb-4"
-            :key="row.id"
-            :value="row"
-            move-handle="row-move-handle"
-            @columns-change="columnsChange(row, $event)"
-            @add="addNewRow(i)"
-            @duplicate="duplicateRow($event || row, i)"
-            @delete="deleteRow(i)">
-          </row>
-        </draggable>
+
+          <draggable v-model="content" @start="drag = true" @end="drag = false"
+            :options="{ handle: '.row-move-handle', animation: 300 }">
+            <transition-group name="fade" style="animation-duration: .3s">
+              <row v-for="(row, i) of content" class="body__row page-row mb-4"
+                :key="row.id"
+                :value="row"
+                move-handle="row-move-handle"
+                @columns-change="columnsChange(row, $event)"
+                @add="addNewRow(i)"
+                @duplicate="duplicateRow($event || row, i)"
+                @paste-page="pastePage($event, i)"
+                @delete="deleteRow(i)">
+              </row>
+            </transition-group>
+          </draggable>
 
       </div>
 
@@ -54,7 +66,7 @@
                   <a class="d-block p-4 c-addon__link text-dark text-center rounded has-tooltip"
                     href="#"
                     :title="addon.description"
-                    @click="selectAddon(addon.type)">
+                    @click.prevent="selectAddon(addon.type)">
                     <div class="c-addon__icon">
                       <span class="fa-3x" :class="addon.icon"></span>
                     </div>
@@ -78,6 +90,7 @@ import AddonEdit from '../components/page-builder/addon-edit';
 import ColumnEdit from '../components/page-builder/column-edit';
 import RowEdit from '../components/page-builder/row-edit';
 import Row from '../components/page-builder/row';
+import { emptyRow } from '../services/empty-data';
 import PageBuilderService from '../services/page-builder-services';
 import { each, startsWith } from 'lodash';
 
@@ -164,20 +177,41 @@ export default {
   methods: {
     addNewRow(i = null) {
       if (i != null) {
-        this.content.splice(i + 1, 0, {});
+        this.content.splice(i + 1, 0, this.getEmptyRow());
       } else {
-        this.content.push({});
+        this.content.push(this.getEmptyRow());
       }
     },
     deleteRow(i) {
       this.content.splice(i, 1);
     },
+
+    copy() {
+      PageBuilderService.addToClipboard(this.content);
+    },
     paste() {
+      PageBuilderService.paste().then((text) => {
+        try {
+          let data = JSON.parse(text);
+
+          data.forEach((item) => {
+            this.duplicateRow(item, this.content.length);
+          });
+        } catch (e) {
+          console.error(e);
+          alert('不是正確的格式');
+        }
+      });
+    },
+
+    pastePage(text, i) {
       PageBuilderService.paste().then((text) => {
         try {
           const data = JSON.parse(text);
 
-          this.duplicateRow(data, 0);
+          data.forEach((item) => {
+            this.duplicateRow(item, i++);
+          });
         } catch (e) {
           console.error(e);
           alert('不是正確的格式');
@@ -239,7 +273,7 @@ export default {
       }, 365);
     },
     getEmptyRow() {
-      return PageBuilderService.rowData();
+      return emptyRow();
     },
     getSaveValue() {
       return JSON.stringify(this.content);

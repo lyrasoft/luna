@@ -6,6 +6,7 @@
  * @license    LGPL-2.0-or-later
  */
 
+use Lyrasoft\Luna\Admin\Controller\Page\PageAjaxController;
 use Windwalker\Core\Router\RouteCreator;
 
 /** @var $router RouteCreator */
@@ -245,3 +246,6 @@ $router->any('_luna_ajax_tags', '/_luna/ajax/tags')
 $router->any('_luna_ajax_tag', '/_luna/ajax/tag')
     ->controller('Lyrasoft\Luna\Admin\Controller\Luna\Ajax')
     ->saveAction('TagSaveController');
+
+$router->any('_luna_ajax_page', '/_luna/ajax/page')
+    ->controller(PageAjaxController::class);

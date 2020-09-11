@@ -113,25 +113,27 @@
         <draggable v-model="content.addons" @start="drag = true" @end="drag = false"
           :options="{handle: '.move-handle', group: 'addon', animation: 300}"
           style="min-height: 50px;" class="column__draggable">
-          <div class="column__addon" v-for="(addon, i) of addons">
-            <addon v-if="addon.type !== 'row'"
-              @delete="deleteAddon(i)"
-              @duplicate="duplicateAddon(addon, i)"
-              :index="i"
-              :key="addon.id"
-              :content="addon"
-              :column="content"></addon>
-            <row v-else
-              :index="i"
-              :key="addon.id"
-              :value="addon"
-              :child="true"
-              @duplicate="duplicateAddon(addon, i)"
-              move-handle="move-handle"
-              comment-columns-change="columnsChange(addon, $event)"
-              @delete="deleteAddon(i)"
-            ></row>
-          </div>
+          <transition-group name="fade" style="animation-duration: .3s">
+            <div class="column__addon" v-for="(addon, i) of addons" :key="addon.id">
+              <addon v-if="addon.type !== 'row'"
+                @delete="deleteAddon(i)"
+                @duplicate="duplicateAddon(addon, i)"
+                :index="i"
+                :key="addon.id"
+                :content="addon"
+                :column="content"></addon>
+              <row v-else
+                :index="i"
+                :key="addon.id"
+                :value="addon"
+                :child="true"
+                @duplicate="duplicateAddon(addon, i)"
+                move-handle="move-handle"
+                comment-columns-change="columnsChange(addon, $event)"
+                @delete="deleteAddon(i)"
+              ></row>
+            </div>
+          </transition-group>
 
           <a class="column__addon-placeholder text-center p-3 border text-secondary"
             comment-v-if="addons.length === 0 && !drag"
@@ -146,6 +148,7 @@
 
 <script>
 import { each, range, startsWith, values } from 'lodash';
+import { emptyColumn, emptyRow } from '../../services/empty-data';
 import PageBuilderService from '../../services/page-builder-services';
 import Addon from "./addon";
 
@@ -250,7 +253,7 @@ export default {
     },
 
     copy() {
-      PageBuilderService.addToClipboard(JSON.stringify(this.content));
+      PageBuilderService.addToClipboard(this.content);
     },
 
     toggleDisabled() {
@@ -275,7 +278,9 @@ export default {
     },
 
     addNewRow() {
-      this.content.addons.push({ type: 'row' });
+      const row = emptyRow();
+      row.type = 'row';
+      this.content.addons.push(row);
     },
 
     deleteAddon(i) {
@@ -287,86 +292,7 @@ export default {
     },
 
     getEmptyColumn() {
-      return {
-        id: 'col-' + Phoenix.uniqid(),
-        disabled: false,
-        addons: [],
-        options: {
-          html_class: '',
-          align: 'center',
-          valign: 'top',
-          padding: {
-            xs: '',
-            md: '',
-            lg: '',
-          },
-          margin: {
-            xs: '',
-            md: '',
-            lg: '',
-          },
-          text_color: '',
-          width: {
-            xs: '',
-            md: '',
-            lg: this.child ? 'col-lg-6' : 'col-lg-3',
-          },
-          display: {
-            xs: 'd-block',
-            md: 'd-md-block',
-            lg: 'd-lg-block'
-          },
-          box_shadow: {
-            enabled: 0,
-            color: 'rgba(0, 0, 0, 1)',
-            hoffset: 0,
-            voffset: 0,
-            blur: 0,
-            spread: 0
-          },
-          border: {
-            enabled: 0,
-            width: {
-              lg: 1,
-              md: 1,
-              xs: 1,
-            },
-            color: '',
-            style: '',
-            radius: {
-              lg: 0,
-              md: 0,
-              xs: 0,
-            }
-          },
-          background: {
-            type: 'none',
-            color: '',
-            overlay: '',
-            image: {
-              url: '',
-              repeat: '',
-              position: 'center center',
-              attachment: 'inherit',
-              size: 'cover'
-            },
-            gradient: {
-              type: 'liner',
-              angle: '',
-              start_color: '',
-              start_pos: '',
-              end_color: '',
-              end_pos: ''
-            },
-            video: ''
-          },
-          animation: {
-            name: '',
-            duration: 300,
-            delay: 0
-          }
-        }
-      };
+      return emptyColumn(this.child);
     }
   },
 
