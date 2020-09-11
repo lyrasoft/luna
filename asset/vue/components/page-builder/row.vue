@@ -89,10 +89,15 @@
     </div>
 
     <div class="page-row__bottom-toolbar mt-3 text-center">
-      <button type="button" class="btn btn-outline-secondary btn-sm"
-        @click="$emit('add')">
-        Add New Row
-      </button>
+      <div class="page-builder__bottom-toolbar text-center">
+        <b-dropdown variant="outline-secondary" split size="sm" text="Add New Row"
+          @click="$emit('add')">
+          <b-dropdown-item @click="paste(true)">
+            <span class="fa fa-fw fa-paste"></span>
+            貼上
+          </b-dropdown-item>
+        </b-dropdown>
+      </div>
     </div>
   </div>
 </template>
@@ -146,7 +151,7 @@ export default {
       PageBuilderService.addToClipboard(JSON.stringify(this.content));
     },
 
-    paste() {
+    paste(append = false) {
       PageBuilderService.paste().then((text) => {
         try {
           const data = JSON.parse(text);
@@ -166,6 +171,11 @@ export default {
           }
 
           if (startsWith(data.id, 'row-')) {
+            if (append) {
+              this.duplicate(data);
+              return;
+            }
+
             swal({
               title: '您貼上的是一個行區塊',
               text: '請選擇動作',
@@ -197,7 +207,7 @@ export default {
                   });
                   break;
                 case 'append':
-                  this.duplicate(this.content);
+                  this.duplicate(data);
               }
             });
             return;

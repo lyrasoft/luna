@@ -19,10 +19,13 @@
       </div>
 
       <div class="page-builder__bottom-toolbar text-center" v-if="content.length === 0">
-        <button type="button" class="btn btn-outline-secondary btn-sm"
+        <b-dropdown variant="outline-secondary" split size="sm" text="Add New Row"
           @click="addNewRow()">
-          Add New Row
-        </button>
+          <b-dropdown-item @click="paste">
+            <span class="far fa-paste"></span>
+            貼上
+          </b-dropdown-item>
+        </b-dropdown>
       </div>
 
       <textarea name="item[content]" id="input-item-content" style="display: none;">{{ getSaveValue() }}</textarea>
@@ -76,7 +79,7 @@ import ColumnEdit from '../components/page-builder/column-edit';
 import RowEdit from '../components/page-builder/row-edit';
 import Row from '../components/page-builder/row';
 import PageBuilderService from '../services/page-builder-services';
-import { each } from 'lodash';
+import { each, startsWith } from 'lodash';
 
 export default {
   name: 'page-builder-app',
@@ -169,6 +172,19 @@ export default {
     deleteRow(i) {
       this.content.splice(i, 1);
     },
+    paste() {
+      PageBuilderService.paste().then((text) => {
+        try {
+          const data = JSON.parse(text);
+
+          this.duplicateRow(data, 0);
+        } catch (e) {
+          console.error(e);
+          alert('不是正確的格式');
+        }
+      });
+    },
+
     duplicateRow(row, i) {
       row = JSON.parse(JSON.stringify(row));
 
