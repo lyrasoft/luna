@@ -18,3 +18,13 @@ export const CodeMirrorOptions = {
   line: true,
   height: '450px'
 };
+
+/**
+ * @param {codemirror|Vue} component
+ * @param {number} delay
+ */
+export function refreshCodeMirror(component, delay = 1) {
+  setTimeout(() => {
+    component.codemirror.refresh();
+  }, delay);
+}

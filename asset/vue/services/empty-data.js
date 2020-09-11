@@ -104,6 +104,7 @@ export function emptyColumn(child = false) {
     addons: [],
     options: {
       html_class: '',
+      html_css: '',
       align: 'center',
       valign: 'top',
       padding: {

@@ -10,6 +10,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\AddonHelper;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
+use ScssPhp\ScssPhp\Compiler;
 use Windwalker\Structure\Structure;
 
 /**
@@ -97,6 +98,17 @@ class AddonRenderer extends AbstractPageRenderer
 
         // Background
         $this->prepareBackgroundCSS($options, $styles);
+
+        // Custom CSS
+        $css = $content['options.html_css'];
+
+        if (trim($css)) {
+            $scss = new Compiler();
+
+            $css = $scss->compile("#{$content['options.html_id']} { {$content['options.html_css']} }");
+
+            $this->asset->internalCSS($css);
+        }
     }
 
     /**

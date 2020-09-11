@@ -9,6 +9,7 @@
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
+use ScssPhp\ScssPhp\Compiler;
 use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Structure\Structure;
 
@@ -80,6 +81,17 @@ class RowRenderer extends AbstractPageRenderer
         $this->prepareBackgroundCSS($options, $styles);
 
         $this->asset->internalCSS($styles->render());
+
+        // Custom CSS
+        $css = $content['options.html_css'];
+
+        if (trim($css)) {
+            $scss = new Compiler();
+
+            $css = $scss->compile("#{$content['options.html_id']} { {$content['options.html_css']} }");
+
+            $this->asset->internalCSS($css);
+        }
     }
 
     /**

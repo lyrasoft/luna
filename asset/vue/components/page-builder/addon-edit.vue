@@ -256,6 +256,19 @@
                       false-value="d-lg-block"></phoenix-switch>
                   </div>
                 </div>
+
+                <hr />
+
+                <!-- CSS -->
+                <div class="form-group">
+                  <label for="input-addon-edit-css">自訂 CSS</label>
+                  <div class="text-muted small mb-3">
+                    會自動前綴 <code>{{ `#luna-${values.id}` }}</code>，只會作用在這個區塊內
+                  </div>
+                  <div>
+                    <codemirror ref="css-editor" v-model="options.html_css" :options="cmOptions"></codemirror>
+                  </div>
+                </div>
               </div>
 
               <!-- Tab Animation -->
@@ -285,6 +298,7 @@ import BoxOffset from "./form/box-offset";
 import Animations from "./form/animations";
 import SingleImage from "./form/single-image";
 import Gradient from "./form/gradient";
+import { CodeMirrorOptions, refreshCodeMirror } from "../../services/page-builder/codemirror";
 
 export default {
   name: 'addon-edit',
@@ -292,7 +306,8 @@ export default {
   data() {
     return {
       values: {},
-      sticky: false
+      sticky: false,
+      cmOptions: CodeMirrorOptions
     }
   },
 
@@ -300,6 +315,12 @@ export default {
   },
 
   created() {
+  },
+
+  mounted() {
+    $('[href="#addon-edit-layout"]').on('shown.bs.tab', () => {
+      refreshCodeMirror(this.$refs['css-editor']);
+    });
   },
 
   methods: {
@@ -347,6 +368,7 @@ export default {
     getAddonBasicOptions() {
       return {
         html_class: '',
+        html_css: '',
         label: '',
         title: {
           text: '',
@@ -381,7 +403,6 @@ export default {
           md: '',
           lg: '',
         },
-        custom_css: '',
         text_color: '',
         display: {
           xs: 'd-block',

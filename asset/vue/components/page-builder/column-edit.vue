@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="modal fade" id="column-edit-modal" tabindex="-1" role="dialog" aria-labelledby="column-edit-modal-label"
+    <div class="modal fade" id="column-edit-modal" tabindex="-1" role="dialog"
+      aria-labelledby="column-edit-modal-label"
       data-backdrop="static"
       aria-hidden="true" ref="modal">
       <div class="modal-dialog modal-lg" role="document">
@@ -416,11 +417,11 @@
                 <!-- CSS -->
                 <div class="form-group">
                   <label for="input-column-edit-css">自訂 CSS</label>
-                  <div>
-                    <codemirror v-model="options.html_css" :options="cmOptions"></codemirror>
+                  <div class="text-muted small mb-3">
+                    會自動前綴 <code>{{ `#luna-${values.id}` }}</code>，只會作用在這個區塊內
                   </div>
-                  <div class="text-muted small">
-                    只會作用在這個區塊內
+                  <div>
+                    <codemirror ref="css-editor" v-model="options.html_css" :options="cmOptions"></codemirror>
                   </div>
                 </div>
               </div>
@@ -448,7 +449,7 @@
 
 <script>
 import { range } from 'lodash';
-import { CodeMirrorOptions } from '../../services/page-builder/codemirror';
+import { CodeMirrorOptions, refreshCodeMirror } from '../../services/page-builder/codemirror';
 import Animations from "./form/animations";
 import BoxOffset from "./form/box-offset";
 import SingleImage from "./form/single-image";
@@ -470,6 +471,12 @@ export default {
   },
 
   created() {
+  },
+
+  mounted() {
+    $('[href="#column-edit-layout"]').on('shown.bs.tab', () => {
+      refreshCodeMirror(this.$refs['css-editor']);
+    });
   },
 
   methods: {

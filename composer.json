@@ -9,7 +9,8 @@
         "windwalker/phoenix": "~1.1",
         "lyrasoft/warder": "~1.0",
         "gregwar/image": "2.*",
-        "lyrasoft/unidev": "~1.0"
+        "lyrasoft/unidev": "~1.0",
+        "scssphp/scssphp": "^1.0"
     },
     "require-dev": {
     },

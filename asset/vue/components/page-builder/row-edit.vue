@@ -377,6 +377,19 @@
                       false-value="d-lg-block"></phoenix-switch>
                   </div>
                 </div>
+
+                <hr />
+
+                <!-- CSS -->
+                <div class="form-group">
+                  <label for="input-row-edit-css">自訂 CSS</label>
+                  <div class="text-muted small mb-3">
+                    會自動前綴 <code>{{ `#luna-${values.id}` }}</code>，只會作用在這個區塊內
+                  </div>
+                  <div>
+                    <codemirror ref="css-editor" v-model="options.html_css" :options="cmOptions"></codemirror>
+                  </div>
+                </div>
               </div>
 
               <!-- Tab Animation -->
@@ -406,13 +419,16 @@ import Animations from "./form/animations";
 import BoxOffset from "./form/box-offset";
 import SingleImage from "./form/single-image";
 import Gradient from "./form/gradient";
+import {CodeMirrorOptions, refreshCodeMirror} from "../../services/page-builder/codemirror";
+
 export default {
   name: 'row-edit',
   components: { Animations, BoxOffset, SingleImage, Gradient },
   data() {
     return {
       values: {},
-      sticky: false
+      sticky: false,
+      cmOptions: CodeMirrorOptions
     }
   },
 
@@ -421,6 +437,12 @@ export default {
 
   created() {
 
+  },
+
+  mounted() {
+    $('[href="#row-edit-layout"]').on('shown.bs.tab', () => {
+      refreshCodeMirror(this.$refs['css-editor']);
+    });
   },
 
   methods: {
