@@ -4,7 +4,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2020 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Luna\Admin\Controller\Page;
@@ -22,7 +22,7 @@ use Windwalker\Utilities\Arr;
 /**
  * The PageAjaxController class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.8
  */
 class PageAjaxController extends AbstractMultiTaskController
 {
@@ -37,7 +37,7 @@ class PageAjaxController extends AbstractMultiTaskController
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.8
      */
     public function getTemplates(ConfigService $configService): array
     {
@@ -95,7 +95,7 @@ class PageAjaxController extends AbstractMultiTaskController
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.8
      */
     public function saveTemplate(ConfigService $configService, ConfigRepository $repository)
     {
@@ -141,7 +141,7 @@ class PageAjaxController extends AbstractMultiTaskController
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.8
      */
     public function removeTemplate(ConfigService $configService, ConfigRepository $repository)
     {
@@ -183,7 +183,7 @@ class PageAjaxController extends AbstractMultiTaskController
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.8
      */
     protected function value($value)
     {
