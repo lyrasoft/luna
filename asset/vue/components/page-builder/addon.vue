@@ -16,18 +16,35 @@
       </div>
 
       <div class="c-addon-instance__toolbar">
-        <a href="#" class="text-dark" @click.prevent="edit()"
+        <a href="#" class="text-dark"
+          v-b-tooltip.hover
+          title="編輯"
+          @click.prevent="edit()"
           v-if="!content.disabled">
           <span class="fa fa-fw fa-edit"></span>
         </a>
         <a href="#" class="text-dark"
+          v-b-tooltip.hover
+          title="複製一份"
+          v-if="!content.disabled" @click.prevent="duplicate()">
+          <span class="fa fa-fw fa-clone"></span>
+        </a>
+        <a href="#" class="text-dark"
+          v-b-tooltip.hover
+          title="複製內容"
           v-if="!content.disabled" @click.prevent="copy()">
           <span class="fa fa-fw fa-copy"></span>
         </a>
-        <a href="#" class="text-dark" @click.prevent="toggleDisabled()">
+        <a href="#" class="text-dark"
+          v-b-tooltip.hover
+          :title="[content.disabled ? '啟用' : '停用']"
+          @click.prevent="toggleDisabled()">
           <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye-slash' : 'fa-eye']"></span>
         </a>
-        <a href="#" class="text-dark" @click.prevent="remove()">
+        <a href="#" class="text-dark"
+          v-b-tooltip.hover
+          title="刪除"
+          @click.prevent="remove()">
           <span class="fa fa-fw fa-trash"></span>
         </a>
       </div>
@@ -36,6 +53,8 @@
 </template>
 
 <script>
+import PageBuilderService from '../../services/page-builder-services';
+
 export default {
   name: 'addon',
 
@@ -65,7 +84,11 @@ export default {
     },
 
     copy() {
-      this.$emit('copy');
+      PageBuilderService.addToClipboard(JSON.stringify(this.content));
+    },
+
+    duplicate() {
+      this.$emit('duplicate');
     },
 
     remove() {

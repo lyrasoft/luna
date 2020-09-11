@@ -11,7 +11,7 @@
             move-handle="row-move-handle"
             @columns-change="columnsChange(row, $event)"
             @add="addNewRow(i)"
-            @copy="copyRow(row, i)"
+            @duplicate="duplicateRow($event || row, i)"
             @delete="deleteRow(i)">
           </row>
         </draggable>
@@ -169,25 +169,25 @@ export default {
     deleteRow(i) {
       this.content.splice(i, 1);
     },
-    copyRow(row, i) {
+    duplicateRow(row, i) {
       row = JSON.parse(JSON.stringify(row));
 
       row.id = 'row-' + Phoenix.uniqid();
 
-      row.columns = this.handleCopyColumns(row.columns);
+      row.columns = this.handleDuplicateColumns(row.columns);
 
       this.content.splice(i + 1, 0, row);
     },
-    handleCopyColumns(columns) {
+    handleDuplicateColumns(columns) {
       return columns.map(column => {
         column.id = 'col-' + Phoenix.uniqid();
 
-        column.addons = this.handleCopyAddons(column.addons);
+        column.addons = this.handleDuplicateAddons(column.addons);
 
         return column;
       });
     },
-    handleCopyAddons(addons) {
+    handleDuplicateAddons(addons) {
       return addons.map(addon => {
         if (addon.type !== 'row') {
           addon.id = 'addon-' + Phoenix.uniqid();
@@ -200,7 +200,7 @@ export default {
         addon.columns = addon.columns.map(column => {
           column.id = 'col-' + Phoenix.uniqid();
 
-          column.addons = this.handleCopyAddons(column.addons);
+          column.addons = this.handleDuplicateAddons(column.addons);
 
           return column;
         });

@@ -15,6 +15,7 @@ import AddonEmptyspace from '../../components/page-builder/addons/addon-emptyspa
 import AddonFeature from '../../components/page-builder/addons/addon-feature';
 import AddonImage from '../../components/page-builder/addons/addon-image';
 import AddonText from '../../components/page-builder/addons/addon-text';
+import Row from '../../components/page-builder/row';
 
 $(() => {
   Vue.prototype.$debug = Phoenix.isDebug();
@@ -23,6 +24,7 @@ $(() => {
   Vue.component('addon-feature', AddonFeature);
   Vue.component('addon-image', AddonImage);
   Vue.component('addon-text', AddonText);
+  Vue.component('row', Row);
 
   Phoenix.trigger('page-builder.before-create');
 

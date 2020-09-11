@@ -30,30 +30,38 @@
           @click="edit()">
           <span class="fa fa-edit"></span>
           <span v-if="!child">
-                    編輯
-                    </span>
+            編輯
+          </span>
         </button>
         <span class="dropdown">
-                    <button href="#" class="btn btn-sm btn-outline-secondary"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="fa fa-cog"></span>
-                        </button>
+            <button href="#" class="btn btn-sm btn-outline-secondary"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="fa fa-cog"></span>
+            </button>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#" @click.prevent="toggleDisabled()">
-                                <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
-                                {{ content.disabled ? '啟用' : '停用' }}
-                            </a>
-                            <a class="dropdown-item" href="#" @click.prevent="copy()" v-if="!content.disabled">
-                                <span class="fa fa-copy"></span>
-                                複製
-                            </a>
-                            <a class="dropdown-item" href="#" @click.prevent="remove()">
-                                <span class="fa fa-trash"></span>
-                                刪除
-                            </a>
-                        </div>
-                </span>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" @click.prevent="toggleDisabled()">
+                    <span class="fa" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
+                    {{ content.disabled ? '啟用' : '停用' }}
+                </a>
+                <a class="dropdown-item" href="#" @click.prevent="duplicate" v-if="!content.disabled">
+                    <span class="fa fa-clone"></span>
+                    複製一份
+                </a>
+                <a class="dropdown-item" href="#" @click.prevent="copy" v-if="!content.disabled">
+                    <span class="fa fa-copy"></span>
+                    複製內容
+                </a>
+                <a class="dropdown-item" href="#" @click.prevent="paste" v-if="!content.disabled">
+                    <span class="fa fa-paste"></span>
+                    貼上
+                </a>
+                <a class="dropdown-item" href="#" @click.prevent="remove()">
+                    <span class="fa fa-trash"></span>
+                    刪除
+                </a>
+            </div>
+        </span>
       </div>
     </div>
 
@@ -64,7 +72,7 @@
         style="min-height: 50px;">
         <column v-for="(column, i) of columns" class="page-row__column column mb-2"
           @delete="deleteColumn(i)"
-          @copy="copyColumn(column, i)"
+          @duplicate="duplicateColumn($event || column, i)"
           :index="i"
           :key="column.id"
           :value="column"
@@ -90,8 +98,9 @@
 </template>
 
 <script>
+import PageBuilderService from '../../services/page-builder-services';
 import Column from "./column";
-import { each } from 'lodash';
+import { each, startsWith } from 'lodash';
 
 export default {
   name: 'row',
@@ -134,39 +143,110 @@ export default {
     },
 
     copy() {
-      this.$emit('copy');
+      PageBuilderService.addToClipboard(JSON.stringify(this.content));
     },
 
-    copyColumn(column, i) {
+    paste() {
+      PageBuilderService.paste().then((text) => {
+        try {
+          const data = JSON.parse(text);
+
+          if (!data.id) {
+            throw new Error('Invalid format');
+          }
+
+          if (startsWith(data.id, 'addon-')) {
+            alert('Addon 不能貼在這裡');
+            return;
+          }
+
+          if (startsWith(data.id, 'col-')) {
+            this.duplicateColumn(data, this.content.columns.length - 1);
+            return;
+          }
+
+          if (startsWith(data.id, 'row-')) {
+            swal({
+              title: '您貼上的是一個行區塊',
+              text: '請選擇動作',
+              buttons: {
+                add: {
+                  text: '加上在後',
+                  value: 'add',
+                  className: 'btn-info'
+                },
+                replace: {
+                  text: '取代',
+                  value: 'replace',
+                  className: 'btn-warning'
+                },
+                append: {
+                  text: '貼到後方新的列',
+                  value: 'append',
+                  className: 'btn-dark'
+                }
+              }
+            })
+            .then((v) => {
+              switch (v) {
+                case 'replace':
+                  this.content.columns = [];
+                case 'add':
+                  data.columns.forEach((column) => {
+                    this.duplicateColumn(column, this.columns.length - 1);
+                  });
+                  break;
+                case 'append':
+                  this.duplicate(this.content);
+              }
+            });
+            return;
+          }
+        } catch (e) {
+          console.error(e);
+          alert('不是正確的格式');
+        }
+      });
+    },
+
+    duplicate(data = null) {
+      this.$emit('duplicate', data);
+    },
+
+    duplicateColumn(column, i) {
       column = JSON.parse(JSON.stringify(column));
 
       column.id = 'col-' + Phoenix.uniqid();
 
-      column.addons = this.handleCopyAddons(column.addons);
+      column.addons = this.handleDuplicateAddons(column.addons);
 
-      this.columns.splice(i + 1, 0, column);
+      this.content.columns.splice(i + 1, 0, column);
     },
 
-    handleCopyAddons(addons) {
+    handleDuplicateAddons(addons) {
       return addons.map(addon => {
+        addon = PageBuilderService.duplicateAddon(addon, this.child);
+
+        if (addon === null) {
+          return null;
+        }
+
         if (addon.type !== 'row') {
-          addon.id = 'addon-' + Phoenix.uniqid();
           return addon;
         }
 
         // Is row
-        addon.id = 'row-' + Phoenix.uniqid();
-
         addon.columns = addon.columns.map(column => {
           column.id = 'col-' + Phoenix.uniqid();
 
-          column.addons = this.handleCopyAddons(column.addons);
+          column.addons = this.handleDuplicateAddons(column.addons);
 
           return column;
         });
 
         return addon;
-      });
+      })
+        .filter(addon => addon !== null);
     },
 
     edit() {
