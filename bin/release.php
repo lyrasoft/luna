@@ -46,8 +46,10 @@ HELP;
 
         $this->out('Release version: ' . $targetVersion);
 
-        static::writeVersion($targetVersion);
+        $this->compileAssets();
         $this->replaceDocblockTags($targetVersion);
+
+        static::writeVersion($targetVersion);
 
         $this->exec(sprintf('git commit -am "Release version: %s"', $targetVersion));
         $this->exec(sprintf('git tag %s', $targetVersion));
@@ -158,6 +160,18 @@ HELP;
         $this->exec('git checkout master');
         $this->exec(sprintf('git commit -am "Prepare for %s release."', $version));
         $this->exec('git push origin master');
+    }
+
+    /**
+     * compileAssets
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function compileAssets()
+    {
+        $this->exec('yarn prod css js vue');
     }
 
     /**
