@@ -185,7 +185,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     {
         $styles->self()
             ->add('color', $options['text_color'])
-            ->add('text-align', $options['align']);
+            ->add('text-align', $options['align'])
+            ->add('width', '100%');
 
         switch ($options['valign']) {
             case 'middle':

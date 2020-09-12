@@ -107,7 +107,8 @@ class RowRenderer extends AbstractPageRenderer
     protected function prepareBasicCSS(Structure $options, StyleContainer $styles)
     {
         $styles->self()
-            ->add('color', $options['text_color']);
+            ->add('color', $options['text_color'])
+            ->add('width', '100%');
 
         // Padding & Margin
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
