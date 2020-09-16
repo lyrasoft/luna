@@ -130,6 +130,23 @@ class PageRepository extends AdminRepository
     }
 
     /**
+     * slugify
+     *
+     * @param string      $alias
+     * @param string|null $default
+     *
+     * @return  string
+     *
+     * @throws \Exception
+     *
+     * @since  1.8.13
+     */
+    public function slugify(string $alias, ?string $default = null): string
+    {
+        return implode('/', array_map([SlugHelper::class, 'safe'], explode('/', $alias)));
+    }
+
+    /**
      * handleAlias
      *
      * @param   string $alias
