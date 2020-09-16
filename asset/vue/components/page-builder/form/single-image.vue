@@ -1,7 +1,7 @@
 <template>
   <div class="c-single-image-uploader">
     <div class="form-group c-single-image-preview text-center" v-if="url !== '' && !uploading">
-      <img :src="url" alt="Image" class="img-fluid rounded" style="max-height: 450px;">
+      <img :src="previewUrl" alt="Image" class="img-fluid rounded" style="max-height: 450px;">
     </div>
 
     <div class="c-single-image-placeholder text-center p-4 mb-3 border rounded" v-if="url === '' && !uploading">
@@ -145,6 +145,21 @@ export default {
     url() {
       this.$emit('change', this.url);
       this.$emit('input', this.url);
+    }
+  },
+  computed: {
+    previewUrl() {
+      let url = this.url;
+
+      if (!url) {
+        return url;
+      }
+
+      if (url.indexOf('http') !== 0 && url.indexOf('/') !== 0) {
+        return Phoenix.uri('root') + '/' + url;
+      }
+
+      return url;
     }
   }
 }

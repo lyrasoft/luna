@@ -8,6 +8,7 @@
 export function emptyRow() {
   return {
     id: 'row-' + Phoenix.uniqid(),
+    disabled: false,
     options: {
       label: '',
       title: {
