@@ -9,7 +9,7 @@
         :files-limited="maxFiles"
       >
         <draggable v-model="items" class="vue-drag-uploader__draggable-wrapper"
-          :options="{ draggable: '.preview-img', animation: 300 }"
+          v-bind="{ draggable: '.preview-img', animation: 300 }"
           :disabled="isReadonly"
           @sort="$emit('reorder', $event)">
           <slot name="items" :item="items">

@@ -76,7 +76,7 @@
     <div class="card">
       <div is="draggable" class="card-body page-row__body row" :class="{'p-2': child}"
         v-model="content.columns" @start="drag = true" @end="drag = false"
-        :options="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : ''), animation: 300}"
+        v-bind="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : ''), animation: 300}"
         style="min-height: 50px;">
 <!--        <transition-group v-if="content.columns.length" name="fade">-->
           <column v-for="(column, i) of columns" class="page-row__column column mb-2"

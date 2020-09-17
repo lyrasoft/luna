@@ -33,7 +33,7 @@
       <div class="page-builder__body body">
 
           <draggable v-model="content" @start="drag = true" @end="drag = false"
-            :options="{ handle: '.row-move-handle', animation: 300 }">
+            v-bind="{ handle: '.row-move-handle', animation: 300 }">
 <!--            <transition-group name="fade" style="animation-duration: .3s">-->
               <row v-for="(row, i) of content" class="body__row page-row mb-4"
                 :key="row.id"
@@ -55,8 +55,12 @@
         <b-dropdown variant="outline-secondary" split size="sm" text="Add New Row"
           @click="addNewRow()">
           <b-dropdown-item @click="paste">
-            <span class="far fa-paste"></span>
+            <span class="fa fa-fw fa-paste"></span>
             貼上
+          </b-dropdown-item>
+          <b-dropdown-item @click="openTemplates(0)">
+            <span class="fa fa-fw fa-file-code"></span>
+            插入模版
           </b-dropdown-item>
         </b-dropdown>
       </div>
@@ -270,6 +274,11 @@ export default {
       try {
         const data = JSON.parse(text);
 
+        if (!Array.isArray(data)) {
+          this.duplicateRow(data, i);
+          return;
+        }
+
         data.forEach((item) => {
           this.duplicateRow(item, i++);
         });
@@ -339,7 +348,7 @@ export default {
       return JSON.stringify(this.content);
     },
     openTemplates(i = 0) {
-      Phoenix.trigger('tmpl.open', (item, i) => {
+      Phoenix.trigger('tmpl.open', (item, type, i) => {
         this.pasteTo(item.content, i);
       }, 'page,row', i);
     },

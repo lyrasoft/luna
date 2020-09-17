@@ -227,7 +227,7 @@ export default {
 
   computed: {
     filterButtons() {
-      let types = this.type.split(',').map(type => type.trim());
+      let types = this.type ? this.type.split(',').map(type => type.trim()) : [];
 
       const options = [
         { text: 'All', value: '' },

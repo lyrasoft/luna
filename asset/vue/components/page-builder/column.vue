@@ -119,7 +119,7 @@
       </div>
       <div class="card-body p-2">
         <draggable v-model="content.addons" @start="drag = true" @end="drag = false"
-          :options="{handle: '.move-handle', group: 'addon', animation: 300}"
+          v-bind="{handle: '.move-handle', group: 'addon', animation: 300}"
           style="min-height: 50px;" class="column__draggable">
 <!--          <transition-group v-if="addons.length" name="fade">-->
             <div class="column__addon" v-for="(addon, i) of addons" :key="addon.id"
