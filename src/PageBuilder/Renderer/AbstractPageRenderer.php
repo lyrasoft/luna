@@ -367,7 +367,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.8.5
      */
     protected function handleContentAlign(Structure $options, StyleContainer $styles): void
     {
@@ -389,7 +389,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.8.5
      */
     protected function internalCSS(string $css): void
     {
