@@ -118,7 +118,13 @@ export default {
         contentType: false
       })
         .done((res) => {
-          this.url = res.data.url;
+          let url = res.data.url;
+          
+          if (url.indexOf(Phoenix.uri('root')) === 0) {
+            url = url.substr(Phoenix.uri('root').length + 1);
+          }
+          
+          this.url = url;
         })
         .fail((xhr) => {
           console.error(xhr.responseJSON.message);
