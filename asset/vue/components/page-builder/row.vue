@@ -121,7 +121,7 @@
 import { emptyColumn, emptyRow } from '../../services/empty-data';
 import PageBuilderService from '../../services/page-builder-services';
 import Column from "./column";
-import { each, startsWith } from 'lodash';
+import { each, startsWith, defaultsDeep } from 'lodash';
 
 export default {
   name: 'row',
@@ -150,6 +150,8 @@ export default {
 
   created() {
     this.content = this.value;
+
+    this.content = defaultsDeep(this.content, emptyRow());
 
     if (typeof this.content.id === 'undefined') {
       each(this.getEmptyRow(), (v, k) => {

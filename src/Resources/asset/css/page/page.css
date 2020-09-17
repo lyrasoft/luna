@@ -14,10 +14,20 @@
 .l-page-container .l-section__subtitle {
   margin: 0; }
 
-.l-page-container .l-column__body {
+.l-page-container .l-section__body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
+
+.l-page-container .l-section__content {
+  height: 100%; }
+
+.l-page-container .l-column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .l-page-container .l-column__content {
+    height: 100%; }
 
 .l-page-container .l-bg-container {
   z-index: 1;

@@ -48,12 +48,12 @@ export function emptyRow() {
       fluid_row: false,
       no_gutter: false,
       padding: {
-        xl: '',
+        lg: '',
         md: '',
         xs: ''
       },
       margin: {
-        xl: '',
+        lg: '',
         md: '',
         xs: ''
       },

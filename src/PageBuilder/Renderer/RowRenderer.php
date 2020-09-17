@@ -80,7 +80,7 @@ class RowRenderer extends AbstractPageRenderer
         // Background
         $this->prepareBackgroundCSS($options, $styles);
 
-        $this->asset->internalCSS($styles->render());
+        $this->internalCSS($styles->render());
 
         // Custom CSS
         $css = $content['options.html_css'];
@@ -90,7 +90,7 @@ class RowRenderer extends AbstractPageRenderer
 
             $css = $scss->compile("#{$content['options.html_id']} { {$content['options.html_css']} }");
 
-            $this->asset->internalCSS($css);
+            $this->internalCSS($css);
         }
     }
 
@@ -109,6 +109,8 @@ class RowRenderer extends AbstractPageRenderer
         $styles->self()
             ->add('color', $options['text_color'])
             ->add('width', '100%');
+
+        $this->handleContentAlign($options, $styles);
 
         // Padding & Margin
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {

@@ -188,15 +188,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
             ->add('text-align', $options['align'])
             ->add('width', '100%');
 
-        switch ($options['valign']) {
-            case 'middle':
-                $styles->select($this->cssPrefix . '__body')->add('align-items', 'center');
-                break;
-
-            case 'bottom':
-                $styles->select($this->cssPrefix . '__body')->add('align-items', 'end');
-                break;
-        }
+        $this->handleContentAlign($options, $styles);
 
         // Border
         if ($options['border.enabled']) {
@@ -365,5 +357,44 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     public function fontSizeUnit(): string
     {
         return static::getLuna()->get('page.styles.font_size_unit', 'px');
+    }
+
+    /**
+     * handleContentAlign
+     *
+     * @param Structure      $options
+     * @param StyleContainer $styles
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function handleContentAlign(Structure $options, StyleContainer $styles): void
+    {
+        switch ($options['valign']) {
+            case 'middle':
+                $styles->select($this->cssPrefix . '__content')->add('align-items', 'center');
+                break;
+
+            case 'bottom':
+                $styles->select($this->cssPrefix . '__content')->add('align-items', 'end');
+                break;
+        }
+    }
+
+    /**
+     * internalCSS
+     *
+     * @param string $css
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function internalCSS(string $css): void
+    {
+        if (trim($css)) {
+            $this->asset->internalCSS($css);
+        }
     }
 }

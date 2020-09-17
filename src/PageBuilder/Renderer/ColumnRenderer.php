@@ -73,7 +73,7 @@ class ColumnRenderer extends AbstractPageRenderer
         // Background
         $this->prepareBackgroundCSS($options, $styles);
 
-        $this->asset->internalCSS($styles->render());
+        $this->internalCSS($styles->render());
 
         // Custom CSS
         $css = $content['options.html_css'];
@@ -83,7 +83,7 @@ class ColumnRenderer extends AbstractPageRenderer
 
             $css = $scss->compile("#{$content['options.html_id']} { {$content['options.html_css']} }");
 
-            $this->asset->internalCSS($css);
+            $this->internalCSS($css);
         }
     }
 

@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import { each, range, startsWith, values } from 'lodash';
+import { each, range, startsWith, values, defaultsDeep } from 'lodash';
 import { emptyColumn, emptyRow } from '../../services/empty-data';
 import PageBuilderService from '../../services/page-builder-services';
 import Addon from "./addon";
@@ -186,6 +186,8 @@ export default {
 
   created() {
     this.content = this.value;
+
+    this.content = defaultsDeep(this.content, emptyColumn());
 
     if (typeof this.content.id === 'undefined') {
       each(this.getEmptyColumn(), (v, k) => {

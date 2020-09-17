@@ -38,7 +38,7 @@ $classes = array_filter($classes, '\strlen');
     @if ($options['background.overlay'])
         <div class="l-bg-overlay"></div>
     @endif
-    <div class="l-section__container l-bg-content {{ $container }}">
+    <div class="l-section__container l-section__body l-bg-content {{ $container }}">
         @if ($options['title.text'] !== '')
             <div class="l-section__header c-box-header">
                 <{{ $options['title.element'] ?: 'h3' }} class="l-section__title c-box-header__title">
@@ -50,7 +50,7 @@ $classes = array_filter($classes, '\strlen');
             </div>
         @endif
 
-        <div class="row {{ $noGutter }} l-section__row">
+        <div class="row {{ $noGutter }} l-section__row l-section__content">
             @foreach ($row['columns'] as $column)
                 @if ($column['disabled'])
                     @continue

@@ -35,12 +35,26 @@
       //color: #999;
       margin: 0;
     }
+
+    &__body {
+      display: flex;
+    }
+
+    &__content {
+      height: 100%;
+    }
   }
 
   // Column
   .l-column {
+    display: flex;
+
     &__body {
-      display: flex;
+      // display: flex;
+    }
+
+    &__content {
+      height: 100%;
     }
   }
 

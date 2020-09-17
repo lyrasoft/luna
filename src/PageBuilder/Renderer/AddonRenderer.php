@@ -107,7 +107,7 @@ class AddonRenderer extends AbstractPageRenderer
 
             $css = $scss->compile("#{$content['options.html_id']} { {$content['options.html_css']} }");
 
-            $this->asset->internalCSS($css);
+            $this->internalCSS($css);
         }
     }
 
