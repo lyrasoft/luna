@@ -28,6 +28,7 @@
   display: -ms-flexbox;
   display: flex; }
   .l-page-container .l-column__content {
+    width: 100%;
     height: 100%; }
 
 .l-page-container .l-bg-container {
