@@ -11,20 +11,21 @@
     <div class="form-group">
       <label for="input-addon-edit-align">靠齊</label>
       <div class="mt-2">
-        <radio-buttons v-model="options.align" class="btn-block">
-          <radio-button value="">
+        <b-form-radio-group v-model="options.align" class="btn-block"
+          buttons button-variant="outline-primary">
+          <b-form-radio value="">
             頁面預設
-          </radio-button>
-          <radio-button value="left">
+          </b-form-radio>
+          <b-form-radio value="left">
             左
-          </radio-button>
-          <radio-button value="center">
+          </b-form-radio>
+          <b-form-radio value="center">
             中
-          </radio-button>
-          <radio-button value="right">
+          </b-form-radio>
+          <b-form-radio value="right">
             右
-          </radio-button>
-        </radio-buttons>
+          </b-form-radio>
+        </b-form-radio-group>
       </div>
     </div>
 
@@ -142,14 +143,15 @@
     <div class="form-group">
       <label for="input-addon-edit-icon_position">圖示位置</label>
       <div class="mt-2">
-        <radio-buttons v-model="options.icon_position" class="btn-block">
-          <radio-button value="left">
+        <b-form-radio-group v-model="options.icon_position" class="btn-block"
+          buttons button-variant="outline-primary">
+          <b-form-radio value="left">
             左
-          </radio-button>
-          <radio-button value="right">
+          </b-form-radio>
+          <b-form-radio value="right">
             右
-          </radio-button>
-        </radio-buttons>
+          </b-form-radio>
+        </b-form-radio-group>
       </div>
     </div>
   </div>
