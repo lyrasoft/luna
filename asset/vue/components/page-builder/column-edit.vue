@@ -36,7 +36,7 @@
               </button>
               <button type="button" class="btn btn-success" @click="savePage()"
                 :disabled="saving">
-                <span :class="this.saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
+                <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
                 儲存頁面
               </button>
               <button type="button" class="btn btn-secondary" @click="close()">

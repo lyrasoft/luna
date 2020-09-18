@@ -117,7 +117,7 @@
             <button type="button" class="btn btn-primary" style="min-width: 200px"
               @click="savePage"
               :disabled="saving">
-              <span class="fa fa-save"></span>
+              <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
               儲存
             </button>
           </div>

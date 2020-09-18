@@ -26,6 +26,8 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
+  .l-page-container .l-column__content {
+    width: 100%; }
 
 .l-page-container .l-bg-container {
   z-index: 1;
