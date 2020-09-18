@@ -8,7 +8,7 @@ $form->setAttributes('fieldWidth', 'col-12', 'basic');
 ?>
 
 <div class="modal fade" id="options-modal" role="dialog" aria-labelledby="options-modal-label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="options-modal-label">
@@ -19,7 +19,14 @@ $form->setAttributes('fieldWidth', 'col-12', 'basic');
                 </button>
             </div>
             <div class="modal-body">
-                {!! $form->renderFields('basic') !!}
+                <div class="row">
+                    <div class="col-lg-6">
+                        {!! $form->renderFields('basic', null, ['vertical' => true]) !!}
+                    </div>
+                    <div class="col-lg-6">
+                        {!! $form->renderFields('meta', null, ['vertical' => true]) !!}
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">

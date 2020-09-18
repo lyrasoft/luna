@@ -19,6 +19,9 @@
   display: -ms-flexbox;
   display: flex; }
 
+.l-page-container .l-section__body {
+  width: 100%; }
+
 .l-page-container .l-column {
   display: -webkit-box;
   display: -ms-flexbox;

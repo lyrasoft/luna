@@ -59,8 +59,8 @@ class EditDefinition extends AbstractFieldDefinition
 
             $this->add('extends', ExtendListField::class)
                 ->label(__('luna.page.field.extends'))
-                ->description(__('luna.page.field.extends.desc'))
                 ->set('allow_add', true)
+                ->help(__('luna.page.field.extends.desc'))
                 ->required(true);
 
             if (Locale::isEnabled()) {
@@ -70,6 +70,15 @@ class EditDefinition extends AbstractFieldDefinition
                     ->option(__('luna.field.language.all'), '*');
             }
 
+            // State
+            $this->switch('state')
+                ->label(__('luna.page.field.published'))
+                ->class('')
+                ->color('success')
+                ->circle(true)
+                ->defaultValue(1);
+        });
+        $this->fieldset('meta', function (Form $form) {
             $this->group('meta', function () {
                 $this->text('meta_title')
                     ->label(__('luna.page.field.meta.title'))
@@ -109,14 +118,6 @@ class EditDefinition extends AbstractFieldDefinition
 
         // Created fieldset
         $this->fieldset('created', function (Form $form) {
-            // State
-            $this->switch('state')
-                ->label(__('luna.page.field.published'))
-                ->class('')
-                ->color('success')
-                ->circle(true)
-                ->defaultValue(1);
-
             // Created
             $this->calendar('created')
                 ->label(__('luna.page.field.created'))
