@@ -37,7 +37,7 @@ class PageAjaxController extends AbstractMultiTaskController
      *
      * @throws \Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.8.8
      */
     public function savePage(PageRepository $repository): Data
     {
