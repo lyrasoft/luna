@@ -146,11 +146,11 @@ class RowRenderer extends AbstractPageRenderer
     {
         switch ($options['valign']) {
             case 'middle':
-                $styles->select($this->cssPrefix . '__content')->add('align-items', 'center');
+                $styles->select($this->cssPrefix . '__container')->add('align-items', 'center');
                 break;
 
             case 'bottom':
-                $styles->select($this->cssPrefix . '__content')->add('align-items', 'end');
+                $styles->select($this->cssPrefix . '__container')->add('align-items', 'end');
                 break;
         }
     }
