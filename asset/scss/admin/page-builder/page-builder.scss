@@ -67,6 +67,10 @@ $gutter: 7px;
       }
     }
 
+    &__actions {
+      z-index: 1;
+    }
+
     &__body .card-body {
       position: relative;
     }

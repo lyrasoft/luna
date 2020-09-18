@@ -51,7 +51,7 @@ $classes = array_filter($classes, '\strlen');
             </div>
             @endif
 
-            <div class="row {{ $noGutter }} l-section__row l-section__content">
+            <div class="row {{ $noGutter }} l-section__row l-section__content justify-content-{{ $options['justify_content'] }}">
                 @foreach ($row['columns'] as $column)
                     @if ($column['disabled'])
                         @continue

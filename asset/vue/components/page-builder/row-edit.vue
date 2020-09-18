@@ -300,6 +300,31 @@
 
                 <hr />
 
+                <!-- Justify Content -->
+                <div class="form-group">
+                  <label for="input-row-edit-justify-content">容器水平對齊</label>
+                  <div>
+                    <b-form-radio-group v-model="options.justify_content" class="btn-block"
+                      buttons button-variant="outline-primary">
+                      <b-form-radio value="start">
+                        前方
+                      </b-form-radio>
+                      <b-form-radio value="center">
+                        中央
+                      </b-form-radio>
+                      <b-form-radio value="end">
+                        後方
+                      </b-form-radio>
+                      <b-form-radio value="around">
+                        平均
+                      </b-form-radio>
+                      <b-form-radio value="between">
+                        平均（對齊邊緣）
+                      </b-form-radio>
+                    </b-form-radio-group>
+                  </div>
+                </div>
+
                 <!-- Middle Align -->
                 <div class="form-group">
                   <label for="input-row-edit-valign">垂直置中</label>

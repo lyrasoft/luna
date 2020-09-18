@@ -45,6 +45,7 @@ export function emptyRow() {
       html_css: '',
       title_align: 'center',
       valign: 'top',
+      justify_content: 'justify-content-start',
       fluid_row: false,
       no_gutter: false,
       padding: {
