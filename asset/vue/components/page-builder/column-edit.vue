@@ -157,6 +157,28 @@
                   </gradient>
                 </transition>
 
+                <!-- Content Align -->
+                <div class="form-group">
+                  <label for="input-addon-edit-text-align">內文靠齊</label>
+                  <div class="mt-2">
+                    <b-form-radio-group v-model="options.align" class="btn-block"
+                      buttons button-variant="outline-primary">
+                      <b-form-radio value="">
+                        頁面預設
+                      </b-form-radio>
+                      <b-form-radio value="left">
+                        左
+                      </b-form-radio>
+                      <b-form-radio value="center">
+                        中
+                      </b-form-radio>
+                      <b-form-radio value="right">
+                        右
+                      </b-form-radio>
+                    </b-form-radio-group>
+                  </div>
+                </div>
+
                 <!-- Middle Align -->
                 <div class="form-group">
                   <label for="input-column-edit-valign">垂直置中</label>

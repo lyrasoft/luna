@@ -107,7 +107,7 @@ export function emptyColumn(child = false) {
     options: {
       html_class: '',
       html_css: '',
-      align: 'center',
+      align: '',
       valign: 'top',
       padding: {
         xs: '',
