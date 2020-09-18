@@ -44,7 +44,7 @@
                     <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                     {{ content.disabled ? '啟用' : '停用' }}
                 </a>
-                <a class="dropdown-item" href="#" @click.prevent="duplicate" v-if="!content.disabled">
+                <a class="dropdown-item" href="#" @click.prevent="duplicate()" v-if="!content.disabled">
                     <span class="fa fa-fw fa-clone"></span>
                     複製一份
                 </a>
@@ -74,7 +74,8 @@
     </div>
 
     <div class="card">
-      <div is="draggable" class="card-body page-row__body row" :class="{'p-2': child}"
+      <div is="draggable" class="card-body page-row__body row"
+        :class="[{'p-2': child}, `justify-content-${options.justify_content}`]"
         v-model="content.columns" @start="drag = true" @end="drag = false"
         v-bind="{handle: '.column-move-handle', group: 'column' + (child ? '-child' : ''), animation: 300}"
         style="min-height: 50px;">
