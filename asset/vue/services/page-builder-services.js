@@ -8,6 +8,40 @@ import { startsWith } from 'lodash';
  */
 
 export default class PageBuilderService {
+  static bindSaveButton() {
+    const $btn = $('.phoenix-btn-save');
+    const $icon = $btn.find('[data-spinner]');
+    let className = '';
+    $btn.on('click', () => {
+      $btn.attr('disabled', true);
+      className = $icon.attr('class');
+      $icon.attr('class', 'spinner-border spinner-border-sm');
+
+      this.save()
+        .then(() => {
+          console.log('儲存成功');
+        })
+        .always(() => {
+          $btn.attr('disabled', false);
+          $icon.attr('class', className);
+        });
+    });
+  }
+
+  static save() {
+    return Phoenix.Ajax.post(
+      Phoenix.route('page_ajax', { task: 'savePage' }),
+      $('#admin-form').serialize()
+    )
+      .done(() => {
+        console.log('儲存完成');
+      })
+      .fail((e) => {
+        console.error(e);
+        swal(e.statusText, '', 'warning');
+      });
+  }
+
   static addToClipboard(text) {
     if (typeof text !== 'string') {
       text = JSON.stringify(text, null, 4);

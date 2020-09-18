@@ -373,11 +373,11 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     {
         switch ($options['valign']) {
             case 'middle':
-                $styles->select($this->cssPrefix . '__content')->add('align-items', 'center');
+                $styles->selectAppend($this->cssPrefix . '__body')->add('align-self', 'center');
                 break;
 
             case 'bottom':
-                $styles->select($this->cssPrefix . '__content')->add('align-items', 'end');
+                $styles->selectAppend($this->cssPrefix . '__body')->add('align-self', 'end');
                 break;
         }
     }

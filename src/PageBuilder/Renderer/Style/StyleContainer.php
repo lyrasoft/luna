@@ -71,6 +71,23 @@ class StyleContainer
     }
 
     /**
+     * select
+     *
+     * @param string        $selector
+     * @param callable|null $callback
+     *
+     * @return  StyleRules
+     *
+     * @since  1.5.2
+     */
+    public function selectAppend($selector, callable $callback = null)
+    {
+        $k = trim($this->prefix . $selector);
+
+        return $this->doSelect($k, $callback);
+    }
+
+    /**
      * doSelect
      *
      * @param string        $selector

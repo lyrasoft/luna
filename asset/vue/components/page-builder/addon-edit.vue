@@ -29,9 +29,14 @@
               </li>
             </ul>
             <div class="ml-auto">
-              <button type="button" class="btn btn-success" @click="save()">
-                <span class="fa fa-save"></span>
-                儲存
+              <button type="button" class="btn btn-primary" @click="save()">
+                <span class="fa fa-check"></span>
+                完成
+              </button>
+              <button type="button" class="btn btn-success" @click="savePage()"
+                :disabled="saving">
+                <span :class="this.saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
+                儲存頁面
               </button>
               <button type="button" class="btn btn-secondary" @click="close()">
                 <span class="fa fa-times"></span>
@@ -294,6 +299,7 @@
 </template>
 
 <script>
+import PageBuilderService from '../../services/page-builder-services';
 import BoxOffset from "./form/box-offset";
 import Animations from "./form/animations";
 import SingleImage from "./form/single-image";
@@ -307,7 +313,8 @@ export default {
     return {
       values: {},
       sticky: false,
-      cmOptions: CodeMirrorOptions
+      cmOptions: CodeMirrorOptions,
+      saving: false
     }
   },
 
@@ -353,6 +360,18 @@ export default {
       this.sticky = false;
 
       $(this.$refs.modal).modal('hide');
+    },
+
+    savePage() {
+      Phoenix.trigger('addon:save', JSON.parse(JSON.stringify(this.values)));
+
+      this.saving = true;
+      this.$nextTick(() => {
+        PageBuilderService.save(this.saving)
+          .always(() => {
+            this.saving = false;
+          });
+      });
     },
 
     close() {

@@ -115,7 +115,8 @@
         <template v-slot:modal-footer>
           <div class="ml-auto">
             <button type="button" class="btn btn-primary" style="min-width: 200px"
-              @click="savePage">
+              @click="savePage"
+              :disabled="saving">
               <span class="fa fa-save"></span>
               儲存
             </button>
@@ -151,8 +152,9 @@ export default {
         addon: {}
       },
       addons: Phoenix.data('addons'),
-      css: Phoenix.data('css')
-    }
+      css: Phoenix.data('css'),
+      saving: false
+    };
   },
   components: {
     CssEditor,
@@ -170,7 +172,12 @@ export default {
       this.cssEdit();
     }
 
+    PageBuilderService.bindSaveButton();
+
     Phoenix.on('row:edit', (content, column) => {
+      this.editing.column = {};
+      this.editing.row = {};
+
       this.editing.row = content;
       this.editing.column = content;
       this.$refs.rowEdit.edit(content);
@@ -180,12 +187,10 @@ export default {
       each(content, (v, k) => {
         this.editing.row[k] = v;
       });
-
-      this.editing.column = {};
-      this.editing.row = {};
     });
 
     Phoenix.on('column:edit', content => {
+      this.editing.column = {};
       this.editing.column = content;
       this.$refs.columnEdit.edit(content);
     });
@@ -194,17 +199,18 @@ export default {
       each(content, (v, k) => {
         this.editing.column[k] = v;
       });
-
-      this.editing.column = {};
     });
 
     Phoenix.on('addon:add', (column) => {
+      this.editing.column = {};
       this.editing.column = column;
 
       $(this.$refs.addonList).modal('show');
     });
 
     Phoenix.on('addon:edit', (addon, column) => {
+      this.editing.addon = {};
+      this.editing.column = {};
       this.editing.addon = addon;
       this.editing.column = column;
 
@@ -219,9 +225,6 @@ export default {
       each(addon, (v, k) => {
         this.editing.addon[k] = v;
       });
-
-      this.editing.column = {};
-      this.editing.addon = {};
     });
 
     Phoenix.on('tmpl.open', (callback, type, i) => {
@@ -357,8 +360,14 @@ export default {
     },
 
     savePage() {
-      Phoenix.post(null, { css_edit: 1 });
-    }
+      this.saving = true;
+      this.$nextTick(() => {
+        PageBuilderService.save(this.saving)
+          .always(() => {
+            this.saving = false;
+          });
+      });
+    },
   },
   watch: {
 

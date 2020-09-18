@@ -113,7 +113,16 @@ class ColumnRenderer extends AbstractPageRenderer
      */
     public static function prepareElement(Structure $options, array &$classes, array &$attrs)
     {
-        $classes = array_merge($classes, array_values($options['display']));
+        $display = array_values($options['display']);
+
+        // B/C convert block to flex
+        foreach ($display as &$class) {
+            $class = str_replace('block', 'flex', $class);
+        }
+
+        unset($class);
+        
+        $classes = array_merge($classes, $display);
 
         parent::prepareElement($options, $classes, $attrs);
     }

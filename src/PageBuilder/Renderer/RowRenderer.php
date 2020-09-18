@@ -131,4 +131,27 @@ class RowRenderer extends AbstractPageRenderer
     protected function prepareJS(Structure $content)
     {
     }
+
+    /**
+     * handleContentAlign
+     *
+     * @param Structure      $options
+     * @param StyleContainer $styles
+     *
+     * @return  void
+     *
+     * @since  1.8.5
+     */
+    protected function handleContentAlign(Structure $options, StyleContainer $styles): void
+    {
+        switch ($options['valign']) {
+            case 'middle':
+                $styles->select($this->cssPrefix . '__content')->add('align-items', 'center');
+                break;
+
+            case 'bottom':
+                $styles->select($this->cssPrefix . '__content')->add('align-items', 'end');
+                break;
+        }
+    }
 }

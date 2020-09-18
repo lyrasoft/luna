@@ -11,9 +11,11 @@ namespace Lyrasoft\Luna\Admin\Controller\Page;
 
 use Lyrasoft\Luna\Admin\DataMapper\ConfigMapper;
 use Lyrasoft\Luna\Admin\Repository\ConfigRepository;
+use Lyrasoft\Luna\Admin\Repository\PageRepository;
 use Lyrasoft\Luna\Config\ConfigService;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Unidev\Controller\AbstractMultiTaskController;
+use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Lyrasoft\Unidev\Image\ImageHtmlHelper;
 use Windwalker\Data\Collection;
 use Windwalker\Data\Data;
@@ -26,6 +28,42 @@ use Windwalker\Utilities\Arr;
  */
 class PageAjaxController extends AbstractMultiTaskController
 {
+    /**
+     * savePage
+     *
+     * @param PageRepository $repository
+     *
+     * @return  Data
+     *
+     * @throws \Exception
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function savePage(PageRepository $repository): Data
+    {
+        $item = $this->input->getArray('item');
+        $data = new Data($item);
+
+        unset($data['og_image']);
+
+        $repository->save($data);
+
+        $meta = json_decode($data->meta, true);
+
+        $meta['og_image'] = SingleImageDragField::uploadBase64(
+            $item['meta']['og_image'],
+            'page/' . md5('Luna:Page:' . $data->id) . '.jpg',
+            null,
+            true
+        );
+
+        $data->meta = $meta;
+
+        $repository->save($data);
+
+        return $data;
+    }
+    
     /**
      * getTemplates
      *
