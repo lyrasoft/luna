@@ -15,15 +15,27 @@
         <div class="column__actions ml-auto text-nowrap">
           <button type="button" class="btn btn-mini btn-primary"
             v-if="!content.disabled"
+            v-b-tooltip
+            title="新增 Addon"
             @click="addAddon()">
             <span class="fa fa-plus"></span>
-            <span v-if="!child">
-              Addon
-            </span>
+<!--            <span v-if="!child">-->
+<!--              Addon-->
+<!--            </span>-->
+          </button>
+
+          <button type="button" class="btn btn-mini btn-outline-secondary"
+            @click="edit()"
+            v-b-tooltip
+            title="編輯欄"
+            v-if="!content.disabled">
+            <span class="fa fa-edit"></span>
           </button>
 
           <div class="dropdown d-inline-block" :class="widthMenuOpen">
             <button type="button" href="#" class="btn btn-mini btn-outline-secondary"
+              v-b-tooltip
+              title="寬度"
               @click="widthMenuOpen = widthMenuOpen === 'show' ? '' : 'show'">
               <span class="fa fa-arrows-alt-h"></span>
             </button>
@@ -67,16 +79,18 @@
 
           <div class="dropdown d-inline-block">
             <button type="button" class="btn btn-mini btn-outline-secondary"
+              v-b-tooltip
+              title="管理"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="fa fa-cog"></span>
             </button>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#" @click.prevent="edit()"
-                v-if="!content.disabled">
-                <span class="fa fa-fw fa-edit"></span>
-                編輯
-              </a>
+<!--              <a class="dropdown-item" href="#" @click.prevent="edit()"-->
+<!--                v-if="!content.disabled">-->
+<!--                <span class="fa fa-fw fa-edit"></span>-->
+<!--                編輯-->
+<!--              </a>-->
               <a class="dropdown-item" href="#" @click.prevent="duplicate()"
                 v-if="!content.disabled">
                 <span class="fa fa-fw fa-clone"></span>
@@ -228,12 +242,12 @@ export default {
               add: {
                 text: '貼上內容',
                 value: 'add',
-                className: 'btn-info'
+                className: 'btn-outline-secondary'
               },
               replace: {
                 text: '取代內容',
                 value: 'replace',
-                className: 'btn-warning'
+                className: 'btn-outline-secondary'
               },
               append: {
                 text: '貼到後方新的欄',

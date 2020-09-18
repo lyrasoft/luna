@@ -25,7 +25,7 @@
             新增欄
           </span>
         </button>
-        <button type="button" class="btn btn-sm btn-outline-secondary"
+        <button type="button" class="btn btn-sm btn-outline-primary"
           v-if="!content.disabled"
           @click="edit()">
           <span class="fa fa-edit"></span>
@@ -34,7 +34,7 @@
           </span>
         </button>
         <span class="dropdown">
-            <button href="#" class="btn btn-sm btn-outline-secondary"
+            <button href="#" class="btn btn-sm btn-outline-primary"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="fa fa-cog"></span>
             </button>
