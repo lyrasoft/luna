@@ -26,5 +26,13 @@
 @extends('page.addon-wrapper')
 
 @section('body')
+    @if ($options['link'])
+        <a href="{{ $options['link'] }}" target="{{ $options['link_target'] }}">
+    @endif
+
     <div class="c-empty-space"></div>
+
+    @if ($options['link'])
+        </a>
+    @endif
 @stop
