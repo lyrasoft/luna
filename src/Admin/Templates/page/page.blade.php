@@ -39,7 +39,7 @@ $asset->addCSS($package->name . '/css/admin/page-builder/page-builder.min.css');
 @stop
 
 @push('script')
-    @if ($app->input->get('new'))
+    @if (!$item->id || $item->title === '')
         <script>
             $('#options-modal').modal('show');
         </script>

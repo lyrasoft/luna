@@ -15,9 +15,13 @@ Vue.directive('tinymce', {
       plugins: [
         'advlist autolink lists link image charmap print preview hr anchor pagebreak',
         'searchreplace wordcount visualblocks visualchars code fullscreen',
-        'insertdatetime media nonbreaking save table contextmenu directionality',
-        'emoticons template paste textcolor colorpicker textpattern imagetools',
+        'insertdatetime media nonbreaking save table directionality',
+        'emoticons template paste textpattern imagetools',
       ],
+      toolbar1: 'undo redo | styleselect formatselect fontsizeselect ' +
+      '| bold italic strikethrough forecolor backcolor | removeformat ' +
+      '| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ' +
+      '| link image media | table code | fullscreen',
       images_upload_url: Phoenix.route('addon-text:image-upload-url'),
       images_upload_handler: function (blobInfo, success, failure) {
         var editorElement = jQuery(el);
