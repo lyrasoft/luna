@@ -14,11 +14,11 @@
  */
 ?>
 
-<a role="button" class="btn btn-primary btn-sm btn-wide phoenix-btn-new"
-    href="{{ $router->route('page', ['new' => true]) }}">
+<button class="btn btn-primary btn-sm btn-wide phoenix-btn-new"
+    onclick="Phoenix.post('{{ $router->route('page', ['new' => true]) }}', { new: 1 })">
     <span class="fa fa-plus"></span>
     @lang('phoenix.toolbar.new')
-</a>
+</button>
 
 <button type="button" class="btn btn-info btn-sm phoenix-btn-duplicate"
     onclick="Phoenix.Grid.hasChecked();Phoenix.post();">

@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Page;
 use Lyrasoft\Luna\Admin\Repository\PageRepository;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Phoenix\Controller\AbstractSaveController;
+use Windwalker\Data\Data;
 use Windwalker\Data\DataInterface;
 
 /**
@@ -60,6 +61,15 @@ class SaveController extends AbstractSaveController
     protected function prepareExecute()
     {
         parent::prepareExecute();
+
+        if ($this->input->get('new')) {
+            $data = $this->repository->save(new Data());
+            $this->redirect(
+                $this->router->to('page')->id($data->id)->var('new', 1)
+            );
+
+            return;
+        }
     }
 
     /**
