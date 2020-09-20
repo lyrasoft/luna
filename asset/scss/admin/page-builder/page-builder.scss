@@ -68,7 +68,7 @@ $gutter: 7px;
     }
 
     &__actions {
-      z-index: 1;
+      z-index: 5;
     }
 
     &__body .card-body {
@@ -115,7 +115,7 @@ $gutter: 7px;
       position: absolute;
       top: .25rem;
       right: .75rem;
-      //z-index: 5;
+      z-index: 2;
     }
   }
 }
