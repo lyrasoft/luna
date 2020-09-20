@@ -21,6 +21,8 @@
  * @var $options    \Windwalker\Structure\Structure
  * @var $addonRenderer \Lyrasoft\Luna\PageBuilder\Renderer\AddonRenderer
  */
+
+show($options);
 ?>
 
 @extends('page.addon-wrapper')
@@ -38,7 +40,9 @@
         <a href="{{ $options['link'] }}" @attr('target', $options['link_target'])>
     @endif
 
-            <img class="img-fluid c-image" src="{{ $options['image'] }}" alt="{{ $options['alt'] ?: $options['title.text'] }}">
+            <img class="img-fluid c-image" src="{{ $options['image'] }}"
+                alt="{{ $options['alt'] ?: $options['label'] ?: $options['title.text'] ?: 'Image' }}"
+            >
 
     @if ($options['link'] !== '')
         </a>
