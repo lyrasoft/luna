@@ -21,8 +21,6 @@
  * @var $options    \Windwalker\Structure\Structure
  * @var $addonRenderer \Lyrasoft\Luna\PageBuilder\Renderer\AddonRenderer
  */
-
-show($options);
 ?>
 
 @extends('page.addon-wrapper')
