@@ -76,7 +76,7 @@
         const formData = new FormData();
         formData.append('file', this.item.file);
 
-        this.item.title = this.item.file.name;
+        this.item.title = this.item.title || this.item.file.name;
 
         this.$emit('upload-start', uniqid);
 

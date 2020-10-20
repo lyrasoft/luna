@@ -19,6 +19,7 @@
               :i="i"
               :init-state="item.uploadState"
               :key="item.key"
+              :ref="item.key"
               :upload-url="url"
               :size="thumbSize"
               :is-readonly="isReadonly"

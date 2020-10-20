@@ -53,7 +53,50 @@ window.MultiUploader = Vue.extend({
       ];
 
       return allow.indexOf(ext) !== -1;
-    }
+    },
+
+    dragover(e) {
+      if (!this.canReUpload) {
+        return;
+      }
+
+      this.$refs.dragarea.style.opacity = 0.75;
+    },
+
+    dragleave(e) {
+      if (!this.canReUpload) {
+        return;
+      }
+
+      this.$refs.dragarea.style.opacity = 1;
+    },
+
+    drop(event) {
+      if (!this.canReUpload) {
+        return;
+      }
+
+      this.$refs.dragarea.style.opacity = 1;
+
+      const item = this.current;
+      const file = event.dataTransfer.files[0];
+
+      this.$refs.app.checkFile(file);
+
+      if (!this.$refs.app.canUpload) {
+        return;
+      }
+
+      const reader = new FileReader();
+      item.file = file;
+      const itemComponent = this.$refs.app.$refs[item.key][0];
+
+      this.loading = true;
+      this.$refs.app.$refs[item.key][0].upload()
+        .always(() => {
+          this.loading = false;
+        });
+    },
   },
   watch: {
     value() {
