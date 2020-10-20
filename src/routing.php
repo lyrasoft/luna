@@ -27,7 +27,7 @@ $router->any('article', '/post/(id)-(alias)')
     ]);
 
 // Article Category
-$router->any('article_category', '/category/(*path)')
+$router->any('article_category', '/category(/*path)')
     ->controller('Category')
     ->requirements([
         'page' => '\\d+',
