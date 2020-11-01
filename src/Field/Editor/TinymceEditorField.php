@@ -86,7 +86,9 @@ class TinymceEditorField extends AbstractEditorField
         $luna    = LunaHelper::getPackage();
         $options = (array) $this->get('options', []);
 
-        $defaultOptions = [];
+        $defaultOptions = [
+            'document_base_url' => Ioc::getApplication()->uri->root . '/'
+        ];
 
         $defaultOptions['plugins'] = [];
 

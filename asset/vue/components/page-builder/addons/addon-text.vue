@@ -95,7 +95,7 @@ export default {
           lg: '',
           md: '',
           xs: ''
-        },
+        }
       }
     }
   }

@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Admin\View\Page;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\AddonHelper;
@@ -109,6 +110,8 @@ class PageHtmlView extends EditView
         BootstrapScript::tooltip('.has-tooltip');
         PhoenixScript::disableWhenSubmit();
 
+        $luna = LunaHelper::getPackage();
+
         JQueryScript::csrfToken();
         PhoenixScript::addRoute('page_ajax', $this->router->route('_luna_ajax_page'));
         PhoenixScript::addRoute('single_image_upload', $this->router->route('_luna_img_upload'));
@@ -118,6 +121,7 @@ class PageHtmlView extends EditView
 
         PhoenixScript::data('builder-content', json_decode($data->item->content, true) ?: []);
         PhoenixScript::data('css', $data->item->css);
+        PhoenixScript::data('tinymce_content_css', Asset::root() . '/' . $luna->name . '/css/tinymce5/content.css');
 
         $asset = $this->app->service(AssetManager::class);
         $asset->addJS(PackageHelper::getAlias(LunaPackage::class) . '/js/page-builder/addon-mixin.min.js');

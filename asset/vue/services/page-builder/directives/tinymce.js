@@ -22,6 +22,11 @@ Vue.directive('tinymce', {
       '| bold italic strikethrough forecolor backcolor | removeformat ' +
       '| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ' +
       '| link image media | table code | fullscreen',
+      content_css: Phoenix.data('tinymce_content_css'),
+      document_base_url: Phoenix.uri('root') + '/',
+      paste_data_images: true,
+      remove_script_host: true,
+      relative_urls: false,
       images_upload_url: Phoenix.route('addon-text:image-upload-url'),
       images_upload_handler: function (blobInfo, success, failure) {
         var editorElement = jQuery(el);
