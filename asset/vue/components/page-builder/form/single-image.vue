@@ -14,12 +14,23 @@
 
     <div class="form-group">
       <div class="input-group">
-        <input :id="id" type="text"
-          v-model="url" class="form-control" :disabled="uploading" />
+        <input :id="id"
+          type="text"
+          v-model="url"
+          class="form-control"
+          :disabled="uploading"
+          @paste="pasteFile"
+        />
         <div class="input-group-append">
           <button type="button" class="btn btn-primary" @click="chooseFile()"
             :disabled="uploading">
             上傳圖片
+          </button>
+          <button type="button" class="btn btn-primary" @click="pasteFromButton()"
+            :disabled="uploading"
+            v-b-tooltip
+            title="貼上">
+            <span class="fa fa-paste"></span>
           </button>
           <button v-if="url !== ''" type="button" class="btn btn-primary" @click="url = ''"
             :disabled="uploading">
@@ -53,7 +64,8 @@ export default {
         return [
           'image/jpeg',
           'image/png',
-          'image/gif'
+          'image/gif',
+          'image/webp',
         ];
       }
     }
@@ -99,6 +111,32 @@ export default {
       });
 
       input.click();
+    },
+
+    pasteFromButton() {
+      navigator.clipboard.read().then((items) => {
+        const type = items[0].types[1];
+
+        items[0].getType(type).then((blob) => {
+          this.uploadFile(blob);
+        });
+      });
+    },
+
+    pasteFile(event) {
+      if (event.clipboardData.items[1] && event.clipboardData.items[1].kind === 'file') {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const item = event.clipboardData.items[1];
+
+        if (!item) {
+          console.error('No paste item');
+          return;
+        }
+        console.log(item, item.getAsFile());
+        this.uploadFile(item.getAsFile());
+      }
     },
 
     uploadFile(file) {
