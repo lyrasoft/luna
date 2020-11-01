@@ -51,9 +51,11 @@ class TagListField extends ItemListField
     {
         $id = $attrs['id'];
 
-        if ($this->get('ajax', true)) {
-            Select2Script::tag('#' . $id, (array) $this->get('select2_options', []));
-        }
+        Select2Script::tag(
+            '#' . $id,
+            (array) $this->get('select2_options', []),
+            (bool) $this->get('ajax', true)
+        );
 
         return parent::buildInput($attrs);
     }

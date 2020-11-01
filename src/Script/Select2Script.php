@@ -121,20 +121,22 @@ JS;
      *
      * @param string $selector
      * @param array  $options
+     * @param bool   $ajax
      *
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public static function tag($selector, $options = [])
+    public static function tag($selector, $options = [], bool $ajax = true)
     {
-        $asset = static::getAsset();
+        if (!static::inited(__METHOD__, get_defined_vars())) {
+            $asset = static::getAsset();
 
-        if (!static::inited(__METHOD__, func_get_args())) {
             $package = LunaHelper::getPackage()->getCurrentPackage();
 
-            static::ajaxSelect2($selector, $package->router->route('_luna_ajax_tags'), $options);
+            if ($ajax) {
+                static::ajaxSelect2($selector, $package->router->route('_luna_ajax_tags'), $options);
 
-            $js = <<<JS
+                $js = <<<JS
 jQuery(document).ready(function($) {
 	$('$selector').on('select2:selecting', function(event) {
         var data = event.params.args.data;
@@ -146,7 +148,24 @@ jQuery(document).ready(function($) {
 });
 JS;
 
-            $asset->internalScript($js);
+                $asset->internalScript($js);
+            } else {
+                $defaultOptions = [
+                    'tags' => true,
+                    'tokenSeparators' => [','],
+                    'createTag' => "\\function (tag) {
+                        return {
+                          id: 'new#' + tag.term,
+                          text: tag.term,
+                          // add indicator:
+                          isNew : true
+                        };
+                    }",
+                    'language' => Translator::getLocale(),
+                ];
+
+                PhoenixScript::select2($selector, static::mergeOptions($defaultOptions, $options));
+            }
         }
     }
 }
