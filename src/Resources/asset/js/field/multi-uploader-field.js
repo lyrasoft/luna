@@ -36,6 +36,44 @@ window.MultiUploader = Vue.extend({
       var ext = url.split('.').pop().split('?').shift();
       var allow = ['png', 'jpeg', 'jpg', 'gif', 'bmp', 'webp'];
       return allow.indexOf(ext) !== -1;
+    },
+    dragover: function dragover(e) {
+      if (!this.canReUpload) {
+        return;
+      }
+
+      this.$refs.dragarea.style.opacity = 0.75;
+    },
+    dragleave: function dragleave(e) {
+      if (!this.canReUpload) {
+        return;
+      }
+
+      this.$refs.dragarea.style.opacity = 1;
+    },
+    drop: function drop(event) {
+      var _this = this;
+
+      if (!this.canReUpload) {
+        return;
+      }
+
+      this.$refs.dragarea.style.opacity = 1;
+      var item = this.current;
+      var file = event.dataTransfer.files[0];
+      this.$refs.app.checkFile(file);
+
+      if (!this.$refs.app.canUpload) {
+        return;
+      }
+
+      var reader = new FileReader();
+      item.file = file;
+      var itemComponent = this.$refs.app.$refs[item.key][0];
+      this.loading = true;
+      this.$refs.app.$refs[item.key][0].upload().always(function () {
+        _this.loading = false;
+      });
     }
   },
   watch: {

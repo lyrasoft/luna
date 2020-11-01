@@ -45,7 +45,8 @@ class CoreDefinition extends AbstractFieldDefinition
             $this->add('banners', MultiUploaderField::class)
                 ->label('Banners')
                 ->accept('image/*')
-                ->readonly(true);
+                ->imageForm(true)
+                ->canReUpload(true);
         });
 
         $this->fieldset('advanced', function () {

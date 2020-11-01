@@ -59,9 +59,22 @@ $form = $editForm ?? $imageMetaForm;
                     <div class="modal-body">
                         <div class="row">
                             <div v-if="isImage(current.url)" class="col-lg-7 text-center">
-                                <a :href="current.url" target="_blank">
-                                    <img class="img-fluid rounded" :src="current.url" alt="Img preview">
-                                </a>
+                                <div class="c-dragarea position-relative"
+                                    :class="{ 'h-loading': loading }"
+                                    ref="dragarea"
+                                    @dragover.stop.prevent="dragover"
+                                    @dradleave.stop.prevent="dragleave"
+                                    @drop.stop.prevent="drop"
+                                >
+                                    <div v-if="loading"
+                                        class="d-flex align-items-center justify-content-center"
+                                        style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(255, 255, 255, .5)">
+                                        <span class="spinner-border "></span>
+                                    </div>
+                                    <a :href="current.url" target="_blank">
+                                        <img class="img-fluid rounded" :src="current.url" alt="Img preview">
+                                    </a>
+                                </div>
                             </div>
                             <div class="col">
                                 @foreach ($form->getFields() as $field)

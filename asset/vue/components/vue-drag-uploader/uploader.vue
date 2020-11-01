@@ -19,6 +19,7 @@
               :i="i"
               :init-state="item.uploadState"
               :key="item.key"
+              :ref="item.key"
               :upload-url="url"
               :size="thumbSize"
               :is-readonly="isReadonly"
@@ -136,9 +137,52 @@
 
         event.currentTarget.classList.remove('vue-drag-uploader--ondrag');
 
-        const files = event.target.files || event.dataTransfer.files;
+        const items = event.dataTransfer.items;
+        const files = [];
+        const allEntries = [];
 
-        this.uploadFiles(files);
+        // Use promise to recursively load files
+        const getFilesRecursively = (entry) => {
+          const promises = [];
+          const length = entries.length;
+
+          if (entry.isDirectory) {
+            const dirReader = entry.createReader();
+
+            // .readEntries() is async, we must use promise to handle it.
+            promises.push(
+              new Promise((resolve) => {
+                const pros = [];
+                dirReader.readEntries((entries) => {
+                  entries.forEach((ent) => {
+                    pros.push(getFilesRecursively(ent));
+                  });
+
+                  Promise.all(pros).then(resolve);
+                });
+              })
+            );
+          } else {
+            promises.push(new Promise((resolve) => {
+              entry.file((file) => {
+                allEntries.push(file);
+                resolve(file);
+              });
+            }));
+          }
+
+          return Promise.all(promises);
+        };
+
+        const entries = [];
+        const promises = [];
+        Array.prototype.forEach.call(items, (item) => {
+          promises.push(getFilesRecursively(item.webkitGetAsEntry()));
+        });
+
+        Promise.all(promises).then((a) => {
+          this.uploadFiles(allEntries);
+        });
       });
     },
     methods: {
@@ -146,9 +190,11 @@
         const $input = document.createElement('INPUT');
         $input.setAttribute('type', 'file');
         $input.setAttribute('accept', this.accept);
+        $input.setAttribute('webkitdirectory', true);
+        $input.setAttribute('directory', true);
 
         $input.addEventListener('change', event => {
-          const files = event.target.files || event.dataTransfer.files;
+          const files = event.target.files;
 
           this.uploadFiles(files);
         });
@@ -167,8 +213,10 @@
       },
 
       uploadFiles(files) {
+        // Pre check all files to block whole task if anyone is invalid.
         Array.prototype.forEach.call(files, this.checkFile);
 
+        // Now start loop all files to upload.
         Array.prototype.forEach.call(files, file => {
           this.checkFile(file);
 
