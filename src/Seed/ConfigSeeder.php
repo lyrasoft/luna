@@ -36,7 +36,7 @@ class ConfigSeeder extends AbstractSeeder
         $data    = new Data();
 
         $data['type']        = 'core';
-        $data['content']     = json_encode(['ga' => 'UA-xxx-xxxx-xxxx']);
+        $data['content']     = json_encode(['ga' => '']);
         $data['modified']    = $created->modify('+5 days')->format($this->getDateFormat());
         $data['modified_by'] = $faker->randomElement($userIds);
 

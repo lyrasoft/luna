@@ -40,7 +40,11 @@ class CoreDefinition extends AbstractFieldDefinition
     {
         $this->fieldset('basic', function () {
             $this->text('ga')
-                ->label('Google Analytics');
+                ->label('Google Analytics')
+                ->placeholder('UA-xxx-xxxx-xxxx');
+
+            $this->text('google_search_console')
+                ->label('Search Console');
 
             $this->add('banners', MultiUploaderField::class)
                 ->label('Banners')
