@@ -8,7 +8,9 @@
         :max-files="maxFiles"
         :files-limited="maxFiles"
       >
-        <draggable v-model="items" class="vue-drag-uploader__draggable-wrapper"
+        <draggable
+          v-model="items"
+          class="vue-drag-uploader__draggable-wrapper"
           v-bind="{ draggable: '.preview-img', animation: 300 }"
           :disabled="isReadonly"
           @sort="$emit('reorder', $event)">
@@ -28,6 +30,7 @@
               @upload-end="uploadEnd"
               @upload-progress="uploadProgress"
               @click="itemClick"
+              style="animation-duration: .3s"
             >
               <template slot="item">
                 <slot name="item"
@@ -72,7 +75,7 @@
 <script>
   import VueDragUploaderItem from './item';
   import { itemStates, swal } from './util';
-  
+
   const { ref, reactive, toRefs, onMounted, computed, watch } = VueCompositionAPI;
 
   export default {
@@ -104,7 +107,7 @@
         uploadQueue: {}
       });
       const value = computed(() => props.value);
-      
+
       onMounted(() => {
         prepareSelectEvents(el, uploadFiles);
       });
@@ -124,16 +127,23 @@
       }
 
       function clickAdd() {
-        const $input = document.createElement('INPUT');
-        $input.setAttribute('type', 'file');
-        $input.setAttribute('accept', props.accept);
-        $input.setAttribute('multiple', true);
+        let $input = document.querySelector('input#luna-multi-uploader-selector');
 
-        $input.addEventListener('change', event => {
-          const files = event.target.files;
+        if (!$input) {
+          $input = document.createElement('INPUT');
+          $input.setAttribute('id', 'luna-multi-uploader-selector');
+          $input.setAttribute('type', 'file');
+          $input.setAttribute('accept', props.accept);
+          $input.setAttribute('multiple', true);
+          $input.style.display = 'none';
 
-          uploadFiles(files);
-        });
+          $input.addEventListener('change', event => {
+            const files = event.target.files;
+            uploadFiles(files);
+          });
+
+          document.body.appendChild($input);
+        }
 
         $input.dispatchEvent(new MouseEvent('click', {
           'view': window,
@@ -232,7 +242,7 @@
       function deleteItem(child) {
         emit('delete-item', child);
 
-        state.items.splice(state.items.findIndex(item => item.key !== child.key), 1);
+        state.items = state.items.filter(item => item.key !== child.key);
       }
 
       function uploadStart(uniqid) {
@@ -389,12 +399,18 @@
       const entries = [];
       const promises = [];
       Array.prototype.forEach.call(items, (item) => {
-        promises.push(getFilesRecursively(item.webkitGetAsEntry()));
+        const entry = item.webkitGetAsEntry();
+
+        if (entry) {
+          promises.push(getFilesRecursively(item.webkitGetAsEntry()));
+        }
       });
 
-      Promise.all(promises).then((a) => {
-        uploadFiles(allEntries);
-      });
+      if (promises.length) {
+        Promise.all(promises).then((a) => {
+          uploadFiles(allEntries);
+        });
+      }
     });
   }
 </script>
