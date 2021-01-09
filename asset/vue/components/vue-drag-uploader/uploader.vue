@@ -127,8 +127,7 @@
         const $input = document.createElement('INPUT');
         $input.setAttribute('type', 'file');
         $input.setAttribute('accept', props.accept);
-        $input.setAttribute('webkitdirectory', true);
-        $input.setAttribute('directory', true);
+        $input.setAttribute('multiple', true);
 
         $input.addEventListener('change', event => {
           const files = event.target.files;
