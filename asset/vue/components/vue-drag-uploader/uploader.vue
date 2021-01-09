@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-drag-uploader"
+  <div ref="el" class="vue-drag-uploader"
     :class="{ 'vue-drag-uploader--readonly': isReadonly }">
     <div class="vue-drag-uploader__wrapper">
       <slot name="items"
@@ -72,17 +72,13 @@
 <script>
   import VueDragUploaderItem from './item';
   import { itemStates, swal } from './util';
+  
+  const { ref, reactive, toRefs, onMounted, computed, watch } = VueCompositionAPI;
 
   export default {
     name: 'vue-drag-uploader',
     components: {
-      'vue-drag-uploader-item': VueDragUploaderItem
-    },
-    data() {
-      return {
-        items: [],
-        uploadQueue: {}
-      };
+      VueDragUploaderItem
     },
     props: {
       url: String,
@@ -101,102 +97,43 @@
         default: false
       },
     },
-    created() {
-      this.value.map(item => {
-        item.key = item.key || this.getKey();
+    setup(props, { emit }) {
+      const el = ref(null);
+      const state = reactive({
+        items: [],
+        uploadQueue: {}
+      });
+      const value = computed(() => props.value);
+      
+      onMounted(() => {
+        prepareSelectEvents(el, uploadFiles);
+      });
+
+      // Created
+      props.value.map(item => {
+        item.key = item.key || getKey();
         item.uploadState = itemStates.COMPLETED;
       });
 
-      this.items = this.value;
+      state.items.push(...props.value);
 
-      if (this.maxFiles != null) {
-        if (this.maxFiles < this.items.length) {
-          this.items.splice(this.maxFiles);
+      if (props.maxFiles != null) {
+        if (props.maxFiles < state.items.length) {
+          state.items.splice(props.maxFiles);
         }
       }
-    },
-    mounted() {
-      this.$el.addEventListener('dragover', event => {
-        event.stopPropagation();
-        event.preventDefault();
 
-        event.currentTarget.classList.add('vue-drag-uploader--ondrag');
-      });
-
-      this.$el.addEventListener('dragleave', event => {
-        event.stopPropagation();
-        event.preventDefault();
-
-        event.currentTarget.classList.remove('vue-drag-uploader--ondrag');
-      });
-
-      // File drop
-      this.$el.addEventListener('drop', event => {
-        event.stopPropagation();
-        event.preventDefault();
-
-        event.currentTarget.classList.remove('vue-drag-uploader--ondrag');
-
-        const items = event.dataTransfer.items;
-        const files = [];
-        const allEntries = [];
-
-        // Use promise to recursively load files
-        const getFilesRecursively = (entry) => {
-          const promises = [];
-          const length = entries.length;
-
-          if (entry.isDirectory) {
-            const dirReader = entry.createReader();
-
-            // .readEntries() is async, we must use promise to handle it.
-            promises.push(
-              new Promise((resolve) => {
-                const pros = [];
-                dirReader.readEntries((entries) => {
-                  entries.forEach((ent) => {
-                    pros.push(getFilesRecursively(ent));
-                  });
-
-                  Promise.all(pros).then(resolve);
-                });
-              })
-            );
-          } else {
-            promises.push(new Promise((resolve) => {
-              entry.file((file) => {
-                allEntries.push(file);
-                resolve(file);
-              });
-            }));
-          }
-
-          return Promise.all(promises);
-        };
-
-        const entries = [];
-        const promises = [];
-        Array.prototype.forEach.call(items, (item) => {
-          promises.push(getFilesRecursively(item.webkitGetAsEntry()));
-        });
-
-        Promise.all(promises).then((a) => {
-          this.uploadFiles(allEntries);
-        });
-      });
-    },
-    methods: {
-      clickAdd() {
+      function clickAdd() {
         const $input = document.createElement('INPUT');
         $input.setAttribute('type', 'file');
-        $input.setAttribute('accept', this.accept);
+        $input.setAttribute('accept', props.accept);
         $input.setAttribute('webkitdirectory', true);
         $input.setAttribute('directory', true);
 
         $input.addEventListener('change', event => {
           const files = event.target.files;
 
-          this.uploadFiles(files);
+          uploadFiles(files);
         });
 
         $input.dispatchEvent(new MouseEvent('click', {
@@ -204,23 +141,23 @@
           'bubbles': true,
           'cancelable': true
         }));
-      },
+      }
 
-      getKey() {
+      function getKey() {
         const date = new Date();
 
         return date.getTime() + '.' + date.getMilliseconds() + '.' + Math.random();
-      },
+      }
 
-      uploadFiles(files) {
+      function uploadFiles(files) {
         // Pre check all files to block whole task if anyone is invalid.
-        Array.prototype.forEach.call(files, this.checkFile);
+        Array.prototype.forEach.call(files, checkFile);
 
         // Now start loop all files to upload.
         Array.prototype.forEach.call(files, file => {
-          this.checkFile(file);
+          checkFile(file);
 
-          if (!this.canUpload) {
+          if (!canUpload.value) {
             return;
           }
 
@@ -228,7 +165,7 @@
           const url = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
           const item = {
             id: '',
-            key: this.getKey(),
+            key: getKey(),
             url: '',
             thumb_url: url,
             uploadState: itemStates.NEW,
@@ -238,7 +175,7 @@
             description: ''
           };
 
-          this.items.push(item);
+          state.items.push(item);
 
           reader.onload = (event) => {
             item.thumb_url = event.target.result;
@@ -246,10 +183,10 @@
 
           reader.readAsDataURL(file);
         });
-      },
+      }
 
-      checkFile(file) {
-        const accepted = this.acceptedTypes;
+      function checkFile(file) {
+        const accepted = acceptedTypes.value;
         const fileExt = file.name.split('.').pop();
 
         if (accepted.length) {
@@ -261,7 +198,7 @@
             }
 
             if (type.indexOf('/') !== -1) {
-              if (this.compareMimeType(type, file.type)) {
+              if (compareMimeType(type, file.type)) {
                 allow = true;
               }
             } else {
@@ -280,9 +217,9 @@
             throw new Error('Not accepted file ext');
           }
         }
-      },
+      }
 
-      compareMimeType(accepted, mime) {
+      function compareMimeType(accepted, mime) {
         const accepted2 = accepted.split('/');
         const mime2 = mime.split('/');
 
@@ -291,67 +228,42 @@
         }
 
         return accepted === mime;
-      },
-
-      deleteItem(child) {
-        this.$emit('delete-item', child);
-
-        this.items = this.items.filter(item => item.key !== child.key);
-      },
-
-      uploadStart(uniqid) {
-        Vue.set(this.uploadQueue, uniqid, 0);
-      },
-
-      uploadEnd(uniqid) {
-        Vue.delete(this.uploadQueue, uniqid);
-      },
-
-      uploadProgress(uniqid, progress) {
-        this.uploadQueue[uniqid] = progress;
-      },
-
-      itemClick(item, i, $event) {
-        this.$emit('item-click', item, i, $event);
       }
-    },
-    watch: {
-      value(val) {
-        val.map(item => {
-          item.key = item.key || this.getKey();
-        });
 
-        this.items = val;
-      },
+      function deleteItem(child) {
+        emit('delete-item', child);
 
-      items: {
-        handler(items) {
-          this.$emit('change', items);
-          this.$emit('input', items);
-        },
-        deep: true
-      },
+        state.items.splice(state.items.findIndex(item => item.key !== child.key), 1);
+      }
 
-      uploading(val) {
-        if (val) {
-          this.$emit('uploading');
-        } else {
-          this.$emit('uploaded');
-        }
-      },
-    },
-    computed: {
-      canUpload() {
-        return (this.maxFiles == null || this.items.length < this.maxFiles) && !this.isReadonly;
-      },
+      function uploadStart(uniqid) {
+        state.uploadQueue[uniqid] = 0;
+      }
 
-      uploading() {
-        Object.keys(this.uploadQueue);
-        return Object.keys(this.uploadQueue).length > 0;
-      },
+      function uploadEnd(uniqid) {
+        delete state.uploadQueue[uniqid];
+      }
 
-      acceptedTypes() {
-        return (Array.isArray(this.accept) ? this.accept : this.accept.split(','))
+      function uploadProgress(uniqid, progress) {
+        state.uploadQueue[uniqid] = progress;
+      }
+
+      function itemClick(item, i, $event) {
+        emit('item-click', item, i, $event);
+      }
+
+      // Computed
+      const canUpload = computed(() => {
+        return (props.maxFiles == null || state.items.length < props.maxFiles) && !isReadonly.value;
+      });
+
+      const uploading = computed(() => {
+        Object.keys(state.uploadQueue);
+        return Object.keys(state.uploadQueue).length > 0;
+      });
+
+      const acceptedTypes = computed(() => {
+        return (Array.isArray(props.accept) ? props.accept : props.accept.split(','))
           .map(v => v.trim())
           .filter(v => v.length > 0)
           .map(v => {
@@ -361,11 +273,129 @@
 
             return v;
           });
-      },
+      });
 
-      isReadonly() {
-        return this.disabled || this.readonly;
-      }
+      const isReadonly = computed(() => {
+        return props.disabled || props.readonly;
+      });
+
+      // Watch
+      watch(value, (val) => {
+        val.map(item => {
+          item.key = item.key || getKey();
+        });
+
+        if (val !== state.items) {
+          state.items = val;
+        }
+      }, { deep: true });
+
+      watch(() => state.items, (items) => {
+        emit('change', items);
+        emit('input', items);
+      }, { deep: true });
+
+      watch(uploading, (val) => {
+        if (val) {
+          emit('uploading');
+        } else {
+          emit('uploaded');
+        }
+      });
+
+      return {
+        el,
+        ...toRefs(state),
+
+        // Methods
+        clickAdd,
+        getKey,
+        uploadFiles,
+        checkFile,
+        compareMimeType,
+        deleteItem,
+        uploadStart,
+        uploadEnd,
+        uploadProgress,
+        itemClick,
+
+        // Computed
+        canUpload,
+        uploading,
+        acceptedTypes,
+        isReadonly
+      };
     }
   };
+
+  function prepareSelectEvents(el, uploadFiles) {
+    el.value.addEventListener('dragover', event => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      event.currentTarget.classList.add('vue-drag-uploader--ondrag');
+    });
+
+    el.value.addEventListener('dragleave', event => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      event.currentTarget.classList.remove('vue-drag-uploader--ondrag');
+    });
+
+    // File drop
+    el.value.addEventListener('drop', event => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      event.currentTarget.classList.remove('vue-drag-uploader--ondrag');
+
+      const items = event.dataTransfer.items;
+      const files = [];
+      const allEntries = [];
+
+      // Use promise to recursively load files
+      const getFilesRecursively = (entry) => {
+        const promises = [];
+        const length = entries.length;
+
+        if (entry.isDirectory) {
+          const dirReader = entry.createReader();
+
+          // .readEntries() is async, we must use promise to handle it.
+          promises.push(
+            new Promise((resolve) => {
+              const pros = [];
+              dirReader.readEntries((entries) => {
+                entries.forEach((ent) => {
+                  pros.push(getFilesRecursively(ent));
+                });
+
+                Promise.all(pros).then(resolve);
+              });
+            })
+          );
+        } else {
+          promises.push(new Promise((resolve) => {
+            entry.file((file) => {
+              allEntries.push(file);
+              resolve(file);
+            });
+          }));
+        }
+
+        return Promise.all(promises);
+      };
+
+      const entries = [];
+      const promises = [];
+      Array.prototype.forEach.call(items, (item) => {
+        promises.push(getFilesRecursively(item.webkitGetAsEntry()));
+      });
+
+      Promise.all(promises).then((a) => {
+        uploadFiles(allEntries);
+      });
+    });
+  }
 </script>

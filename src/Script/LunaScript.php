@@ -50,7 +50,7 @@ class LunaScript extends AbstractScript
     public static function vueDragUploader()
     {
         if (!static::inited(__METHOD__)) {
-            VueScript::core();
+            VueScript::core(true);
             static::vueDraggable();
             VueScript::animate();
             JQueryScript::csrfToken(); // todo: remove if phoenix.ajax fix

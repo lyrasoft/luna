@@ -35,19 +35,11 @@
 </template>
 
 <script>
-  import { isImage, itemStates, swal } from './util';
+  import { isImage as isImageType, itemStates, swal } from './util';
+  const { ref, reactive, computed, watch, toRefs, onMounted } = VueCompositionAPI;
 
   export default {
     name: 'vue-drag-uploader-item',
-    data() {
-      return {
-        state: itemStates.COMPLETED,
-        progress: 0,
-        messages: {
-          error: ''
-        }
-      };
-    },
     props: {
       item: Object,
       i: Number,
@@ -56,32 +48,41 @@
       size: Number,
       isReadonly: Boolean
     },
-    created() {
-      this.state = this.initState;
+    setup(props, { emit }) {
+      const state = reactive({
+        state: itemStates.COMPLETED,
+        progress: 0,
+        messages: {
+          error: ''
+        }
+      });
 
-      if (this.initState === itemStates.NEW) {
+      state.state = props.initState;
+
+      if (props.initState === itemStates.NEW) {
 
       }
-    },
-    mounted() {
-      if (this.initState === itemStates.NEW) {
-        this.upload();
-      }
-    },
-    methods: {
-      upload() {
-        this.state = itemStates.UPLOADING;
+
+      onMounted(() => {
+        if (props.initState === itemStates.NEW) {
+          upload();
+        }
+      });
+
+      // Methods
+      function upload() {
+        state.state = itemStates.UPLOADING;
 
         const uniqid = new Date().valueOf();
         const formData = new FormData();
-        formData.append('file', this.item.file);
+        formData.append('file', props.item.file);
 
-        this.item.title = this.item.title || this.item.file.name;
+        props.item.title = props.item.title || props.item.file.name;
 
-        this.$emit('upload-start', uniqid);
+        emit('upload-start', uniqid);
 
         return $.post({
-            url: this.uploadUrl,
+            url: props.uploadUrl,
             data: formData,
             contentType: false,
             processData: false,
@@ -91,8 +92,8 @@
               if (xhr.upload) {
                 xhr.upload.addEventListener('progress', e => {
                   if (e.lengthComputable) {
-                    this.progress = e.loaded / e.total;
-                    this.$emit('upload-progress', uniqid, this.progress);
+                    state.progress = e.loaded / e.total;
+                    emit('upload-progress', uniqid, state.progress);
                   }
                 }, false);
               }
@@ -101,58 +102,57 @@
             },
           })
           .done(res => {
-            this.state = itemStates.COMPLETED;
-            this.item.url = res.data.url;
-            this.item.download_url = res.data.download_url;
+            state.state = itemStates.COMPLETED;
+            props.item.url = res.data.url;
+            props.item.download_url = res.data.download_url;
 
-            if (this.isImage) {
-              this.item.thumb_url = res.data.thumb_url || res.data.url;
+            if (isImage.value) {
+              props.item.thumb_url = res.data.thumb_url || res.data.url;
             }
           })
           .fail(xhr => {
             console.error(xhr.responseJSON.message, xhr);
-            this.state = itemStates.FAIL;
-            this.messages.error = xhr.responseJSON.message;
+            state.state = itemStates.FAIL;
+            state.messages.error = xhr.responseJSON.message;
           })
           .always(() => {
-            this.item.file = null;
+            props.item.file = null;
 
-            this.$emit('upload-end', uniqid);
+            emit('upload-end', uniqid);
           });
-      },
+      };
 
-      deleteSelf() {
-        if (this.isReadonly) {
+      function deleteSelf() {
+        if (props.isReadonly) {
           return;
         }
 
-        this.$emit('delete', this.item);
-      },
-    },
-    watch: {},
-    computed: {
-      fileName() {
-        if (this.item.file) {
-          return this.item.file.name;
-        } else if (this.item.title) {
-          return this.item.title;
+        emit('delete', props.item);
+      }
+
+      // Computed
+      const fileName = computed(() => {
+        if (props.item.file) {
+          return props.item.file.name;
+        } else if (props.item.title) {
+          return props.item.title;
         } else {
-          return this.item.url.split('/').pop();
+          return props.item.url.split('/').pop();
         }
-      },
+      });
 
-      isImage() {
-        return isImage(
-          this.item.file
-            ? this.item.file.name
-            : this.item.url
+      const isImage = computed(() => {
+        return isImageType(
+          props.item.file
+            ? props.item.file.name
+            : props.item.url
         );
-      },
+      });
 
-      icon() {
-        const ext = this.item.file
-          ? this.item.file.name.split('.').pop()
-          : this.item.url.split('.').pop();
+      const icon = computed(() => {
+        const ext = props.item.file
+          ? props.item.file.name.split('.').pop()
+          : props.item.url.split('.').pop();
 
         const icons = {
           pdf: 'fas fa-file-pdf text-danger',
@@ -178,7 +178,17 @@
         };
 
         return icons[ext.toLowerCase()] || 'fas fa-file';
-      }
+      });
+
+      return {
+        ...toRefs(state),
+        upload,
+        deleteSelf,
+
+        // Computed
+        isImage,
+        icon
+      };
     }
   };
 </script>
