@@ -294,7 +294,7 @@
           item.key = item.key || getKey();
         });
 
-        if (val !== state.items) {
+        if (JSON.stringify(val) !== JSON.stringify(state.items)) {
           state.items = val;
         }
       }, { deep: true });
