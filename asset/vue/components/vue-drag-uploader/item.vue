@@ -187,7 +187,8 @@
 
         // Computed
         isImage,
-        icon
+        icon,
+        fileName
       };
     }
   };
