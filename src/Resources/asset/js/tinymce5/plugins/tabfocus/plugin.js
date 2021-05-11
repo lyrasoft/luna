@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.7.0 (2021-02-10)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
@@ -37,19 +37,19 @@
       }
     };
     var setup = function (editor) {
-      var tabHandler = function (e) {
+      function tabHandler(e) {
         var x, i;
         if (e.keyCode !== global$6.TAB || e.ctrlKey || e.altKey || e.metaKey || e.isDefaultPrevented()) {
           return;
         }
-        var find = function (direction) {
+        function find(direction) {
           var el = DOM.select(':input:enabled,*[tabindex]:not(iframe)');
-          var canSelectRecursive = function (e) {
+          function canSelectRecursive(e) {
             return e.nodeName === 'BODY' || e.type !== 'hidden' && e.style.display !== 'none' && e.style.visibility !== 'hidden' && canSelectRecursive(e.parentNode);
-          };
-          var canSelect = function (el) {
+          }
+          function canSelect(el) {
             return /INPUT|TEXTAREA|BUTTON/.test(el.tagName) && global$2.get(e.id) && el.tabIndex !== -1 && canSelectRecursive(el);
-          };
+          }
           global$5.each(el, function (e, i) {
             if (e.id === editor.id) {
               x = i;
@@ -70,7 +70,7 @@
             }
           }
           return null;
-        };
+        }
         var v = global$5.explode(getTabFocus(editor));
         if (v.length === 1) {
           v[1] = v[0];
@@ -104,7 +104,7 @@
           }
           e.preventDefault();
         }
-      };
+      }
       editor.on('init', function () {
         if (editor.inline) {
           DOM.setAttrib(editor.getBody(), 'tabIndex', null);

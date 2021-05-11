@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.7.0 (2021-02-10)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
@@ -999,7 +999,7 @@
     };
 
     var isShadowRoot = function (dos) {
-      return isDocumentFragment(dos) && isNonNullable(dos.dom.host);
+      return isDocumentFragment(dos);
     };
     var supported = isFunction(Element.prototype.attachShadow) && isFunction(Node.prototype.getRootNode);
     var isSupported = constant(supported);
@@ -1557,13 +1557,13 @@
         }
         constructors.push(key);
         adt[key] = function () {
-          var args = [];
-          for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-          }
-          var argLength = args.length;
+          var argLength = arguments.length;
           if (argLength !== value.length) {
             throw new Error('Wrong number of arguments to case ' + key + '. Expected ' + value.length + ' (' + value + '), got ' + argLength);
+          }
+          var args = new Array(argLength);
+          for (var i = 0; i < args.length; i++) {
+            args[i] = arguments[i];
           }
           var match = function (branches) {
             var branchKeys = keys(branches);
@@ -1580,14 +1580,10 @@
           };
           return {
             fold: function () {
-              var foldArgs = [];
-              for (var _i = 0; _i < arguments.length; _i++) {
-                foldArgs[_i] = arguments[_i];
+              if (arguments.length !== cases.length) {
+                throw new Error('Wrong number of arguments to fold. Expected ' + cases.length + ', got ' + arguments.length);
               }
-              if (foldArgs.length !== cases.length) {
-                throw new Error('Wrong number of arguments to fold. Expected ' + cases.length + ', got ' + foldArgs.length);
-              }
-              var target = foldArgs[count];
+              var target = arguments[count];
               return target.apply(null, args);
             },
             match: match,
@@ -1615,9 +1611,9 @@
     };
     var baseMerge = function (merger) {
       return function () {
-        var objects = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          objects[_i] = arguments[_i];
+        var objects = new Array(arguments.length);
+        for (var i = 0; i < objects.length; i++) {
+          objects[i] = arguments[i];
         }
         if (objects.length === 0) {
           throw new Error('Can\'t merge zero objects');
@@ -2173,8 +2169,8 @@
     };
     var read$1 = function (handler) {
       return isFunction(handler) ? {
-        can: always,
-        abort: never,
+        can: constant(true),
+        abort: constant(false),
         run: handler
       } : handler;
     };
@@ -2416,7 +2412,9 @@
             }
           };
         },
-        schema: constant(schemaSchema),
+        schema: function () {
+          return schemaSchema;
+        },
         exhibit: function (info, base) {
           return getConfig(info).bind(function (behaviourInfo) {
             return get$1(active, 'exhibit').map(function (exhibitor) {
@@ -2424,7 +2422,9 @@
             });
           }).getOr(nu$5({}));
         },
-        name: constant(name),
+        name: function () {
+          return name;
+        },
         handlers: function (info) {
           return getConfig(info).map(function (behaviourInfo) {
             var getEvents = get$1(active, 'events').getOr(function () {
@@ -2723,12 +2723,8 @@
     };
 
     var getHtml = function (element) {
-      if (isShadowRoot(element)) {
-        return '#shadow-root';
-      } else {
-        var clone = shallow$1(element);
-        return getOuter(clone);
-      }
+      var clone = shallow$1(element);
+      return getOuter(clone);
     };
 
     var element = function (elem) {
@@ -3242,7 +3238,7 @@
       return e.dom.offsetWidth;
     };
 
-    var Dimension = function (name, getOffset) {
+    function Dimension (name, getOffset) {
       var set = function (element, h) {
         if (!isNumber(h) && !h.match(/^[0-9]+$/)) {
           throw new Error(name + '.set accepts only positive integer values. Value was ' + h);
@@ -3280,7 +3276,7 @@
         aggregate: aggregate,
         max: max
       };
-    };
+    }
 
     var api = Dimension('height', function (element) {
       var dom = element.dom;
@@ -3530,7 +3526,7 @@
     };
     var highlightAt = function (component, hConfig, hState, index) {
       getByIndex(component, hConfig, hState, index).fold(function (err) {
-        throw err;
+        throw new Error(err);
       }, function (firstComp) {
         highlight$1(component, hConfig, hState, firstComp);
       });
@@ -3553,7 +3549,7 @@
     var getByIndex = function (component, hConfig, hState, index) {
       var items = descendants(component.element, '.' + hConfig.itemClass);
       return Optional.from(items[index]).fold(function () {
-        return Result.error(new Error('No element found with index ' + index));
+        return Result.error('No element found with index ' + index);
       }, component.getSystem().getByDom);
     };
     var getFirst = function (component, hConfig, _hState) {
@@ -4828,9 +4824,9 @@
       return hasUid(spec) ? spec : __assign(__assign({}, spec), { uid: generate$3('uid') });
     };
 
-    var isSketchSpec = function (spec) {
+    function isSketchSpec(spec) {
       return spec.uid !== undefined;
-    };
+    }
     var singleSchema = objOfOnly([
       strict$1('name'),
       strict$1('factory'),
@@ -5220,7 +5216,8 @@
       });
     };
     var manual = function () {
-      var readState = noop;
+      var readState = function () {
+      };
       return nu$6({ readState: readState });
     };
     var dataset = function () {
@@ -5728,7 +5725,9 @@
     };
     var handleMovement = function (direction) {
       return function (spectrum, detail) {
-        return moveBy(direction, spectrum, detail).map(always);
+        return moveBy(direction, spectrum, detail).map(function () {
+          return true;
+        });
       };
     };
     var getValueFromEvent = function (simulatedEvent) {
@@ -5849,7 +5848,9 @@
     };
     var handleMovement$1 = function (direction) {
       return function (spectrum, detail) {
-        return moveBy$1(direction, spectrum, detail).map(always);
+        return moveBy$1(direction, spectrum, detail).map(function () {
+          return true;
+        });
       };
     };
     var getValueFromEvent$1 = function (simulatedEvent) {
@@ -5949,7 +5950,9 @@
     };
     var handleMovement$2 = function (direction, isVerticalMovement) {
       return function (spectrum, detail) {
-        return moveBy$2(direction, isVerticalMovement, spectrum, detail).map(always);
+        return moveBy$2(direction, isVerticalMovement, spectrum, detail).map(function () {
+          return true;
+        });
       };
     };
     var setToMin$2 = function (spectrum, detail) {
@@ -6461,17 +6464,13 @@
       };
       var anyWindow = window;
       var asap = Promise.immediateFn || typeof anyWindow.setImmediate === 'function' && anyWindow.setImmediate || function (fn) {
-        return setTimeout(fn, 1);
+        setTimeout(fn, 1);
       };
-      var bind = function (fn, thisArg) {
+      function bind(fn, thisArg) {
         return function () {
-          var args = [];
-          for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-          }
-          return fn.apply(thisArg, args);
+          return fn.apply(thisArg, arguments);
         };
-      };
+      }
       var isArray = Array.isArray || function (value) {
         return Object.prototype.toString.call(value) === '[object Array]';
       };
@@ -6534,7 +6533,7 @@
         this.resolve = resolve;
         this.reject = reject;
       }
-      var doResolve = function (fn, onFulfilled, onRejected) {
+      function doResolve(fn, onFulfilled, onRejected) {
         var done = false;
         try {
           fn(function (value) {
@@ -6557,7 +6556,7 @@
           done = true;
           onRejected(ex);
         }
-      };
+      }
       Promise.prototype.catch = function (onRejected) {
         return this.then(null, onRejected);
       };
@@ -6578,7 +6577,7 @@
             return resolve([]);
           }
           var remaining = args.length;
-          var res = function (i, val) {
+          function res(i, val) {
             try {
               if (val && (typeof val === 'object' || typeof val === 'function')) {
                 var then = val.then;
@@ -6596,7 +6595,7 @@
             } catch (ex) {
               reject(ex);
             }
-          };
+          }
           for (var i = 0; i < args.length; i++) {
             res(i, args[i]);
           }
@@ -6627,7 +6626,7 @@
     };
     var Promise = window.Promise ? window.Promise : promise();
 
-    var blobToDataUri = function (blob) {
+    function blobToDataUri(blob) {
       return new Promise(function (resolve) {
         var reader = new FileReader();
         reader.onloadend = function () {
@@ -6635,12 +6634,12 @@
         };
         reader.readAsDataURL(blob);
       });
-    };
-    var blobToBase64 = function (blob) {
+    }
+    function blobToBase64(blob) {
       return blobToDataUri(blob).then(function (dataUri) {
         return dataUri.split(',')[1];
       });
-    };
+    }
 
     var blobToBase64$1 = function (blob) {
       return blobToBase64(blob);
@@ -8117,7 +8116,9 @@
       output('builder', builder$1)
     ];
 
-    var owner$2 = constant('item-widget');
+    var owner$2 = function () {
+      return 'item-widget';
+    };
     var parts = constant([required({
         name: 'widget',
         overrides: function (detail) {
@@ -8128,7 +8129,8 @@
                   getValue: function (_component) {
                     return detail.data;
                   },
-                  setValue: noop
+                  setValue: function () {
+                  }
                 }
               })])
           };
@@ -8794,7 +8796,9 @@
         return function (container, simulatedEvent) {
           return closest$2(simulatedEvent.getSource(), '.' + detail.markers.item).bind(function (target) {
             return container.getSystem().getByDom(target).toOptional().bind(function (item) {
-              return f(container, item).map(always);
+              return f(container, item).map(function () {
+                return true;
+              });
             });
           });
         };
@@ -8820,7 +8824,8 @@
             }
             expandRight(component, item, ExpandHighlightDecision.HighlightSubmenu).fold(function () {
               detail.onExecute(component, item);
-            }, noop);
+            }, function () {
+            });
           });
         }),
         runOnAttached(function (container, _simulatedEvent) {
@@ -9831,7 +9836,7 @@
     };
     var SimRange = { create: create$3 };
 
-    var NodeValue = function (is, name) {
+    function NodeValue (is, name) {
       var get = function (element) {
         if (!is(element)) {
           throw new Error('Can only get ' + name + ' value of a ' + name + ' node');
@@ -9852,7 +9857,7 @@
         getOption: getOption,
         set: set
       };
-    };
+    }
 
     var api$3 = NodeValue(isText, 'text');
     var getOption = function (element) {
@@ -10227,7 +10232,7 @@
       });
     };
 
-    var DelayedFunction = function (fun, delay) {
+    function DelayedFunction (fun, delay) {
       var ref = null;
       var schedule = function () {
         var args = [];
@@ -10249,7 +10254,7 @@
         cancel: cancel,
         schedule: schedule
       };
-    };
+    }
 
     var SIGNIFICANT_MOVE = 5;
     var LONGPRESS_DELAY = 400;
@@ -11044,7 +11049,7 @@
       return has$2(root, slideConfig.shrinkingClass) === true;
     };
     var isTransitioning = function (component, slideConfig, slideState) {
-      return isGrowing(component, slideConfig) || isShrinking(component, slideConfig);
+      return isGrowing(component, slideConfig) === true || isShrinking(component, slideConfig) === true;
     };
     var toggleGrow = function (component, slideConfig, slideState) {
       var f = slideState.isExpanded() ? doStartSmartShrink : doStartGrow;
@@ -11408,9 +11413,13 @@
       });
     };
     var doTriggerOnUntilStopped = function (lookup, eventType, rawEvent, rawTarget, source, logger) {
-      return doTriggerHandler(lookup, eventType, rawEvent, rawTarget, source, logger).fold(always, function (parent) {
+      return doTriggerHandler(lookup, eventType, rawEvent, rawTarget, source, logger).fold(function () {
+        return true;
+      }, function (parent) {
         return doTriggerOnUntilStopped(lookup, eventType, rawEvent, parent, source, logger);
-      }, never);
+      }, function () {
+        return false;
+      });
     };
     var triggerHandler = function (lookup, eventType, rawEvent, target, logger) {
       var source = derive$2(rawEvent, target);
@@ -11445,7 +11454,7 @@
         descHandler: handler
       };
     };
-    var EventRegistry = function () {
+    function EventRegistry () {
       var registry = {};
       var registerId = function (extraArgs, id, events) {
         each$1(events, function (v, k) {
@@ -11491,9 +11500,9 @@
         filterByType: filterByType,
         find: find
       };
-    };
+    }
 
-    var Registry = function () {
+    function Registry () {
       var events = EventRegistry();
       var components = {};
       var readOrTag = function (component) {
@@ -11543,11 +11552,13 @@
         unregister: unregister,
         getById: getById
       };
-    };
+    }
 
     var takeover = function (root) {
       var isAboveRoot = function (el) {
-        return parent(root.element).fold(always, function (parent) {
+        return parent(root.element).fold(function () {
+          return true;
+        }, function (parent) {
           return eq(el, parent);
         });
       };
@@ -11809,7 +11820,8 @@
           toEditing();
         }
       });
-      var onToolbarTouch = noop;
+      var onToolbarTouch = function () {
+      };
       var destroy = function () {
         captureInput.unbind();
       };

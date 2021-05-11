@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.7.0 (2021-02-10)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
@@ -420,7 +420,7 @@
 
     var global$a = tinymce.util.Tools.resolve('tinymce.html.Schema');
 
-    var filter$1 = function (content, items) {
+    function filter$1(content, items) {
       global$5.each(items, function (v) {
         if (v.constructor === RegExp) {
           content = content.replace(v, '');
@@ -429,15 +429,15 @@
         }
       });
       return content;
-    };
-    var innerText = function (html) {
+    }
+    function innerText(html) {
       var schema = global$a();
       var domParser = global$7({}, schema);
       var text = '';
       var shortEndedElements = schema.getShortEndedElements();
       var ignoreElements = global$5.makeMap('script noscript style textarea video audio iframe object', ' ');
       var blockElements = schema.getBlockElements();
-      var walk = function (node) {
+      function walk(node) {
         var name = node.name, currentNode = node;
         if (name === 'br') {
           text += '\n';
@@ -469,18 +469,18 @@
             text += '\n';
           }
         }
-      };
+      }
       html = filter$1(html, [/<!\[[^\]]+\]>/g]);
       walk(domParser.parse(html));
       return text;
-    };
-    var trimHtml = function (html) {
-      var trimSpaces = function (all, s1, s2) {
+    }
+    function trimHtml(html) {
+      function trimSpaces(all, s1, s2) {
         if (!s1 && !s2) {
           return ' ';
         }
         return nbsp;
-      };
+      }
       html = filter$1(html, [
         /^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]*>[\s\S]*$/ig,
         /<!--StartFragment-->|<!--EndFragment-->/g,
@@ -492,15 +492,14 @@
         /<br>$/i
       ]);
       return html;
-    };
-    var createIdGenerator = function (prefix) {
+    }
+    function createIdGenerator(prefix) {
       var count = 0;
       return function () {
         return prefix + count++;
       };
-    };
+    }
     var getImageMimeType = function (ext) {
-      var lowerExt = ext.toLowerCase();
       var mimeOverrides = {
         jpg: 'jpeg',
         jpe: 'jpeg',
@@ -511,13 +510,13 @@
         pjp: 'jpeg',
         svg: 'svg+xml'
       };
-      return global$5.hasOwn(mimeOverrides, lowerExt) ? 'image/' + mimeOverrides[lowerExt] : 'image/' + lowerExt;
+      return global$5.hasOwn(mimeOverrides, ext) ? 'image/' + mimeOverrides[ext] : 'image/' + ext;
     };
 
-    var isWordContent = function (content) {
+    function isWordContent(content) {
       return /<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument/i.test(content) || /class="OutlineElement/.test(content) || /id="?docs\-internal\-guid\-/.test(content);
-    };
-    var isNumericList = function (text) {
+    }
+    function isNumericList(text) {
       var found;
       var patterns = [
         /^[IVXLMCD]{1,2}\.[ \u00a0]/,
@@ -536,13 +535,13 @@
         }
       });
       return found;
-    };
-    var isBulletList = function (text) {
+    }
+    function isBulletList(text) {
       return /^[\s\u00a0]*[\u2022\u00b7\u00a7\u25CF]\s*/.test(text);
-    };
-    var convertFakeListsToProperLists = function (node) {
+    }
+    function convertFakeListsToProperLists(node) {
       var currentListNode, prevListNode, lastLevel = 1;
-      var getText = function (node) {
+      function getText(node) {
         var txt = '';
         if (node.type === 3) {
           return node.value;
@@ -553,8 +552,8 @@
           } while (node = node.next);
         }
         return txt;
-      };
-      var trimListStart = function (node, regExp) {
+      }
+      function trimListStart(node, regExp) {
         if (node.type === 3) {
           if (regExp.test(node.value)) {
             node.value = node.value.replace(regExp, '');
@@ -569,8 +568,8 @@
           } while (node = node.next);
         }
         return true;
-      };
-      var removeIgnoredNodes = function (node) {
+      }
+      function removeIgnoredNodes(node) {
         if (node._listIgnore) {
           node.remove();
           return;
@@ -580,8 +579,8 @@
             removeIgnoredNodes(node);
           } while (node = node.next);
         }
-      };
-      var convertParagraphToLi = function (paragraphNode, listName, start) {
+      }
+      function convertParagraphToLi(paragraphNode, listName, start) {
         var level = paragraphNode._listLevel || lastLevel;
         if (level !== lastLevel) {
           if (level < lastLevel) {
@@ -612,7 +611,7 @@
         trimListStart(paragraphNode, /^\u00a0+/);
         trimListStart(paragraphNode, /^\s*([\u2022\u00b7\u00a7\u25CF]|\w+\.)/);
         trimListStart(paragraphNode, /^\u00a0+/);
-      };
+      }
       var elements = [];
       var child = node.firstChild;
       while (typeof child !== 'undefined' && child !== null) {
@@ -651,8 +650,8 @@
           currentListNode = null;
         }
       }
-    };
-    var filterStyles = function (editor, validStyles, node, styleValue) {
+    }
+    function filterStyles(editor, validStyles, node, styleValue) {
       var outputStyles = {}, matches;
       var styles = editor.dom.parseStyle(styleValue);
       global$5.each(styles, function (value, name) {
@@ -718,7 +717,7 @@
         return outputStyles;
       }
       return null;
-    };
+    }
     var filterWordContent = function (editor, content) {
       var validStyles;
       var retainStyleProperties = getRetainStyleProps(editor);
@@ -880,7 +879,7 @@
     };
     var isImageUrl = function (editor, url) {
       return isAbsoluteUrl(url) && exists(getAllowedImageFileTypes(editor), function (type) {
-        return endsWith(url.toLowerCase(), '.' + type.toLowerCase());
+        return endsWith(url, '.' + type);
       });
     };
     var createImage = function (editor, url, pasteHtmlFn) {
@@ -1151,7 +1150,7 @@
           });
         }
       });
-      var insertClipboardContent = function (editor, clipboardContent, isKeyBoardPaste, plainTextMode, internal) {
+      function insertClipboardContent(editor, clipboardContent, isKeyBoardPaste, plainTextMode, internal) {
         var content;
         if (hasContentType(clipboardContent, 'text/html')) {
           content = clipboardContent['text/html'];
@@ -1187,7 +1186,7 @@
         } else {
           pasteHtml$1(editor, content, internal);
         }
-      };
+      }
       var getLastRng = function () {
         return pasteBin.getLastRng() || editor.selection.getRng();
       };
@@ -1514,7 +1513,8 @@
     var copy = function (editor) {
       return function (evt) {
         if (hasSelectedContent(editor)) {
-          setClipboardData(evt, getData(editor), fallback(editor), noop);
+          setClipboardData(evt, getData(editor), fallback(editor), function () {
+          });
         }
       };
     };
@@ -1612,17 +1612,17 @@
       }
     };
 
-    var addPreProcessFilter = function (editor, filterFunc) {
+    function addPreProcessFilter(editor, filterFunc) {
       editor.on('PastePreProcess', function (e) {
         e.content = filterFunc(editor, e.content, e.internal, e.wordContent);
       });
-    };
-    var addPostProcessFilter = function (editor, filterFunc) {
+    }
+    function addPostProcessFilter(editor, filterFunc) {
       editor.on('PastePostProcess', function (e) {
         filterFunc(editor, e.node);
       });
-    };
-    var removeExplorerBrElementsAfterBlocks = function (editor, html) {
+    }
+    function removeExplorerBrElementsAfterBlocks(editor, html) {
       if (!isWordContent(html)) {
         return html;
       }
@@ -1650,8 +1650,8 @@
         ]
       ]);
       return html;
-    };
-    var removeWebKitStyles = function (editor, content, internal, isWordHtml) {
+    }
+    function removeWebKitStyles(editor, content, internal, isWordHtml) {
       if (isWordHtml || internal) {
         return content;
       }
@@ -1694,12 +1694,12 @@
         return before + ' style="' + value + '"' + after;
       });
       return content;
-    };
-    var removeUnderlineAndFontInAnchor = function (editor, root) {
+    }
+    function removeUnderlineAndFontInAnchor(editor, root) {
       editor.$('a', root).find('font,u').each(function (i, node) {
         editor.dom.remove(node, true);
       });
-    };
+    }
     var setup$2 = function (editor) {
       if (global$1.webkit) {
         addPreProcessFilter(editor, removeWebKitStyles);
