@@ -5,11 +5,11 @@
     "license": "LGPL-2.0-or-later",
     "minimum-stability": "beta",
     "require": {
-        "php": ">=5.6",
-        "windwalker/phoenix": "~1.1",
-        "lyrasoft/warder": "~1.0",
+        "php": ">=8.0",
+        "windwalker/3to4",
+        "lyrasoft/warder": "dev-3to4",
         "gregwar/image": "2.*",
-        "lyrasoft/unidev": "~1.0",
+        "lyrasoft/unidev": "dev-3to4",
         "scssphp/scssphp": "^1.0"
     },
     "require-dev": {
