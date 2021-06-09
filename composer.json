@@ -6,7 +6,7 @@
     "minimum-stability": "beta",
     "require": {
         "php": ">=8.0",
-        "windwalker/3to4",
+        "windwalker/3to4": "*",
         "lyrasoft/warder": "dev-3to4",
         "gregwar/image": "2.*",
         "lyrasoft/unidev": "dev-3to4",
