@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Admin\Field\Menu;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
-use Windwalker\Html\Option;
-use Windwalker\Query\Query;
+use Windwalker\Legacy\Html\Option;
+use Windwalker\Legacy\Query\Query;
 
 /**
  * The MenuField class.
@@ -69,7 +69,7 @@ class MenuListField extends ItemListField
     /**
      * prepareOptions
      *
-     * @return  array|\Windwalker\Html\Option[]
+     * @return  array|\Windwalker\Legacy\Html\Option[]
      */
     protected function prepareOptions()
     {

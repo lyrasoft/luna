@@ -13,10 +13,10 @@ use Lyrasoft\Luna\Module\ModuleHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
-use Windwalker\Core\Frontend\Bootstrap;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Utilities\Queue\PriorityQueue;
+use Windwalker\Legacy\Core\Frontend\Bootstrap;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Utilities\Queue\PriorityQueue;
 
 /**
  * The ModuleHtmlView class.
@@ -73,7 +73,7 @@ class ModuleHtmlView extends EditView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException

@@ -10,10 +10,10 @@ namespace Lyrasoft\Luna\Form\Contact;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Unidev\Field\UnidevFieldTrait;
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Form\Form;
-use Windwalker\Validator\Rule;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Form\Form;
+use Windwalker\Legacy\Validator\Rule;
 
 /**
  * The EditDefinition class.

@@ -22,11 +22,11 @@ use Phoenix\Controller\Display\ListDisplayController;
 use Phoenix\Controller\Traits\FilterWithoutStateTrait;
 use Phoenix\Repository\ListRepository;
 use Phoenix\View\AbstractPhoenixHtmView;
-use Windwalker\Core\Repository\Repository;
-use Windwalker\Core\View\AbstractView;
-use Windwalker\Data\Data;
-use Windwalker\Router\Exception\RouteNotFoundException;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Core\Repository\Repository;
+use Windwalker\Legacy\Core\View\AbstractView;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Router\Exception\RouteNotFoundException;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The AbstractCategoryListController class.

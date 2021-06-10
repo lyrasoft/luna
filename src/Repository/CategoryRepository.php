@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Repository;
 
 use Phoenix\Repository\ItemRepository;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * The CategoryModel class.

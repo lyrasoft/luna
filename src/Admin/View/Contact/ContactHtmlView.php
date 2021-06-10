@@ -69,16 +69,16 @@ class ContactHtmlView extends EditView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @see  ItemView
      * ------------------------------------------------------
-     * @var                         $data ->state  \Windwalker\Registry\Registry
+     * @var                         $data ->state  \Windwalker\Legacy\Registry\Registry
      * @var                         $data ->item   \Luna\Record\ContactRecord
      *
      * @see  EditView
      * ------------------------------------------------------
-     * @var                         $data ->form   \Windwalker\Form\Form
+     * @var                         $data ->form   \Windwalker\Legacy\Form\Form
      *
      * @return  void
      */

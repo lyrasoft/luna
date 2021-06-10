@@ -11,17 +11,17 @@ namespace Lyrasoft\Luna\Contact;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Warder\Data\UserData;
 use Lyrasoft\Warder\Warder;
-use Windwalker\Core\Config\Config;
-use Windwalker\Core\Mailer\Mailer;
-use Windwalker\Core\Mailer\MailMessage;
-use Windwalker\Core\Package\AbstractPackage;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Core\Widget\Widget;
-use Windwalker\Core\Widget\WidgetHelper;
-use Windwalker\Data\Data;
-use Windwalker\DI\Annotation\Inject;
-use Windwalker\String\SimpleTemplate;
-use Windwalker\Utilities\Queue\PriorityQueue;
+use Windwalker\Legacy\Core\Config\Config;
+use Windwalker\Legacy\Core\Mailer\Mailer;
+use Windwalker\Legacy\Core\Mailer\MailMessage;
+use Windwalker\Legacy\Core\Package\AbstractPackage;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Core\Widget\Widget;
+use Windwalker\Legacy\Core\Widget\WidgetHelper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\DI\Annotation\Inject;
+use Windwalker\Legacy\String\SimpleTemplate;
+use Windwalker\Legacy\Utilities\Queue\PriorityQueue;
 
 /**
  * The ContactService class.

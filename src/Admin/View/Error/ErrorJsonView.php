@@ -9,10 +9,10 @@
 namespace Lyrasoft\Luna\Admin\View\Error;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Core\View\StructureView;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Core\View\StructureView;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The ErrorHtmlView class.

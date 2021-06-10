@@ -14,10 +14,10 @@ use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
-use Windwalker\Core\Cache\RuntimeCacheTrait;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Data\Collection;
-use function Windwalker\arr;
+use Windwalker\Legacy\Core\Cache\RuntimeCacheTrait;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Data\Collection;
+use function Windwalker\Legacy\arr;
 
 /**
  * The ArticlesHtmlView class.
@@ -82,7 +82,7 @@ class ArticlesHtmlView extends GridView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      */

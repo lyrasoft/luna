@@ -13,10 +13,10 @@ use Lyrasoft\Luna\Admin\Field\Config\ConfigModalField;
 use Lyrasoft\Luna\Field\MultiUploaderField;
 use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Form\Filter\MaxLengthFilter;
-use Windwalker\Form\Form;
-use Windwalker\Validator\Rule;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Form\Filter\MaxLengthFilter;
+use Windwalker\Legacy\Form\Form;
+use Windwalker\Legacy\Validator\Rule;
 
 /**
  * The ConfigEditDefinition class.

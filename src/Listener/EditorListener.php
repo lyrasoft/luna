@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Luna\Listener;
 
-use Windwalker\Core\Widget\WidgetHelper;
-use Windwalker\Event\Event;
+use Windwalker\Legacy\Core\Widget\WidgetHelper;
+use Windwalker\Legacy\Event\Event;
 
 /**
  * The EditorListener class.

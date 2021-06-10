@@ -10,8 +10,8 @@ namespace Lyrasoft\Luna\Listener;
 
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Windwalker\Core\Application\WebApplication;
-use Windwalker\Core\Application\WindwalkerApplicationInterface;
+use Windwalker\Legacy\Core\Application\WebApplication;
+use Windwalker\Legacy\Core\Application\WindwalkerApplicationInterface;
 
 /**
  * The ErrorListener class.

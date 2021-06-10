@@ -14,8 +14,8 @@ use Lyrasoft\Luna\Module\AbstractModule;
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Lyrasoft\Luna\Module\ModuleSaveInterface;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\DataInterface;
-use Windwalker\DataMapper\Entity\Entity;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\DataMapper\Entity\Entity;
 
 /**
  * The SaveController class.
@@ -112,7 +112,7 @@ class SaveController extends AbstractSaveController
      *
      * @return void
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     protected function preSave(DataInterface $data)
     {

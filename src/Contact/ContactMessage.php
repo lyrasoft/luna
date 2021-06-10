@@ -9,11 +9,11 @@
 namespace Lyrasoft\Luna\Contact;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Windwalker\Core\Config\Config;
-use Windwalker\Core\Mailer\MailMessage;
-use Windwalker\Data\Data;
-use Windwalker\Ioc;
-use Windwalker\String\SimpleTemplate;
+use Windwalker\Legacy\Core\Config\Config;
+use Windwalker\Legacy\Core\Mailer\MailMessage;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Ioc;
+use Windwalker\Legacy\String\SimpleTemplate;
 
 /**
  * The ContactMessage class.

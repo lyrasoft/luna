@@ -9,9 +9,9 @@
 namespace Lyrasoft\Luna\Repository;
 
 use Phoenix\Repository\CrudRepository;
-use Windwalker\Core\DateTime\Chronos;
-use Windwalker\Core\User\User;
-use Windwalker\Record\Record;
+use Windwalker\Legacy\Core\DateTime\Chronos;
+use Windwalker\Legacy\Core\User\User;
+use Windwalker\Legacy\Record\Record;
 
 /**
  * The ContactModel class.

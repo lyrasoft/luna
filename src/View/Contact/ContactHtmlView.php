@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Warder\Warder;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The ContactHtmlView class.
@@ -41,7 +41,7 @@ class ContactHtmlView extends EditView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      */

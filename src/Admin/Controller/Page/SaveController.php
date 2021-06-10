@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Admin\Controller\Page;
 use Lyrasoft\Luna\Admin\Repository\PageRepository;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * The SaveController class.
@@ -82,7 +82,7 @@ class SaveController extends AbstractSaveController
      * @return  boolean
      *
      * @throws \RuntimeException
-     * @throws \Windwalker\Core\Security\Exception\UnauthorizedException (401 / 403)
+     * @throws \Windwalker\Legacy\Core\Security\Exception\UnauthorizedException (401 / 403)
      */
     public function checkAccess($data)
     {

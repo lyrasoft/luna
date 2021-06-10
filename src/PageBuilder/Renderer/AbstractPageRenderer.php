@@ -13,9 +13,9 @@ use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleRules;
 use Lyrasoft\Luna\Script\LunaScript;
-use Windwalker\Core\Asset\AssetManager;
-use Windwalker\DI\Annotation\Inject;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\Asset\AssetManager;
+use Windwalker\Legacy\DI\Annotation\Inject;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The AbstractPageRenderer class.

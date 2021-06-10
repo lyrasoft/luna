@@ -11,9 +11,9 @@ namespace Lyrasoft\Luna\PageBuilder;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\Renderer\PageRendererFactory;
 use Lyrasoft\Luna\Script\LunaScript;
-use Windwalker\Core\Asset\AssetManager;
-use Windwalker\Core\Package\PackageHelper;
-use Windwalker\DI\Annotation\Inject;
+use Windwalker\Legacy\Core\Asset\AssetManager;
+use Windwalker\Legacy\Core\Package\PackageHelper;
+use Windwalker\Legacy\DI\Annotation\Inject;
 
 /**
  * The PageBuilder class.
@@ -48,7 +48,7 @@ class PageBuilder
      * @return  string
      *
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.5.2
      */
     public function renderPage(array $rows)

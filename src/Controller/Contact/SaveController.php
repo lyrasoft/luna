@@ -12,12 +12,12 @@ use Lyrasoft\Luna\Contact\ContactService;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Warder\Warder;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataInterface;
-use Windwalker\Data\DataSet;
-use Windwalker\DataMapper\Entity\Entity;
-use Windwalker\DI\Annotation\Inject;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\DataMapper\Entity\Entity;
+use Windwalker\Legacy\DI\Annotation\Inject;
 
 /**
  * The SaveController class.

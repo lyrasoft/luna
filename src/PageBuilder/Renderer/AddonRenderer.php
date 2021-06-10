@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 use Lyrasoft\Luna\PageBuilder\AddonHelper;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use ScssPhp\ScssPhp\Compiler;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The RowStyleRenderer class.
@@ -42,7 +42,7 @@ class AddonRenderer extends AbstractPageRenderer
      * @return  string
      *
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.5.2
      */
     public function render(array $content)

@@ -16,9 +16,9 @@ use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
 use Phoenix\View\ListView;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Data\Data;
-use Windwalker\DI\Annotation\Inject;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\DI\Annotation\Inject;
 
 /**
  * The MenusHtmlView class.
@@ -90,12 +90,12 @@ class MenusHtmlView extends GridView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @see ListView
      * ------------------------------------------------------
      * @see GridView

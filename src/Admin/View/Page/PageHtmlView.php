@@ -18,10 +18,10 @@ use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Phoenix\View\ItemView;
-use Windwalker\Core\Asset\Asset;
-use Windwalker\Core\Asset\AssetManager;
-use Windwalker\Core\Package\PackageHelper;
-use Windwalker\Data\Data;
+use Windwalker\Legacy\Core\Asset\Asset;
+use Windwalker\Legacy\Core\Asset\AssetManager;
+use Windwalker\Legacy\Core\Package\PackageHelper;
+use Windwalker\Legacy\Data\Data;
 
 /**
  * The PageHtmlView class.
@@ -68,16 +68,16 @@ class PageHtmlView extends EditView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data           $data
+     * @param \Windwalker\Legacy\Data\Data           $data
      *
      * @see  ItemView
      * ------------------------------------------------------
-     * @var  \WindWalker\Structure\Structure  $data ->state
+     * @var  \Windwalker\Legacy\Structure\Structure  $data ->state
      * @var  \Lyrasoft\Luna\Admin\Record\PageRecord $data ->item
      *
      * @see  EditView
      * ------------------------------------------------------
-     * @var    \Windwalker\Form\Form          $data ->form
+     * @var    \Windwalker\Legacy\Form\Form          $data ->form
      *
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException

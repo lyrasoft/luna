@@ -9,12 +9,12 @@
 namespace Lyrasoft\Luna\Error;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Windwalker\Core\Error\ErrorManager;
-use Windwalker\Core\Error\Handler\ErrorHandlerInterface;
-use Windwalker\Core\Package\PackageHelper;
-use Windwalker\Http\Response\HtmlResponse;
-use Windwalker\Utilities\Queue\PriorityQueue;
-use Windwalker\Utilities\Reflection\ReflectionHelper;
+use Windwalker\Legacy\Core\Error\ErrorManager;
+use Windwalker\Legacy\Core\Error\Handler\ErrorHandlerInterface;
+use Windwalker\Legacy\Core\Package\PackageHelper;
+use Windwalker\Legacy\Http\Response\HtmlResponse;
+use Windwalker\Legacy\Utilities\Queue\PriorityQueue;
+use Windwalker\Legacy\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The ErrorHandler class.
@@ -59,7 +59,7 @@ class LunaErrorHandler implements ErrorHandlerInterface
      *
      * @return  void
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     public function __invoke($exception)
     {

@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Lyrasoft\Luna\PageBuilder\AddonHelper;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Package\AbstractPackage;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Package\AbstractPackage;
 
 define('LUNA_ROOT', dirname(__DIR__));
 define('LUNA_SOURCE', LUNA_ROOT . '/src');
@@ -38,7 +38,7 @@ class LunaPackage extends AbstractPackage
      *
      * @return  void
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     public function boot()
     {

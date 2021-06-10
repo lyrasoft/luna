@@ -12,18 +12,18 @@ use Lyrasoft\Luna\Admin\DataMapper\ModuleMapper;
 use Lyrasoft\Luna\Admin\Repository\ModulesRepository;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
-use Windwalker\Cache\Cache;
-use Windwalker\Cache\DataHandler\RawDataHandler;
-use Windwalker\Cache\Serializer\RawSerializer;
-use Windwalker\Cache\Storage\ArrayStorage;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataSet;
-use Windwalker\Database\Schema\Column\Date;
-use Windwalker\Filesystem\Folder;
-use Windwalker\Filesystem\Path\PathCollection;
-use Windwalker\Ioc;
-use Windwalker\String\StringNormalise;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Cache\Cache;
+use Windwalker\Legacy\Cache\DataHandler\RawDataHandler;
+use Windwalker\Legacy\Cache\Serializer\RawSerializer;
+use Windwalker\Legacy\Cache\Storage\ArrayStorage;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\Database\Schema\Column\Date;
+use Windwalker\Legacy\Filesystem\Folder;
+use Windwalker\Legacy\Filesystem\Path\PathCollection;
+use Windwalker\Legacy\Ioc;
+use Windwalker\Legacy\String\StringNormalise;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The ModuleResolver class.
@@ -125,7 +125,7 @@ class ModuleHelper
      * @return  mixed
      *
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.5.2
      */

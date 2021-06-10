@@ -14,11 +14,11 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Warder;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
-use Windwalker\Core\Asset\Asset;
-use Windwalker\Data\Data;
-use Windwalker\Renderer\EdgeRenderer;
-use Windwalker\Router\Exception\RouteNotFoundException;
-use Windwalker\Test\TestHelper;
+use Windwalker\Legacy\Core\Asset\Asset;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Renderer\EdgeRenderer;
+use Windwalker\Legacy\Router\Exception\RouteNotFoundException;
+use Windwalker\Legacy\Test\TestHelper;
 
 /**
  * The PageHtmlView class.
@@ -37,7 +37,7 @@ class PageHtmlView extends ItemView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      */

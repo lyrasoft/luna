@@ -10,15 +10,15 @@ namespace Lyrasoft\Luna\Module;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Form\Renderer\InputRenderer;
-use Windwalker\Core\Package\PackageHelper;
-use Windwalker\Core\Renderer\BladeRenderer;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataInterface;
-use Windwalker\Form\Form;
-use Windwalker\Structure\Structure;
-use Windwalker\Utilities\Queue\PriorityQueue;
-use Windwalker\Utilities\Reflection\ReflectionHelper;
+use Windwalker\Legacy\Core\Package\PackageHelper;
+use Windwalker\Legacy\Core\Renderer\BladeRenderer;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Form\Form;
+use Windwalker\Legacy\Structure\Structure;
+use Windwalker\Legacy\Utilities\Queue\PriorityQueue;
+use Windwalker\Legacy\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The AbstractModule class.

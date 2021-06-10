@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Utilities\SlugHelper;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Windwalker\Core\Seeder\AbstractSeeder;
+use Windwalker\Legacy\Core\Seeder\AbstractSeeder;
 
 /**
  * The CategorySeeder class.

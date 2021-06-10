@@ -12,8 +12,8 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
-use Windwalker\Ioc;
-use Windwalker\Query\QueryElement;
+use Windwalker\Legacy\Ioc;
+use Windwalker\Legacy\Query\QueryElement;
 
 /**
  * The TagField class.
@@ -63,7 +63,7 @@ class TagListField extends ItemListField
     /**
      * prepareOptions
      *
-     * @return  array|\Windwalker\Html\Option[]
+     * @return  array|\Windwalker\Legacy\Html\Option[]
      */
     protected function prepareOptions()
     {

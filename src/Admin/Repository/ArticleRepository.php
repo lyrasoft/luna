@@ -12,9 +12,9 @@ use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Utilities\SlugHelper;
 use Phoenix\Repository\AdminRepository;
-use Windwalker\Data\DataInterface;
-use Windwalker\Form\Filter\MaxLengthFilter;
-use Windwalker\Record\Record;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Form\Filter\MaxLengthFilter;
+use Windwalker\Legacy\Record\Record;
 
 /**
  * The ArticleModel class.

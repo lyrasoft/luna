@@ -13,7 +13,7 @@ use Lyrasoft\Luna\Admin\View\Category\CategoryHtmlView;
 use Lyrasoft\Luna\Image\CategoryImageHelper;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * The SaveController class.

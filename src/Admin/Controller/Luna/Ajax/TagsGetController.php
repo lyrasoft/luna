@@ -10,8 +10,8 @@ namespace Lyrasoft\Luna\Admin\Controller\Luna\Ajax;
 
 use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Unidev\Controller\AbstractAjaxController;
-use Windwalker\Core\Controller\AbstractController;
-use Windwalker\Core\Controller\Traits\JsonApiTrait;
+use Windwalker\Legacy\Core\Controller\AbstractController;
+use Windwalker\Legacy\Core\Controller\Traits\JsonApiTrait;
 
 /**
  * The TagsGetController class.

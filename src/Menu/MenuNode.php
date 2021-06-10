@@ -11,10 +11,10 @@ namespace Lyrasoft\Luna\Menu;
 use Lyrasoft\Luna\Admin\Record\Columns\MenuDataInterface;
 use Lyrasoft\Luna\Admin\Record\MenuRecord;
 use Lyrasoft\Luna\Tree\Node;
-use Windwalker\Core\Router\RouteBuilderInterface;
-use Windwalker\Data\Data;
-use Windwalker\Utilities\Arr;
-use Windwalker\Utilities\ArrayHelper;
+use Windwalker\Legacy\Core\Router\RouteBuilderInterface;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Utilities\Arr;
+use Windwalker\Legacy\Utilities\ArrayHelper;
 
 /**
  * The MenuNode class.

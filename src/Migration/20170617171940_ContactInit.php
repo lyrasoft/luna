@@ -7,8 +7,8 @@
  */
 
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Core\Migration\AbstractMigration;
-use Windwalker\Database\Schema\Schema;
+use Windwalker\Legacy\Core\Migration\AbstractMigration;
+use Windwalker\Legacy\Database\Schema\Schema;
 
 /**
  * Migration class of ContactInit.

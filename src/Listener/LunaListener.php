@@ -12,17 +12,17 @@ use Lyrasoft\Luna\Admin\Repository\CommentsRepository;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Core\Application\WebApplication;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Package\Resolver\DataMapperResolver;
-use Windwalker\Core\Package\Resolver\FieldDefinitionResolver;
-use Windwalker\Core\Package\Resolver\RecordResolver;
-use Windwalker\Core\View\HtmlView;
-use Windwalker\Data\Data;
-use Windwalker\Event\Event;
-use Windwalker\Renderer\AbstractRenderer;
-use Windwalker\Utilities\Queue\PriorityQueue;
-use Windwalker\Utilities\Reflection\ReflectionHelper;
+use Windwalker\Legacy\Core\Application\WebApplication;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Package\Resolver\DataMapperResolver;
+use Windwalker\Legacy\Core\Package\Resolver\FieldDefinitionResolver;
+use Windwalker\Legacy\Core\Package\Resolver\RecordResolver;
+use Windwalker\Legacy\Core\View\HtmlView;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Event\Event;
+use Windwalker\Legacy\Renderer\AbstractRenderer;
+use Windwalker\Legacy\Utilities\Queue\PriorityQueue;
+use Windwalker\Legacy\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The LunaListener class.

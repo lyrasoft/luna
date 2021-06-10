@@ -9,8 +9,8 @@
 namespace Lyrasoft\Luna\Admin\Repository;
 
 use Phoenix\Repository\AdminRepository;
-use Windwalker\Data\DataInterface;
-use Windwalker\Record\Record;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Record\Record;
 
 /**
  * The ModuleModel class.

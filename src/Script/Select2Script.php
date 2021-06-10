@@ -10,9 +10,9 @@ namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\PhoenixScript;
-use Windwalker\Core\Asset\AbstractScript;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Core\Asset\AbstractScript;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The Select2Script class.

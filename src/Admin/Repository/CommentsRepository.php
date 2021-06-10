@@ -13,8 +13,8 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 use Lyrasoft\Warder\Table\WarderTable;
 use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
-use Windwalker\Core\Ioc;
-use Windwalker\Query\Query;
+use Windwalker\Legacy\Core\Ioc;
+use Windwalker\Legacy\Query\Query;
 
 /**
  * The CommentsModel class.

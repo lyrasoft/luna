@@ -11,9 +11,9 @@ namespace Lyrasoft\Luna\Menu\View;
 use Lyrasoft\Luna\Admin\DataMapper\PageMapper;
 use Lyrasoft\Luna\Admin\Field\Page\PageModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
-use Windwalker\Core\Repository\Exception\ValidateFailException;
-use Windwalker\Core\Router\RouteBuilderInterface;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Repository\Exception\ValidateFailException;
+use Windwalker\Legacy\Core\Router\RouteBuilderInterface;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The PageMenuView class.

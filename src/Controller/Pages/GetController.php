@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Controller\Pages;
 use Lyrasoft\Luna\Repository\PagesRepository;
 use Lyrasoft\Luna\View\Pages\PagesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Windwalker\Core\Repository\Repository;
-use Windwalker\Core\View\AbstractView;
+use Windwalker\Legacy\Core\Repository\Repository;
+use Windwalker\Legacy\Core\View\AbstractView;
 
 /**
  * The GetController class.
@@ -72,8 +72,8 @@ class GetController extends ListDisplayController
      * @return  bool Return FALSE if use has no access to view page.
      *
      * @throws \RuntimeException
-     * @throws \Windwalker\Router\Exception\RouteNotFoundException (404)
-     * @throws \Windwalker\Core\Security\Exception\UnauthorizedException (401 / 403)
+     * @throws \Windwalker\Legacy\Router\Exception\RouteNotFoundException (404)
+     * @throws \Windwalker\Legacy\Core\Security\Exception\UnauthorizedException (401 / 403)
      */
     public function authorise()
     {

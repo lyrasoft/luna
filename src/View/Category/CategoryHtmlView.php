@@ -13,11 +13,11 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ListView;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataInterface;
-use Windwalker\String\StringHelper;
-use Windwalker\String\Utf8String;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\String\StringHelper;
+use Windwalker\Legacy\String\Utf8String;
 
 /**
  * The CategoryHtmlView class.
@@ -46,7 +46,7 @@ class CategoryHtmlView extends ListView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException

@@ -9,9 +9,9 @@
 namespace Lyrasoft\Luna\Listener;
 
 use Lyrasoft\Luna\Contact\ContactMessage;
-use Windwalker\Core\Config\Config;
-use Windwalker\Core\Mailer\Mailer;
-use Windwalker\Event\Event;
+use Windwalker\Legacy\Core\Config\Config;
+use Windwalker\Legacy\Core\Mailer\Mailer;
+use Windwalker\Legacy\Event\Event;
 
 /**
  * The ContactListener class.

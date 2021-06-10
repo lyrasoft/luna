@@ -12,8 +12,8 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
 
 /**
  * The CategoryHtmlView class.
@@ -70,7 +70,7 @@ class CategoryHtmlView extends EditView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      */

@@ -12,8 +12,8 @@ use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Menu\LayoutRenderedMenuInterface;
 use Lyrasoft\Luna\Menu\SelfRenderMenuInterface;
 use Lyrasoft\Luna\Menu\SelfRenderMenuTrait;
-use Windwalker\Core\Router\RouteBuilderInterface;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Router\RouteBuilderInterface;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The PlaceholderMenuView class.

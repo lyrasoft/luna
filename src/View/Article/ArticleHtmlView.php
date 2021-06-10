@@ -13,11 +13,11 @@ use Lyrasoft\Luna\Menu\MenuNode;
 use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Html\HtmlHeader;
 use Phoenix\View\ItemView;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataInterface;
-use Windwalker\DI\Annotation\Inject;
-use Windwalker\String\Mbstring;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\DI\Annotation\Inject;
+use Windwalker\Legacy\String\Mbstring;
 
 /**
  * The ArticleHtmlView class.
@@ -62,12 +62,12 @@ class ArticleHtmlView extends ItemView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     protected function prepareData($data)
     {
@@ -86,7 +86,7 @@ class ArticleHtmlView extends ItemView
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     protected function prepareHeader(DataInterface $data)
     {
@@ -111,7 +111,7 @@ class ArticleHtmlView extends ItemView
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.7.18
      */

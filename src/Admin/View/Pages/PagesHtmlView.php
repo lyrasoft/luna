@@ -71,13 +71,13 @@ class PagesHtmlView extends GridView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data                 $data
+     * @param \Windwalker\Legacy\Data\Data                 $data
      *
      * @see ListView
      * ------------------------------------------------------
-     * @var  \Windwalker\Structure\Structure        $data ->state
-     * @var  \Windwalker\Data\DataSet               $data ->items
-     * @var  \Windwalker\Core\Pagination\Pagination $data ->pagination
+     * @var  \Windwalker\Legacy\Structure\Structure        $data ->state
+     * @var  \Windwalker\Legacy\Data\DataSet               $data ->items
+     * @var  \Windwalker\Legacy\Core\Pagination\Pagination $data ->pagination
      * @var  int                                    $data ->total
      * @var  int                                    $data ->limit
      * @var  int                                    $data ->start
@@ -85,9 +85,9 @@ class PagesHtmlView extends GridView
      *
      * @see GridView
      * ------------------------------------------------------
-     * @var  \Windwalker\Form\Form                  $data ->filterForm
-     * @var  \Windwalker\Form\Form                  $data ->batchForm
-     * @var  \Windwalker\Core\Widget\Widget         $data ->filterBar
+     * @var  \Windwalker\Legacy\Form\Form                  $data ->filterForm
+     * @var  \Windwalker\Legacy\Form\Form                  $data ->batchForm
+     * @var  \Windwalker\Legacy\Core\Widget\Widget         $data ->filterBar
      * @var  boolean                                $data ->showFilterBar
      * @var  \Phoenix\View\Helper\GridHelper        $data ->grid
      *

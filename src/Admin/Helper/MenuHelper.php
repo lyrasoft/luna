@@ -8,11 +8,11 @@
 
 namespace Lyrasoft\Luna\Admin\Helper;
 
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\View\Helper\AbstractHelper;
-use Windwalker\Dom\HtmlElement;
-use Windwalker\Filesystem\Filesystem;
-use Windwalker\String\StringInflector;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\View\Helper\AbstractHelper;
+use Windwalker\Legacy\Dom\HtmlElement;
+use Windwalker\Legacy\Filesystem\Filesystem;
+use Windwalker\Legacy\String\StringInflector;
 
 /**
  * The MenuHelper class.

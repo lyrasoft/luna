@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Menu;
 
-use Windwalker\Core\Widget\WidgetHelper;
+use Windwalker\Legacy\Core\Widget\WidgetHelper;
 
 /**
  * The SelfRenderMenuTrait class.

@@ -12,10 +12,10 @@ use Lyrasoft\Luna\Config\ConfigService;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Menu\MenuService;
 use Lyrasoft\Luna\PageBuilder\PageBuilder;
-use Windwalker\Core\Renderer\RendererManager;
-use Windwalker\DI\Container;
-use Windwalker\DI\ServiceProviderInterface;
-use Windwalker\Utilities\Queue\PriorityQueue;
+use Windwalker\Legacy\Core\Renderer\RendererManager;
+use Windwalker\Legacy\DI\Container;
+use Windwalker\Legacy\DI\ServiceProviderInterface;
+use Windwalker\Legacy\Utilities\Queue\PriorityQueue;
 
 /**
  * The LunaProvider class.

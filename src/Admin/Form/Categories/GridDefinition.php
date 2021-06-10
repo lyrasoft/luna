@@ -12,10 +12,10 @@ use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Form\Form;
-use Windwalker\Ioc;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Form\Form;
+use Windwalker\Legacy\Ioc;
 
 /**
  * The GridDefinition class.

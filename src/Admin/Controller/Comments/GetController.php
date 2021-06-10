@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Admin\Controller\Comments;
 use Lyrasoft\Luna\Admin\Repository\CommentsRepository;
 use Lyrasoft\Luna\Admin\View\Comments\CommentsHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Windwalker\Core\Repository\Repository;
-use Windwalker\Core\View\AbstractView;
+use Windwalker\Legacy\Core\Repository\Repository;
+use Windwalker\Legacy\Core\View\AbstractView;
 
 /**
  * The GetController class.

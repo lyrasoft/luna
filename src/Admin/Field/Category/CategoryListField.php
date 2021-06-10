@@ -11,9 +11,9 @@ namespace Lyrasoft\Luna\Admin\Field\Category;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Html\Option;
-use Windwalker\Query\Query;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Html\Option;
+use Windwalker\Legacy\Query\Query;
 
 /**
  * The CategoryField class.
@@ -70,7 +70,7 @@ class CategoryListField extends ItemListField
     /**
      * prepareOptions
      *
-     * @return  array|\Windwalker\Html\Option[]
+     * @return  array|\Windwalker\Legacy\Html\Option[]
      */
     protected function prepareOptions()
     {

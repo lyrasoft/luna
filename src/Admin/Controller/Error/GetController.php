@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Admin\Controller\Error;
 
 use Phoenix\Controller\Display\ItemDisplayController;
-use Windwalker\Core\Repository\Repository;
+use Windwalker\Legacy\Core\Repository\Repository;
 
 /**
  * The GetController class.

@@ -12,7 +12,7 @@ use Lyrasoft\Luna\LunaPackage;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\Script\VueScript;
-use Windwalker\Core\Asset\AbstractScript;
+use Windwalker\Legacy\Core\Asset\AbstractScript;
 
 /**
  * The LunaScript class.

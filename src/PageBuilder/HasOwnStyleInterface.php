@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * Interface HasOwnStyleInterface

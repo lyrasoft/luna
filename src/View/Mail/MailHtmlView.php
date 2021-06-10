@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\View\Mail;
 
 use Phoenix\View\AbstractPhoenixHtmView;
-use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
 
 /**
  * The MailHtmlView class.

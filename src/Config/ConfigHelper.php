@@ -8,9 +8,9 @@
 
 namespace Lyrasoft\Luna\Config;
 
-use Windwalker\Core\Facade\AbstractProxyFacade;
-use Windwalker\Data\Data;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\Facade\AbstractProxyFacade;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The ConfigHelper class.

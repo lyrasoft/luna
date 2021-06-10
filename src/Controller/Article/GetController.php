@@ -12,11 +12,11 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\View\Article\ArticleHtmlView;
 use Phoenix\Controller\Display\ItemDisplayController;
-use Windwalker\Core\Repository\Repository;
-use Windwalker\Core\Security\Exception\UnauthorizedException;
-use Windwalker\Core\View\AbstractView;
-use Windwalker\Router\Exception\RouteNotFoundException;
-use function Windwalker\tap;
+use Windwalker\Legacy\Core\Repository\Repository;
+use Windwalker\Legacy\Core\Security\Exception\UnauthorizedException;
+use Windwalker\Legacy\Core\View\AbstractView;
+use Windwalker\Legacy\Router\Exception\RouteNotFoundException;
+use function Windwalker\Legacy\tap;
 
 /**
  * The GetController class.

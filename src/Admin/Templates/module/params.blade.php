@@ -3,7 +3,7 @@
 /**
  * @var  $type        string
  * @var  $module      \Lyrasoft\Luna\Module\AbstractModule
- * @var  $moduleForm  \Windwalker\Form\Form
+ * @var  $moduleForm  \Windwalker\Legacy\Form\Form
  * @var  $moduleType  \Lyrasoft\Luna\Module\ModuleType
  */
 ?>

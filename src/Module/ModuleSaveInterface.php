@@ -9,8 +9,8 @@
 namespace Lyrasoft\Luna\Module;
 
 use Lyrasoft\Luna\Admin\Repository\ModuleRepository;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * Interface ModuleSaveInterface

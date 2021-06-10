@@ -11,9 +11,9 @@ namespace Lyrasoft\Luna\Admin\Record;
 use Lyrasoft\Luna\Admin\Record\Columns\MenuDataInterface;
 use Lyrasoft\Luna\Admin\Record\Traits\ContentValidationTrait;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Core\Repository\Exception\ValidateFailException;
-use Windwalker\Event\Event;
-use Windwalker\Record\NestedRecord;
+use Windwalker\Legacy\Core\Repository\Exception\ValidateFailException;
+use Windwalker\Legacy\Event\Event;
+use Windwalker\Legacy\Record\NestedRecord;
 
 /**
  * The MenuRecord class.

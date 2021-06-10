@@ -14,10 +14,10 @@ use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
-use Windwalker\Core\Asset\Asset;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Data\Data;
+use Windwalker\Legacy\Core\Asset\Asset;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Data\Data;
 
 /**
  * The ModulesHtmlView class.
@@ -163,7 +163,7 @@ class ModulesHtmlView extends GridView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      */

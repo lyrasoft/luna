@@ -18,9 +18,9 @@ use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Utilities\SlugHelper;
-use Windwalker\Core\Seeder\AbstractSeeder;
-use Windwalker\Data\Data;
-use Windwalker\Filter\OutputFilter;
+use Windwalker\Legacy\Core\Seeder\AbstractSeeder;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Filter\OutputFilter;
 
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace -- Ignore seeder file
 

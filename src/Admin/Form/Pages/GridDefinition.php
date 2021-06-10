@@ -8,9 +8,9 @@
 
 namespace Lyrasoft\Luna\Admin\Form\Pages;
 
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The GridDefinition class.

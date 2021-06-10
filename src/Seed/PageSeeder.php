@@ -10,10 +10,10 @@ use Lyrasoft\Luna\Admin\DataMapper\PageMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Utilities\SlugHelper;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
-use Windwalker\Core\Seeder\AbstractSeeder;
-use Windwalker\Data\Data;
-use Windwalker\Filter\OutputFilter;
-use Windwalker\String\Mbstring;
+use Windwalker\Legacy\Core\Seeder\AbstractSeeder;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Filter\OutputFilter;
+use Windwalker\Legacy\String\Mbstring;
 
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace -- Ignore seeder file
 

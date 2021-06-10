@@ -11,16 +11,16 @@ namespace Lyrasoft\Luna\PageBuilder;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Phoenix\Script\PhoenixScript;
-use Windwalker\Core\Asset\Asset;
-use Windwalker\Core\Package\PackageHelper;
-use Windwalker\Core\Renderer\BladeRenderer;
-use Windwalker\Core\Renderer\RendererHelper;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataInterface;
-use Windwalker\Renderer\AbstractRenderer;
-use Windwalker\Structure\Structure;
-use Windwalker\Utilities\Queue\PriorityQueue;
-use Windwalker\Utilities\Reflection\ReflectionHelper;
+use Windwalker\Legacy\Core\Asset\Asset;
+use Windwalker\Legacy\Core\Package\PackageHelper;
+use Windwalker\Legacy\Core\Renderer\BladeRenderer;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Renderer\AbstractRenderer;
+use Windwalker\Legacy\Structure\Structure;
+use Windwalker\Legacy\Utilities\Queue\PriorityQueue;
+use Windwalker\Legacy\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The AbstractAddon class.

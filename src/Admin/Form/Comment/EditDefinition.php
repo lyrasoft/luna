@@ -11,9 +11,9 @@ namespace Lyrasoft\Luna\Admin\Form\Comment;
 use Lyrasoft\Luna\Field\LunaFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\PhoenixFieldTrait;
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The CommentEditDefinition class.

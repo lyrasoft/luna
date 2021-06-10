@@ -11,11 +11,11 @@ namespace Lyrasoft\Luna\Admin\Repository;
 use Lyrasoft\Luna\Admin\DataMapper\TagMapMapper;
 use Phoenix\Repository\AdminRepository;
 use Phoenix\Utilities\SlugHelper;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataInterface;
-use Windwalker\Data\DataSet;
-use Windwalker\Form\Filter\MaxLengthFilter;
-use Windwalker\Record\Record;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\Form\Filter\MaxLengthFilter;
+use Windwalker\Legacy\Record\Record;
 
 /**
  * The TagModel class.

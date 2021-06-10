@@ -11,8 +11,8 @@ use Lyrasoft\Luna\Module\ModuleHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Lyrasoft\Warder\Admin\DataMapper\UserMapper;
 use Lyrasoft\Warder\Helper\WarderHelper;
-use Windwalker\Core\Seeder\AbstractSeeder;
-use Windwalker\Data\Data;
+use Windwalker\Legacy\Core\Seeder\AbstractSeeder;
+use Windwalker\Legacy\Data\Data;
 
 /**
  * The ModuleSeeder class.

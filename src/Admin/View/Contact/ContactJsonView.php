@@ -9,9 +9,9 @@
 namespace Lyrasoft\Luna\Admin\View\Contact;
 
 use Lyrasoft\Luna\Admin\Repository\ContactRepository;
-use Windwalker\Core\User\User;
-use Windwalker\Core\View\StructureView;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\User\User;
+use Windwalker\Legacy\Core\View\StructureView;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The ContactJsonView class.

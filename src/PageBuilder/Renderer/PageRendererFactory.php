@@ -8,9 +8,9 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Windwalker\DI\Annotation\Inject;
-use Windwalker\DI\Container;
-use Windwalker\DI\ContainerAwareInterface;
+use Windwalker\Legacy\DI\Annotation\Inject;
+use Windwalker\Legacy\DI\Container;
+use Windwalker\Legacy\DI\ContainerAwareInterface;
 
 /**
  * The PageRendererFactory class.
@@ -36,7 +36,7 @@ class PageRendererFactory implements ContainerAwareInterface
      * @return  PageRendererInterface
      *
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.5.2
      */
     public function create($type)

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-use Windwalker\Core\Seeder\AbstractSeeder;
+use Windwalker\Legacy\Core\Seeder\AbstractSeeder;
 
 /**
  * The MainSeeder class.

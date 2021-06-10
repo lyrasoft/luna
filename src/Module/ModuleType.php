@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Module;
 
-use Windwalker\Data\Data;
+use Windwalker\Legacy\Data\Data;
 
 /**
  * The ModuleType class.

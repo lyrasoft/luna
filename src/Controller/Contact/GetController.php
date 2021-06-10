@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Controller\Contact;
 use Lyrasoft\Luna\Repository\ContactRepository;
 use Lyrasoft\Luna\View\Contact\ContactHtmlView;
 use Phoenix\Controller\Display\EditDisplayController;
-use Windwalker\Core\Repository\Repository;
-use Windwalker\Core\View\AbstractView;
+use Windwalker\Legacy\Core\Repository\Repository;
+use Windwalker\Legacy\Core\View\AbstractView;
 
 /**
  * The GetController class.

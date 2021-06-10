@@ -16,11 +16,11 @@ use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Core\Ioc;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Form\Form;
-use Windwalker\Query\Query;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Core\Ioc;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Form\Form;
+use Windwalker\Legacy\Query\Query;
 
 /**
  * The CategoryEditDefinition class.

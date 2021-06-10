@@ -13,7 +13,7 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 use Lyrasoft\Warder\Table\WarderTable;
 use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
-use Windwalker\Query\Query;
+use Windwalker\Legacy\Query\Query;
 
 /**
  * The TagsModel class.

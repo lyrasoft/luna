@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
-use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
 
 /**
  * The TagsHtmlView class.
@@ -75,7 +75,7 @@ class TagsHtmlView extends GridView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      */

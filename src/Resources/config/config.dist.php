@@ -100,7 +100,7 @@ return [
             'font_size_scale' => 1
         ],
         'templates' => [
-            function (\Windwalker\Core\Asset\AssetManager  $asset) {
+            function (\Windwalker\Legacy\Core\Asset\AssetManager  $asset) {
                 return [
                     'title' => 'Page',
                     'type' => 'page',

@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Contact;
 
 use Lyrasoft\Luna\Admin\Repository\ContactRepository;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * The SaveController class.

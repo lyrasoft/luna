@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\PageBuilder;
 
-use Windwalker\Core\Asset\AssetManager;
+use Windwalker\Legacy\Core\Asset\AssetManager;
 
 /**
  * Interface AdminVueComponentInterface

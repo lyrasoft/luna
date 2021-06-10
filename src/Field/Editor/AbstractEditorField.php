@@ -9,10 +9,10 @@
 namespace Lyrasoft\Luna\Field\Editor;
 
 use Lyrasoft\Luna\Script\EditorScript;
-use Windwalker\Dom\HtmlElement;
-use Windwalker\Dom\HtmlElements;
-use Windwalker\Form\Field\TextareaField;
-use Windwalker\Ioc;
+use Windwalker\Legacy\Dom\HtmlElement;
+use Windwalker\Legacy\Dom\HtmlElements;
+use Windwalker\Legacy\Form\Field\TextareaField;
+use Windwalker\Legacy\Ioc;
 
 /**
  * The AbstractEditorField class.

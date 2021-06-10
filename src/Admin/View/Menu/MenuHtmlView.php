@@ -14,10 +14,10 @@ use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
 use Phoenix\View\ItemView;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Data\Data;
-use Windwalker\DI\Annotation\Inject;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\DI\Annotation\Inject;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The MenuHtmlView class.
@@ -76,12 +76,12 @@ class MenuHtmlView extends EditView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @see  ItemView
      * ------------------------------------------------------
      * @see  EditView

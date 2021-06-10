@@ -13,9 +13,9 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Repository\CategoriesRepository;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataSet;
-use Windwalker\Utilities\ArrayHelper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\Utilities\ArrayHelper;
 
 /**
  * The CategoryHelper class.

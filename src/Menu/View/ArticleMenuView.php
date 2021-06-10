@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Menu\View;
 use Lyrasoft\Luna\Admin\DataMapper\ArticleMapper;
 use Lyrasoft\Luna\Admin\Field\Article\ArticleModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
-use Windwalker\Core\Router\RouteBuilderInterface;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Router\RouteBuilderInterface;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The ArticleMenuView class.

@@ -11,10 +11,10 @@ namespace Lyrasoft\Luna\Admin\Record;
 use Lyrasoft\Luna\Admin\Record\Columns\CategoryDataInterface;
 use Lyrasoft\Luna\Admin\Record\Traits\ContentValidationTrait;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Repository\Exception\ValidateFailException;
-use Windwalker\Event\Event;
-use Windwalker\Record\NestedRecord;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Repository\Exception\ValidateFailException;
+use Windwalker\Legacy\Event\Event;
+use Windwalker\Legacy\Record\NestedRecord;
 
 /**
  * The CategoryRecord class.
@@ -74,7 +74,7 @@ class CategoryRecord extends NestedRecord implements CategoryDataInterface
      *
      * @return  static  True if all checks pass.
      *
-     * @throws  \Windwalker\Core\Repository\Exception\ValidateFailException
+     * @throws  \Windwalker\Legacy\Core\Repository\Exception\ValidateFailException
      * @throws  \Exception
      * @throws  \RuntimeException on database error.
      * @throws  \UnexpectedValueException

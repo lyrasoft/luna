@@ -10,8 +10,8 @@ namespace Lyrasoft\Luna\Admin\DataMapper;
 
 use Lyrasoft\Luna\Admin\Record\PageRecord;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\DataMapper\AbstractDatabaseMapperProxy;
-use Windwalker\Event\Event;
+use Windwalker\Legacy\DataMapper\AbstractDatabaseMapperProxy;
+use Windwalker\Legacy\Event\Event;
 
 /**
  * The PageMapper class.

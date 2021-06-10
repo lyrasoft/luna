@@ -7,7 +7,7 @@
  */
 
 use Lyrasoft\Luna\Admin\Controller\Page\PageAjaxController;
-use Windwalker\Core\Router\RouteCreator;
+use Windwalker\Legacy\Core\Router\RouteCreator;
 
 /** @var $router RouteCreator */
 
@@ -248,5 +248,5 @@ $router->any('_luna_ajax_tag', '/_luna/ajax/tag')
     ->saveAction('TagSaveController');
 
 $router->any('_luna_ajax_page', '/_luna/ajax/page')
-    ->middleware(\Windwalker\Core\Application\Middleware\JsonApiWebMiddleware::class)
+    ->middleware(\Windwalker\Legacy\Core\Application\Middleware\JsonApiWebMiddleware::class)
     ->controller(PageAjaxController::class);

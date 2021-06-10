@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Listener;
 
-use Windwalker\Event\Event;
+use Windwalker\Legacy\Event\Event;
 
 /**
  * The AbstractEditorButtonListener class.

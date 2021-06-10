@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Tree;
 
-use Windwalker\Utilities\ArrayHelper;
+use Windwalker\Legacy\Utilities\ArrayHelper;
 
 /**
  * The TreeBuilder class.

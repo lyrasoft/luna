@@ -1,7 +1,7 @@
 {{-- Part of Admin project. --}}
 <?php
 /**
- * @var $form \Windwalker\Form\Form
+ * @var $form \Windwalker\Legacy\Form\Form
  */
 ?>
 

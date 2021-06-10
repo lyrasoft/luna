@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\PageBuilder;
 
-use Windwalker\Data\Data;
+use Windwalker\Legacy\Data\Data;
 
 /**
  * The AddonType class.

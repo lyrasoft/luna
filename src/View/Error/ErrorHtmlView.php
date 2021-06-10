@@ -10,8 +10,8 @@ namespace Lyrasoft\Luna\View\Error;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\View\ItemView;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
 
 /**
  * The ErrorHtmlView class.
@@ -47,7 +47,7 @@ class ErrorHtmlView extends ItemView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      */

@@ -3,26 +3,26 @@
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var $app           \Windwalker\Web\Application                 Global Application
+ * @var $app           \Windwalker\Legacy\Web\Application                 Global Application
  * @var $package       \Lyrasoft\Luna\LunaPackage                Package object.
- * @var $view          \Windwalker\Data\Data                       Some information of this view.
- * @var $uri           \Windwalker\Uri\UriData               Uri information, example: $uri->path
+ * @var $view          \Windwalker\Legacy\Data\Data                       Some information of this view.
+ * @var $uri           \Windwalker\Legacy\Uri\UriData               Uri information, example: $uri->path
  * @var $datetime      \DateTime                                   PHP DateTime object of current time.
- * @var $helper        \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
- * @var $router        \Windwalker\Core\Router\PackageRouter       Router object.
+ * @var $helper        \Windwalker\Legacy\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
+ * @var $router        \Windwalker\Legacy\Core\Router\PackageRouter       Router object.
  *
  * View variables
  * --------------------------------------------------------------
- * @var $filterBar     \Windwalker\Core\Widget\Widget
- * @var $filterForm    \Windwalker\Form\Form
- * @var $form          \Windwalker\Form\Form
+ * @var $filterBar     \Windwalker\Legacy\Core\Widget\Widget
+ * @var $filterForm    \Windwalker\Legacy\Form\Form
+ * @var $form          \Windwalker\Legacy\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
- * @var $state         \Windwalker\Structure\Structure
- * @var $items         \Windwalker\Data\DataSet
- * @var $item          \Windwalker\Data\Data
+ * @var $state         \Windwalker\Legacy\Structure\Structure
+ * @var $items         \Windwalker\Legacy\Data\DataSet
+ * @var $item          \Windwalker\Legacy\Data\Data
  * @var $i             integer
- * @var $pagination    \Windwalker\Core\Pagination\Pagination
+ * @var $pagination    \Windwalker\Legacy\Core\Pagination\Pagination
  */
 ?>
 
@@ -140,7 +140,7 @@
 
                             {{-- CREATED --}}
                             <td class="text-nowrap">
-                                {{ Windwalker\Core\DateTime\Chronos::toLocalTime($item->created, 'Y-m-d') }}
+                                {{ Windwalker\Legacy\Core\DateTime\Chronos::toLocalTime($item->created, 'Y-m-d') }}
                             </td>
 
                             {{-- LANGUAGE --}}

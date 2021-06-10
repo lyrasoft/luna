@@ -10,10 +10,10 @@ namespace Lyrasoft\Luna\Admin\Field\Language;
 
 use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Script\Select2Script;
-use Windwalker\Filesystem\File;
-use Windwalker\Filesystem\Folder;
-use Windwalker\Form\Field\ListField;
-use Windwalker\Html\Option;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Filesystem\Folder;
+use Windwalker\Legacy\Form\Field\ListField;
+use Windwalker\Legacy\Html\Option;
 
 /**
  * The FlagListField class.

@@ -19,12 +19,12 @@ use Lyrasoft\Luna\View\Category\CategoryHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
 use Phoenix\Repository\ListRepository;
 use Phoenix\View\AbstractPhoenixHtmView;
-use Windwalker\Core\Repository\Repository;
-use Windwalker\Core\View\AbstractView;
-use Windwalker\Data\Data;
-use Windwalker\Filter\InputFilter;
-use Windwalker\Router\Exception\RouteNotFoundException;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Core\Repository\Repository;
+use Windwalker\Legacy\Core\View\AbstractView;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Filter\InputFilter;
+use Windwalker\Legacy\Router\Exception\RouteNotFoundException;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The GetController class.

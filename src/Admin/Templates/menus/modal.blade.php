@@ -3,30 +3,30 @@
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var $app           \Windwalker\Web\Application                 Global Application
- * @var $package       \Windwalker\Core\Package\AbstractPackage    Package object.
+ * @var $app           \Windwalker\Legacy\Web\Application                 Global Application
+ * @var $package       \Windwalker\Legacy\Core\Package\AbstractPackage    Package object.
  * @var $view          \Lyrasoft\Luna\Admin\View\Menus\MenusHtmlView  View object.
- * @var $uri           \Windwalker\Uri\UriData                     Uri information, example: $uri->path
- * @var $chronos       \Windwalker\Core\DateTime\DateTime          PHP DateTime object of current time.
- * @var $helper        \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
- * @var $router        \Windwalker\Core\Router\MainRouter          Route builder object.
- * @var $asset         \Windwalker\Core\Asset\AssetManager         The Asset manager.
+ * @var $uri           \Windwalker\Legacy\Uri\UriData                     Uri information, example: $uri->path
+ * @var $chronos       \Windwalker\Legacy\Core\DateTime\DateTime          PHP DateTime object of current time.
+ * @var $helper        \Windwalker\Legacy\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
+ * @var $router        \Windwalker\Legacy\Core\Router\MainRouter          Route builder object.
+ * @var $asset         \Windwalker\Legacy\Core\Asset\AssetManager         The Asset manager.
  *
  * View variables
  * --------------------------------------------------------------
- * @var $filterBar     \Windwalker\Core\Widget\Widget
- * @var $filterForm    \Windwalker\Form\Form
- * @var $batchForm     \Windwalker\Form\Form
+ * @var $filterBar     \Windwalker\Legacy\Core\Widget\Widget
+ * @var $filterForm    \Windwalker\Legacy\Form\Form
+ * @var $batchForm     \Windwalker\Legacy\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
- * @var $state         \Windwalker\Structure\Structure
- * @var $items         \Windwalker\Data\DataSet|\Lyrasoft\Luna\Admin\Record\MenuRecord[]
+ * @var $state         \Windwalker\Legacy\Structure\Structure
+ * @var $items         \Windwalker\Legacy\Data\DataSet|\Lyrasoft\Luna\Admin\Record\MenuRecord[]
  * @var $item          \Lyrasoft\Luna\Admin\Record\MenuRecord
  * @var $i             integer
- * @var $pagination    \Windwalker\Core\Pagination\Pagination
+ * @var $pagination    \Windwalker\Legacy\Core\Pagination\Pagination
  */
 
-$url = new \Windwalker\Uri\Uri($uri->full);
+$url = new \Windwalker\Legacy\Uri\Uri($uri->full);
 $url->delVar('page');
 
 $typeField = (new \Lyrasoft\Luna\Admin\Field\Menu\TypeListField('type'))
@@ -150,7 +150,7 @@ $typeField = (new \Lyrasoft\Luna\Admin\Field\Menu\TypeListField('type'))
 
                             {{-- CREATED --}}
                             <td>
-                                {{ \Windwalker\Core\DateTime\Chronos::toLocalTime($item->created, 'Y-m-d') }}
+                                {{ \Windwalker\Legacy\Core\DateTime\Chronos::toLocalTime($item->created, 'Y-m-d') }}
                             </td>
 
                             {{-- ID --}}

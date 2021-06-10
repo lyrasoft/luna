@@ -10,8 +10,8 @@ namespace Lyrasoft\Luna\Admin\Field\Module;
 
 use Lyrasoft\Luna\Module\ModuleHelper;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Form\Field\ListField;
-use Windwalker\Html\Option;
+use Windwalker\Legacy\Form\Field\ListField;
+use Windwalker\Legacy\Html\Option;
 
 /**
  * The ModuleField class.

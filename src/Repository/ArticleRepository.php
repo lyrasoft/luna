@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Admin\Record\ArticleRecord;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Tag\TagHelper;
 use Phoenix\Repository\ItemRepository;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * The ArticleModel class.

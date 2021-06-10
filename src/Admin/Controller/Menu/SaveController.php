@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Admin\Controller\Menu;
 use Lyrasoft\Luna\Admin\Repository\MenuRepository;
 use Lyrasoft\Luna\Menu\MenuService;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\DataInterface;
-use Windwalker\DI\Annotation\Inject;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\DI\Annotation\Inject;
 
 /**
  * The SaveController class.
@@ -104,7 +104,7 @@ class SaveController extends AbstractSaveController
      * @return  boolean
      *
      * @throws \RuntimeException
-     * @throws \Windwalker\Core\Security\Exception\UnauthorizedException (401 / 403)
+     * @throws \Windwalker\Legacy\Core\Security\Exception\UnauthorizedException (401 / 403)
      */
     public function checkAccess($data)
     {
@@ -119,7 +119,7 @@ class SaveController extends AbstractSaveController
      * @return void
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     protected function preSave(DataInterface $data)
     {

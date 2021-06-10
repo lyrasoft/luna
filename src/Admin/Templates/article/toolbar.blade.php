@@ -3,14 +3,14 @@
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var $app      \Windwalker\Web\Application            Global Application
+ * @var $app      \Windwalker\Legacy\Web\Application            Global Application
  * @var $package  \Lyrasoft\Luna\LunaPackage            Package object.
- * @var $view     \Windwalker\Data\Data                  Some information of this view.
- * @var $uri      \Windwalker\Uri\UriData          Uri information, example: $uri->path
+ * @var $view     \Windwalker\Legacy\Data\Data                  Some information of this view.
+ * @var $uri      \Windwalker\Legacy\Uri\UriData          Uri information, example: $uri->path
  * @var $datetime \DateTime                              PHP DateTime object of current time.
  * @var $helper   \Lyrasoft\Luna\Admin\Helper\MenuHelper        The Windwalker HelperSet object.
- * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
- * @var $asset    \Windwalker\Core\Asset\AssetManager         The Asset manager.
+ * @var $router   \Windwalker\Legacy\Core\Router\PackageRouter       Router object.
+ * @var $asset    \Windwalker\Legacy\Core\Asset\AssetManager         The Asset manager.
  */
 ?>
 

@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Luna\Ajax;
 
 use Lyrasoft\Luna\Admin\Repository\TagRepository;
 use Lyrasoft\Unidev\Controller\AbstractAjaxController;
-use Windwalker\Data\Data;
+use Windwalker\Legacy\Data\Data;
 
 /**
  * The TagSaveController class.

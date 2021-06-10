@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Module\Custom;
 
 use Lyrasoft\Luna\Module\AbstractModule;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * The CustomModule class.

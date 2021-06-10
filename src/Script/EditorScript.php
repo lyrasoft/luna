@@ -10,9 +10,9 @@ namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\PhoenixScript;
-use Windwalker\Core\Asset\AbstractScript;
-use Windwalker\Core\Ioc;
-use Windwalker\Utilities\ArrayHelper;
+use Windwalker\Legacy\Core\Asset\AbstractScript;
+use Windwalker\Legacy\Core\Ioc;
+use Windwalker\Legacy\Utilities\ArrayHelper;
 
 /**
  * The EditorScript class.

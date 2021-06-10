@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Categories\Batch;
 
 use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Phoenix\Controller\Batch\AbstractUnpublishController;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * The UnpublishController class.

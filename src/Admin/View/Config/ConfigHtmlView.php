@@ -58,16 +58,16 @@ class ConfigHtmlView extends EditView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data            $data
+     * @param \Windwalker\Legacy\Data\Data            $data
      *
      * @see  ItemView
      * ------------------------------------------------------
-     * @var  \WindWalker\Structure\Structure   $data ->state
+     * @var  \Windwalker\Legacy\Structure\Structure   $data ->state
      * @var  \Lyrasoft\Luna\Admin\Record\ConfigRecord $data ->item
      *
      * @see  EditView
      * ------------------------------------------------------
-     * @var    \Windwalker\Form\Form           $data ->form
+     * @var    \Windwalker\Legacy\Form\Form           $data ->form
      *
      * @return  void
      */

@@ -17,11 +17,11 @@ use Lyrasoft\Warder\Helper\WarderHelper;
 use Lyrasoft\Warder\Table\WarderTable;
 use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataSet;
-use Windwalker\Query\Query;
-use Windwalker\Query\QueryElement;
-use Windwalker\Utilities\ArrayHelper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\Query\Query;
+use Windwalker\Legacy\Query\QueryElement;
+use Windwalker\Legacy\Utilities\ArrayHelper;
 
 /**
  * The CategoriesModel class.
@@ -318,7 +318,7 @@ class CategoriesRepository extends ListRepository implements StateRepositoryInte
      * @return  Data[]|DataSet
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     public static function find($conditions = [], $order = 'lft', $start = null, $limit = null)
     {

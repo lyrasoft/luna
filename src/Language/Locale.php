@@ -11,10 +11,10 @@ namespace Lyrasoft\Luna\Language;
 use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\LanguageScript;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataSet;
-use Windwalker\Ioc;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\Ioc;
 
 /**
  * The LanguageHelper class.

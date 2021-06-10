@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Admin\Record;
 use Lyrasoft\Luna\Admin\Record\Traits\ArticleDataTrait;
 use Lyrasoft\Luna\Admin\Record\Traits\ContentValidationTrait;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Event\Event;
-use Windwalker\Record\Record;
+use Windwalker\Legacy\Event\Event;
+use Windwalker\Legacy\Record\Record;
 
 /**
  * The ArticleRecord class.

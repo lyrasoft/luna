@@ -10,9 +10,9 @@ namespace Lyrasoft\Luna\Repository;
 
 use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
-use Windwalker\Database\Driver\AbstractDatabaseDriver;
-use Windwalker\Query\Query;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Database\Driver\AbstractDatabaseDriver;
+use Windwalker\Legacy\Query\Query;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The PagesRepository class.

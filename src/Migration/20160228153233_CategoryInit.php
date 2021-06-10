@@ -9,11 +9,11 @@
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Importer\CategoryImporter;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Core\Migration\AbstractMigration;
-use Windwalker\Data\Data;
-use Windwalker\Database\Schema\Schema;
-use Windwalker\Filesystem\File;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\Migration\AbstractMigration;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Database\Schema\Schema;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * Migration class of CategoryInit.
@@ -23,7 +23,7 @@ class CategoryInit extends AbstractMigration
     /**
      * Property categoryImporter.
      *
-     * @\Windwalker\DI\Annotation\Inject()
+     * @\Windwalker\Legacy\DI\Annotation\Inject()
      *
      * @var CategoryImporter
      */

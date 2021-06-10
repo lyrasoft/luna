@@ -10,9 +10,9 @@ namespace Lyrasoft\Luna\Listener;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Language\Locale;
-use Windwalker\Core\Ioc;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Event\Event;
+use Windwalker\Legacy\Core\Ioc;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Event\Event;
 
 /**
  * The LanguageListener class.

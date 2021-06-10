@@ -1,7 +1,7 @@
 {{-- Part of earth project. --}}
 <?php
 /**
- * @var $form Windwalker\Form\Form
+ * @var $form Windwalker\Legacy\Form\Form
  */
 $form->setAttributes('labelWidth', 'col-12', 'basic');
 $form->setAttributes('fieldWidth', 'col-12', 'basic');

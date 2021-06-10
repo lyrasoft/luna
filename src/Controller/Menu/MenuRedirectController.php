@@ -12,10 +12,10 @@ use Lyrasoft\Luna\Admin\DataMapper\MenuMapper;
 use Lyrasoft\Luna\Admin\Record\MenuRecord;
 use Lyrasoft\Luna\Menu\MenuNode;
 use Lyrasoft\Luna\Menu\MenuService;
-use Windwalker\Core\Controller\AbstractController;
-use Windwalker\DI\Annotation\Inject;
-use Windwalker\Http\Exception\HttpRequestException;
-use Windwalker\Router\Exception\RouteNotFoundException;
+use Windwalker\Legacy\Core\Controller\AbstractController;
+use Windwalker\Legacy\DI\Annotation\Inject;
+use Windwalker\Legacy\Http\Exception\HttpRequestException;
+use Windwalker\Legacy\Router\Exception\RouteNotFoundException;
 
 /**
  * The MenuRedirectController class.
@@ -39,7 +39,7 @@ class MenuRedirectController extends AbstractController
      * @return  mixed
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     protected function doExecute()
     {

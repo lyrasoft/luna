@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Luna\Module\Custom\Form;
 
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The EditDefinition class.

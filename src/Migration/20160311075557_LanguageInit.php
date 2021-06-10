@@ -9,8 +9,8 @@
 use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Symfony\Component\Yaml\Yaml;
-use Windwalker\Core\Migration\AbstractMigration;
-use Windwalker\Database\Schema\Schema;
+use Windwalker\Legacy\Core\Migration\AbstractMigration;
+use Windwalker\Legacy\Database\Schema\Schema;
 
 /**
  * Migration class of LanguageInit.
@@ -45,7 +45,7 @@ class LanguageInit extends AbstractMigration
         $fixtures = Yaml::parse(file_get_contents(__DIR__ . '/fixtures/languages.yml'));
 
         foreach ($fixtures['languages'] as $language) {
-            $data = new \Windwalker\Data\Data();
+            $data = new \Windwalker\Legacy\Data\Data();
 
             $data->bind($language);
 

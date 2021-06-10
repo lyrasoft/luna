@@ -17,17 +17,17 @@ use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Phoenix\Repository\ListRepositoryInterface;
 use Phoenix\Script\BootstrapScript;
-use Windwalker\Cache\Cache;
-use Windwalker\Cache\Serializer\RawSerializer;
-use Windwalker\Cache\Storage\RuntimeArrayStorage;
-use Windwalker\Core\Cache\RuntimeCacheTrait;
-use Windwalker\Core\Database\DatabaseAdapter;
-use Windwalker\Core\Widget\WidgetHelper;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataSet;
-use Windwalker\DI\Annotation\Inject;
-use Windwalker\DI\Container;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Cache\Cache;
+use Windwalker\Legacy\Cache\Serializer\RawSerializer;
+use Windwalker\Legacy\Cache\Storage\RuntimeArrayStorage;
+use Windwalker\Legacy\Core\Cache\RuntimeCacheTrait;
+use Windwalker\Legacy\Core\Database\DatabaseAdapter;
+use Windwalker\Legacy\Core\Widget\WidgetHelper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\DI\Annotation\Inject;
+use Windwalker\Legacy\DI\Container;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The MenuService class.
@@ -125,7 +125,7 @@ class MenuService
      * @return  AbstractMenuView|null
      *
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @throws \Psr\Cache\InvalidArgumentException
      *
      * @since  1.7
@@ -212,7 +212,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.7
      */
     public function getMenusTree(string $type, bool $onlyAvailable = true, $parent = 1): Node
@@ -285,7 +285,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.7
      */
     public function getMenus(string $type, bool $onlyAvailable = true, $parent = 1): DataSet
@@ -302,7 +302,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.7.6
      */
@@ -355,7 +355,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.7.12
      */
@@ -386,7 +386,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.7.12
      */
@@ -493,7 +493,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.7.6
      */
@@ -528,7 +528,7 @@ class MenuService
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.7
      */
     public function renderMenuItems($menus, array $data = [], string $layout = 'luna.menu.menu-items'): string

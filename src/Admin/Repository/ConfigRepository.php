@@ -10,12 +10,12 @@ namespace Lyrasoft\Luna\Admin\Repository;
 
 use Lyrasoft\Luna\Admin\Record\ConfigRecord;
 use Phoenix\Repository\AdminRepository;
-use Windwalker\Data\DataInterface;
-use Windwalker\Database\Driver\AbstractDatabaseDriver;
-use Windwalker\DataMapper\Entity\Entity;
-use Windwalker\Record\Exception\NoResultException;
-use Windwalker\Record\Record;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Database\Driver\AbstractDatabaseDriver;
+use Windwalker\Legacy\DataMapper\Entity\Entity;
+use Windwalker\Legacy\Record\Exception\NoResultException;
+use Windwalker\Legacy\Record\Record;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The ConfigRepository class.

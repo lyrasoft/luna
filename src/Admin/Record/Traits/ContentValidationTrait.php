@@ -8,10 +8,10 @@
 
 namespace Lyrasoft\Luna\Admin\Record\Traits;
 
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Repository\Exception\ValidateFailException;
-use Windwalker\Record\Exception\NoResultException;
-use Windwalker\Record\Record;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Repository\Exception\ValidateFailException;
+use Windwalker\Legacy\Record\Exception\NoResultException;
+use Windwalker\Legacy\Record\Record;
 
 /**
  * The ContentValidationTrait class.
@@ -24,7 +24,7 @@ trait ContentValidationTrait
      * checkParent
      *
      * @return  static
-     * @throws \Windwalker\Core\Repository\Exception\ValidateFailException
+     * @throws \Windwalker\Legacy\Core\Repository\Exception\ValidateFailException
      */
     public function checkParent()
     {

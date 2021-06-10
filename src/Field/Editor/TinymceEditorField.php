@@ -11,10 +11,10 @@ namespace Lyrasoft\Luna\Field\Editor;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Script\EditorScript;
 use Phoenix\Script\PhoenixScript;
-use Windwalker\Core\Asset\Asset;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Ioc;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Core\Asset\Asset;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Ioc;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The TinymceEditorField class.

@@ -10,11 +10,11 @@ namespace Lyrasoft\Luna\Admin\Middleware;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use function Windwalker\arr;
-use Windwalker\Core\Application\Middleware\AbstractWebMiddleware;
-use Windwalker\Core\Router\MainRouter;
-use Windwalker\Event\Event;
-use Windwalker\Middleware\MiddlewareInterface;
+use function Windwalker\Legacy\arr;
+use Windwalker\Legacy\Core\Application\Middleware\AbstractWebMiddleware;
+use Windwalker\Legacy\Core\Router\MainRouter;
+use Windwalker\Legacy\Event\Event;
+use Windwalker\Legacy\Middleware\MiddlewareInterface;
 
 /**
  * The MenuTypeWrbMiddleware class.

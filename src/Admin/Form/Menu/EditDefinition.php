@@ -22,12 +22,12 @@ use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Admin\Field\User\UserModalField;
 use Phoenix\Form\Filter\UtcFilter;
 use Phoenix\Form\PhoenixFieldTrait;
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Core\Ioc;
-use Windwalker\Form\Filter\MaxLengthFilter;
-use Windwalker\Form\Form;
-use Windwalker\Query\Query;
-use Windwalker\Validator\Rule;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Core\Ioc;
+use Windwalker\Legacy\Form\Filter\MaxLengthFilter;
+use Windwalker\Legacy\Form\Form;
+use Windwalker\Legacy\Query\Query;
+use Windwalker\Legacy\Validator\Rule;
 
 /**
  * The MenuEditDefinition class.

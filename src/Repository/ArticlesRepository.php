@@ -12,8 +12,8 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
-use Windwalker\Query\Query;
-use Windwalker\Query\QueryElement;
+use Windwalker\Legacy\Query\Query;
+use Windwalker\Legacy\Query\QueryElement;
 
 /**
  * The ArticlesModel class.

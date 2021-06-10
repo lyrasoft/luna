@@ -8,7 +8,7 @@
 
 use Lyrasoft\Luna\Admin\DataMapper\LanguageMapper;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Core\Seeder\AbstractSeeder;
+use Windwalker\Legacy\Core\Seeder\AbstractSeeder;
 
 /**
  * The LanguageSeeder class.

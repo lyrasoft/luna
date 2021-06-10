@@ -9,14 +9,14 @@
 namespace Lyrasoft\Luna\Menu;
 
 use Phoenix\Html\MenuHelper;
-use Windwalker\Core\Event\EventDispatcher;
-use Windwalker\Core\Form\CoreFieldDefinitionInterface;
-use Windwalker\Core\Form\CoreFieldDefinitionTrait;
-use Windwalker\Core\Router\RouteBuilderInterface;
-use Windwalker\DI\Annotation\Inject;
-use Windwalker\Event\DispatcherAwareTrait;
-use Windwalker\Event\DispatcherInterface;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Event\EventDispatcher;
+use Windwalker\Legacy\Core\Form\CoreFieldDefinitionInterface;
+use Windwalker\Legacy\Core\Form\CoreFieldDefinitionTrait;
+use Windwalker\Legacy\Core\Router\RouteBuilderInterface;
+use Windwalker\Legacy\DI\Annotation\Inject;
+use Windwalker\Legacy\Event\DispatcherAwareTrait;
+use Windwalker\Legacy\Event\DispatcherInterface;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The AbstractView class.

@@ -11,11 +11,11 @@ namespace Lyrasoft\Luna\Importer;
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
 use Lyrasoft\Luna\Admin\Record\MenuRecord;
 use Phoenix\Utilities\SlugHelper;
-use Windwalker\Core\Database\DatabaseAdapter;
-use Windwalker\Core\DateTime\Chronos;
-use Windwalker\Data\Data;
-use Windwalker\Utilities\Arr;
-use function Windwalker\tap;
+use Windwalker\Legacy\Core\Database\DatabaseAdapter;
+use Windwalker\Legacy\Core\DateTime\Chronos;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Utilities\Arr;
+use function Windwalker\Legacy\tap;
 
 /**
  * The MenuImporter class.

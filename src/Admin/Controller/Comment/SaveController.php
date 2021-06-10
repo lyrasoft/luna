@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Admin\Controller\Comment;
 use Lyrasoft\Luna\Admin\Repository\CommentRepository;
 use Lyrasoft\Luna\Admin\View\Comment\CommentHtmlView;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\DataInterface;
+use Windwalker\Legacy\Data\DataInterface;
 
 /**
  * The SaveController class.

@@ -12,9 +12,9 @@ use Lyrasoft\Luna\PageBuilder\AbstractAddon;
 use Lyrasoft\Luna\PageBuilder\HasOwnStyleInterface;
 use Lyrasoft\Luna\PageBuilder\Renderer\AbstractPageRenderer;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
-use Windwalker\Core\Asset\AssetManager;
-use Windwalker\Data\DataInterface;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\Asset\AssetManager;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The FeatureAddon class.

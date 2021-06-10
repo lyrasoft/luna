@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Script;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Windwalker\Core\Asset\AbstractScript;
+use Windwalker\Legacy\Core\Asset\AbstractScript;
 
 /**
  * The LanguageScript class.

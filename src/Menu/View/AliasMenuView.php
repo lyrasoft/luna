@@ -13,9 +13,9 @@ use Lyrasoft\Luna\Admin\Field\Menu\MenuModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Menu\MenuNode;
 use Lyrasoft\Luna\Menu\MenuService;
-use Windwalker\Core\Router\RouteBuilderInterface;
-use Windwalker\Form\Form;
-use Windwalker\Ioc;
+use Windwalker\Legacy\Core\Router\RouteBuilderInterface;
+use Windwalker\Legacy\Form\Form;
+use Windwalker\Legacy\Ioc;
 
 /**
  * The AliasMenuView class.
@@ -92,7 +92,7 @@ class AliasMenuView extends AbstractMenuView
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.7
      */
     public function route(RouteBuilderInterface $router, array $variables, array $params): string
@@ -116,7 +116,7 @@ class AliasMenuView extends AbstractMenuView
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.7
      */
     public function isActive(array $variables, array $params): bool
@@ -140,7 +140,7 @@ class AliasMenuView extends AbstractMenuView
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.7
      */

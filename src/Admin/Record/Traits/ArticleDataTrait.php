@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Luna\Admin\Record\Traits;
 
-use Windwalker\Data\Data;
-use Windwalker\Data\DataSet;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataSet;
 
 /**
  * The ArticleDataTrait class.

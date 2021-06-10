@@ -13,7 +13,7 @@ use Lyrasoft\Luna\Menu\MenuService;
 use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
-use Windwalker\Ioc;
+use Windwalker\Legacy\Ioc;
 
 /**
  * The TypeListField class.

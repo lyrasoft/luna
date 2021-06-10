@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\BootstrapScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\EditView;
-use Windwalker\Core\Renderer\RendererHelper;
+use Windwalker\Legacy\Core\Renderer\RendererHelper;
 
 /**
  * The CommentHtmlView class.
@@ -69,7 +69,7 @@ class CommentHtmlView extends EditView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @return  void
      */

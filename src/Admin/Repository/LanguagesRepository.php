@@ -11,7 +11,7 @@ namespace Lyrasoft\Luna\Admin\Repository;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Repository\Filter\FilterHelperInterface;
 use Phoenix\Repository\ListRepository;
-use Windwalker\Query\Query;
+use Windwalker\Legacy\Query\Query;
 
 /**
  * The LanguagesModel class.

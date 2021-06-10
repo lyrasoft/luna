@@ -3,27 +3,27 @@
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var $app           \Windwalker\Web\Application                 Global Application
- * @var $package       \Windwalker\Core\Package\AbstractPackage    Package object.
- * @var $view          \Windwalker\Data\Data                       Some information of this view.
- * @var $uri           \Windwalker\Uri\UriData               Uri information, example: $uri->path
+ * @var $app           \Windwalker\Legacy\Web\Application                 Global Application
+ * @var $package       \Windwalker\Legacy\Core\Package\AbstractPackage    Package object.
+ * @var $view          \Windwalker\Legacy\Data\Data                       Some information of this view.
+ * @var $uri           \Windwalker\Legacy\Uri\UriData               Uri information, example: $uri->path
  * @var $datetime      \DateTime                                   PHP DateTime object of current time.
- * @var $helper        \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
- * @var $router        \Windwalker\Core\Router\PackageRouter       Router object.
- * @var $asset         \Windwalker\Core\Asset\AssetManager         The Asset manager.
+ * @var $helper        \Windwalker\Legacy\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
+ * @var $router        \Windwalker\Legacy\Core\Router\PackageRouter       Router object.
+ * @var $asset         \Windwalker\Legacy\Core\Asset\AssetManager         The Asset manager.
  *
  * View variables
  * --------------------------------------------------------------
- * @var $filterBar     \Windwalker\Core\Widget\Widget
- * @var $filterForm    \Windwalker\Form\Form
- * @var $form          \Windwalker\Form\Form
+ * @var $filterBar     \Windwalker\Legacy\Core\Widget\Widget
+ * @var $filterForm    \Windwalker\Legacy\Form\Form
+ * @var $form          \Windwalker\Legacy\Form\Form
  * @var $showFilterBar boolean
  * @var $grid          \Phoenix\View\Helper\GridHelper
- * @var $state         \Windwalker\Structure\Structure
- * @var $items         \Windwalker\Data\DataSet
- * @var $item          \Windwalker\Data\Data
+ * @var $state         \Windwalker\Legacy\Structure\Structure
+ * @var $items         \Windwalker\Legacy\Data\DataSet
+ * @var $item          \Windwalker\Legacy\Data\Data
  * @var $i             integer
- * @var $pagination    \Windwalker\Core\Pagination\Pagination
+ * @var $pagination    \Windwalker\Legacy\Core\Pagination\Pagination
  * @var $ordering      array
  */
 

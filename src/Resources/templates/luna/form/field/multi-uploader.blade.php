@@ -1,8 +1,8 @@
 {{-- Part of earth project. --}}
 <?php
 $meta = (bool) $field->get('edit_form', $field->get('image_form'));
-/** @var \Windwalker\Form\Form $imageMetaForm */
-/** @var \Windwalker\Form\Form $editForm */
+/** @var \Windwalker\Legacy\Form\Form $imageMetaForm */
+/** @var \Windwalker\Legacy\Form\Form $editForm */
 $form = $editForm ?? $imageMetaForm;
 ?>
 

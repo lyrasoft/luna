@@ -9,9 +9,9 @@
 namespace Lyrasoft\Luna\Repository;
 
 use Phoenix\Repository\ItemRepository;
-use Windwalker\Data\DataInterface;
-use Windwalker\Database\Driver\AbstractDatabaseDriver;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Database\Driver\AbstractDatabaseDriver;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The PageRepository class.

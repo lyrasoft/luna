@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Importer;
 use Lyrasoft\Luna\Admin\DataMapper\ArticleMapper;
 use Lyrasoft\Luna\Admin\Record\MenuRecord;
 use Phoenix\Utilities\SlugHelper;
-use Windwalker\Core\DateTime\Chronos;
-use Windwalker\Data\Data;
+use Windwalker\Legacy\Core\DateTime\Chronos;
+use Windwalker\Legacy\Data\Data;
 
 /**
  * The ArticleImporter class.

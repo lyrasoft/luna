@@ -14,8 +14,8 @@ use Lyrasoft\Luna\Admin\View\Article\ArticleHtmlView;
 use Lyrasoft\Luna\Image\ArticleImageHelper;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Data\DataInterface;
-use Windwalker\Filter\InputFilter;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Filter\InputFilter;
 
 /**
  * The SaveController class.

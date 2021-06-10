@@ -3,22 +3,22 @@
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var $app         \Windwalker\Web\Application                 Global Application
+ * @var $app         \Windwalker\Legacy\Web\Application                 Global Application
  * @var $package     \Lyrasoft\Luna\LunaPackage                   Package object.
- * @var $view        \Windwalker\Data\Data                       Some information of this view.
- * @var $uri         \Windwalker\Uri\UriData               Uri information, example: $uri->path
+ * @var $view        \Windwalker\Legacy\Data\Data                       Some information of this view.
+ * @var $uri         \Windwalker\Legacy\Uri\UriData               Uri information, example: $uri->path
  * @var $datetime    \DateTime                                   PHP DateTime object of current time.
- * @var $helper      \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
- * @var $router      \Windwalker\Core\Router\MainRouter          Route builder object.
- * @var $asset       \Windwalker\Core\Asset\AssetManager         The Asset manager.
+ * @var $helper      \Windwalker\Legacy\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
+ * @var $router      \Windwalker\Legacy\Core\Router\MainRouter          Route builder object.
+ * @var $asset       \Windwalker\Legacy\Core\Asset\AssetManager         The Asset manager.
  *
  * View variables
  * --------------------------------------------------------------
- * @var $items       \Windwalker\Data\DataSet
+ * @var $items       \Windwalker\Legacy\Data\DataSet
  * @var $item        \Lyrasoft\Luna\Admin\Record\ArticleRecord
  * @var $category    \Lyrasoft\Luna\Admin\Record\CategoryRecord
- * @var $state       \Windwalker\Structure\Structure
- * @var $pagination  \Windwalker\Core\Pagination\Pagination
+ * @var $state       \Windwalker\Legacy\Structure\Structure
+ * @var $pagination  \Windwalker\Legacy\Core\Pagination\Pagination
  */
 ?>
 
@@ -46,7 +46,7 @@
                                 </h2>
 
                                 <span class="text-muted">
-                                    {{ \Windwalker\Core\DateTime\Chronos::toLocalTime($item->created) }}
+                                    {{ \Windwalker\Legacy\Core\DateTime\Chronos::toLocalTime($item->created) }}
                                 </span>
 
                                 <div class="article-content">

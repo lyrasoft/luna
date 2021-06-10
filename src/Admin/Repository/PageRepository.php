@@ -11,10 +11,10 @@ namespace Lyrasoft\Luna\Admin\Repository;
 use Lyrasoft\Luna\Admin\Record\PageRecord;
 use Phoenix\Utilities\SlugHelper;
 use Phoenix\Repository\AdminRepository;
-use Windwalker\Data\DataInterface;
-use Windwalker\Database\Driver\AbstractDatabaseDriver;
-use Windwalker\Record\Record;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Database\Driver\AbstractDatabaseDriver;
+use Windwalker\Legacy\Record\Record;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The PageRepository class.

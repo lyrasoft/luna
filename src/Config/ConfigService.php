@@ -10,9 +10,9 @@ namespace Lyrasoft\Luna\Config;
 
 use Lyrasoft\Luna\Admin\DataMapper\ConfigMapper;
 use Lyrasoft\Luna\Admin\Repository\ConfigRepository;
-use Windwalker\Core\Cache\RuntimeCacheTrait;
-use Windwalker\Data\Data;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\Cache\RuntimeCacheTrait;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The ConfigService class.

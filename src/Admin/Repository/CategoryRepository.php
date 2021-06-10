@@ -10,9 +10,9 @@ namespace Lyrasoft\Luna\Admin\Repository;
 
 use Phoenix\Utilities\SlugHelper;
 use Phoenix\Repository\NestedAdminRepository;
-use Windwalker\Data\DataInterface;
-use Windwalker\Form\Filter\MaxLengthFilter;
-use Windwalker\Record\Record;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Form\Filter\MaxLengthFilter;
+use Windwalker\Legacy\Record\Record;
 
 /**
  * The CategoryModel class.

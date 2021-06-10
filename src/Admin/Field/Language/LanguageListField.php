@@ -12,7 +12,7 @@ use Lyrasoft\Luna\Language\Locale;
 use Lyrasoft\Luna\Script\Select2Script;
 use Lyrasoft\Luna\Table\LunaTable;
 use Phoenix\Field\ItemListField;
-use Windwalker\Html\Option;
+use Windwalker\Legacy\Html\Option;
 
 /**
  * The LanguageField class.

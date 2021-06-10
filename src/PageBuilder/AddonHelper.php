@@ -10,13 +10,13 @@ namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Phoenix\Script\PhoenixScript;
-use Windwalker\Cache\Cache;
-use Windwalker\Cache\Serializer\RawSerializer;
-use Windwalker\Cache\Storage\ArrayStorage;
-use Windwalker\Data\DataSet;
-use Windwalker\Filesystem\Folder;
-use Windwalker\Ioc;
-use Windwalker\String\StringNormalise;
+use Windwalker\Legacy\Cache\Cache;
+use Windwalker\Legacy\Cache\Serializer\RawSerializer;
+use Windwalker\Legacy\Cache\Storage\ArrayStorage;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\Filesystem\Folder;
+use Windwalker\Legacy\Ioc;
+use Windwalker\Legacy\String\StringNormalise;
 
 /**
  * The AddonHelper class.
@@ -62,7 +62,7 @@ class AddonHelper
      * @return  AbstractAddon
      *
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @since  1.5.2
      */
     public static function getAddonInstance($type, array $data = [])

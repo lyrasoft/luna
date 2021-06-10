@@ -9,7 +9,7 @@
 namespace Lyrasoft\Luna\Contact;
 
 use Lyrasoft\Luna\Helper\LunaHelper;
-use Windwalker\Core\Language\Translator;
+use Windwalker\Legacy\Core\Language\Translator;
 
 /**
  * The ContactHelper class.

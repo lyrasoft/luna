@@ -12,9 +12,9 @@ use Lyrasoft\Luna\Admin\DataMapper\TagMapper;
 use Lyrasoft\Luna\Admin\Repository\TagRepository;
 use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Luna\Table\LunaTable;
-use Windwalker\Data\Data;
-use Windwalker\Data\DataSet;
-use Windwalker\DataMapper\DataMapper;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Data\DataSet;
+use Windwalker\Legacy\DataMapper\DataMapper;
 
 /**
  * The TagHelper class.

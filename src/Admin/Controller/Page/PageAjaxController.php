@@ -17,9 +17,9 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Unidev\Controller\AbstractMultiTaskController;
 use Lyrasoft\Unidev\Field\SingleImageDragField;
 use Lyrasoft\Unidev\Image\ImageHtmlHelper;
-use Windwalker\Data\Collection;
-use Windwalker\Data\Data;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Data\Collection;
+use Windwalker\Legacy\Data\Data;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The PageAjaxController class.
@@ -73,7 +73,7 @@ class PageAjaxController extends AbstractMultiTaskController
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.8
      */
@@ -219,7 +219,7 @@ class PageAjaxController extends AbstractMultiTaskController
      * @return  mixed
      *
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.8
      */

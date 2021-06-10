@@ -3,29 +3,29 @@
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var $app      \Windwalker\Web\Application                 Global Application
+ * @var $app      \Windwalker\Legacy\Web\Application                 Global Application
  * @var $package  \Lyrasoft\Luna\LunaPackage                   Package object.
- * @var $view     \Windwalker\Data\Data                       Some information of this view.
- * @var $uri      \Windwalker\Uri\UriData                     Uri information, example: $uri->path
- * @var $chronos  \Windwalker\Core\DateTime\Chronos           PHP DateTime object of current time.
- * @var $helper   \Windwalker\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
- * @var $router   \Windwalker\Core\Router\PackageRouter       Router object.
- * @var $asset    \Windwalker\Core\Asset\AssetManager         The Asset manager.
+ * @var $view     \Windwalker\Legacy\Data\Data                       Some information of this view.
+ * @var $uri      \Windwalker\Legacy\Uri\UriData                     Uri information, example: $uri->path
+ * @var $chronos  \Windwalker\Legacy\Core\DateTime\Chronos           PHP DateTime object of current time.
+ * @var $helper   \Windwalker\Legacy\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
+ * @var $router   \Windwalker\Legacy\Core\Router\PackageRouter       Router object.
+ * @var $asset    \Windwalker\Legacy\Core\Asset\AssetManager         The Asset manager.
  *
  * View variables
  * --------------------------------------------------------------
  * @var $addon      \Lyrasoft\Luna\PageBuilder\Text\TextAddon
  * @var $classes    array
  * @var $attrs      array
- * @var $content    \Windwalker\Structure\Structure
- * @var $options    \Windwalker\Structure\Structure
+ * @var $content    \Windwalker\Legacy\Structure\Structure
+ * @var $options    \Windwalker\Legacy\Structure\Structure
  * @var $addonRenderer \Lyrasoft\Luna\PageBuilder\Renderer\AddonRenderer
  */
 
 $text = $options['content'];
 
-$text = \Windwalker\Filter\OutputFilter::stripScript($text);
-$text = \Windwalker\Filter\OutputFilter::stripStyle($text);
+$text = \Windwalker\Legacy\Filter\OutputFilter::stripScript($text);
+$text = \Windwalker\Legacy\Filter\OutputFilter::stripStyle($text);
 ?>
 
 @extends('page.addon-wrapper')

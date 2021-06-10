@@ -16,9 +16,9 @@ use Lyrasoft\Unidev\Field\UnidevFieldTrait;
 use Lyrasoft\Warder\Helper\WarderHelper;
 use Phoenix\Form\Filter\ServerTZFilter;
 use Phoenix\Form\PhoenixFieldTrait;
-use Windwalker\Core\Form\AbstractFieldDefinition;
-use Windwalker\Form\Filter\MaxLengthFilter;
-use Windwalker\Form\Form;
+use Windwalker\Legacy\Core\Form\AbstractFieldDefinition;
+use Windwalker\Legacy\Form\Filter\MaxLengthFilter;
+use Windwalker\Legacy\Form\Form;
 
 /**
  * The ArticleEditDefinition class.

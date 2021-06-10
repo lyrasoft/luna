@@ -10,8 +10,8 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use ScssPhp\ScssPhp\Compiler;
-use Windwalker\Core\Widget\WidgetHelper;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\Widget\WidgetHelper;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The RowStyleRenderer class.

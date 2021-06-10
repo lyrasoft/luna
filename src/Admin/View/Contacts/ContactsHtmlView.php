@@ -14,7 +14,7 @@ use Phoenix\Script\CoreScript;
 use Phoenix\Script\PhoenixScript;
 use Phoenix\View\GridView;
 use Phoenix\View\ListView;
-use Windwalker\Core\Asset\Asset;
+use Windwalker\Legacy\Core\Asset\Asset;
 
 /**
  * The ContactsHtmlView class.
@@ -77,13 +77,13 @@ class ContactsHtmlView extends GridView
     /**
      * prepareData
      *
-     * @param \Windwalker\Data\Data $data
+     * @param \Windwalker\Legacy\Data\Data $data
      *
      * @see ListView
      * ------------------------------------------------------
-     * @var                         $data ->state          \Windwalker\Registry\Registry
-     * @var                         $data ->items          \Windwalker\Data\DataSet
-     * @var                         $data ->pagination     \Windwalker\Core\Pagination\Pagination
+     * @var                         $data ->state          \Windwalker\Legacy\Registry\Registry
+     * @var                         $data ->items          \Windwalker\Legacy\Data\DataSet
+     * @var                         $data ->pagination     \Windwalker\Legacy\Core\Pagination\Pagination
      * @var                         $data ->total          integer
      * @var                         $data ->limit          integer
      * @var                         $data ->start          integer
@@ -91,9 +91,9 @@ class ContactsHtmlView extends GridView
      *
      * @see GridView
      * ------------------------------------------------------
-     * @var                         $data ->filterForm     \Windwalker\Form\Form
-     * @var                         $data ->batchForm      \Windwalker\Form\Form
-     * @var                         $data ->filterBar      \Windwalker\Core\Widget\Widget
+     * @var                         $data ->filterForm     \Windwalker\Legacy\Form\Form
+     * @var                         $data ->batchForm      \Windwalker\Legacy\Form\Form
+     * @var                         $data ->filterBar      \Windwalker\Legacy\Core\Widget\Widget
      * @var                         $data ->showFilterBar  boolean
      * @var                         $data ->grid           \Phoenix\View\Helper\GridHelper
      *

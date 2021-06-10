@@ -11,8 +11,8 @@ namespace Lyrasoft\Luna\Admin\Controller\Categories;
 use Lyrasoft\Luna\Admin\Repository\CategoriesRepository;
 use Lyrasoft\Luna\Admin\View\Categories\CategoriesHtmlView;
 use Phoenix\Controller\Display\ListDisplayController;
-use Windwalker\Core\Repository\Repository;
-use Windwalker\Core\View\AbstractView;
+use Windwalker\Legacy\Core\Repository\Repository;
+use Windwalker\Legacy\Core\View\AbstractView;
 
 /**
  * The GetController class.
