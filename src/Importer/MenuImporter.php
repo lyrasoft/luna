@@ -14,7 +14,7 @@ use Windwalker\Legacy\Core\Database\DatabaseAdapter;
 use Windwalker\Legacy\Core\DateTime\Chronos;
 use Windwalker\Legacy\Data\Data;
 use Windwalker\Legacy\Utilities\Arr;
-use function Windwalker\Legacy\tap;
+use function Windwalker\tap;
 
 /**
  * The MenuImporter class.

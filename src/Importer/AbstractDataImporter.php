@@ -16,7 +16,7 @@ use Windwalker\Legacy\Event\DispatcherAwareTrait;
 use Windwalker\Legacy\Event\DispatcherInterface;
 use Windwalker\Legacy\Filesystem\File;
 use Windwalker\Legacy\Structure\Structure;
-use function Windwalker\Legacy\tap;
+use function Windwalker\tap;
 
 /**
  * The DataImporter class.

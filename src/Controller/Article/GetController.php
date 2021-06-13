@@ -16,7 +16,7 @@ use Windwalker\Legacy\Core\Repository\Repository;
 use Windwalker\Legacy\Core\Security\Exception\UnauthorizedException;
 use Windwalker\Legacy\Core\View\AbstractView;
 use Windwalker\Legacy\Router\Exception\RouteNotFoundException;
-use function Windwalker\Legacy\tap;
+use function Windwalker\tap;
 
 /**
  * The GetController class.
