@@ -3,19 +3,23 @@
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var $app           \Windwalker\Legacy\Web\Application                 Global Application
- * @var $package       \Windwalker\Legacy\Core\Package\AbstractPackage    Package object.
- * @var $view          \Windwalker\Legacy\Data\Data                       Some information of this view.
- * @var $uri           \Windwalker\Legacy\Uri\UriData                     Uri information, example: $uri->path
- * @var $datetime      \DateTime                                   PHP DateTime object of current time.
- * @var $helper        \Windwalker\Legacy\Core\View\Helper\Set\HelperSet  The Windwalker HelperSet object.
- * @var $router        \Windwalker\Legacy\Core\Router\PackageRouter       Router object.
- * @var $asset         \Windwalker\Legacy\Core\Asset\AssetManager         The Asset manager.
- *
- * @var $message       \Windwalker\Legacy\Core\Mailer\MailMessage
- * @var $receiver      \Lyrasoft\Warder\Data\UserData
- * @var $data          \Windwalker\Legacy\Data\Data
+ * @var  $app       AppContext      Application context.
+ * @var  $vm        object          The view model object.
+ * @var  $uri       SystemUri       System Uri information.
+ * @var  $chronos   ChronosService  The chronos datetime service.
+ * @var  $nav       Navigator       Navigator object to build route.
+ * @var  $asset     AssetService    The Asset manage service.
+ * @var  $lang      LangService     The language translation service.
  */
+
+declare(strict_types=1);
+
+use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Asset\AssetService;
+use Windwalker\Core\DateTime\ChronosService;
+use Windwalker\Core\Language\LangService;
+use Windwalker\Core\Router\Navigator;
+use Windwalker\Core\Router\SystemUri;
 
 ?>
 

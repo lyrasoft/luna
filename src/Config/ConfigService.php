@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Admin\Repository\ConfigRepository;
 use Windwalker\Legacy\Core\Cache\RuntimeCacheTrait;
 use Windwalker\Legacy\Data\Data;
 use Windwalker\Legacy\Structure\Structure;
+use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
 /**
  * The ConfigService class.
@@ -21,7 +22,7 @@ use Windwalker\Legacy\Structure\Structure;
  */
 class ConfigService
 {
-    use RuntimeCacheTrait;
+    use InstanceCacheTrait;
 
     /**
      * Property repo.
