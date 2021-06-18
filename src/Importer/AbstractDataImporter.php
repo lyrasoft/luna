@@ -9,6 +9,8 @@
 namespace Lyrasoft\Luna\Importer;
 
 use Windwalker\Core\Seed\FakerService;
+use Windwalker\Event\EventAwareInterface;
+use Windwalker\Event\EventAwareTrait;
 use Windwalker\Legacy\Core\Database\DatabaseAdapter;
 use Windwalker\Legacy\Data\Data;
 use Windwalker\Legacy\Filesystem\File;
@@ -20,8 +22,10 @@ use function Windwalker\tap;
  *
  * @since  1.7.12
  */
-abstract class AbstractDataImporter
+abstract class AbstractDataImporter implements EventAwareInterface
 {
+    use EventAwareTrait;
+
     /**
      * Property db.
      *
@@ -93,7 +97,7 @@ abstract class AbstractDataImporter
         }
 
         return tap($this->store($data), function ($data) use ($defaultData) {
-            $this->triggerEvent('onItemImported', compact('data', 'defaultData'));
+            $this->emit('onItemImported', compact('data', 'defaultData'));
         });
     }
 

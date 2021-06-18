@@ -9,10 +9,8 @@
 namespace Lyrasoft\Luna\Importer;
 
 use Lyrasoft\Luna\Admin\Record\CategoryRecord;
-use Lyrasoft\Luna\Admin\Record\MenuRecord;
-use Phoenix\Utilities\SlugHelper;
-use Windwalker\Legacy\Core\Database\DatabaseAdapter;
-use Windwalker\Legacy\Core\DateTime\Chronos;
+use Unicorn\Utilities\SlugHelper;
+use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Legacy\Data\Data;
 use Windwalker\Legacy\Utilities\Arr;
 use function Windwalker\tap;
@@ -38,7 +36,7 @@ class CategoryImporter extends AbstractDataImporter
     {
         $data->alias      = SlugHelper::safe($data->alias ?: $data->title);
         $data->state      = $data->state ?? 1;
-        $data->created    = $data->created ?: Chronos::create()->toSql();
+        $data->created    = $data->created ?: Chronos::create();
         $data->created_by = $data->created_by ?? 1;
         $data->language   = $data->language ?: '*';
         $data->params     = is_json($data->params) ? $data->params : json_encode($data->params ?? []);
