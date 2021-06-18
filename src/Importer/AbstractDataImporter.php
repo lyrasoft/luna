@@ -8,12 +8,9 @@
 
 namespace Lyrasoft\Luna\Importer;
 
+use Windwalker\Core\Seed\FakerService;
 use Windwalker\Legacy\Core\Database\DatabaseAdapter;
-use Windwalker\Legacy\Core\Seeder\FakerService;
 use Windwalker\Legacy\Data\Data;
-use Windwalker\Legacy\Event\DispatcherAwareInterface;
-use Windwalker\Legacy\Event\DispatcherAwareTrait;
-use Windwalker\Legacy\Event\DispatcherInterface;
 use Windwalker\Legacy\Filesystem\File;
 use Windwalker\Legacy\Structure\Structure;
 use function Windwalker\tap;
@@ -23,10 +20,8 @@ use function Windwalker\tap;
  *
  * @since  1.7.12
  */
-abstract class AbstractDataImporter implements DispatcherInterface, DispatcherAwareInterface
+abstract class AbstractDataImporter
 {
-    use DispatcherAwareTrait;
-
     /**
      * Property db.
      *
