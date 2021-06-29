@@ -155,8 +155,8 @@
                                     <div class="article-category-field" style="padding-left: 10px">
                                         <small class="text-muted">
                                             <span class="fa fa-folder"></span>
-                                            @foreach ($view->getCategoryPath($item->category_id) as $i => $category)
-                                                @if ($i !== 0)
+                                            @foreach ($view->getCategoryPath($item->category_id) as $k => $category)
+                                                @if ($k !== 0)
                                                     /
                                                 @endif
 
