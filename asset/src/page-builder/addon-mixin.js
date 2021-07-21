@@ -43,3 +43,7 @@ const LunaAddonMixin = {
     }
   }
 };
+
+window.LunaAddonMixin = LunaAddonMixin;
+
+export LunaAddonMixin;
