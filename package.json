@@ -1,35 +1,14 @@
 {
     "scripts": {
-        "postinstall": "npm run build -- install",
-        "build": "cross-env NODE_ENV=development node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js",
-        "watch": "cross-env NODE_ENV=development node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js --watch=1",
-        "watch:reload": "cross-env NODE_ENV=development node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js --watch=1 --livereload=1",
-        "prod": "cross-env NODE_ENV=production node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js"
+        "build": "cross-env node_modules/.bin/gulp",
+        "build:dev": "cross-env NODE_ENV=development node_modules/.bin/gulp",
+        "build:prod": "cross-env NODE_ENV=production node_modules/.bin/gulp",
+        "watch": "cross-env NODE_ENV=development node_modules/.bin/gulp --watch=1",
+        "watch:reload": "cross-env NODE_ENV=development node_modules/.bin/gulp --watch=1 --livereload=1",
+        "postinstall": "yarn build install"
     },
     "dependencies": {
-        "@babel/core": "^7.4.0",
-        "@babel/plugin-proposal-class-properties": "^7.4.0",
-        "@babel/plugin-proposal-decorators": "^7.8.3",
-        "@babel/preset-env": "^7.4.2",
-        "animate.css": "^3.7.0",
-        "babel-loader": "^8.1.0",
-        "cross-env": "^5.2.0",
-        "css-loader": "^3.5.3",
-        "jarallax": "1.10.7",
-        "lodash": "^4.17.20",
-        "sass-loader": "^8.0.2",
-        "tinymce": "^5.0.13",
-        "tinymce-i18n": "^19.5.15",
-        "vinyl-named-with-path": "^1.0.0",
-        "vue": "^2.6.11",
-        "vue-codemirror": "^4.0.6",
-        "vue-loader": "^15.9.1",
-        "vue-slide-bar": "^1.1.5",
-        "vue-style-loader": "^4.1.2",
-        "vue-template-compiler": "^2.6.11",
-        "webpack-comment-remover-loader": "^0.0.3",
-        "webpack-stream": "^5.2.1",
-        "wowjs": "^1.1.3"
+
     },
     "devDependencies": {
         "windwalker-fusion": "^0.1.9"

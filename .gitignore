@@ -1,4 +1,29 @@
+# OS generated files #
+.DS_Store
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# IDE Ignores #
+.idea/
+
+# System #
+/tmp/*
+
+# Composer #
+vendor/*
+composer.lock
+
+/coverage
+
+# JS #
 yarn.lock
-yarn-error.log
 /node_modules
-/bower_components
+
+# Test #
+phpunit.xml
+.phpunit.result.cache
+
+# Extra #
+!.gitkeep
