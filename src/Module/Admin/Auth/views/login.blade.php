@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * Global variables
+ * --------------------------------------------------------------
+ * @var  $app       AppContext      Application context.
+ * @var  $vm        object          The view model object.
+ * @var  $uri       SystemUri       System Uri information.
+ * @var  $chronos   ChronosService  The chronos datetime service.
+ * @var  $nav       Navigator       Navigator object to build route.
+ * @var  $asset     AssetService    The Asset manage service.
+ * @var  $lang      LangService     The language translation service.
+ */
+
+declare(strict_types=1);
+
+use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Asset\AssetService;
+use Windwalker\Core\DateTime\ChronosService;
+use Windwalker\Core\Language\LangService;
+use Windwalker\Core\Router\Navigator;
+use Windwalker\Core\Router\SystemUri;
+
+?>
+
+@extends('admin.global.html')
+
+@section('body')
+    <div class="container warder-page login-page">
+        <div class="row">
+
+            @section('login-content')
+                <div class="col-md-6 col-md-offset-3 mx-md-auto" style="margin-top: 50px">
+                    <form id="user-form" class="form-horizontal" action="{{ $router->route('login') }}" method="POST"
+                        enctype="multipart/form-data">
+
+                        @include('@messages')
+
+                        @yield('login-desc')
+
+                        {!! $form->renderFields('login') !!}
+
+                        <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
+                            <div class="form-check checkbox checkbox-primary">
+                                <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember" value="on">
+                                <label class="form-check-label" for="input-user-remember">
+                                    @lang($warder->langPrefix . 'user.field.remember')
+                                </label>
+                            </div>
+                        </div>
+
+                        <p class="login-button-group">
+                            <button class="login-button btn btn-primary btn-block disable-on-submit">
+                                @lang($warder->langPrefix . 'login.submit.button')
+                            </button>
+                        </p>
+
+                        <div class="hidden-inputs">
+                            @include('@csrf')
+                        </div>
+                    </form>
+                </div>
+            @show
+
+        </div>
+    </div>
+@stop
