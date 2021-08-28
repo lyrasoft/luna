@@ -11,11 +11,14 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\User;
 
+use Lyrasoft\Luna\Enum\UserEnabled;
 use Lyrasoft\Luna\Module\Admin\User\Form\GridForm;
 use Lyrasoft\Luna\Repository\UserRepository;
+use Unicorn\Html\State\StateButton;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\Data\Collection;
@@ -34,6 +37,8 @@ use Windwalker\ORM\ORM;
 )]
 class UserListView implements ViewModelInterface
 {
+    use TranslatorTrait;
+
     public function __construct(
         protected ORM $orm,
         #[Autowire]
@@ -142,5 +147,21 @@ class UserListView implements ViewModelInterface
         }
 
         return false;
+    }
+
+    public function createEnabledButton(): StateButton
+    {
+        $enabledButton = StateButton::create();
+        $enabledButton->addState(UserEnabled::ENABLED())
+            ->task('disable')
+            ->title(UserEnabled::ENABLED()->trans($this->translator))
+            ->icon('fa-solid fa-check');
+
+        $enabledButton->addState(UserEnabled::DISABLED())
+            ->task('enable')
+            ->title(UserEnabled::DISABLED()->trans($this->translator))
+            ->icon('fa-solid fa-times');
+
+        return $enabledButton;
     }
 }

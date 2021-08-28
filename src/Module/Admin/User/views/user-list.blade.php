@@ -26,6 +26,7 @@ use Lyrasoft\Luna\Module\Admin\User\UserListView;
  * @var \Lyrasoft\Luna\Entity\User $entity
  */
 
+$enabledButton = $vm->createEnabledButton();
 ?>
 
 @extends('admin.global.body')
@@ -132,21 +133,7 @@ use Lyrasoft\Luna\Module\Admin\User\UserListView;
 
                             {{-- ENABLED --}}
                             <td class="text-center">
-                                @if (!$item->blocked)
-                                    <button type="button"
-                                        class="waves-effect btn btn-light btn-default btn-sm hasTooltip"
-                                        onclick="grid.updateItem({{ $item->id }}, null, { task: 'blocked' });"
-                                        title="@lang('warder.button.activated.desc')">
-                                        <span class="fa fa-check text-success"></span>
-                                    </button>
-                                @else
-                                    <button type="button"
-                                        class="waves-effect btn btn-light btn-default btn-sm hasTooltip"
-                                        onclick="grid.updateItem({{ $item->id }}, null, { task: 'unblocked' });"
-                                        title="@lang('warder.button.unactivated.desc')">
-                                        <span class="fa fa-remove fa-times text-danger"></span>
-                                    </button>
-                                @endif
+                                <x-state-button :states="$enabledButton" :value="$item->enabled" :id="$item->id"></x-state-button>
                             </td>
 
                             {{-- Activation --}}
