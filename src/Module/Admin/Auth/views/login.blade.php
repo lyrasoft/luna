@@ -23,35 +23,35 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-@extends('admin.global.html')
+@extends('admin.global.body')
 
 @section('body')
-    <div class="container warder-page login-page">
-        <div class="row">
+    <div class="container l-login">
+        <div class="row justify-content-center">
 
             @section('login-content')
-                <div class="col-md-6 col-md-offset-3 mx-md-auto" style="margin-top: 50px">
-                    <form id="user-form" class="form-horizontal" action="{{ $router->route('login') }}" method="POST"
+                <div class="col-md-6" style="margin-top: 50px">
+                    <form id="user-form" class="" action="{{ $nav->to('login') }}" method="POST"
                         enctype="multipart/form-data">
 
                         @include('@messages')
 
-                        @yield('login-desc')
+                        <x-fieldset :form="$form" ns="user" is="div">
 
-                        {!! $form->renderFields('login') !!}
+                        </x-fieldset>
 
                         <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
                             <div class="form-check checkbox checkbox-primary">
                                 <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember" value="on">
                                 <label class="form-check-label" for="input-user-remember">
-                                    @lang($warder->langPrefix . 'user.field.remember')
+                                    @lang('luna.login.field.remember')
                                 </label>
                             </div>
                         </div>
 
                         <p class="login-button-group">
                             <button class="login-button btn btn-primary btn-block disable-on-submit">
-                                @lang($warder->langPrefix . 'login.submit.button')
+                                @lang('luna.login.submit.button')
                             </button>
                         </p>
 

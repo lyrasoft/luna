@@ -9,26 +9,31 @@
 
 namespace Lyrasoft\Luna\User;
 
-use App\Entity\User;
-use App\Entity\UserRoleMap;
+use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\User\Event\BeforeLoginEvent;
+use Lyrasoft\Luna\User\Event\LoginAuthEvent;
+use Lyrasoft\Luna\User\Event\LoginFailEvent;
+use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
+use Lyrasoft\Luna\User\Handler\UserHandlerInterface;
 use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\ResultSet;
+use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
-use Windwalker\Data\Collection;
-use Windwalker\ORM\EntityMapper;
+use Windwalker\Event\EventAwareInterface;
+use Windwalker\Event\EventAwareTrait;
 use Windwalker\ORM\ORM;
-use Windwalker\Session\Handler\DatabaseHandler;
-use Windwalker\Session\Handler\HandlerInterface;
-use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
 /**
  * The UserService class.
  *
- * @since  __DEPLOY_VERSION__
+ * @template T
+ *
+ * @since    __DEPLOY_VERSION__
  */
-class UserService
+class UserService implements UserHandlerInterface, EventAwareInterface
 {
+    use EventAwareTrait;
     use InstanceCacheTrait;
 
     protected string $userEntity = User::class;
@@ -36,18 +41,38 @@ class UserService
     /**
      * UserService constructor.
      */
-    public function __construct(protected AuthService $authService, protected Session $session, protected ORM $orm)
-    {
+    public function __construct(
+        protected ApplicationInterface $app,
+        protected AuthService $authService,
+        protected ORM $orm
+    ) {
+        //
     }
 
+    /**
+     * getCurrentUser
+     *
+     * @return  UserEntityInterface|T
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
     public function getCurrentUser(): UserEntityInterface
     {
         return $this->load();
     }
 
+    /**
+     * getUser
+     *
+     * @param  mixed|null  $conditions
+     *
+     * @return  UserEntityInterface|T
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
     public function getUser(mixed $conditions = null): UserEntityInterface
     {
-        return $this->load($conditions);
+        return $this->load($conditions) ?? $this->createUserEntity();
     }
 
     /**
@@ -55,72 +80,58 @@ class UserService
      *
      * @param  array|object  $conditions
      *
-     * @return  UserEntityInterface
+     * @return  UserEntityInterface|T|null
      * @throws \Exception
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function load(mixed $conditions = null): UserEntityInterface
+    public function load(mixed $conditions = null): ?UserEntityInterface
     {
-        if (is_object($conditions)) {
-            $conditions = get_object_vars($conditions);
-        }
-
-        if (!$conditions) {
-            $user = $this->once(
-                'current.user',
-                function () {
-                    $userSess = (array) $this->session->get('user');
-                    $pk = $this->orm->getEntityMetadata($this->userEntity)->getMainKey();
-
-                    // If user is logged-in, get user data from DB to refresh info.
-                    if ($userSess[$pk] ?? null) {
-                        $user = $this->orm->mapper($this->userEntity)
-                            ->findOne([$pk => $userSess[$pk]], Collection::class);
-
-                        if ($user) {
-                            unset($user->password);
-                            $userSess = $user->dump();
-
-                            $group = $this->session->get('keepgroup');
-
-                            if ($group) {
-                                $userSess['group'] = $group;
-                            }
-                        }
-                    }
-
-                    return $userSess;
-                }
-            );
-        } else {
-            if (isset($conditions['email'])) {
-                $conditions['email'] = idn_to_ascii($conditions['email']);
-            }
-
-            $user = $this->getMapper()->findOne($conditions, Collection::class);
-
-            $user = $user?->dump(true) ?? [];
-        }
-
-        if ($user['email'] ?? null) {
-            $user['email'] = idn_to_utf8($user['email']);
-        }
-
-        /** @var User $user */
-        return $this->getMapper()->toEntity($user);
+        return $this->getUserHandler()->load($conditions);
     }
 
-    public function attemptToLogin(array $credential, ResultSet &$resultSet = null): false|AuthResult
-    {
-        $result = $this->authenticate($credential, $resultSet);
+    public function attemptToLogin(
+        array $credential,
+        array $options = [],
+        ResultSet &$resultSet = null
+    ): false|AuthResult {
+        $event = $this->emit(
+            BeforeLoginEvent::class,
+            compact('credential', 'options')
+        );
 
-        if (!$result) {
-            return $result;
+        $result = $this->authenticate($event->getCredential(), $resultSet);
+
+        if ($result) {
+            $credential = $result->getCredential();
+
+            $user = $this->createUserEntity($credential);
+
+            $event = $this->emit(
+                LoginAuthEvent::class,
+                compact('credential', 'options', 'result', 'user', 'resultSet')
+            );
+
+            $result = $event->getResult();
+
+            if ($result) {
+                $user = $this->createUserEntity($event->getCredential());
+                $this->login($user);
+            }
         }
 
-        $user = $result->getCredential();
+        if (!$result) {
+            $this->emit(
+                LoginFailEvent::class,
+                compact(
+                    'credential',
+                    'options',
+                    'result',
+                    'resultSet',
+                )
+            );
 
-        $this->login($user);
+            return false;
+        }
 
         return $result;
     }
@@ -138,30 +149,17 @@ class UserService
      * @return  boolean
      * @throws \RuntimeException
      */
-    public function login(mixed $user)
+    public function login(mixed $user): bool
     {
-        $user = $this->getMapper()->toCollection($user);
-
-        unset($user->password);
-
-        $this->session->set('user', $user->dump(true));
-
-        $this->cacheReset();
-
-        $handler = $this->session->getBridge()->getHandler();
-
-        if ($handler instanceof DatabaseHandler) {
-            $table = $handler->getOption('table');
-
-            if ($this->orm->getDb()->getTable($table)->hasColumn('user_id')) {
-                $this->orm->getDb()->update($table)
-                    ->set('user_id', $user->id)
-                    ->where('id', $this->session->getId())
-                    ->execute();
-            }
+        if (is_scalar($user)) {
+            $user = $this->getUser($user);
         }
 
-        return true;
+        if (!$user->isLogin()) {
+            return false;
+        }
+
+        return $this->getUserHandler()->login($user);
     }
 
     /**
@@ -171,31 +169,41 @@ class UserService
      *
      * @return bool
      */
-    public function logout(mixed $user = null)
+    public function logout(mixed $user = null): bool
     {
-        $session = $this->session;
-
-        $session->start();
-
-        // $session->destroy();
-        $session->restart();
-
-        $this->cacheReset();
-
-        return true;
+        return $this->getUserHandler()->logout($user);
     }
 
     /**
-     * getMapper
+     * getUserEntityClass
      *
-     * @return  EntityMapper
+     * @return  string|T
      *
-     * @throws \ReflectionException
-     *
-     * @since  __DEPLOY_VERSION__
+     * @throws \Windwalker\DI\Exception\DefinitionException
      */
-    protected function getMapper(): EntityMapper
+    public function getUserEntityClass(): string
     {
-        return $this->orm->mapper($this->userEntity);
+        return $this->getUserHandler()->getUserEntityClass();
+    }
+
+    /**
+     * @return UserHandlerInterface
+     * @throws \Windwalker\DI\Exception\DefinitionException
+     */
+    public function getUserHandler(): UserHandlerInterface
+    {
+        return $this->app->service(UserHandlerInterface::class);
+    }
+
+    /**
+     * createUserEntity
+     *
+     * @param  array  $data  *
+     * @return  object|T
+     * @throws \Windwalker\DI\Exception\DefinitionException
+     */
+    public function createUserEntity(array $data = []): object
+    {
+        return $this->getUserHandler()->createUserEntity($data);
     }
 }

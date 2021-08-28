@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Auth;
 
+use Lyrasoft\Luna\Module\Admin\Auth\Form\LoginForm;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
+use Windwalker\Core\Form\FormFactory;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\View\View;
@@ -31,8 +33,11 @@ class AuthLoginView implements ViewModelInterface
     /**
      * AuthView constructor.
      */
-    public function __construct(protected UserService $userService, protected Navigator $nav)
-    {
+    public function __construct(
+        protected UserService $userService,
+        protected Navigator $nav,
+        protected FormFactory $formFactory,
+    ) {
         //
     }
 
@@ -54,6 +59,10 @@ class AuthLoginView implements ViewModelInterface
             $app->getState()->remember('login_return', $return);
         }
 
-        return [];
+        $form = $this->formFactory->create(
+            LoginForm::class,
+        );
+
+        return compact('form');
     }
 }

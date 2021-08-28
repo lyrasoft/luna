@@ -7,7 +7,8 @@
     "require": {
         "php": ">=8.0",
         "windwalker/unicorn": "^1.0",
-        "scssphp/scssphp": "^1.0"
+        "scssphp/scssphp": "^1.0",
+        "symfony/polyfill-intl-idn": "^1.23"
     },
     "require-dev": {
     },
@@ -19,6 +20,11 @@
         }
     },
     "extra": {
+        "windwalker":{
+            "modules": [
+                "src/Module"
+            ]
+        },
         "branch-alias": {
             "dev-master": "2.x-dev"
         }

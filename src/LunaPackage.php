@@ -8,18 +8,33 @@
 
 namespace Lyrasoft\Luna;
 
+use Lyrasoft\Luna\User\UserService;
+use Windwalker\Core\Auth\AuthService;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
+use Windwalker\DI\Container;
+use Windwalker\DI\ServiceProviderInterface;
 
 /**
  * The LunaPackage class.
  *
  * @since  1.0
  */
-class LunaPackage extends AbstractPackage
+class LunaPackage extends AbstractPackage implements ServiceProviderInterface
 {
+    public function register(Container $container): void
+    {
+        $this->registerAuthServices($container);
+    }
+
     public function install(PackageInstaller $installer): void
     {
         //
+    }
+
+    protected function registerAuthServices(Container $container): void
+    {
+        $container->prepareSharedObject(AuthService::class);
+        $container->prepareSharedObject(UserService::class);
     }
 }

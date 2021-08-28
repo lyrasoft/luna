@@ -42,15 +42,19 @@ class AuthController
             return $nav->to('home');
         }
 
-        [$email, $password] = $app->input('email', 'password')->values();
-        
-        $result = $userService->attemptToLogin(compact('email', 'password'), $resultSet);
+        $data = $app->input('user');
+
+        $result = $userService->attemptToLogin(
+            $data,
+            ['remember' => (bool) ($data['remember'] ?? false)],
+            $resultSet
+        );
         
         if (!$result) {
             /** @var ResultSet $resultSet */
             $app->addMessage(
                 $this->trans(
-                    'warder.login.message.' . $resultSet->first()->getStatus()
+                    'luna.login.message.' . $resultSet->getFirstFailure()?->getStatus()
                 ),
                 'warning'
             );
