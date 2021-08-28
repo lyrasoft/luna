@@ -25,42 +25,40 @@ use Windwalker\Core\Router\SystemUri;
 
 @extends('admin.global.body')
 
-@section('body')
+@section('container')
     <div class="container l-login">
         <div class="row justify-content-center">
 
-            @section('login-content')
-                <div class="col-md-6" style="margin-top: 50px">
-                    <form id="user-form" class="" action="{{ $nav->to('login') }}" method="POST"
-                        enctype="multipart/form-data">
+            <div class="col-md-6" style="margin-top: 50px">
+                <form id="user-form" class="" action="{{ $nav->to('login') }}" method="POST"
+                    enctype="multipart/form-data">
 
-                        @include('@messages')
+                    @include('@messages')
 
-                        <x-fieldset :form="$form" ns="user" is="div">
+                    <x-fieldset :form="$form" ns="user" is="div">
 
-                        </x-fieldset>
+                    </x-fieldset>
 
-                        <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
-                            <div class="form-check checkbox checkbox-primary">
-                                <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember" value="on">
-                                <label class="form-check-label" for="input-user-remember">
-                                    @lang('luna.login.field.remember')
-                                </label>
-                            </div>
+                    <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
+                        <div class="form-check checkbox checkbox-primary">
+                            <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember" value="on">
+                            <label class="form-check-label" for="input-user-remember">
+                                @lang('luna.login.field.remember')
+                            </label>
                         </div>
+                    </div>
 
-                        <p class="login-button-group">
-                            <button class="login-button btn btn-primary btn-block disable-on-submit">
-                                @lang('luna.login.submit.button')
-                            </button>
-                        </p>
+                    <p class="login-button-group">
+                        <button class="login-button btn btn-primary btn-block disable-on-submit">
+                            @lang('luna.login.submit.button')
+                        </button>
+                    </p>
 
-                        <div class="hidden-inputs">
-                            @include('@csrf')
-                        </div>
-                    </form>
-                </div>
-            @show
+                    <div class="hidden-inputs">
+                        @include('@csrf')
+                    </div>
+                </form>
+            </div>
 
         </div>
     </div>
