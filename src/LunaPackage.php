@@ -8,11 +8,12 @@
 
 namespace Lyrasoft\Luna;
 
+use Hybridauth\Hybridauth;
+use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\Password;
 use Lyrasoft\Luna\User\PasswordInterface;
 use Lyrasoft\Luna\User\UserService;
-use Windwalker\Core\Auth\AuthService;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
 use Windwalker\Core\Runtime\Config;
@@ -32,12 +33,14 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface
 
     public function register(Container $container): void
     {
+        $container->share(static::class, $this);
+
         $this->registerAuthServices($container);
 
         $container->mergeParameters(
             'renderer.paths',
             [
-                static::path('views')
+                static::path('views'),
             ]
         );
     }
@@ -51,6 +54,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface
     {
         $container->prepareSharedObject(UserService::class);
         $container->prepareSharedObject(ActivationService::class);
+        $container->prepareSharedObject(SocialAuthService::class);
         $container->prepareSharedObject(Password::class)
             ->alias(PasswordInterface::class, Password::class);
     }

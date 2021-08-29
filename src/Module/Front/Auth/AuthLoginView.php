@@ -30,6 +30,8 @@ use Windwalker\Core\View\ViewModelInterface;
 )]
 class AuthLoginView implements ViewModelInterface
 {
+    use SocialLoginViewTrait;
+
     /**
      * AuthView constructor.
      */

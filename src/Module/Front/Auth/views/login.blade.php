@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var  $app       AppContext      Application context.
- * @var  $vm        object          The view model object.
+ * @var  $vm        \Lyrasoft\Luna\Module\Front\Auth\AuthLoginView          The view model object.
  * @var  $uri       SystemUri       System Uri information.
  * @var  $chronos   ChronosService  The chronos datetime service.
  * @var  $nav       Navigator       Navigator object to build route.
@@ -66,6 +66,22 @@ use Windwalker\Core\Router\SystemUri;
                         </div>
                     @endif
 
+                    @if ($vm->hasSocialProviders())
+                        <div class="d-flex flex-column">
+                            @foreach ($vm->getSocialProviders() as $provider => $config)
+                                <a class="btn btn-secondary mb-2"
+                                    href="{{ $nav->to('social_auth')->var('provider', $provider) }}">
+                                    <i class="fa-brands fa-{{ strtolower($provider) }}"></i>
+                                    {{ $provider }}
+                                </a>
+                            @endforeach
+
+                            <div class="my-3 text-center">
+                                OR
+                            </div>
+                        </div>
+                    @endif
+
                     <x-fieldset :form="$form"></x-fieldset>
 
                     <div class="d-sm-flex justify-content-between mb-5">
@@ -100,32 +116,6 @@ use Windwalker\Core\Router\SystemUri;
                             @lang('luna.login.register.button')
                         </a>
                     </div>
-
-                    <div class="text-center mb-2">or</div>
-
-                    <p class="position-relative">
-                        <button
-                            type="button"
-                            class="social-login-google-button btn btn-google btn-block disable-on-submit d-flex align-items-center"
-                        >
-                            <span class="fa fab fa-fw fa-google c-icon"></span>
-                            <span class="flex-grow-1">
-                                            @lang('datavideo.user.login.btn.google')
-                                        </span>
-                        </button>
-                    </p>
-
-                    <p class="position-relative">
-                        <button
-                            type="button"
-                            class="social-login-facebook-button btn btn-facebook btn-block disable-on-submit d-flex align-items-center"
-                        >
-                            <i class="fa fab fa-fw fa-facebook-square c-icon"></i>
-                            <span class="flex-grow-1">
-                                            @lang('datavideo.user.login.btn.facebook')
-                                        </span>
-                        </button>
-                    </p>
 
                     <div class="hidden-inputs">
                         @include('@csrf')

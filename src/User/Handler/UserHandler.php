@@ -14,7 +14,6 @@ namespace Lyrasoft\Luna\User\Handler;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Windwalker\Core\Attributes\Ref;
-use Windwalker\Core\Auth\AuthService;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
@@ -33,7 +32,6 @@ class UserHandler implements UserHandlerInterface
      * UserService constructor.
      */
     public function __construct(
-        protected AuthService $authService,
         protected Session $session,
         protected ORM $orm,
         #[Ref('user')]

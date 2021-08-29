@@ -43,7 +43,6 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function __construct(
         protected ApplicationInterface $app,
-        protected AuthService $authService,
         protected ORM $orm
     ) {
         //
@@ -138,7 +137,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
     public function authenticate(array $credential, ResultSet &$resultSet = null): false|AuthResult
     {
-        return $this->authService->authenticate($credential, $resultSet);
+        return $this->app->service(AuthService::class)->authenticate($credential, $resultSet);
     }
 
     /**

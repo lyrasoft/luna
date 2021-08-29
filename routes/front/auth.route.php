@@ -30,6 +30,9 @@ $router->group('auth')
             $router->any('logout', '/logout')
                 ->controller(AuthController::class, 'logout');
 
+            $router->any('social_auth', '/social/auth/{provider}')
+                ->controller(AuthController::class, 'socialAuth');
+
             $router->any('registration', '/registration')
                 ->postHandler(AuthController::class, 'register')
                 ->view(RegistrationView::class);

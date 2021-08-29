@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
+use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\Module\Front\Registration\RegistrationRepository;
 use Lyrasoft\Luna\User\UserService;
@@ -23,7 +24,6 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\Utilities\Base64Url;
 use Windwalker\DI\Attributes\Autowire;
-use Windwalker\ORM\ORM;
 
 /**
  * The AuthController class.
@@ -47,6 +47,11 @@ class AuthController
         }
 
         $data = $app->input('user');
+
+        // Social Login
+        if ($provider = $app->input('provider')) {
+            $data = compact('provider');
+        }
 
         $result = $userService->attemptToLogin(
             $data,
@@ -123,5 +128,33 @@ class AuthController
         $app->addMessage($this->trans('luna.message.activate.success'), 'success');
 
         return $nav->to('login');
+    }
+
+    public function socialAuth(
+        string $provider,
+        AppContext $app,
+        SocialAuthService $socialAuth,
+        UserService $userService,
+        Navigator $nav,
+    ): RouteUri {
+        if (($msg = $app->input('error_message')) || $app->input('error_code')) {
+            if ($msg) {
+                $app->addMessage($msg, 'warning');
+            }
+
+            return $nav->to('login');
+        }
+
+        $result = $socialAuth->auth($provider);
+
+        if (!$result) {
+            return $nav->to('login');
+        }
+
+        [$user, $map] = $result;
+
+        $userService->login($user);
+
+        return $nav->to('home');
     }
 }

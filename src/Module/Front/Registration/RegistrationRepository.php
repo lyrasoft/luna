@@ -42,7 +42,7 @@ class RegistrationRepository implements CrudRepositoryInterface
     {
     }
 
-    public function register(array|object $user, mixed $form): object
+    public function register(array|object $user, mixed $form = null): object
     {
         /** @var EntityMapper<User> $mapper */
         $mapper = $this->getEntityMapper();
@@ -112,9 +112,9 @@ class RegistrationRepository implements CrudRepositoryInterface
         $saveAction->prepareSave(
             function (PrepareSaveEvent $event) {
                 $data = &$event->getData();
-                
-                $data['enabled'] = 0;
-                $data['verified'] = 0;
+
+                $data['enabled'] ??= 0;
+                $data['verified'] ??= 0;
             }
         );
     }
