@@ -193,7 +193,7 @@ $verifiedButton = $vm->createVerifiedButton();
                             </td>
 
                             {{-- ID --}}
-                            <td class="searchable text-right">
+                            <td class="searchable text-right text-end">
                                 {{ $item->id }}
                             </td>
                         </tr>

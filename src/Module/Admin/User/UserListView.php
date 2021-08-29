@@ -117,8 +117,9 @@ class UserListView implements ViewModelInterface
     {
         return [
             'user.id',
-            'user.title',
-            'user.alias',
+            'user.name',
+            'user.username',
+            'user.email',
         ];
     }
 
