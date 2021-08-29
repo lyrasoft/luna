@@ -27,6 +27,7 @@ use Lyrasoft\Luna\Module\Admin\User\UserListView;
  */
 
 $enabledButton = $vm->createEnabledButton();
+$verifiedButton = $vm->createVerifiedButton();
 ?>
 
 @extends('admin.global.body')
@@ -133,22 +134,18 @@ $enabledButton = $vm->createEnabledButton();
 
                             {{-- ENABLED --}}
                             <td class="text-center">
-                                <x-state-button :states="$enabledButton" :value="$item->enabled" :id="$item->id"></x-state-button>
+                                <x-state-button :states="$enabledButton"
+                                    :value="$item->enabled"
+                                    :id="$item->id"
+                                ></x-state-button>
                             </td>
 
                             {{-- Activation --}}
-                            <td>
-                                @if ($item->activation)
-                                    <button type="button"
-                                        class="waves-effect btn btn-light btn-default btn-sm hasTooltip"
-                                        onclick="grid.updateItem({{ $item->id }}, null, { task: 'activate' });"
-                                        title="@lang('warder.button.unactivated.desc')">
-                                        <span class="fa fa-remove fa-times text-danger"></span>
-                                    </button>
-                                @else
-                                    <span class="fa fa-check text-success hasTooltip"
-                                        title="@lang('warder.button.activated.desc')"></span>
-                                @endif
+                            <td class="text-center">
+                                <x-state-button :states="$verifiedButton"
+                                    :value="$item->verified"
+                                    :id="$item->id"
+                                ></x-state-button>
                             </td>
 
                             {{-- REGISTERED --}}
@@ -173,13 +170,13 @@ $enabledButton = $vm->createEnabledButton();
                                             class="dropdown-item"
                                             onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 0 });">
                                             <span class="fa fa-people-arrows"></span>
-                                            @lang('warder..user.switch.button.default')
+                                            @lang('luna..user.switch.button.default')
                                         </button>
                                         <button type="button"
                                             class="dropdown-item"
                                             onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 1 });">
                                             <span class="fa fa-user-shield"></span>
-                                            @lang('warder..user.switch.button.keepgroup')
+                                            @lang('luna..user.switch.button.keepgroup')
                                         </button>
                                     </div>
                                 </div>

@@ -46,6 +46,6 @@ class UserVerified extends Enum implements EnumTranslatableInterface
 
     public function trans(LanguageInterface $lang, ...$args): string
     {
-        return $lang->trans('app.user.verified.' . $this->getKey());
+        return $lang->trans('luna.user.verified.' . $this->getKey());
     }
 }

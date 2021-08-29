@@ -8,11 +8,13 @@
         "php": ">=8.0",
         "windwalker/unicorn": "^1.0",
         "scssphp/scssphp": "^1.0",
-        "symfony/polyfill-intl-idn": "^1.23"
+        "symfony/polyfill-intl-idn": "^1.23",
+        "firebase/php-jwt": "^5.4"
     },
     "require-dev": {
     },
     "suggest": {
+        "hybridauth/hybridauth": "Install ^3.0 to support social login."
     },
     "autoload": {
         "psr-4": {

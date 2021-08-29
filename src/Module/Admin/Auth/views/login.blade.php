@@ -30,7 +30,7 @@ use Windwalker\Core\Router\SystemUri;
         <div class="row justify-content-center">
 
             <div class="col-md-6" style="margin-top: 50px">
-                <form id="user-form" class="" action="{{ $nav->to('login') }}" method="POST"
+                <form id="login-form" class="" action="{{ $nav->to('login') }}" method="POST"
                     enctype="multipart/form-data">
 
                     @include('@messages')

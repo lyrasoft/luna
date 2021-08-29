@@ -8,17 +8,13 @@
 
 namespace Lyrasoft\Luna\User;
 
-use App\Entity\User;
 use Firebase\JWT\JWT;
-use Lyrasoft\Warder\Helper\WarderHelper;
+use Lyrasoft\Luna\Entity\User;
+use Symfony\Component\Mailer\SentMessage;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Mailer\Mailer;
-use Windwalker\Core\Mailer\MailMessage;
-use Windwalker\Core\Package\PackageHelper;
-use Windwalker\Core\Renderer\RendererHelper;
 use Windwalker\Core\Renderer\RendererService;
-use Windwalker\Core\Router\CoreRouter;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\ORM\ORM;
 
@@ -34,6 +30,13 @@ class ActivationService
     public const RE_ACTIVATE_SESSION_KEY = 'reactivate.mail';
 
     /**
+     * @var callable
+     */
+    protected $userInfoGetter;
+
+    public string $tokenAlgo = 'HS256';
+
+    /**
      * ActivationService constructor.
      */
     public function __construct(
@@ -44,6 +47,20 @@ class ActivationService
         protected Navigator $nav,
         protected RendererService $rendererService
     ) {
+    }
+
+    public function createToken(object $user): string
+    {
+        return JWT::encode(
+            $this->getUserInfo($user),
+            $this->app->config('app.secret'),
+            $this->tokenAlgo
+        );
+    }
+
+    public function decodeToken(string $token): array
+    {
+        return (array) JWT::decode($token, $this->app->config('app.secret'), [$this->tokenAlgo]);
     }
 
     /**
@@ -57,27 +74,24 @@ class ActivationService
      *
      * @since  1.7
      */
-    public function sendActivateMail(mixed $conditions = []): void
+    public function sendActivateMail(mixed $conditions = []): SentMessage
     {
         /** @var User $user */
         $user = $this->userService->getUser($conditions);
 
-        $token = JWT::encode(
-            ['email' => $user->getEmail(), 'id' => $user->getId()],
-            $this->app->config('app.secret')
-        );
+        $token = $this->createToken($user);
 
         $user->setActivation($token);
 
         $this->orm->updateOne(User::class, $user);
         $link = $this->nav->to(
-            'registration_activate',
+            'front::registration_activate',
             ['token' => $token]
         )
             ->full();
 
         $message = $this->mailer->createMessage(
-            $this->trans('warder.registration.mail.subject')
+            $this->trans('luna.registration.mail.subject')
         )
             ->to("{$user->getName()} <{$user->getEmail()}>")
             ->html(
@@ -87,6 +101,37 @@ class ActivationService
                 )
             );
 
-        $this->mailer->send($message);
+        return $this->mailer->send($message);
+    }
+
+    public function getUserInfo(object $user): array
+    {
+        return $this->getUserInfoGetter()($user);
+    }
+
+    /**
+     * @return callable
+     */
+    public function getUserInfoGetter(): callable
+    {
+        return $this->userInfoGetter ?? function (object $user) {
+            /** @var User $user */
+            return [
+                'email' => $user->getEmail(),
+                'id' => $user->getId()
+            ];
+        };
+    }
+
+    /**
+     * @param  callable  $userInfoGetter
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setUserInfoGetter(callable $userInfoGetter): static
+    {
+        $this->userInfoGetter = $userInfoGetter;
+
+        return $this;
     }
 }

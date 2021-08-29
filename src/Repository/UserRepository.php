@@ -12,16 +12,20 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\User\PasswordInterface;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\BatchAction;
 use Unicorn\Repository\Actions\ReorderAction;
 use Unicorn\Repository\Actions\SaveAction;
+use Unicorn\Repository\Event\PrepareSaveEvent;
 use Unicorn\Repository\ListRepositoryInterface;
 use Unicorn\Repository\ListRepositoryTrait;
 use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\ManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
+use Windwalker\Core\Form\Exception\ValidateFailException;
+use Windwalker\ORM\Event\BeforeSaveEvent;
 
 /**
  * The UserRepository class.
@@ -31,6 +35,10 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
 {
     use ManageRepositoryTrait;
     use ListRepositoryTrait;
+
+    public function __construct(protected PasswordInterface $password)
+    {
+    }
 
     public function getListSelector(): ListSelector
     {
@@ -44,7 +52,23 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     #[ConfigureAction(SaveAction::class)]
     protected function configureSaveAction(SaveAction $action): void
     {
-        //
+        $action->prepareSave(
+            function (PrepareSaveEvent $event) {
+                $data = &$event->getData();
+
+                if ($data['password'] ?? null) {
+                    if ($data['password'] !== $data['password2']) {
+                        throw new ValidateFailException('Password not match');
+                    }
+
+                    $data['password'] = $this->password->hash($data['password']);
+
+                    unset($data['password2']);
+                } else {
+                    unset($data['password']);
+                }
+            }
+        );
     }
 
     #[ConfigureAction(ReorderAction::class)]

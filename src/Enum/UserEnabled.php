@@ -46,6 +46,6 @@ class UserEnabled extends Enum implements EnumTranslatableInterface
 
     public function trans(LanguageInterface $lang, ...$args): string
     {
-        return $lang->trans('app.user.enabled.' . $this->getKey());
+        return $lang->trans('luna.user.enabled.' . $this->getKey());
     }
 }

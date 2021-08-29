@@ -26,6 +26,7 @@ use Windwalker\ORM\Attributes\Table;
 use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
+use Windwalker\ORM\Event\BeforeSaveEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 
 /**
@@ -97,6 +98,16 @@ class User implements EntityInterface, UserEntityInterface
     public static function setup(EntityMetadata $metadata): void
     {
         //
+    }
+
+    #[BeforeSaveEvent]
+    public static function beforeSave(BeforeSaveEvent $event): void
+    {
+        $data = &$event->getData();
+
+        if (isset($data['password']) && $data['password'] === '') {
+            unset($data['password']);
+        }
     }
 
     /**

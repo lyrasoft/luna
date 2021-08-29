@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Lyrasoft\Luna\Module\Admin\Auth\Form;
+namespace Lyrasoft\Luna\Module\Front\Auth\Form;
 
 use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Language\TranslatorTrait;

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\User;
 
 use Lyrasoft\Luna\Enum\UserEnabled;
+use Lyrasoft\Luna\Enum\UserVerified;
 use Lyrasoft\Luna\Module\Admin\User\Form\GridForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Unicorn\Html\State\StateButton;
@@ -24,6 +25,8 @@ use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
+
+use function Windwalker\ref;
 
 /**
  * The UserListView class.
@@ -152,16 +155,39 @@ class UserListView implements ViewModelInterface
     public function createEnabledButton(): StateButton
     {
         $enabledButton = StateButton::create();
+
         $enabledButton->addState(UserEnabled::ENABLED())
             ->task('disable')
             ->title(UserEnabled::ENABLED()->trans($this->translator))
-            ->icon('fa-solid fa-check');
+            ->icon('fa-solid fa-check')
+            ->color('success');
 
         $enabledButton->addState(UserEnabled::DISABLED())
             ->task('enable')
             ->title(UserEnabled::DISABLED()->trans($this->translator))
-            ->icon('fa-solid fa-times');
+            ->icon('fa-solid fa-times')
+            ->color('danger');
 
         return $enabledButton;
+    }
+
+    public function createVerifiedButton(): StateButton
+    {
+        $button = StateButton::create();
+
+        $button->addState(UserVerified::VERIFIED())
+            ->task('unactivate')
+            ->title(UserVerified::VERIFIED()->trans($this->translator))
+            ->icon('fa-solid fa-check')
+            ->disabled(true)
+            ->color('success');
+
+        $button->addState(UserVerified::UNVERIFIED())
+            ->task('activate')
+            ->title(UserVerified::UNVERIFIED()->trans($this->translator))
+            ->icon('fa-solid fa-times')
+            ->color('danger');
+
+        return $button;
     }
 }

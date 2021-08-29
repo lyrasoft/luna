@@ -29,26 +29,27 @@ use Windwalker\Core\Router\SystemUri;
         style="min-width: 150px"
     >
         <i class="fa fa-plus"></i>
-        New
+        @lang('unicorn.toolbar.new')
     </a>
-    <button type="button" class="btn btn-info btn-sm"
-        @click="grid.form.post()"
-    >
-        <i class="fa fa-clone"></i>
-        Duplicate
+
+    <button type="button" class="btn btn-info btn-sm" @click="grid.hasChecked();grid.batch('resend');">
+        <span class="glyphicon glyphicon-ok fa fa-envelope"></span>
+        @lang('luna.button.resend.activate.mail')
     </button>
+
     <button type="button" class="btn btn-dark btn-sm"
         @click="grid.validateChecked(null, function () {
             (new bootstrap.Modal('#batch-modal')).show();
         })"
     >
         <i class="fa fa-sliders"></i>
-        Batch
+        @lang('unicorn.toolbar.batch')
     </button>
+
     <button type="button" class="btn btn-outline-danger btn-sm"
         @click="grid.deleteList()"
     >
         <i class="fa fa-trash"></i>
-        Delete
+        @lang('unicorn.toolbar.delete')
     </button>
 </div>
