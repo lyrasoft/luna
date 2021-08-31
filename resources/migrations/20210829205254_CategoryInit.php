@@ -15,6 +15,8 @@ use Lyrasoft\Luna\Entity\Category;
 use Windwalker\Core\Console\ConsoleApplication;
 use Windwalker\Core\Migration\Migration;
 use Windwalker\Database\Schema\Schema;
+use Windwalker\ORM\NestedSetMapper;
+use Windwalker\ORM\ORM;
 
 /**
  * Migration UP: 20210829205254_CategoryInit.
@@ -23,7 +25,7 @@ use Windwalker\Database\Schema\Schema;
  * @var ConsoleApplication $app
  */
 $mig->up(
-    static function () use ($mig) {
+    static function (ORM $orm) use ($mig) {
         $mig->createTable(
             Category::class,
             function (Schema $schema) {
@@ -40,10 +42,10 @@ $mig->up(
                 $schema->longtext('description')->comment('Description');
                 $schema->tinyint('state')->length(1)->comment('0: unpublished, 1:published');
                 $schema->datetime('created')->nullable(true)->comment('Created Date');
-                $schema->integer('created_by')->comment('Author');
                 $schema->datetime('modified')->nullable(true)->comment('Modified Date');
+                $schema->integer('created_by')->comment('Author');
                 $schema->integer('modified_by')->comment('Modified User');
-                $schema->text('params')->comment('Params');
+                $schema->json('params')->nullable(true)->comment('Params');
 
                 $schema->addIndex('alias');
                 $schema->addIndex('path');
@@ -51,6 +53,13 @@ $mig->up(
                 $schema->addIndex('created_by');
             }
         );
+
+        /** @var NestedSetMapper $mapper */
+        $mapper = $orm->mapper(Category::class);
+
+        if (!$mapper->getRoot()) {
+            $mapper->createRoot();
+        }
     }
 );
 
