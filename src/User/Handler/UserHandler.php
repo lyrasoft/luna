@@ -4,7 +4,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 declare(strict_types=1);
@@ -140,7 +140,7 @@ class UserHandler implements UserHandlerInterface
      *
      * @throws \ReflectionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.0.0-beta1
      */
     protected function getMapper(): EntityMapper
     {

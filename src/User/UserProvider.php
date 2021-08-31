@@ -4,7 +4,7 @@
  * Part of luna project.
  *
  * @copyright  Copyright (C) 2021 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Luna\User;
@@ -19,7 +19,7 @@ use Windwalker\Renderer\RendererInterface;
 /**
  * The UserProvider class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.0-beta1
  */
 class UserProvider implements ServiceProviderInterface
 {
