@@ -21,7 +21,6 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
-$htmlFrame->setTitle('Category Edit: ' . $lang("luna.$type.title"));
 ?>
 
 @extends('admin.global.body')
@@ -32,42 +31,28 @@ $htmlFrame->setTitle('Category Edit: ' . $lang("luna.$type.title"));
 
 @section('content')
     <form name="admin-form" id="admin-form"
-        action="{{ $nav->to('category', ['type' => $type, 'code' => \App\Datavideo\Region\RegionService::getRegionCodeByInput()]) }}"
+        action="{{ $nav->self() }}"
         uni-form-validate='{"scroll": true}'
         method="POST" enctype="multipart/form-data">
 
-        @include('@lang-nav', ['regions' => $regions, 'type' => $type])
+        <x-title-bar :form="$form"></x-title-bar>
 
         <div class="row">
             <div class="col-md-7">
-                <fieldset class="form-horizontal">
-                    {!! $form->renderFields('basic') !!}
-                </fieldset>
-
-                @if ($type === \App\Services\CategoryService::TYPE_PRODUCT)
-                    <div class="card">
-                        <h3 class="card-header">
-                            Spec Dividers
-                        </h3>
-                        <div class="card-body">
-                            @include('repeatable.dividers')
-                        </div>
-                    </div>
-                @endif
+                <x-fieldset :form="$form" name="basic" :title="$lang('luna.fieldset.basic')" is="card"></x-fieldset>
             </div>
 
             <div class="col-md-5">
-                <fieldset class="form-horizontal">
-                    <legend>@lang('luna.category.edit.fieldset.created')</legend>
-
-                    {!! $form->renderFields('created') !!}
-                </fieldset>
+                <x-fieldset :form="$form" name="meta" :title="$lang('luna.fieldset.meta')" is="card"></x-fieldset>
             </div>
         </div>
 
         <div class="hidden-inputs">
-            <input name="item[type]" type="hidden" value="{{ $type }}" />
-            @formToken
+            @if ($idField = $form?->getField('id'))
+                <input name="{{ $idField->getInputName() }}" type="hidden" value="{{ $idField->getValue() }}" />
+            @endif
+
+            @include('@csrf')
         </div>
 
     </form>

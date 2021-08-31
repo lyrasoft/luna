@@ -16,6 +16,8 @@ use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
 use Windwalker\ORM\Attributes\Column;
+use Windwalker\ORM\Attributes\CreatedTime;
+use Windwalker\ORM\Attributes\CurrentTime;
 use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
@@ -52,15 +54,17 @@ class Category implements NestedPathableInterface
     protected int $state = 0;
 
     #[Column('created')]
+    #[CreatedTime]
     #[CastNullable(Chronos::class)]
     protected ?Chronos $created = null;
 
-    #[Column('created_by')]
-    protected int $createdBy = 0;
-
     #[Column('modified')]
+    #[CurrentTime]
     #[CastNullable(Chronos::class)]
     protected ?Chronos $modified = null;
+
+    #[Column('created_by')]
+    protected int $createdBy = 0;
 
     #[Column('modified_by')]
     protected int $modifiedBy = 0;

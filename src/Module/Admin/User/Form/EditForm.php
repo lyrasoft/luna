@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\User\Form;
 
+use Lyrasoft\Luna\LunaPackage;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
 use Windwalker\Core\Attributes\Ref;
@@ -37,7 +38,7 @@ class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
 
-    public function __construct(#[Ref('user')] protected array $config)
+    public function __construct(protected LunaPackage $luna)
     {
     }
 
@@ -50,7 +51,7 @@ class EditForm implements FieldDefinitionInterface
      */
     public function define(Form $form): void
     {
-        $loginName = $this->config['login_name'] ?? 'username';
+        $loginName = $this->luna->getLoginName();
 
         $form->fieldset(
             'basic',

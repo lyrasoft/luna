@@ -23,20 +23,22 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-<button type="button" class="btn btn-success btn-sm phoenix-btn-save"
-    onclick="u.form('#admin-form').post();">
-    <span class="fa fa-save"></span>
-    @lang('phoenix.toolbar.save')
-</button>
+<div x-id="toolbar" x-data="{ form: $store.form }">
+    <button type="button" class="btn btn-success btn-sm phoenix-btn-save"
+        onclick="form.post();">
+        <span class="fa fa-save"></span>
+        @lang('phoenix.toolbar.save')
+    </button>
 
-<button type="button" class="btn  btn-primary btn-sm phoenix-btn-save2close"
-    onclick="u.form('#admin-form').post(null, {task: 'save2close'});">
-    <span class="fa fa-check"></span>
-    @lang('phoenix.toolbar.save2close')
-</button>
+    <button type="button" class="btn  btn-primary btn-sm phoenix-btn-save2close"
+        onclick="form.post(null, {task: 'save2close'});">
+        <span class="fa fa-check"></span>
+        @lang('phoenix.toolbar.save2close')
+    </button>
 
-<a role="button" class="btn btn-default btn-outline-secondary btn-sm"
-    href="{{ $nav->to('categories', array('type' => $type)) }}">
-    <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
-    @lang('phoenix.toolbar.cancel')
-</a>
+    <a role="button" class="btn btn-default btn-outline-secondary btn-sm"
+        href="{{ $nav->to('category_list', array('type' => $type)) }}">
+        <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
+        @lang('phoenix.toolbar.cancel')
+    </a>
+</div>

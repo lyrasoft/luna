@@ -29,7 +29,7 @@ use Windwalker\Core\Router\SystemUri;
     <div class="container l-forget-request" style="margin-top: 70px">
         <div class="row justify-content-center">
             <div class="col-sm-10 col-md-8 col-lg-6">
-                <form id="user-form" class="form-horizontal" action="{{ $nav->to('forget_request') }}"
+                <form id="forget-form" class="form-horizontal" action="{{ $nav->to('forget_request') }}"
                     method="POST" enctype="multipart/form-data">
 
                     <p class="lead text-center">
@@ -44,12 +44,14 @@ use Windwalker\Core\Router\SystemUri;
                             type="email"
                             name="email"
                             class="form-control"
+                            required
                         />
                     </div>
 
                     <div class="text-center">
                         <p class="reset-button-group">
-                            <button class="request-button btn btn-primary c-btn-width">
+                            <button class="request-button btn btn-primary c-btn-width"
+                                data-dos>
                                 @lang('luna.forget.button.request')
                             </button>
                         </p>

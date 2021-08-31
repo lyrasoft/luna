@@ -46,17 +46,17 @@ use Windwalker\Form\Form;
         <div class="row">
             <div class="col-md-7">
                 <x-fieldset name="basic" :title="$lang('luna.fieldset.basic')"
-                    :form="$form" class="mb-4"
+                    :form="$form" class="mb-4" is="card"
                 >
                 </x-fieldset>
                 <x-fieldset name="password" :title="$lang('luna.change.password')"
-                    :form="$form" class="mb-4"
+                    :form="$form" class="mb-4" is="card"
                 >
                 </x-fieldset>
             </div>
             <div class="col-md-5">
                 <x-fieldset name="meta" :title="$lang('luna.fieldset.meta')"
-                    :form="$form" class="mb-4"
+                    :form="$form" class="mb-4" is="card"
                 >
                 </x-fieldset>
             </div>

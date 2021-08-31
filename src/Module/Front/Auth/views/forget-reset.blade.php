@@ -58,8 +58,9 @@ use Windwalker\Core\Router\SystemUri;
                         </div>
 
                         <p class="reset-button-group">
-                            <button class="reset-button btn btn-primary btn-block">
-                                @lang('luna.forget.reset.submit.button')
+                            <button class="reset-button btn btn-primary btn-block"
+                                data-dos>
+                                @lang('luna.forget.button.reset')
                             </button>
                         </p>
 

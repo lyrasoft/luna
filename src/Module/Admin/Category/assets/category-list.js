@@ -10,3 +10,4 @@ import u from '@main';
 u.$ui.bootstrap.tooltip();
 
 u.grid('#admin-form').initComponent();
+

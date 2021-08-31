@@ -40,7 +40,7 @@ class GridForm implements FieldDefinitionInterface
             'search',
             function (Form $form) {
                 $form->add('*', SearchField::class)
-                    ->placeholder('Search')
+                    ->placeholder($this->trans('unicorn.grid.search.label'))
                     ->attr('x-on:keydown.enter', '$store.grid.sendFilter($event)');
             }
         );

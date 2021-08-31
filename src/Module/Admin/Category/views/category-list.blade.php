@@ -32,7 +32,8 @@ $orders = [];
 
 @section('content')
     <div id="phoenix-admin" class="categories-container grid-container">
-        <form x-data="{ grid: $store.grid }" x-ref="gridForm" data-ordering="{{ $ordering }}" name="admin-form" id="admin-form" action="{{ $nav->to('categories', ['type' => $type]) }}"
+        <form x-data="{ grid: $store.grid }" x-ref="gridForm" data-ordering="{{ $ordering }}" name="admin-form"
+            id="admin-form" action="{{ $nav->to('category_list', ['type' => $type]) }}"
             method="POST" enctype="multipart/form-data">
 
             {{-- FILTER BAR --}}
@@ -59,31 +60,10 @@ $orders = [];
                             <x-sort field="category.state" >@lang('luna.category.field.state')</x-sort>
                         </th>
 
-                        @if($type !== \App\Services\CategoryService::TYPE_COUNTRY
-                            && $type !== \App\Services\CategoryService::TYPE_RESELLER)
-                            {{-- ACCESS --}}
-                            <th>
-                                <x-sort field="category.access" >@lang('datavideo.category.field.access')</x-sort>
-                            </th>
-                        @endif
-
-                        @if($type === \App\Services\CategoryService::TYPE_RESELLER)
-                            {{-- AUTHORITY --}}
-                            <th>
-                                <x-sort field="category.authority" >@lang('datavideo.category.field.authority')</x-sort>
-                            </th>
-                        @endif
-
                         {{-- TITLE --}}
                         <th style="min-width: 350px;">
                             <x-sort field="lang.title" >@lang('luna.category.field.title')</x-sort>
                         </th>
-
-                        @if($type === \App\Services\CategoryService::TYPE_PRODUCT)
-                            <th class="text-nowrap">
-                                @lang('datavideo.category.field.pin.to.top')
-                            </th>
-                        @endif
 
                         {{-- ORDERING --}}
                         <th width="7%" class="text-nowrap">
@@ -94,16 +74,10 @@ $orders = [];
                             @endif
                         </th>
 
-                        <th>
-                            @lang('datavideo.region.title')
+                        {{-- AUTHOR --}}
+                        <th width="15%" class="text-nowrap">
+                            <x-sort field="category.created_by" >@lang('luna.category.field.author')</x-sort>
                         </th>
-
-                        @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
-                            {{-- AUTHOR --}}
-                            <th width="15%" class="text-nowrap">
-                                <x-sort field="category.created_by" >@lang('luna.category.field.author')</x-sort>
-                            </th>
-                        @endif
 
                         {{-- DELETE --}}
                         <th width="15%" class="text-nowrap">
@@ -112,12 +86,12 @@ $orders = [];
 
                         {{-- DELETE --}}
                         <th width="1%" class="text-nowrap">
-                            @lang('phoenix.toolbar.delete')
+                            @lang('unicorn.toolbar.delete')
                         </th>
 
                         {{-- ID --}}
                         <th class="text-right" width="3%">
-                            <x-sort field="category.id" >@lang('luna.category.field.id')</x-sort>
+                            <x-sort field="category.id" >@lang('unicorn.field.id')</x-sort>
                         </th>
                     </tr>
                     </thead>
@@ -152,44 +126,15 @@ $orders = [];
                                 ></x-state-dropdown>
                             </td>
 
-                            @if($type !== \App\Services\CategoryService::TYPE_COUNTRY
-                                && $type !== \App\Services\CategoryService::TYPE_RESELLER)
-                                {{--ACCESS--}}
-                                <td>
-                                    @if ($item->access)
-                                        {{ ucfirst(\App\Services\CategoryService::ACCESS_PRIVATE) }}
-                                    @else
-                                        {{ ucfirst(\App\Services\CategoryService::ACCESS_PUBLIC) }}
-                                    @endif
-                                </td>
-                            @endif
-
-                            @if($type === \App\Services\CategoryService::TYPE_RESELLER)
-                                {{--ACCESS--}}
-                                <td>
-                                    @if ($item->authority)
-                                        {{ ucfirst(\App\Services\CategoryService::AUTHORITY_PUBLIC) }}
-                                    @else
-                                        {{ ucfirst(\App\Services\CategoryService::AUTHORITY_RESELLER) }}
-                                    @endif
-                                </td>
-                            @endif
-
                             {{-- TITLE --}}
                             <td class="hasHighlight">
                                 {{ str_repeat('—', $item->level - 1) }}
-                                <a href="{{ $nav->to('category', array('id' => $item->id, 'type' => $type, 'code' => 'global')) }}">
+                                <a href="{{ $nav->to('category_edit', array('id' => $item->id, 'type' => $type, 'code' => 'global')) }}">
                                     {{ $item->title }}
                                 </a>
 
                                 <small>({{ $item->alias }})</small>
                             </td>
-
-                            @if($type === \App\Services\CategoryService::TYPE_PRODUCT)
-                                <td>
-                                    <x-bool-icon :value="$item->pin_to_top"></x-bool-icon>
-                                </td>
-                            @endif
 
                             {{-- ORDERING --}}
                             <td class="text-right">
@@ -201,24 +146,18 @@ $orders = [];
                                 ></x-order-control>
                             </td>
 
+                            {{-- AUTHOR --}}
                             <td>
-                                @include('admin.widget.region-badges')
+                                {{ $item->user->name ?? '' }}
                             </td>
-
-                            @if (\Lyrasoft\Warder\Helper\WarderHelper::tableExists('users'))
-                                {{-- AUTHOR --}}
-                                <td>
-                                    {{ $item->user_first_name . ' ' . $item->user_last_name }}
-                                </td>
-                            @endif
 
                             {{-- CREATED --}}
                             <td class="text-nowrap">
                                 @if (!$chronos->isNullDate($item->created))
-                                    <span class="has-tooltip"
+                                    <span class="" data-bs-toggle="tooltip"
                                         title="{{ $chronos->toLocalFormat($item->created, 'Y-m-d H:i:s') }}">
-                                            {{ $chronos->toLocalFormat($item->created, 'Y-m-d') }}
-                                        </span>
+                                        {{ $chronos->toLocalFormat($item->created, 'Y-m-d') }}
+                                    </span>
                                 @endif
                             </td>
 
@@ -232,7 +171,7 @@ $orders = [];
                             </td>
 
                             {{-- ID --}}
-                            <td class="text-right">
+                            <td class="text-right text-end">
                                 {{ $item->id }}
                             </td>
                         </tr>
@@ -256,7 +195,7 @@ $orders = [];
                 <input type="hidden" name="origin_ordering" value="{{ implode(',', $originOrdering) }}" />
 
                 {{-- TOKEN --}}
-                @formToken
+                @include('@csrf')
             </div>
 
             <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>

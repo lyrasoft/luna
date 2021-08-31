@@ -45,7 +45,7 @@ class ForgetResetView implements ViewModelInterface
      *
      * @return  mixed
      */
-    public function prepare(AppContext $app, View $view): array
+    public function prepare(AppContext $app, View $view): mixed
     {
         $token = $app->getState()->get('reset.token');
 

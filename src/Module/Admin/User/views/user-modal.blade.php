@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app       AppContext      Application context.
- * @var $vm        object          The view model object.
+ * @var $vm        \Lyrasoft\Luna\Module\Admin\User\UserListView          The view model object.
  * @var $uri       SystemUri       System Uri information.
  * @var $chronos   ChronosService  The chronos datetime service.
  * @var $nav       Navigator       Navigator object to build route.
@@ -22,6 +22,13 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $callback = $app->input('callback');
+
+$enabledButton = $vm->createEnabledButton();
+
+$imgPlaceholder = $app->service(\Unicorn\Image\ImagePlaceholder::class);
+$luna = $app->service(\Lyrasoft\Luna\LunaPackage::class);
+
+$loginName = $luna->getLoginName();
 ?>
 
 @extends('admin.global.pure')
@@ -38,16 +45,23 @@ $callback = $app->input('callback');
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th>
-                        <x-sort field="user.title">
-                            Title
-                        </x-sort>
+                    <th class="text-nowrap">
+                        <x-sort field="user.last_name">@lang('luna.user.field.name')</x-sort>
+                        /
+                        <x-sort field="user.email">@lang('luna.user.field.email')</x-sort>
                     </th>
-                    <th>
-                        <x-sort field="user.state">
-                            State
-                        </x-sort>
+
+                    @if ($loginName !== 'email')
+                        <th>
+                            <x-sort :field="'user.' . $loginName">@lang('luna.user.field.' . $loginName)</x-sort>
+                        </th>
+                    @endif
+
+                    {{-- ENABLED --}}
+                    <th width="3%" class="text-nowrap">
+                        <x-sort field="user.enabled">@lang('luna.user.field.enabled')</x-sort>
                     </th>
+
                     <th>
                         <x-sort field="category.id">
                             ID
@@ -58,22 +72,55 @@ $callback = $app->input('callback');
 
                 <tbody>
                 @foreach($items as $i => $item)
+                    @php($entity = $vm->prepareItem($item))
                     @php($data = [
-                        'title' => $item->title,
+                        'title' => $item->name,
                         'value' => $item->id,
                         'image' => $item->image,
                     ])
                     <tr>
-                        <td>
-                            <a href="javascript://"
-                                onclick="parent.{{ $callback }}({{ json_encode($data) }})">
-                                <span class="fa fa-angle-right text-muted"></span>
-                                {{ $item->title }}
-                            </a>
+                        {{-- NAME --}}
+                        <td class="searchable">
+                            <div class="d-flex align-items-center">
+                                <div class="user-avatar-wrapper mr-2">
+                                    @if (method_exists($entity, 'getAvatar'))
+                                        @if ($entity->getAvatar())
+                                            <img class="c-user-avatar rounded-circle mr-2 me-2"
+                                                src="{{ $item->avatar }}"
+                                                height="45"
+                                                alt="Avatar">
+                                        @else
+                                            <div class="user-avatar user-avatar-default"></div>
+                                        @endif
+                                    @endif
+                                </div>
+                                <div>
+                                    <div class="user-name">
+                                        <a href="javascript://"
+                                            onclick="parent.{{ $callback }}({{ json_encode($data) }})">
+                                            {{ $entity->getName() }}
+                                        </a>
+                                    </div>
+
+                                    <span class="small user-email text-muted">{{ $item->email }}</span>
+                                </div>
+                            </div>
                         </td>
-                        <th>
-                            {{ $item->state }}
-                        </th>
+
+                        @if ($loginName !== 'email')
+                            <td>
+                                {{ $item->$loginName }}
+                            </td>
+                        @endif
+
+                        {{-- ENABLED --}}
+                        <td class="text-center">
+                            <x-state-button :states="$enabledButton"
+                                :value="$item->enabled"
+                                :id="$item->id"
+                                :options="['onlyIcon' => true]"
+                            ></x-state-button>
+                        </td>
                         <td>
                             {{ $item->id }}
                         </td>

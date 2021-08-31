@@ -28,6 +28,11 @@ use Lyrasoft\Luna\Module\Admin\User\UserListView;
 
 $enabledButton = $vm->createEnabledButton();
 $verifiedButton = $vm->createVerifiedButton();
+
+$imgPlaceholder = $app->service(\Unicorn\Image\ImagePlaceholder::class);
+$luna = $app->service(\Lyrasoft\Luna\LunaPackage::class);
+
+$loginName = $luna->getLoginName();
 ?>
 
 @extends('admin.global.body')
@@ -46,8 +51,8 @@ $verifiedButton = $vm->createVerifiedButton();
 
         @if (count($items))
             {{-- RESPONSIVE TABLE DESC --}}
-            <p class="visible-xs-block d-sm-block d-md-none">
-                @lang('phoenix.grid.responsive.table.desc')
+            <p class="d-sm-block d-md-none">
+                @lang('unicorn.grid.responsive.table.desc')
             </p>
 
             <div>
@@ -66,14 +71,20 @@ $verifiedButton = $vm->createVerifiedButton();
                             <x-sort field="user.email">@lang('luna.user.field.email')</x-sort>
                         </th>
 
+                        @if ($loginName !== 'email')
+                            <th>
+                                <x-sort :field="'user.' . $loginName">@lang('luna.user.field.' . $loginName)</x-sort>
+                            </th>
+                        @endif
+
                         {{-- ENABLED --}}
                         <th width="3%" class="text-nowrap">
-                            <x-sort field="user.blocked">@lang('luna.user.field.enabled')</x-sort>
+                            <x-sort field="user.enabled">@lang('luna.user.field.enabled')</x-sort>
                         </th>
 
                         {{-- Activation --}}
                         <th width="10%" class="text-nowrap">
-                            <x-sort field="user.activation">@lang('luna.user.field.verified')</x-sort>
+                            <x-sort field="user.verified">@lang('luna.user.field.verified')</x-sort>
                         </th>
 
                         {{-- REGISTERED --}}
@@ -81,18 +92,18 @@ $verifiedButton = $vm->createVerifiedButton();
                             <x-sort field="user.registered">@lang('luna.user.field.registered')</x-sort>
                         </th>
 
-                        <th width="5%" class="text-nowrap">
-                            @lang('luna.user.field.switch')
-                        </th>
+{{--                        <th width="5%" class="text-nowrap">--}}
+{{--                            @lang('luna.user.field.switch')--}}
+{{--                        </th>--}}
 
                         {{-- DELETE --}}
                         <th width="1%" class="text-nowrap">
-                            @lang('luna.user.field.delete')
+                            @lang('unicorn.toolbar.delete')
                         </th>
 
                         {{-- ID --}}
                         <th width="3%" class="text-nowrap text-right">
-                            <x-sort field="user.id">@lang('luna.user.field.id')</x-sort>
+                            <x-sort field="user.id">@lang('unicorn.field.id')</x-sort>
                         </th>
                     </tr>
                     </thead>
@@ -112,9 +123,12 @@ $verifiedButton = $vm->createVerifiedButton();
                             <td class="searchable">
                                 <div class="d-flex align-items-center">
                                     <div class="user-avatar-wrapper mr-2">
-                                        @if (property_exists($item, 'avatar'))
-                                            @if ($item->avatar)
-                                                <img class="user-avatar" src="{{ $item->avatar }}" alt="Avatar">
+                                        @if (method_exists($entity, 'getAvatar'))
+                                            @if ($entity->getAvatar())
+                                                <img class="c-user-avatar rounded-circle mr-2 me-2"
+                                                    src="{{ $item->avatar }}"
+                                                    height="45"
+                                                    alt="Avatar">
                                             @else
                                                 <div class="user-avatar user-avatar-default"></div>
                                             @endif
@@ -131,6 +145,12 @@ $verifiedButton = $vm->createVerifiedButton();
                                     </div>
                                 </div>
                             </td>
+
+                            @if ($loginName !== 'email')
+                                <td>
+                                    {{ $item->$loginName }}
+                                </td>
+                            @endif
 
                             {{-- ENABLED --}}
                             <td class="text-center">
@@ -150,44 +170,46 @@ $verifiedButton = $vm->createVerifiedButton();
 
                             {{-- REGISTERED --}}
                             <td>
-                                {{--                                {{ Windwalker\Legacy\Core\DateTime\Chronos::toLocalTime($item->registered) }}--}}
-                                {{ $chronos->toLocalFormat($item->registered) }}
-                            </td>
-
-                            <td class="text-center">
-                                <div class="dropdown">
-                                    <button
-                                        class="user-switch-button btn btn-outline-secondary btn-sm dropdown-toggle"
-                                        type="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                    >
-                                        <span class="fa fa-eye"></span>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <button type="button"
-                                            class="dropdown-item"
-                                            onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 0 });">
-                                            <span class="fa fa-people-arrows"></span>
-                                            @lang('luna..user.switch.button.default')
-                                        </button>
-                                        <button type="button"
-                                            class="dropdown-item"
-                                            onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 1 });">
-                                            <span class="fa fa-user-shield"></span>
-                                            @lang('luna..user.switch.button.keepgroup')
-                                        </button>
-                                    </div>
+                                <div data-bs-toggle="tooltip"
+                                    title="{{ $chronos->toLocalFormat($item->registered) }}">
+                                    {{ $chronos->toLocalFormat($item->registered, 'Y-m-d') }}
                                 </div>
                             </td>
+
+{{--                            <td class="text-center">--}}
+{{--                                <div class="dropdown">--}}
+{{--                                    <button--}}
+{{--                                        class="user-switch-button btn btn-outline-secondary btn-sm dropdown-toggle"--}}
+{{--                                        type="button"--}}
+{{--                                        data-toggle="dropdown"--}}
+{{--                                        aria-haspopup="true"--}}
+{{--                                        aria-expanded="false"--}}
+{{--                                    >--}}
+{{--                                        <span class="fa fa-eye"></span>--}}
+{{--                                    </button>--}}
+{{--                                    <div class="dropdown-menu">--}}
+{{--                                        <button type="button"--}}
+{{--                                            class="dropdown-item"--}}
+{{--                                            onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 0 });">--}}
+{{--                                            <span class="fa fa-people-arrows"></span>--}}
+{{--                                            @lang('luna..user.switch.button.default')--}}
+{{--                                        </button>--}}
+{{--                                        <button type="button"--}}
+{{--                                            class="dropdown-item"--}}
+{{--                                            onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 1 });">--}}
+{{--                                            <span class="fa fa-user-shield"></span>--}}
+{{--                                            @lang('luna..user.switch.button.keepgroup')--}}
+{{--                                        </button>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </td>--}}
 
                             {{-- Delete --}}
                             <td class="text-center">
                                 <button type="button"
                                     class="waves-effect btn btn-default btn-outline-secondary btn-sm hasTooltip"
                                     @click="grid.deleteItem({{ $item->id }});"
-                                    title="@lang('phoenix.toolbar.delete')">
+                                    title="@lang('unicorn.toolbar.delete')">
                                     <span class="glyphicon glyphicon-trash fa fa-trash"></span>
                                 </button>
                             </td>

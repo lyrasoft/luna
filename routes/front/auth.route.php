@@ -40,6 +40,9 @@ $router->group('auth')
             $router->get('registration_activate', '/registration/activate')
                 ->controller(AuthController::class, 'activate');
 
+            $router->any('resend_activate', '/auth/resend/activate')
+                ->controller(AuthController::class, 'resend');
+
             $router->any('forget_request', '/forget/request[/{layout}]')
                 ->postHandler(ForgetController::class, 'request')
                 ->view(ForgetRequestView::class);

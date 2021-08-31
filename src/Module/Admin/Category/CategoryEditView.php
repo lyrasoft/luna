@@ -11,15 +11,12 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Category;
 
-use App\DataMapper\CategoryProductMapper;
-use App\Datavideo\Region\RegionService;
-use App\Entity\Category;
-use App\Entity\CategoryLang;
 use Lyrasoft\Luna\Module\Admin\Category\Form\EditForm;
-use App\Region\RegionEditTrait;
+use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
@@ -36,22 +33,21 @@ use Windwalker\ORM\ORM;
 )]
 class CategoryEditView implements ViewModelInterface
 {
-    use \App\Region\RegionEditTrait;
-    use RegionEditTrait;
+    use TranslatorTrait;
 
     /**
      * CategoryEditView constructor.
      *
-     * @param    ORM          $orm
-     * @param    FormFactory  $formFactory
-     * @param    Navigator    $nav
+     * @param  ORM                 $orm
+     * @param  FormFactory         $formFactory
+     * @param  Navigator           $nav
+     * @param  CategoryRepository  $repository
      */
     public function __construct(
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
         #[Autowire] protected CategoryRepository $repository,
-        #[Autowire] protected RegionService $regionService
     ) {
     }
 
@@ -63,40 +59,28 @@ class CategoryEditView implements ViewModelInterface
      *
      * @return    mixed
      */
-    public function prepare(AppContext $app, View $view): mixed
+    public function prepare(AppContext $app, View $view): array
     {
         $type = $app->input('type');
         $id = $app->input('id');
 
-        $item = $this->orm->findOne(Category::class, $id);
-
-        /** @var Collection $item */
-        ['item' => $item] = $regionData = $this->prepareRegionEdit($item);
-
-        $item->related_products = CategoryProductMapper::find(['category_id' => $item->id])->product_id;
-        
-        $globalDividers = [];
-        
-        if ($item?->id) {
-            $lang = $this->orm->findOne(
-                CategoryLang::class,
-                ['category_id' => $item->id, 'region_id' => 1]
-            );
-            
-            $globalDividers = $lang->getDividers();
-        }
+        $item = $this->repository->getItem($id);
 
         $form = $this->formFactory
-            ->create(EditForm::class)
+            ->create(EditForm::class, type: $type, id: $id)
             ->setNamespace('item')
             ->fill(
                 $this->repository->getState()->getAndForget('edit.data')
-                    ?: $this->orm->extractEntity($item)
+                    ?: $this->repository->getORM()->extractEntity($item)
             );
 
-        return array_merge(
-            $regionData,
-            compact('form', 'id', 'item', 'type', 'globalDividers')
+        $view->setTitle(
+            $this->trans(
+                'luna.category.edit.title',
+                $this->trans("luna.$type.title")
+            )
         );
+
+        return compact('form', 'id', 'item', 'type');
     }
 }

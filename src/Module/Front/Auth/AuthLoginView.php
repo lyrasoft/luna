@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Lyrasoft\Luna\Module\Front\Auth\Form\LoginForm;
+use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
@@ -63,6 +64,8 @@ class AuthLoginView implements ViewModelInterface
 
         $form = $this->formFactory->create(LoginForm::class);
 
-        return compact('form');
+        $reActivate = $app->getState()->get(ActivationService::RE_ACTIVATE_SESSION_KEY);
+
+        return compact('form', 'reActivate');
     }
 }

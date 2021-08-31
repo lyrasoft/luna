@@ -50,7 +50,6 @@ use Windwalker\Core\Router\SystemUri;
 
                     {{-- Todo: Implement re-activate--}}
                     @if ($reActivate ?? null)
-                        Re-send activate email
                         <div class="mb-4">
                             <div class="alert alert-info text-center">
                                 <p>
@@ -58,7 +57,7 @@ use Windwalker\Core\Router\SystemUri;
                                 </p>
                                 <div>
                                     <button type="button" class="btn btn-info disable-on-submit"
-                                        onclick="$('#user-form').attr('action', '{{ $nav->to('resend_activate', ['email' => $reActivate]) }}').submit()">
+                                        onclick="form.action = '{{ $nav->to('resend_activate', ['email' => $reActivate]) }}'; form.submit()">
                                         @lang('luna.button.resend.activate.mail')
                                     </button>
                                 </div>
@@ -87,7 +86,7 @@ use Windwalker\Core\Router\SystemUri;
                     <div class="d-sm-flex justify-content-between mb-5">
                         <div id="input-user-remember-control mb-3 mb-sm-0" class="checkbox-field">
                             <div class="form-check checkbox checkbox-primary">
-                                <input name="remember" class="form-check-input" type="checkbox"
+                                <input name="user[remember]" class="form-check-input" type="checkbox"
                                     id="input-user-remember" value="on">
                                 <label class="form-check-label" for="input-user-remember">
                                     @lang('luna.user.field.remember')
@@ -98,7 +97,7 @@ use Windwalker\Core\Router\SystemUri;
                         <div class="l-login__action">
                             <a class="forget-link"
                                 href="{{ $nav->to('forget_request') }}">
-                                @lang('luna.login.forget.link')
+                                @lang('luna.button.forget')
                             </a>
                         </div>
                     </div>
@@ -108,12 +107,12 @@ use Windwalker\Core\Router\SystemUri;
                             class="c-login-button btn btn-primary mb-3"
                             data-dos
                         >
-                            @lang('luna.login.submit.button')
+                            @lang('luna.button.login')
                         </button>
                         <a class="c-register-button btn btn-success"
                             href="{{ $nav->to('registration') }}">
                             <span class="fa fa-user-plus"></span>
-                            @lang('luna.login.register.button')
+                            @lang('luna.button.register')
                         </a>
                     </div>
 

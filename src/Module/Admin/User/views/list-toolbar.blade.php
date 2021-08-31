@@ -32,7 +32,10 @@ use Windwalker\Core\Router\SystemUri;
         @lang('unicorn.toolbar.new')
     </a>
 
-    <button type="button" class="btn btn-info btn-sm" @click="grid.hasChecked();grid.batch('resend');">
+    <button type="button" class="btn btn-info btn-sm"
+        @click="grid.validateChecked(null, function () {
+            grid.batch('resend');
+        });">
         <span class="glyphicon glyphicon-ok fa fa-envelope"></span>
         @lang('luna.button.resend.activate.mail')
     </button>

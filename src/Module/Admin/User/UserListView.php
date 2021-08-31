@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Admin\User;
 
 use Lyrasoft\Luna\Enum\UserEnabled;
 use Lyrasoft\Luna\Enum\UserVerified;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Module\Admin\User\Form\GridForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Unicorn\Html\State\StateButton;
@@ -44,6 +45,7 @@ class UserListView implements ViewModelInterface
 
     public function __construct(
         protected ORM $orm,
+        protected LunaPackage $luna,
         #[Autowire]
         protected UserRepository $repository,
         protected FormFactory $formFactory
@@ -119,6 +121,7 @@ class UserListView implements ViewModelInterface
             'user.id',
             'user.name',
             'user.username',
+            'user.' . $this->luna->getLoginName(),
             'user.email',
         ];
     }

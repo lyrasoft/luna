@@ -14,6 +14,8 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\Module\Front\Registration\RegistrationRepository;
+use Lyrasoft\Luna\User\ActivationService;
+use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\AppContext;
@@ -61,10 +63,11 @@ class AuthController
 
         if (!$result) {
             /** @var ResultSet $resultSet */
+            $authResult = $resultSet->getFirstFailure();
+
             $app->addMessage(
-                $this->trans(
-                    'luna.login.message.' . $resultSet->getFirstFailure()?->getStatus()
-                ),
+                $authResult?->getException()?->getMessage()
+                ?? $this->trans('luna.login.message.' . $authResult?->getStatus()),
                 'warning'
             );
 
@@ -93,7 +96,7 @@ class AuthController
         RegistrationRepository $repository,
         UserService $userService,
         Navigator $nav,
-    ) {
+    ): RouteUri {
         if ($userService->getUser()->isLogin()) {
             return $nav->to('home');
         }
@@ -126,6 +129,25 @@ class AuthController
         $repository->activate($token);
 
         $app->addMessage($this->trans('luna.message.activate.success'), 'success');
+
+        return $nav->to('login');
+    }
+
+    public function resend(
+        AppContext $app,
+        #[Autowire] RegistrationRepository $repository,
+        Navigator $nav
+    ) {
+        $email = $app->getState()->getAndForget(ActivationService::RE_ACTIVATE_SESSION_KEY);
+        $user = $repository->getItem(compact('email'));
+
+        if (!$user) {
+            return $nav->to('home');
+        }
+
+        $repository->sendActivateMail($user->getId());
+
+        $app->addMessage($this->trans('luna.message.registration.success'), 'success');
 
         return $nav->to('login');
     }

@@ -10,6 +10,7 @@
 namespace Lyrasoft\Luna\User;
 
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\User\Event\AfterLoginEvent;
 use Lyrasoft\Luna\User\Event\BeforeLoginEvent;
 use Lyrasoft\Luna\User\Event\LoginAuthEvent;
 use Lyrasoft\Luna\User\Event\LoginFailEvent;
@@ -100,22 +101,27 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
         $result = $this->authenticate($event->getCredential(), $resultSet);
 
-        if ($result) {
-            $credential = $result->getCredential();
-
-            $user = $this->createUserEntity($credential);
-
-            $event = $this->emit(
-                LoginAuthEvent::class,
-                compact('credential', 'options', 'result', 'user', 'resultSet')
-            );
-
-            $result = $event->getResult();
-
+        try {
             if ($result) {
-                $user = $this->createUserEntity($event->getCredential());
-                $this->login($user);
+                $credential = $result->getCredential();
+
+                $user = $this->createUserEntity($credential);
+
+                $event = $this->emit(
+                    LoginAuthEvent::class,
+                    compact('credential', 'options', 'result', 'user', 'resultSet')
+                );
+
+                $result = $event->getResult();
+
+                if ($result) {
+                    $user = $this->createUserEntity($event->getCredential());
+                    $this->login($user);
+                }
             }
+        } catch (AuthenticateFailException $e) {
+            $result = false;
+            $resultSet?->addResult('authorize', AuthResult::authorizeFail([], $e));
         }
 
         if (!$result) {
@@ -131,6 +137,17 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
             return false;
         }
+
+        $event = $this->emit(
+            AfterLoginEvent::class,
+            compact(
+                'credential',
+                'options',
+                'user',
+                'result',
+                'resultSet',
+            )
+        );
 
         return $result;
     }
@@ -198,6 +215,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * createUserEntity
      *
      * @param  array  $data  *
+     *
      * @return  object|T
      * @throws \Windwalker\DI\Exception\DefinitionException
      */

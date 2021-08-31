@@ -11,24 +11,17 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Category;
 
-use App\Attributes\SaveCloseTo;
-use App\DataMapper\CategoryProductMapper;
-use App\Datavideo\Language\LanguageService;
 use Lyrasoft\Luna\Module\Admin\Category\Form\EditForm;
-use App\Services\CategoryService;
-use App\Services\MVCService;
-use App\Traits\AliasHandleTrait;
+use Lyrasoft\Luna\Repository\CategoryRepository;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Controller\NestedSetController;
-use Unicorn\Repository\Event\PrepareSaveEvent;
 use Unicorn\Upload\FileUploadManager;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
+use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
-use Windwalker\Legacy\Data\Data;
 use Windwalker\ORM\Event\AfterSaveEvent;
-use Windwalker\ORM\Event\BeforeSaveEvent;
 
 use function Windwalker\collect;
 
@@ -38,49 +31,25 @@ use function Windwalker\collect;
 #[Controller()]
 class CategoryController
 {
-    #[SaveCloseTo(CategoryListView::class)]
     public function save(
         AppContext $app,
         #[Autowire] CategoryRepository $repository,
-        #[Autowire] EditForm $form,
         CrudController $controller,
+        Navigator $nav,
         FileUploadManager $fileUploadManager
     ): mixed {
-        $controller->beforeSave(
-            function (BeforeSaveEvent $event) use ($app) {
-                $data = collect($app->input('item'));
-
-                if ($data->type === CategoryService::TYPE_PRODUCT && $data->related_products) {
-                    //save related products
-                    CategoryProductMapper::delete(['category_id' => $data->id]);
-
-                    foreach ($data->related_products as $product) {
-                        $related = new Data();
-
-                        $related->category_id = $data->id;
-                        $related->product_id  = $product;
-
-                        CategoryProductMapper::createOne($related);
-                    }
-                }
-            }
+        $form = $app->make(
+            EditForm::class,
+            [
+                'type' => $app->input('type'),
+                'id' => $app->input('id'),
+            ],
         );
 
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($repository, $fileUploadManager, $app) {
                 $data = collect($app->input('item'));
                 $data['id'] = $event->getData()['id'];
-
-                // Dividers
-                if ($app->input('code') !== 'global') {
-                    $data['dividers'] = collect(json_decode($data['dividers'], true))
-                        ->map(fn ($d) => $d['content'] ?? [])
-                        ->collapse(true)
-                        ->dump();
-                }
-
-                //save language
-                LanguageService::saveLang($data, MVCService::getShortName($this));
 
                 $r = $fileUploadManager->get()
                     ->handleFileIfUploaded(
@@ -89,24 +58,30 @@ class CategoryController
                     );
 
                 if ($r) {
-                    $data['image'] = (string) $r->getUri();
-                }
-
-                $r = $fileUploadManager->get()
-                    ->handleFileIfUploaded(
-                        $app->file('item')['background'] ?? null,
-                        'images/category/background-' . md5((string) $data['id']) . '.jpg'
-                    );
-
-                if ($r) {
-                    $data['background'] = (string) $r->getUri();
+                    $data['image'] = (string) $r->getUri(true);
                 }
 
                 $repository->save($data);
             }
         );
 
-        return $app->call([$controller, 'save'], compact('repository', 'form'));
+        $uri = $app->call([$controller, 'save'], compact('repository', 'form'));
+
+        switch ($app->input('task')) {
+            case 'save2close':
+                return $nav->to('category_list');
+
+            case 'save2new':
+                return $nav->to('category_edit')->var('new', 1);
+
+            case 'save2copy':
+                $controller->rememberForClone($app, $repository);
+
+                return $nav->self($nav::WITHOUT_VARS)->var('new', 1);
+
+            default:
+                return $uri;
+        }
     }
 
     public function delete(

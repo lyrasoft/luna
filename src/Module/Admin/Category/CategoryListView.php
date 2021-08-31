@@ -11,13 +11,14 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Category;
 
-use App\Datavideo\Region\RegionService;
 use Lyrasoft\Luna\Module\Admin\Category\Form\GridForm;
+use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
 use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Core\Language\LangService;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\Data\Collection;
@@ -37,7 +38,7 @@ use Windwalker\Query\Query;
 )]
 class CategoryListView implements ViewModelInterface
 {
-    use \App\Region\RegionEditTrait;
+    use TranslatorTrait;
 
     /**
      * CategoriesView constructor.
@@ -51,8 +52,6 @@ class CategoryListView implements ViewModelInterface
         #[Autowire]
         protected CategoryRepository $repository,
         protected FormFactory $formFactory,
-        #[Autowire]
-        protected RegionService $regionService
     ) {
     }
 
@@ -68,19 +67,15 @@ class CategoryListView implements ViewModelInterface
         $ordering = $state->rememberFromRequest('list_ordering') ?? static::getDefaultOrdering();
 
         $items = $this->repository->getListSelector()
-            ->modifyQuery(
-                fn(Query $query) => $this->joinCurrentRegion($query, $filter['region'] ?? 1 ?: 1)
-            )
             ->setFilters($filter)
             ->searchTextFor(
                 $search['*'] ?? '',
                 static::getSearchFields()
             )
+            ->addFilter('category.type', $app->input('type'))
             ->ordering($ordering)
             ->page($page)
-            ->limit($limit)
-            ->addFilter('category.type', $app->input('type'))
-            ->disableSelectGroup(true);
+            ->limit($limit);
 
         $pagination = $items->getPagination();
 
@@ -101,8 +96,6 @@ class CategoryListView implements ViewModelInterface
 
     public function prepareItem(Collection $item): object
     {
-        $this->prepareListItemRegion($item);
-
         return $this->repository->getEntityMapper()->toEntity($item);
     }
 
@@ -110,14 +103,14 @@ class CategoryListView implements ViewModelInterface
     {
         $type = $app->input('type');
 
-        $langKey = "luna.$type.categories";
+        $langKey = "luna.$type.category.list";
 
-        if ($app->service(LangService::class)->has($langKey)) {
-            $title = __($langKey);
+        if ($this->translator->has($langKey)) {
+            $title = $this->trans($langKey);
         } else {
-            $title = __(
-                'luna.category.manager.title',
-                __('luna.' . $type . '.title')
+            $title = $this->trans(
+                'luna.category.list.title',
+                $this->trans('luna.' . $type . '.title')
             );
         }
 
@@ -142,8 +135,10 @@ class CategoryListView implements ViewModelInterface
     public static function getSearchFields(): array
     {
         return [
-            'lang.title',
+            'category.id',
+            'category.title',
             'category.alias',
+            'category.description',
         ];
     }
 

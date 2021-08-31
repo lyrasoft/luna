@@ -8,13 +8,10 @@
 
 namespace Lyrasoft\Luna\Module\Admin\Category\Form;
 
-
-use App\Field\CategoryListField;
-use App\Field\RegionListField;
-use App\Field\UserModalField;
-use Lyrasoft\Luna\Field\LunaFieldTrait;
-use Lyrasoft\Warder\Helper\WarderHelper;
+use Lyrasoft\Luna\Field\CategoryListField;
+use Unicorn\Enum\BasicState;
 use Windwalker\Core\Http\AppRequest;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 
@@ -25,8 +22,8 @@ use Windwalker\Form\Form;
  */
 class GridForm implements FieldDefinitionInterface
 {
-    use LunaFieldTrait;
-
+    use TranslatorTrait;
+    
     /**
      * GridForm constructor.
      */
@@ -52,20 +49,10 @@ class GridForm implements FieldDefinitionInterface
          * If you hop that user can choose a field to search, change "display" to true.
          */
         $form->group('search', function (Form $form) use ($langPrefix) {
-            // Search Field
-            $form->add('field', \Windwalker\Form\Field\ListField::class)
-                ->label(__('phoenix.grid.search.field.label'))
-                ->set('display', false)
-                ->defaultValue('*')
-                ->option(__('phoenix.core.all'), '*')
-                ->option(__($langPrefix . 'category.field.id'), 'category.id')
-                ->option(__($langPrefix . 'category.field.title'), 'category.title')
-                ->option(__($langPrefix . 'category.field.alias'), 'category.alias');
-
             // Search Content
             $form->add('*', \Windwalker\Form\Field\SearchField::class)
-                ->label(__('phoenix.grid.search.label'))
-                ->placeholder(__('phoenix.grid.search.label'));
+                ->label($this->trans('unicorn.grid.search.label'))
+                ->placeholder($this->trans('unicorn.grid.search.label'));
         });
 
         /*
@@ -79,18 +66,11 @@ class GridForm implements FieldDefinitionInterface
         $form->group('filter', function (Form $form) use ($langPrefix) {
             // State
             $form->add('category.state', \Windwalker\Form\Field\ListField::class)
-                ->label(__($langPrefix . 'category.field.published'))
+                ->label($this->trans('luna.category.field.published'))
                 // Add empty option to support single deselect button
                 ->option('', '')
-                ->option(__($langPrefix . 'category.filter.state.select'), '')
-                ->option(__('phoenix.grid.state.published'), '1')
-                ->option(__('phoenix.grid.state.unpublished'), '0')
-                ->onchange('this.form.submit()');
-
-            $form->add('region', RegionListField::class)
-                ->label('Region')
-                ->option(__('datavideo.category.filter.region.select'), '')
-                ->addClass('has-select2')
+                ->option($this->trans('unicorn.select.placeholder'), '')
+                ->registerOptions(BasicState::getTransItems($this->translator))
                 ->onchange('this.form.submit()');
         });
 
@@ -103,18 +83,11 @@ class GridForm implements FieldDefinitionInterface
         $form->group('batch', function (Form $form) use ($langPrefix) {
             // Parent
             $form->add('parent_id', CategoryListField::class)
-                ->label(__($langPrefix . 'category.field.parent'))
-                ->class('col-md-12 has-select2')
+                ->label($this->trans($langPrefix . 'category.field.parent'))
+                ->addClass('')
                 ->categoryType($this->request->input('type') ?? '')
                 ->showRoot(true)
-                ->option(__($langPrefix . 'category.batch.parent.select'), '');
-
-
-            if (WarderHelper::tableExists('users')) {
-                // Author
-                $form->add('created_by', UserModalField::class)
-                    ->label(__($langPrefix . 'category.field.author'));
-            }
+                ->option($this->trans('luna.category.parent.select'), '');
         });
     }
 }
