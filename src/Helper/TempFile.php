@@ -4,7 +4,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2020 .
- * @license    LGPL-2.0-or-later
+ * @license    MIT
  */
 
 namespace Lyrasoft\Luna\Helper;

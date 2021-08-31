@@ -4,7 +4,7 @@
  * Part of luna project.
  *
  * @copyright  Copyright (C) 2021 .
- * @license    LGPL-2.0-or-later
+ * @license    MIT
  */
 
 namespace Lyrasoft\Luna\User;
