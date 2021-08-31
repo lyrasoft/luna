@@ -70,7 +70,7 @@ class GridForm implements FieldDefinitionInterface
                 // Add empty option to support single deselect button
                 ->option('', '')
                 ->option($this->trans('unicorn.select.placeholder'), '')
-                ->registerOptions(BasicState::getTransItems($this->translator))
+                ->registerOptions(BasicState::getTransItems($this->lang))
                 ->onchange('this.form.submit()');
         });
 

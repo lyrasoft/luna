@@ -162,13 +162,13 @@ class UserListView implements ViewModelInterface
 
         $enabledButton->addState(UserEnabled::ENABLED())
             ->task('disable')
-            ->title(UserEnabled::ENABLED()->trans($this->translator))
+            ->title(UserEnabled::ENABLED()->trans($this->lang))
             ->icon('fa-solid fa-check')
             ->color('success');
 
         $enabledButton->addState(UserEnabled::DISABLED())
             ->task('enable')
-            ->title(UserEnabled::DISABLED()->trans($this->translator))
+            ->title(UserEnabled::DISABLED()->trans($this->lang))
             ->icon('fa-solid fa-times')
             ->color('danger');
 
@@ -181,14 +181,14 @@ class UserListView implements ViewModelInterface
 
         $button->addState(UserVerified::VERIFIED())
             ->task('unactivate')
-            ->title(UserVerified::VERIFIED()->trans($this->translator))
+            ->title(UserVerified::VERIFIED()->trans($this->lang))
             ->icon('fa-solid fa-check')
             ->disabled(true)
             ->color('success');
 
         $button->addState(UserVerified::UNVERIFIED())
             ->task('activate')
-            ->title(UserVerified::UNVERIFIED()->trans($this->translator))
+            ->title(UserVerified::UNVERIFIED()->trans($this->lang))
             ->icon('fa-solid fa-times')
             ->color('danger');
 

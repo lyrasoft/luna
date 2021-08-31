@@ -105,7 +105,7 @@ class CategoryListView implements ViewModelInterface
 
         $langKey = "luna.$type.category.list";
 
-        if ($this->translator->has($langKey)) {
+        if ($this->lang->has($langKey)) {
             $title = $this->trans($langKey);
         } else {
             $title = $this->trans(

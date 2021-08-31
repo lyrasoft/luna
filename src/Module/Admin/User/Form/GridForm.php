@@ -51,13 +51,13 @@ class GridForm implements FieldDefinitionInterface
                 $form->add('user.enabled', ListField::class)
                     ->label($this->trans('luna.user.field.enabled'))
                     ->option($this->trans('unicorn.select.placeholder'), '')
-                    ->registerOptions(UserEnabled::getTransItems($this->translator))
+                    ->registerOptions(UserEnabled::getTransItems($this->lang))
                     ->attr('x-on:change', '$store.grid.sendFilter()');
 
                 $form->add('user.verified', ListField::class)
                     ->label($this->trans('luna.user.field.verified'))
                     ->option($this->trans('unicorn.select.placeholder'), '')
-                    ->registerOptions(UserVerified::getTransItems($this->translator))
+                    ->registerOptions(UserVerified::getTransItems($this->lang))
                     ->attr('x-on:change', '$store.grid.sendFilter()');
             }
         );

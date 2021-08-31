@@ -47,7 +47,7 @@ $orders = [];
             </p>
 
             <div class="grid-table table-responsive">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         {{-- CHECKBOX --}}
@@ -66,7 +66,7 @@ $orders = [];
                         </th>
 
                         {{-- ORDERING --}}
-                        <th width="7%" class="text-nowrap">
+                        <th width="9%" class="text-nowrap">
                             <x-sort field="category.lft" >@lang('luna.category.field.ordering')</x-sort>
 
                             @if ($enableOrderControl)
@@ -75,12 +75,12 @@ $orders = [];
                         </th>
 
                         {{-- AUTHOR --}}
-                        <th width="15%" class="text-nowrap">
+                        <th class="text-nowrap">
                             <x-sort field="category.created_by" >@lang('luna.category.field.author')</x-sort>
                         </th>
 
-                        {{-- DELETE --}}
-                        <th width="15%" class="text-nowrap">
+                        {{-- CREATED --}}
+                        <th class="text-nowrap">
                             <x-sort field="category.created" >@lang('luna.category.field.created')</x-sort>
                         </th>
 
@@ -127,13 +127,21 @@ $orders = [];
                             </td>
 
                             {{-- TITLE --}}
-                            <td class="hasHighlight">
-                                {{ str_repeat('—', $item->level - 1) }}
-                                <a href="{{ $nav->to('category_edit', array('id' => $item->id, 'type' => $type, 'code' => 'global')) }}">
-                                    {{ $item->title }}
-                                </a>
+                            <td class="searchable">
+                                <div class="d-flex">
+                                    <div class="mr-2 me-2">
+                                        {{ str_repeat('—', $item->level - 1) }}
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <a href="{{ $nav->to('category_edit', array('id' => $item->id, 'type' => $type, 'code' => 'global')) }}">
+                                                {{ $item->title }}
+                                            </a>
+                                        </div>
 
-                                <small>({{ $item->alias }})</small>
+                                        <div class="text-muted small">{{ $item->alias }}</div>
+                                    </div>
+                                </div>
                             </td>
 
                             {{-- ORDERING --}}
