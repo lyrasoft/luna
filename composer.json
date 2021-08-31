@@ -23,6 +23,9 @@
     },
     "extra": {
         "windwalker":{
+            "packages": [
+                "Lyrasoft\\Luna\\LunaPackage"
+            ],
             "modules": [
                 "src/Module"
             ]
