@@ -115,10 +115,10 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     public function install(PackageInstaller $installer): void
     {
         $installer->installConfig(static::path('etc/*.php'), 'config');
-        $installer->installLanguages(static::path('resources/languages/*.ini'), 'lang');
-        $installer->installMigrations(static::path('resources/migrations/*.php'), 'migrations');
-        $installer->installSeeders(static::path('resources/seeders/*.php'), 'seeders');
-        $installer->installRoutes(static::path('routes/*.php'), 'routes');
+        $installer->installLanguages(static::path('resources/languages/**/*.ini'), 'lang');
+        $installer->installMigrations(static::path('resources/migrations/**/*'), 'migrations');
+        $installer->installSeeders(static::path('resources/seeders/**/*'), 'seeders');
+        $installer->installRoutes(static::path('routes/**/*.php'), 'routes');
         $installer->installViews(static::path('views/*.blade.php'), 'views');
 
         $this->installModules($installer, 'category');
