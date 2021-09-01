@@ -28,6 +28,8 @@ use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 use Windwalker\Event\Event;
 
+use Windwalker\Utilities\StrNormalize;
+
 use function Windwalker\DI\create;
 
 /**
@@ -118,6 +120,43 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $installer->installSeeders(static::path('resources/seeders/*.php'), 'seeders');
         $installer->installRoutes(static::path('routes/*.php'), 'routes');
         $installer->installViews(static::path('views/*.blade.php'), 'views');
-        $installer->installModules('Admin/Category', ['modules', 'category_admin']);
+
+        $this->installModules($installer, 'category');
+        $this->installModules($installer, 'article');
+        $this->installModules($installer, 'config');
+        $this->installModules($installer, 'user');
+    }
+
+    protected function installModules(PackageInstaller $installer, string $name): void
+    {
+        $pascal = StrNormalize::toPascalCase($name);
+
+        $installer->installModules(
+            [
+                static::path("src/Module/Admin/$pascal/**/*") => "@source/Module/Admin/$pascal",
+            ],
+            ['Lyrasoft\\Luna\\Module\\Admin' => 'App\\Module\\Admin'],
+            ['modules', $name . '_admin'],
+        );
+
+        $installer->installModules(
+            [
+                static::path("src/Module/Front/$pascal/**/*") => "@source/Module/Front/$pascal",
+            ],
+            ['Lyrasoft\\Luna\\Module\\Front' => 'App\\Module\\Front'],
+            ['modules', $name . '_front']
+        );
+
+        $installer->installModules(
+            [
+                static::path("src/Entity/$pascal.php") => '@source/Entity',
+                static::path("src/Repository/{$pascal}Repository.php") => '@source/Repository',
+            ],
+            [
+                'Lyrasoft\\Luna\\Entity' => 'App\\Entity',
+                'Lyrasoft\\Luna\\Repository' => 'App\\Repository',
+            ],
+            ['modules', $name . '_model']
+        );
     }
 }
