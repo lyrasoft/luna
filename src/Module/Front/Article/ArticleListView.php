@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Front\Article;
 
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Category;
+use Lyrasoft\Luna\Module\Front\Category\CategoryViewTrait;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
@@ -31,14 +32,14 @@ use Windwalker\DI\Attributes\Autowire;
 )]
 class ArticleListView implements ViewModelInterface
 {
+    use CategoryViewTrait;
+
     /**
      * Constructor.
      */
     public function __construct(
         #[Autowire]
         protected ArticleRepository $repository,
-        #[Autowire]
-        protected CategoryRepository $categoryRepository
     ) {
         //
     }
@@ -53,21 +54,8 @@ class ArticleListView implements ViewModelInterface
      */
     public function prepare(AppContext $app, View $view): array
     {
-        $type = 'article';
         $path = $app->input('path');
-
-        /** @var Category $category */
-        if ($path) {
-            $conditions['path'] = compact('type', 'path');
-        } else {
-            $conditions['parent_id'] = 0;
-        }
-
-        $category = $this->categoryRepository->getItem($conditions);
-
-        if (!$category) {
-            throw new RouteNotFoundException('Category not found.');
-        }
+        $category = $this->getCategoryOrFail('article', $path);
 
         $limit = 10;
         $page = $app->input('page');
