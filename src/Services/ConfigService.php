@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Services;
 
-use App\Entity\Config;
+use Lyrasoft\Luna\Entity\Config;
 use Windwalker\Data\Collection;
 use Windwalker\Legacy\Data\Data;
 use Windwalker\ORM\ORM;
