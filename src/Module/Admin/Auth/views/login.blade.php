@@ -50,7 +50,7 @@ use Windwalker\Core\Router\SystemUri;
 
                     <p class="login-button-group">
                         <button class="login-button btn btn-primary btn-block disable-on-submit">
-                            @lang('luna.login.submit.button')
+                            @lang('luna.button.login')
                         </button>
                     </p>
 

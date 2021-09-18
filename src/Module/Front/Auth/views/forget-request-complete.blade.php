@@ -30,7 +30,7 @@ use Windwalker\Core\Router\SystemUri;
         <div class="d-flex justify-content-center mb-5 mb-md-6">
             <div class="text-center">
                 <div class="mb-4">
-                    <span class="fa fa-inbox fa-4x"></span>
+                    <span class="fa-regular fa-inbox fa-4x"></span>
                 </div>
                 <p class="lead">
                     @lang('luna.forget.request.complete.desc')

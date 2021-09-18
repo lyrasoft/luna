@@ -25,18 +25,6 @@ use Windwalker\Core\Router\SystemUri;
 
 @extends('global.body')
 
-@section('style')
-    <style>
-        body.enlarged {
-            min-height: inherit;
-        }
-
-        body {
-            padding-bottom: 0;
-        }
-    </style>
-@stop
-
 @section('body')
     <div class="container l-login" style="margin-top: 100px">
         <div class="row justify-content-center">
@@ -111,7 +99,7 @@ use Windwalker\Core\Router\SystemUri;
                         </button>
                         <a class="c-register-button btn btn-success"
                             href="{{ $nav->to('registration') }}">
-                            <span class="fa fa-user-plus"></span>
+                            <span class="fa-regular fa-user-plus"></span>
                             @lang('luna.button.register')
                         </a>
                     </div>

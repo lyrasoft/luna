@@ -28,7 +28,7 @@ use Windwalker\Core\Router\SystemUri;
         href="{{ $nav->to('user_edit')->var('new', 1) }}"
         style="min-width: 150px"
     >
-        <i class="fa fa-plus"></i>
+        <i class="fa-regular fa-plus"></i>
         @lang('unicorn.toolbar.new')
     </a>
 
@@ -36,7 +36,7 @@ use Windwalker\Core\Router\SystemUri;
         @click="grid.validateChecked(null, function () {
             grid.batch('resend');
         });">
-        <span class="glyphicon glyphicon-ok fa fa-envelope"></span>
+        <span class="glyphicon glyphicon-ok fa-regular fa-envelope"></span>
         @lang('luna.button.resend.activate.mail')
     </button>
 
@@ -45,14 +45,14 @@ use Windwalker\Core\Router\SystemUri;
             (new bootstrap.Modal('#batch-modal')).show();
         })"
     >
-        <i class="fa fa-sliders"></i>
+        <i class="fa-regular fa-sliders"></i>
         @lang('unicorn.toolbar.batch')
     </button>
 
     <button type="button" class="btn btn-outline-danger btn-sm"
         @click="grid.deleteList()"
     >
-        <i class="fa fa-trash"></i>
+        <i class="fa-regular fa-trash"></i>
         @lang('unicorn.toolbar.delete')
     </button>
 </div>

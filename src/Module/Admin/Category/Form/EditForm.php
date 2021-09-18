@@ -17,6 +17,7 @@ use Unicorn\Field\SwitcherField;
 use Unicorn\Field\TinymceEditorField;
 use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Language\TranslatorTrait;
+use Windwalker\Form\Field\TextareaField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\ORM\ORM;
@@ -92,13 +93,18 @@ class EditForm implements FieldDefinitionInterface
                     ->height(600);
 
                 // Description
-                $form->add('description', TinymceEditorField::class)
+                // $form->add('description', TinymceEditorField::class)
+                //     ->label($this->trans('luna.category.field.description'))
+                //     ->editorOptions(
+                //         [
+                //             'height' => 450,
+                //         ]
+                //     )
+                //     ->rows(10);
+
+                // Description
+                $form->add('description', TextareaField::class)
                     ->label($this->trans('luna.category.field.description'))
-                    ->editorOptions(
-                        [
-                            'height' => 450,
-                        ]
-                    )
                     ->rows(10);
 
                 $form->add('type', \Windwalker\Form\Field\HiddenField::class)

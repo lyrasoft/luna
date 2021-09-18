@@ -28,13 +28,13 @@ use Windwalker\Core\Router\SystemUri;
     <button type="button" class="btn btn-success btn-sm phoenix-btn-save"
         style="width: 150px"
         @click="form.post();">
-        <span class="fa fa-save"></span>
+        <span class="fa-regular fa-save"></span>
         @lang('unicorn.toolbar.save')
     </button>
 
     <a role="button" class="btn btn-default btn-outline-secondary btn-sm"
         href="{{ $nav->to('home') }}">
-        <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
+        <span class="glyphicon glyphicon-remove fa-regular fa-remove fa-times"></span>
         @lang('unicorn.toolbar.cancel')
     </a>
 </div>

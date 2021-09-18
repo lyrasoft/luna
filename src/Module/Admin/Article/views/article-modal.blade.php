@@ -67,7 +67,7 @@ $callback = $app->input('callback');
                         <td>
                             <a href="javascript://"
                                 onclick="parent.{{ $callback }}({{ json_encode($data) }})">
-                                <span class="fa fa-angle-right text-muted"></span>
+                                <span class="fa-regular fa-angle-right text-muted"></span>
                                 {{ $item->title }}
                             </a>
                         </td>
