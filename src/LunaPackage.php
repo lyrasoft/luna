@@ -20,6 +20,7 @@ use Lyrasoft\Luna\User\PasswordInterface;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\Core\Auth\AuthService;
 use Windwalker\Core\DI\RequestBootableProviderInterface;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Package\AbstractPackage;
@@ -115,6 +116,12 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(SocialAuthService::class);
         $container->prepareSharedObject(Password::class)
             ->alias(PasswordInterface::class, Password::class);
+        $container->extend(
+            AuthService::class,
+            fn(AuthService $authService, Container $container) => $authService->setUserRetrieveHandler(
+                fn () => $container->get(UserService::class)->getUser()
+            )
+        );
     }
 
     public function install(PackageInstaller $installer): void
