@@ -16,6 +16,7 @@ use Windwalker\Core\Runtime\Config;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
 use Windwalker\Session\Cookie\Cookies;
+use Windwalker\Session\Cookie\CookiesConfigurableInterface;
 use Windwalker\Session\Session;
 
 /**
@@ -38,7 +39,7 @@ class RememberMeSubscriber
             /** @var Session $session */
             $cookies = $this->session->getCookies();
 
-            if ($cookies) {
+            if ($cookies instanceof CookiesConfigurableInterface) {
                 $cookies->expires(
                     $this->config->getDeep('user.remember_expires') ?? '+100days'
                 );
