@@ -185,19 +185,19 @@ $loginName = $luna->getLoginName();
 {{--                                        aria-haspopup="true"--}}
 {{--                                        aria-expanded="false"--}}
 {{--                                    >--}}
-{{--                                        <span class="fa-regular fa-eye"></span>--}}
+{{--                                        <span class="fa fa-eye"></span>--}}
 {{--                                    </button>--}}
 {{--                                    <div class="dropdown-menu">--}}
 {{--                                        <button type="button"--}}
 {{--                                            class="dropdown-item"--}}
 {{--                                            onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 0 });">--}}
-{{--                                            <span class="fa-regular fa-people-arrows"></span>--}}
+{{--                                            <span class="fa fa-people-arrows"></span>--}}
 {{--                                            @lang('luna..user.switch.button.default')--}}
 {{--                                        </button>--}}
 {{--                                        <button type="button"--}}
 {{--                                            class="dropdown-item"--}}
 {{--                                            onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 1 });">--}}
-{{--                                            <span class="fa-regular fa-user-shield"></span>--}}
+{{--                                            <span class="fa fa-user-shield"></span>--}}
 {{--                                            @lang('luna..user.switch.button.keepgroup')--}}
 {{--                                        </button>--}}
 {{--                                    </div>--}}
@@ -210,7 +210,7 @@ $loginName = $luna->getLoginName();
                                     class="waves-effect btn btn-default btn-outline-secondary btn-sm hasTooltip"
                                     @click="grid.deleteItem({{ $item->id }});"
                                     title="@lang('unicorn.toolbar.delete')">
-                                    <span class="glyphicon glyphicon-trash fa-regular fa-trash"></span>
+                                    <span class="glyphicon glyphicon-trash fa fa-trash"></span>
                                 </button>
                             </td>
 

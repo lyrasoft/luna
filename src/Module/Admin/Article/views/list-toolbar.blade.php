@@ -28,13 +28,13 @@ use Windwalker\Core\Router\SystemUri;
         href="{{ $nav->to('article_edit')->var('new', 1) }}"
         style="min-width: 150px"
     >
-        <i class="fa-regular fa-plus"></i>
+        <i class="fa fa-plus"></i>
         @lang('unicorn.toolbar.new')
     </a>
     <button type="button" class="btn btn-info btn-sm"
         @click="grid.form.post()"
     >
-        <i class="fa-regular fa-clone"></i>
+        <i class="fa fa-clone"></i>
         @lang('unicorn.toolbar.duplicate')
     </button>
     <button type="button" class="btn btn-dark btn-sm"
@@ -42,13 +42,13 @@ use Windwalker\Core\Router\SystemUri;
             (new bootstrap.Modal('#batch-modal')).show();
         })"
     >
-        <i class="fa-regular fa-sliders"></i>
+        <i class="fa fa-sliders"></i>
         @lang('unicorn.toolbar.batch')
     </button>
     <button type="button" class="btn btn-outline-danger btn-sm"
         @click="grid.deleteList()"
     >
-        <i class="fa-regular fa-trash"></i>
+        <i class="fa fa-trash"></i>
         @lang('unicorn.toolbar.delete')
     </button>
 </div>

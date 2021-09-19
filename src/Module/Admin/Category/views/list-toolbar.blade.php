@@ -28,12 +28,12 @@ use Windwalker\Core\Router\SystemUri;
         href="{{ $nav->to('category_edit', ['new' => true]) }}"
         style="width: 150px"
     >
-        <span class="glyphicon glyphicon-plus fa-regular fa-plus"></span>
+        <span class="fa fa-plus"></span>
         @lang('unicorn.toolbar.new')
     </a>
 
     {{--<button type="button" class="btn btn-info btn-info btn-sm" onclick="grid.hasChecked();Phoenix.post();">--}}
-    {{--<span class="glyphicon glyphicon-duplicate fa-regular fa-copy"></span>--}}
+    {{--<span class="glyphicon glyphicon-duplicate fa fa-copy"></span>--}}
     {{--@lang('phoenix.toolbar.duplicate')--}}
     {{--</button>--}}
 
@@ -47,24 +47,26 @@ use Windwalker\Core\Router\SystemUri;
         @lang('unicorn.toolbar.state.change')
     </x-state-dropdown>
 
-    <button type="button" class="btn btn-default btn-outline-info btn-sm"
+    <button type="button" class="btn btn-default btn-outline-primary btn-sm"
         @click="grid.batch('rebuild');"
         data-bs-toggle="tooltip"
         title="@lang('luna.toolbar.rebuild.desc')"
     >
-        <span class="glyphicon glyphicon-refresh fa-regular fa-sync fa-rotate"></span>
+        <span class="fa fa-sync fa-rotate"></span>
         @lang('luna.toolbar.rebuild')
     </button>
 
-    <button type="button" class="btn btn-dark btn-sm" data-toggle="modal"
-        data-target="#batch-modal" onclick="grid.hasChecked(null, event);">
-        <span class="glyphicon glyphicon-modal-window fa-regular fa-sliders fa-sliders-h"></span>
+    <button type="button" class="btn btn-dark btn-sm"
+        data-toggle="modal" data-bs-toggle="modal"
+        data-target="#batch-modal" data-bs-target="#batch-modal"
+        onclick="grid.hasChecked(null, event);">
+        <span class="fa fa-sliders fa-sliders-h"></span>
         @lang('unicorn.toolbar.batch')
     </button>
 
     <button type="button" class="btn btn-default btn-outline-danger btn-sm"
         @click="grid.deleteList();">
-        <span class="glyphicon glyphicon-trash fa-regular fa-trash"></span>
+        <span class="fa fa-trash"></span>
         @lang('unicorn.toolbar.delete')
     </button>
 </div>

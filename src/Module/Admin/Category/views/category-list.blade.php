@@ -174,7 +174,7 @@ $orders = [];
                                 <button type="button" class="btn btn-default btn-outline-secondary btn-sm hasTooltip"
                                     @click="grid.deleteItem({{ $item->id }});"
                                     title="@lang('phoenix.toolbar.delete')">
-                                    <span class="fa-regular fa-fw fa-trash"></span>
+                                    <span class="fa fa-fw fa-trash"></span>
                                 </button>
                             </td>
 

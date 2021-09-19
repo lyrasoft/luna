@@ -99,7 +99,7 @@ use Windwalker\Core\Router\SystemUri;
                         </button>
                         <a class="c-register-button btn btn-success"
                             href="{{ $nav->to('registration') }}">
-                            <span class="fa-regular fa-user-plus"></span>
+                            <span class="fa fa-user-plus"></span>
                             @lang('luna.button.register')
                         </a>
                     </div>

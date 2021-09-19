@@ -28,7 +28,7 @@ use Windwalker\Core\Router\SystemUri;
     <div class="btn-group">
         <button type="button" class="btn btn-success btn-sm phoenix-btn-save"
             @click="form.post();">
-            <span class="fa-regular fa-save"></span>
+            <span class="fa fa-save"></span>
             @lang('unicorn.toolbar.save')
         </button>
         <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split"
@@ -45,7 +45,7 @@ use Windwalker\Core\Router\SystemUri;
                 <a class="dropdown-item phoenix-btn-save2copy"
                     href="javascript://"
                     @click="form.post(null, { task: 'save2copy' });">
-                    <span class="fa-regular fa-copy"></span>
+                    <span class="fa fa-copy"></span>
                     @lang('unicorn.toolbar.save2copy')
                 </a>
             </li>
@@ -54,7 +54,7 @@ use Windwalker\Core\Router\SystemUri;
                 <a class="dropdown-item phoenix-btn-save2new"
                     href="javascript://"
                     @click="form.post(null, { task: 'save2new' });">
-                    <span class="fa-regular fa-plus"></span>
+                    <span class="fa fa-plus"></span>
                     @lang('unicorn.toolbar.save2new')
                 </a>
             </li>
@@ -63,13 +63,13 @@ use Windwalker\Core\Router\SystemUri;
 
     <button type="button" class="btn  btn-primary btn-sm phoenix-btn-save2close"
         @click="form.post(null, { task: 'save2close' });">
-        <span class="fa-regular fa-check"></span>
+        <span class="fa fa-check"></span>
         @lang('unicorn.toolbar.save2close')
     </button>
 
     <a role="button" class="btn btn-default btn-outline-secondary btn-sm"
         href="{{ $nav->to('article_list') }}">
-        <span class="glyphicon glyphicon-remove fa-regular fa-remove fa-times"></span>
+        <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
         @lang('unicorn.toolbar.cancel')
     </a>
 </div>
