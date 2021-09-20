@@ -17,9 +17,23 @@ namespace Lyrasoft\Luna\User;
 interface UserEntityInterface
 {
     /**
-     * isMember
+     * Is user logged-in as a member.
      *
      * @return  bool
      */
     public function isLogin(): bool;
+
+    /**
+     * Is user enabled, not blocked.
+     *
+     * @return  bool
+     */
+    public function isEnabled(): bool;
+
+    /**
+     * Is user verified their info.
+     *
+     * @return  bool
+     */
+    public function isVerified(): bool;
 }

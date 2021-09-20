@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
 use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\UserModalField;
+use Unicorn\Field\MultiUploaderField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
 use Unicorn\Field\TinymceEditorField;
@@ -62,6 +63,17 @@ class EditForm implements FieldDefinitionInterface
         $form->fieldset(
             'text',
             function (Form $form) {
+                $form->add('params', MultiUploaderField::class)
+                    ->label('Images')
+                    ->maxFiles(3)
+                    ->canReplace(true)
+                    ->configureForm(
+                        function (Form $form) {
+                            $form->add('title', TextField::class)
+                                ->label('Title');
+                        }
+                    );
+
                 $form->add('introtext', TinymceEditorField::class)
                     ->label($this->lang->trans('luna.article.field.introtext'))
                     ->editorOptions(
