@@ -21,7 +21,7 @@ class NullUserHandler implements UserHandlerInterface
         return null;
     }
 
-    public function login(mixed $user): bool
+    public function login(mixed $user, array $options = []): bool
     {
         return true;
     }

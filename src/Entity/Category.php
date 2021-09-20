@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
+use Lyrasoft\Luna\Attributes\Author;
+use Lyrasoft\Luna\Attributes\Modifier;
+use Lyrasoft\Luna\Attributes\Slugify;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
@@ -44,6 +47,10 @@ class Category implements NestedPathableInterface
     #[Column('title')]
     protected string $title = '';
 
+    #[Column('alias')]
+    #[Slugify]
+    protected string $alias = '';
+
     #[Column('image')]
     protected string $image = '';
 
@@ -64,9 +71,11 @@ class Category implements NestedPathableInterface
     protected ?Chronos $modified = null;
 
     #[Column('created_by')]
+    #[Author]
     protected int $createdBy = 0;
 
     #[Column('modified_by')]
+    #[Modifier]
     protected int $modifiedBy = 0;
 
     #[Column('params')]

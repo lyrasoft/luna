@@ -30,11 +30,12 @@ interface UserHandlerInterface
     /**
      * login
      *
-     * @param mixed $user
+     * @param mixed   $user
+     * @param  array  $options
      *
      * @return  bool
      */
-    public function login(mixed $user): bool;
+    public function login(mixed $user, array $options = []): bool;
 
     /**
      * logout

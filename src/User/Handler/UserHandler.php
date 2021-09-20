@@ -93,7 +93,7 @@ class UserHandler implements UserHandlerInterface
         return $mapper->toEntity($user);
     }
 
-    public function login(mixed $user): bool
+    public function login(mixed $user, array $options = []): bool
     {
         $mapper = $this->getMapper();
         $user = $mapper->toCollection($user);
@@ -111,6 +111,7 @@ class UserHandler implements UserHandlerInterface
             if ($this->orm->getDb()->getTable($table)->hasColumn('user_id')) {
                 $this->orm->getDb()->update($table)
                     ->set('user_id', $user->id)
+                    ->set('remember', (int) ($options['remember'] ?? 0))
                     ->where('id', $this->session->getId())
                     ->execute();
             }
@@ -126,6 +127,7 @@ class UserHandler implements UserHandlerInterface
         $session->start();
 
         // $session->destroy();
+        // Restart will also delete old session
         $session->restart();
 
         $this->cacheReset();

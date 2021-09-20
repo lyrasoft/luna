@@ -31,7 +31,6 @@ use function Windwalker\now;
  * @var ConsoleApplication $app
  */
 
-// Workaround before WebProvider merge to main process in CLI
 $app->prepareWebSimulator();
 
 $mig->up(
@@ -85,6 +84,7 @@ $mig->up(
                 $schema->varchar('id')->length(192);
                 $schema->text('data');
                 $schema->integer('user_id');
+                $schema->tinyint('remember');
                 $schema->integer('time');
 
                 $schema->addUniqueKey('id');

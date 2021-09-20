@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
+use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\Column;
 use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\PK;
@@ -35,6 +36,10 @@ class Session implements EntityInterface
 
     #[Column('user_id')]
     protected int $userId = 0;
+
+    #[Column('remember')]
+    #[Cast('bool', 'int')]
+    protected bool $remember = true;
 
     #[Column('time')]
     protected int $time = 0;
@@ -97,6 +102,26 @@ class Session implements EntityInterface
     public function setTime(int $time): static
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRemember(): bool
+    {
+        return $this->remember;
+    }
+
+    /**
+     * @param  bool  $remember
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setRemember(bool $remember): static
+    {
+        $this->remember = $remember;
 
         return $this;
     }

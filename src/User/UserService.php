@@ -116,7 +116,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
                 if ($result) {
                     $user = $this->createUserEntity($event->getCredential());
-                    $this->login($user);
+                    $this->login($user, $options);
                 }
             }
         } catch (AuthenticateFailException $e) {
@@ -161,11 +161,12 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * login
      *
      * @param  mixed  $user
+     * @param  array  $options
      *
      * @return  boolean
      * @throws \RuntimeException
      */
-    public function login(mixed $user): bool
+    public function login(mixed $user, array $options = []): bool
     {
         if (is_scalar($user)) {
             $user = $this->getUser($user);
@@ -175,7 +176,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
             return false;
         }
 
-        return $this->getUserHandler()->login($user);
+        return $this->getUserHandler()->login($user, $options);
     }
 
     /**
