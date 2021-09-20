@@ -59,12 +59,12 @@ class ArticleEditView implements ViewModelInterface
         /** @var Article $item */
         $item = $this->repository->getItem(compact('id'));
 
-        if ($item->getType() !== $type) {
+        if ($type && $item->getType() !== $type) {
             return $this->nav->self()->var('type', $item->getType());
         }
 
         $form = $this->formFactory
-            ->create(EditForm::class, type: $type)
+            ->create(EditForm::class, type: $type ?? 'article')
             ->setNamespace('item')
             ->fill(
                 $this->repository->getState()->getAndForget('edit.data')

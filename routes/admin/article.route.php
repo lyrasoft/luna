@@ -21,7 +21,7 @@ $router->group('article')
             ->putHandler('filter')
             ->patchHandler('batch');
 
-        $router->any('article_edit', '/article[/{id}]')
+        $router->any('article_edit', '/article/edit[/{id}]')
             ->controller(ArticleController::class)
             ->view(ArticleEditView::class);
     });

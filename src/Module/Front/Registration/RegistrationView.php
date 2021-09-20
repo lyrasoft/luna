@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Registration;
 
+use Lyrasoft\Luna\Module\Front\Auth\SocialLoginViewTrait;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
@@ -30,6 +31,8 @@ use Windwalker\Core\View\ViewModelInterface;
 )]
 class RegistrationView implements ViewModelInterface
 {
+    use SocialLoginViewTrait;
+
     /**
      * RegistrationView constructor.
      */

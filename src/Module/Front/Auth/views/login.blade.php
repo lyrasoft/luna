@@ -31,12 +31,7 @@ use Windwalker\Core\Router\SystemUri;
             <div class="col-md-10 col-lg-4">
                 @include('@messages')
 
-                <form id="login-form" class="form-horizontal" action="{{ $nav->to('login') }}"
-                    uni-form-validate
-                    method="POST"
-                    enctype="multipart/form-data">
-
-                    {{-- Todo: Implement re-activate--}}
+                <form id="login-form-extra" action="" method="post">
                     @if ($reActivate ?? null)
                         <div class="mb-4">
                             <div class="alert alert-info text-center">
@@ -44,8 +39,9 @@ use Windwalker\Core\Router\SystemUri;
                                     @lang('luna.login.message.inactivated')
                                 </p>
                                 <div>
-                                    <button type="button" class="btn btn-info disable-on-submit"
-                                        onclick="form.action = '{{ $nav->to('resend_activate', ['email' => $reActivate]) }}'; form.submit()">
+                                    <button type="button" class="btn btn-info"
+                                        data-dos
+                                        onclick="form.action = '{{ $nav->to('resend_activate', ['email' => $reActivate]) }}'; form.requestSubmit()">
                                         @lang('luna.button.resend.activate.mail')
                                     </button>
                                 </div>
@@ -56,11 +52,13 @@ use Windwalker\Core\Router\SystemUri;
                     @if ($vm->hasSocialProviders())
                         <div class="d-flex flex-column">
                             @foreach ($vm->getSocialProviders() as $provider => $config)
-                                <a class="btn btn-secondary mb-2"
-                                    href="{{ $nav->to('social_auth')->var('provider', $provider) }}">
+                                <button class="btn btn-secondary mb-2"
+                                    type="button"
+                                    data-dos
+                                    onclick="form.action = '{{ $nav->to('social_auth')->var('provider', $provider) }}'; form.requestSubmit()">
                                     <i class="fa-brands fa-{{ strtolower($provider) }}"></i>
                                     {{ $provider }}
-                                </a>
+                                </button>
                             @endforeach
 
                             <div class="my-3 text-center">
@@ -68,6 +66,12 @@ use Windwalker\Core\Router\SystemUri;
                             </div>
                         </div>
                     @endif
+                </form>
+
+                <form id="login-form" class="" action="{{ $nav->to('login') }}"
+                    uni-form-validate
+                    method="POST"
+                    enctype="multipart/form-data">
 
                     <x-fieldset :form="$form"></x-fieldset>
 
@@ -91,7 +95,7 @@ use Windwalker\Core\Router\SystemUri;
                     </div>
 
                     <div class="l-login__buttons c-login-buttons d-flex flex-column mb-4">
-                        <button
+                        <button type="submit"
                             class="c-login-button btn btn-primary mb-3"
                             data-dos
                         >

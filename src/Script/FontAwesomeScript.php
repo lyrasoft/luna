@@ -27,7 +27,7 @@ class FontAwesomeScript extends AbstractScript
     public const DUOTONE = 1 << 6;
     public const BRANDS = 1 << 7;
 
-    public const DEFAULT_SET = self::SOLID | self::REGULAR | self::V4_SHIMS;
+    public const DEFAULT_SET = self::SOLID | self::REGULAR | self::BRANDS | self::V4_SHIMS;
     public const ALL = self::SOLID | self::REGULAR | self::LIGHT | self::THIN | self::DUOTONE | self::BRANDS;
 
     public function cssFont(int $options = self::DEFAULT_SET): void

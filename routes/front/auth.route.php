@@ -23,6 +23,7 @@ use Windwalker\Core\Router\RouteCreator;
 $router->group('auth')
     ->register(
         function (RouteCreator $router) {
+            // Login
             $router->any('login', '/login')
                 ->postHandler(AuthController::class, 'login')
                 ->view(AuthLoginView::class);
@@ -30,9 +31,7 @@ $router->group('auth')
             $router->any('logout', '/logout')
                 ->controller(AuthController::class, 'logout');
 
-            $router->any('social_auth', '/social/auth/{provider}')
-                ->controller(AuthController::class, 'socialAuth');
-
+            // Registration
             $router->any('registration', '/registration')
                 ->postHandler(AuthController::class, 'register')
                 ->view(RegistrationView::class);
@@ -40,9 +39,15 @@ $router->group('auth')
             $router->get('registration_activate', '/registration/activate')
                 ->controller(AuthController::class, 'activate');
 
+            // Social Login
+            $router->any('social_auth', '/social/auth/{provider}')
+                ->controller(AuthController::class, 'socialAuth');
+
+            // Activate
             $router->any('resend_activate', '/auth/resend/activate')
                 ->controller(AuthController::class, 'resend');
 
+            // Forget Password
             $router->any('forget_request', '/forget/request[/{layout}]')
                 ->postHandler(ForgetController::class, 'request')
                 ->view(ForgetRequestView::class);

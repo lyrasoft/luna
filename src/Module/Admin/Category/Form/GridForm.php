@@ -59,9 +59,7 @@ class GridForm implements FieldDefinitionInterface
          * Filter Control
          * -------------------------------------------------
          * Add filter fields to this section.
-         * Remember to add onchange event => this.form.submit(); or Phoenix.post();
-         *
-         * You can override filter actions in ArticlesModel::configureFilters()
+         * Remember to add onchange event => this.form.submit();
          */
         $form->group('filter', function (Form $form) use ($langPrefix) {
             // State
