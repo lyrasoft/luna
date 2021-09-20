@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna;
 use Faker\Generator;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
-use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
 use Lyrasoft\Luna\Services\ConfigService;
 use Lyrasoft\Luna\User\ActivationService;
@@ -25,15 +24,11 @@ use Windwalker\Core\DI\RequestBootableProviderInterface;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
-use Windwalker\Core\Runtime\Config;
 use Windwalker\Core\Seed\FakerService;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 use Windwalker\Event\Event;
-
 use Windwalker\Utilities\StrNormalize;
-
-use function Windwalker\DI\create;
 
 /**
  * The LunaPackage class.
@@ -49,7 +44,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     public function register(Container $container): void
     {
         $container->share(static::class, $this);
-        
+
         $container->prepareSharedObject(ConfigService::class);
         $container->prepareSharedObject(FontAwesomeScript::class);
 
@@ -119,7 +114,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->extend(
             AuthService::class,
             fn(AuthService $authService, Container $container) => $authService->setUserRetrieveHandler(
-                fn () => $container->get(UserService::class)->getUser()
+                fn() => $container->get(UserService::class)->getUser()
             )
         );
     }

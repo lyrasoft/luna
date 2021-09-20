@@ -16,6 +16,8 @@ namespace Lyrasoft\Luna\User;
  */
 interface UserEntityInterface
 {
+    public function getId(): mixed;
+
     /**
      * Is user logged-in as a member.
      *
