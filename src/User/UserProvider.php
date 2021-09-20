@@ -19,7 +19,7 @@ use Windwalker\Renderer\RendererInterface;
 /**
  * The UserProvider class.
  *
- * @since  2.0.0-beta1
+ * @since  2.0.0
  */
 class UserProvider implements ServiceProviderInterface
 {

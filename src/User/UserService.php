@@ -30,7 +30,7 @@ use Windwalker\Utilities\Cache\InstanceCacheTrait;
  *
  * @template T
  *
- * @since    2.0.0-beta1
+ * @since    2.0.0
  */
 class UserService implements UserHandlerInterface, EventAwareInterface
 {

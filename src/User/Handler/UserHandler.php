@@ -140,7 +140,7 @@ class UserHandler implements UserHandlerInterface
      *
      * @throws \ReflectionException
      *
-     * @since  2.0.0-beta1
+     * @since  2.0.0
      */
     protected function getMapper(): EntityMapper
     {

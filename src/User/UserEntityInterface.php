@@ -12,7 +12,7 @@ namespace Lyrasoft\Luna\User;
 /**
  * Interface UserEntityInterface
  *
- * @since  2.0.0-beta1
+ * @since  2.0.0
  */
 interface UserEntityInterface
 {
