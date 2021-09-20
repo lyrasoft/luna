@@ -14,7 +14,8 @@
     "require-dev": {
     },
     "suggest": {
-        "hybridauth/hybridauth": "Install ^3.0 to support social login."
+        "hybridauth/hybridauth": "Install ^3.0 to support social login.",
+        "thl/pinyin": "Install ^1.2 to support pinyin alias."
     },
     "autoload": {
         "psr-4": {
