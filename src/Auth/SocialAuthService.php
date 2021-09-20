@@ -131,6 +131,10 @@ class SocialAuthService
      */
     protected function getAdapter(string $provider, mixed $providers): AdapterInterface
     {
+        if (!class_exists(Hybridauth::class)) {
+            throw new \DomainException('Please install hybridauth/hybridauth ^3.0 first.');
+        }
+
         $config = [
             'callback' => (string) $this->nav->to('social_auth', [], Navigator::IGNORE_EVENTS)
                 ->var('provider', $provider)
