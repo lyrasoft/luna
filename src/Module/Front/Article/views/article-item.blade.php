@@ -40,7 +40,7 @@ use Windwalker\Core\Router\SystemUri;
 
             <div class="text-muted my-4">
                 <div>
-                    <i class="fa-solid fa-calendar-days"></i>
+                    <i class="fa fa-calendar-days"></i>
                     {{ $chronos->toLocalFormat($item->getCreated(), 'Y/m/d H:i:s') }}
                 </div>
             </div>

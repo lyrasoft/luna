@@ -114,7 +114,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 </a>
                             </div>
                             <div class="small text-muted">
-                                <i class="fa-solid fa-earth-asia"></i>
+                                <i class="fa fa-earth-asia"></i>
                                 {{ $item->alias }}
                             </div>
                         </td>
@@ -134,7 +134,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 @click="grid.deleteItem('{{ $entity->getId() }}')"
                                 data-dos
                             >
-                                <i class="fa-solid fa-trash"></i>
+                                <i class="fa fa-trash"></i>
                             </button>
                         </td>
                         <td class="text-right">
