@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Access;
 
-use App\Entity\Rule;
-use App\Entity\UserRole;
-use App\Entity\UserRoleMap;
+use Lyrasoft\Luna\Entity\Rule;
+use Lyrasoft\Luna\Entity\UserRole;
+use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;

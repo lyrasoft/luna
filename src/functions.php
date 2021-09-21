@@ -10,8 +10,9 @@
 declare(strict_types=1);
 
 namespace Lyrasoft\Luna {
-    use App\Entity\UserRole;
+
     use Lyrasoft\Luna\Access\AccessService;
+    use Lyrasoft\Luna\Entity\UserRole;
     use Lyrasoft\Luna\Tree\Node;
     use Unicorn\Enum\BasicState;
 

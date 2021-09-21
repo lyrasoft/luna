@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-use App\Entity\Profile;
+use Lyrasoft\Luna\Entity\User;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -24,8 +24,8 @@ use Windwalker\Core\Router\SystemUri;
 use Windwalker\Form\Form;
 
 /**
- * @var Form      $form
- * @var Profile $item
+ * @var Form $form
+ * @var User $item
  */
 ?>
 

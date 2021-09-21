@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-use App\Entity\User;
+use Lyrasoft\Luna\Entity\User;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
