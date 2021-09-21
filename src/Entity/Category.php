@@ -14,6 +14,7 @@ namespace Lyrasoft\Luna\Entity;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
+use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
@@ -58,7 +59,9 @@ class Category implements NestedPathableInterface
     protected string $description = '';
 
     #[Column('state')]
-    protected int $state = 0;
+    #[Cast('int')]
+    #[Cast(BasicState::class)]
+    protected BasicState $state;
 
     #[Column('created')]
     #[CreatedTime]
@@ -156,12 +159,12 @@ class Category implements NestedPathableInterface
         return $this;
     }
 
-    public function getState(): int
+    public function getState(): BasicState
     {
         return $this->state;
     }
 
-    public function setState(int $state): static
+    public function setState(BasicState $state): static
     {
         $this->state = $state;
 

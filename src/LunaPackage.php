@@ -9,6 +9,8 @@
 namespace Lyrasoft\Luna;
 
 use Faker\Generator;
+use Lyrasoft\Luna\Access\AccessAuthorization;
+use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
@@ -17,6 +19,7 @@ use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\Password;
 use Lyrasoft\Luna\User\PasswordInterface;
 use Lyrasoft\Luna\User\UserService;
+use Windwalker\Authorization\Authorization;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
@@ -107,16 +110,28 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     protected function registerAuthServices(Container $container): void
     {
         $container->prepareSharedObject(UserService::class);
+        $container->prepareSharedObject(AccessService::class);
         $container->prepareSharedObject(ActivationService::class);
         $container->prepareSharedObject(SocialAuthService::class);
         $container->prepareSharedObject(Password::class)
             ->alias(PasswordInterface::class, Password::class);
+
         $container->extend(
             AuthService::class,
             fn(AuthService $authService, Container $container) => $authService->setUserRetrieveHandler(
-                fn() => $container->get(UserService::class)->getUser()
+                fn($conditions = null) => $container->get(UserService::class)->getUser($conditions)
             )
         );
+
+        if ($container->has(Authorization::class)) {
+            $container->extend(
+                Authorization::class,
+                fn(Authorization $auth, Container $container) => new AccessAuthorization(
+                    $auth,
+                    $container->get(AccessService::class)
+                )
+            );
+        }
     }
 
     public function install(PackageInstaller $installer): void

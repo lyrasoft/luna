@@ -20,7 +20,10 @@
     "autoload": {
         "psr-4": {
             "Lyrasoft\\Luna\\": "src/"
-        }
+        },
+        "files": [
+            "src/bootstrap.php"
+        ]
     },
     "extra": {
         "windwalker":{

@@ -43,7 +43,13 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
 
         <x-filter-bar :form="$form" :open="$showFilters"></x-filter-bar>
 
-        <div>
+        @if (count($items))
+        <div class="grid-table table-responsive">
+            {{-- RESPONSIVE TABLE DESC --}}
+            <p class="d-sm-block d-md-none">
+                @lang('unicorn.grid.responsive.table.desc')
+            </p>
+
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -153,6 +159,13 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                 </tfoot>
             </table>
         </div>
+        @else
+            <div class="grid-no-items card bg-light" style="padding: 125px 0;">
+                <div class="card-body text-center">
+                    <h3 class="text-secondary">@lang('unicorn.grid.no.items')</h3>
+                </div>
+            </div>
+        @endif
 
         <div class="d-none">
             <input name="_method" type="hidden" value="PUT" />

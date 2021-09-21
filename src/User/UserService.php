@@ -9,6 +9,7 @@
 
 namespace Lyrasoft\Luna\User;
 
+use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\Event\AfterLoginEvent;
 use Lyrasoft\Luna\User\Event\BeforeLoginEvent;
@@ -152,9 +153,16 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         return $result;
     }
 
+    public function can(string $action, mixed $user = null, ...$args): bool
+    {
+        $user ??= $this->getUser($user);
+
+        return $this->getAuthService()->authorize($action, $user, ...$args);
+    }
+
     public function authenticate(array $credential, ResultSet &$resultSet = null): false|AuthResult
     {
-        return $this->app->service(AuthService::class)->authenticate($credential, $resultSet);
+        return $this->getAuthService()->authenticate($credential, $resultSet);
     }
 
     /**
@@ -223,5 +231,15 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     public function createUserEntity(array $data = []): object
     {
         return $this->getUserHandler()->createUserEntity($data);
+    }
+
+    public function getAuthService(): AuthService
+    {
+        return $this->cacheStorage['authService'] ??= $this->app->service(AuthService::class);
+    }
+
+    public function getAccessService(): AccessService
+    {
+        return $this->cacheStorage['accessService'] ??= $this->app->service(AccessService::class);
     }
 }

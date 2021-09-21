@@ -46,8 +46,14 @@ $orders = [];
                 @lang('phoenix.grid.responsive.table.desc')
             </p>
 
+            @if (count($items))
             <div class="grid-table table-responsive">
-                <table class="table table-striped">
+                {{-- RESPONSIVE TABLE DESC --}}
+                <p class="d-sm-block d-md-none">
+                    @lang('unicorn.grid.responsive.table.desc')
+                </p>
+
+                <table class="table table-striped table-hover">
                     <thead>
                     <tr>
                         {{-- CHECKBOX --}}
@@ -196,6 +202,13 @@ $orders = [];
                     </tfoot>
                 </table>
             </div>
+            @else
+                <div class="grid-no-items card bg-light" style="padding: 125px 0;">
+                    <div class="card-body text-center">
+                        <h3 class="text-secondary">@lang('unicorn.grid.no.items')</h3>
+                    </div>
+                </div>
+            @endif
 
             <div class="hidden-inputs">
                 {{-- METHOD --}}

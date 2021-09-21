@@ -55,9 +55,9 @@ $loginName = $luna->getLoginName();
                 @lang('unicorn.grid.responsive.table.desc')
             </p>
 
-            <div>
+            <div class="grid-table table-responsive">
 
-                <table class="table table-striped table-bordered table-responsive">
+                <table class="table table-striped table-hover">
                     <thead>
                     <tr>
                         {{-- CHECKBOX --}}
@@ -92,9 +92,9 @@ $loginName = $luna->getLoginName();
                             <x-sort field="user.registered">@lang('luna.user.field.registered')</x-sort>
                         </th>
 
-{{--                        <th width="5%" class="text-nowrap">--}}
-{{--                            @lang('luna.user.field.switch')--}}
-{{--                        </th>--}}
+                        <th width="5%" class="text-nowrap">
+                            @lang('luna.user.field.switch')
+                        </th>
 
                         {{-- DELETE --}}
                         <th width="1%" class="text-nowrap">
@@ -128,6 +128,7 @@ $loginName = $luna->getLoginName();
                                                 <img class="c-user-avatar rounded-circle mr-2 me-2"
                                                     src="{{ $item->avatar }}"
                                                     height="45"
+                                                    width="45"
                                                     alt="Avatar">
                                             @else
                                                 <div class="user-avatar user-avatar-default"></div>
@@ -176,17 +177,17 @@ $loginName = $luna->getLoginName();
                                 </div>
                             </td>
 
-{{--                            <td class="text-center">--}}
-{{--                                <div class="dropdown">--}}
-{{--                                    <button--}}
-{{--                                        class="user-switch-button btn btn-outline-secondary btn-sm dropdown-toggle"--}}
-{{--                                        type="button"--}}
-{{--                                        data-toggle="dropdown"--}}
-{{--                                        aria-haspopup="true"--}}
-{{--                                        aria-expanded="false"--}}
-{{--                                    >--}}
-{{--                                        <span class="fa fa-eye"></span>--}}
-{{--                                    </button>--}}
+                            <td class="text-center">
+                                <div class="dropdown">
+                                    <button
+                                        class="user-switch-button btn btn-outline-secondary btn-sm dropdown-toggle"
+                                        type="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                    >
+                                        <span class="fa fa-eye"></span>
+                                    </button>
 {{--                                    <div class="dropdown-menu">--}}
 {{--                                        <button type="button"--}}
 {{--                                            class="dropdown-item"--}}
@@ -201,8 +202,8 @@ $loginName = $luna->getLoginName();
 {{--                                            @lang('luna..user.switch.button.keepgroup')--}}
 {{--                                        </button>--}}
 {{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </td>--}}
+                                </div>
+                            </td>
 
                             {{-- Delete --}}
                             <td class="text-center">

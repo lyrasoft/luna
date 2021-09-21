@@ -11,10 +11,13 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Subscriber;
 
+use PhpParser\Node;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
+use MyCLabs\Enum\Enum;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Windwalker\Core\Generator\Event\BuildEntityMethodEvent;
 use Windwalker\Core\Generator\Event\BuildEntityPropertyEvent;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
@@ -103,6 +106,52 @@ class EntityBuildingSubscriber
             $prop->attrGroups[] = $builder->attributeGroup(
                 $builder->attribute('CurrentTime'),
             );
+        }
+    }
+
+    #[ListenTo(BuildEntityMethodEvent::class)]
+    public function buildMethod(BuildEntityMethodEvent $event): void
+    {
+        $builder = $event->getEntityMemberBuilder();
+        $method = $event->getMethod();
+        $propName = $event->getPropName();
+        $column = $event->getColumn();
+        $shortName = $event->getTypeName();
+
+        $factory = $builder->createNodeFactory();
+        
+        if ($event->isSetter()) {
+            $className = $builder->findFQCN($shortName);
+
+            // Enum can set pure value
+            if ($className && class_exists($className) && is_a($className, Enum::class, true)) {
+                if ($column) {
+                    $subType = $column->isNumeric() ? 'int' : 'string';
+                } else {
+                    $subType = 'in|string';
+                }
+                
+                $subType .= '|' . $shortName;
+
+                $method->params[0] = $factory->param($propName)
+                    ->setType($subType)
+                    ->getNode();
+
+                $method->stmts[0] = new Node\Stmt\Expression(
+                    new Node\Expr\Assign(
+                        $factory->propertyFetch(
+                            new Node\Expr\Variable('this'),
+                            $propName
+                        ),
+                        $factory->new(
+                            new Node\Name($shortName),
+                            [
+                                new Node\Expr\Variable($propName)
+                            ]
+                        ),
+                    )
+                );
+            }
         }
     }
 }
