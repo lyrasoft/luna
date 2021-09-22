@@ -73,7 +73,9 @@ class AuthController
 
     public function logout(UserService $userService, Navigator $nav): RouteUri
     {
-        $userService->logout();
+        $user = $userService->getUser();
+
+        $userService->logout($user);
 
         return $nav->to('login');
     }
