@@ -126,9 +126,8 @@ class UserHandler implements UserHandlerInterface
 
         $session->start();
 
-        // $session->destroy();
-        // Restart will also delete old session
-        $session->restart();
+        $session->destroy();
+        $session->regenerate(false, false);
 
         $this->cacheReset();
 
