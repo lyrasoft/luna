@@ -29,15 +29,19 @@ class SessionDatabaseHandler extends DatabaseHandler
     /**
      * @inheritDoc
      */
-    public function gc($lifetime): bool
+    public function gc($lifetime): int|false
     {
         // Determine the timestamp threshold with which to purge old sessions.
         $past = time() - $lifetime;
+
+        $count = 0;
 
         $this->db->delete($this->getOption('table'))
             ->where($this->getOption('columns')['time'], '<', $past)
             ->where('remember', '=', 0)
             ->execute();
+
+        $count += $this->db->getWriter()->countAffected();
 
         // Remember
         $expires = $this->config->getDeep('user.remember_expires') ?: '+100days';
@@ -50,6 +54,6 @@ class SessionDatabaseHandler extends DatabaseHandler
             ->where('remember', '=', 1)
             ->execute();
 
-        return true;
+        return $count + $this->db->getWriter()->countAffected();
     }
 }
