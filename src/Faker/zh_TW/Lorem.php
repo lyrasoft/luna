@@ -266,7 +266,7 @@ class Lorem extends Base
             $nbSentences = self::randomizeNbElements($nbSentences);
         }
 
-        return implode(static::sentences($nbSentences), '');
+        return implode('', static::sentences($nbSentences));
     }
 
     /**
@@ -358,7 +358,7 @@ class Lorem extends Base
             $text[\count($text) - 1] .= '。';
         }
 
-        return implode($text, '');
+        return implode('', $text);
     }
 
     /**
