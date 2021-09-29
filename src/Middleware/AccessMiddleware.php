@@ -25,6 +25,21 @@ use Windwalker\Utilities\Options\OptionsResolverTrait;
 
 /**
  * The AccessMiddleware class.
+ *
+ * Usage:
+ *   AccessMiddleware::di(
+ *       rules: ['can.access', 'can.login'],
+ *       options: []
+ *   )
+ *
+ *   AccessMiddleware::di(
+ *       rules: fn (UserService $userService) => $userService->can('...'),
+ *       options: []
+ *   )
+ *
+ * Options:
+ *   - exception: (string|Closure) Define the exception class name or use closure to throw custom exception.
+ *   - error_code: (int) Set the error code for exception, default is: 403.
  */
 class AccessMiddleware implements MiddlewareInterface
 {

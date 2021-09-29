@@ -147,6 +147,18 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $this->installModules($installer, 'article');
         $this->installModules($installer, 'config');
         $this->installModules($installer, 'user');
+
+        $installer->installModules(
+            [
+                static::path("src/Entity/UserRole.php") => '@source/Entity',
+                static::path("src/Entity/UserRoleMap.php") => '@source/Entity',
+                static::path("src/Entity/Rule.php") => '@source/Entity',
+            ],
+            [
+                'Lyrasoft\\Luna\\Entity' => 'App\\Entity',
+            ],
+            ['modules', 'user_access']
+        );
     }
 
     protected function installModules(PackageInstaller $installer, string $name): void
