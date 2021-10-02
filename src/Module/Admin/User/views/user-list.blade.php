@@ -178,31 +178,16 @@ $loginName = $luna->getLoginName();
                             </td>
 
                             <td class="text-center">
-                                <div class="dropdown">
-                                    <button
-                                        class="user-switch-button btn btn-outline-secondary btn-sm dropdown-toggle"
-                                        type="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                    >
-                                        <span class="fa fa-eye"></span>
-                                    </button>
-{{--                                    <div class="dropdown-menu">--}}
-{{--                                        <button type="button"--}}
-{{--                                            class="dropdown-item"--}}
-{{--                                            onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 0 });">--}}
-{{--                                            <span class="fa fa-people-arrows"></span>--}}
-{{--                                            @lang('luna..user.switch.button.default')--}}
-{{--                                        </button>--}}
-{{--                                        <button type="button"--}}
-{{--                                            class="dropdown-item"--}}
-{{--                                            onclick="grid.doTask('switch', {{ $item->id }}, null, { keepgroup: 1 });">--}}
-{{--                                            <span class="fa fa-user-shield"></span>--}}
-{{--                                            @lang('luna..user.switch.button.keepgroup')--}}
-{{--                                        </button>--}}
-{{--                                    </div>--}}
-                                </div>
+                                <button
+                                    class="user-switch-button btn btn-outline-secondary btn-sm"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-toggle="modal"
+                                    data-bs-target="#user-switch-modal"
+                                    data-target="#user-switch-modal"
+                                >
+                                    <i class="fa-solid fa-people-arrows-left-right"></i>
+                                </button>
                             </td>
 
                             {{-- Delete --}}
@@ -248,6 +233,7 @@ $loginName = $luna->getLoginName();
         </div>
 
         <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>
+        <x-user-switch-modal></x-user-switch-modal>
     </form>
 
 @stop
