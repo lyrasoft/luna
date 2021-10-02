@@ -29,7 +29,7 @@ use Windwalker\Form\Form;
  */
 ?>
 
-@extends('global.body')
+@extends($app->config('luna.view_extends.front.base') ?? 'global.body')
 
 @section('content')
     <div class="container l-profile-edit" style="margin-top: 70px">

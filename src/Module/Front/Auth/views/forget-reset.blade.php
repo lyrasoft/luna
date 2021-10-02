@@ -23,7 +23,7 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-@extends('global.body')
+@extends($app->config('luna.view_extends.front.auth') ?? 'global.body')
 
 @section('content')
     <div class="container l-forget-reset" style="margin-top: 70px">

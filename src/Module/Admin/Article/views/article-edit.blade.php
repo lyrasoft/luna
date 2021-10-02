@@ -28,7 +28,7 @@ use Windwalker\Form\Form;
  */
 ?>
 
-@extends('admin.global.body')
+@extends($app->config('luna.view_extends.admin.edit') ?? 'global.admin.body-edit')
 
 @section('toolbar-buttons')
     @include('edit-toolbar')

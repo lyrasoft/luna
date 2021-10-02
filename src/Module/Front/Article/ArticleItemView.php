@@ -16,11 +16,14 @@ use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
+use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Core\Router\Exception\RouteNotFoundException;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\DI\Attributes\Autowire;
+
+use function Windwalker\str;
 
 /**
  * The ArticleItemView class.
@@ -75,9 +78,20 @@ class ArticleItemView implements ViewModelInterface
             return $this->nav->self()->alias($item->getAlias());
         }
 
+        $this->prepareMetadata($view->getHtmlFrame(), $item);
+
         return compact(
             'item',
             'category'
+        );
+    }
+
+    protected function prepareMetadata(HtmlFrame $htmlFrame, Article $item): void
+    {
+        $htmlFrame->setTitle($item->getTitle());
+        $htmlFrame->setCoverImagesIfNotEmpty($item->getImage());
+        $htmlFrame->setDescriptionIfNotEmpty(
+            (string) str($item->getIntrotext())->stripHtmlTags()->truncate(150, '...')
         );
     }
 }

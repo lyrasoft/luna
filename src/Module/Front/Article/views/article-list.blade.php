@@ -26,7 +26,7 @@ use Windwalker\Core\Router\SystemUri;
  */
 ?>
 
-@extends('global.body')
+@extends($app->config('luna.view_extends.front.base') ?? 'global.body')
 
 @section('content')
     <div class="container l-article-list" style="margin-top: 50px">

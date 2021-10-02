@@ -28,15 +28,13 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Windwalker\Core\Router\SystemUri;
 
-declare(strict_types=1);
-
 $callback = $app->input('callback');
 
 ?>
 
-@extends('admin.global.pure')
+@extends($app->config('luna.view_extends.admin.modal') ?? 'global.admin.pure')
 
-@section('superbody')
+@section('body')
     <form id="admin-form" action="" x-data="{ grid: $store.grid }"
         x-ref="gridForm"
         data-ordering="{{ $ordering }}"
