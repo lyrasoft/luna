@@ -96,10 +96,16 @@ class UserHandler implements UserHandlerInterface
     public function login(mixed $user, array $options = []): bool
     {
         $mapper = $this->getMapper();
-        $user = $mapper->toCollection($user);
-        $pk = $mapper->getMainKey();
 
-        $this->session->set('login_user_id', $user->$pk);
+        if ($user instanceof UserEntityInterface) {
+            $userId = $user->getId();
+        } else {
+            $user = $mapper->toCollection($user);
+            $pk = $mapper->getMainKey();
+            $userId = $user->$pk;
+        }
+
+        $this->session->set('login_user_id', $userId);
 
         $this->cacheReset();
 
@@ -110,7 +116,7 @@ class UserHandler implements UserHandlerInterface
 
             if ($this->orm->getDb()->getTable($table)->hasColumn('user_id')) {
                 $this->orm->getDb()->update($table)
-                    ->set('user_id', $user->id)
+                    ->set('user_id', $userId)
                     ->set('remember', (int) ($options['remember'] ?? 0))
                     ->where('id', $this->session->getId())
                     ->execute();

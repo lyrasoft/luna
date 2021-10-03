@@ -17,6 +17,7 @@ use Lyrasoft\Luna\User\Event\LoginAuthEvent;
 use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\State\AppState;
+use Windwalker\Core\View\Event\BeforeRenderEvent;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
 

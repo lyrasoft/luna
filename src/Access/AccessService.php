@@ -21,6 +21,7 @@ use Lyrasoft\Luna\User\UserEntityInterface;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
+use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
 /**
@@ -34,7 +35,8 @@ class AccessService
 
     public function __construct(
         protected ApplicationInterface $app,
-        protected ORM $orm
+        protected ORM $orm,
+        protected Session $session
     ) {
     }
 
