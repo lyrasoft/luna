@@ -140,7 +140,7 @@ $orders = [];
                                     </div>
                                     <div>
                                         <div>
-                                            <a href="{{ $nav->to('category_edit', array('id' => $item->id, 'type' => $type, 'code' => 'global')) }}">
+                                            <a href="{{ $nav->to('category_edit', array('id' => $item->id, 'type' => $type)) }}">
                                                 {{ $item->title }}
                                             </a>
                                         </div>
