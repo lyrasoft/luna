@@ -60,7 +60,8 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             'renderer.paths',
             [
                 static::path('views'),
-            ]
+            ],
+            Container::MERGE_OVERRIDE
         );
     }
 
