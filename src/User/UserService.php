@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\User;
 
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\Event\AfterLoginEvent;
 use Lyrasoft\Luna\User\Event\BeforeLoginEvent;
 use Lyrasoft\Luna\User\Event\LoginAuthEvent;
@@ -24,6 +25,7 @@ use Windwalker\Core\Auth\AuthService;
 use Windwalker\Event\EventAwareInterface;
 use Windwalker\Event\EventAwareTrait;
 use Windwalker\ORM\ORM;
+use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
 /**
@@ -45,7 +47,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function __construct(
         protected ApplicationInterface $app,
-        protected ORM $orm
+        protected ORM $orm,
+        protected ?Session $session = null
     ) {
         //
     }
@@ -155,6 +158,10 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
     public function can(string $action, mixed $user = null, ...$args): bool
     {
+        if ($this->session && ($id = $this->session->get(UserSwitchService::USER_MASK_ID))) {
+            $user = $this->getUser($id);
+        }
+
         $user ??= $this->getUser($user);
 
         return $this->getAuthService()->authorize($action, $user, ...$args);
@@ -172,15 +179,16 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  array  $options
      *
      * @return  boolean
-     * @throws \RuntimeException
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Windwalker\DI\Exception\DefinitionException
      */
     public function login(mixed $user, array $options = []): bool
     {
-        if (is_scalar($user)) {
-            $user = $this->getUser($user);
+        if (is_scalar($user) || is_array($user)) {
+            $user = $this->load($user);
         }
 
-        if (!$user->isLogin()) {
+        if (!$user) {
             return false;
         }
 

@@ -13,7 +13,9 @@ namespace Lyrasoft\Luna\Module\Admin\User;
 
 use Lyrasoft\Luna\Module\Admin\User\Form\EditForm;
 use Lyrasoft\Luna\Repository\UserRepository;
+use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\ActivationService;
+use Lyrasoft\Luna\User\UserService;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Upload\FileUploadService;
@@ -103,6 +105,14 @@ class UserController
             return $app->call([$this, 'resend']);
         }
 
+        if ($app->input('task') === 'switchUser') {
+            return $app->call([$this, 'switch']);
+        }
+
+        if ($app->input('task') === 'recover') {
+            return $app->call([$this, 'recover']);
+        }
+
         $data = match ($app->input('task')) {
             'enable' => ['enabled' => 1],
             'disable' => ['enabled' => 0],
@@ -132,5 +142,54 @@ class UserController
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));
+    }
+
+    public function switch(
+        AppContext $app,
+        Navigator $nav,
+        UserService $userService,
+        UserSwitchService $userSwitchService
+    ): mixed {
+        $ids = $app->input('id');
+        $id = array_shift($ids);
+
+        $stage = $app->input('stage');
+        $options = $app->input('options');
+
+        if (!$id) {
+            $app->addMessage('No User ID', 'warning');
+
+            return $nav->back();
+        }
+
+        $user = $userService->load($id);
+
+        if (!$user) {
+            $app->addMessage('User not found', 'warning');
+
+            return $nav->back();
+        }
+
+        if ($stage === 'front') {
+            $userSwitchService->frontendLogin($user, $options);
+        } else {
+            $userSwitchService->switch($user, $options);
+        }
+
+        $app->addMessage($this->trans('luna.message.user.switch.success', $user->name), 'success');
+
+        return $nav->back();
+    }
+
+    public function recover(
+        AppContext $app,
+        Navigator $nav,
+        UserSwitchService $userSwitchService
+    ): mixed {
+        $userSwitchService->recover();
+
+        $app->addMessage($this->trans('luna.message.user.recover.success'), 'success');
+
+        return $nav->back();
     }
 }

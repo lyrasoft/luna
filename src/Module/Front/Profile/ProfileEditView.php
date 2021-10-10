@@ -18,6 +18,7 @@ use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
+use Windwalker\Core\Router\Exception\RouteNotFoundException;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
@@ -55,6 +56,11 @@ class ProfileEditView implements ViewModelInterface
     {
         /** @var User $item */
         $item = $this->userService->getUser();
+
+        if (!$item->isLogin()) {
+            throw new RouteNotFoundException();
+        }
+
         $id = $item->getId();
 
         $form = $this->formFactory
@@ -64,6 +70,8 @@ class ProfileEditView implements ViewModelInterface
                 $this->repository->getState()->getAndForget('edit.data')
                     ?: $this->orm->extractEntity($item)
             );
+
+        $view->setTitle('Profile Edit');
 
         return compact('form', 'id', 'item');
     }
