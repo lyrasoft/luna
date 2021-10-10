@@ -24,14 +24,14 @@ use Windwalker\Core\Router\SystemUri;
 ?>
 
 <div x-id="toolbar" x-data="{ form: $store.form }">
-    <button type="button" class="btn btn-success btn-sm phoenix-btn-save"
+    <button type="button" class="btn btn-success btn-sm"
         style="width: 150px"
         @click="form.post();">
         <span class="fa fa-save"></span>
         @lang('unicorn.toolbar.save')
     </button>
 
-    <button type="button" class="btn  btn-primary btn-sm phoenix-btn-save2close"
+    <button type="button" class="btn  btn-primary btn-sm"
         @click="form.post(null, {task: 'save2close'});">
         <span class="fa fa-check"></span>
         @lang('unicorn.toolbar.save2close')

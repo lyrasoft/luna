@@ -24,7 +24,7 @@ use Windwalker\Core\Router\SystemUri;
 ?>
 
 <div x-id="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
-    <a role="button" class="btn btn-primary btn-sm phoenix-btn-new"
+    <a role="button" class="btn btn-primary btn-sm"
         href="{{ $nav->to('category_edit', ['new' => true]) }}"
         style="width: 150px"
     >
