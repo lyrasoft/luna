@@ -33,6 +33,7 @@ $imgPlaceholder = $app->service(\Unicorn\Image\ImagePlaceholder::class);
 $luna = $app->service(\Lyrasoft\Luna\LunaPackage::class);
 
 $loginName = $luna->getLoginName();
+
 ?>
 
 @extends($app->config('luna.view_extends.admin.list') ?? 'admin.global.body-list')

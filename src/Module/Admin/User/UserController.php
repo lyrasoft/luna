@@ -154,7 +154,7 @@ class UserController
         $id = array_shift($ids);
 
         $stage = $app->input('stage');
-        $options = $app->input('options');
+        $options = (array) $app->input('options');
 
         if (!$id) {
             $app->addMessage('No User ID', 'warning');

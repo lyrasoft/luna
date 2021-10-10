@@ -18,6 +18,8 @@ interface UserEntityInterface
 {
     public function getId(): mixed;
 
+    public function getName(): string;
+
     /**
      * Is user logged-in as a member.
      *
