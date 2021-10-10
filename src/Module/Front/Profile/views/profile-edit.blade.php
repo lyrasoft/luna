@@ -43,7 +43,7 @@ use Windwalker\Form\Form;
             <div class="row justify-content-center">
                 <div class="col-sm-8 col-md-6">
                     <x-fieldset :form="$form" name="basic"
-                        :title="$lang('luna.fieldset.basic')"
+                        :title="$lang('unicorn.fieldset.basic')"
                         class="mb-4"
                     >
                     </x-fieldset>

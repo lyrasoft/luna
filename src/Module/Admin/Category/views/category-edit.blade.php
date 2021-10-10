@@ -39,11 +39,11 @@ use Windwalker\Core\Router\SystemUri;
 
         <div class="row">
             <div class="col-md-7">
-                <x-fieldset :form="$form" name="basic" :title="$lang('luna.fieldset.basic')" is="card"></x-fieldset>
+                <x-fieldset :form="$form" name="basic" :title="$lang('unicorn.fieldset.basic')" is="card"></x-fieldset>
             </div>
 
             <div class="col-md-5">
-                <x-fieldset :form="$form" name="meta" :title="$lang('luna.fieldset.meta')" is="card"></x-fieldset>
+                <x-fieldset :form="$form" name="meta" :title="$lang('unicorn.fieldset.meta')" is="card"></x-fieldset>
             </div>
         </div>
 

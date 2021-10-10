@@ -43,7 +43,7 @@ use Windwalker\Form\Form;
 
         <div class="row">
             <div class="col-md-7">
-                <x-fieldset name="basic" :title="$lang('luna.fieldset.basic')"
+                <x-fieldset name="basic" :title="$lang('unicorn.fieldset.basic')"
                     :form="$form" class="mb-4" is="card"
                 >
                 </x-fieldset>
@@ -53,7 +53,7 @@ use Windwalker\Form\Form;
                 </x-fieldset>
             </div>
             <div class="col-md-5">
-                <x-fieldset name="meta" :title="$lang('luna.fieldset.meta')"
+                <x-fieldset name="meta" :title="$lang('unicorn.fieldset.meta')"
                     :form="$form" class="mb-4" is="card"
                 >
                 </x-fieldset>
