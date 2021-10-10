@@ -48,7 +48,7 @@ class GridForm implements FieldDefinitionInterface
             'filter',
             function (Form $form) {
                 $form->add('article.state', ListField::class)
-                    ->label($this->trans('luna.article.field.published'))
+                    ->label($this->trans('unicorn.field.state'))
                     // Add empty option to support single deselect button
                     ->option('', '')
                     ->option($this->trans('unicorn.select.placeholder'), '')

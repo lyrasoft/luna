@@ -64,7 +64,7 @@ class GridForm implements FieldDefinitionInterface
         $form->group('filter', function (Form $form) use ($langPrefix) {
             // State
             $form->add('category.state', \Windwalker\Form\Field\ListField::class)
-                ->label($this->trans('luna.category.field.published'))
+                ->label($this->trans('unicorn.field.published'))
                 // Add empty option to support single deselect button
                 ->option('', '')
                 ->option($this->trans('unicorn.select.placeholder'), '')

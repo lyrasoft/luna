@@ -135,9 +135,11 @@ $orders = [];
                             {{-- TITLE --}}
                             <td class="searchable">
                                 <div class="d-flex">
-                                    <div class="mr-2 me-2">
-                                        {{ str_repeat('—', $item->level - 1) }}
-                                    </div>
+                                    @if ($item->level > 1)
+                                        <div class="mr-2 me-2">
+                                            {{ str_repeat('—', $item->level - 1) }}
+                                        </div>
+                                    @endif
                                     <div>
                                         <div>
                                             <a href="{{ $nav->to('category_edit', array('id' => $item->id, 'type' => $type)) }}">
