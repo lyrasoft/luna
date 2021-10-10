@@ -58,12 +58,12 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                     </th>
                     <th style="width: 5%" class="text-nowrap">
                         <x-sort field="article.state">
-                            @lang('luna.article.field.state')
+                            @lang('unicorn.field.state')
                         </x-sort>
                     </th>
                     <th class="text-nowrap">
                         <x-sort field="article.title">
-                            @lang('luna.article.field.title')
+                            @lang('unicorn.field.title')
                         </x-sort>
                     </th>
                     <th class="text-nowrap">
@@ -72,15 +72,15 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                         </x-sort>
                     </th>
                     <th style="width: 10%" class="text-nowrap">
-                        <div class="d-flex w-100 justify-content-between">
+                        <div class="d-flex w-100 justify-content-end">
                             <x-sort
                                 asc="article.category_id, article.ordering ASC"
                                 desc="article.category_id, article.ordering DESC"
                             >
-                                @lang('luna.article.field.ordering')
+                                @lang('unicorn.field.ordering')
                             </x-sort>
                             @if($vm->reorderEnabled($ordering))
-                                <x-save-order></x-save-order>
+                                <x-save-order class="ml-2 ms-2"></x-save-order>
                             @endif
                         </div>
                     </th>
@@ -106,7 +106,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                         </td>
                         <th>
                             <x-state-dropdown color-on="text"
-                                button-style="width: 100%"
+                                style="width: 100%"
                                 use-states
                                 :workflow="$workflow"
                                 :id="$entity->getId()"
@@ -127,7 +127,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                         <td class="">
                             {{ $item->category?->title }}
                         </td>
-                        <td>
+                        <td class="text-end text-right">
                             <x-order-control
                                 :enabled="$vm->reorderEnabled($ordering)"
                                 :row="$i"

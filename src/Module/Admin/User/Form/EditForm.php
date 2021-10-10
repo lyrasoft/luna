@@ -122,7 +122,7 @@ class EditForm implements FieldDefinitionInterface
                     ->disabled(true);
 
                 $form->add('modified', CalendarField::class)
-                    ->label($this->trans('luna.user.field.modified'))
+                    ->label($this->trans('unicorn.field.modified'))
                     ->disabled(true);
             }
         );

@@ -55,15 +55,15 @@ class EditForm implements FieldDefinitionInterface
 
         // Title
         $form->add('title', \Windwalker\Form\Field\TextField::class)
-            ->label($this->trans('luna.category.field.title'))
-            ->placeholder($this->trans('luna.category.field.title'))
+            ->label($this->trans('unicorn.field.title'))
+            ->placeholder($this->trans('unicorn.field.title'))
             ->addFilter('trim')
             ->required(true);
 
         // Alias
         $form->add('alias', \Windwalker\Form\Field\TextField::class)
-            ->label($this->trans('luna.category.field.alias'))
-            ->placeholder($this->trans('luna.category.field.alias'));
+            ->label($this->trans('unicorn.field.alias'))
+            ->placeholder($this->trans('unicorn.field.alias'));
 
         // Basic fieldset
         $form->fieldset(
@@ -71,7 +71,7 @@ class EditForm implements FieldDefinitionInterface
             function (Form $form) use ($type) {
                 // Parent
                 $form->add('parent_id', CategoryListField::class)
-                    ->label($this->trans('luna.category.field.parent'))
+                    ->label($this->trans('unicorn.field.parent'))
                     ->addClass('has-choices')
                     ->option($this->trans('luna.category.root'), 1)
                     ->categoryType($type)
@@ -87,7 +87,7 @@ class EditForm implements FieldDefinitionInterface
                     );
 
                 $form->add('image', SingleImageDragField::class)
-                    ->label($this->trans('luna.category.field.image'))
+                    ->label($this->trans('unicorn.field.image'))
                     ->crop(true)
                     ->width(800)
                     ->height(600);
@@ -104,11 +104,11 @@ class EditForm implements FieldDefinitionInterface
 
                 // Description
                 $form->add('description', TextareaField::class)
-                    ->label($this->trans('luna.category.field.description'))
+                    ->label($this->trans('unicorn.field.description'))
                     ->rows(10);
 
                 $form->add('type', \Windwalker\Form\Field\HiddenField::class)
-                    ->label($this->trans('luna.category.field.type'));
+                    ->label($this->trans('unicorn.field.type'));
             }
         );
 
@@ -118,7 +118,7 @@ class EditForm implements FieldDefinitionInterface
             function (Form $form) {
                 // State
                 $form->add('state', SwitcherField::class)
-                    ->label($this->trans('luna.category.field.published'))
+                    ->label($this->trans('unicorn.field.published'))
                     ->addClass('')
                     ->circle(true)
                     ->color('success')
@@ -126,20 +126,20 @@ class EditForm implements FieldDefinitionInterface
 
                 // Created
                 $form->add('created', CalendarField::class)
-                    ->label($this->trans('luna.category.field.created'));
+                    ->label($this->trans('unicorn.field.created'));
 
                 // Modified
                 $form->add('modified', CalendarField::class)
-                    ->label($this->trans('luna.category.field.modified'))
+                    ->label($this->trans('unicorn.field.modified'))
                     ->disabled(true);
 
                 // Author
                 $form->add('created_by', UserModalField::class)
-                    ->label($this->trans('luna.category.field.author'));
+                    ->label($this->trans('unicorn.field.author'));
 
                 // Modified User
                 $form->add('modified_by', UserModalField::class)
-                    ->label($this->trans('luna.category.field.modifiedby'))
+                    ->label($this->trans('unicorn.field.modified.by'))
                     ->disabled(true);
             }
         );

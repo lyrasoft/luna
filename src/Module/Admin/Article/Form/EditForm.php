@@ -17,6 +17,7 @@ use Unicorn\Field\MultiUploaderField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
 use Unicorn\Field\TinymceEditorField;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\Core\Language\LangService;
 use Unicorn\Field\CalendarField;
@@ -36,8 +37,8 @@ use function Windwalker\raw;
  */
 class EditForm implements FieldDefinitionInterface
 {
-    #[Inject]
-    protected LangService $lang;
+    use TranslatorTrait;
+    
     public function __construct(protected ?string $type = 'article')
     {
     }
@@ -52,30 +53,19 @@ class EditForm implements FieldDefinitionInterface
     public function define(Form $form): void
     {
         $form->add('title', TextField::class)
-            ->label('Title')
+            ->label($this->trans('unicorn.field.title'))
             ->addFilter('trim')
             ->required(true);
 
         $form->add('alias', TextField::class)
-            ->label('Alias')
+            ->label($this->trans('unicorn.field.alias'))
             ->addFilter('trim');
 
         $form->fieldset(
             'text',
             function (Form $form) {
-                $form->add('params', MultiUploaderField::class)
-                    ->label('Images')
-                    ->maxFiles(3)
-                    ->canReplace(true)
-                    ->configureForm(
-                        function (Form $form) {
-                            $form->add('title', TextField::class)
-                                ->label('Title');
-                        }
-                    );
-
                 $form->add('introtext', TinymceEditorField::class)
-                    ->label($this->lang->trans('luna.article.field.introtext'))
+                    ->label($this->trans('luna.article.field.introtext'))
                     ->editorOptions(
                         [
                             'height' => 400,
@@ -83,12 +73,11 @@ class EditForm implements FieldDefinitionInterface
                     );
 
                 $form->add('fulltext', TinymceEditorField::class)
-                    ->label($this->lang->trans('luna.article.field.fulltext'))
+                    ->label($this->trans('luna.article.field.fulltext'))
                     ->rows(7)
                     ->editorOptions(
                         [
                             'height' => 550,
-                            'setup' => raw('window.addButtons')
                         ]
                     );
             }
@@ -98,43 +87,43 @@ class EditForm implements FieldDefinitionInterface
             'meta',
             function (Form $form) {
                 $form->add('category_id', CategoryListField::class)
-                    ->label($this->lang->trans('luna.article.field.category'))
+                    ->label($this->trans('luna.article.field.category'))
                     ->addClass('has-choices')
                     ->categoryType($this->type);
 
                 $form->add('image', SingleImageDragField::class)
-                    ->label($this->lang->trans('luna.article.field.image'))
+                    ->label($this->trans('unicorn.field.image'))
                     ->crop(true)
                     ->width(800)
                     ->height(600);
 
                 $form->add('state', SwitcherField::class)
-                    ->label($this->lang->trans('luna.article.field.published'))
+                    ->label($this->trans('unicorn.field.published'))
                     ->circle(true)
                     ->color('success');
 
                 $form->add('created', CalendarField::class)
-                    ->label($this->lang->trans('luna.article.field.created'));
+                    ->label($this->trans('unicorn.field.author'));
 
                 $form->add('modified', CalendarField::class)
-                    ->label($this->lang->trans('luna.article.field.modified'))
+                    ->label($this->trans('unicorn.field.modified'))
                     ->disabled(true);
 
                 $form->add('created_by', UserModalField::class)
-                    ->label($this->lang->trans('luna.article.field.created_by'));
+                    ->label($this->trans('unicorn.field.author'));
 
                 $form->add('modified_by', UserModalField::class)
-                    ->label($this->lang->trans('luna.article.field.modified_by'))
+                    ->label($this->trans('unicorn.field.modified_by'))
                     ->disabled(true);
 
                 // $form->add('language', TextField::class)
-                //     ->label($this->lang->trans('luna.article.language'));
+                //     ->label($this->trans('luna.article.language'));
                 //
                 // $form->add('page_id', NumberField::class)
-                //     ->label($this->lang->trans('luna.article.page_id'));
+                //     ->label($this->trans('luna.article.page_id'));
 
                 $form->add('type', HiddenField::class)
-                    ->label($this->lang->trans('luna.article.type'));
+                    ->label('Type');
             }
         );
         $form->add('id', HiddenField::class);

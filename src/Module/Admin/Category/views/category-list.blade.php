@@ -63,17 +63,17 @@ $orders = [];
 
                         {{-- STATE --}}
                         <th style="min-width: 90px;" width="7%">
-                            <x-sort field="category.state" >@lang('luna.category.field.state')</x-sort>
+                            <x-sort field="category.state" >@lang('unicorn.field.state')</x-sort>
                         </th>
 
                         {{-- TITLE --}}
                         <th style="min-width: 350px;">
-                            <x-sort field="lang.title" >@lang('luna.category.field.title')</x-sort>
+                            <x-sort field="lang.title" >@lang('unicorn.field.title')</x-sort>
                         </th>
 
                         {{-- ORDERING --}}
                         <th width="9%" class="text-nowrap">
-                            <x-sort field="category.lft" >@lang('luna.category.field.ordering')</x-sort>
+                            <x-sort field="category.lft" >@lang('unicorn.field.ordering')</x-sort>
 
                             @if ($enableOrderControl)
                                 <x-save-order></x-save-order>
@@ -82,17 +82,17 @@ $orders = [];
 
                         {{-- AUTHOR --}}
                         <th class="text-nowrap">
-                            <x-sort field="category.created_by" >@lang('luna.category.field.author')</x-sort>
+                            <x-sort field="category.created_by" >@lang('unicorn.field.author')</x-sort>
                         </th>
 
                         {{-- CREATED --}}
                         <th class="text-nowrap">
-                            <x-sort field="category.created" >@lang('luna.category.field.created')</x-sort>
+                            <x-sort field="category.created" >@lang('unicorn.field.created')</x-sort>
                         </th>
 
                         {{-- DELETE --}}
                         <th width="1%" class="text-nowrap">
-                            @lang('unicorn.toolbar.delete')
+                            @lang('unicorn.field.delete')
                         </th>
 
                         {{-- ID --}}
