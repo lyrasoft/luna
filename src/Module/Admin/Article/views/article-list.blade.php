@@ -29,7 +29,7 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleListView;
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
 ?>
 
-@extends($app->config('luna.view_extends.admin.list') ?? 'global.admin.body-list')
+@extends($app->config('luna.view_extends.admin.list') ?? 'admin.global.body-list')
 
 @section('toolbar-buttons')
     @include('list-toolbar')

@@ -32,7 +32,7 @@ $callback = $app->input('callback');
 
 ?>
 
-@extends($app->config('luna.view_extends.admin.modal') ?? 'global.admin.pure')
+@extends($app->config('luna.view_extends.admin.modal') ?? 'admin.global.pure')
 
 @section('body')
     <form id="admin-form" action="" x-data="{ grid: $store.grid }"

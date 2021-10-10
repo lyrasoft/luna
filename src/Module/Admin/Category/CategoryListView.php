@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -16,15 +16,12 @@ use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
-use Windwalker\Core\Html\HtmlFrame;
-use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
-use Windwalker\Query\Query;
 
 /**
  * The CategoryView class.
@@ -43,9 +40,9 @@ class CategoryListView implements ViewModelInterface
     /**
      * CategoriesView constructor.
      *
-     * @param    ORM               $orm
-     * @param    CategoryRepository  $repository
-     * @param    FormFactory       $formFactory
+     * @param  ORM                 $orm
+     * @param  CategoryRepository  $repository
+     * @param  FormFactory         $formFactory
      */
     public function __construct(
         protected ORM $orm,
@@ -60,10 +57,10 @@ class CategoryListView implements ViewModelInterface
         $state = $this->repository->getState();
 
         // Prepare Items
-        $page     = $state->rememberFromRequest('page');
-        $limit    = $state->rememberFromRequest('limit');
-        $filter   = (array) $state->rememberFromRequest('filter');
-        $search   = (array) $state->rememberFromRequest('search');
+        $page = $state->rememberFromRequest('page');
+        $limit = $state->rememberFromRequest('limit');
+        $filter = (array) $state->rememberFromRequest('filter');
+        $search = (array) $state->rememberFromRequest('search');
         $ordering = $state->rememberFromRequest('list_ordering') ?? static::getDefaultOrdering();
 
         $items = $this->repository->getListSelector()
@@ -89,7 +86,7 @@ class CategoryListView implements ViewModelInterface
 
         $items = $items->all();
 
-        $this->setTitle($app);
+        $this->prepareMetadata($app, $view);
 
         return compact('items', 'pagination', 'form', 'showFilters', 'ordering', 'type');
     }
@@ -97,24 +94,6 @@ class CategoryListView implements ViewModelInterface
     public function prepareItem(Collection $item): object
     {
         return $this->repository->getEntityMapper()->toEntity($item);
-    }
-
-    public function setTitle(AppContext $app)
-    {
-        $type = $app->input('type');
-
-        $langKey = "luna.$type.category.list";
-
-        if ($this->lang->has($langKey)) {
-            $title = $this->trans($langKey);
-        } else {
-            $title = $this->trans(
-                'luna.category.list.title',
-                $this->trans('luna.' . $type . '.title')
-            );
-        }
-
-        $app->service(HtmlFrame::class)->setTitle($title);
     }
 
     /**
@@ -145,7 +124,7 @@ class CategoryListView implements ViewModelInterface
     /**
      * Can show Filter bar
      *
-     * @param    array  $filter
+     * @param  array  $filter
      *
      * @return    bool
      */
@@ -158,5 +137,34 @@ class CategoryListView implements ViewModelInterface
         }
 
         return false;
+    }
+
+    /**
+     * Prepare Metadata and HTML Frame.
+     *
+     * @param  AppContext  $app
+     * @param  View        $view
+     *
+     * @return  void
+     */
+    protected function prepareMetadata(AppContext $app, View $view): void
+    {
+        $type = $app->input('type');
+
+        $langKey = "luna.$type.category.list.title";
+        $appLangKey = "app.$type.category.list.title";
+
+        if ($this->lang->has($langKey)) {
+            $title = $this->trans($langKey);
+        } elseif ($this->lang->has($appLangKey)) {
+            $title = $this->trans($appLangKey);
+        } else {
+            $title = $this->trans(
+                'luna.category.list.title',
+                title: $this->trans('luna.' . $type . '.title')
+            );
+        }
+
+        $view->setTitle($title);
     }
 }

@@ -17,6 +17,7 @@ use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
+use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
@@ -71,9 +72,24 @@ class ArticleEditView implements ViewModelInterface
                     ?: $this->orm->extractEntity($item)
             );
 
-        // Browser Title
-        $view->setTitle($this->trans('luna.article.edit.title'));
+        $this->prepareMetadata($app, $view);
 
         return compact('form', 'id', 'item');
+    }
+
+    /**
+     * Prepare Metadata and HTML Frame.
+     *
+     * @param  AppContext  $app
+     * @param  View        $view
+     *
+     * @return  void
+     */
+    protected function prepareMetadata(AppContext $app, View $view): void
+    {
+        $view->getHtmlFrame()
+            ->setTitle(
+                $this->trans('unicorn.title.edit', title: $this->trans('luna.article.title'))
+            );
     }
 }

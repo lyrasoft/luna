@@ -24,7 +24,7 @@ $enableOrderControl = $ordering === 'category.lft ASC';
 $orders = [];
 ?>
 
-@extends($app->config('luna.view_extends.admin.list') ?? 'global.admin.body-list')
+@extends($app->config('luna.view_extends.admin.list') ?? 'admin.global.body-list')
 
 @section('toolbar-buttons')
     @include('list-toolbar')

@@ -89,8 +89,7 @@ class UserListView implements ViewModelInterface
 
         $showFilters = $this->showFilterBar($filter);
 
-        // Browser Title
-        $view->setTitle('User Edit');
+        $this->prepareMetadata($app, $view);
 
         return compact('items', 'pagination', 'form', 'showFilters', 'ordering');
     }
@@ -154,6 +153,22 @@ class UserListView implements ViewModelInterface
         }
 
         return false;
+    }
+
+    /**
+     * Prepare Metadata and HTML Frame.
+     *
+     * @param  AppContext  $app
+     * @param  View        $view
+     *
+     * @return  void
+     */
+    protected function prepareMetadata(AppContext $app, View $view): void
+    {
+        $view->getHtmlFrame()
+            ->setTitle(
+                $this->trans('unicorn.title.grid', title: $this->trans('luna.user.title'))
+            );
     }
 
     public function createEnabledButton(): StateButton

@@ -74,13 +74,37 @@ class CategoryEditView implements ViewModelInterface
                     ?: $this->repository->getORM()->extractEntity($item)
             );
 
-        $view->setTitle(
-            $this->trans(
-                'luna.category.edit.title',
-                $this->trans("luna.$type.title")
-            )
-        );
+        $this->prepareMetadata($app, $view);
 
         return compact('form', 'id', 'item', 'type');
+    }
+
+    /**
+     * Prepare Metadata and HTML Frame.
+     *
+     * @param  AppContext  $app
+     * @param  View        $view
+     *
+     * @return  void
+     */
+    protected function prepareMetadata(AppContext $app, View $view): void
+    {
+        $type = $app->input('type');
+
+        $langKey = "luna.$type.category.edit.title";
+        $appLangKey = "app.$type.category.edit.title";
+
+        if ($this->lang->has($langKey)) {
+            $title = $this->trans($langKey);
+        } elseif ($this->lang->has($appLangKey)) {
+            $title = $this->trans($appLangKey);
+        } else {
+            $title = $this->trans(
+                'luna.category.edit.title',
+                title: $this->trans('luna.' . $type . '.title')
+            );
+        }
+
+        $view->setTitle($title);
     }
 }

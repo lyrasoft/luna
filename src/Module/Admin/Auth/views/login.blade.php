@@ -23,7 +23,7 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-@extends($app->config('luna.view_extends.admin.auth') ?? 'global.admin.body')
+@extends($app->config('luna.view_extends.admin.auth') ?? 'admin.global.body')
 
 @section('container')
     <div class="container l-login">

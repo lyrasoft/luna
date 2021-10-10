@@ -16,6 +16,7 @@ use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
+use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
@@ -86,8 +87,7 @@ class ArticleListView implements ViewModelInterface
 
         $showFilters = $this->showFilterBar($filter);
 
-        // Browser Title
-        $view->setTitle($this->trans('luna.article.list.title',));
+        $this->prepareMetadata($app, $view);
 
         return compact('items', 'pagination', 'form', 'showFilters', 'ordering', 'type');
     }
@@ -151,5 +151,21 @@ class ArticleListView implements ViewModelInterface
         }
 
         return false;
+    }
+
+    /**
+     * Prepare Metadata and HTML Frame.
+     *
+     * @param  AppContext  $app
+     * @param  View        $view
+     *
+     * @return  void
+     */
+    protected function prepareMetadata(AppContext $app, View $view): void
+    {
+        $view->getHtmlFrame()
+            ->setTitle(
+                $this->trans('unicorn.title.grid', title: $this->trans('luna.article.title'))
+            );
     }
 }
