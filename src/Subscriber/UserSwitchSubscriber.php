@@ -37,7 +37,7 @@ class UserSwitchSubscriber
 {
     use TranslatorTrait;
     
-    public function __construct(protected Container $container)
+    public function __construct(protected Container $container, protected ?\Closure $messageHandler = null)
     {
         //
     }
@@ -65,48 +65,37 @@ class UserSwitchSubscriber
             $userService = $app->service(UserService::class);
             $user = $userService->getUser();
             $keepaccess = $session->get(UserSwitchService::USER_MASK_ID);
-            $csrf = $app->service(CsrfService::class);
-            $nav = $app->service(Navigator::class);
             $rendererService = $app->service(RendererService::class);
-            $asset = $app->service(AssetService::class);
 
-            $msg = $rendererService->render(
+            $message = $rendererService->render(
                 'widget.user-switch-notice',
                 compact('user', 'keepaccess')
             );
 
-            $asset->getTeleport('messages')->add('user-switch-notice', $msg);
-
-            // $msg = h(
-            //     'span',
-            //     ['class' => 'd-flex align-items-center'],
-            //     [
-            //         h(
-            //             'span',
-            //             [],
-            //             $keepaccess
-            //                 ? $this->trans('luna.user.message.switched.keepaccess.desc', $user->name)
-            //                 : $this->trans('luna.user.message.switched.desc', $user->name)
-            //         ),
-            //         h(
-            //             'a',
-            //             [
-            //                 'class' => 'btn btn-warning btn-sm ml-auto',
-            //                 'href' => $nav->to(
-            //                     'user_list',
-            //                     [
-            //                         '_method' => 'PATCH',
-            //                         'task' => 'recover',
-            //                         $csrf->getToken() => '1'
-            //                     ]
-            //                 )
-            //             ],
-            //             $this->trans('luna.user.switch.recover.button')
-            //         )
-            //     ]
-            // );
-            //
-            // $app->addMessage((string) $msg, 'warning');
+            $this->container->call($this->getMessageHandler(), compact('message'));
         }
+    }
+
+    /**
+     * @return \Closure|null
+     */
+    public function getMessageHandler(): ?\Closure
+    {
+        return $this->messageHandler
+            ??= function (string $message, AssetService $asset) {
+                $asset->getTeleport('messages')->add('user-switch-notice', $message);
+            };
+    }
+
+    /**
+     * @param  \Closure|null  $messageHandler
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setMessageHandler(?\Closure $messageHandler): static
+    {
+        $this->messageHandler = $messageHandler;
+
+        return $this;
     }
 }
