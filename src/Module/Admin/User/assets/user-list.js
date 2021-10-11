@@ -32,6 +32,9 @@ u.directive('user-switch-button', {
       $switchUserId.value = value.id;
       $modal.querySelector('[data-role=user_name]').textContent = value.name;
     });
+  },
+  updated(el, bindings) {
+    console.log(bindings);
   }
 });
 

@@ -37,7 +37,7 @@ use Windwalker\Core\Router\SystemUri;
         @lang('unicorn.toolbar.save2close')
     </button>
 
-    <a role="button" class="btn btn-default btn-outline-secondary btn-sm"
+    <a class="btn btn-default btn-outline-secondary btn-sm"
         href="{{ $nav->to('category_list', array('type' => $type)) }}">
         <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
         @lang('unicorn.toolbar.cancel')
