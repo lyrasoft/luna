@@ -23,11 +23,14 @@ use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authorization\Authorization;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\Core\Application\WebApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
 use Windwalker\Core\DI\RequestBootableProviderInterface;
+use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
+use Windwalker\Core\Router\Router;
 use Windwalker\Core\Seed\FakerService;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
@@ -72,8 +75,8 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
     public function isAdmin(): bool
     {
-        if ($this->app instanceof AppContext) {
-            return $this->app->getMatchedRoute()?->getExtraValue('namespace') === 'admin';
+        if ($this->app instanceof WebApplicationInterface) {
+            return $this->app->service(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'admin';
         }
 
         return false;
@@ -81,8 +84,8 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
     public function isFront(): bool
     {
-        if ($this->app instanceof AppContext) {
-            return $this->app->getMatchedRoute()?->getExtraValue('namespace') === 'front';
+        if ($this->app instanceof WebApplicationInterface) {
+            return $this->app->service(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'front';
         }
 
         return false;

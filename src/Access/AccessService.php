@@ -14,11 +14,15 @@ namespace Lyrasoft\Luna\Access;
 use Lyrasoft\Luna\Entity\Rule;
 use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\Entity\UserRoleMap;
+use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
+use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\Core\Application\WebApplicationInterface;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
 use Windwalker\Session\Session;
@@ -30,6 +34,7 @@ use Windwalker\Utilities\Cache\InstanceCacheTrait;
 class AccessService
 {
     public const SUPERUSER_ACTION = 'super.user';
+    public const ADMIN_ACCESS_ACTION = 'admin.access';
 
     use InstanceCacheTrait;
 
@@ -42,6 +47,10 @@ class AccessService
 
     public function check(string $action, UserEntityInterface $user, ...$args): bool
     {
+        if ($action === static::ADMIN_ACCESS_ACTION && $this->isAdminUserSwitched()) {
+            return true;
+        }
+
         $userId = $user->getId();
 
         // Get roles
@@ -407,5 +416,24 @@ class AccessService
             2 => [$extracted[0], $extracted[1], null],
             3 => $extracted
         };
+    }
+
+    /**
+     * isUserSwitched
+     *
+     * @return  bool
+     */
+    protected function isAdminUserSwitched(): bool
+    {
+        if ($this->app->getClient() === ApplicationInterface::CLIENT_WEB) {
+            $userSwitcher = $this->app->service(UserSwitchService::class);
+            $luna = $this->app->service(LunaPackage::class);
+
+            if ($luna->isAdmin() && $userSwitcher->getOriginUserId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
