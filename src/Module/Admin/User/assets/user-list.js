@@ -18,7 +18,7 @@ u.$ui.checkboxesMultiSelect(form);
 
 // User Switch
 const $modal = document.querySelector('#user-switch-modal');
-const $switchUserId = $modal.querySelector('[data-role=user_id]');
+const $switchUserId = $modal?.querySelector('[data-role=user_id]');
 
 $modal?.addEventListener('hidden.bs.modal', () => {
   $switchUserId.value = '';
