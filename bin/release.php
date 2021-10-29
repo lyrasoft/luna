@@ -157,9 +157,9 @@ HELP;
             file_put_contents($file->getPathname(), $content);
         }
 
-        $this->exec('git checkout master');
+        $this->exec('git checkout 1.x');
         $this->exec(sprintf('git commit -am "Prepare for %s release."', $version));
-        $this->exec('git push origin master');
+        $this->exec('git push origin 1.x');
     }
 
     /**
