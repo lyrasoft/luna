@@ -332,6 +332,12 @@ export default {
   },
 
   watch: {
+    value: {
+      handler() {
+        this.content = this.value;
+      },
+      deep: true
+    }
   },
 
   computed: {

@@ -66,6 +66,8 @@ export default {
           'image/png',
           'image/gif',
           'image/webp',
+          'image/svg',
+          'image/svg+xml',
         ];
       }
     }
