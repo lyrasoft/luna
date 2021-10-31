@@ -150,6 +150,7 @@ class CategoryController
                 (bool) $self,
                 fn(Query $query) => $query->where('id', '!=', $self)
             )
+            ->order('lft', 'ASC')
             ->groupByJoins();
 
         $items = [];
