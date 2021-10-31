@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Category;
 
+use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Module\Admin\Category\Form\EditForm;
 use Lyrasoft\Luna\Repository\CategoryRepository;
 use Unicorn\Controller\CrudController;
@@ -19,9 +20,12 @@ use Unicorn\Controller\NestedSetController;
 use Unicorn\Upload\FileUploadManager;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
+use Windwalker\Core\Attributes\JsonApi;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\Event\AfterSaveEvent;
+use Windwalker\ORM\ORM;
+use Windwalker\Query\Query;
 
 use function Windwalker\collect;
 
@@ -126,5 +130,38 @@ class CategoryController
     public function copy(AppContext $app, #[Autowire] CategoryRepository $repository, GridController $controller): mixed
     {
         return $app->call([$controller, 'copy'], compact('repository'));
+    }
+
+    #[JsonApi]
+    public function ajaxList(AppContext $app, ORM $orm): array
+    {
+        $type = $app->input('type');
+        $self = $app->input('self');
+        $value = $app->input('value') ?? 1;
+
+        if ($value <= 0) {
+            $value = 1;
+        }
+
+        $query = $orm->from(Category::class)
+            ->where('type', $type)
+            ->where('parent_id', (int) $value)
+            ->tapIf(
+                (bool) $self,
+                fn(Query $query) => $query->where('id', '!=', $self)
+            )
+            ->groupByJoins();
+
+        $items = [];
+
+        /** @var Category $item */
+        foreach ($query->getIterator(Category::class) as $item) {
+            $items[] = [
+                'title' => $item->getTitle(),
+                'id' => $item->getId(),
+            ];
+        }
+
+        return $items;
     }
 }

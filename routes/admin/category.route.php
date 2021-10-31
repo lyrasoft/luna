@@ -21,13 +21,13 @@ $router->group('category')
     ->middleware(KeepUrlQueryMiddleware::di(options: ['key' => 'type',]))
     ->register(
         function (RouteCreator $router) {
-            // Country
+            // Category
             $router->any('category_edit', '/category/edit/{type}[/{id}]')
                 ->controller(CategoryController::class)
                 ->view(CategoryEditView::class)
                 ->extra('layout', 'country');
 
-            // Countries
+            // Categories
             $router->any('category_list', '/category/list/{type}')
                 ->controller(CategoryController::class)
                 ->postHandler('copy')
@@ -35,5 +35,9 @@ $router->group('category')
                 ->putHandler('filter')
                 ->deleteHandler('delete')
                 ->view(CategoryListView::class);
+
+            // Ajax Category List
+            $router->any('category_ajax_list', '/category/ajax/list/{type}')
+                ->controller(CategoryController::class, 'ajaxList');
         }
     );
