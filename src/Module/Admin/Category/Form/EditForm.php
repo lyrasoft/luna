@@ -1,10 +1,13 @@
 <?php
+
 /**
  * Part of Admin project.
  *
  * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
+
+declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Category\Form;
 
@@ -14,8 +17,6 @@ use Lyrasoft\Luna\Field\UserModalField;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
-use Unicorn\Field\TinymceEditorField;
-use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\Field\TextareaField;
 use Windwalker\Form\FieldDefinitionInterface;
@@ -30,7 +31,7 @@ use Windwalker\ORM\ORM;
 class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
-    
+
     /**
      * EditForm constructor.
      */
@@ -73,7 +74,7 @@ class EditForm implements FieldDefinitionInterface
                 $form->add('parent_id', CategoryListField::class)
                     ->label($this->trans('unicorn.field.parent'))
                     ->addClass('has-choices')
-                    ->option($this->trans('luna.category.root'), 1)
+                    ->option($this->trans('luna.category.root'), '1')
                     ->categoryType($type)
                     ->configureQuery(
                         function (\Windwalker\Query\Query $query) {
@@ -81,7 +82,11 @@ class EditForm implements FieldDefinitionInterface
                                 /** @var Category $self */
                                 $self = $this->orm->mapper(Category::class)->findOne($id);
 
-                                $query->whereRaw('(lft < ' . $self->getLft() . ' OR rgt > ' . $self->getRgt() . ')');
+                                if ($self) {
+                                    $query->whereRaw(
+                                        '(lft < ' . $self->getLft() . ' OR rgt > ' . $self->getRgt() . ')'
+                                    );
+                                }
                             }
                         }
                     );

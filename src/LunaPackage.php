@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
 use Lyrasoft\Luna\Services\ConfigService;
+use Lyrasoft\Luna\Services\MenuService;
 use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\Password;
@@ -54,6 +55,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
         $container->prepareSharedObject(ConfigService::class);
         $container->prepareSharedObject(FontAwesomeScript::class);
+        $container->prepareSharedObject(MenuService::class);
 
         $this->registerAuthServices($container);
 

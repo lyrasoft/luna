@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
 use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\UserModalField;
+use Unicorn\Field\FileDragField;
 use Unicorn\Field\MultiUploaderField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
@@ -86,9 +87,9 @@ class EditForm implements FieldDefinitionInterface
         $form->fieldset(
             'meta',
             function (Form $form) {
-                $form->add('category_id', CategoryListField::class)
+                $form->add('category_id/rrt', CategoryListField::class)
                     ->label($this->trans('luna.article.field.category'))
-                    ->addClass('has-choices')
+                    // ->addClass('has-choices')
                     ->categoryType($this->type);
 
                 $form->add('image', SingleImageDragField::class)
