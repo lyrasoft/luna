@@ -34,6 +34,8 @@ class ArticleController
         #[Autowire] ArticleRepository $repository,
     ): mixed {
         $form = $app->make(EditForm::class,);
+        
+        show($app->input());exit(' @Checkpoint');
 
         $uri = $app->call([$controller, 'save'], compact('repository', 'form'));
 

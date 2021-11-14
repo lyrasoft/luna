@@ -195,7 +195,8 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
         $this->installModules($installer, 'category');
         $this->installModules($installer, 'article');
-        $this->installModules($installer, 'config');
+        $this->installModules($installer, 'menu', ['admin', 'model']);
+        $this->installModules($installer, 'config', ['admin', 'model']);
         $this->installModules($installer, 'user');
 
         $installer->installModules(
@@ -211,36 +212,45 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         );
     }
 
-    protected function installModules(PackageInstaller $installer, string $name): void
-    {
+    protected function installModules(
+        PackageInstaller $installer,
+        string $name,
+        array $modules = ['front', 'admin', 'model']
+    ): void {
         $pascal = StrNormalize::toPascalCase($name);
 
-        $installer->installModules(
-            [
-                static::path("src/Module/Admin/$pascal/**/*") => "@source/Module/Admin/$pascal",
-            ],
-            ['Lyrasoft\\Luna\\Module\\Admin' => 'App\\Module\\Admin'],
-            ['modules', $name . '_admin'],
-        );
+        if (in_array('front', $modules, true)) {
+            $installer->installModules(
+                [
+                    static::path("src/Module/Admin/$pascal/**/*") => "@source/Module/Admin/$pascal",
+                ],
+                ['Lyrasoft\\Luna\\Module\\Admin' => 'App\\Module\\Admin'],
+                ['modules', $name . '_admin'],
+            );
+        }
 
-        $installer->installModules(
-            [
-                static::path("src/Module/Front/$pascal/**/*") => "@source/Module/Front/$pascal",
-            ],
-            ['Lyrasoft\\Luna\\Module\\Front' => 'App\\Module\\Front'],
-            ['modules', $name . '_front']
-        );
+        if (in_array('admin', $modules, true)) {
+            $installer->installModules(
+                [
+                    static::path("src/Module/Front/$pascal/**/*") => "@source/Module/Front/$pascal",
+                ],
+                ['Lyrasoft\\Luna\\Module\\Front' => 'App\\Module\\Front'],
+                ['modules', $name . '_front']
+            );
+        }
 
-        $installer->installModules(
-            [
-                static::path("src/Entity/$pascal.php") => '@source/Entity',
-                static::path("src/Repository/{$pascal}Repository.php") => '@source/Repository',
-            ],
-            [
-                'Lyrasoft\\Luna\\Entity' => 'App\\Entity',
-                'Lyrasoft\\Luna\\Repository' => 'App\\Repository',
-            ],
-            ['modules', $name . '_model']
-        );
+        if (in_array('model', $modules, true)) {
+            $installer->installModules(
+                [
+                    static::path("src/Entity/$pascal.php") => '@source/Entity',
+                    static::path("src/Repository/{$pascal}Repository.php") => '@source/Repository',
+                ],
+                [
+                    'Lyrasoft\\Luna\\Entity' => 'App\\Entity',
+                    'Lyrasoft\\Luna\\Repository' => 'App\\Repository',
+                ],
+                ['modules', $name . '_model']
+            );
+        }
     }
 }

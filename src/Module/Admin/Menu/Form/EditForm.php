@@ -55,10 +55,6 @@ class EditForm implements FieldDefinitionInterface
             ->addFilter('trim')
             ->required(true);
 
-        $form->add('alias', TextField::class)
-            ->label($this->trans('unicorn.field.alias'))
-            ->addFilter('trim');
-
         $form->fieldset(
             'basic',
             function (Form $form) {
