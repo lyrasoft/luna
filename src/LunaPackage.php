@@ -12,6 +12,7 @@ use Faker\Generator;
 use Lyrasoft\Luna\Access\AccessAuthorization;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
+use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
 use Lyrasoft\Luna\Menu\MenuBuilder;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
@@ -23,7 +24,6 @@ use Lyrasoft\Luna\User\Password;
 use Lyrasoft\Luna\User\PasswordInterface;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authorization\Authorization;
-use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Application\WebApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
@@ -32,8 +32,8 @@ use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
-use Windwalker\Core\Router\Router;
 use Windwalker\Core\Seed\FakerService;
+use Windwalker\Core\Service\ErrorService;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 use Windwalker\Event\Event;
@@ -79,7 +79,6 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             Container::MERGE_OVERRIDE
         );
 
-
         $container->mergeParameters(
             'renderer.aliases',
             [
@@ -120,9 +119,27 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
     public function bootBeforeRequest(Container $container): void
     {
+        // Lang
         if ($container->has(LangService::class)) {
             $container->get(LangService::class)
                 ->loadAllFromPath(__DIR__ . '/../resources/languages', 'ini');
+        }
+
+        // Error
+        if (!$this->app->isDebug() && $this->app->getClient() === ApplicationInterface::CLIENT_WEB) {
+            $errorService = $container->get(ErrorService::class);
+
+            $errorService->addHandler(
+                $this->app->make(
+                    LunaErrorHandler::class,
+                    [
+                        'layout' => $this->app->config('luna.error.layout') ?? 'error',
+                        'route' => $this->app->config('luna.error.route') ?? 'front::home',
+                    ]
+                ),
+                'default'
+            );
+            $errorService->register();
         }
     }
 

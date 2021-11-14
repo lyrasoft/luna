@@ -35,7 +35,8 @@ return [
         'view_extends' => [
             'front' => [
                 'base' => 'global.body',
-                'auth' => 'global.body'
+                'auth' => 'global.body',
+                'error' => 'global.body',
             ],
 
             'admin' => [
@@ -44,7 +45,13 @@ return [
                 'edit' => 'admin.global.body-edit',
                 'list' => 'admin.global.body-list',
                 'modal' => 'admin.global.pure',
+                'error' => 'admin.global.pure',
             ]
+        ],
+
+        'error' => [
+            'route' => 'front::home',
+            'layout' => null
         ]
     ]
 ];
