@@ -54,7 +54,7 @@ class ArticleMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineVariables(Form $form): void
+    protected function defineVariablesForm(Form $form): void
     {
         $form->add('id', ArticleModalField::class)
             ->label($this->trans('luna.article.title'))
@@ -64,7 +64,7 @@ class ArticleMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParams(Form $form): void
+    protected function defineParamsForm(Form $form): void
     {
     }
 

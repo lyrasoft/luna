@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\Menu;
 
-use App\Entity\Menu;
+use Lyrasoft\Luna\Entity\Menu;
 use Lyrasoft\Luna\Tree\Node;
 use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Router\Navigator;

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Menu\View;
 
-use App\Entity\Menu;
+use Lyrasoft\Luna\Entity\Menu;
 use Lyrasoft\Luna\Field\MenuModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Menu\MenuNode;
@@ -45,7 +45,7 @@ class AliasMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineVariables(Form $form): void
+    protected function defineVariablesForm(Form $form): void
     {
         $form->add('target', MenuModalField::class)
             ->label($this->trans('luna.menu.alias.target'));
@@ -54,7 +54,7 @@ class AliasMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParams(Form $form): void
+    protected function defineParamsForm(Form $form): void
     {
     }
 

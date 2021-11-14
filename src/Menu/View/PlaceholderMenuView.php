@@ -40,7 +40,7 @@ class PlaceholderMenuView extends AbstractMenuView implements LayoutRenderedMenu
     /**
      * @inheritDoc
      */
-    protected function defineVariables(Form $form): void
+    protected function defineVariablesForm(Form $form): void
     {
         /** @var Form $form */
         $form->add('type', ListField::class)
@@ -59,17 +59,19 @@ class PlaceholderMenuView extends AbstractMenuView implements LayoutRenderedMenu
             ->defaultValue(static::NO_LINK);
 
         $form->add('header', TextField::class)
-            ->label($this->trans('luna.menu.placeholder.text'));
+            ->label($this->trans('luna.menu.placeholder.text'))
+            ->set('showon', ['variables/type' => 'header']);
 
         $form->add('text', TextareaField::class)
             ->label($this->trans('luna.menu.placeholder.text'))
-            ->rows(5);
+            ->rows(5)
+            ->set('showon', ['variables/type' => 'text']);
     }
 
     /**
      * @inheritDoc
      */
-    protected function defineParams(Form $form): void
+    protected function defineParamsForm(Form $form): void
     {
     }
 

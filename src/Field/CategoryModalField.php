@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Field;
 
-use App\Entity\Menu;
+use Lyrasoft\Luna\Entity\Menu;
 use Lyrasoft\Luna\Entity\Category;
 use Psr\Http\Message\UriInterface;
 use Unicorn\Field\ModalField;

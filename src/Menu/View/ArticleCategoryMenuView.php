@@ -55,7 +55,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineVariables(Form $form): void
+    protected function defineVariablesForm(Form $form): void
     {
         /** @var Form $form */
         $form->add('id', CategoryModalField::class)
@@ -67,7 +67,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParams(Form $form): void
+    protected function defineParamsForm(Form $form): void
     {
     }
 

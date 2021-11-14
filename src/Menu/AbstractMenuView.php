@@ -97,11 +97,11 @@ abstract class AbstractMenuView implements
     public function define(Form $form): void
     {
         $form->ns('variables', function (Form $form) {
-            $this->defineVariables($form);
+            $this->defineVariablesForm($form);
         });
 
         $form->ns('params', function (Form $form) {
-            $this->defineParams($form);
+            $this->defineParamsForm($form);
         });
 
         $this->emit(
@@ -122,7 +122,7 @@ abstract class AbstractMenuView implements
      *
      * @since  1.7
      */
-    abstract protected function defineVariables(Form $form): void;
+    abstract protected function defineVariablesForm(Form $form): void;
 
     /**
      * You must use tab('name', function () { ... }) to wrap your fields.
@@ -133,7 +133,7 @@ abstract class AbstractMenuView implements
      *
      * @since  1.7
      */
-    abstract protected function defineParams(Form $form): void;
+    abstract protected function defineParamsForm(Form $form): void;
 
     /**
      * tab

@@ -4,14 +4,15 @@
  * Part of starter project.
  *
  * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    MIT
+ * @license    __LICENSE__
  */
 
 declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
-use Lyrasoft\Luna\Attributes\Slugify;
+use Lyrasoft\Luna\Attributes\Author;
+use Lyrasoft\Luna\Attributes\Modifier;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\ORM\Attributes\AutoIncrement;
@@ -21,75 +22,71 @@ use Windwalker\ORM\Attributes\Column;
 use Windwalker\ORM\Attributes\CreatedTime;
 use Windwalker\ORM\Attributes\CurrentTime;
 use Windwalker\ORM\Attributes\EntitySetup;
+use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
-use Windwalker\ORM\Attributes\Table;
 use Windwalker\ORM\Cast\JsonCast;
-use Windwalker\ORM\EntityInterface;
-use Windwalker\ORM\EntityTrait;
 use Windwalker\ORM\Metadata\EntityMetadata;
+use Windwalker\ORM\Nested\NestedPathableInterface;
+use Windwalker\ORM\Nested\NestedPathableTrait;
 
 /**
- * The Article class.
+ * The Menu class.
  */
-#[Table('articles', 'article')]
-class Article implements EntityInterface
+#[NestedSet('menus', 'menu')]
+class Menu implements NestedPathableInterface
 {
-    use EntityTrait;
+    use NestedPathableTrait;
 
     #[Column('id'), PK, AutoIncrement]
     protected ?int $id = null;
 
-    #[Column('category_id')]
-    protected int $categoryId = 0;
-
-    #[Column('page_id')]
-    protected int $pageId = 0;
-
     #[Column('type')]
     protected string $type = '';
+
+    #[Column('view')]
+    protected string $view = '';
 
     #[Column('title')]
     protected string $title = '';
 
-    #[Column('alias')]
-    #[Slugify]
-    protected string $alias = '';
+    #[Column('url')]
+    protected string $url = '';
+
+    #[Column('target')]
+    protected string $target = '';
+
+    #[Column('variables')]
+    #[Cast(JsonCast::class)]
+    protected array $variables = [];
 
     #[Column('image')]
     protected string $image = '';
-
-    #[Column('introtext')]
-    protected string $introtext = '';
-
-    #[Column('fulltext')]
-    protected string $fulltext = '';
 
     #[Column('state')]
     #[Cast('int')]
     #[Cast(BasicState::class)]
     protected BasicState $state;
 
-    #[Column('ordering')]
-    protected int $ordering = 0;
-
-    #[Column('extra')]
-    #[Cast(JsonCast::class)]
-    protected array $extra = [];
+    #[Column('hidden')]
+    #[Cast('bool', 'int')]
+    protected bool $hidden = false;
 
     #[Column('created')]
-    #[CreatedTime]
     #[CastNullable(Chronos::class)]
+    #[CreatedTime]
     protected ?Chronos $created = null;
 
     #[Column('modified')]
-    #[CurrentTime]
     #[CastNullable(Chronos::class)]
+    #[CurrentTime]
     protected ?Chronos $modified = null;
 
     #[Column('created_by')]
+    #[Author]
     protected int $createdBy = 0;
 
     #[Column('modified_by')]
+    #[Modifier]
     protected int $modifiedBy = 0;
 
     #[Column('language')]
@@ -102,52 +99,25 @@ class Article implements EntityInterface
     #[EntitySetup]
     public static function setup(EntityMetadata $metadata): void
     {
-        $rm = $metadata->getRelationManager();
-
-        $rm->manyToOne('category')
-            ->targetTo(Category::class, category_id: 'id');
+        //
     }
 
     /**
-     * @return int|null
+     * @inheritDoc
      */
+    public function getPrimaryKeyValue(): mixed
+    {
+        return $this->getId();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param  int|null  $id
-     *
-     * @return  static  Return self to support chaining.
-     */
     public function setId(?int $id): static
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getCategoryId(): int
-    {
-        return $this->categoryId;
-    }
-
-    public function setCategoryId(int $categoryId): static
-    {
-        $this->categoryId = $categoryId;
-
-        return $this;
-    }
-
-    public function getPageId(): int
-    {
-        return $this->pageId;
-    }
-
-    public function setPageId(int $pageId): static
-    {
-        $this->pageId = $pageId;
 
         return $this;
     }
@@ -164,6 +134,18 @@ class Article implements EntityInterface
         return $this;
     }
 
+    public function getView(): string
+    {
+        return $this->view;
+    }
+
+    public function setView(string $view): static
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
@@ -176,14 +158,38 @@ class Article implements EntityInterface
         return $this;
     }
 
-    public function getAlias(): string
+    public function getUrl(): string
     {
-        return $this->alias;
+        return $this->url;
     }
 
-    public function setAlias(string $alias): static
+    public function setUrl(string $url): static
     {
-        $this->alias = $alias;
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getTarget(): string
+    {
+        return $this->target;
+    }
+
+    public function setTarget(string $target): static
+    {
+        $this->target = $target;
+
+        return $this;
+    }
+
+    public function getVariables(): array
+    {
+        return $this->variables;
+    }
+
+    public function setVariables(array $variables): static
+    {
+        $this->variables = $variables;
 
         return $this;
     }
@@ -200,30 +206,6 @@ class Article implements EntityInterface
         return $this;
     }
 
-    public function getIntrotext(): string
-    {
-        return $this->introtext;
-    }
-
-    public function setIntrotext(string $introtext): static
-    {
-        $this->introtext = $introtext;
-
-        return $this;
-    }
-
-    public function getFulltext(): string
-    {
-        return $this->fulltext;
-    }
-
-    public function setFulltext(string $fulltext): static
-    {
-        $this->fulltext = $fulltext;
-
-        return $this;
-    }
-
     public function getState(): BasicState
     {
         return $this->state;
@@ -231,31 +213,19 @@ class Article implements EntityInterface
 
     public function setState(int|BasicState $state): static
     {
-        $this->state = BasicState::from($state);
+        $this->state = new BasicState($state);
 
         return $this;
     }
 
-    public function getOrdering(): int
+    public function isHidden(): bool
     {
-        return $this->ordering;
+        return $this->hidden;
     }
 
-    public function setOrdering(int $ordering): static
+    public function setHidden(bool $hidden): static
     {
-        $this->ordering = $ordering;
-
-        return $this;
-    }
-
-    public function getExtra(): array
-    {
-        return $this->extra;
-    }
-
-    public function setExtra(array $extra): static
-    {
-        $this->extra = $extra;
+        $this->hidden = $hidden;
 
         return $this;
     }
@@ -267,7 +237,7 @@ class Article implements EntityInterface
 
     public function setCreated(\DateTimeInterface|string|null $created): static
     {
-        $this->created = Chronos::wrap($created);
+        $this->created = Chronos::wrapOrNull($created);
 
         return $this;
     }
@@ -279,7 +249,7 @@ class Article implements EntityInterface
 
     public function setModified(\DateTimeInterface|string|null $modified): static
     {
-        $this->modified = Chronos::wrap($modified);
+        $this->modified = Chronos::wrapOrNull($modified);
 
         return $this;
     }

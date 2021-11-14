@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Services;
 
-use App\Entity\Menu;
+use Lyrasoft\Luna\Entity\Menu;
 use App\Repository\MenuRepository;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Menu\MenuNode;

@@ -32,17 +32,13 @@ class Slugify extends CastForSave
     protected function getDefaultCaster(): callable
     {
         return function (mixed $value, ORM $orm, object $entity) {
-            if (!$value) {
-                $title = '';
+            $default = $value;
 
-                if ($this->titleColumn) {
-                    $title = $orm->extractField($entity, $this->titleColumn);
-                }
-
-                $value = SlugHelper::safe((string) $value, $this->utf8, $title);
+            if (!$value && $this->titleColumn) {
+                $default = $orm->extractField($entity, $this->titleColumn);
             }
 
-            return $value;
+            return SlugHelper::safe((string) $value, $this->utf8, $default);
         };
     }
 }

@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var $app       AppContext      Application context.
- * @var $view      ViewModel       The view modal object.
+ * @var $vm        MenuListView  The view model object.
  * @var $uri       SystemUri       System Uri information.
  * @var $chronos   ChronosService  The chronos datetime service.
  * @var $nav       Navigator       Navigator object to build route.
@@ -14,19 +14,18 @@
 
 declare(strict_types=1);
 
+use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
-use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $callback = $app->input('callback');
-
 ?>
 
-@extends($app->config('luna.view_extends.admin.modal') ?? 'admin.global.pure')
+@extends('admin.global.pure')
 
 @section('body')
     <form id="admin-form" action="" x-data="{ grid: $store.grid }"
@@ -41,18 +40,13 @@ $callback = $app->input('callback');
                 <thead>
                 <tr>
                     <th>
-                        <x-sort field="category.title">
+                        <x-sort field="menu.title">
                             Title
                         </x-sort>
                     </th>
                     <th>
-                        <x-sort field="category.state">
+                        <x-sort field="menu.state">
                             State
-                        </x-sort>
-                    </th>
-                    <th>
-                        <x-sort field="category.category_id">
-                            Category
                         </x-sort>
                     </th>
                     <th>
@@ -82,9 +76,6 @@ $callback = $app->input('callback');
                             {{ $item->state }}
                         </th>
                         <td>
-                            {{ $item->category->title ?? '' }}
-                        </td>
-                        <td>
                             {{ $item->id }}
                         </td>
                     </tr>
@@ -102,9 +93,7 @@ $callback = $app->input('callback');
         </div>
 
         <div class="d-none">
-            @formToken
-
-            <input name="_method" type="hidden" value="PUT" />
+            @include('@csrf')
         </div>
 
         <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>

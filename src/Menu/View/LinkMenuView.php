@@ -37,7 +37,7 @@ class LinkMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineVariables(Form $form): void
+    protected function defineVariablesForm(Form $form): void
     {
         $form->add('url', UrlField::class)
             ->label($this->trans('luna.menu.field.url'))
@@ -47,7 +47,7 @@ class LinkMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParams(Form $form): void
+    protected function defineParamsForm(Form $form): void
     {
     }
 
