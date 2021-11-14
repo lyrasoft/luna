@@ -27,16 +27,16 @@ use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
 use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\Metadata\EntityMetadata;
-use Windwalker\ORM\Nested\NestedPathableInterface;
-use Windwalker\ORM\Nested\NestedPathableTrait;
+use Windwalker\ORM\Nested\NestedEntityInterface;
+use Windwalker\ORM\Nested\NestedEntityTrait;
 
 /**
  * The Menu class.
  */
 #[NestedSet('menus', 'menu')]
-class Menu implements NestedPathableInterface
+class Menu implements NestedEntityInterface
 {
-    use NestedPathableTrait;
+    use NestedEntityTrait;
 
     #[Column('id'), PK, AutoIncrement]
     protected ?int $id = null;

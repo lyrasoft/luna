@@ -127,12 +127,12 @@ $orders = [];
                         </td>
                         <td>
                             <div class="d-flex">
-                                <div>
+                                <div class="{{ $entity->getLevel() > 1 ? 'mr-1 me-1' : '' }}">
                                     {{ str_repeat('—', $entity->getLevel() - 1) }}
                                 </div>
                                 <div>
                                     <a href="{{ $nav->to('menu_edit')->id($entity->getId()) }}">
-                                        {{ $item->title }}
+                                        {{ $entity->getTitle() }}
                                     </a>
                                 </div>
                             </div>
