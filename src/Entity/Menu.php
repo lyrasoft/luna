@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Entity;
 
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
+use Lyrasoft\Luna\Enum\MenuTarget;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\ORM\Attributes\AutoIncrement;
@@ -53,7 +54,8 @@ class Menu implements NestedPathableInterface
     protected string $url = '';
 
     #[Column('target')]
-    protected string $target = '';
+    #[Cast(MenuTarget::class)]
+    protected MenuTarget $target;
 
     #[Column('variables')]
     #[Cast(JsonCast::class)]
@@ -166,18 +168,6 @@ class Menu implements NestedPathableInterface
     public function setUrl(string $url): static
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    public function getTarget(): string
-    {
-        return $this->target;
-    }
-
-    public function setTarget(string $target): static
-    {
-        $this->target = $target;
 
         return $this;
     }
@@ -298,6 +288,26 @@ class Menu implements NestedPathableInterface
     public function setParams(array $params): static
     {
         $this->params = $params;
+
+        return $this;
+    }
+
+    /**
+     * @return MenuTarget
+     */
+    public function getTarget(): MenuTarget
+    {
+        return $this->target;
+    }
+
+    /**
+     * @param  MenuTarget|string  $target
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setTarget(MenuTarget|string $target): static
+    {
+        $this->target = new MenuTarget($target);
 
         return $this;
     }

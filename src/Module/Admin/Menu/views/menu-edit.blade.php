@@ -36,6 +36,9 @@ $options = [];
 
 $app->service(\Unicorn\Script\AwsScript::class)
     ->s3BrowserUploader('file', \Unicorn\Aws\S3Service::ACL_PUBLIC_READ, $options);
+
+$tabs = $form->getFieldsets();
+unset($tabs['basic'], $tabs['meta']);
 ?>
 
 @extends('admin.global.body-edit')
@@ -57,16 +60,20 @@ $app->service(\Unicorn\Script\AwsScript::class)
             <div class="col-md-7">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a href="#basic" class="nav-link active" data-bs-toggle="tab">
+                        <a href="#tab-basic" class="nav-link active" data-bs-toggle="tab">
                             @lang('unicorn.fieldset.basic')
                         </a>
                     </li>
 
                     @if (isset($tabs))
                         @foreach ($tabs as $name => $tab)
+                            @if (!$tab->getTitle())
+                                @continue
+                            @endif
+
                             <li class="nav-item">
-                                <a href="#tab-{{ $name }}" class="nav-link" data-toggle="tab">
-                                    {{ $tab['title'] }}
+                                <a href="#tab-{{ $name }}" class="nav-link" data-bs-toggle="tab">
+                                    {{ $tab->getTitle() }}
                                 </a>
                             </li>
                         @endforeach
@@ -75,7 +82,7 @@ $app->service(\Unicorn\Script\AwsScript::class)
 
                 <div class="tab-content mt-3" id="field-tabs">
                     {{-- Basic Tab --}}
-                    <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+                    <div class="tab-pane fade show active" id="tab-basic" role="tabpanel" aria-labelledby="basic-tab">
                         <x-card :title="$lang('unicorn.fieldset.basic')" class="mb-4">
                             <x-fieldset name="basic"
                                 :form="$form"
@@ -104,6 +111,26 @@ $app->service(\Unicorn\Script\AwsScript::class)
                         >
                         </x-fieldset>
                     </div>
+
+                    @if (isset($tabs))
+                        @foreach ($tabs as $name => $tab)
+                            @if (!$tab->getTitle())
+                                @continue
+                            @endif
+
+                            {{-- Tab --}}
+                            <div class="tab-pane fade" id="tab-{{ $tab->getName() }}" role="tabpanel" aria-labelledby="{{ $tab->getName() }}-tab">
+                                <x-fieldset
+                                    title=""
+                                    :name="$tab->getName()"
+                                    :form="$form"
+                                    class=""
+                                    is="card"
+                                >
+                                </x-fieldset>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
             <div class="col-md-5">

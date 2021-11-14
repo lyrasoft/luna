@@ -11,13 +11,13 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Menu\View;
 
-use Lyrasoft\Luna\Admin\DataMapper\CategoryMapper;
 use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Field\CategoryModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\Form\Field\TextField;
 use Windwalker\Form\Form;
 use Windwalker\ORM\ORM;
 

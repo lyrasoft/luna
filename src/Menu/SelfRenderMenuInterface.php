@@ -8,6 +8,8 @@
 
 namespace Lyrasoft\Luna\Menu;
 
+use Lyrasoft\Luna\Menu\Tree\DbMenuNode;
+
 /**
  * Interface SeldRenderMenuInterface
  *
@@ -18,13 +20,13 @@ interface SelfRenderMenuInterface extends LayoutRenderedMenuInterface
     /**
      * render
      *
-     * @param MenuNode $menu
-     * @param array    $variables
-     * @param array    $params
+     * @param DbMenuNode  $menu
+     * @param array       $variables
+     * @param array       $params
      *
      * @return  string
      *
      * @since  1.7
      */
-    public function render(MenuNode $menu, array $variables, array $params): string;
+    public function render(DbMenuNode $menu, array $variables, array $params): string;
 }

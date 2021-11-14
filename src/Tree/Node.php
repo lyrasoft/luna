@@ -8,8 +8,6 @@
 
 namespace Lyrasoft\Luna\Tree;
 
-use RecursiveIteratorIterator;
-
 /**
  * The Node class.
  *

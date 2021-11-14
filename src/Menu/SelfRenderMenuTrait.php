@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Luna\Menu;
 
+use Lyrasoft\Luna\Menu\Tree\DbMenuNode;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\DI\Attributes\Inject;
 
@@ -24,15 +25,15 @@ trait SelfRenderMenuTrait
     /**
      * render
      *
-     * @param MenuNode $menu
-     * @param array    $variables
-     * @param array    $params
+     * @param DbMenuNode  $menu
+     * @param array       $variables
+     * @param array       $params
      *
      * @return  string
      *
      * @since  1.7
      */
-    public function render(MenuNode $menu, array $variables, array $params): string
+    public function render(DbMenuNode $menu, array $variables, array $params): string
     {
         $viewInstance = $this;
 

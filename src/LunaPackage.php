@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Access\AccessAuthorization;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
+use Lyrasoft\Luna\Menu\MenuBuilder;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
 use Lyrasoft\Luna\Services\ConfigService;
 use Lyrasoft\Luna\Services\MenuService;
@@ -56,6 +57,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(ConfigService::class);
         $container->prepareSharedObject(FontAwesomeScript::class);
         $container->prepareSharedObject(MenuService::class);
+        $container->prepareSharedObject(MenuBuilder::class);
 
         $this->registerAuthServices($container);
 
@@ -67,6 +69,29 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
                 static::path('views'),
             ],
             Container::MERGE_OVERRIDE
+        );
+
+        $container->mergeParameters(
+            'renderer.namespaces.@menu',
+            [
+                static::path('views/menu/bootstrap5'),
+            ],
+            Container::MERGE_OVERRIDE
+        );
+
+
+        $container->mergeParameters(
+            'renderer.aliases',
+            [
+                '@menu-root' => '@menu::menu-root',
+            ]
+        );
+
+        $container->mergeParameters(
+            'renderer.edge.components',
+            [
+                'menu-root' => '@menu-root',
+            ]
         );
     }
 

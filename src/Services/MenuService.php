@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Services;
 
-use Lyrasoft\Luna\Entity\Menu;
 use App\Repository\MenuRepository;
+use Lyrasoft\Luna\Entity\Menu;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
-use Lyrasoft\Luna\Menu\MenuNode;
+use Lyrasoft\Luna\Menu\Tree\DbMenuNode;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
@@ -47,16 +47,15 @@ class MenuService
      *
      * @param  mixed  $menus
      *
-     * @return  MenuNode|MenuNode[]
+     * @return  DbMenuNode|DbMenuNode[]
      */
     public static function createTree($menus): NodeInterface
     {
         return TreeBuilder::create(
             $menus,
             'id',
-            'parent_id',
-            'level',
-            MenuNode::class
+            'parentId',
+            DbMenuNode::class
         );
     }
 
@@ -168,7 +167,7 @@ class MenuService
      * @param  bool    $onlyAvailable
      * @param  int     $parent
      *
-     * @return  MenuNode|MenuNode[]
+     * @return  DbMenuNode|DbMenuNode[]
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
@@ -184,8 +183,8 @@ class MenuService
                     $this->getMenus($type, $onlyAvailable, $parent)
                 );
 
-                /** @var MenuNode $menuNode */
-                foreach ($node as $menuNode) {
+                /** @var DbMenuNode $menuNode */
+                foreach ($node->iterate() as $menuNode) {
                     if (!$instance = $this->getViewInstance($menuNode->getValue()->getView())) {
                         throw new \DomainException(
                             sprintf(
@@ -206,7 +205,7 @@ class MenuService
     /**
      * getAllMenusTree
      *
-     * @return  MenuNode[]
+     * @return  DbMenuNode[]
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
@@ -250,7 +249,7 @@ class MenuService
      */
     public function getMenus(string $type, bool $onlyAvailable = true, int|Menu $parent = 1): Collection
     {
-        return $this->createSelectQuery($type, $onlyAvailable, $parent)->all();
+        return $this->createSelectQuery($type, $onlyAvailable, $parent)->all(Menu::class);
     }
 
     /**
@@ -258,7 +257,7 @@ class MenuService
      *
      * @param  string  $type
      *
-     * @return  MenuNode|null
+     * @return  DbMenuNode|null
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
@@ -266,7 +265,7 @@ class MenuService
      *
      * @since  1.7.6
      */
-    public function getActiveMenu(?string $type = null): ?MenuNode
+    public function getActiveMenu(?string $type = null): ?DbMenuNode
     {
         if ($type) {
             return $this->getMenusTree($type)->getActive();
@@ -288,13 +287,13 @@ class MenuService
      *
      * @param  callable  $callback
      *
-     * @return  MenuNode|null
+     * @return  DbMenuNode|null
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
      * @since  1.7.6
      */
-    public function findMenu(callable $callback): ?MenuNode
+    public function findMenu(callable $callback): ?DbMenuNode
     {
         foreach ($this->getAllMenusTree() as $tree) {
             if ($menu = $tree->findFirst($callback)) {
@@ -360,7 +359,7 @@ class MenuService
 
         $conditions = Arr::flatten($conditions);
 
-        $this->each(function (MenuNode $menuNode) use ($view, $conditions) {
+        $this->each(function (DbMenuNode $menuNode) use ($view, $conditions) {
             if (
                 $menuNode->getValue()->getView() === $view
                 && array_intersect(Arr::flatten($menuNode->getValue()->getVariables()), $conditions) === $conditions
@@ -387,7 +386,7 @@ class MenuService
      */
     public function forceMenuActive(string $view, array $variablesQuery = [], bool $onlyFirst = true): self
     {
-        $this->findMenu(static function (MenuNode $menuNode) use ($view, $variablesQuery, $onlyFirst) {
+        $this->findMenu(static function (DbMenuNode $menuNode) use ($view, $variablesQuery, $onlyFirst) {
             if ($menuNode->is($view, $variablesQuery)) {
                 $menuNode->forceActive(true);
 
@@ -432,8 +431,8 @@ class MenuService
             $parent = $this->orm->findOne(Menu::class, $parent);
         }
 
-        $query->where('lft', '>=', $parent->getId())
-            ->where('rgt', '<=', $parent->getId());
+        $query->where('lft', '>=', $parent->getLft())
+            ->where('rgt', '<=', $parent->getRgt());
 
         return $query;
     }
@@ -441,15 +440,15 @@ class MenuService
     /**
      * renderMenu
      *
-     * @param  MenuNode|string  $menus   MenuNode of menu type name.
-     * @param  array            $data    Some configure settings date.
+     * @param  DbMenuNode|string  $menus   MenuNode of menu type name.
+     * @param  array              $data    Some configure settings date.
      *                                   - vertical: (bool) Vertical menu with flex-column class
      *                                   - dropdown: (bool) Top navbar doprdown menu.
      *                                   - fade: (bool) Fade in-out submenu. (Only for dropdown)
      *                                   - click: (bool) Click show submenu, otherwise will be hover. (Only for
      *                                   dropdown)
      *                                   - level: (int) Firset level number, default is 1.
-     * @param  string           $layout  Layout parh.
+     * @param  string             $layout  Layout parh.
      *
      * @return  string
      *
@@ -459,7 +458,7 @@ class MenuService
      *
      * @since  1.7.6
      */
-    public function renderMenu(MenuNode|string $menus, array $data = [], string $layout = 'luna.menu.nav'): string
+    public function renderMenu(DbMenuNode|string $menus, array $data = [], string $layout = 'luna.menu.nav'): string
     {
         if (is_string($menus)) {
             $menus = $this->getMenusTree($menus);
@@ -477,15 +476,15 @@ class MenuService
     /**
      * renderMenuItems
      *
-     * @param  MenuNode|string  $menus   MenuNode of menu type name.
-     * @param  array            $data    Some configure settings date.
+     * @param  DbMenuNode|string  $menus   MenuNode of menu type name.
+     * @param  array              $data    Some configure settings date.
      *                                   - vertical: (bool) Vertical menu with flex-column class
      *                                   - dropdown: (bool) Top navbar doprdown menu.
      *                                   - fade: (bool) Fade in-out submenu. (Only for dropdown)
      *                                   - click: (bool) Click show submenu, otherwise will be hover. (Only for
      *                                   dropdown)
      *                                   - level: (int) Firset level number, default is 1.
-     * @param  string           $layout  Layout parh.
+     * @param  string             $layout  Layout parh.
      *
      * @return  string
      *

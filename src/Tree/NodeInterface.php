@@ -15,7 +15,7 @@ namespace Lyrasoft\Luna\Tree;
  *
  * @since  1.0
  */
-interface NodeInterface
+interface NodeInterface extends \IteratorAggregate
 {
     /**
      * Set the value of the current node

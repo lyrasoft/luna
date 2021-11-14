@@ -14,7 +14,7 @@ namespace Lyrasoft\Luna\Menu\View;
 use Lyrasoft\Luna\Entity\Menu;
 use Lyrasoft\Luna\Field\MenuModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
-use Lyrasoft\Luna\Menu\MenuNode;
+use Lyrasoft\Luna\Menu\Tree\DbMenuNode;
 use Lyrasoft\Luna\Services\MenuService;
 use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Language\TranslatorTrait;
@@ -110,7 +110,7 @@ class AliasMenuView extends AbstractMenuView
      * @param array $variables
      * @param array $params
      *
-     * @return  MenuNode|null
+     * @return  DbMenuNode|null
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \ReflectionException
@@ -118,7 +118,7 @@ class AliasMenuView extends AbstractMenuView
      *
      * @since  1.7
      */
-    protected function findTarget(array $variables, array $params): ?MenuNode
+    protected function findTarget(array $variables, array $params): ?DbMenuNode
     {
         $menuId = $variables['target'] ?? 0;
 

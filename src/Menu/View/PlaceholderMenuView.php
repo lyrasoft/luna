@@ -96,6 +96,6 @@ class PlaceholderMenuView extends AbstractMenuView implements LayoutRenderedMenu
      */
     public function getLayout(): string
     {
-        return 'luna.menu.placeholder.placeholder';
+        return '@menu::placeholder.placeholder';
     }
 }
