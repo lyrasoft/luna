@@ -179,9 +179,17 @@ class MenuListView implements ViewModelInterface
         } elseif ($this->lang->has($appLangKey)) {
             $title = $this->trans($appLangKey);
         } else {
+            $types = $this->menuService->getMenuTypes();
+
+            if ($types[$type] ?? null) {
+                $title = $types[$type]['title'];
+            } else {
+                $title = $this->trans('luna.menu.type.' . $type);
+            }
+
             $title = $this->trans(
-                       'luna.menu.list.title',
-                title: $this->trans('luna.menu.type.' . $type)
+               'luna.menu.list.title',
+                title: $title
             );
         }
 

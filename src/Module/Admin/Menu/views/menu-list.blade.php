@@ -26,9 +26,13 @@ use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
  * @var \Lyrasoft\Luna\Entity\Menu $entity
  */
 
+$app->service(\Unicorn\Script\UnicornScript::class)
+    ->addRoute('self', $nav->self()->var('type', '{{type}}'));
+
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
 
 $typeField = $app->make(\Lyrasoft\Luna\Field\MenuTypeListField::class)
+    ->setName('type')
     ->setValue($type);
 
 $orders = [];

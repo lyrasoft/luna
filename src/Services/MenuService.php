@@ -149,9 +149,11 @@ class MenuService
         $options = [];
 
         foreach ($items as $k => $n) {
+            $title = $this->trans($n);
             $name = $k === $n ? $n : $k . ' (' . $this->trans($n) . ')';
 
             $options[$k] = [
+                'title' => $title,
                 'name' => $name,
                 'type' => $k,
             ];

@@ -119,9 +119,17 @@ class MenuEditView implements ViewModelInterface
         } elseif ($this->lang->has($appLangKey)) {
             $title = $this->trans($appLangKey);
         } else {
+            $types = $this->menuService->getMenuTypes();
+
+            if ($types[$type] ?? null) {
+                $title = $types[$type]['title'];
+            } else {
+                $title = $this->trans('luna.menu.type.' . $type);
+            }
+
             $title = $this->trans(
-                       'luna.menu.edit.title',
-                title: $this->trans('luna.menu.type.' . $type)
+               'luna.menu.edit.title',
+                title: $title
             );
         }
 
