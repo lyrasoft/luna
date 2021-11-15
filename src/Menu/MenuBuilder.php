@@ -96,6 +96,11 @@ class MenuBuilder
 
         return $node;
     }
+    
+    public function link(string $title, mixed $uri): MenuNode
+    {
+        return $this->add($title, $uri);
+    }
 
     public function divider(): MenuNode
     {

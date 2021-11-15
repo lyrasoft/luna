@@ -17,7 +17,7 @@ use Windwalker\Core\Router\RouteCreator;
 
 /** @var RouteCreator $router */
 
-$router->group('auth')
+$router->group('article')
     ->register(
         function (RouteCreator $router) {
             $router->get('article_category', '/articles[/{path:.+}]')

@@ -34,9 +34,6 @@ $app->service(\Unicorn\Script\UnicornScript::class)->data('current.view', $viewI
 
 $options = [];
 
-$app->service(\Unicorn\Script\AwsScript::class)
-    ->s3BrowserUploader('file', \Unicorn\Aws\S3Service::ACL_PUBLIC_READ, $options);
-
 $tabs = $form->getFieldsets();
 unset($tabs['basic'], $tabs['meta']);
 ?>
