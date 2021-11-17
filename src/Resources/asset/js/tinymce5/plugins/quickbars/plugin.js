@@ -4,12 +4,12 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
 
-    var global$3 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var unique = 0;
     var generate = function (prefix) {
@@ -21,11 +21,12 @@
     };
 
     var createTableHtml = function (cols, rows) {
-      var html = '<table data-mce-id="mce" style="width: 100%">';
+      var x, y, html;
+      html = '<table data-mce-id="mce" style="width: 100%">';
       html += '<tbody>';
-      for (var y = 0; y < rows; y++) {
+      for (y = 0; y < rows; y++) {
         html += '<tr>';
-        for (var x = 0; x < cols; x++) {
+        for (x = 0; x < cols; x++) {
           html += '<td><br></td>';
         }
         html += '</tr>';
@@ -57,10 +58,10 @@
       editor.insertContent(editor.dom.createHTML('img', { src: blobInfo.blobUri() }));
     };
 
-    var global$2 = tinymce.util.Tools.resolve('tinymce.util.Promise');
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Promise');
 
     var blobToBase64 = function (blob) {
-      return new global$2(function (resolve) {
+      return new global$1(function (resolve) {
         var reader = new FileReader();
         reader.onloadend = function () {
           resolve(reader.result.split(',')[1]);
@@ -69,12 +70,12 @@
       });
     };
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.Env');
+    var global$2 = tinymce.util.Tools.resolve('tinymce.Env');
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.Delay');
+    var global$3 = tinymce.util.Tools.resolve('tinymce.util.Delay');
 
     var pickFile = function (editor) {
-      return new global$2(function (resolve) {
+      return new global$1(function (resolve) {
         var fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.accept = 'image/*';
@@ -92,8 +93,8 @@
             resolve([]);
             fileInput.parentNode.removeChild(fileInput);
           };
-          if (global$1.os.isAndroid() && e.type !== 'remove') {
-            global.setEditorTimeout(editor, cleanup, 0);
+          if (global$2.os.isAndroid() && e.type !== 'remove') {
+            global$3.setEditorTimeout(editor, cleanup, 0);
           } else {
             cleanup();
           }
@@ -126,6 +127,122 @@
           insertTable(editor, 2, 2);
         }
       });
+    };
+
+    var noop = function () {
+    };
+    var constant = function (value) {
+      return function () {
+        return value;
+      };
+    };
+    var never = constant(false);
+    var always = constant(true);
+
+    var none = function () {
+      return NONE;
+    };
+    var NONE = function () {
+      var eq = function (o) {
+        return o.isNone();
+      };
+      var call = function (thunk) {
+        return thunk();
+      };
+      var id = function (n) {
+        return n;
+      };
+      var me = {
+        fold: function (n, _s) {
+          return n();
+        },
+        is: never,
+        isSome: never,
+        isNone: always,
+        getOr: id,
+        getOrThunk: call,
+        getOrDie: function (msg) {
+          throw new Error(msg || 'error: getOrDie called on none.');
+        },
+        getOrNull: constant(null),
+        getOrUndefined: constant(undefined),
+        or: id,
+        orThunk: call,
+        map: none,
+        each: noop,
+        bind: none,
+        exists: never,
+        forall: always,
+        filter: none,
+        equals: eq,
+        equals_: eq,
+        toArray: function () {
+          return [];
+        },
+        toString: constant('none()')
+      };
+      return me;
+    }();
+    var some = function (a) {
+      var constant_a = constant(a);
+      var self = function () {
+        return me;
+      };
+      var bind = function (f) {
+        return f(a);
+      };
+      var me = {
+        fold: function (n, s) {
+          return s(a);
+        },
+        is: function (v) {
+          return a === v;
+        },
+        isSome: always,
+        isNone: never,
+        getOr: constant_a,
+        getOrThunk: constant_a,
+        getOrDie: constant_a,
+        getOrNull: constant_a,
+        getOrUndefined: constant_a,
+        or: self,
+        orThunk: self,
+        map: function (f) {
+          return some(f(a));
+        },
+        each: function (f) {
+          f(a);
+        },
+        bind: bind,
+        exists: bind,
+        forall: bind,
+        filter: function (f) {
+          return f(a) ? me : NONE;
+        },
+        toArray: function () {
+          return [a];
+        },
+        toString: function () {
+          return 'some(' + a + ')';
+        },
+        equals: function (o) {
+          return o.is(a);
+        },
+        equals_: function (o, elementEq) {
+          return o.fold(never, function (b) {
+            return elementEq(a, b);
+          });
+        }
+      };
+      return me;
+    };
+    var from = function (value) {
+      return value === null || value === undefined ? NONE : some(value);
+    };
+    var Optional = {
+      some: some,
+      none: none,
+      from: from
     };
 
     var typeOf = function (x) {
@@ -161,108 +278,6 @@
     var isBoolean = isSimpleType('boolean');
     var isUndefined = eq(undefined);
     var isFunction = isSimpleType('function');
-
-    var noop = function () {
-    };
-    var constant = function (value) {
-      return function () {
-        return value;
-      };
-    };
-    var identity = function (x) {
-      return x;
-    };
-    var never = constant(false);
-    var always = constant(true);
-
-    var none = function () {
-      return NONE;
-    };
-    var NONE = function () {
-      var call = function (thunk) {
-        return thunk();
-      };
-      var id = identity;
-      var me = {
-        fold: function (n, _s) {
-          return n();
-        },
-        isSome: never,
-        isNone: always,
-        getOr: id,
-        getOrThunk: call,
-        getOrDie: function (msg) {
-          throw new Error(msg || 'error: getOrDie called on none.');
-        },
-        getOrNull: constant(null),
-        getOrUndefined: constant(undefined),
-        or: id,
-        orThunk: call,
-        map: none,
-        each: noop,
-        bind: none,
-        exists: never,
-        forall: always,
-        filter: function () {
-          return none();
-        },
-        toArray: function () {
-          return [];
-        },
-        toString: constant('none()')
-      };
-      return me;
-    }();
-    var some = function (a) {
-      var constant_a = constant(a);
-      var self = function () {
-        return me;
-      };
-      var bind = function (f) {
-        return f(a);
-      };
-      var me = {
-        fold: function (n, s) {
-          return s(a);
-        },
-        isSome: always,
-        isNone: never,
-        getOr: constant_a,
-        getOrThunk: constant_a,
-        getOrDie: constant_a,
-        getOrNull: constant_a,
-        getOrUndefined: constant_a,
-        or: self,
-        orThunk: self,
-        map: function (f) {
-          return some(f(a));
-        },
-        each: function (f) {
-          f(a);
-        },
-        bind: bind,
-        exists: bind,
-        forall: bind,
-        filter: function (f) {
-          return f(a) ? me : NONE;
-        },
-        toArray: function () {
-          return [a];
-        },
-        toString: function () {
-          return 'some(' + a + ')';
-        }
-      };
-      return me;
-    };
-    var from = function (value) {
-      return value === null || value === undefined ? NONE : some(value);
-    };
-    var Optional = {
-      some: some,
-      none: none,
-      from: from
-    };
 
     function ClosestOrAncestor (is, ancestor, scope, a, isRoot) {
       if (is(scope, a)) {
@@ -333,14 +348,14 @@
       }
     };
 
-    typeof window !== 'undefined' ? window : Function('return this;')();
+    var Global = typeof window !== 'undefined' ? window : Function('return this;')();
 
     var name = function (element) {
       var r = element.dom.nodeName;
       return r.toLowerCase();
     };
 
-    var ancestor$1 = function (scope, predicate, isRoot) {
+    var ancestor = function (scope, predicate, isRoot) {
       var element = scope.dom;
       var stop = isFunction(isRoot) ? isRoot : never;
       while (element.parentNode) {
@@ -354,23 +369,23 @@
       }
       return Optional.none();
     };
-    var closest$1 = function (scope, predicate, isRoot) {
+    var closest = function (scope, predicate, isRoot) {
       var is = function (s, test) {
         return test(s);
       };
-      return ClosestOrAncestor(is, ancestor$1, scope, predicate, isRoot);
+      return ClosestOrAncestor(is, ancestor, scope, predicate, isRoot);
     };
 
-    var ancestor = function (scope, selector, isRoot) {
-      return ancestor$1(scope, function (e) {
+    var ancestor$1 = function (scope, selector, isRoot) {
+      return ancestor(scope, function (e) {
         return is(e, selector);
       }, isRoot);
     };
-    var closest = function (scope, selector, isRoot) {
+    var closest$1 = function (scope, selector, isRoot) {
       var is$1 = function (element, selector) {
         return is(element, selector);
       };
-      return ClosestOrAncestor(is$1, ancestor, scope, selector, isRoot);
+      return ClosestOrAncestor(is$1, ancestor$1, scope, selector, isRoot);
     };
 
     var validDefaultOrDie = function (value, predicate) {
@@ -410,7 +425,7 @@
       return getToolbarItemsOr(editor, 'quickbars_image_toolbar', 'alignleft aligncenter alignright');
     };
 
-    var addToEditor$1 = function (editor) {
+    var addToEditor = function (editor) {
       var insertToolbarItems = getInsertToolbarItems(editor);
       if (insertToolbarItems.trim().length > 0) {
         editor.ui.registry.addContextToolbar('quickblock', {
@@ -420,11 +435,13 @@
             var isRoot = function (elem) {
               return elem.dom === editor.getBody();
             };
-            return closest(sugarNode, 'table', isRoot).fold(function () {
-              return closest$1(sugarNode, function (elem) {
+            return closest$1(sugarNode, 'table', isRoot).fold(function () {
+              return closest(sugarNode, function (elem) {
                 return name(elem) in textBlockElementsMap && editor.dom.isEmpty(elem.dom);
               }, isRoot).isSome();
-            }, never);
+            }, function () {
+              return false;
+            });
           },
           items: insertToolbarItems,
           position: 'line',
@@ -433,7 +450,7 @@
       }
     };
 
-    var addToEditor = function (editor) {
+    var addToEditor$1 = function (editor) {
       var isEditable = function (node) {
         return editor.dom.getContentEditableParent(node) !== 'false';
       };
@@ -462,10 +479,10 @@
     };
 
     function Plugin () {
-      global$3.add('quickbars', function (editor) {
+      global.add('quickbars', function (editor) {
         setupButtons(editor);
-        addToEditor$1(editor);
         addToEditor(editor);
+        addToEditor$1(editor);
       });
     }
 

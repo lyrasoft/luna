@@ -4,12 +4,12 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
 
-    var global$2 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var identity = function (x) {
       return x;
@@ -75,7 +75,7 @@
       AT: 12,
       OTHER: 13
     };
-    var SETS$1 = [
+    var SETS = [
       new RegExp(regExps.aletter),
       new RegExp(regExps.midnumlet),
       new RegExp(regExps.midletter),
@@ -90,17 +90,17 @@
       new RegExp(regExps.extendnumlet),
       new RegExp('@')
     ];
-    var EMPTY_STRING$1 = '';
-    var PUNCTUATION$1 = new RegExp('^' + regExps.punctuation + '$');
-    var WHITESPACE$1 = /^\s+$/;
+    var EMPTY_STRING = '';
+    var PUNCTUATION = new RegExp('^' + regExps.punctuation + '$');
+    var WHITESPACE = /^\s+$/;
 
-    var SETS = SETS$1;
+    var SETS$1 = SETS;
     var OTHER = characterIndices.OTHER;
     var getType = function (char) {
       var type = OTHER;
-      var setsLength = SETS.length;
+      var setsLength = SETS$1.length;
       for (var j = 0; j < setsLength; ++j) {
-        var set = SETS[j];
+        var set = SETS$1[j];
         if (set && set.test(char)) {
           type = j;
           break;
@@ -178,16 +178,16 @@
       return true;
     };
 
-    var EMPTY_STRING = EMPTY_STRING$1;
-    var WHITESPACE = WHITESPACE$1;
-    var PUNCTUATION = PUNCTUATION$1;
+    var EMPTY_STRING$1 = EMPTY_STRING;
+    var WHITESPACE$1 = WHITESPACE;
+    var PUNCTUATION$1 = PUNCTUATION;
     var isProtocol = function (str) {
       return str === 'http' || str === 'https';
     };
     var findWordEnd = function (characters, startIndex) {
       var i;
       for (i = startIndex; i < characters.length; i++) {
-        if (WHITESPACE.test(characters[i])) {
+        if (WHITESPACE$1.test(characters[i])) {
           break;
         }
       }
@@ -195,7 +195,7 @@
     };
     var findUrlEnd = function (characters, startIndex) {
       var endIndex = findWordEnd(characters, startIndex + 1);
-      var peakedWord = characters.slice(startIndex + 1, endIndex).join(EMPTY_STRING);
+      var peakedWord = characters.slice(startIndex + 1, endIndex).join(EMPTY_STRING$1);
       return peakedWord.substr(0, 3) === '://' ? endIndex : startIndex;
     };
     var findWords = function (chars, sChars, characterMap, options) {
@@ -205,10 +205,10 @@
         word.push(chars[i]);
         if (isWordBoundary(characterMap, i)) {
           var ch = sChars[i];
-          if ((options.includeWhitespace || !WHITESPACE.test(ch)) && (options.includePunctuation || !PUNCTUATION.test(ch))) {
+          if ((options.includeWhitespace || !WHITESPACE$1.test(ch)) && (options.includePunctuation || !PUNCTUATION$1.test(ch))) {
             var startOfWord = i - word.length + 1;
             var endOfWord = i + 1;
-            var str = sChars.slice(startOfWord, endOfWord).join(EMPTY_STRING);
+            var str = sChars.slice(startOfWord, endOfWord).join(EMPTY_STRING$1);
             if (isProtocol(str)) {
               var endOfUrl = findUrlEnd(sChars, i);
               var url = chars.slice(endOfWord, endOfUrl);
@@ -228,7 +228,7 @@
         includePunctuation: false
       };
     };
-    var getWords$1 = function (chars, extract, options) {
+    var getWords = function (chars, extract, options) {
       options = __assign(__assign({}, getDefaultOptions()), options);
       var filteredChars = [];
       var extractedChars = [];
@@ -243,7 +243,7 @@
       return findWords(filteredChars, extractedChars, characterMap, options);
     };
 
-    var getWords = getWords$1;
+    var getWords$1 = getWords;
 
     var global$1 = tinymce.util.Tools.resolve('tinymce.dom.TreeWalker');
 
@@ -275,7 +275,7 @@
     };
     var countWords = function (node, schema) {
       var text = getText(node, schema).join('\n');
-      return getWords(text.split(''), identity).length;
+      return getWords$1(text.split(''), identity).length;
     };
     var countCharacters = function (node, schema) {
       var text = getText(node, schema).join('');
@@ -313,6 +313,33 @@
         },
         getCount: createBodyWordCounter(editor)
       };
+    };
+
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.Delay');
+
+    var fireWordCountUpdate = function (editor, api) {
+      editor.fire('wordCountUpdate', {
+        wordCount: {
+          words: api.body.getWordCount(),
+          characters: api.body.getCharacterCount(),
+          charactersWithoutSpaces: api.body.getCharacterCountWithoutSpaces()
+        }
+      });
+    };
+
+    var updateCount = function (editor, api) {
+      fireWordCountUpdate(editor, api);
+    };
+    var setup = function (editor, api, delay) {
+      var debouncedUpdate = global$2.debounce(function () {
+        return updateCount(editor, api);
+      }, delay);
+      editor.on('init', function () {
+        updateCount(editor, api);
+        global$2.setEditorTimeout(editor, function () {
+          editor.on('SetContent BeforeAddUndo Undo Redo keyup', debouncedUpdate);
+        }, 0);
+      });
     };
 
     var open = function (editor, api) {
@@ -355,52 +382,20 @@
       });
     };
 
-    var register$1 = function (editor, api) {
-      editor.addCommand('mceWordCount', function () {
-        return open(editor, api);
-      });
-    };
-
-    var global = tinymce.util.Tools.resolve('tinymce.util.Delay');
-
-    var fireWordCountUpdate = function (editor, api) {
-      editor.fire('wordCountUpdate', {
-        wordCount: {
-          words: api.body.getWordCount(),
-          characters: api.body.getCharacterCount(),
-          charactersWithoutSpaces: api.body.getCharacterCountWithoutSpaces()
-        }
-      });
-    };
-
-    var updateCount = function (editor, api) {
-      fireWordCountUpdate(editor, api);
-    };
-    var setup = function (editor, api, delay) {
-      var debouncedUpdate = global.debounce(function () {
-        return updateCount(editor, api);
-      }, delay);
-      editor.on('init', function () {
-        updateCount(editor, api);
-        global.setEditorTimeout(editor, function () {
-          editor.on('SetContent BeforeAddUndo Undo Redo ViewUpdate keyup', debouncedUpdate);
-        }, 0);
-      });
-    };
-
-    var register = function (editor) {
-      var onAction = function () {
-        return editor.execCommand('mceWordCount');
-      };
+    var register = function (editor, api) {
       editor.ui.registry.addButton('wordcount', {
         tooltip: 'Word count',
         icon: 'character-count',
-        onAction: onAction
+        onAction: function () {
+          return open(editor, api);
+        }
       });
       editor.ui.registry.addMenuItem('wordcount', {
         text: 'Word count',
         icon: 'character-count',
-        onAction: onAction
+        onAction: function () {
+          return open(editor, api);
+        }
       });
     };
 
@@ -408,10 +403,9 @@
       if (delay === void 0) {
         delay = 300;
       }
-      global$2.add('wordcount', function (editor) {
+      global.add('wordcount', function (editor) {
         var api = get(editor);
-        register$1(editor, api);
-        register(editor);
+        register(editor, api);
         setup(editor, api, delay);
         return api;
       });

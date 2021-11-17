@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
@@ -23,7 +23,7 @@
       };
     };
 
-    var global$3 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var hasProPlugin = function (editor) {
       if (editor.hasPlugin('tinymcespellchecker', true)) {
@@ -46,11 +46,11 @@
       return true;
     };
 
-    var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.util.URI');
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.URI');
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.XHR');
+    var global$3 = tinymce.util.Tools.resolve('tinymce.util.XHR');
 
     var fireSpellcheckStart = function (editor) {
       return editor.fire('SpellcheckStart');
@@ -78,16 +78,16 @@
       return editor.getParam('spellchecker_wordchar_pattern', defaultPattern);
     };
 
-    var isContentEditableFalse = function (node) {
+    function isContentEditableFalse(node) {
       return node && node.nodeType === 1 && node.contentEditable === 'false';
-    };
+    }
     var DomTextMatcher = function (node, editor) {
       var m, matches = [];
       var dom = editor.dom;
       var blockElementsMap = editor.schema.getBlockElements();
       var hiddenTextElementsMap = editor.schema.getWhiteSpaceElements();
       var shortEndedElementsMap = editor.schema.getShortEndedElements();
-      var createMatch = function (m, data) {
+      function createMatch(m, data) {
         if (!m[0]) {
           throw new Error('findAndReplaceDOMText cannot handle zero-length matches');
         }
@@ -97,8 +97,9 @@
           text: m[0],
           data: data
         };
-      };
-      var getText = function (node) {
+      }
+      function getText(node) {
+        var txt;
         if (node.nodeType === 3) {
           return node.data;
         }
@@ -108,7 +109,7 @@
         if (isContentEditableFalse(node)) {
           return '\n';
         }
-        var txt = '';
+        txt = '';
         if (blockElementsMap[node.nodeName] || shortEndedElementsMap[node.nodeName]) {
           txt += '\n';
         }
@@ -118,8 +119,8 @@
           } while (node = node.nextSibling);
         }
         return txt;
-      };
-      var stepThroughMatches = function (node, matches, replaceFn) {
+      }
+      function stepThroughMatches(node, matches, replaceFn) {
         var startNode, endNode, startNodeIndex, endNodeIndex, innerNodes = [], atIndex = 0, curNode = node, matchLocation, matchIndex = 0;
         matches = matches.slice(0);
         matches.sort(function (a, b) {
@@ -183,20 +184,20 @@
               }
             }
           }
-      };
-      var genReplacer = function (callback) {
-        var makeReplacementNode = function (fill, matchIndex) {
+      }
+      function genReplacer(callback) {
+        function makeReplacementNode(fill, matchIndex) {
           var match = matches[matchIndex];
           if (!match.stencil) {
             match.stencil = callback(match);
           }
           var clone = match.stencil.cloneNode(false);
-          clone.setAttribute('data-mce-index', '' + matchIndex);
+          clone.setAttribute('data-mce-index', matchIndex);
           if (fill) {
             clone.appendChild(dom.doc.createTextNode(fill));
           }
           return clone;
-        };
+        }
         return function (range) {
           var before;
           var after;
@@ -240,18 +241,18 @@
           parentNode.removeChild(endNode);
           return elB;
         };
-      };
-      var unwrapElement = function (element) {
+      }
+      function unwrapElement(element) {
         var parentNode = element.parentNode;
         while (element.childNodes.length > 0) {
           parentNode.insertBefore(element.childNodes[0], element);
         }
         parentNode.removeChild(element);
-      };
-      var hasClass = function (elm) {
+      }
+      function hasClass(elm) {
         return elm.className.indexOf('mce-spellchecker-word') !== -1;
-      };
-      var getWrappersByIndex = function (index) {
+      }
+      function getWrappersByIndex(index) {
         var elements = node.getElementsByTagName('*'), wrappers = [];
         index = typeof index === 'number' ? '' + index : null;
         for (var i = 0; i < elements.length; i++) {
@@ -263,8 +264,8 @@
           }
         }
         return wrappers;
-      };
-      var indexOf = function (match) {
+      }
+      function indexOf(match) {
         var i = matches.length;
         while (i--) {
           if (matches[i] === match) {
@@ -272,7 +273,7 @@
           }
         }
         return -1;
-      };
+      }
       function filter(callback) {
         var filteredMatches = [];
         each(function (match, i) {
@@ -314,12 +315,12 @@
         }
         return this;
       }
-      var matchFromElement = function (element) {
+      function matchFromElement(element) {
         return matches[element.getAttribute('data-mce-index')];
-      };
-      var elementFromMatch = function (match) {
+      }
+      function elementFromMatch(match) {
         return getWrappersByIndex(indexOf(match))[0];
-      };
+      }
       function add(start, length, data) {
         matches.push({
           start: start,
@@ -329,21 +330,21 @@
         });
         return this;
       }
-      var rangeFromMatch = function (match) {
+      function rangeFromMatch(match) {
         var wrappers = getWrappersByIndex(indexOf(match));
         var rng = editor.dom.createRng();
         rng.setStartBefore(wrappers[0]);
         rng.setEndAfter(wrappers[wrappers.length - 1]);
         return rng;
-      };
-      var replace = function (match, text) {
+      }
+      function replace(match, text) {
         var rng = rangeFromMatch(match);
         rng.deleteContents();
         if (text.length > 0) {
           rng.insertNode(editor.dom.doc.createTextNode(text));
         }
         return rng;
-      };
+      }
       function reset() {
         matches.splice(0, matches.length);
         unwrap();
@@ -383,14 +384,14 @@
         };
         var postData = '';
         data[method === 'addToDictionary' ? 'word' : 'text'] = text;
-        global$2.each(data, function (value, key) {
+        global$1.each(data, function (value, key) {
           if (postData) {
             postData += '&';
           }
           postData += key + '=' + encodeURIComponent(value);
         });
-        global.send({
-          url: new global$1(pluginUrl).toAbsolute(getRpcUrl(editor)),
+        global$3.send({
+          url: new global$2(pluginUrl).toAbsolute(getRpcUrl(editor)),
           type: 'post',
           content_type: 'application/x-www-form-urlencoded',
           data: postData,
@@ -458,7 +459,7 @@
     var ignoreWord = function (editor, startedState, textMatcherState, word, spans, all) {
       editor.selection.collapse();
       if (all) {
-        global$2.each(editor.dom.select('span.mce-spellchecker-word'), function (span) {
+        global$1.each(editor.dom.select('span.mce-spellchecker-word'), function (span) {
           if (span.getAttribute('data-mce-word') === word) {
             editor.dom.remove(span, true);
           }
@@ -488,7 +489,7 @@
     };
     var findSpansByIndex = function (editor, index) {
       var spans = [];
-      var nodes = global$2.toArray(editor.getBody().getElementsByTagName('span'));
+      var nodes = global$1.toArray(editor.getBody().getElementsByTagName('span'));
       if (nodes.length) {
         for (var i = 0; i < nodes.length; i++) {
           var nodeIndex = getElmIndex(nodes[i]);
@@ -535,22 +536,28 @@
       fireSpellcheckStart(editor);
     };
 
-    var get = function (editor, startedState, lastSuggestionsState, textMatcherState, currentLanguageState) {
+    var get = function (editor, startedState, lastSuggestionsState, textMatcherState, currentLanguageState, _url) {
+      var getLanguage = function () {
+        return currentLanguageState.get();
+      };
       var getWordCharPattern = function () {
         return getSpellcheckerWordcharPattern(editor);
       };
       var markErrors$1 = function (data) {
         markErrors(editor, startedState, textMatcherState, lastSuggestionsState, data);
       };
+      var getTextMatcher = function () {
+        return textMatcherState.get();
+      };
       return {
-        getTextMatcher: textMatcherState.get,
+        getTextMatcher: getTextMatcher,
         getWordCharPattern: getWordCharPattern,
         markErrors: markErrors$1,
-        getLanguage: currentLanguageState.get
+        getLanguage: getLanguage
       };
     };
 
-    var register$1 = function (editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState) {
+    var register = function (editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState) {
       editor.addCommand('mceSpellCheck', function () {
         spellcheck(editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState);
       });
@@ -572,7 +579,7 @@
     var spellcheckerEvents = 'SpellcheckStart SpellcheckEnd';
     var buildMenuItems = function (listName, languageValues) {
       var items = [];
-      global$2.each(languageValues, function (languageValue) {
+      global$1.each(languageValues, function (languageValue) {
         items.push({
           selectable: true,
           text: languageValue.name,
@@ -582,7 +589,7 @@
       return items;
     };
     var getItems = function (editor) {
-      return global$2.map(getLanguages(editor).split(','), function (langPair) {
+      return global$1.map(getLanguages(editor).split(','), function (langPair) {
         var langPairs = langPair.split('=');
         return {
           name: langPairs[0],
@@ -590,7 +597,7 @@
         };
       });
     };
-    var register = function (editor, pluginUrl, startedState, textMatcherState, currentLanguageState, lastSuggestionsState) {
+    var register$1 = function (editor, pluginUrl, startedState, textMatcherState, currentLanguageState, lastSuggestionsState) {
       var languageMenuItems = buildMenuItems('Language', getItems(editor));
       var startSpellchecking = function () {
         spellcheck(editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState);
@@ -615,7 +622,7 @@
           return value === currentLanguageState.get();
         },
         fetch: function (callback) {
-          var items = global$2.map(languageMenuItems, function (languageItem) {
+          var items = global$1.map(languageMenuItems, function (languageItem) {
             return {
               type: 'choiceitem',
               value: languageItem.data,
@@ -654,7 +661,7 @@
     var getSuggestions = function (editor, pluginUrl, lastSuggestionsState, startedState, textMatcherState, currentLanguageState, word, spans) {
       var items = [];
       var suggestions = lastSuggestionsState.get().suggestions[word];
-      global$2.each(suggestions, function (suggestion) {
+      global$1.each(suggestions, function (suggestion) {
         items.push({
           text: suggestion,
           onAction: function () {
@@ -711,15 +718,15 @@
     };
 
     function Plugin () {
-      global$3.add('spellchecker', function (editor, pluginUrl) {
+      global.add('spellchecker', function (editor, pluginUrl) {
         if (hasProPlugin(editor) === false) {
           var startedState = Cell(false);
           var currentLanguageState = Cell(getLanguage(editor));
           var textMatcherState = Cell(null);
           var lastSuggestionsState = Cell(null);
-          register(editor, pluginUrl, startedState, textMatcherState, currentLanguageState, lastSuggestionsState);
+          register$1(editor, pluginUrl, startedState, textMatcherState, currentLanguageState, lastSuggestionsState);
           setup(editor, pluginUrl, lastSuggestionsState, startedState, textMatcherState, currentLanguageState);
-          register$1(editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState);
+          register(editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState);
           return get(editor, startedState, lastSuggestionsState, textMatcherState, currentLanguageState);
         }
       });

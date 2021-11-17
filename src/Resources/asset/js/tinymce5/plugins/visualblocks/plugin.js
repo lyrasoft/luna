@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
@@ -36,7 +36,7 @@
       fireVisualBlocks(editor, enabledState.get());
     };
 
-    var register$1 = function (editor, pluginUrl, enabledState) {
+    var register = function (editor, pluginUrl, enabledState) {
       editor.addCommand('mceVisualBlocks', function () {
         toggleVisualBlocks(editor, pluginUrl, enabledState);
       });
@@ -71,20 +71,21 @@
         };
       };
     };
-    var register = function (editor, enabledState) {
-      var onAction = function () {
-        return editor.execCommand('mceVisualBlocks');
-      };
+    var register$1 = function (editor, enabledState) {
       editor.ui.registry.addToggleButton('visualblocks', {
         icon: 'visualblocks',
         tooltip: 'Show blocks',
-        onAction: onAction,
+        onAction: function () {
+          return editor.execCommand('mceVisualBlocks');
+        },
         onSetup: toggleActiveState(editor, enabledState)
       });
       editor.ui.registry.addToggleMenuItem('visualblocks', {
         text: 'Show blocks',
         icon: 'visualblocks',
-        onAction: onAction,
+        onAction: function () {
+          return editor.execCommand('mceVisualBlocks');
+        },
         onSetup: toggleActiveState(editor, enabledState)
       });
     };
@@ -92,8 +93,8 @@
     function Plugin () {
       global.add('visualblocks', function (editor, pluginUrl) {
         var enabledState = Cell(false);
-        register$1(editor, pluginUrl, enabledState);
-        register(editor, enabledState);
+        register(editor, pluginUrl, enabledState);
+        register$1(editor, enabledState);
         setup(editor, pluginUrl, enabledState);
       });
     }

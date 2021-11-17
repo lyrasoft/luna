@@ -3,25 +3,19 @@
 	"description": "Web based JavaScript HTML WYSIWYG editor control.",
 	"license": "LGPL-2.1",
 	"keywords": [
+		"editor",
 		"wysiwyg",
 		"tinymce",
 		"richtext",
 		"javascript",
-		"html",
-		"text",
-		"rich editor",
-		"rich text editor",
-		"rte",
-		"rich text",
-		"contenteditable",
-		"editing"
+		"html"
 	],
-	"homepage": "https://www.tiny.cloud/",
+	"homepage": "http://www.tinymce.com",
 	"ignore": [
-		"README.md",
+		"readme.md",
 		"composer.json",
 		"package.json",
 		".npmignore",
-		"CHANGELOG.md"
+		"changelog.txt"
 	]
 }

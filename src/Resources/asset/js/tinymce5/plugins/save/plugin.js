@@ -4,16 +4,16 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
 
-    var global$2 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var global$1 = tinymce.util.Tools.resolve('tinymce.dom.DOMUtils');
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var enableWhenDirty = function (editor) {
       return editor.getParam('save_enablewhendirty', true);
@@ -57,7 +57,7 @@
       }
     };
     var cancel = function (editor) {
-      var h = global.trim(editor.startContent);
+      var h = global$2.trim(editor.startContent);
       if (hasOnCancelCallback(editor)) {
         editor.execCallback('save_oncancelcallback', editor);
         return;
@@ -65,7 +65,7 @@
       editor.resetContent(h);
     };
 
-    var register$1 = function (editor) {
+    var register = function (editor) {
       editor.addCommand('mceSave', function () {
         save(editor);
       });
@@ -79,14 +79,13 @@
         var handler = function () {
           api.setDisabled(enableWhenDirty(editor) && !editor.isDirty());
         };
-        handler();
         editor.on('NodeChange dirty', handler);
         return function () {
           return editor.off('NodeChange dirty', handler);
         };
       };
     };
-    var register = function (editor) {
+    var register$1 = function (editor) {
       editor.ui.registry.addButton('save', {
         icon: 'save',
         tooltip: 'Save',
@@ -109,9 +108,9 @@
     };
 
     function Plugin () {
-      global$2.add('save', function (editor) {
-        register(editor);
+      global.add('save', function (editor) {
         register$1(editor);
+        register(editor);
       });
     }
 

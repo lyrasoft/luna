@@ -4,12 +4,12 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var getDateFormat = function (editor) {
       return editor.getParam('insertdatetime_dateformat', editor.translate('%Y-%m-%d'));
@@ -47,9 +47,7 @@
       return value;
     };
     var getDateTime = function (editor, fmt, date) {
-      if (date === void 0) {
-        date = new Date();
-      }
+      date = date || new Date();
       fmt = fmt.replace('%D', '%m/%d/%Y');
       fmt = fmt.replace('%r', '%I:%M:%S %p');
       fmt = fmt.replace('%Y', '' + date.getFullYear());
@@ -95,12 +93,12 @@
       }
     };
 
-    var register$1 = function (editor) {
-      editor.addCommand('mceInsertDate', function (_ui, value) {
-        insertDateTime(editor, value !== null && value !== void 0 ? value : getDateFormat(editor));
+    var register = function (editor) {
+      editor.addCommand('mceInsertDate', function () {
+        insertDateTime(editor, getDateFormat(editor));
       });
-      editor.addCommand('mceInsertTime', function (_ui, value) {
-        insertDateTime(editor, value !== null && value !== void 0 ? value : getTimeFormat(editor));
+      editor.addCommand('mceInsertTime', function () {
+        insertDateTime(editor, getTimeFormat(editor));
       });
     };
 
@@ -118,14 +116,11 @@
       };
     };
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
-    var register = function (editor) {
+    var register$1 = function (editor) {
       var formats = getFormats(editor);
       var defaultFormat = Cell(getDefaultDateTime(editor));
-      var insertDateTime = function (format) {
-        return editor.execCommand('mceInsertDate', false, format);
-      };
       editor.ui.registry.addSplitButton('insertdatetime', {
         icon: 'insert-time',
         tooltip: 'Insert date/time',
@@ -133,7 +128,7 @@
           return value === defaultFormat.get();
         },
         fetch: function (done) {
-          done(global.map(formats, function (format) {
+          done(global$1.map(formats, function (format) {
             return {
               type: 'choiceitem',
               text: getDateTime(editor, format),
@@ -142,24 +137,24 @@
           }));
         },
         onAction: function (_api) {
-          insertDateTime(defaultFormat.get());
+          insertDateTime(editor, defaultFormat.get());
         },
         onItemAction: function (_api, value) {
           defaultFormat.set(value);
-          insertDateTime(value);
+          insertDateTime(editor, value);
         }
       });
       var makeMenuItemHandler = function (format) {
         return function () {
           defaultFormat.set(format);
-          insertDateTime(format);
+          insertDateTime(editor, format);
         };
       };
       editor.ui.registry.addNestedMenuItem('insertdatetime', {
         icon: 'insert-time',
         text: 'Date/time',
         getSubmenuItems: function () {
-          return global.map(formats, function (format) {
+          return global$1.map(formats, function (format) {
             return {
               type: 'menuitem',
               text: getDateTime(editor, format),
@@ -171,9 +166,9 @@
     };
 
     function Plugin () {
-      global$1.add('insertdatetime', function (editor) {
-        register$1(editor);
+      global.add('insertdatetime', function (editor) {
         register(editor);
+        register$1(editor);
       });
     }
 

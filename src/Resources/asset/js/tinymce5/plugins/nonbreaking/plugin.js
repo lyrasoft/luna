@@ -4,12 +4,12 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var getKeyboardSpaces = function (editor) {
       var spaces = editor.getParam('nonbreaking_force_tab', 0);
@@ -47,19 +47,19 @@
       });
     };
 
-    var register$1 = function (editor) {
+    var register = function (editor) {
       editor.addCommand('mceNonBreaking', function () {
         insertNbsp(editor, 1);
       });
     };
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.VK');
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.VK');
 
     var setup = function (editor) {
       var spaces = getKeyboardSpaces(editor);
       if (spaces > 0) {
         editor.on('keydown', function (e) {
-          if (e.keyCode === global.TAB && !e.isDefaultPrevented()) {
+          if (e.keyCode === global$1.TAB && !e.isDefaultPrevented()) {
             if (e.shiftKey) {
               return;
             }
@@ -71,26 +71,27 @@
       }
     };
 
-    var register = function (editor) {
-      var onAction = function () {
-        return editor.execCommand('mceNonBreaking');
-      };
+    var register$1 = function (editor) {
       editor.ui.registry.addButton('nonbreaking', {
         icon: 'non-breaking',
         tooltip: 'Nonbreaking space',
-        onAction: onAction
+        onAction: function () {
+          return editor.execCommand('mceNonBreaking');
+        }
       });
       editor.ui.registry.addMenuItem('nonbreaking', {
         icon: 'non-breaking',
         text: 'Nonbreaking space',
-        onAction: onAction
+        onAction: function () {
+          return editor.execCommand('mceNonBreaking');
+        }
       });
     };
 
     function Plugin () {
-      global$1.add('nonbreaking', function (editor) {
-        register$1(editor);
+      global.add('nonbreaking', function (editor) {
         register(editor);
+        register$1(editor);
         setup(editor);
       });
     }

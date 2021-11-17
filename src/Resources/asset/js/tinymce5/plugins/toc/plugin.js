@@ -4,18 +4,18 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
 
-    var global$3 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-    var global$2 = tinymce.util.Tools.resolve('tinymce.dom.DOMUtils');
+    var global$1 = tinymce.util.Tools.resolve('tinymce.dom.DOMUtils');
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.util.I18n');
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.I18n');
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    var global$3 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var getTocClass = function (editor) {
       return editor.getParam('toc_class', 'mce-toc');
@@ -59,7 +59,7 @@
           return !editor.dom.hasClass(el.parentNode, tocClass);
         });
       }
-      return global.map(headers, function (h) {
+      return global$3.map(headers, function (h) {
         var id = h.id;
         return {
           id: id ? id : tocId(),
@@ -70,8 +70,8 @@
       });
     };
     var getMinLevel = function (headers) {
-      var minLevel = 9;
-      for (var i = 0; i < headers.length; i++) {
+      var i, minLevel = 9;
+      for (i = 0; i < headers.length; i++) {
         if (headers[i].level < minLevel) {
           minLevel = headers[i].level;
         }
@@ -84,7 +84,7 @@
     var generateTitle = function (tag, title) {
       var openTag = '<' + tag + ' contenteditable="true">';
       var closeTag = '</' + tag + '>';
-      return openTag + global$2.DOM.encode(title) + closeTag;
+      return openTag + global$1.DOM.encode(title) + closeTag;
     };
     var generateTocHtml = function (editor) {
       var html = generateTocContentHtml(editor);
@@ -94,18 +94,19 @@
       var html = '';
       var headers = readHeaders(editor);
       var prevLevel = getMinLevel(headers) - 1;
+      var i, ii, h, nextLevel;
       if (!headers.length) {
         return '';
       }
-      html += generateTitle(getTocHeader(editor), global$1.translate('Table of Contents'));
-      for (var i = 0; i < headers.length; i++) {
-        var h = headers[i];
+      html += generateTitle(getTocHeader(editor), global$2.translate('Table of Contents'));
+      for (i = 0; i < headers.length; i++) {
+        h = headers[i];
         h.element.id = h.id;
-        var nextLevel = headers[i + 1] && headers[i + 1].level;
+        nextLevel = headers[i + 1] && headers[i + 1].level;
         if (prevLevel === h.level) {
           html += '<li>';
         } else {
-          for (var ii = prevLevel; ii < h.level; ii++) {
+          for (ii = prevLevel; ii < h.level; ii++) {
             html += '<ul><li>';
           }
         }
@@ -116,7 +117,7 @@
             html += '</ul>';
           }
         } else {
-          for (var ii = h.level; ii > nextLevel; ii--) {
+          for (ii = h.level; ii > nextLevel; ii--) {
             html += '</li></ul><li>';
           }
         }
@@ -124,13 +125,13 @@
       }
       return html;
     };
-    var isEmptyOrOffscreen = function (editor, nodes) {
+    var isEmptyOrOffscren = function (editor, nodes) {
       return !nodes.length || editor.dom.getParents(nodes[0], '.mce-offscreen-selection').length > 0;
     };
     var insertToc = function (editor) {
       var tocClass = getTocClass(editor);
       var $tocElm = editor.$('.' + tocClass);
-      if (isEmptyOrOffscreen(editor, $tocElm)) {
+      if (isEmptyOrOffscren(editor, $tocElm)) {
         editor.insertContent(generateTocHtml(editor));
       } else {
         updateToc(editor);
@@ -146,7 +147,7 @@
       }
     };
 
-    var register$1 = function (editor) {
+    var register = function (editor) {
       editor.addCommand('mceInsertToc', function () {
         insertToc(editor);
       });
@@ -190,14 +191,13 @@
         return elm && editor.dom.is(elm, '.' + getTocClass(editor)) && editor.getBody().contains(elm);
       };
     };
-    var register = function (editor) {
-      var insertTocAction = function () {
-        return editor.execCommand('mceInsertToc');
-      };
+    var register$1 = function (editor) {
       editor.ui.registry.addButton('toc', {
         icon: 'toc',
         tooltip: 'Table of contents',
-        onAction: insertTocAction,
+        onAction: function () {
+          return editor.execCommand('mceInsertToc');
+        },
         onSetup: toggleState(editor)
       });
       editor.ui.registry.addButton('tocupdate', {
@@ -210,7 +210,9 @@
       editor.ui.registry.addMenuItem('toc', {
         icon: 'toc',
         text: 'Table of contents',
-        onAction: insertTocAction,
+        onAction: function () {
+          return editor.execCommand('mceInsertToc');
+        },
         onSetup: toggleState(editor)
       });
       editor.ui.registry.addContextToolbar('toc', {
@@ -222,9 +224,9 @@
     };
 
     function Plugin () {
-      global$3.add('toc', function (editor) {
-        register$1(editor);
+      global.add('toc', function (editor) {
         register(editor);
+        register$1(editor);
         setup(editor);
       });
     }

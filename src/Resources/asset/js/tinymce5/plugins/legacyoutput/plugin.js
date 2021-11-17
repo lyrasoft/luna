@@ -4,14 +4,14 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.0 (2021-10-11)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var getFontSizeFormats = function (editor) {
       return editor.getParam('fontsize_formats');
@@ -33,7 +33,7 @@
     };
 
     var overrideFormats = function (editor) {
-      var alignElements = 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table', fontSizes = global.explode(getFontSizeStyleValues(editor)), schema = editor.schema;
+      var alignElements = 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table', fontSizes = global$1.explode(getFontSizeStyleValues(editor)), schema = editor.schema;
       editor.formatter.register({
         alignleft: {
           selector: alignElements,
@@ -135,7 +135,7 @@
           toggle: false,
           attributes: {
             size: function (vars) {
-              return String(global.inArray(fontSizes, vars.value) + 1);
+              return String(global$1.inArray(fontSizes, vars.value) + 1);
             }
           }
         },
@@ -154,13 +154,13 @@
           clear_child_styles: true
         }
       });
-      global.each('b,i,u,strike'.split(','), function (name) {
+      global$1.each('b,i,u,strike'.split(','), function (name) {
         schema.addValidElements(name + '[*]');
       });
       if (!schema.getElementRule('font')) {
         schema.addValidElements('font[face|size|color|style]');
       }
-      global.each(alignElements.split(','), function (name) {
+      global$1.each(alignElements.split(','), function (name) {
         var rule = schema.getElementRule(name);
         if (rule) {
           if (!rule.attributes.align) {
@@ -189,7 +189,7 @@
     };
 
     function Plugin () {
-      global$1.add('legacyoutput', function (editor) {
+      global.add('legacyoutput', function (editor) {
         setup(editor);
       });
     }
