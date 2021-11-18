@@ -18,6 +18,8 @@ use Windwalker\Core\Router\Navigator;
 
 /**
  * Interface MenuNodeInterface
+ *
+ * @method MenuNodeInterface[] getChildren
  */
 interface MenuNodeInterface extends NodeInterface
 {

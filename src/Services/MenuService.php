@@ -11,14 +11,16 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Services;
 
-use App\Repository\MenuRepository;
 use Lyrasoft\Luna\Entity\Menu;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
+use Lyrasoft\Luna\Menu\MenuBuilder;
 use Lyrasoft\Luna\Menu\Tree\DbMenuNode;
+use Lyrasoft\Luna\Menu\Tree\MenuNode;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Unicorn\Enum\BasicState;
+use Unicorn\Legacy\Html\MenuHelper;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Renderer\RendererService;
@@ -42,6 +44,11 @@ class MenuService
     ) {
     }
 
+    public function createBuilder(string $name): MenuBuilder
+    {
+        return $this->app->make(MenuBuilder::class)->createTree($name);
+    }
+
     /**
      * createTree
      *
@@ -57,6 +64,11 @@ class MenuService
             'parentId',
             DbMenuNode::class
         );
+    }
+
+    public function loadMenuFromFile(string $name, string|array $path): MenuNode
+    {
+        return $this->createBuilder($name)->load($path)->getTree();
     }
 
     /**

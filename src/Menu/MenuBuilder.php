@@ -14,6 +14,7 @@ namespace Lyrasoft\Luna\Menu;
 use Lyrasoft\Luna\Menu\Tree\MenuNode;
 use Lyrasoft\Luna\Menu\Tree\MenuNodeInterface;
 use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Filesystem\Filesystem;
 
@@ -22,6 +23,8 @@ use Windwalker\Filesystem\Filesystem;
  */
 class MenuBuilder
 {
+    use TranslatorTrait;
+
     protected MenuNode $root;
 
     protected ?MenuNodeInterface $current;
@@ -143,8 +146,9 @@ class MenuBuilder
         $files = Filesystem::globAll($paths);
 
         $menu = $this;
-        $app = $this->app;
-        $nav = $app->service(Navigator::class);
+        $app  = $this->app;
+        $nav  = $app->service(Navigator::class);
+        $lang = $this->lang;
 
         foreach ($files as $file) {
             include $file->getPathname();
