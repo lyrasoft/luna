@@ -1,6 +1,7 @@
 <template>
   <div>
-    <CModal :visible="modalShow" size="lg" @close="modalShow = false" @show="onShow">
+    <CModal :visible="modalShow" size="lg" @close="modalShow = false"
+      backdrop="static">
       <CModalHeader class="d-flex bg-white" :class="{'sticky-top': sticky}"
         :close-button="false">
         <!-- Tabs -->
@@ -430,18 +431,18 @@
 
 <script>
 import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
-import { savePage as doSavePage } from '../../services/page-builder/page-builder.service';
-import UnicornSwitcher from '../form/unicorn-switcher';
-import ColorInput from './form/ColorInput';
-import RwdGroup from "./form/RwdGroup";
-import Animations from "./form/Animations";
-import BoxOffset from "./form/BoxOffset";
-import ButtonRadio from './form/ButtonRadio';
-import SingleImage from "./form/SingleImage";
-import Gradient from "./form/Gradient";
-import SliderInput from './form/SliderInput';
-import TitleOptions from './form/TitleOptions';
-import { CodeMirrorOptions, refreshCodeMirror } from "../../services/page-builder/codemirror";
+import { savePage as doSavePage } from '@/services/page-builder/page-builder.service';
+import UnicornSwitcher from '@/components/form/UnicornSwitcher';
+import ColorInput from '@/components/page-builder/form/ColorInput';
+import RwdGroup from "@/components/page-builder/form/RwdGroup";
+import Animations from "@/components/page-builder/form/Animations";
+import BoxOffset from "@/components/page-builder/form/BoxOffset";
+import ButtonRadio from '@/components/page-builder/form/ButtonRadio';
+import SingleImage from "@/components/page-builder/form/SingleImage";
+import Gradient from "@/components/page-builder/form/Gradient";
+import SliderInput from '@/components/page-builder/form/SliderInput';
+import TitleOptions from '@/components/page-builder/form/TitleOptions';
+import { CodeMirrorOptions, refreshCodeMirror } from "@/services/page-builder/codemirror";
 import { CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter } from '@coreui/vue';
 
 export default {

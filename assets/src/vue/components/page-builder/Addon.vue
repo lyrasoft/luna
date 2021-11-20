@@ -1,5 +1,5 @@
 <template>
-  <div class="card c-addon-instance move-handle" style="cursor: move;" :disabled="content.disabled">
+  <div class="card c-addon-instance move-handle" style="cursor: move;" :disabled="content.disabled ? true : null">
     <div class="card-body d-flex">
       <div class="c-addon-instance__icon">
         <span :class="content.icon"></span>
@@ -33,7 +33,7 @@
           <span class="fa fa-fw fa-copy"></span>
         </a>
         <a href="#" class="text-dark"
-          v-c-tooltip.hover="[content.disabled ? 'Enabled' : 'Disabled']"
+          v-c-tooltip.hover="content.disabled ? 'Enabled' : 'Disabled'"
           @click.prevent="toggleDisabled()">
           <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye-slash' : 'fa-eye']"></span>
         </a>

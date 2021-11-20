@@ -1,6 +1,7 @@
 <template>
   <div>
-    <CModal :visible="modalShow" size="lg" @close="modalShow = false">
+    <CModal :visible="modalShow" size="lg" @close="modalShow = false"
+      backdrop="static">
       <CModalHeader class="d-flex bg-white" :class="{'sticky-top': sticky}"
         :close-button="false">
         <ul class="nav nav-pills border-0">
@@ -484,7 +485,7 @@ import { range } from 'lodash-es';
 import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { savePage as doSavePage } from '../../services/page-builder/page-builder.service';
 import { CodeMirrorOptions, refreshCodeMirror } from '../../services/page-builder/codemirror';
-import UnicornSwitcher from '../form/unicorn-switcher';
+import UnicornSwitcher from '../form/UnicornSwitcher';
 import Animations from "./form/Animations";
 import BoxOffset from "./form/BoxOffset";
 import ButtonRadio from './form/ButtonRadio';

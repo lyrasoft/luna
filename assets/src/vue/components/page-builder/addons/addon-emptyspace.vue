@@ -1,19 +1,21 @@
 <template>
   <div>
     <!-- Border Radius -->
-    <rwd-group class-name="c-empty-height">
-      <label slot="label">
-        Height
-      </label>
-      <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+    <RwdGroup class-name="c-empty-height">
+      <template #label>
+        <label>
+          Height
+        </label>
+      </template>
+      <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+        v-slot:[size]
         :class="'c-empty-height__' + size">
-        <div class="d-flex">
-          <vue-slide-bar v-model="options.height[size]" class="flex-grow-1" :max="1000"></vue-slide-bar>
-          <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-            v-model="options.height[size]" />
-        </div>
-      </div>
-    </rwd-group>
+        <SliderInput
+          v-model="options.height[size]"
+          :max="1000"
+        />
+      </template>
+    </RwdGroup>
 
     <!-- LINK -->
     <div class="form-group mb-3">
@@ -26,28 +28,33 @@
     <div class="form-group mb-3" v-if="options.link !== ''">
       <label for="input-addon-edit-link-target">Open in New Window</label>
       <div>
-        <unicorn-switcher name="addon-edit-link-target"
+        <UnicornSwitcher name="addon-edit-link-target"
           v-model="options.link_target"
           id="input-addon-edit-link-target"
           shape="circle"
           color="success"
           true-value="_blank"
-          false-value=""></unicorn-switcher>
+          false-value=""
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import TitleOptions from "../form/title-options";
-import RwdGroup from "../form/rwd-group";
-
+import lunaAddonMixin from '@/services/page-builder/addon-mixin';
+import UnicornSwitcher from '@/components/form/UnicornSwitcher';
+import RwdGroup from '@/components/page-builder/form/RwdGroup';
+import SliderInput from '@/components/page-builder/form/SliderInput';
+import { toRefs } from 'vue';
 export default {
-  name: "addon-empty",
-  components: { TitleOptions, RwdGroup },
-  mixins: [LunaAddonMixin],
-  data() {
-    return {
+  name: "addon-emptyspace",
+  components: { UnicornSwitcher, SliderInput, RwdGroup },
+  props: {
+    ...lunaAddonMixin.props
+  },
+  setup(props, ctx) {
+    const state = lunaAddonMixin(props, ctx, {
       options: {
         height: {
           lg: '',
@@ -57,7 +64,11 @@ export default {
         link: '',
         link_target: ''
       }
-    }
+    });
+
+    return {
+      ...toRefs(state)
+    };
   }
 }
 </script>

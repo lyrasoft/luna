@@ -8,8 +8,8 @@
       <small class="form-text text-muted">The main title of this section, keep empty to hide it.</small>
     </div>
 
-    <title-options v-if="options.title.text !== ''"
-      id="input-addon-edit" v-model="options"></title-options>
+    <TitleOptions v-if="options.title.text !== ''"
+      id="input-addon-edit" v-model="options"></TitleOptions>
 
     <hr />
 
@@ -24,11 +24,17 @@
     <div class="form-group mb-3" v-if="options.link !== ''">
       <label for="input-addon-edit-link-element">Link Element</label>
       <div>
-        <b-form-radio-group v-model="options.link_element" buttons button-variant="outline-primary">
-          <b-form-radio value="title">Title</b-form-radio>
-          <b-form-radio value="icon">Icon/Image</b-form-radio>
-          <b-form-radio value="both">Both</b-form-radio>
-        </b-form-radio-group>
+        <ButtonRadio
+          color="primary"
+          variant="outline"
+          class="w-100"
+          v-model="options.link_element"
+          :options="[
+            { text: 'Title', value: 'title' },
+            { text: 'Icon/Image', value: 'icon' },
+            { text: 'Both', value: 'both' },
+          ]"
+        />
       </div>
     </div>
 
@@ -38,10 +44,16 @@
     <div class="form-group mb-3">
       <label for="input-addon-edit-layout-type">Layout Type</label>
       <div>
-        <b-form-radio-group v-model="options.layout_type" buttons button-variant="outline-primary">
-          <b-form-radio value="icon">Icon</b-form-radio>
-          <b-form-radio value="image">Image</b-form-radio>
-        </b-form-radio-group>
+        <ButtonRadio
+          color="primary"
+          variant="outline"
+          class="w-100"
+          v-model="options.layout_type"
+          :options="[
+            { text: 'Icon', value: 'icon' },
+            { text: 'Image', value: 'image' },
+          ]"
+        />
       </div>
     </div>
 
@@ -49,8 +61,8 @@
       <!-- Image -->
       <div class="form-group mb-3">
         <label for="input-addon-edit-image">Image</label>
-        <single-image v-model="options.image"
-          id="input-addon-edit-image"></single-image>
+        <SingleImage v-model="options.image"
+          id="input-addon-edit-image"></SingleImage>
       </div>
     </div>
 
@@ -60,11 +72,9 @@
       <div class="form-group mb-3">
         <label for="input-addon-edit-icon-name">Icon Class</label>
         <div class="input-group mb-3">
-          <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <span :class="options.icon.name"></span>
-                        </span>
-          </div>
+          <span class="input-group-text">
+              <span :class="options.icon.name"></span>
+          </span>
           <input id="input-addon-edit-icon-name" type="text"
             v-model="options.icon.name" class="form-control" />
         </div>
@@ -75,35 +85,39 @@
       </div>
 
       <!-- Title Font Size -->
-      <rwd-group class-name="c-title-font-size">
-        <label slot="label">
-          Title Font Size
-        </label>
-        <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+      <RwdGroup class-name="c-title-font-size">
+        <template #label>
+          <label>
+            Title Font Size
+          </label>
+        </template>
+        <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+          v-slot:[size]
           :class="'c-title-font-size__' + size">
-          <div class="d-flex">
-            <vue-slide-bar v-model="options.icon.font_size[size]" class="flex-grow-1" :max="500"></vue-slide-bar>
-            <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-              v-model="options.icon.font_size[size]" />
-          </div>
-        </div>
-      </rwd-group>
+          <SliderInput
+            v-model="options.icon.font_size[size]"
+            :max="500"
+          />
+        </template>
+      </RwdGroup>
 
       <div class="form-row row">
         <div class="col-6">
           <!-- Title Color -->
           <div class="form-group mb-3">
             <label for="input-addon-edit-icon-color">Color</label>
-            <input type="text" id="input-addon-edit-icon-color"
-              v-model.lazy="options.icon.color" v-color class="form-control" />
+            <ColorInput id="input-addon-edit-icon-color"
+              v-model.lazy="options.icon.color"
+            />
           </div>
         </div>
         <div class="col-6">
           <!-- BG Color -->
           <div class="form-group mb-3">
             <label for="input-addon-edit-icon-bg_color">Background Color</label>
-            <input type="text" id="input-addon-edit-icon-bg_color"
-              v-model.lazy="options.icon.bg_color" v-color class="form-control" />
+            <ColorInput id="input-addon-edit-icon-bg_color"
+              v-model.lazy="options.icon.bg_color"
+            />
           </div>
         </div>
       </div>
@@ -111,56 +125,66 @@
       <div class="form-row row">
         <div class="col-6">
           <!-- Title Margin Top -->
-          <rwd-group class-name="c-title-margin_top">
-            <label slot="label">
-              Margin Top
-            </label>
-            <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+          <RwdGroup class-name="c-title-margin_top">
+            <template #label>
+              <label>
+                Margin Top
+              </label>
+            </template>
+            <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+              v-slot:[size]
               :class="'c-title-margin_top__' + size">
               <input type="number" v-model="options.icon.margin_top[size]" class="form-control" />
-            </div>
-          </rwd-group>
+            </template>
+          </RwdGroup>
         </div>
         <div class="col-6">
           <!-- Title Margin Bottom -->
-          <rwd-group class-name="c-title-margin_bottom">
-            <label slot="label">
-              Margin Bottom
-            </label>
-            <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+          <RwdGroup class-name="c-title-margin_bottom">
+            <template #label>
+              <label>
+                Margin Bottom
+              </label>
+            </template>
+            <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+              v-slot:[size]
               :class="'c-title-margin_bottom__' + size">
               <input type="number" v-model="options.icon.margin_bottom[size]" class="form-control" />
-            </div>
-          </rwd-group>
+            </template>
+          </RwdGroup>
         </div>
 
         <!-- Padding -->
-        <box-offset v-model="options.icon.padding">
-          <span slot="label">Icon Padding</span>
-        </box-offset>
+        <BoxOffset v-model="options.icon.padding">
+          <template #label>
+            <label>Icon Padding</label>
+          </template>
+        </BoxOffset>
       </div>
 
       <!-- Border Color -->
       <div class="form-group mb-3">
         <label for="input-addon-edit-border-color">Border Color</label>
-        <input id="input-addon-edit-border-color" type="text"
-          v-model.lazy="options.icon.border.color" v-color class="form-control" />
+        <ColorInput id="input-addon-edit-border-color"
+          v-model.lazy="options.icon.border.color"
+        />
       </div>
 
       <!-- Border Width -->
-      <rwd-group class-name="c-border-width">
-        <label slot="label">
-          Border Width
-        </label>
-        <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+      <RwdGroup class-name="c-border-width">
+        <template #label>
+          <label>
+            Border Width
+          </label>
+        </template>
+        <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+          v-slot:[size]
           :class="'c-border-width__' + size">
-          <div class="d-flex">
-            <vue-slide-bar v-model="options.icon.border.width[size]" class="flex-grow-1"></vue-slide-bar>
-            <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-              v-model="options.icon.border.width[size]" />
-          </div>
-        </div>
-      </rwd-group>
+          <SliderInput
+            v-model="options.icon.border.width[size]"
+          />
+        </template>
+      </RwdGroup>
 
       <!-- Border Style -->
       <div class="form-group mb-3">
@@ -178,19 +202,20 @@
       </div>
 
       <!-- Border Radius -->
-      <rwd-group class-name="c-border-radius">
-        <label slot="label">
-          Border Radius
-        </label>
-        <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+      <RwdGroup class-name="c-border-radius">
+        <template #label>
+          <label>
+            Border Radius
+          </label>
+        </template>
+        <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+          v-slot:[size]
           :class="'c-border-radius__' + size">
-          <div class="d-flex">
-            <vue-slide-bar v-model="options.icon.border.radius[size]" class="flex-grow-1" :max="500"></vue-slide-bar>
-            <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-              v-model="options.icon.border.radius[size]" />
-          </div>
-        </div>
-      </rwd-group>
+          <SliderInput
+            v-model="options.icon.border.radius[size]"
+          />
+        </template>
+      </RwdGroup>
 
     </div>
 
@@ -204,76 +229,83 @@
     <!-- Content Align -->
     <div class="form-group mb-3">
       <label for="input-addon-edit-content-align">Content Alignment</label>
-      <div class="mt-2">
-        <b-form-radio-group v-model="options.align" class="btn-block" buttons button-variant="outline-primary">
-          <b-form-radio value="">
-            Default
-          </b-form-radio>
-          <b-form-radio value="left">
-            Left
-          </b-form-radio>
-          <b-form-radio value="center">
-            Center
-          </b-form-radio>
-          <b-form-radio value="right">
-            Right
-          </b-form-radio>
-        </b-form-radio-group>
-      </div>
+      <ButtonRadio
+        color="primary"
+        variant="outline"
+        class="w-100"
+        v-model="options.align"
+        :options="[
+            { text: 'Default', value: '' },
+            { text: 'Left', value: 'left' },
+            { text: 'Center', value: 'center' },
+            { text: 'Right', value: 'right' },
+          ]"
+      />
     </div>
 
     <!-- Content Font Size -->
-    <rwd-group class-name="c-title-font-size">
-      <label slot="label">
-        Content Font Size
-      </label>
-      <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+    <RwdGroup class-name="c-content-font-size">
+      <template #label>
+        <label>
+          Content Font Size
+        </label>
+      </template>
+      <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+        v-slot:[size]
         :class="'c-content-font-size-height__' + size">
-        <div class="d-flex">
-          <vue-slide-bar v-model="options.content_font_size[size]" class="flex-grow-1" :max="500"></vue-slide-bar>
-          <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-            v-model="options.content_font_size[size]" />
-        </div>
-      </div>
-    </rwd-group>
+        <SliderInput
+          v-model="options.content_font_size[size]"
+          :max="500"
+        />
+      </template>
+    </RwdGroup>
 
     <!-- Content Line Height -->
-    <rwd-group class-name="c-title-line-height">
-      <label slot="label">
-        Content Line Height
-      </label>
-      <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+    <RwdGroup class-name="c-content-line-height">
+      <template #label>
+        <label>
+          Content Line Height
+        </label>
+      </template>
+      <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+        v-slot:[size]
         :class="'c-content-line-height__' + size">
-        <div class="d-flex">
-          <vue-slide-bar v-model="options.content_line_height[size]" class="flex-grow-1" :max="500"></vue-slide-bar>
-          <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-            v-model="options.content_line_height[size]" />
-        </div>
-      </div>
-    </rwd-group>
+        <SliderInput
+          v-model="options.content_line_height[size]"
+          :max="500"
+        />
+      </template>
+    </RwdGroup>
   </div>
 </template>
 
 <script>
-import { BFormRadio, BFormRadioGroup } from 'bootstrap-vue';
-import TitleOptions from "../form/title-options";
-import RwdGroup from "../form/rwd-group";
-import SingleImage from "../form/single-image";
-import BoxOffset from "../form/box-offset";
+import lunaAddonMixin from '@/services/page-builder/addon-mixin';
+import BoxOffset from '@/components/page-builder/form/BoxOffset';
+import ButtonRadio from '@/components/page-builder/form/ButtonRadio';
+import ColorInput from '@/components/page-builder/form/ColorInput';
+import RwdGroup from '@/components/page-builder/form/RwdGroup';
+import SingleImage from '@/components/page-builder/form/SingleImage';
+import SliderInput from '@/components/page-builder/form/SliderInput';
+import TitleOptions from '@/components/page-builder/form/TitleOptions';
+import { toRefs } from 'vue';
 
 export default {
   name: "addon-feature",
   components: {
-    TitleOptions,
+    SliderInput,
+    BoxOffset,
+    ColorInput,
     RwdGroup,
     SingleImage,
-    BoxOffset,
-    BFormRadioGroup,
-    BFormRadio
+    ButtonRadio,
+    TitleOptions
   },
-  mixins: [LunaAddonMixin],
-  data() {
-    return {
+  props: {
+    ...lunaAddonMixin.props
+  },
+  setup(props, ctx) {
+    const state = lunaAddonMixin(props, ctx, {
       options: {
         link: '',
         link_element: 'title',
@@ -333,8 +365,12 @@ export default {
           xs: ''
         },
       }
+    });
+
+    return {
+      ...toRefs(state)
     }
-  }
+  },
 }
 </script>
 

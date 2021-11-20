@@ -29,7 +29,8 @@ use Windwalker\Form\Form;
  * @var Page $item
  */
 
-$asset->js('@luna/page-builder.js');
+$asset->js('@luna/dist/page-builder.js');
+$asset->css('@luna/dist/page-builder-admin.min.css');
 ?>
 
 @extends('admin.global.body-edit')

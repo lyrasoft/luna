@@ -289,6 +289,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
                 $self->add('background-position', $options['background.image.position']);
                 $self->add('background-repeat', $options['background.image.repeat']);
                 $self->add('background-attachment', $options['background.image.attachment']);
+
+                $self->add('background-color', $options['background.color']);
                 break;
 
             case 'gradient':

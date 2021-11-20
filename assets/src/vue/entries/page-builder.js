@@ -11,6 +11,15 @@ import PageBuilderApp from '../app/PageBuilderApp';
 import VueClickAway from "vue3-click-away";
 import Row from "../components/page-builder/Row";
 
+import '@/services/page-builder/addon-mixin.js';
+import AddonText from '@/components/page-builder/addons/addon-text';
+import AddonImage from '@/components/page-builder/addons/addon-image';
+import AddonFeature from '@/components/page-builder/addons/addon-feature';
+import AddonEmptyspace from '@/components/page-builder/addons/addon-emptyspace';
+import AddonButton from '@/components/page-builder/addons/addon-button';
+
+import Tinymce from '@/services/page-builder/directives/tinymce';
+
 // CodeMirror
 import Codemirror from 'codemirror-editor-vue3';
 import "codemirror-editor-vue3/dist/style.css";
@@ -32,6 +41,13 @@ S.import('@main')
     };
 
     app.component('Row', Row);
+    app.component('addon-text', AddonText);
+    app.component('addon-image', AddonImage);
+    app.component('addon-feature', AddonFeature);
+    app.component('addon-emptyspace', AddonEmptyspace);
+    app.component('addon-button', AddonButton);
+
+    app.directive('tinymce', Tinymce)
 
     app.use(Codemirror);
     app.use(VueClickAway);

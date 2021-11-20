@@ -9,7 +9,7 @@
       <small class="form-text text-muted">The main title of this section, keep empty to hide it.</small>
     </div>
 
-    <title-options v-if="options.title.text !== ''"
+    <TitleOptions v-if="options.title.text !== ''"
       id="input-addon-edit" v-model="options" />
 
     <hr />
@@ -23,72 +23,77 @@
     <div class="form-group mb-3">
       <label for="input-addon-edit-title-align">Content Alignment</label>
       <div class="mt-2">
-        <b-form-radio-group v-model="options.align" class="btn-block" buttons button-variant="outline-primary">
-          <b-form-radio value="">
-            Default
-          </b-form-radio>
-          <b-form-radio value="left">
-            Left
-          </b-form-radio>
-          <b-form-radio value="center">
-            Center
-          </b-form-radio>
-          <b-form-radio value="right">
-            Right
-          </b-form-radio>
-        </b-form-radio-group>
+        <ButtonRadio
+          color="primary"
+          variant="outline"
+          class="w-100"
+          v-model="options.align"
+          :options="[
+            { text: 'Default', value: '' },
+            { text: 'Left', value: 'left' },
+            { text: 'Center', value: 'center' },
+            { text: 'Right', value: 'right' },
+          ]"
+        />
       </div>
     </div>
 
     <!-- Content Font Size -->
-    <rwd-group class-name="c-title-font-size">
-      <label slot="label">
-        Content Font Size
-      </label>
-      <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+    <RwdGroup class-name="c-content-font-size">
+      <template #label>
+        <label>
+          Content Font Size
+        </label>
+      </template>
+      <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+        v-slot:[size]
         :class="'c-content-font-size-height__' + size">
-        <div class="d-flex">
-          <vue-slide-bar v-model="options.content_font_size[size]" class="flex-grow-1" :max="500"></vue-slide-bar>
-          <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-            v-model="options.content_font_size[size]" />
-        </div>
-      </div>
-    </rwd-group>
+        <SliderInput
+          v-model="options.content_font_size[size]"
+          :max="500"
+        />
+      </template>
+    </RwdGroup>
 
     <!-- Content Line Height -->
-    <rwd-group class-name="c-title-line-height">
-      <label slot="label">
-        Content Line Height
-      </label>
-      <div v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3" :slot="size"
+    <RwdGroup class-name="c-content-line-height">
+      <template #label>
+        <label>
+          Content Line Height
+        </label>
+      </template>
+      <template v-for="size of ['lg', 'md', 'xs']" class="form-group mb-3"
+        v-slot:[size]
         :class="'c-content-line-height__' + size">
-        <div class="d-flex">
-          <vue-slide-bar v-model="options.content_line_height[size]" class="flex-grow-1" :max="500"></vue-slide-bar>
-          <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-            v-model="options.content_line_height[size]" />
-        </div>
-      </div>
-    </rwd-group>
+        <SliderInput
+          v-model="options.content_line_height[size]"
+          :max="500"
+        />
+      </template>
+    </RwdGroup>
   </div>
 
 </template>
 
 <script>
-import { initLangKey, langs } from '@/services/page-builder/store.js';
-import { BFormRadio, BFormRadioGroup } from 'bootstrap-vue';
-import TitleOptions from "../form/title-options";
-import RwdGroup from "../form/rwd-group";
+import ButtonRadio from '@/components/page-builder/form/ButtonRadio';
+import RwdGroup from '@/components/page-builder/form/RwdGroup';
+import SliderInput from '@/components/page-builder/form/SliderInput';
+import TitleOptions from '@/components/page-builder/form/TitleOptions';
+import { toRefs } from 'vue';
 export default {
   name: "addon-text",
   components: {
     TitleOptions,
-    RwdGroup,
-    BFormRadioGroup,
-    BFormRadio
+    ButtonRadio,
+    SliderInput,
+    RwdGroup
   },
-  mixins: [LunaAddonMixin],
-  data() {
-    return {
+  props: {
+    ...lunaAddonMixin.props
+  },
+  setup(props, ctx) {
+    const state = lunaAddonMixin(props, ctx, {
       options: {
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium, ' +
           'massa dictum hendrerit maximus, ex est semper est, quis sodales odio elit a urna. ' +
@@ -106,14 +111,12 @@ export default {
           xs: ''
         }
       },
-      langs
+    });
+
+    return {
+      ...toRefs(state),
     }
   },
-  // mounted() {
-  //   initLangKey(this.addonId, 'content', this.options.content);
-  //
-  //   this.options.content = langs[`${this.addonId}__title`] || this.options.content;
-  // }
 }
 </script>
 

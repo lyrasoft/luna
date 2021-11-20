@@ -71,6 +71,7 @@ export default {
           'image/gif',
           'image/webp',
           'image/svg',
+          'image/svg+xml',
         ];
       }
     }

@@ -10,23 +10,18 @@
     <!-- Align -->
     <div class="form-group mb-3">
       <label for="input-addon-edit-align">Align</label>
-      <div>
-        <b-form-radio-group v-model="options.align" class="btn-block"
-          buttons button-variant="outline-primary">
-          <b-form-radio value="">
-            Default
-          </b-form-radio>
-          <b-form-radio value="left">
-            Left
-          </b-form-radio>
-          <b-form-radio value="center">
-            Center
-          </b-form-radio>
-          <b-form-radio value="right">
-            Right
-          </b-form-radio>
-        </b-form-radio-group>
-      </div>
+      <ButtonRadio
+        color="primary"
+        variant="outline"
+        class="w-100"
+        v-model="options.align"
+        :options="[
+            { text: 'Default', value: '' },
+            { text: 'Left', value: 'left' },
+            { text: 'Center', value: 'center' },
+            { text: 'Right', value: 'right' },
+          ]"
+      />
     </div>
 
     <!-- LINK -->
@@ -40,13 +35,14 @@
     <div class="form-group mb-3" v-if="options.link !== ''">
       <label for="input-addon-edit-link-target">Open in New Window</label>
       <div>
-        <unicorn-switcher name="addon-edit-link-target"
+        <UnicornSwitcher name="addon-edit-link-target"
           v-model="options.link_target"
           id="input-addon-edit-link-target"
           shape="circle"
           color="success"
           true-value="_blank"
-          false-value=""></unicorn-switcher>
+          false-value=""
+        />
       </div>
     </div>
 
@@ -77,7 +73,7 @@
         <option value="btn-link">btn-link</option>
       </datalist>
       <small class="form-text text-muted">
-        Use <a href="https://getbootstrap.com/docs/4.5/components/buttons/" target="_blank">Bootstrap button style</a>
+        Use <a href="https://getbootstrap.com/docs/5.1/components/buttons/" target="_blank">Bootstrap button style</a>
         , if you need a custom style, just enter your button class names.
       </small>
     </div>
@@ -99,28 +95,28 @@
     </div>
 
     <!-- Radius -->
-    <div v-if="$sa && prepared" class="form-group mb-3">
+    <div class="form-group mb-3">
       <label>
         Border Radius
       </label>
-      <div class="d-flex">
-        <vue-slide-bar v-model="options.border_radius" class="flex-grow-1" :max="300"></vue-slide-bar>
-        <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-          v-model="options.border_radius" />
-      </div>
+      <SliderInput
+        v-model="options.border_radius"
+        :max="1200"
+      />
     </div>
 
     <!-- Blocked -->
     <div class="form-group mb-3">
       <label for="input-addon-edit-block">Full-Width</label>
       <div>
-        <unicorn-switcher name="addon-edit-block"
+        <UnicornSwitcher name="addon-edit-block"
           v-model="options.block"
           id="input-addon-edit-block"
           shape="circle"
           color="success"
           :true-value="true"
-          :false-value="false"></unicorn-switcher>
+          :false-value="false"
+        />
       </div>
     </div>
 
@@ -128,10 +124,8 @@
     <div class="form-group mb-3">
       <label for="input-addon-edit-icon">Icon Class Name</label>
       <div class="input-group mb-3">
-        <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <span :class="options.icon"></span>
-                    </span>
+        <div class="input-group-text">
+            <span :class="options.icon"></span>
         </div>
         <input id="input-addon-edit-icon" type="text"
           v-model="options.icon" class="form-control" />
@@ -142,40 +136,41 @@
       </small>
     </div>
 
-    <!-- Content Align -->
+    <!-- Icon Position -->
     <div class="form-group mb-3">
       <label for="input-addon-edit-icon_position">Icon Position</label>
-      <div>
-        <b-form-radio-group v-model="options.icon_position" class="btn-block"
-          buttons button-variant="outline-primary">
-          <b-form-radio value="left">
-            Left
-          </b-form-radio>
-          <b-form-radio value="right">
-            Right
-          </b-form-radio>
-        </b-form-radio-group>
-      </div>
+      <ButtonRadio
+        color="primary"
+        variant="outline"
+        class="w-100"
+        v-model="options.icon_position"
+        :options="[
+          { text: 'Left', value: 'left' },
+          { text: 'Right', value: 'right' },
+        ]"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { BFormRadio, BFormRadioGroup } from 'bootstrap-vue';
-import TitleOptions from "../form/title-options";
-import RwdGroup from "../form/rwd-group";
-
+import ButtonRadio from '@/components/page-builder/form/ButtonRadio';
+import SliderInput from '@/components/page-builder/form/SliderInput';
+import lunaAddonMixin from '@/services/page-builder/addon-mixin';
+import UnicornSwitcher from '@/components/form/UnicornSwitcher';
+import { toRefs } from 'vue';
 export default {
   name: "addon-button",
   components: {
-    TitleOptions,
-    RwdGroup,
-    BFormRadioGroup,
-    BFormRadio
+    SliderInput,
+    ButtonRadio,
+    UnicornSwitcher
   },
-  mixins: [LunaAddonMixin],
-  data() {
-    return {
+  props: {
+    ...lunaAddonMixin.props
+  },
+  setup(props, ctx) {
+    const state = lunaAddonMixin(props, ctx, {
       uid: u.uid(),
       options: {
         text: '',
@@ -188,8 +183,12 @@ export default {
         icon: '',
         icon_position: 'left'
       }
-    }
-  }
+    });
+
+    return {
+      ...toRefs(state)
+    };
+  },
 }
 </script>
 

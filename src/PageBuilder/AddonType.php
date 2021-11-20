@@ -77,7 +77,7 @@ class AddonType
             'icon' => $this->getIcon(),
             'name' => $this->getName($lang),
             'description' => $this->getDescription($lang),
-            'component' => $this->getVueComponentName(),
+            'componentName' => $this->getVueComponentName(),
             'className' => $this->getClassName(),
         ];
     }

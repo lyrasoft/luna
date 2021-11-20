@@ -10,22 +10,24 @@
           Edit CSS
         </button>
 
-        <CDropdown class="d-inline-block text-nowrap">
-          <button type="button" class="btn btn-outline-secondary btn-sm"
-            @click="openTemplates(content.length)">
-            <div style="display: inline-block; min-width: 120px">
-              <span class="fa fa-file-code"></span>
-              Insert Template
-            </div>
-          </button>
-          <CDropdownToggle color="secondary" vaiant="outline" size="sm" split></CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem @click="$trigger('tmpl.save', content, 'page')">
-              <span class="fa fa-fw fa-save"></span>
-              Save as Template
-            </CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
+        <div class="d-inline-block">
+          <CDropdown class="text-nowrap">
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+              @click="openTemplates(content.length)">
+              <div style="display: inline-block; min-width: 120px">
+                <span class="fa fa-file-code"></span>
+                Insert Template
+              </div>
+            </button>
+            <CDropdownToggle color="secondary" vaiant="outline" size="sm" split></CDropdownToggle>
+            <CDropdownMenu>
+              <CDropdownItem @click="$trigger('tmpl.save', content, 'page')">
+                <span class="fa fa-fw fa-save"></span>
+                Save as Template
+              </CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </div>
 
         <button type="button" class="btn btn-outline-secondary btn-sm" @click="copy"
           style="min-width: 150px">
@@ -84,39 +86,32 @@
       <!-- Modals -->
       <RowEdit ref="rowEditor" />
       <ColumnEdit ref="columnEditor" />
-      <!--<AddonEdit ref="addonEditor" />-->
+      <AddonEdit ref="addonEditor" />
 
       <!-- Addon selector -->
-      <div class="modal fade" id="addon-list-modal" tabindex="-1" role="dialog" aria-labelledby="addon-list-modal-label"
-        aria-hidden="true" ref="addonList">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h3 class="m-0">New Addon</h3>
-              <button type="button" class="btn btn-secondary ml-auto ms-auto" data-dismiss="modal">
-                <span class="fa fa-times"></span>
+      <CModal :visible="addonListShow" @close="addonListShow = false" size="lg">
+        <CModalHeader>
+          <CModalTitle>New Addon</CModalTitle>
+        </CModalHeader>
+
+        <CModalBody>
+          <div class="row c-addon-list">
+            <div v-for="addon of addons" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
+              <button class="d-inline-block p-4 c-addon__link btn btn-outline-dark text-center"
+                type="button"
+                v-c-tooltip="addon.description"
+                @click.prevent="selectAddon(addon.type)">
+                <div class="c-addon__icon">
+                  <span class="fa-3x" :class="addon.icon"></span>
+                </div>
+                <h5 class="m-0">
+                  {{ addon.name }}
+                </h5>
               </button>
             </div>
-            <div class="modal-body">
-              <div class="row c-addon-list">
-                <div v-for="addon of addons" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
-                  <a class="d-block p-4 c-addon__link text-dark text-center rounded has-tooltip"
-                    href="#"
-                    :title="addon.description"
-                    @click.prevent="selectAddon(addon.type)">
-                    <div class="c-addon__icon">
-                      <span class="fa-3x" :class="addon.icon"></span>
-                    </div>
-                    <h5 class="m-0">
-                      {{ addon.name }}
-                    </h5>
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
+        </CModalBody>
+      </CModal>
 
       <!-- Templates -->
       <TemplateManager ref="tmplManager" />
@@ -161,18 +156,18 @@ import {
   CDropdownItem,
   CDropdownToggle,
   CDropdownMenu,
+  vctooltip,
 } from '@coreui/vue';
 import { each } from 'lodash-es';
-import { nextTick, onMounted, reactive, toRefs } from 'vue';
-import { ref } from 'vue/dist/vue.esm-browser';
-// import AddonEdit from '../components/page-builder/AddonEdit';
-import ColumnEdit from '../components/page-builder/ColumnEdit';
-import CssEditor from '../components/page-builder/CssEditor';
-import Row from '../components/page-builder/Row';
-import RowEdit from '../components/page-builder/RowEdit';
-import Store from '../components/page-builder/Store';
+import { nextTick, onMounted, reactive, toRefs, ref } from 'vue';
+import AddonEdit from '@/components/page-builder/AddonEdit';
+import ColumnEdit from '@/components/page-builder/ColumnEdit';
+import CssEditor from '@/components/page-builder/CssEditor';
+import Row from '@/components/page-builder/Row';
+import RowEdit from '@/components/page-builder/RowEdit';
+import Store from '@/components/page-builder/Store';
 import draggable from 'vuedraggable';
-import TemplateManager from '../components/page-builder/templates/TemplateManager';
+import TemplateManager from '@/components/page-builder/templates/TemplateManager';
 import {
   addTextToClipboard,
   emptyRow,
@@ -185,7 +180,7 @@ export default {
   components: {
     TemplateManager,
     Store,
-    // AddonEdit,
+    AddonEdit,
     ColumnEdit,
     RowEdit,
     Row,
@@ -199,6 +194,9 @@ export default {
     CDropdownToggle,
     CDropdownMenu,
     draggable,
+  },
+  directives: {
+    'c-tooltip': vctooltip
   },
 
   setup(props) {
@@ -222,7 +220,7 @@ export default {
     const rowEditor = ref(null);
     const columnEditor = ref(null);
     const addonEditor = ref(null);
-    const addonList = ref(null);
+    const addonListShow = ref(null);
     const tmplManager = ref(null);
 
     onMounted(() => {
@@ -243,7 +241,7 @@ export default {
           rowEditor,
           columnEditor,
           addonEditor,
-          addonList,
+          addonListShow,
           tmplManager
         });
     });
@@ -361,18 +359,14 @@ export default {
     }
 
     function selectAddon(type) {
-      addonList.value.hide();
+      addonListShow.value = false;
 
       const addonData = u.data('addons')[type];
 
-      setTimeout(() => {
-        u.trigger('addon:edit', { ...addonData, id: 'addon-' + u.uid(), is: 'addon' }, state.editing.column);
-        document.body.classList.add('modal-open');
-      }, 365);
+      u.trigger('addon:edit', { ...addonData, id: 'addon-' + u.uid(), is: 'addon' }, state.editing.column);
     }
 
     // Utilities
-
     function getSaveValue() {
       return JSON.stringify(this.content);
     }
@@ -399,6 +393,7 @@ export default {
       columnEditor,
       addonEditor,
       tmplManager,
+      addonListShow,
       ...toRefs(state),
 
       cssEdit,
@@ -421,7 +416,7 @@ export default {
   },
 };
 
-function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, addonList, tmplManager }) {
+function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, addonListShow, tmplManager }) {
   u.on('row:edit', (content, column) => {
     state.editing.column = {};
     state.editing.row = {};
@@ -453,7 +448,7 @@ function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, ad
     state.editing.column = {};
     state.editing.column = column;
 
-    addonList.value.show();
+    addonListShow.value = true;
   });
 
   u.on('addon:edit', (addon, column) => {
@@ -491,7 +486,7 @@ function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, ad
 
 </style>
 
-<style>
+<style lang="scss">
 .CodeMirror {
   height: 450px !important;
 }

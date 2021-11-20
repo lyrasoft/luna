@@ -1,5 +1,5 @@
 <template>
-  <div class="" :class="width" :disabled="content.disabled">
+  <div class="" :class="width" :disabled="content.disabled ? true : null">
     <div class="card column__body">
       <!-- Top Bar -->
       <div class="column__top-bar d-flex card-header" :class="{'p-2': child}">
@@ -20,9 +20,9 @@
             v-c-tooltip="'New Addon'"
             @click="addAddon()">
             <span class="fa fa-plus"></span>
-<!--            <span v-if="!child">-->
-<!--              Addon-->
-<!--            </span>-->
+            <!--            <span v-if="!child">-->
+            <!--              Addon-->
+            <!--            </span>-->
           </button>
 
           <button type="button" class="btn btn-sm px-2 py-0 btn-outline-secondary"
@@ -44,7 +44,7 @@
             </button>
 
             <div class="dropdown-menu dropdown-menu-right px-3" :class="widthMenuOpen"
-              >
+            >
               <div class="form-group mb-3">
                 <label :for="`input-column-edit-width-desktop--${content.id}`">Desktop Width</label>
                 <select :id="`input-column-edit-width-desktop--${content.id}`"
@@ -83,12 +83,12 @@
 
           <!-- Topbar Dropdown -->
           <CDropdown class="d-inline-block">
-            <CDropdownToggle class="d-inline-block px-2 py-0"
+            <CDropdownToggle
+              class="d-inline-block px-2 py-0"
               color="secondary"
-              varient="outline"
+              variant="outline"
               size="sm"
               v-c-tooltip="'Manage'"
-              :caret="false"
             >
               <span class="fa fa-cog"></span>
             </CDropdownToggle>
@@ -147,7 +147,7 @@
               style="animation-duration: .3s">
               <Addon v-if="addon.type !== 'row'"
                 @delete="deleteAddon(i)"
-                @duplicate="duplicateAddon(addon, i)"
+                @duplicate="duplicateThisAddon(addon, i)"
                 :index="i"
                 :key="addon.id"
                 :content="addon"
@@ -157,7 +157,7 @@
                 :key="addon.id"
                 :value="addon"
                 :child="true"
-                @duplicate="duplicateAddon(addon, i)"
+                @duplicate="duplicateThisAddon(addon, i)"
                 move-handle="move-handle"
                 comment-columns-change="columnsChange(addon, $event)"
                 @delete="deleteAddon(i)"
@@ -181,11 +181,17 @@
 
 <script>
 import { CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle, vctooltip } from '@coreui/vue';
-import { each, range, startsWith, values, defaultsDeep } from 'lodash-es';
-import { computed, reactive, toRefs } from 'vue';
-import { emptyColumn, emptyRow } from '../../services/page-builder/page-builder.service';
-import draggable from 'vuedraggable'
-import Addon from "./Addon";
+import { defaultsDeep, range, startsWith, values } from 'lodash-es';
+import { computed, reactive, toRefs, watch } from 'vue';
+import draggable from 'vuedraggable';
+import {
+  addTextToClipboard,
+  duplicateAddon,
+  emptyColumn,
+  emptyRow,
+  readClipboard
+} from '../../services/page-builder/page-builder.service';
+import Addon from './Addon';
 import Row from './Row';
 
 export default {
@@ -214,7 +220,7 @@ export default {
 
   setup(props, { emit }) {
     const state = reactive({
-      constent: {},
+      content: {},
       drag: false,
       widthMenuOpen: '',
     });
@@ -228,7 +234,7 @@ export default {
     }
 
     function paste() {
-      PageBuilderService.paste().then((text) => {
+      readClipboard().then((text) => {
         pasteData(text);
       });
     }
@@ -246,7 +252,7 @@ export default {
         }
 
         if (startsWith(data.id, 'addon-') || startsWith(data.id, 'row-')) {
-          duplicateAddon(data, state.content.addons.length - 1);
+          duplicateThisAddon(data, state.content.addons.length - 1);
           return;
         }
 
@@ -278,7 +284,7 @@ export default {
                   state.content.addons = [];
                 case 'add':
                   data.addons.forEach((addon) => {
-                    duplicateAddon(addon, addons.value.length - 1);
+                    duplicateThisAddon(addon, addons.value.length - 1);
                   });
                   break;
                 case 'append':
@@ -298,7 +304,7 @@ export default {
     }
 
     function copy() {
-      PageBuilderService.addToClipboard(state.content);
+      addTextToClipboard(state.content);
     }
 
     function toggleDisabled() {
@@ -310,8 +316,8 @@ export default {
         .then(() => emit('delete'));
     }
 
-    function duplicateAddon(item, i) {
-      const newItem = PageBuilderService.duplicateAddon(item, props.child);
+    function duplicateThisAddon(item, i) {
+      const newItem = duplicateAddon(item, props.child);
 
       if (newItem) {
         addons.value.splice(i + 1, 0, newItem);
@@ -358,6 +364,10 @@ export default {
       return values(options.value.width).join(' ');
     });
 
+    watch(() => props.value, () => {
+      state.content = props.value;
+    }, { deep: true });
+
     return {
       ...toRefs(state),
       addons,
@@ -372,26 +382,21 @@ export default {
       copy,
       toggleDisabled,
       remove,
-      duplicateAddon,
+      duplicateThisAddon,
       addAddon,
       addNewRow,
       deleteAddon,
       widthRange,
       getEmptyColumn,
       openTemplates,
-    }
+    };
   },
 
-  methods: {
+  methods: {},
 
-  },
+  watch: {},
 
-  watch: {
-  },
-
-  computed: {
-
-  }
+  computed: {}
 };
 </script>
 

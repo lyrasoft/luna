@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light" :class="{'p-2': child, 'rounded': child}" :disabled="content.disabled">
+  <div class="bg-light" :class="{'p-2': child, 'rounded': child}" :disabled="content.disabled ? true : null">
     <div class="page-row__title-bar d-flex mb-2">
       <div class="page-row__title d-flex">
         <div class="page-row__move-cursor">
@@ -136,7 +136,8 @@ import {
   addTextToClipboard,
   emptyColumn,
   emptyRow,
-  readClipboard
+  readClipboard,
+  duplicateAddon
 } from '../../services/page-builder/page-builder.service';
 import Column from './Column';
 
@@ -269,7 +270,7 @@ export default {
 
     function handleDuplicateAddons(addons) {
       return addons.map(addon => {
-          addon = PageBuilderService.duplicateAddon(addon, props.child);
+          addon = duplicateAddon(addon, props.child);
 
           if (addon === null) {
             return null;

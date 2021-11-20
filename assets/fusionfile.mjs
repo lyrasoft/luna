@@ -10,6 +10,16 @@ import { jsSync, installVendors } from '@windwalker-io/core';
 import path from 'path';
 import webpack from 'webpack';
 
+export async function css() {
+  // Watch start
+  fusion.watch('scss/**/*.scss');
+  // Watch end
+
+  // Compile Start
+  sass('scss/page-builder-admin.scss', 'dist/', { minify: 'separate_file' });
+  // Compile end
+}
+
 export async function vue() {
   // Watch start
   fusion.watch(['scss/**/*.scss', 'src/vue/**/*']);
@@ -22,7 +32,7 @@ export async function vue() {
     {
       override: (config) => {
         config.resolve.alias = {
-          '@': path.resolve(path.resolve(), 'vue/src/') // Will be overwrite when compile
+          '@': path.resolve(path.resolve(), './src/vue/') // Will be overwrite when compile
         }
 
         config.plugins.push(
@@ -38,6 +48,7 @@ export async function vue() {
 }
 
 export default parallel(
+  css,
   vue
 );
 

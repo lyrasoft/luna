@@ -302,3 +302,101 @@ export function emptyColumn(child = false) {
     }
   };
 }
+
+export function addonBasicOptions() {
+  return {
+    html_class: '',
+    html_css: '',
+    label: '',
+    title: {
+      text: '',
+      element: 'h3',
+      font_size: {
+        lg: '',
+        md: '',
+        xs: ''
+      },
+      font_weight: '',
+      color: '',
+      margin_top: {
+        lg: '',
+        md: '',
+        xs: ''
+      },
+      margin_bottom: {
+        lg: '',
+        md: '',
+        xs: ''
+      }
+    },
+    align: '',
+    // valign: 'top',
+    padding: {
+      xs: '',
+      md: '',
+      lg: '',
+    },
+    margin: {
+      xs: '',
+      md: '',
+      lg: '',
+    },
+    text_color: '',
+    display: {
+      xs: 'd-block',
+      md: 'd-md-block',
+      lg: 'd-lg-block'
+    },
+    box_shadow: {
+      enabled: 0,
+      color: 'rgba(0, 0, 0, 1)',
+      hoffset: 0,
+      voffset: 0,
+      blur: 0,
+      spread: 0
+    },
+    border: {
+      enabled: 0,
+      width: {
+        lg: 1,
+        md: 1,
+        xs: 1,
+      },
+      color: '',
+      style: '',
+      radius: {
+        lg: 0,
+        md: 0,
+        xs: 0,
+      }
+    },
+    background: {
+      type: 'none',
+      color: '',
+      overlay: '',
+      image: {
+        url: '',
+        repeat: '',
+        position: 'center center',
+        attachment: 'inherit',
+        size: 'cover'
+      },
+      gradient: {
+        type: 'liner',
+        angle: '',
+        start_color: '',
+        start_pos: '',
+        end_color: '',
+        end_pos: ''
+      },
+      video: {
+        url: ''
+      }
+    },
+    animation: {
+      name: '',
+      duration: 300,
+      delay: 0
+    }
+  };
+}

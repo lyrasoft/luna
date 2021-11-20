@@ -8,16 +8,16 @@
       <small class="form-text text-muted">The main title of this section, keep empty to hide it.</small>
     </div>
 
-    <title-options v-if="options.title.text !== ''"
-      id="input-addon-edit" v-model="options"></title-options>
+    <TitleOptions v-if="options.title.text !== ''"
+      id="input-addon-edit" v-model="options"></TitleOptions>
 
     <hr />
 
     <!-- Image -->
     <div class="form-group mb-3">
       <label for="input-addon-edit-image">Image</label>
-      <single-image v-model="options.image"
-        id="input-addon-edit-image"></single-image>
+      <SingleImage v-model="options.image"
+        id="input-addon-edit-image"></SingleImage>
     </div>
 
     <!-- LINK -->
@@ -28,16 +28,17 @@
     </div>
 
     <!-- New Window -->
-    <div class="form-group mb-3" v-if="options.link !== '' && $sa">
+    <div class="form-group mb-3" v-if="options.link !== ''">
       <label for="input-addon-edit-link-target">Open in New Window</label>
       <div>
-        <unicorn-switcher name="addon-edit-link-target"
+        <UnicornSwitcher name="addon-edit-link-target"
           v-model="options.link_target"
           id="input-addon-edit-link-target"
           shape="circle"
           color="success"
           true-value="_blank"
-          false-value=""></unicorn-switcher>
+          false-value=""
+        />
       </div>
     </div>
 
@@ -52,60 +53,59 @@
     </div>
 
     <!-- Radius -->
-    <div class="form-group mb-3" v-if="prepared && $sa">
+    <div class="form-group mb-3">
       <label>
         Border Radius
       </label>
-      <div class="d-flex">
-        <vue-slide-bar v-model="options.border_radius" class="flex-grow-1" :max="1200"></vue-slide-bar>
-        <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-          v-model="options.border_radius" />
-      </div>
+      <SliderInput
+        v-model="options.border_radius"
+        :max="1200"
+      />
     </div>
 
     <!-- Align -->
     <div class="form-group mb-3">
       <label for="input-addon-edit-align">Image Alignment</label>
       <div class="mt-2">
-        <b-form-radio-group v-model="options.align" class="btn-block"  buttons button-variant="outline-primary">
-          <b-form-radio value="">
-            Default
-          </b-form-radio>
-          <b-form-radio value="left">
-            Left
-          </b-form-radio>
-          <b-form-radio value="center">
-            Center
-          </b-form-radio>
-          <b-form-radio value="right">
-            Right
-          </b-form-radio>
-        </b-form-radio-group>
+        <ButtonRadio
+          color="primary"
+          variant="outline"
+          class="w-100"
+          v-model="options.align"
+          :options="[
+            { text: 'Default', value: '' },
+            { text: 'Left', value: 'left' },
+            { text: 'Center', value: 'center' },
+            { text: 'Right', value: 'right' },
+          ]"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { BFormRadio, BFormRadioGroup } from 'bootstrap-vue';
-import TitleOptions from "../form/title-options";
-import RwdGroup from "../form/rwd-group";
-import SingleImage from "../form/single-image";
-import BoxOffset from "../form/box-offset";
-
+import ButtonRadio from '@/components/page-builder/form/ButtonRadio';
+import lunaAddonMixin from '@/services/page-builder/addon-mixin';
+import UnicornSwitcher from '@/components/form/UnicornSwitcher';
+import SingleImage from '@/components/page-builder/form/SingleImage';
+import SliderInput from '@/components/page-builder/form/SliderInput';
+import TitleOptions from '@/components/page-builder/form/TitleOptions';
+import { toRefs } from 'vue';
 export default {
   name: "addon-image",
   components: {
-    TitleOptions,
-    RwdGroup,
+    ButtonRadio,
+    SliderInput,
+    UnicornSwitcher,
     SingleImage,
-    BoxOffset,
-    BFormRadioGroup,
-    BFormRadio
+    TitleOptions
   },
-  mixins: [LunaAddonMixin],
-  data() {
-    return {
+  props: {
+    ...lunaAddonMixin.props
+  },
+  setup(props, ctx) {
+    const state = lunaAddonMixin(props, ctx, {
       options: {
         image: '',
         border_radius: '',
@@ -113,7 +113,11 @@ export default {
         link: '',
         link_target: ''
       }
-    }
+    });
+
+    return {
+      ...toRefs(state)
+    };
   }
 }
 </script>
