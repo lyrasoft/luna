@@ -29,7 +29,8 @@ use Windwalker\Core\Router\SystemUri;
                 <h5 class="modal-title" id="options-modal-label">
                     @lang('luna.page.modal.basic.title')
                 </h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -43,7 +44,10 @@ use Windwalker\Core\Router\SystemUri;
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                <button type="button" class="btn btn-primary"
+                    data-dismiss="modal"
+                    data-bs-dismiss="modal"
+                >
                     <span class="fa fa-check"></span>
                     @lang('luna.page.modal.basic.button.ok')
                 </button>
@@ -51,24 +55,3 @@ use Windwalker\Core\Router\SystemUri;
         </div>
     </div>
 </div>
-
-@push('script')
-<script>
-    var validation;
-
-    System.import('@main').then(function () {
-        u.formValidation('#admin-form').then(function (v) {
-            validation = v;
-        });
-    });
-
-    $('#options-modal').on('hide.bs.modal', function (e) {
-        var result = validation.validateAll();
-
-        if (!result) {
-            e.stopPropagation();
-            e.preventDefault();
-        }
-    });
-</script>
-@endpush

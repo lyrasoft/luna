@@ -20,10 +20,10 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
-use App\Module\Admin\Page\PageListView;
+use Lyrasoft\Luna\Module\Admin\Page\PageListView;
 
 /**
- * @var \App\Entity\Page $entity
+ * @var \Lyrasoft\Luna\Entity\Page $entity
  */
 
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);

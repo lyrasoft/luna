@@ -9,10 +9,10 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Admin\Page;
+namespace Lyrasoft\Luna\Module\Admin\Page;
 
-use App\Module\Admin\Page\Form\GridForm;
-use App\Repository\PageRepository;
+use Lyrasoft\Luna\Module\Admin\Page\Form\GridForm;
+use Lyrasoft\Luna\Repository\PageRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;

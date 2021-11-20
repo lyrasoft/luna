@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Admin\Page\Form;
+namespace Lyrasoft\Luna\Module\Admin\Page\Form;
 
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\Language\TranslatorTrait;

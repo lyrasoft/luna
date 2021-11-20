@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-use App\Module\Admin\Page\PageEditView;
+use Lyrasoft\Luna\Module\Admin\Page\PageEditView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;

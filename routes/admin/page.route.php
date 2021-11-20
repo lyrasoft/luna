@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Routes;
+namespace Lyrasoft\Luna\Routes;
 
-use App\Module\Admin\Page\PageController;
-use App\Module\Admin\Page\PageEditView;
-use App\Module\Admin\Page\PageListView;
+use Lyrasoft\Luna\Module\Admin\Page\PageController;
+use Lyrasoft\Luna\Module\Admin\Page\PageEditView;
+use Lyrasoft\Luna\Module\Admin\Page\PageListView;
 use Windwalker\Core\Router\RouteCreator;
 
 /** @var  RouteCreator $router */

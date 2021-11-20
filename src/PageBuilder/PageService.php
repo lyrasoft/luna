@@ -11,11 +11,15 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\PageBuilder;
 
-use App\Entity\Page;
+use Lyrasoft\Luna\Entity\Page;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Crypt\PseudoCrypt;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Crypt\Password;
+use Windwalker\Data\Collection;
 use Windwalker\ORM\ORM;
+
+use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
 use function Windwalker\raw;
 
@@ -24,30 +28,75 @@ use function Windwalker\raw;
  */
 class PageService
 {
+    use InstanceCacheTrait;
+    use TranslatorTrait;
+
     public function __construct(protected ApplicationInterface $app, protected ORM $orm)
     {
     }
 
-    public function getAvailableExtends(): array
+    /**
+     * getAddonType
+     *
+     * @param  string  $name
+     *
+     * @return  string|null|AbstractAddon
+     */
+    public function getAddonType(string $name): ?string
+    {
+        return $this->getAddonTypes()[$name] ?? null;
+    }
+
+    /**
+     * getAddonTypes
+     *
+     * @return  array<AddonType|string>
+     */
+    public function getAddonTypes(): array
+    {
+        return $this->once(
+            'addon.types',
+            function () {
+                $classNames = $this->getAddonClasses();
+                $types = [];
+
+                foreach ($classNames as $className) {
+                    $type = new AddonType($className);
+
+                    $types[$type->getType()] = $type;
+                }
+
+                return $types;
+            }
+        );
+    }
+
+    public function getAddonClasses(): array
+    {
+        return (array) $this->app->config('pages.addons');
+    }
+
+    public function getAvailableExtends(): Collection
     {
         $mapper = $this->orm->mapper(Page::class);
 
         $extends = $mapper->select(raw('DISTINCT extends'))
-            ->from(Page::class)
             ->where('extends', '!=', '')
             ->order('extends')
-            ->all()
-            ->mapWithKeys(fn ($k, $v) => [$v, $v]);
+            ->loadColumn()
+            ->mapWithKeys(fn ($v, $k) => [$v => $v]);
 
-        foreach ($this->app->config('pages.extends') ?? [] as $extend => $name) {
+        foreach ($this->app->config('pages.page_extends') ?? [] as $extend => $name) {
             if (is_numeric($extend)) {
                 $extend = $name;
+            } else {
+                $name = $this->trans($name);
             }
 
             $extends[$extend] = $name;
         }
 
-        ksort($extends);
+        $extends->sortKeys();
 
         return $extends;
     }

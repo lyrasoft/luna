@@ -9,9 +9,9 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace Lyrasoft\Luna\Repository;
 
-use App\Entity\Page;
+use Lyrasoft\Luna\Entity\Page;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\BatchAction;

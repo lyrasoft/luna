@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Lyrasoft\Luna\Entity;
 
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;

@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
 use Lyrasoft\Luna\Menu\MenuBuilder;
+use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
 use Lyrasoft\Luna\Services\ConfigService;
 use Lyrasoft\Luna\Services\MenuService;
@@ -58,6 +59,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(FontAwesomeScript::class);
         $container->prepareSharedObject(MenuService::class);
         $container->prepareSharedObject(MenuBuilder::class);
+        $container->prepareSharedObject(PageService::class);
 
         $this->registerAuthServices($container);
 
@@ -90,6 +92,13 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             'renderer.edge.components',
             [
                 'menu-root' => '@menu-root',
+            ]
+        );
+
+        $container->mergeParameters(
+            'asset.import_map.imports',
+            [
+                '@luna/' => 'vendor/lyrasoft/luna/',
             ]
         );
     }

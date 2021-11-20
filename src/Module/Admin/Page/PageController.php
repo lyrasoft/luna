@@ -9,10 +9,10 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Admin\Page;
+namespace Lyrasoft\Luna\Module\Admin\Page;
 
-use App\Module\Admin\Page\Form\EditForm;
-use App\Repository\PageRepository;
+use Lyrasoft\Luna\Module\Admin\Page\Form\EditForm;
+use Lyrasoft\Luna\Repository\PageRepository;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Windwalker\Core\Application\AppContext;

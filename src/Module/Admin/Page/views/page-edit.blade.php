@@ -14,8 +14,8 @@
 
 declare(strict_types=1);
 
-use App\Entity\Page;
-use App\Module\Admin\Page\PageEditView;
+use Lyrasoft\Luna\Entity\Page;
+use Lyrasoft\Luna\Module\Admin\Page\PageEditView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -25,9 +25,11 @@ use Windwalker\Core\Router\SystemUri;
 use Windwalker\Form\Form;
 
 /**
- * @var Form      $form
+ * @var Form $form
  * @var Page $item
  */
+
+$asset->js('@luna/page-builder.js');
 ?>
 
 @extends('admin.global.body-edit')
@@ -42,23 +44,8 @@ use Windwalker\Form\Form;
         action="{{ $nav->to('page_edit') }}"
         method="POST" enctype="multipart/form-data">
 
-        <div class="row">
-            <div class="col-md-7">
-                <x-fieldset name="basic" :title="$lang('unicorn.fieldset.basic')"
-                    :form="$form"
-                    class="mb-4"
-                    is="card"
-                >
-                </x-fieldset>
-            </div>
-            <div class="col-md-5">
-                <x-fieldset name="meta" :title="$lang('unicorn.fieldset.meta')"
-                    :form="$form"
-                    class="mb-4"
-                    is="card"
-                >
-                </x-fieldset>
-            </div>
+        <div class="">
+            <page-builder-app id="page-builder" class="" page-id="{{ $item->getId() }}"></page-builder-app>
         </div>
 
         <div class="d-none">

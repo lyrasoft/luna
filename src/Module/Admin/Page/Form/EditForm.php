@@ -9,8 +9,9 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Admin\Page\Form;
+namespace Lyrasoft\Luna\Module\Admin\Page\Form;
 
+use Lyrasoft\Luna\PageBuilder\PageService;
 use Unicorn\Enum\BasicState;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
@@ -29,7 +30,11 @@ use Windwalker\Form\Form;
 class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
-    
+
+    public function __construct(protected PageService $pageService)
+    {
+    }
+
     /**
      * Define the form fields.
      *
@@ -58,7 +63,7 @@ class EditForm implements FieldDefinitionInterface
 
             $form->add('extends', TextField::class)
                 ->label($this->trans('luna.page.field.extends'))
-                ->option('global.body')
+                ->registerOptions($this->pageService->getAvailableExtends()->dump())
                 ->help($this->trans('luna.page.field.extends.desc'))
                 ->required(true)
                 ->defaultValue('global.body');

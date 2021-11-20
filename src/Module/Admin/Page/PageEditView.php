@@ -9,11 +9,14 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Admin\Page;
+namespace Lyrasoft\Luna\Module\Admin\Page;
 
-use App\Entity\Page;
-use App\Module\Admin\Page\Form\EditForm;
-use App\Repository\PageRepository;
+use Lyrasoft\Luna\Entity\Page;
+use Lyrasoft\Luna\Module\Admin\Page\Form\EditForm;
+use Lyrasoft\Luna\PageBuilder\PageService;
+use Lyrasoft\Luna\Repository\PageRepository;
+use Unicorn\Image\ImagePlaceholder;
+use Unicorn\Script\UnicornScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
@@ -23,6 +26,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\Form\Form;
 use Windwalker\ORM\ORM;
 
 /**
@@ -40,6 +44,8 @@ class PageEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
+        protected PageService $pageService,
+        protected UnicornScript $unicornScript,
         #[Autowire] protected PageRepository $repository
     ) {
     }
@@ -66,6 +72,8 @@ class PageEditView implements ViewModelInterface
                     ?: $this->orm->extractEntity($item)
             );
 
+        $this->prepareScripts($app, $item, $form);
+
         $this->prepareMetadata($app, $view);
 
         return compact('form', 'id', 'item');
@@ -85,5 +93,27 @@ class PageEditView implements ViewModelInterface
             ->setTitle(
                 $this->trans('unicorn.title.edit', title: 'Page')
             );
+    }
+
+    protected function prepareScripts(AppContext $app, ?Page $item, Form $form)
+    {
+        $imagePlaceholder = $app->service(ImagePlaceholder::class);
+
+        $addons = [];
+
+        foreach ($this->pageService->getAddonTypes() as $addonType) {
+            $class = $addonType->getClassName();
+            $class::loadVueComponent($app);
+
+            $addons[$addonType->getType()] = $addonType->toArray($this->lang);
+        }
+
+        $this->unicornScript->data('builder-content', $item?->getContent() ?? []);
+        $this->unicornScript->data('addons', $addons);
+
+        $this->unicornScript->addRoute(
+            'loading_image',
+            $imagePlaceholder->ajaxLoader()
+        );
     }
 }
