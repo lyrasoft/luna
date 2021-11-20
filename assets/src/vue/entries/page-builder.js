@@ -26,6 +26,7 @@ S.import('@main')
     });
 
     app.config.globalProperties.$debug= u.isDebug();
+    app.config.globalProperties.$trigger= u.trigger;
     app.config.globalProperties.addonProp = (prop, type) => {
       return u.data('addons')[type][prop];
     };

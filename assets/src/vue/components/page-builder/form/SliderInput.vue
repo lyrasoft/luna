@@ -7,6 +7,7 @@
       :interval="interval"
     ></vue-slider>
     <input type="number"
+      :id="id"
       class="form-control ml-2 ms-2"
       :style="{ width: inputWidth }"
       v-model="value"
@@ -26,6 +27,7 @@ export default {
     VueSlider
   },
   props: {
+    id: String,
     modelValue: {
       default: ''
     },

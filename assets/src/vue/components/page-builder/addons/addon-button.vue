@@ -10,7 +10,7 @@
     <!-- Align -->
     <div class="form-group mb-3">
       <label for="input-addon-edit-align">Align</label>
-      <div class="mt-2">
+      <div>
         <b-form-radio-group v-model="options.align" class="btn-block"
           buttons button-variant="outline-primary">
           <b-form-radio value="">
@@ -86,7 +86,7 @@
     <div class="form-group mb-3">
       <label for="input-addon-edit-size">Size</label>
       <select id="input-addon-edit-size"
-        v-model="options.size" class="custom-select"
+        v-model="options.size" class="form-select custom-select"
         >
         <option value="">Default</option>
         <option value="btn-sm">btn-sm (Small)</option>
@@ -145,7 +145,7 @@
     <!-- Content Align -->
     <div class="form-group mb-3">
       <label for="input-addon-edit-icon_position">Icon Position</label>
-      <div class="mt-2">
+      <div>
         <b-form-radio-group v-model="options.icon_position" class="btn-block"
           buttons button-variant="outline-primary">
           <b-form-radio value="left">

@@ -4,7 +4,7 @@
       :value="falseValue"
       :disabled="disabled"
     />
-    <input type="checkbox" :name="name" :id="idName" class="form-control" :class="classes"
+    <input type="checkbox" :name="name" :id="idName" class="" :class="classes"
       :true-value="trueValue" :false-value="falseValue" :disabled="disabled"
       :value="trueValue"
       :checked="currentValue == trueValue"

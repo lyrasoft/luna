@@ -35,7 +35,7 @@
         </button>
         <span class="dropdown">
             <button href="#" class="btn btn-sm btn-outline-primary"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="fa fa-cog"></span>
             </button>
 

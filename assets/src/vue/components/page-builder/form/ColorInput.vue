@@ -1,7 +1,7 @@
 <template>
 <div class="d-flex">
   <input type="color"
-    v-model.lazy="value" class="form-control form-control-color mr-2 me-2" />
+    v-model="value" class="form-control form-control-color mr-2 me-2" />
   <input type="text"
     :id="id"
     class="form-control flex-grow-1"

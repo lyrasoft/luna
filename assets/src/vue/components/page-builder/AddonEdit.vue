@@ -13,17 +13,17 @@
             <!-- Tabs -->
             <ul class="nav nav-pills border-0">
               <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#addon-edit-general" ref="generalTab">
+                <a class="nav-link active" data-toggle="tab" data-bs-toggle="tab" href="#addon-edit-general" ref="generalTab">
                   General
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#addon-edit-layout">
+                <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#addon-edit-layout">
                   Layout
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#addon-edit-animation">
+                <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#addon-edit-animation">
                   Animation
                 </a>
               </li>
@@ -129,12 +129,12 @@
                         id="input-addon-edit-bg-image"></single-image>
                     </div>
 
-                    <div class="form-row">
+                    <div class="form-row row">
                       <!-- BG Repeat -->
                       <div class="form-group mb-3 col-md-6">
                         <label for="input-addon-edit-bg-repeat">Background Repeat</label>
                         <select id="input-addon-edit-bg-repeat"
-                          v-model.lazy="options.background.image.repeat" class="form-control">
+                          v-model.lazy="options.background.image.repeat" class="form-select custom-select">
                           <option value="no-repeat">No Repeat</option>
                           <option value="">Repeat All</option>
                           <option value="repeat-x">Repeat X</option>
@@ -144,12 +144,12 @@
                       </div>
                     </div>
 
-                    <div class="form-row">
+                    <div class="form-row row">
                       <!-- BG Attachment -->
                       <div class="form-group mb-3 col-md-6">
                         <label for="input-addon-edit-bg-attachment">Background Attachment</label>
                         <select id="input-addon-edit-bg-attachment"
-                          v-model.lazy="options.background.image.attachment" class="form-control">
+                          v-model.lazy="options.background.image.attachment" class="form-select custom-select">
                           <option value="fixed">Fixed</option>
                           <option value="scroll">Scroll</option>
                           <option value="inherit">Inherit</option>
@@ -160,7 +160,7 @@
                       <div class="form-group mb-3 col-md-6">
                         <label for="input-addon-edit-bg-position">Background Position</label>
                         <select id="input-addon-edit-bg-position"
-                          v-model.lazy="options.background.image.position" class="form-control">
+                          v-model.lazy="options.background.image.position" class="form-select custom-select">
                           <option value="left top">Left Top</option>
                           <option value="left center">Left Center</option>
                           <option value="left bottom">Left Bottom</option>

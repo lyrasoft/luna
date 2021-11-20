@@ -1,22 +1,22 @@
 <template>
   <div>
-    <CModal :visible="modalShow" size="lg" @close="modalShow = false">
+    <CModal :visible="modalShow" size="lg" @close="modalShow = false" @show="onShow">
       <CModalHeader class="d-flex bg-white" :class="{'sticky-top': sticky}"
         :close-button="false">
         <!-- Tabs -->
         <ul class="nav nav-pills border-0">
           <li class="nav-item">
-            <a ref="generalTab" class="nav-link active" data-bs-toggle="tab" href="#row-edit-general">
+            <a ref="generalTab" class="nav-link active" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-general">
               General
             </a>
           </li>
           <li class="nav-item">
-            <a ref="layoutTab" class="nav-link" data-bs-toggle="tab" href="#row-edit-layout">
+            <a ref="layoutTab" class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-layout">
               Layout
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#row-edit-animation">
+            <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-animation">
               Animation
             </a>
           </li>
@@ -85,7 +85,6 @@
                   :class="'c-subtitle-font-size__' + size">
                   <SliderInput
                     v-model="options.subtitle.font_size[size]"
-                    class="mt-2"
                     :max="500"
                   />
                 </template>
@@ -95,7 +94,7 @@
             <!-- Title Align -->
             <div class="form-group mb-3">
               <label for="input-row-edit-title-align">Title/Subtitle Text Alignment</label>
-              <div class="mt-2">
+              <div>
                 <ButtonRadio
                   color="primary"
                   variant="outline"
@@ -150,7 +149,7 @@
             <!-- Background Toggler -->
             <div class="form-group mb-3">
               <label for="input-row-edit-background">Background Type</label>
-              <div class="mt-2">
+              <div>
                 <ButtonRadio
                   color="primary"
                   variant="outline"
@@ -185,7 +184,7 @@
                     id="input-row-edit-bg-image"></single-image>
                 </div>
 
-                <div class="form-row">
+                <div class="form-row row">
                   <!-- BG Size -->
                   <div class="form-group mb-3 col-md-6">
                     <label for="input-row-edit-bg-size">Background Size</label>
@@ -212,7 +211,7 @@
                   </div>
                 </div>
 
-                <div class="form-row">
+                <div class="form-row row">
                   <!-- BG Attachment -->
                   <div class="form-group mb-3 col-md-6">
                     <label for="input-row-edit-bg-attachment">Background Attachment</label>
@@ -403,7 +402,7 @@
                 Will auto prefix by <code>{{ `#luna-${values.id}` }}</code>, only works for this scope.
               </div>
               <div>
-                <codemirror ref="css-editor" v-model="options.html_css" :options="cmOptions" :height="350"></codemirror>
+                <codemirror ref="cssEditor" v-model="options.html_css" :options="cmOptions" :height="350"></codemirror>
               </div>
             </div>
           </div>
@@ -475,10 +474,11 @@ export default {
 
     const generalTab = ref(null);
     const layoutTab = ref(null);
+    const cssEditor = ref(null);
 
     onMounted(() => {
-      // $('[href="#row-edit-layout"]').on('shown.bs.tab', () => {
-      //   refreshCodeMirror(this.$refs['css-editor']);
+      // layoutTab.value.addEventListener('shown.bs.tab', () => {
+      //   refreshCodeMirror(cssEditor.value);
       // });
     });
 
@@ -526,6 +526,7 @@ export default {
       options,
       generalTab,
       layoutTab,
+      cssEditor,
 
       edit,
       saveClose,

@@ -48,7 +48,7 @@
               <div class="form-group mb-3">
                 <label :for="`input-column-edit-width-desktop--${content.id}`">Desktop Width</label>
                 <select :id="`input-column-edit-width-desktop--${content.id}`"
-                  v-model="content.options.width.lg" class="form-control">
+                  v-model="content.options.width.lg" class="form-select custom-select">
                   <option v-for="w of widthRange()" :value="'col-lg-' + w">
                     col-lg-{{ w }}
                   </option>
@@ -59,7 +59,7 @@
               <div class="form-group mb-3">
                 <label :for="`input-column-edit-width-tablet--${content.id}`">Tablet Width</label>
                 <select :id="`input-column-edit-width-tablet--${content.id}`"
-                  v-model="content.options.width.md" class="form-control">
+                  v-model="content.options.width.md" class="form-select custom-select">
                   <option value="">- None -</option>
                   <option v-for="w of widthRange()" :value="'col-md-' + w">
                     col-md-{{ w }}
@@ -71,7 +71,7 @@
               <div class="form-group mb-3">
                 <label :for="`input-column-edit-width-mobile--${content.id}`">Mobile Width</label>
                 <select :id="`input-column-edit-width-mobile--${content.id}`"
-                  v-model="content.options.width.xs" class="form-control">
+                  v-model="content.options.width.xs" class="form-select custom-select">
                   <option value="">- None -</option>
                   <option v-for="w of widthRange()" :value="'col-' + w">
                     col-{{ w }}

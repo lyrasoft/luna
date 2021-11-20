@@ -115,5 +115,10 @@ class PageEditView implements ViewModelInterface
             'loading_image',
             $imagePlaceholder->ajaxLoader()
         );
+
+        $this->unicornScript->addRoute(
+            '@file_upload',
+            $this->nav->to('file_upload')->var('profile', 'image')
+        );
     }
 }

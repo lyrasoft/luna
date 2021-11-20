@@ -4,7 +4,7 @@
       :style="{'background-image': backgroundImage}">
     </div>
 
-    <div class="form-row">
+    <div class="form-row row">
       <div class="col-6">
         <div class="form-group mb-3">
           <label :for="id + '-color1'">Color 1</label>
@@ -29,7 +29,7 @@
 
     <div class="form-group mb-3">
       <label :for="id + '-type'">Gradient Type</label>
-      <select :id="id + '-type'" v-model.lazy="gradient.type" class="form-control">
+      <select :id="id + '-type'" v-model.lazy="gradient.type" class="form-select custom-select">
         <option value="linear">Linear</option>
         <option value="radial">Radial</option>
       </select>
@@ -37,21 +37,22 @@
 
     <div class="form-group mb-3">
       <label :for="id + '-angle'">Angle</label>
-      <div class="d-flex">
-        <vue-slide-bar :id="id + '-angle'" class="flex-grow-1" v-model="gradient.angle" :max="360">
-        </vue-slide-bar>
-        <input type="text" class="form-control ml-2 ms-2 mt-2" style="width: 3.5rem;"
-          v-model="gradient.angle" />
-      </div>
+      <SliderInput
+        :id="id + '-angle'"
+        v-model="gradient.angle"
+        :max="360"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { computed, onMounted, reactive, toRefs, watch } from 'vue';
+import SliderInput from './SliderInput';
 
 export default {
   name: "gradient",
+  components: { SliderInput },
   props: {
     id: String,
     value: Object

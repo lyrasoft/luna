@@ -8,7 +8,7 @@
             Title Element
           </label>
           <select :id="id + 'title-element'"
-            v-model="options.title.element" class="form-control">
+            v-model="options.title.element" class="form-select custom-select">
             <option v-for="i of [1, 2, 3, 4, 5, 6]" :value="'h' + i">
               h{{ i }}
             </option>
@@ -37,7 +37,6 @@
             v-slot:[size]
             :class="'c-title-font-size__' + size">
             <SliderInput
-              class="mt-2"
               v-model="options.title.font_size[size]"
               :max="500"
             />
@@ -52,7 +51,6 @@
           </label>
           <div class="" v-if="prepared">
             <SliderInput
-              class="mt-2"
               v-model="options.title.font_weight"
               :data="['', 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000]"
               :max="1000"

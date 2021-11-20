@@ -83,7 +83,7 @@
 
       <!-- Modals -->
       <RowEdit ref="rowEditor" />
-      <!--<ColumnEdit ref="columnEditor" />-->
+      <ColumnEdit ref="columnEditor" />
       <!--<AddonEdit ref="addonEditor" />-->
 
       <!-- Addon selector -->
@@ -121,7 +121,7 @@
       <!-- Templates -->
       <TemplateManager ref="tmplManager" />
 
-      <CModal :visible="cssModalShow" class="show" size="xl"
+      <CModal :visible="cssModalShow" size="xl"
         @close="cssModalShow = false"
         :backdrop="'static'"
       >
@@ -166,7 +166,7 @@ import { each } from 'lodash-es';
 import { nextTick, onMounted, reactive, toRefs } from 'vue';
 import { ref } from 'vue/dist/vue.esm-browser';
 // import AddonEdit from '../components/page-builder/AddonEdit';
-// import ColumnEdit from '../components/page-builder/ColumnEdit';
+import ColumnEdit from '../components/page-builder/ColumnEdit';
 import CssEditor from '../components/page-builder/CssEditor';
 import Row from '../components/page-builder/Row';
 import RowEdit from '../components/page-builder/RowEdit';
@@ -186,7 +186,7 @@ export default {
     TemplateManager,
     Store,
     // AddonEdit,
-    // ColumnEdit,
+    ColumnEdit,
     RowEdit,
     Row,
     CssEditor,
@@ -396,6 +396,9 @@ export default {
     return {
       root,
       rowEditor,
+      columnEditor,
+      addonEditor,
+      tmplManager,
       ...toRefs(state),
 
       cssEdit,
@@ -442,7 +445,7 @@ function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, ad
 
   u.on('column:save', content => {
     each(content, (v, k) => {
-      this.editing.column[k] = v;
+      state.editing.column[k] = v;
     });
   });
 
@@ -491,5 +494,9 @@ function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, ad
 <style>
 .CodeMirror {
   height: 450px !important;
+}
+
+.form-group label {
+  margin-bottom: .5rem;
 }
 </style>

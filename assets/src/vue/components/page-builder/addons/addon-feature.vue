@@ -89,7 +89,7 @@
         </div>
       </rwd-group>
 
-      <div class="form-row">
+      <div class="form-row row">
         <div class="col-6">
           <!-- Title Color -->
           <div class="form-group mb-3">
@@ -108,7 +108,7 @@
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="form-row row">
         <div class="col-6">
           <!-- Title Margin Top -->
           <rwd-group class-name="c-title-margin_top">
@@ -166,7 +166,7 @@
       <div class="form-group mb-3">
         <label for="input-addon-edit-border-style">Border Style</label>
         <select id="input-addon-edit-border-style"
-          v-model="options.icon.border.style" class="form-control">
+          v-model="options.icon.border.style" class="form-select custom-select">
           <option value="">None</option>
           <option value="solid">Solid</option>
           <option value="dotted">Dotted</option>
