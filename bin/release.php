@@ -51,7 +51,6 @@ HELP;
 
         static::writeVersion($targetVersion);
 
-        $this->exec('yarn --cwd ./assets build:prod');
         $this->exec(sprintf('git commit -am "Release version: %s"', $targetVersion));
         $this->exec(sprintf('git tag %s', $targetVersion));
 
@@ -172,7 +171,7 @@ HELP;
      */
     protected function compileAssets()
     {
-        $this->exec('yarn prod css js vue');
+        $this->exec('yarn --cwd ./assets build:prod');
     }
 
     /**
