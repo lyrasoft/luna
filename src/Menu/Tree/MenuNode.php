@@ -29,6 +29,8 @@ class MenuNode extends Node implements MenuNodeInterface
 {
     protected string $title = '';
 
+    protected string $icon = '';
+
     protected ?UriInterface $link = null;
 
     protected bool $hidden = false;
@@ -167,6 +169,26 @@ class MenuNode extends Node implements MenuNodeInterface
         $this->title = $title;
 
         return $this;
+    }
+
+    /**
+     * @param  string  $icon
+     *
+     * @return  static
+     */
+    public function icon(string $icon): static
+    {
+        $this->$icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIcon(): string
+    {
+        return $this->icon;
     }
 
     /**

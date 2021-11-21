@@ -31,6 +31,13 @@ interface MenuNodeInterface extends NodeInterface
     public function getTitle(): string;
 
     /**
+     * getIcon
+     *
+     * @return  string
+     */
+    public function getIcon(): string;
+
+    /**
      * getTarget
      *
      * @return  MenuTarget

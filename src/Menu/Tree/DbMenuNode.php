@@ -57,6 +57,14 @@ class DbMenuNode extends Node implements MenuNodeInterface
         parent::__construct($value, $children);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getIcon(): string
+    {
+        return $this->getValue()?->getImage();
+    }
+
     public function getTitle(): string
     {
         return $this->getValue()?->getTitle() ?? '';
