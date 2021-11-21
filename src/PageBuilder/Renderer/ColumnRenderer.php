@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use ScssPhp\ScssPhp\Compiler;
-use Windwalker\Legacy\Structure\Structure;
+use Windwalker\Data\Collection;
 
 /**
  * The RowStyleRenderer class.
@@ -24,7 +24,7 @@ class ColumnRenderer extends AbstractPageRenderer
      *
      * @var  string
      */
-    protected $cssPrefix = '.l-column';
+    protected string $cssPrefix = '.l-column';
 
     /**
      * render
@@ -38,15 +38,15 @@ class ColumnRenderer extends AbstractPageRenderer
      */
     public function render(array $content, string $path): string
     {
-        $col = new Structure($content);
+        $col = new Collection($content);
 
-        if ((string) $col['options.html_id'] === '') {
-            $col['options.html_id'] = 'luna-' . $col['id'];
+        if ((string) $col->getDeep('options.html_id') === '') {
+            $col->setDeep('options.html_id', 'luna-' . $col->getDeep('id'));
         }
 
         $this->prepareAssets($col);
 
-        return $this->createRenderer()->render(
+        return $this->doRender(
             'page.column',
             [
                 'pageRenderer' => $this,
@@ -59,15 +59,16 @@ class ColumnRenderer extends AbstractPageRenderer
     /**
      * prepareCSS
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
+     * @throws \ScssPhp\ScssPhp\Exception\SassException
      * @since  1.5.2
      */
-    protected function prepareCSS(Structure $content)
+    protected function prepareCSS(Collection $content): void
     {
-        $styles = new StyleContainer('#' . $content['options.html_id']);
+        $styles = new StyleContainer('#' . $content->getDeep('options.html_id'));
 
         $options = $content->extract('options');
 
@@ -80,12 +81,13 @@ class ColumnRenderer extends AbstractPageRenderer
         $this->internalCSS($styles->render());
 
         // Custom CSS
-        $css = $content['options.html_css'];
+        $css = $content->getDeep('options.html_css');
 
         if (trim($css)) {
             $scss = new Compiler();
 
-            $css = $scss->compile("#{$content['options.html_id']} { {$content['options.html_css']} }");
+            $css = $scss->compileString("#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }")
+                ->getCss();
 
             $this->internalCSS($css);
         }
@@ -94,30 +96,30 @@ class ColumnRenderer extends AbstractPageRenderer
     /**
      * prepareJS
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareJS(Structure $content)
+    protected function prepareJS(Collection $content): void
     {
     }
 
     /**
      * prepareElement
      *
-     * @param Structure $options
-     * @param array     $classes
-     * @param array     $attrs
+     * @param  Collection  $options
+     * @param array        $classes
+     * @param array        $attrs
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    public static function prepareElement(Structure $options, array &$classes, array &$attrs)
+    public function prepareElement(Collection $options, array &$classes, array &$attrs): void
     {
-        $display = array_values($options['display']);
+        $display = array_values($options->getDeep('display'));
 
         // B/C convert block to flex
         foreach ($display as &$class) {

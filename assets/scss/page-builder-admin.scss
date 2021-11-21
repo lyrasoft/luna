@@ -53,7 +53,7 @@ $gutter: 7px;
 
   // Columns
   .column {
-    &[disabled] .column__body .card-body{
+    &[disabled] .column__body .card-body {
       overflow: hidden;
 
       &::after {
@@ -62,7 +62,7 @@ $gutter: 7px;
     }
 
     &__actions {
-      z-index: 5;
+      z-index: 3;
     }
 
     &__body .card-body {
@@ -110,6 +110,10 @@ $gutter: 7px;
       top: .25rem;
       right: .75rem;
       z-index: 2;
+
+      .dropdown-menu {
+        z-index: 3;
+      }
     }
   }
 }
@@ -131,7 +135,7 @@ $gutter: 7px;
 .c-single-image-uploader {
   border-radius: 3px;
 
-  &--hover  {
+  &--hover {
     background-color: #f8f8f8;
   }
 }

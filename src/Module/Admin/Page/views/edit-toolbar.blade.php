@@ -28,8 +28,10 @@ $pageService = $app->service(\Lyrasoft\Luna\PageBuilder\PageService::class);
 
 <div x-id="toolbar" x-data="{ form: $store.form }">
     <button type="button" class="btn btn-success btn-sm"
-        @click="form.post();">
-        <span class="fa fa-save"></span>
+        data-task="save"
+        style="width: 150px"
+    >
+        <span data-spinner class="fa fa-save"></span>
         @lang('unicorn.toolbar.save')
     </button>
 

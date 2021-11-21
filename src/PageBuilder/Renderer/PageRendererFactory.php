@@ -8,7 +8,10 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Windwalker\DI\Container;
+use Lyrasoft\Luna\PageBuilder\AbstractAddon;
+use Lyrasoft\Luna\PageBuilder\PageService;
+use Lyrasoft\Luna\Script\PageScript;
+use Windwalker\Core\Application\ApplicationInterface;
 
 /**
  * The PageRendererFactory class.
@@ -20,25 +23,39 @@ class PageRendererFactory
     /**
      * PageRendererFactory constructor.
      */
-    public function __construct(protected Container $container)
+    public function __construct(protected ApplicationInterface $app, protected PageService $pageService)
     {
     }
 
     /**
      * create
      *
-     * @param string $type
+     * @param  string  $type
      *
      * @return  PageRendererInterface
      *
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      * @since  1.5.2
      */
-    public function create(string $type): PageRendererInterface
+    public function createRenderer(string $type): PageRendererInterface
     {
         $class = sprintf(__NAMESPACE__ . '\%sRenderer', ucfirst($type));
 
-        return $this->container->newInstance($class);
+        return $this->app->make($class);
+    }
+
+    public function createAddonInstance(string $type, array $data): AbstractAddon
+    {
+        $addonType = $this->pageService->getAddonType($type);
+
+        if (!$addonType) {
+            throw new \LogicException("Addon type: \"$type\" not exists.");
+        }
+
+        return $this->app->make($addonType->getClassName(), compact('data'));
+    }
+
+    public function getScript(): PageScript
+    {
+        return $this->app->service(PageScript::class);
     }
 }

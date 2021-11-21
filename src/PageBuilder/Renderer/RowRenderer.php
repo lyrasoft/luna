@@ -10,7 +10,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use ScssPhp\ScssPhp\Compiler;
-use Windwalker\Legacy\Structure\Structure;
+use Windwalker\Data\Collection;
 
 /**
  * The RowStyleRenderer class.
@@ -24,7 +24,7 @@ class RowRenderer extends AbstractPageRenderer
      *
      * @var  string
      */
-    protected $cssPrefix = '.l-section';
+    protected string $cssPrefix = '.l-section';
 
     /**
      * render
@@ -38,15 +38,15 @@ class RowRenderer extends AbstractPageRenderer
      */
     public function render(array $content, string $path): string
     {
-        $row = new Structure($content);
+        $row = new Collection($content);
 
-        if ($row['options.html_id'] === '') {
-            $row['options.html_id'] = 'luna-' . $row['id'];
+        if ($row->getDeep('options.html_id') === '') {
+            $row->setDeep('options.html_id', 'luna-' . $row['id']);
         }
 
         $this->prepareAssets($row);
 
-        return $this->createRenderer()->render(
+        return $this->doRender(
             'page.row',
             [
                 'pageRenderer' => $this,
@@ -59,15 +59,15 @@ class RowRenderer extends AbstractPageRenderer
     /**
      * prepareCSS
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareCSS(Structure $content)
+    protected function prepareCSS(Collection $content): void
     {
-        $styles = new StyleContainer('#' . $content['options.html_id']);
+        $styles = new StyleContainer('#' . $content->getDeep('options.html_id'));
 
         $options = $content->extract('options');
 
@@ -79,7 +79,7 @@ class RowRenderer extends AbstractPageRenderer
 
         // Title & Subtitle
         $styles->select('.l-section__header')
-            ->add('text-align', $options['title_align']);
+            ->add('text-align', $options->getDeep('title_align'));
 
         // Background
         $this->prepareBackgroundCSS($options, $styles);
@@ -87,12 +87,13 @@ class RowRenderer extends AbstractPageRenderer
         $this->internalCSS($styles->render());
 
         // Custom CSS
-        $css = $content['options.html_css'];
+        $css = $content->getDeep('options.html_css');
 
         if (trim($css)) {
             $scss = new Compiler();
 
-            $css = $scss->compile("#{$content['options.html_id']} { {$content['options.html_css']} }");
+            $css = $scss->compileString("#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }")
+                ->getCss();
 
             $this->internalCSS($css);
         }
@@ -101,54 +102,54 @@ class RowRenderer extends AbstractPageRenderer
     /**
      * prepareBasicCSS
      *
-     * @param Structure      $options
-     * @param StyleContainer $styles
+     * @param  Collection     $options
+     * @param StyleContainer  $styles
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareBasicCSS(Structure $options, StyleContainer $styles)
+    protected function prepareBasicCSS(Collection $options, StyleContainer $styles): void
     {
         $styles->self()
-            ->add('color', $options['text_color'])
+            ->add('color', $options->getDeep('text_color'))
             ->add('width', '100%');
 
         $this->handleContentAlign($options, $styles);
 
         // Padding & Margin
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
-            static::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
-            static::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
+            static::addOffsets($style->self(), 'padding', $options->getDeep('padding.' . $size));
+            static::addOffsets($style->self(), 'margin', $options->getDeep('margin.' . $size));
         });
     }
 
     /**
      * prepareJS
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareJS(Structure $content)
+    protected function prepareJS(Collection $content): void
     {
     }
 
     /**
      * handleContentAlign
      *
-     * @param Structure      $options
-     * @param StyleContainer $styles
+     * @param  Collection  $options
+     * @param StyleContainer                $styles
      *
      * @return  void
      *
      * @since  1.8.5
      */
-    protected function handleContentAlign(Structure $options, StyleContainer $styles): void
+    protected function handleContentAlign(Collection $options, StyleContainer $styles): void
     {
-        switch ($options['valign']) {
+        switch ($options->getDeep('valign')) {
             case 'middle':
                 $styles->select($this->cssPrefix . '__container')->add('align-items', 'center');
                 break;

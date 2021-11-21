@@ -4,7 +4,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    __LICENSE__
+ * @license    MIT
  */
 
 declare(strict_types=1);
@@ -40,9 +40,9 @@ class PageService
      *
      * @param  string  $name
      *
-     * @return  string|null|AbstractAddon
+     * @return  string|null|AddonType
      */
-    public function getAddonType(string $name): ?string
+    public function getAddonType(string $name): ?AddonType
     {
         return $this->getAddonTypes()[$name] ?? null;
     }
@@ -50,7 +50,7 @@ class PageService
     /**
      * getAddonTypes
      *
-     * @return  array<AddonType|string>
+     * @return  array<AddonType>
      */
     public function getAddonTypes(): array
     {
@@ -110,6 +110,10 @@ class PageService
 
     public function secretVerify(string|int $id, string $secret): bool
     {
+        if (!str_contains($secret, '.')) {
+            return false;
+        }
+
         [$salt, $hash] = explode('.', $secret, 2);
 
         return $hash === $this->secretHash($salt, $id);

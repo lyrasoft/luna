@@ -25,13 +25,13 @@ use Windwalker\Core\Router\SystemUri;
 ?>
 
 <div x-id="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
-    <a class="btn btn-primary btn-sm"
-        href="{{ $nav->to('page_edit')->var('new', 1) }}"
+    <button type="button" class="btn btn-primary btn-sm"
+        @click="form.post('{{ $nav->to('page_create') }}')"
         style="min-width: 150px"
     >
         <i class="fa fa-plus"></i>
         @lang('unicorn.toolbar.new')
-    </a>
+    </button>
     <button type="button" class="btn btn-info btn-sm"
         @click="grid.form.post()"
     >
@@ -61,3 +61,9 @@ use Windwalker\Core\Router\SystemUri;
         @lang('unicorn.toolbar.delete')
     </button>
 </div>
+<script>
+import ButtonRadio from '../../../../../assets/src/vue/components/page-builder/form/ButtonRadio';
+export default {
+    components: { ButtonRadio }
+};
+</script>

@@ -46,7 +46,7 @@ $asset->css('@luna/dist/page-builder-admin.min.css');
         method="POST" enctype="multipart/form-data">
 
         <div class="">
-            <page-builder-app id="page-builder" class="" page-id="{{ $item->getId() }}"></page-builder-app>
+            <page-builder-app id="page-builder" class="" page-id="{{ $item?->getId() }}"></page-builder-app>
         </div>
 
         <div class="d-none">

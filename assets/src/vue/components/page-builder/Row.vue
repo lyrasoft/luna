@@ -95,11 +95,13 @@
           </Column>
         </template>
 
-        <a class="page-row__body-placeholder text-center p-4 border text-secondary col-12"
-          commented-v-if="addons.length === 0 && !drag"
-          href="#" @click.prevent="addNewColumn()">
-          <span class="fa fa-plus-square fa-3x"></span>
-        </a>
+        <template #footer>
+          <a class="page-row__body-placeholder text-center p-4 border text-secondary col-12"
+            commented-v-if="addons.length === 0 && !drag"
+            href="#" @click.prevent="addNewColumn()">
+            <span class="fa fa-plus-square fa-3x"></span>
+          </a>
+        </template>
       </draggable>
     </div>
 
@@ -128,6 +130,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
 import { CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle } from '@coreui/vue';
 import { defaultsDeep, startsWith } from 'lodash-es';
 import { computed, reactive, toRefs, watch } from 'vue';
@@ -217,7 +220,7 @@ export default {
             text: 'Please choose an action.',
             buttons: {
               add: {
-                text: 'Append Content',
+                text: 'Merge',
                 value: 'add',
                 className: 'btn-info'
               },
@@ -227,7 +230,7 @@ export default {
                 className: 'btn-warning'
               },
               append: {
-                text: 'Paste to behind.',
+                text: 'After',
                 value: 'append',
                 className: 'btn-dark'
               }
@@ -312,13 +315,13 @@ export default {
     }
 
     function deleteColumn(i) {
-      state.columns.splice(i, 1);
+      columns.value.splice(i, 1);
     }
 
     function openTemplates() {
       u.trigger('tmpl.open', (item, type, i) => {
         pasteData(item.content);
-      }, 'column,row', state.columns.length);
+      }, 'column,row', columns.value.length);
     }
 
     const columns = computed(() => {

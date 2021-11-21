@@ -20,21 +20,21 @@ class StyleContainer
      *
      * @var string
      */
-    protected $prefix = '';
+    protected string $prefix = '';
 
     /**
      * Property selectors.
      *
      * @var  StyleRules[]
      */
-    protected $selectors = [];
+    protected array $selectors = [];
 
     /**
      * StyleContainer constructor.
      *
-     * @param string $prefix
+     * @param  string  $prefix
      */
-    public function __construct($prefix = '')
+    public function __construct(string $prefix = '')
     {
         $this->prefix = $prefix;
     }
@@ -42,13 +42,13 @@ class StyleContainer
     /**
      * self
      *
-     * @param string $suffix
+     * @param  string  $suffix
      *
      * @return  StyleRules
      *
      * @since  1.5.2
      */
-    public function self($suffix = '')
+    public function self(string $suffix = ''): StyleRules
     {
         return $this->doSelect($this->prefix . $suffix);
     }
@@ -56,14 +56,14 @@ class StyleContainer
     /**
      * select
      *
-     * @param string        $selector
-     * @param callable|null $callback
+     * @param  string         $selector
+     * @param  callable|null  $callback
      *
      * @return  StyleRules
      *
      * @since  1.5.2
      */
-    public function select($selector, callable $callback = null)
+    public function select(string $selector, callable $callback = null): StyleRules
     {
         $k = trim($this->prefix . ' ' . $selector);
 
@@ -73,14 +73,14 @@ class StyleContainer
     /**
      * select
      *
-     * @param string        $selector
-     * @param callable|null $callback
+     * @param  string         $selector
+     * @param  callable|null  $callback
      *
      * @return  StyleRules
      *
      * @since  1.5.2
      */
-    public function selectAppend($selector, callable $callback = null)
+    public function selectAppend(string $selector, callable $callback = null): StyleRules
     {
         $k = trim($this->prefix . $selector);
 
@@ -90,14 +90,14 @@ class StyleContainer
     /**
      * doSelect
      *
-     * @param string        $selector
-     * @param callable|null $callback
+     * @param  string         $selector
+     * @param  callable|null  $callback
      *
      * @return  StyleRules
      *
      * @since  1.5.2
      */
-    protected function doSelect($selector, callable $callback = null)
+    protected function doSelect(string $selector, callable $callback = null): StyleRules
     {
         if (!isset($this->selectors[$selector])) {
             $this->selectors[$selector] = new StyleRules();
@@ -115,14 +115,14 @@ class StyleContainer
     /**
      * wrap
      *
-     * @param string        $selector
-     * @param callable|null $callback
+     * @param  string         $selector
+     * @param  callable|null  $callback
      *
      * @return  StyleContainer
      *
      * @since  1.5.2
      */
-    public function wrap($selector, callable $callback = null)
+    public function wrap(string $selector, callable $callback = null): StyleContainer
     {
         if (!isset($this->selectors[$selector])) {
             $this->selectors[$selector] = new StyleRules();
@@ -143,13 +143,13 @@ class StyleContainer
     /**
      * rwd
      *
-     * @param callable $callback
+     * @param  callable  $callback
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    public function rwd(callable $callback)
+    public function rwd(callable $callback): void
     {
         // LG
         $callback($this, 'lg');
@@ -170,13 +170,14 @@ class StyleContainer
      *
      * @since  1.5.2
      */
-    public function render()
+    public function render(): string
     {
         $styles = [];
 
-        uksort($this->selectors, function ($a, $b) {
-            return strpos($a, '@media') === 0 ? 1 : -1;
-        });
+        uksort(
+            $this->selectors,
+            fn($a, $b) => str_starts_with($a, '@media') ? 1 : -1
+        );
 
         foreach ($this->selectors as $selector => $rules) {
             $styles[] = $rules->render($selector);

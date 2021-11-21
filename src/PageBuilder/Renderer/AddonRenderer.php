@@ -8,10 +8,11 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Lyrasoft\Luna\PageBuilder\AddonHelper;
+use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use ScssPhp\ScssPhp\Compiler;
-use Windwalker\Legacy\Structure\Structure;
+use Windwalker\Data\Collection;
+use Windwalker\DI\Attributes\Inject;
 
 /**
  * The RowStyleRenderer class.
@@ -25,14 +26,14 @@ class AddonRenderer extends AbstractPageRenderer
      *
      * @var StyleContainer
      */
-    protected $styles;
+    protected StyleContainer $styles;
 
     /**
      * Property type.
      *
      * @var  string
      */
-    protected $cssPrefix = '.c-addon';
+    protected string $cssPrefix = '.c-addon';
 
     /**
      * render
@@ -42,16 +43,14 @@ class AddonRenderer extends AbstractPageRenderer
      *
      * @return  string
      *
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      * @since  1.5.2
      */
     public function render(array $content, string $path): string
     {
-        $addon = new Structure($content);
+        $addon = new Collection($content);
 
-        if ((string) $addon['options.html_id'] === '') {
-            $addon['options.html_id'] = 'luna-' . $addon['id'];
+        if ((string) $addon->getDeep('options.html_id') === '') {
+            $addon->setDeep('options.html_id', 'luna-' . $addon->getDeep('id'));
         }
 
         $this->prepareAssets($addon);
@@ -60,7 +59,7 @@ class AddonRenderer extends AbstractPageRenderer
         $classes = [];
         $attrs = [];
 
-        static::prepareElement($options, $classes, $attrs);
+        $this->prepareElement($options, $classes, $attrs);
 
         $data = [
             'content' => $addon,
@@ -72,23 +71,24 @@ class AddonRenderer extends AbstractPageRenderer
             'path' => $path
         ];
 
-        $addonInstance = AddonHelper::getAddonInstance($addon['type'], $data);
+        $addonInstance = $this->factory->createAddonInstance($addon->getDeep('type'), $data);
 
-        return $addonInstance->render();
+        return $addonInstance->render($this->createRenderer());
     }
 
     /**
      * prepareCSS
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
+     * @throws \ScssPhp\ScssPhp\Exception\SassException
      * @since  1.5.2
      */
-    protected function prepareCSS(Structure $content)
+    protected function prepareCSS(Collection $content): void
     {
-        $this->styles = $styles = new StyleContainer('#' . $content['options.html_id']);
+        $this->styles = $styles = new StyleContainer('#' . $content->getDeep('options.html_id'));
 
         $options = $content->extract('options');
 
@@ -102,12 +102,12 @@ class AddonRenderer extends AbstractPageRenderer
         $this->prepareBackgroundCSS($options, $styles);
 
         // Custom CSS
-        $css = $content['options.html_css'];
+        $css = $content->getDeep('options.html_css');
 
         if (trim($css)) {
             $scss = new Compiler();
 
-            $css = $scss->compileString("#{$content['options.html_id']} { {$content['options.html_css']} }");
+            $css = $scss->compileString("#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }");
 
             $this->internalCSS($css->getCss());
         }
@@ -116,31 +116,31 @@ class AddonRenderer extends AbstractPageRenderer
     /**
      * prepareJS
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareJS(Structure $content)
+    protected function prepareJS(Collection $content): void
     {
     }
 
     /**
      * prepareElement
      *
-     * @param Structure $options
-     * @param array     $classes
-     * @param array     $attrs
+     * @param  Collection  $options
+     * @param array        $classes
+     * @param array        $attrs
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    public static function prepareElement(Structure $options, array &$classes, array &$attrs)
+    public function prepareElement(Collection $options, array &$classes, array &$attrs): void
     {
-        $classes = array_merge($classes, array_values($options['display']));
-        $classes[] = $options['html_class'];
+        $classes = array_merge($classes, array_values($options->getDeep('display')));
+        $classes[] = $options->getDeep('html_class');
 
         parent::prepareElement($options, $classes, $attrs);
     }

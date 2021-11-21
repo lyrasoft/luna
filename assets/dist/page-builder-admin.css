@@ -39,7 +39,7 @@
     background: rgba(0, 0, 0, 0.05) url(../images/admin/disable-pattern.png); }
 
 #page-builder .column__actions {
-  z-index: 5; }
+  z-index: 3; }
 
 #page-builder .column__body .card-body {
   position: relative; }
@@ -75,6 +75,8 @@
   top: .25rem;
   right: .75rem;
   z-index: 2; }
+  #page-builder .c-addon-instance__toolbar .dropdown-menu {
+    z-index: 3; }
 
 .c-addon-list .c-addon__link {
   border: 1px solid #ccc; }

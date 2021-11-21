@@ -20,7 +20,7 @@ class StyleRules
      *
      * @var array|StyleContainer[]
      */
-    protected $rules = [];
+    protected array $rules = [];
 
     /**
      * addRule
@@ -33,7 +33,7 @@ class StyleRules
      *
      * @since  1.5.2
      */
-    public function add($name, $value, $unit = '')
+    public function add(string $name, string $value, string $unit = ''): static
     {
         if ((string) $value !== '') {
             $this->rules[$name] = $value . $unit;
@@ -51,7 +51,7 @@ class StyleRules
      *
      * @since  1.5.2
      */
-    public function addStyles(StyleContainer $style)
+    public function addStyles(StyleContainer $style): static
     {
         $this->rules[] = $style;
 
@@ -67,7 +67,7 @@ class StyleRules
      *
      * @since  1.5.2
      */
-    public function render($selector = '')
+    public function render(string $selector = ''): string
     {
         $css = [];
 

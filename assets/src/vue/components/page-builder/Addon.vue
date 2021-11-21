@@ -40,8 +40,7 @@
 
         <CDropdown
           right
-          toggle-class="px-0"
-          @click="openTemplates(content.length)">
+          toggle-class="px-0">
           <CDropdownToggle
             varient="link"
             class="p-0 d-inline-block"

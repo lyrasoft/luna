@@ -34,8 +34,8 @@ S.import('@main')
       name: 'page-builder',
     });
 
-    app.config.globalProperties.$debug= u.isDebug();
-    app.config.globalProperties.$trigger= u.trigger;
+    app.config.globalProperties.$debug = u.isDebug();
+    app.config.globalProperties.$trigger = (...args) => u.trigger(...args);
     app.config.globalProperties.addonProp = (prop, type) => {
       return u.data('addons')[type][prop];
     };

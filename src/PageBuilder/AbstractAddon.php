@@ -8,15 +8,12 @@
 
 namespace Lyrasoft\Luna\PageBuilder;
 
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
-use Unicorn\Script\UnicornScript;
-use W3to4\Ioc;
 use Windwalker\Core\Asset\AssetService;
-use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Data\Collection;
-use Windwalker\Legacy\Data\Data;
-use Windwalker\Legacy\Structure\Structure;
+use Windwalker\DI\Attributes\Inject;
 use Windwalker\Renderer\CompositeRenderer;
 use Windwalker\Utilities\Contract\LanguageInterface;
 use Windwalker\Utilities\Iterator\PriorityQueue;
@@ -30,7 +27,7 @@ use Windwalker\Utilities\Iterator\PriorityQueue;
  * @property  string    state
  * @property  string    ordering
  * @property  string    language
- * @property  Structure params
+ * @property  Collection params
  *
  * @since  1.0
  */
@@ -39,23 +36,16 @@ abstract class AbstractAddon implements AdminVueComponentInterface
     /**
      * Property name.
      *
-     * @var  string
+     * @var  string|null
      */
     protected static ?string $name = null;
 
     /**
      * Property description.
      *
-     * @var  string
+     * @var  string|null
      */
     protected static ?string $description = null;
-
-    /**
-     * Property renderer.
-     *
-     * @var  RendererService
-     */
-    protected $renderer;
 
     /**
      * Property data.
@@ -64,18 +54,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      */
     protected array|Collection $data;
 
-    /**
-     * getInstance
-     *
-     * @param  array   $data
-     * @param  string  $engine
-     *
-     * @return static
-     */
-    public static function getInstance(array $data = [])
-    {
-        return new static($data);
-    }
+    #[Inject]
+    protected AssetService $asset;
 
     /**
      * AbstractModule constructor.
@@ -85,7 +65,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
     public function __construct(array $data = [])
     {
         $this->data   = Collection::wrap($data);
-        $this->params = $this->data->params;
+        $this->params = $this->data['params'];
     }
 
     /**
@@ -150,11 +130,12 @@ abstract class AbstractAddon implements AdminVueComponentInterface
         $paths->insert(WINDWALKER_VIEWS . '/addons/' . static::getType(), PriorityQueue::LOW);
 
         $paths->insert(
-            dirname(static::getReflector()->getFileName()) . '/Templates',
+            dirname(static::getReflector()->getFileName()) . '/views',
             PriorityQueue::LOW
         );
 
         $paths->insert(WINDWALKER_SOURCE . '/Module/Front/Page/views', PriorityQueue::LOW);
+        $paths->insert(LunaPackage::path('views'), PriorityQueue::LOW);
     }
 
     /**
@@ -348,5 +329,13 @@ abstract class AbstractAddon implements AdminVueComponentInterface
         $this->data = $data;
 
         return $this;
+    }
+
+    /**
+     * @return AssetService
+     */
+    public function getAsset(): AssetService
+    {
+        return $this->asset;
     }
 }

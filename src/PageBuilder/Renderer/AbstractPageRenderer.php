@@ -8,14 +8,13 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Lyrasoft\Luna\PageBuilder\PageScript;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleRules;
-use W3to4\Ioc;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Renderer\RendererService;
+use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Inject;
-use Windwalker\Legacy\Structure\Structure;
 use Windwalker\Renderer\CompositeRenderer;
 
 /**
@@ -30,7 +29,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @var  string
      */
-    protected $cssPrefix = 'unlnown';
+    protected string $cssPrefix = 'unknown';
 
     #[Inject]
     protected AssetService $asset;
@@ -38,13 +37,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     #[Inject]
     protected PageRendererFactory $factory;
 
-    /**
-     * AbstractPageRenderer constructor.
-     */
-    public function __construct(protected RendererService $renderer)
-    {
-        //
-    }
+    #[Inject]
+    protected RendererService $rendererService;
 
     /**
      * addOffsets
@@ -57,7 +51,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @since  1.5.2
      */
-    public static function addOffsets(StyleRules $rules, $rule, $value)
+    public static function addOffsets(StyleRules $rules, string $rule, string $value): void
     {
         [$top, $right, $bottom, $left] = array_pad(explode(',', $value), 4, '');
 
@@ -82,13 +76,13 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * prepareAssets
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareAssets(Structure $content)
+    protected function prepareAssets(Collection $content): void
     {
         $this->prepareCSS($content);
         $this->prepareJS($content);
@@ -97,69 +91,71 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * prepareCSS
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    abstract protected function prepareCSS(Structure $content);
+    abstract protected function prepareCSS(Collection $content): void;
 
     /**
      * prepareJS
      *
-     * @param Structure $content
+     * @param  Collection  $content
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    abstract protected function prepareJS(Structure $content);
+    abstract protected function prepareJS(Collection $content): void;
 
     /**
      * prepareElement
      *
-     * @param Structure $options
-     * @param array     $classes
-     * @param array     $attrs
+     * @param  Collection  $options
+     * @param array        $classes
+     * @param array        $attrs
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    public static function prepareElement(Structure $options, array &$classes, array &$attrs)
+    public function prepareElement(Collection $options, array &$classes, array &$attrs): void
     {
-        if ($options['animation.name'] !== '') {
+        if ($options->getDeep('animation.name') !== '') {
             // LunaScript::wow(true);
             // LunaScript::animate();
 
             $classes[] = 'wow';
-            $classes[] = $options['animation.name'];
+            $classes[] = $options->getDeep('animation.name');
 
-            $attrs['data-wow-duration'] = ($options['animation.duration'] / 1000) . 's';
-            $attrs['data-wow-delay']    = ($options['animation.delay'] / 1000) . 's';
+            $attrs['data-wow-duration'] = ($options->getDeep('animation.duration') / 1000) . 's';
+            $attrs['data-wow-delay']    = ($options->getDeep('animation.delay') / 1000) . 's';
         }
 
         // Video Background
-        if ($options['background.type'] === 'video') {
-            Ioc::getAppContext()->service(PageScript::class)->jarallax();
+        if ($options->getDeep('background.type') === 'video') {
+            $this->factory->getScript()->jarallax();
 
             $classes[] = 'jarallax';
 
-            if (strpos($options['background.video.url'], 'youtube.com') !== false
-                || strpos($options['background.video.url'], 'vimeo.com') !== false) {
-                $attrs['data-jarallax-video'] = $options['background.video.url'];
+            if (
+                str_contains($options->getDeep('background.video.url'), 'youtube.com')
+                || str_contains($options->getDeep('background.video.url'), 'vimeo.com')
+            ) {
+                $attrs['data-jarallax-video'] = $options->getDeep('background.video.url');
             } else {
                 $attrs['data-jarallax-video'] = sprintf(
                     'mp4: %s',
-                    $options['background.video.url']
+                    $options->getDeep('background.video.url')
                 );
             }
         }
 
         // Use Parallax
-        if ($options['background.parallax']) {
-            Ioc::getAppContext()->service(PageScript::class)->jarallax();
+        if ($options->getDeep('background.parallax')) {
+            $this->factory->getScript()->jarallax();
 
             $classes[] = 'jarallax';
 
@@ -171,48 +167,48 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * prepareBasicCSS
      *
-     * @param Structure      $options
-     * @param StyleContainer $styles
+     * @param  Collection     $options
+     * @param StyleContainer  $styles
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareBasicCSS(Structure $options, StyleContainer $styles)
+    protected function prepareBasicCSS(Collection $options, StyleContainer $styles): void
     {
         $styles->self()
-            ->add('color', $options['text_color'])
-            ->add('text-align', $options['align'])
+            ->add('color', $options->getDeep('text_color'))
+            ->add('text-align', $options->getDeep('align'))
             ->add('width', '100%');
 
         $this->handleContentAlign($options, $styles);
 
         // Border
-        if ($options['border.enabled']) {
+        if ($options->getDeep('border.enabled')) {
             $styles->rwd(function (StyleContainer $style, $size) use ($options) {
                 $style->self()
-                    ->add('border-width', $options['border.width.' . $size], 'px');
+                    ->add('border-width', $options->getDeep('border.width.' . $size), 'px');
             });
 
             $styles->self()
-                ->add('border-color', $options['border.color'])
-                ->add('border-style', $options['border.style']);
+                ->add('border-color', $options->getDeep('border.color'))
+                ->add('border-style', $options->getDeep('border.style'));
         }
 
         // Radius
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
-            $style->self()->add('border-radius', $options['border.radius.' . $size], 'px');
+            $style->self()->add('border-radius', $options->getDeep('border.radius.' . $size), 'px');
         });
 
         // Box shadow
-        if ($options['box_shadow.enabled']) {
+        if ($options->getDeep('box_shadow.enabled')) {
             $shadow = sprintf(
                 '%dpx %dpx %dpx %dpx %s',
-                (int) $options['box_shadow.hoffset'],
-                (int) $options['box_shadow.voffset'],
-                (int) $options['box_shadow.blur'],
-                (int) $options['box_shadow.spread'],
-                $options['box_shadow.color']
+                (int) $options->getDeep('box_shadow.hoffset'),
+                (int) $options->getDeep('box_shadow.voffset'),
+                (int) $options->getDeep('box_shadow.blur'),
+                (int) $options->getDeep('box_shadow.spread'),
+                $options->getDeep('box_shadow.color')
             );
 
             $styles->self()->add('box-shadow', $shadow);
@@ -220,96 +216,96 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
         // Padding & Margin
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
-            static::addOffsets($style->self(), 'padding', $options['padding.' . $size]);
-            static::addOffsets($style->self(), 'margin', $options['margin.' . $size]);
+            static::addOffsets($style->self(), 'padding', $options->getDeep('padding.' . $size));
+            static::addOffsets($style->self(), 'margin', $options->getDeep('margin.' . $size));
         });
     }
 
     /**
      * prepareTitleCSS
      *
-     * @param Structure      $options
-     * @param StyleContainer $styles
+     * @param  Collection     $options
+     * @param StyleContainer  $styles
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareTitleCSS(Structure $options, StyleContainer $styles)
+    protected function prepareTitleCSS(Collection $options, StyleContainer $styles): void
     {
         // Title
         $styles->select($this->cssPrefix . '__title')
-            ->add('color', $options['title.color'])
-            ->add('font-weight', $options['title.font_weight']);
+            ->add('color', $options->getDeep('title.color'))
+            ->add('font-weight', $options->getDeep('title.font_weight'));
 
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
             $style->select($this->cssPrefix . '__title')
-                ->add('font-size', $this->fontSize($options['title.font_size.' . $size]), $this->fontSizeUnit())
-                ->add('margin-top', $options['title.margin_top.' . $size], 'px')
-                ->add('margin-bottom', $options['title.margin_bottom.' . $size], 'px');
+                ->add('font-size', $this->fontSize($options->getDeep('title.font_size.' . $size)), $this->fontSizeUnit())
+                ->add('margin-top', $options->getDeep('title.margin_top.' . $size), 'px')
+                ->add('margin-bottom', $options->getDeep('title.margin_bottom.' . $size), 'px');
         });
 
         // Subtitle
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
             $style->select($this->cssPrefix . '__subtitle')
-                ->add('font-size', $this->fontSize($options['title.font_size.' . $size]), $this->fontSizeUnit());
+                ->add('font-size', $this->fontSize($options->getDeep('title.font_size.' . $size)), $this->fontSizeUnit());
         });
     }
 
     /**
      * prepareBackgroundCSS
      *
-     * @param Structure      $options
-     * @param StyleContainer $styles
+     * @param  Collection     $options
+     * @param StyleContainer  $styles
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    protected function prepareBackgroundCSS(Structure $options, StyleContainer $styles)
+    protected function prepareBackgroundCSS(Collection $options, StyleContainer $styles): void
     {
         $self = $styles->self();
 
-        if ($options['background.overlay'] !== '') {
+        if ($options->getDeep('background.overlay') !== '') {
             $styles->select('.l-bg-overlay')
-                ->add('background-color', $options['background.overlay']);
+                ->add('background-color', $options->getDeep('background.overlay'));
         }
 
-        switch ($options['background.type']) {
+        switch ($options->getDeep('background.type')) {
             case 'color':
-                $self->add('background-color', $options['background.color']);
+                $self->add('background-color', $options->getDeep('background.color'));
                 break;
 
             case 'image':
-                if ($options['background.image.url'] !== '') {
-                    $self->add('background-image', sprintf('url(%s)', $options['background.image.url']));
+                if ($options->getDeep('background.image.url') !== '') {
+                    $self->add('background-image', sprintf('url(%s)', $options->getDeep('background.image.url')));
                 }
 
-                $self->add('background-size', $options['background.image.size']);
-                $self->add('background-position', $options['background.image.position']);
-                $self->add('background-repeat', $options['background.image.repeat']);
-                $self->add('background-attachment', $options['background.image.attachment']);
+                $self->add('background-size', $options->getDeep('background.image.size'));
+                $self->add('background-position', $options->getDeep('background.image.position'));
+                $self->add('background-repeat', $options->getDeep('background.image.repeat'));
+                $self->add('background-attachment', $options->getDeep('background.image.attachment'));
 
-                $self->add('background-color', $options['background.color']);
+                $self->add('background-color', $options->getDeep('background.color'));
                 break;
 
             case 'gradient':
-                if ($options['background.gradient.type'] === 'linear') {
+                if ($options->getDeep('background.gradient.type') === 'linear') {
                     $self->add('background-image', sprintf(
                         'linear-gradient(%sdeg, %s %s%%, %s %s%%)',
-                        $options['background.gradient.angle'],
-                        $options['background.gradient.start_color'],
-                        $options['background.gradient.start_pos'],
-                        $options['background.gradient.end_color'],
-                        $options['background.gradient.end_pos']
+                        $options->getDeep('background.gradient.angle'),
+                        $options->getDeep('background.gradient.start_color'),
+                        $options->getDeep('background.gradient.start_pos'),
+                        $options->getDeep('background.gradient.end_color'),
+                        $options->getDeep('background.gradient.end_pos')
                     ));
                 } else {
                     $self->add('background-image', sprintf(
                         'radial-gradient(%s %s%%, %s %s%%)',
-                        $options['background.gradient.start_color'],
-                        $options['background.gradient.start_pos'],
-                        $options['background.gradient.end_color'],
-                        $options['background.gradient.end_pos']
+                        $options->getDeep('background.gradient.start_color'),
+                        $options->getDeep('background.gradient.start_pos'),
+                        $options->getDeep('background.gradient.end_color'),
+                        $options->getDeep('background.gradient.end_pos')
                     ));
                 }
                 break;
@@ -325,7 +321,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @since  1.7.33
      */
-    public function fontSize($size)
+    public function fontSize(float|string|null $size): float|string|null
     {
         if ($size === null || $size === '') {
             return $size;
@@ -349,16 +345,16 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * handleContentAlign
      *
-     * @param Structure      $options
-     * @param StyleContainer $styles
+     * @param  Collection     $options
+     * @param StyleContainer  $styles
      *
      * @return  void
      *
      * @since  1.8.5
      */
-    protected function handleContentAlign(Structure $options, StyleContainer $styles): void
+    protected function handleContentAlign(Collection $options, StyleContainer $styles): void
     {
-        switch ($options['valign']) {
+        switch ($options->getDeep('valign')) {
             case 'middle':
                 $styles->selectAppend($this->cssPrefix . '__body')->add('align-self', 'center');
                 break;
@@ -385,12 +381,16 @@ abstract class AbstractPageRenderer implements PageRendererInterface
         }
     }
 
+    protected function doRender(string $layout, array $data): string
+    {
+        return $this->createRenderer()->render(
+            $this->rendererService->resolveLayout($layout),
+            $data
+        );
+    }
+
     public function createRenderer(): CompositeRenderer
     {
-        return $this->renderer->createRenderer(
-            [
-                WINDWALKER_ROOT . '/src/Module/Front/Page/views'
-            ]
-        );
+        return $this->rendererService->createRenderer();
     }
 }

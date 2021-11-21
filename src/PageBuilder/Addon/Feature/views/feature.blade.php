@@ -22,7 +22,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
-$text = $options['content'];
+$text = $options->getDeep('content');
 
 $text = \Windwalker\Filter\OutputFilter::stripScript($text);
 $text = \Windwalker\Filter\OutputFilter::stripStyle($text);
@@ -32,34 +32,34 @@ $text = \Windwalker\Filter\OutputFilter::stripStyle($text);
 
 @section('body')
     <div class="c-feature-icon text-center">
-        @if ($options['link'] !== '' && in_array($options['link_element'], ['icon', 'both']))
-            <a href="{{ $options['link'] }}">
+        @if ($options->getDeep('link') !== '' && in_array($options->getDeep('link_element'), ['icon', 'both']))
+            <a href="{{ $options->getDeep('link') }}">
         @endif
 
-            @if ($options['layout_type'] === 'image')
-                <img class="img-fluid" src="{{ $options['image'] }}" alt="{{ $options['title.text'] }}">
+            @if ($options->getDeep('layout_type') === 'image')
+                <img class="img-fluid" src="{{ $options->getDeep('image') }}" alt="{{ $options->getDeep('title.text') }}">
             @else
                 <span class="c-feature-icon__wrapper">
-                    <span class="{{ $options['icon.name'] }}"></span>
+                    <span class="{{ $options->getDeep('icon.name') }}"></span>
                 </span>
             @endif
 
-        @if ($options['link'] !== '' && in_array($options['link_element'], ['icon', 'both']))
+        @if ($options->getDeep('link') !== '' && in_array($options->getDeep('link_element'), ['icon', 'both']))
             </a>
         @endif
     </div>
 
-    @if ($options['title.text'] !== '')
+    @if ($options->getDeep('title.text') !== '')
         <div class="c-addon__header c-box-header">
-            @if ($options['link'] !== '' && in_array($options['link_element'], ['title', 'both']))
-                <a href="{{ $options['link'] }}">
+            @if ($options->getDeep('link') !== '' && in_array($options->getDeep('link_element'), ['title', 'both']))
+                <a href="{{ $options->getDeep('link') }}">
             @endif
 
-                <{{ $options['title.element'] ?: 'h3' }} class="c-addon__title c-box-header__title">
-                    {{ $options['title.text'] }}
-                </{{ $options['title.element'] ?: 'h3' }}>
+                <{{ $options->getDeep('title.element') ?: 'h3' }} class="c-addon__title c-box-header__title">
+                    {{ $options->getDeep('title.text') }}
+                </{{ $options->getDeep('title.element') ?: 'h3' }}>
 
-            @if ($options['link'] !== '' && in_array($options['link_element'], ['title', 'both']))
+            @if ($options->getDeep('link') !== '' && in_array($options->getDeep('link_element'), ['title', 'both']))
                 </a>
             @endif
         </div>

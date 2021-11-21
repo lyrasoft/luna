@@ -21,26 +21,18 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
-
-$text = $options['content'];
-
-$text = \Windwalker\Filter\OutputFilter::stripScript($text);
-$text = \Windwalker\Filter\OutputFilter::stripStyle($text);
-
 ?>
 
 @extends('page.addon-wrapper')
 
 @section('body')
-    @if ($options['title.text'] !== '')
-        <div class="c-addon__header c-box-header">
-            <{{ $options['title.element'] ?: 'h3' }} class="c-addon__title c-box-header__title">
-                {{ $options['title.text'] }}
-            </{{ $options['title.element'] ?: 'h3' }}>
-        </div>
+    @if ($options->getDeep('link'))
+        <a href="{{ $options->getDeep('link') }}" target="{{ $options->getDeep('link_target') }}">
     @endif
 
-    <div class="c-addon__content-text">
-        {!! $text !!}
-    </div>
+    <div class="c-empty-space"></div>
+
+    @if ($options->getDeep('link'))
+        </a>
+    @endif
 @stop

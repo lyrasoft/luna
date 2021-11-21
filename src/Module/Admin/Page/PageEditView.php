@@ -4,7 +4,7 @@
  * Part of starter project.
  *
  * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    __LICENSE__
+ * @license    MIT
  */
 
 declare(strict_types=1);
@@ -120,5 +120,7 @@ class PageEditView implements ViewModelInterface
             '@file_upload',
             $this->nav->to('file_upload')->var('profile', 'image')
         );
+
+        $this->unicornScript->addRoute('@page_ajax');
     }
 }

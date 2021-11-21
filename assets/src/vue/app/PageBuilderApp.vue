@@ -6,7 +6,7 @@
         <button type="button" class="btn btn-outline-secondary btn-sm"
           @click="cssEdit"
           style="min-width: 150px">
-          <span class="fa fa-css3"></span>
+          <span class="fab fa-css3"></span>
           Edit CSS
         </button>
 
@@ -60,7 +60,7 @@
       </div>
 
       <div class="page-builder__bottom-toolbar text-center" v-if="content.length === 0">
-        <CDropdown class="d-inline-block text-nowrap">
+        <CDropdown class="text-nowrap">
           <button type="button" class="btn btn-outline-secondary btn-sm"
             @click="addNewRow()">
             Add New Row
@@ -97,7 +97,7 @@
         <CModalBody>
           <div class="row c-addon-list">
             <div v-for="addon of addons" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
-              <button class="d-inline-block p-4 c-addon__link btn btn-outline-dark text-center"
+              <button class="d-inline-block p-4 c-addon__link btn btn-outline-dark w-100 text-center"
                 type="button"
                 v-c-tooltip="addon.description"
                 @click.prevent="selectAddon(addon.type)">
@@ -172,7 +172,8 @@ import {
   addTextToClipboard,
   emptyRow,
   readClipboard,
-  savePage as doSavePage
+  savePage as doSavePage,
+  bindSaveButton
 } from '../services/page-builder/page-builder.service.js';
 
 export default {
@@ -233,7 +234,7 @@ export default {
         e.preventDefault();
       });
 
-      // PageBuilderService.bindSaveButton();
+      bindSaveButton();
 
       registerUnicornEvents(
         state,
@@ -316,7 +317,7 @@ export default {
 
       row.id = 'row-' + u.uid();
 
-      row.columns = this.handleDuplicateColumns(row.columns);
+      row.columns = handleDuplicateColumns(row.columns);
 
       state.content.splice(i + 1, 0, row);
     }
@@ -491,7 +492,7 @@ function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, ad
   height: 450px !important;
 }
 
-.form-group label {
+.form-group label:not(.btn) {
   margin-bottom: .5rem;
 }
 </style>

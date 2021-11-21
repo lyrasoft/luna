@@ -21,30 +21,16 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
-
-$btnClasses = [
-    $options['style'],
-    $options['size'],
-    $options['block'] ? 'btn-block' : '',
-];
-
 ?>
-
-@extends('page.addon-wrapper')
-
-@section('body')
-    <a href="{{ $options['link'] }}" @attr('target', $options['link_target'])
-        class="c-button btn {{ implode(' ', $btnClasses) }}">
-        @if ($options['icon_position'] === 'left')
-            <span class="c-button__icon {{ $options['icon'] }}"></span>
-        @endif
-        
-        <span class="c-button__text">
-            {{ $options['text'] }}
-        </span>
-
-        @if ($options['icon_position'] === 'right')
-            <span class="c-button__icon {{ $options['icon'] }}"></span>
-        @endif
-    </a>
-@stop
+<div id="{{ $options['html_id'] }}" class="c-addon c-addon--{{ $content['type'] }} {{ implode(' ', $classes) }}"
+    uni-page-edit="addon"
+    data-path="{{ $path }}"
+    data-addon-type="{{ $content['type'] }}"
+    {!! \Windwalker\DOM\DOMElement::buildAttributes($attrs) !!}>
+    @if ($options->getDeep('background.overlay'))
+        <div class="l-bg-overlay"></div>
+    @endif
+    <div class="l-bg-content c-addon__body">
+        @yield('body', 'Addon Body')
+    </div>
+</div>

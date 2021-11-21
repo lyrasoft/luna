@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Luna\PageBuilder;
 
-use Windwalker\Core\Asset\AssetService;
+use Windwalker\Core\Application\AppContext;
 use Windwalker\Renderer\CompositeRenderer;
 
 /**
@@ -30,18 +30,19 @@ interface AdminVueComponentInterface
     /**
      * loadVueComponent
      *
-     * @param  \Windwalker\Core\Application\AppContext  $asset
+     * @param  AppContext  $app
      *
      * @return  void
      *
      * @since  1.5.2
      */
-    public static function loadVueComponent(\Windwalker\Core\Application\AppContext $app): void;
+    public static function loadVueComponent(AppContext $app): void;
 
     /**
      * getVueComponentTemplate
      *
-     * @param array $data
+     * @param  CompositeRenderer  $renderer
+     * @param  array              $data
      *
      * @return string
      * @throws \ReflectionException

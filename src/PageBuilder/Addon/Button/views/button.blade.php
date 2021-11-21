@@ -21,28 +21,30 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+
+$btnClasses = [
+    $options->getDeep('style'),
+    $options->getDeep('size'),
+    $options->getDeep('block') ? 'btn-block' : '',
+];
+
 ?>
 
 @extends('page.addon-wrapper')
 
 @section('body')
-    @if ($options['title.text'] !== '')
-        <div class="c-addon__header c-box-header">
-            <{{ $options['title.element'] ?: 'h3' }} class="c-addon__title c-box-header__title">
-                {{ $options['title.text'] }}
-            </{{ $options['title.element'] ?: 'h3' }}>
-        </div>
-    @endif
+    <a href="{{ $options->getDeep('link') }}" @attr('target', $options->getDeep('link_target'))
+        class="c-button btn {{ implode(' ', $btnClasses) }}">
+        @if ($options->getDeep('icon_position') === 'left')
+            <span class="c-button__icon {{ $options->getDeep('icon') }}"></span>
+        @endif
+        
+        <span class="c-button__text">
+            {{ $options->getDeep('text') }}
+        </span>
 
-    @if ($options['link'] !== '')
-        <a href="{{ $options['link'] }}" @attr('target', $options['link_target'])>
-    @endif
-
-            <img class="img-fluid c-image" src="{{ $options['image'] }}"
-                alt="{{ $options['alt'] ?: $options['label'] ?: $options['title.text'] ?: 'Image' }}"
-            >
-
-    @if ($options['link'] !== '')
-        </a>
-    @endif
+        @if ($options->getDeep('icon_position') === 'right')
+            <span class="c-button__icon {{ $options->getDeep('icon') }}"></span>
+        @endif
+    </a>
 @stop

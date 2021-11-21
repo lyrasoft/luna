@@ -17,7 +17,25 @@ u.formValidation(form)
 u.form(form).initComponent();
 u.$ui.keepAlive(location.href);
 
-function validateOptionsModal(validation) {
+// Auto open options
+const url = new URL(location.href);
+const titleInput = u.selectOne('#input-item-title');
+const aliasInput = u.selectOne('#input-item-alias');
+
+if (url.searchParams.get('new') === '1' || titleInput.value === '') {
+  const modal = u.$ui.bootstrap.modal('#options-modal');
+
+  aliasInput.value = '';
+
+  modal.show();
+
+  setTimeout(() => {
+    titleInput.focus();
+  }, 300);
+}
+
+// Validate options
+function validateOptionsModal([ validation ]) {
   const modal = u.selectOne('#options-modal');
 
   modal.addEventListener('hide.bs.modal', (e) => {

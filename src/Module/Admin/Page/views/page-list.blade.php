@@ -111,7 +111,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                         <td>
                             <div>
                                 <a href="{{ $nav->to('page_edit')->id($entity->getId()) }}">
-                                    {{ $item->title }}
+                                    {{ $item->title ?: '(No Title)' }}
                                 </a>
                             </div>
                         </td>

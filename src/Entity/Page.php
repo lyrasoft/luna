@@ -4,7 +4,7 @@
  * Part of starter project.
  *
  * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    __LICENSE__
+ * @license    MIT
  */
 
 declare(strict_types=1);
@@ -51,6 +51,9 @@ class Page implements EntityInterface
     #[Slugify]
     protected string $alias = '';
 
+    #[Column('image')]
+    protected string $image = '';
+
     #[Column('content')]
     #[Cast(JsonCast::class)]
     protected array $content = [];
@@ -90,9 +93,6 @@ class Page implements EntityInterface
 
     #[Column('language')]
     protected string $language = '';
-
-    #[Column('preview_secret')]
-    protected string $previewSecret = '';
 
     #[Column('params')]
     #[Cast(JsonCast::class)]
@@ -272,18 +272,6 @@ class Page implements EntityInterface
         return $this;
     }
 
-    public function getPreviewSecret(): string
-    {
-        return $this->previewSecret;
-    }
-
-    public function setPreviewSecret(string $previewSecret): static
-    {
-        $this->previewSecret = $previewSecret;
-
-        return $this;
-    }
-
     public function getParams(): array
     {
         return $this->params;
@@ -292,6 +280,26 @@ class Page implements EntityInterface
     public function setParams(array $params): static
     {
         $this->params = $params;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param  string  $image
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

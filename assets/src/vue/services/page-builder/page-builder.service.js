@@ -8,44 +8,24 @@
 import { startsWith, each } from 'lodash-es';
 
 export function bindSaveButton() {
-  const $btn = $('.c-btn-save');
-  // const $icon = $btn.find('[data-spinner]');
-
-  const $btn2close = $('.c-btn-save2close');
+  const $btn = document.querySelector('[data-task=save]');
 
   let className = '';
-  $btn.on('click', () => {
-    const $icon = $btn.find('[data-spinner]');
+  $btn?.addEventListener('click', () => {
+    const $icon = $btn.querySelector('[data-spinner]');
 
-    $btn.attr('disabled', true);
-    className = $icon.attr('class');
-    $icon.attr('class', 'spinner-border spinner-border-sm');
+    $btn.disabled = true;
+    className = $icon.getAttribute('class');
+    $icon.setAttribute('class', 'spinner-border spinner-border-sm');
 
-    this.save()
+    savePage()
       .then((res) => {
-        console.log('儲存成功');
+        console.log('Save Success!');
         return res;
       })
       .finally(() => {
-        $btn.attr('disabled', false);
-        $icon.attr('class', className);
-      });
-  });
-  $btn2close.on('click', () => {
-    const $icon = $btn2close.find('[data-spinner]');
-
-    $btn2close.attr('disabled', true);
-    className = $icon.attr('class');
-    $icon.attr('class', 'spinner-border spinner-border-sm');
-
-    this.save()
-      .then((res) => {
-        location.href = $('.c-btn-cancel, .c-button--back').attr('href');
-        return res;
-      })
-      .finally(() => {
-        $btn2close.attr('disabled', false);
-        $icon.attr('class', className);
+        $btn.disabled = false;
+        $icon.setAttribute('class', className);
       });
   });
 }
@@ -53,7 +33,7 @@ export function bindSaveButton() {
 export function savePage() {
   return u.$http.post(
       '@page_ajax/savePage',
-      new FormData($('#admin-form')[0])
+      new FormData(document.querySelector('#admin-form'))
     )
     .then((res) => {
       console.log('儲存完成');

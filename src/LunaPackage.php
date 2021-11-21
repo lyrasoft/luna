@@ -204,6 +204,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
         $this->installModules($installer, 'category');
         $this->installModules($installer, 'article');
+        $this->installModules($installer, 'page');
         $this->installModules($installer, 'menu', ['admin', 'model']);
         $this->installModules($installer, 'config', ['admin', 'model']);
         $this->installModules($installer, 'user');

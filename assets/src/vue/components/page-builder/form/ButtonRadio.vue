@@ -9,6 +9,7 @@
       :button="{ color: option.color || color, variant: option.variant || variant }"
       @change="value = option.value"
       :checked="option.value === value"
+      :class="[`btn-${size}`]"
     >
     </CFormCheck>
   </div>

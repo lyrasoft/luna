@@ -1,44 +1,59 @@
 <template>
   <div>
-    <CModal :visable="tmplModalShow"
-      title="Template"
-      size="xl"
+    <CModal :visible="tmplModalShow"
+      :size="'xl'"
+      @close="tmplModalShow = false"
     >
-      <div class="c-template-manager">
+      <CModalHeader>
+        <CModalTitle>
+          Template
+        </CModalTitle>
+      </CModalHeader>
+      <CModalBody class="c-template-manager">
 
-        <div class="form-group mb-3 d-flex">
+        <div class="form-group mb-3 d-flex align-items-center">
           <span class="mr-2 me-2">
             Filter:
           </span>
-          <b-form-radio-group
+          <ButtonRadio
             id="input-filter"
-            buttons
-            button-variant="outline-primary"
+            color="primary"
+            variant="outline"
             size="sm"
+            class="mr-2 me-2"
             v-model="filter.type"
             :options="filterButtons"
-          ></b-form-radio-group>
+          ></ButtonRadio>
+          <div>
+            <input type="search" placeholder="Search" v-model="q" class="form-control form-control-sm" />
+          </div>
         </div>
 
-        <div class="c-template-manager__items">
-          <transition-group name="fade" class="row">
-            <div v-for="(item, i) of filteredItems" class="col-md-6" :key="item.key"
+        <div class="c-template-manager__items row">
+          <transition-group name="fade">
+            <div v-for="(item, i) of filteredItems" class="col-md-6" :key="item.id || item.key"
+              :data-id="item.id"
               style="animation-duration: .3s">
               <div class="c-template-item card my-3" @click.prevent="selected(item)" style="cursor: pointer;">
                 <div class="c-template-item__preview card-img-top" :style="{ 'background-image': `url(${item.image})` }"></div>
-                <div class="card-footer d-flex">
-                  <h5 class="mb-0 mr-2 me-2">
-                    {{ item.title || 'No title' }}
-                  </h5>
-                  <div>
-                    <div class="badge" :class="`badge-${badgeColor(item.type)}`">{{ item.type }}</div>
+                <div class="card-footer">
+                  <div class="d-flex">
+                    <h5 class="mb-0 mr-2 me-2">
+                      {{ item.title || 'No title' }}
+                    </h5>
+                    <div>
+                      <div class="badge" :class="`bg-${badgeColor(item.type)}`">{{ item.type }}</div>
+                    </div>
+                    <div class="ml-auto ms-auto">
+                      <a v-if="item.can_delete === true"
+                        href="#" class="text-dark" @click.prevent.stop="remove(item, i)">
+                        <span class="fa fa-trash"></span>
+                        Delete
+                      </a>
+                    </div>
                   </div>
-                  <div class="ml-auto ms-auto">
-                    <a v-if="item.can_delete"
-                      href="#" class="text-dark" @click.prevent.stop="remove(item, i)">
-                      <span class="fa fa-trash"></span>
-                      Delete
-                    </a>
+                  <div class="small mt-2">
+                    {{ item.description || 'No description' }}
                   </div>
                 </div>
               </div>
@@ -50,14 +65,19 @@
           <span class="spinner spinner-border"></span>
         </div>
 
-      </div>
+      </CModalBody>
     </CModal>
 
-
-    <b-modal ref="save-modal" title="Save as Template" hide-footer>
-      <div>
+    <!-- Save Modal -->
+    <CModal :visible="saveModalShow" @close="saveModalShow = false">
+      <CModalHeader>
+        <CModalTitle>
+          Save as Template
+        </CModalTitle>
+      </CModalHeader>
+      <CModalBody>
         <div>
-          Save as: <div class="badge" :class="`badge-${badgeColor(save.type)}`">{{ save.type }}</div>
+          Save as: <div class="badge" :class="`bg-${badgeColor(save.type)}`">{{ save.type }}</div>
         </div>
         <div class="form-group mb-3">
           <label for="input-tmpl-title">Title</label>
@@ -67,9 +87,20 @@
         </div>
 
         <div class="form-group mb-3">
+          <label for="input-tmpl-description">Description</label>
+          <div>
+            <textarea id="input-tmpl-description" type="text"
+              class="form-control"
+              v-model="save.description"
+              rows="3"
+            />
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
           <label for="input-tmpl-image">Cover</label>
           <div>
-            <single-image v-model="save.image" id="input-tmpl-image"></single-image>
+            <SingleImage v-model="save.image" id="input-tmpl-image"></SingleImage>
           </div>
 
           <div class="form-group mb-3">
@@ -81,20 +112,32 @@
             </button>
           </div>
         </div>
-      </div>
-    </b-modal>
+      </CModalBody>
+    </CModal>
 
   </div>
 </template>
 
 <script>
+import SingleImage from '@/components/page-builder/form/SingleImage';
+import { CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/vue';
+import ButtonRadio from '@/components/page-builder/form/ButtonRadio';
+import { computed, reactive, ref, toRefs } from 'vue';
 import { toFormData } from '../../../services/page-builder/page-builder.service';
 export default {
   name: 'TemplateManager',
   components: {
+    SingleImage,
+    ButtonRadio,
+    CModal,
+    CModalHeader,
+    CModalTitle,
+    CModalBody,
+    CModalFooter,
   },
-  data() {
-    return {
+  setup(props, { emit }) {
+    const state = reactive({
+      q: '',
       filter: {
         type: '',
       },
@@ -104,36 +147,37 @@ export default {
       type: '',
       i: 0,
       save: {
+        id: null,
         type: null,
         title: '',
+        description: '',
         image: '',
         content: null,
         loading: false
-      }
-    };
-  },
-  created() {
-    //
-  },
-  methods: {
-    open(callback, type, i) {
-      this.callback = callback;
-      this.type = type;
-      this.i = i;
-      this.filter.type = '';
-      this.loadItems();
+      },
+    });
 
-      this.$refs['tmpl-modal'].show();
-    },
-    loadItems() {
-      this.loading = true;
-      this.items = [];
+    const tmplModalShow = ref(false);
+    const saveModalShow = ref(false);
 
-      u.$http.get(
-        u.route('@page_ajax', { task: 'getTemplates', type: this.type })
-      )
+    function open(callback, type, i) {
+      state.callback = callback;
+      state.type = type;
+      state.i = i;
+      state.filter.type = '';
+      loadItems();
+
+      tmplModalShow.value = true;
+    }
+    function loadItems() {
+      state.loading = true;
+      state.items = [];
+
+      return u.$http.get(
+          u.route('@page_ajax', { task: 'getTemplates', type: state.type })
+        )
         .then((res) => {
-          this.items = res.data.data.map(item => {
+          state.items = res.data.data.map(item => {
             item.key = u.uid();
             return item;
           });
@@ -142,40 +186,38 @@ export default {
           console.error(e);
         })
         .finally(() => {
-          this.loading = false;
+          state.loading = false;
         });
-    },
+    }
 
-    selected(item) {
-      this.$refs['tmpl-modal'].hide();
-      this.callback(item, this.type, this.i);
+    function selected(item) {
+      tmplModalShow.value = false;
+      state.callback(item, state.type, state.i);
 
-      this.$emit('selected', item, this.type, this.i);
+      emit('selected', item, state.type, state.i);
 
-      this.callback = null;
-      this.type = null;
-      this.i = null;
-    },
+      state.callback = null;
+      state.type = null;
+      state.i = null;
+    }
 
-    remove(item, i) {
-      u.$http.post(
-        '@page_ajax/removeTemplate',
-        toFormData({
-          title: item.title
-        })
-      )
+    function remove(item, i) {
+      return u.$http.post(
+          '@page_ajax/removeTemplate',
+          { id: item.id }
+        )
         .then((res) => {
-          this.items.splice(i, 1);
+          state.items.splice(i, 1);
         })
         .catch((e) => {
-          swal(e.statusText, '', 'warning');
+          u.alert(e.statusText, '', 'warning');
         })
         .finally(() => {
 
         });
-    },
+    }
 
-    badgeColor(type) {
+    function badgeColor(type) {
       switch (type) {
         case 'page':
           return 'dark';
@@ -186,54 +228,54 @@ export default {
         case 'addon':
           return 'danger';
       }
-    },
+    }
 
-    saveContent() {
-      this.save.loading = true;
+    function saveContent() {
+      state.save.loading = true;
 
-      u.$http.post(
-        '@page_ajax/saveTemplate',
-        toFormData(
-          {
-            type: this.save.type,
-            image: this.save.image,
-            title: this.save.title,
-            content: JSON.stringify(this.save.content)
-          }
+      return u.$http.post(
+          '@page_ajax/saveTemplate',
+          toFormData(
+            {
+              id: state.save.id,
+              type: state.save.type,
+              image: state.save.image,
+              title: state.save.title,
+              description: state.save.description,
+              content: JSON.stringify(this.save.content)
+            }
+          )
         )
-      )
         .then((res) => {
-          this.$refs['save-modal'].hide();
-          this.resetSaveData();
+          saveModalShow.value = false;
+          resetSaveData();
         })
         .catch((e) => {
-          swal(e.statusText, '', 'warning');
+          u.alert(e.statusText, '', 'warning');
         })
         .finally(() => {
-          this.save.loading = false;
+          state.save.loading = false;
         });
-    },
-
-    openSave(content, type) {
-      this.resetSaveData();
-
-      this.save.type = type;
-      this.save.content = content;
-
-      this.$refs['save-modal'].show();
-    },
-
-    resetSaveData() {
-      this.save.type = null;
-      this.save.content = null;
-      this.save.image = '';
-      this.save.title = '';
     }
-  },
 
-  computed: {
-    filterButtons() {
-      let types = this.type ? this.type.split(',').map(type => type.trim()) : [];
+    function openSave(content, type) {
+      resetSaveData();
+
+      state.save.type = type;
+      state.save.content = content;
+
+      saveModalShow.value = true;
+    }
+
+    function resetSaveData() {
+      state.save.type = null;
+      state.save.content = null;
+      state.save.image = '';
+      state.save.title = '';
+    }
+
+    const filterButtons = computed(() => {
+      let types = state.type ? state.type.split(',').map(type => type.trim()) : [];
 
       const options = [
         { text: 'All', value: '' },
@@ -247,15 +289,45 @@ export default {
       });
 
       return options;
-    },
+    });
 
-    filteredItems() {
-      if (!this.filter.type) {
-        return this.items;
-      }
+    const filteredItems = computed(() => {
+      return state.items.filter((item) => {
+        if (state.filter.type && item.type !== state.filter.type) {
+          return false;
+        }
 
-      return this.items.filter(item => item.type === this.filter.type);
-    }
+        if (state.q !== '') {
+          if (item.title.toUpperCase().indexOf(state.q.toUpperCase()) !== -1) {
+            return true;
+          }
+
+          if (item.description && item.description.toUpperCase().indexOf(state.q.toUpperCase()) !== -1) {
+            return true;
+          }
+
+          return false;
+        }
+
+        return true;
+      });
+    });
+
+    return {
+      ...toRefs(state),
+      tmplModalShow,
+      saveModalShow,
+      filterButtons,
+      filteredItems,
+
+      open,
+      selected,
+      remove,
+      badgeColor,
+      saveContent,
+      openSave,
+      resetSaveData
+    };
   }
 };
 </script>

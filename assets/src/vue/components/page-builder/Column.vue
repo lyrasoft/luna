@@ -93,39 +93,39 @@
               <span class="fa fa-cog"></span>
             </CDropdownToggle>
             <CDropdownMenu>
-              <CDropdownItem @click.prevent="duplicate()"
+              <CDropdownItem @click="duplicate()"
                 v-if="!content.disabled">
                 <span class="fa fa-fw fa-clone"></span>
                 Clone
               </CDropdownItem>
-              <CDropdownItem @click.prevent="copy()"
+              <CDropdownItem @click="copy()"
                 v-if="!content.disabled">
                 <span class="fa fa-fw fa-copy"></span>
                 Copy
               </CDropdownItem>
-              <CDropdownItem @click.prevent="paste()"
+              <CDropdownItem @click="paste()"
                 v-if="!content.disabled">
                 <span class="fa fa-fw fa-paste"></span>
                 Paste
               </CDropdownItem>
-              <CDropdownItem @click.prevent="toggleDisabled()">
+              <CDropdownItem @click="toggleDisabled()">
                 <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                 {{ content.disabled ? 'Enabled' : 'Disabled' }}
               </CDropdownItem>
-              <CDropdownItem @click.prevent="addNewRow()"
+              <CDropdownItem @click="addNewRow()"
                 v-if="!content.disabled && !child">
                 <span class="fa fa-fw fa-plus"></span>
                 New Row
               </CDropdownItem>
-              <CDropdownItem @click.prevent="openTemplates" v-if="!content.disabled">
+              <CDropdownItem @click="openTemplates" v-if="!content.disabled">
                 <span class="fa fa-fw fa-file-code"></span>
                 Insert Template
               </CDropdownItem>
-              <CDropdownItem @click.prevent="$trigger('tmpl.save', content, 'column')">
+              <CDropdownItem @click="$trigger('tmpl.save', content, 'column')">
                 <span class="fa fa-fw fa-save"></span>
                 Save as Template
               </CDropdownItem>
-              <CDropdownItem @click.prevent="remove()">
+              <CDropdownItem @click="remove()">
                 <span class="fa fa-fw fa-trash"></span>
                 Delete
               </CDropdownItem>
@@ -180,6 +180,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
 import { CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle, vctooltip } from '@coreui/vue';
 import { defaultsDeep, range, startsWith, values } from 'lodash-es';
 import { computed, reactive, toRefs, watch } from 'vue';
@@ -262,17 +263,17 @@ export default {
             text: 'Please choose an action.',
             buttons: {
               add: {
-                text: 'Append Content',
+                text: 'Merge',
                 value: 'add',
-                className: 'btn-outline-secondary'
+                className: 'btn-info'
               },
               replace: {
                 text: 'Replace',
                 value: 'replace',
-                className: 'btn-outline-secondary'
+                className: 'btn-warning'
               },
               append: {
-                text: 'Paste at behind.',
+                text: 'After',
                 value: 'append',
                 className: 'btn-dark'
               }
@@ -349,7 +350,7 @@ export default {
     function openTemplates() {
       u.trigger('tmpl.open', (item, type, i) => {
         pasteData(item.content);
-      }, 'column,addon', addons.valur.length);
+      }, 'column,addon', addons.value.length);
     }
 
     const addons = computed(() => {

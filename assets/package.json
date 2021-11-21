@@ -12,6 +12,7 @@
         "codemirror": "^5.63.3",
         "codemirror-editor-vue3": "^0.2.4",
         "lodash-es": "^4.17.21",
+        "sweetalert": "^2.1.2",
         "vue": "^3.2.22",
         "vue-slider-component": "^4.0.0-beta.4",
         "vue3-click-away": "^1.2.1",
