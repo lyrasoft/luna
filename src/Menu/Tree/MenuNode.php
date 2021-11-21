@@ -178,7 +178,7 @@ class MenuNode extends Node implements MenuNodeInterface
      */
     public function icon(string $icon): static
     {
-        $this->$icon = $icon;
+        $this->icon = $icon;
 
         return $this;
     }
