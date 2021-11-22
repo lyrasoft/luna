@@ -74,8 +74,8 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                     <th style="width: 10%" class="text-nowrap">
                         <div class="d-flex w-100 justify-content-end">
                             <x-sort
-                                asc="page.ordering ASC"
-                                desc="page.ordering DESC"
+                                asc="page.category_id DESC, page.ordering ASC"
+                                desc="page.category_id DESC, page.ordering DESC"
                             >
                                 @lang('unicorn.field.ordering')
                             </x-sort>

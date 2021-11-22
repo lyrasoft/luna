@@ -125,7 +125,7 @@ class PageListView implements ViewModelInterface
      */
     public function reorderEnabled(string $ordering): bool
     {
-        return $ordering === 'page.ordering ASC';
+        return $ordering === 'page.category_id DESC, page.ordering ASC';
     }
 
     /**

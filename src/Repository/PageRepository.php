@@ -24,6 +24,7 @@ use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\ManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
 use Windwalker\ORM\SelectorQuery;
+use Windwalker\Query\Query;
 
 /**
  * The PageRepository class.
@@ -58,7 +59,11 @@ class PageRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     #[ConfigureAction(ReorderAction::class)]
     protected function configureReorderAction(ReorderAction $action): void
     {
-        //
+        $action->setReorderGroupHandler(
+            function (Query $query, Page $page) {
+                $query->where('category_id', $page->getCategoryId());
+            }
+        );
     }
 
     #[ConfigureAction(BatchAction::class)]
