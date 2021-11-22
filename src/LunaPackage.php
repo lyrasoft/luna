@@ -203,6 +203,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $installer->installViews(static::path('views/*.blade.php'), 'views');
 
         $this->installModules($installer, 'category');
+        $this->installModules($installer, 'tag', ['admin', 'model']);
         $this->installModules($installer, 'article');
         $this->installModules($installer, 'page');
         $this->installModules($installer, 'menu', ['admin', 'model']);
