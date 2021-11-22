@@ -4,7 +4,7 @@
  * Part of starter project.
  *
  * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    MIT
+ * @license    __LICENSE__
  */
 
 declare(strict_types=1);
@@ -13,7 +13,6 @@ namespace Lyrasoft\Luna\Entity;
 
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
-use Lyrasoft\Luna\Attributes\PageSlugify;
 use Lyrasoft\Luna\Attributes\Slugify;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
@@ -29,67 +28,45 @@ use Windwalker\ORM\Attributes\Table;
 use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
+use Windwalker\ORM\Event\AfterDeleteEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 
 /**
- * The Page class.
+ * The Tag class.
  */
-#[Table('pages', 'page')]
-class Page implements EntityInterface
+#[Table('tags', 'tag')]
+class Tag implements EntityInterface
 {
     use EntityTrait;
 
     #[Column('id'), PK, AutoIncrement]
     protected ?int $id = null;
 
-    #[Column('category_id')]
-    protected int $categoryId = 0;
-
-    #[Column('extends')]
-    protected string $extends = '';
-
     #[Column('title')]
     protected string $title = '';
 
     #[Column('alias')]
-    #[PageSlugify]
+    #[Slugify]
     protected string $alias = '';
-
-    #[Column('image')]
-    protected string $image = '';
-
-    #[Column('content')]
-    #[Cast(JsonCast::class)]
-    protected array $content = [];
-
-    #[Column('css')]
-    protected string $css = '';
-
-    #[Column('meta')]
-    #[Cast(JsonCast::class)]
-    protected array $meta = [];
 
     #[Column('state')]
     #[Cast('int')]
     #[Cast(BasicState::class)]
     protected BasicState $state;
 
-    #[Column('ordering')]
-    protected int $ordering = 0;
-
     #[Column('created')]
     #[CastNullable(Chronos::class)]
     #[CreatedTime]
     protected ?Chronos $created = null;
 
-    #[Column('created_by')]
-    #[Author]
-    protected int $createdBy = 0;
-
     #[Column('modified')]
     #[CastNullable(Chronos::class)]
     #[CurrentTime]
     protected ?Chronos $modified = null;
+
+    #[Column('created_by')]
+    #[Author]
+    protected int $createdBy = 0;
 
     #[Column('modified_by')]
     #[Modifier]
@@ -108,6 +85,16 @@ class Page implements EntityInterface
         //
     }
 
+    #[AfterDeleteEvent]
+    public static function afterDelete(AfterDeleteEvent $event): void
+    {
+        /** @var static $entity */
+        $entity = $event->getEntity();
+        $orm = $event->getORM();
+
+        $orm->deleteWhere(TagMap::class, ['tag_id' => $entity->getId()]);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,18 +103,6 @@ class Page implements EntityInterface
     public function setId(?int $id): static
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getExtends(): string
-    {
-        return $this->extends;
-    }
-
-    public function setExtends(string $extends): static
-    {
-        $this->extends = $extends;
 
         return $this;
     }
@@ -156,42 +131,6 @@ class Page implements EntityInterface
         return $this;
     }
 
-    public function getContent(): array
-    {
-        return $this->content;
-    }
-
-    public function setContent(array $content): static
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function getCss(): string
-    {
-        return $this->css;
-    }
-
-    public function setCss(string $css): static
-    {
-        $this->css = $css;
-
-        return $this;
-    }
-
-    public function getMeta(): array
-    {
-        return $this->meta;
-    }
-
-    public function setMeta(array $meta): static
-    {
-        $this->meta = $meta;
-
-        return $this;
-    }
-
     public function getState(): BasicState
     {
         return $this->state;
@@ -200,18 +139,6 @@ class Page implements EntityInterface
     public function setState(int|BasicState $state): static
     {
         $this->state = new BasicState($state);
-
-        return $this;
-    }
-
-    public function getOrdering(): int
-    {
-        return $this->ordering;
-    }
-
-    public function setOrdering(int $ordering): static
-    {
-        $this->ordering = $ordering;
 
         return $this;
     }
@@ -228,18 +155,6 @@ class Page implements EntityInterface
         return $this;
     }
 
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(int $createdBy): static
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
     public function getModified(): ?Chronos
     {
         return $this->modified;
@@ -248,6 +163,18 @@ class Page implements EntityInterface
     public function setModified(\DateTimeInterface|string|null $modified): static
     {
         $this->modified = Chronos::wrapOrNull($modified);
+
+        return $this;
+    }
+
+    public function getCreatedBy(): int
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(int $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }
@@ -284,46 +211,6 @@ class Page implements EntityInterface
     public function setParams(array $params): static
     {
         $this->params = $params;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImage(): string
-    {
-        return $this->image;
-    }
-
-    /**
-     * @param  string  $image
-     *
-     * @return  static  Return self to support chaining.
-     */
-    public function setImage(string $image): static
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCategoryId(): int
-    {
-        return $this->categoryId;
-    }
-
-    /**
-     * @param  int  $categoryId
-     *
-     * @return  static  Return self to support chaining.
-     */
-    public function setCategoryId(int $categoryId): static
-    {
-        $this->categoryId = $categoryId;
 
         return $this;
     }

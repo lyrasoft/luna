@@ -17,6 +17,7 @@ use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
 use MyCLabs\Enum\Enum;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Unicorn\Attributes\OrderLast;
 use Windwalker\Core\Generator\Event\BuildEntityMethodEvent;
 use Windwalker\Core\Generator\Event\BuildEntityPropertyEvent;
 use Windwalker\Event\Attributes\EventSubscriber;
@@ -57,6 +58,10 @@ class EntityBuildingSubscriber
                 $resolver->define('modifier_column')
                     ->allowedTypes('string', 'bool', 'null')
                     ->default('modified_by');
+
+                $resolver->define('ordering_column')
+                    ->allowedTypes('string', 'bool', 'null')
+                    ->default('ordering');
             }
         );
     }

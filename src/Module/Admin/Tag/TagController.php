@@ -4,71 +4,44 @@
  * Part of starter project.
  *
  * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    MIT
+ * @license    __LICENSE__
  */
 
 declare(strict_types=1);
 
-namespace Lyrasoft\Luna\Module\Admin\Article;
+namespace Lyrasoft\Luna\Module\Admin\Tag;
 
-use Lyrasoft\Luna\Entity\Article;
-use Lyrasoft\Luna\Entity\TagMap;
-use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
-use Lyrasoft\Luna\Repository\ArticleRepository;
+use Lyrasoft\Luna\Module\Admin\Tag\Form\EditForm;
+use Lyrasoft\Luna\Repository\TagRepository;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
-use Windwalker\Core\Form\FormFactory;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
-use Windwalker\ORM\Event\AfterSaveEvent;
 
 /**
- * The ContentController class.
+ * The TagController class.
  */
 #[Controller()]
-class ArticleController
+class TagController
 {
     public function save(
         AppContext $app,
         CrudController $controller,
         Navigator $nav,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire] TagRepository $repository,
     ): mixed {
-        $form = $app->make(EditForm::class,);
-
-        $controller->afterSave(
-            function (AfterSaveEvent $event) use ($repository, $app) {
-                /** @var Article $entity */
-                $entity = $event->getEntity();
-
-                $orm = $repository->getORM();
-                $tagMapper = $orm->mapper(TagMap::class);
-                $tagIds = (array) ($app->input('item')['tags'] ?? []);
-                $maps = [];
-
-                foreach ($tagIds as $tagId) {
-                    $map = new TagMap();
-                    $map->setType('article');
-                    $map->setTagId((int) $tagId);
-                    $map->setTargetId($entity->getId());
-
-                    $maps[] = $map;
-                }
-
-                $tagMapper->flush($maps, ['target_id' => $entity->getId(), 'type' => 'article']);
-            }
-        );
+        $form = $app->make(EditForm::class);
 
         $uri = $app->call([$controller, 'save'], compact('repository', 'form'));
 
         switch ($app->input('task')) {
             case 'save2close':
-                return $nav->to('article_list');
+                return $nav->to(TagListView::class);
 
             case 'save2new':
-                return $nav->to('article_edit')->var('new', 1);
+                return $nav->to(TagEditView::class)->var('new', 1);
 
             case 'save2copy':
                 $controller->rememberForClone($app, $repository);
@@ -81,7 +54,7 @@ class ArticleController
 
     public function delete(
         AppContext $app,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire] TagRepository $repository,
         CrudController $controller
     ): mixed {
         return $app->call([$controller, 'delete'], compact('repository'));
@@ -89,7 +62,7 @@ class ArticleController
 
     public function filter(
         AppContext $app,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire] TagRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -97,10 +70,11 @@ class ArticleController
 
     public function batch(
         AppContext $app,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire] TagRepository $repository,
         GridController $controller
     ): mixed {
-        $data = match ($app->input('task')) {
+        $task = $app->input('task');
+        $data = match ($task) {
             'publish' => ['state' => 1],
             'unpublish' => ['state' => 0],
             default => null
@@ -111,7 +85,7 @@ class ArticleController
 
     public function copy(
         AppContext $app,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire] TagRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));

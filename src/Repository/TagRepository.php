@@ -4,15 +4,14 @@
  * Part of starter project.
  *
  * @copyright    Copyright (C) 2021 __ORGANIZATION__.
- * @license        MIT
+ * @license        __LICENSE__
  */
 
 declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Repository;
 
-use Lyrasoft\Luna\Entity\Category;
-use Lyrasoft\Luna\Entity\Page;
+use Lyrasoft\Luna\Entity\Tag;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\BatchAction;
@@ -26,10 +25,10 @@ use Unicorn\Selector\ListSelector;
 use Windwalker\ORM\SelectorQuery;
 
 /**
- * The PageRepository class.
+ * The TagRepository class.
  */
-#[Repository(entityClass: Page::class)]
-class PageRepository implements ManageRepositoryInterface, ListRepositoryInterface
+#[Repository(entityClass: Tag::class)]
+class TagRepository implements ManageRepositoryInterface, ListRepositoryInterface
 {
     use ManageRepositoryTrait;
     use ListRepositoryTrait;
@@ -38,13 +37,7 @@ class PageRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     {
         $selector = $this->createSelector();
 
-        $selector->from(Page::class)
-            ->leftJoin(
-                Category::class,
-                null,
-                'category.id',
-                'page.category_id'
-            );
+        $selector->from(Tag::class);
 
         return $selector;
     }

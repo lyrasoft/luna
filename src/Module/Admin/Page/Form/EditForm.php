@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Page\Form;
 
+use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use Unicorn\Enum\BasicState;
 use Unicorn\Field\CalendarField;
@@ -60,6 +61,11 @@ class EditForm implements FieldDefinitionInterface
             $form->add('alias', TextField::class)
                 ->label($this->trans('luna.page.field.alias'))
                 ->description($this->trans('luna.page.field.alias.desc'));
+
+            $form->add('category_id', CategoryListField::class)
+                ->label($this->trans('luna.page.field.category'))
+                ->option($this->trans('unicorn.select.placeholder'))
+                ->categoryType('article');
 
             $form->add('extends', TextField::class)
                 ->label($this->trans('luna.page.field.extends'))

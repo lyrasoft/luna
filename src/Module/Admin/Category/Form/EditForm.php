@@ -18,7 +18,9 @@ use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
 use Windwalker\Core\Language\TranslatorTrait;
+use Windwalker\Form\Field\HiddenField;
 use Windwalker\Form\Field\TextareaField;
+use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\ORM\ORM;
@@ -52,17 +54,17 @@ class EditForm implements FieldDefinitionInterface
         $type = $this->type;
 
         // ID
-        $form->add('id', \Windwalker\Form\Field\HiddenField::class);
+        $form->add('id', HiddenField::class);
 
         // Title
-        $form->add('title', \Windwalker\Form\Field\TextField::class)
+        $form->add('title', TextField::class)
             ->label($this->trans('unicorn.field.title'))
             ->placeholder($this->trans('unicorn.field.title'))
             ->addFilter('trim')
             ->required(true);
 
         // Alias
-        $form->add('alias', \Windwalker\Form\Field\TextField::class)
+        $form->add('alias', TextField::class)
             ->label($this->trans('unicorn.field.alias'))
             ->placeholder($this->trans('unicorn.field.alias'));
 
@@ -112,7 +114,7 @@ class EditForm implements FieldDefinitionInterface
                     ->label($this->trans('unicorn.field.description'))
                     ->rows(10);
 
-                $form->add('type', \Windwalker\Form\Field\HiddenField::class)
+                $form->add('type', HiddenField::class)
                     ->label($this->trans('unicorn.field.type'));
             }
         );

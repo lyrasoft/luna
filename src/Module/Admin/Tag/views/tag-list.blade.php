@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var  $app       AppContext      Application context.
- * @var  $vm        PageListView The view model object.
+ * @var  $vm        TagListView The view model object.
  * @var  $uri       SystemUri       System Uri information.
  * @var  $chronos   ChronosService  The chronos datetime service.
  * @var  $nav       Navigator       Navigator object to build route.
@@ -20,10 +20,10 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
-use Lyrasoft\Luna\Module\Admin\Page\PageListView;
+use Lyrasoft\Luna\Module\Admin\Tag\TagListView;
 
 /**
- * @var \Lyrasoft\Luna\Entity\Page $entity
+ * @var \Lyrasoft\Luna\Entity\Tag $entity
  */
 
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
@@ -57,38 +57,20 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                         <x-toggle-all></x-toggle-all>
                     </th>
                     <th style="width: 5%" class="text-nowrap">
-                        <x-sort field="page.state">
+                        <x-sort field="tag.state">
                             @lang('unicorn.field.state')
                         </x-sort>
                     </th>
-                    <th style="width: 5%" class="text-nowrap">
-                        <x-sort field="page.category_id">
-                            @lang('luna.page.field.category')
-                        </x-sort>
-                    </th>
                     <th class="text-nowrap">
-                        <x-sort field="page.title">
+                        <x-sort field="tag.title">
                             @lang('unicorn.field.title')
                         </x-sort>
-                    </th>
-                    <th style="width: 10%" class="text-nowrap">
-                        <div class="d-flex w-100 justify-content-end">
-                            <x-sort
-                                asc="page.ordering ASC"
-                                desc="page.ordering DESC"
-                            >
-                                @lang('unicorn.field.ordering')
-                            </x-sort>
-                            @if($vm->reorderEnabled($ordering))
-                                <x-save-order class="ml-2 ms-2"></x-save-order>
-                            @endif
-                        </div>
                     </th>
                     <th style="width: 1%" class="text-nowrap">
                         @lang('unicorn.field.delete')
                     </th>
                     <th style="width: 1%" class="text-nowrap text-right text-end">
-                        <x-sort field="page.id">
+                        <x-sort field="tag.id">
                             @lang('unicorn.field.id')
                         </x-sort>
                     </th>
@@ -113,26 +95,12 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 :value="$item->state"
                             />
                         </td>
-                        <td class="text-nowrap">
-                            {{ $item->category->title ?: '-' }}
-                        </td>
                         <td>
                             <div>
-                                <a href="{{ $nav->to('page_edit')->id($entity->getId()) }}">
-                                    {{ $item->title ?: '(No Title)' }}
+                                <a href="{{ $nav->to('tag_edit')->id($entity->getId()) }}">
+                                    {{ $item->title }}
                                 </a>
                             </div>
-                            <div class="small text-muted">
-                                {{ $item->alias }}
-                            </div>
-                        </td>
-                        <td class="text-end text-right">
-                            <x-order-control
-                                :enabled="$vm->reorderEnabled($ordering)"
-                                :row="$i"
-                                :id="$entity->getId()"
-                                :value="$item->ordering"
-                            ></x-order-control>
                         </td>
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-outline-secondary"

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
 use Lyrasoft\Luna\Field\CategoryListField;
+use Lyrasoft\Luna\Field\TagListField;
 use Lyrasoft\Luna\Field\UserModalField;
 use Unicorn\Field\CategoryCascadeSelectField;
 use Unicorn\Field\FileDragField;
@@ -88,22 +89,14 @@ class EditForm implements FieldDefinitionInterface
         $form->fieldset(
             'meta',
             function (Form $form) {
-                // $form->add('category_id', CategoryListField::class)
-                //     ->label($this->trans('luna.article.field.category'))
-                //     // ->addClass('has-choices')
-                //     ->categoryType($this->type);
-
-                $form->add('category_id', CategoryCascadeSelectField::class)
+                $form->add('category_id', CategoryListField::class)
                     ->label($this->trans('luna.article.field.category'))
-                    // ->addClass('has-choices')
-                    ->placeholders(
-                        [
-                            '[ROOT]',
-                            '- HHH -'
-                        ]
-                    )
-                    ->defaultValue('1')
                     ->categoryType($this->type);
+
+                $form->add('tags', TagListField::class)
+                    ->label($this->trans('luna.article.field.tags'))
+                    ->multiple(true)
+                    ->addClass('has-choices');
 
                 $form->add('image', SingleImageDragField::class)
                     ->label($this->trans('unicorn.field.image'))

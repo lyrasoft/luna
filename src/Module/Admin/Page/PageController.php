@@ -118,14 +118,12 @@ class PageController
         /** @var Page $entity */
         $entity = $repository->save($item);
 
-        $image = $fileUploadService->handleFileIfUploaded(
+        $item['image'] = $fileUploadService->handleFileIfUploaded(
                 $app->file('item')['image'] ?? null,
                 'images/pages/' . md5((string) $entity->getId()) . '.{ext}'
             )?->getUri() ?? $item['image'];
 
-        $entity->setImage((string) $image);
-
-        $repository->save($entity);
+        $repository->save($item);
 
         return [
             'item' => $entity,

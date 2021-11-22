@@ -4,17 +4,16 @@
  * Part of starter project.
  *
  * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    MIT
+ * @license    __LICENSE__
  */
 
 declare(strict_types=1);
 
-namespace Lyrasoft\Luna\Module\Admin\Article;
+namespace Lyrasoft\Luna\Module\Admin\Tag;
 
-use Lyrasoft\Luna\Entity\Article;
-use Lyrasoft\Luna\Entity\TagMap;
-use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
-use Lyrasoft\Luna\Repository\ArticleRepository;
+use Lyrasoft\Luna\Entity\Tag;
+use Lyrasoft\Luna\Module\Admin\Tag\Form\EditForm;
+use Lyrasoft\Luna\Repository\TagRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
@@ -27,13 +26,13 @@ use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
 
 /**
- * The ContentEditView class.
+ * The TagEditView class.
  */
 #[ViewModel(
-    layout: 'article-edit',
-    js: 'article-edit.js'
+    layout: 'tag-edit',
+    js: 'tag-edit.js'
 )]
-class ArticleEditView implements ViewModelInterface
+class TagEditView implements ViewModelInterface
 {
     use TranslatorTrait;
 
@@ -41,7 +40,7 @@ class ArticleEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
-        #[Autowire] protected ArticleRepository $repository
+        #[Autowire] protected TagRepository $repository
     ) {
     }
 
@@ -55,34 +54,17 @@ class ArticleEditView implements ViewModelInterface
      */
     public function prepare(AppContext $app, View $view): mixed
     {
-        $type = $app->input('type');
         $id = $app->input('id');
 
-        /** @var Article $item */
-        $item = $this->repository->getItem(compact('id'));
-
-        if ($type && $item->getType() !== $type) {
-            return $this->nav->self()->var('type', $item->getType());
-        }
+        $item = $this->repository->getItem($id);
 
         $form = $this->formFactory
-            ->create(EditForm::class, type: $type ?? 'article')
+            ->create(EditForm::class)
             ->setNamespace('item')
             ->fill(
                 $this->repository->getState()->getAndForget('edit.data')
                     ?: $this->orm->extractEntity($item)
             );
-
-        // Tags
-        if ($item) {
-            $tagIds = $this->orm->findColumn(
-                TagMap::class,
-                'tag_id',
-                ['type' => 'article', 'target_id' => $item->id]
-            )->dump();
-
-            $form->fill(['tags' => $tagIds]);
-        }
 
         $this->prepareMetadata($app, $view);
 
@@ -101,7 +83,7 @@ class ArticleEditView implements ViewModelInterface
     {
         $view->getHtmlFrame()
             ->setTitle(
-                $this->trans('unicorn.title.edit', title: $this->trans('luna.article.title'))
+                $this->trans('unicorn.title.edit', title: $this->trans('luna.tag.title'))
             );
     }
 }

@@ -18,6 +18,7 @@ use Lyrasoft\Luna\Module\Admin\Article\Form\GridForm;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\ReorderAction;
+use Unicorn\Repository\Actions\SaveAction;
 use Unicorn\Repository\ListRepositoryInterface;
 use Unicorn\Repository\ListRepositoryTrait;
 use Unicorn\Repository\ManageRepositoryInterface;
@@ -72,6 +73,12 @@ class ArticleRepository implements ManageRepositoryInterface, ListRepositoryInte
         $this->type = $type;
 
         return $this;
+    }
+
+    #[ConfigureAction(SaveAction::class)]
+    protected function configureSaveAction(SaveAction $action): void
+    {
+        $this->newOrderLast($action);
     }
 
     #[ConfigureAction(ReorderAction::class)]
