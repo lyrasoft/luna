@@ -33,8 +33,8 @@ use Windwalker\Core\Router\SystemUri;
                 <h5 class="modal-title" id="user-switch-modal-label">
                     @lang('luna.user.switch.modal.title'): <span class="font-weight-bold fw-bold" data-role="user_name"></span>
                 </h5>
-                <button type="button" class="btn-close close" data-dismiss="modal" aria-label="Close">
-{{--                    <span aria-hidden="true">&times;</span>--}}
+                <button type="button" class="btn-close close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                    <span class="visually-hidden" aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
