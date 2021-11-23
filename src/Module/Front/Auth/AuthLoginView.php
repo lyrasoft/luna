@@ -17,6 +17,7 @@ use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\View\View;
@@ -32,6 +33,7 @@ use Windwalker\Core\View\ViewModelInterface;
 class AuthLoginView implements ViewModelInterface
 {
     use SocialLoginViewTrait;
+    use TranslatorTrait;
 
     /**
      * AuthView constructor.
@@ -47,10 +49,11 @@ class AuthLoginView implements ViewModelInterface
     /**
      * Prepare View.
      *
-     * @param    AppContext  $app   The web app context.
-     * @param    View        $view  The view object.
+     * @param  AppContext  $app   The web app context.
+     * @param  View        $view  The view object.
      *
-     * @return    mixed
+     * @return array|RouteUri
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function prepare(AppContext $app, View $view): array|RouteUri
     {
@@ -65,6 +68,8 @@ class AuthLoginView implements ViewModelInterface
         $form = $this->formFactory->create(LoginForm::class);
 
         $reActivate = $app->getState()->get(ActivationService::RE_ACTIVATE_SESSION_KEY);
+
+        $view->setTitle($this->trans('luna.login.title'));
 
         return compact('form', 'reActivate');
     }

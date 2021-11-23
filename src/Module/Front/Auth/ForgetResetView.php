@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
@@ -29,6 +30,8 @@ use Windwalker\Core\View\ViewModelInterface;
 )]
 class ForgetResetView implements ViewModelInterface
 {
+    use TranslatorTrait;
+
     /**
      * Constructor.
      */
@@ -52,6 +55,8 @@ class ForgetResetView implements ViewModelInterface
         if (!$token) {
             return $this->nav->to('home');
         }
+
+        $view->setTitle($this->trans('luna.reset.form.title'));
 
         return compact('token');
     }

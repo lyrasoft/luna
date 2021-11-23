@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 
@@ -25,6 +26,8 @@ use Windwalker\Core\View\ViewModelInterface;
 )]
 class ForgetCompleteView implements ViewModelInterface
 {
+    use TranslatorTrait;
+
     /**
      * Constructor.
      */
@@ -43,6 +46,8 @@ class ForgetCompleteView implements ViewModelInterface
      */
     public function prepare(AppContext $app, View $view): array
     {
+        $view->setTitle($this->trans('luna.reset.complete.title'));
+
         return [];
     }
 }

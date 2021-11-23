@@ -17,6 +17,7 @@ use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\View\View;
@@ -32,6 +33,7 @@ use Windwalker\Core\View\ViewModelInterface;
 class RegistrationView implements ViewModelInterface
 {
     use SocialLoginViewTrait;
+    use TranslatorTrait;
 
     /**
      * RegistrationView constructor.
@@ -52,6 +54,7 @@ class RegistrationView implements ViewModelInterface
      * @param  View        $view  The view object.
      *
      * @return array|RouteUri
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function prepare(AppContext $app, View $view): array|RouteUri
     {
@@ -62,6 +65,8 @@ class RegistrationView implements ViewModelInterface
         $form = $this->formFactory->create(RegistrationForm::class);
         $form->setNamespace('user')
             ->fill($app->getState()->getAndForget('reg.data') ?? []);
+
+        $view->setTitle($this->trans('luna.registration.title'));
 
         return compact('form');
     }

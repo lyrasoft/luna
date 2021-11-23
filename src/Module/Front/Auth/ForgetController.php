@@ -41,7 +41,7 @@ class ForgetController
         Navigator $nav,
         ORM $orm,
         MailerInterface $mailer
-    ) {
+    ): RouteUri {
         $email = $app->input('email');
 
         if (!$email) {
@@ -52,7 +52,7 @@ class ForgetController
         $user = $userService->load(['email' => $email]);
 
         if (!$user) {
-            throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
+            return $nav->self()->layout('complete');
         }
 
         $token = JWT::encode(
