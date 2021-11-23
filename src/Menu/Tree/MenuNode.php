@@ -74,8 +74,9 @@ class MenuNode extends Node implements MenuNodeInterface
         $active = false;
 
         if ($uri instanceof RouteUri) {
+            $vars = $uri->getQueryValues();
             /** @var Route $route */
-            [, $vars, $route] = $uri->getHandledData();
+            [, , $route] = $uri->getHandledData();
 
             $active = $this->menuHelper->is($route->getName(), $vars, $ns);
         }
