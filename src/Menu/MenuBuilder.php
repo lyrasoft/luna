@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Menu;
 
 use Lyrasoft\Luna\Menu\Tree\MenuNode;
 use Lyrasoft\Luna\Menu\Tree\MenuNodeInterface;
+use Lyrasoft\Luna\Tree\NodeInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
@@ -181,6 +182,21 @@ class MenuBuilder
         $this->current = array_pop($this->stack);
 
         return $this;
+    }
+
+    public function fromTree(NodeInterface|iterable $node, callable $callback): void
+    {
+        $children = $node instanceof NodeInterface ? $node->getChildren() : $node;
+
+        foreach ($children as $child) {
+            $callback($child, $this);
+
+            $this->registerChildren(
+                function (MenuBuilder $menu) use ($callback, $child) {
+                    $menu->fromTree($child, $callback);
+                }
+            );
+        }
     }
 
     /**
