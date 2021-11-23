@@ -23,96 +23,90 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-@extends($app->config('luna.view_extends.front.auth') ?? 'global.body')
+@extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
-@section('body')
-    <div class="container l-login" style="margin-top: 100px">
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-4">
-                @include('@messages')
-
-                <form id="login-form-extra" action="" method="post">
-                    @if ($reActivate ?? null)
-                        <div class="mb-4">
-                            <div class="alert alert-info text-center">
-                                <p>
-                                    @lang('luna.login.message.inactivated')
-                                </p>
-                                <div>
-                                    <button type="button" class="btn btn-info"
-                                        data-dos
-                                        onclick="form.action = '{{ $nav->to('resend_activate', ['email' => $reActivate]) }}'; form.requestSubmit()">
-                                        @lang('luna.button.resend.activate.mail')
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if ($vm->hasSocialProviders())
-                        <div class="d-flex flex-column">
-                            @foreach ($vm->getSocialProviders() as $provider => $config)
-                                <button class="btn btn-secondary mb-2"
-                                    type="button"
-                                    data-dos
-                                    onclick="form.action = '{{ $nav->to('social_auth')->var('provider', $provider) }}'; form.requestSubmit()">
-                                    <i class="fa-brands fa-{{ strtolower($provider) }}"></i>
-                                    {{ $provider }}
-                                </button>
-                            @endforeach
-
-                            <div class="my-3 text-center">
-                                OR
-                            </div>
-                        </div>
-                    @endif
-                </form>
-
-                <form id="login-form" class="" action="{{ $nav->to('login') }}"
-                    uni-form-validate
-                    method="POST"
-                    enctype="multipart/form-data">
-
-                    <x-fieldset :form="$form"></x-fieldset>
-
-                    <div class="d-sm-flex justify-content-between mb-5">
-                        <div id="input-user-remember-control mb-3 mb-sm-0" class="checkbox-field">
-                            <div class="form-check checkbox checkbox-primary">
-                                <input name="user[remember]" class="form-check-input" type="checkbox"
-                                    id="input-user-remember" value="on">
-                                <label class="form-check-label" for="input-user-remember">
-                                    @lang('luna.user.field.remember')
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="l-login__action">
-                            <a class="forget-link"
-                                href="{{ $nav->to('forget_request') }}">
-                                @lang('luna.button.forget')
-                            </a>
+@section('content')
+    <div class="l-login">
+        <form id="login-form-extra" action="" method="post">
+            @if ($reActivate ?? null)
+                <div class="mb-4">
+                    <div class="alert alert-info text-center">
+                        <p>
+                            @lang('luna.login.message.inactivated')
+                        </p>
+                        <div>
+                            <button type="button" class="btn btn-info"
+                                data-dos
+                                onclick="form.action = '{{ $nav->to('resend_activate', ['email' => $reActivate]) }}'; form.requestSubmit()">
+                                @lang('luna.button.resend.activate.mail')
+                            </button>
                         </div>
                     </div>
+                </div>
+            @endif
 
-                    <div class="l-login__buttons c-login-buttons d-flex flex-column mb-4">
-                        <button type="submit"
-                            class="c-login-button btn btn-primary mb-3"
+            @if ($vm->hasSocialProviders())
+                <div class="d-flex flex-column">
+                    @foreach ($vm->getSocialProviders() as $provider => $config)
+                        <button class="btn btn-secondary mb-2"
+                            type="button"
                             data-dos
-                        >
-                            @lang('luna.button.login')
+                            onclick="form.action = '{{ $nav->to('social_auth')->var('provider', $provider) }}'; form.requestSubmit()">
+                            <i class="fa-brands fa-{{ strtolower($provider) }}"></i>
+                            {{ $provider }}
                         </button>
-                        <a class="c-register-button btn btn-success"
-                            href="{{ $nav->to('registration') }}">
-                            <span class="fa fa-user-plus"></span>
-                            @lang('luna.button.register')
-                        </a>
-                    </div>
+                    @endforeach
 
-                    <div class="hidden-inputs">
-                        @include('@csrf')
+                    <div class="my-3 text-center">
+                        OR
                     </div>
-                </form>
+                </div>
+            @endif
+        </form>
+
+        <form id="login-form" class="" action="{{ $nav->to('login') }}"
+            uni-form-validate
+            method="POST"
+            enctype="multipart/form-data">
+
+            <x-fieldset :form="$form"></x-fieldset>
+
+            <div class="d-sm-flex justify-content-between mb-5">
+                <div id="input-user-remember-control mb-3 mb-sm-0" class="checkbox-field">
+                    <div class="form-check checkbox checkbox-primary">
+                        <input name="user[remember]" class="form-check-input" type="checkbox"
+                            id="input-user-remember" value="on">
+                        <label class="form-check-label" for="input-user-remember">
+                            @lang('luna.user.field.remember')
+                        </label>
+                    </div>
+                </div>
+
+                <div class="l-login__action">
+                    <a class="forget-link"
+                        href="{{ $nav->to('forget_request') }}">
+                        @lang('luna.button.forget')
+                    </a>
+                </div>
             </div>
-        </div>
+
+            <div class="l-login__buttons c-login-buttons d-flex flex-column mb-4">
+                <button type="submit"
+                    class="c-login-button btn btn-primary mb-3"
+                    data-dos
+                >
+                    @lang('luna.button.login')
+                </button>
+                <a class="c-register-button btn btn-success"
+                    href="{{ $nav->to('registration') }}">
+                    <span class="fa fa-user-plus"></span>
+                    @lang('luna.button.register')
+                </a>
+            </div>
+
+            <div class="hidden-inputs">
+                @include('@csrf')
+            </div>
+        </form>
     </div>
 @stop

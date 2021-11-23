@@ -23,19 +23,17 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-@extends($app->config('luna.view_extends.front.auth') ?? 'global.body')
+@extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
 @section('content')
-    <div class="container l-forget-request-complete" style="margin-top: 70px">
-        <div class="d-flex justify-content-center mb-5 mb-md-6">
-            <div class="text-center">
-                <div class="mb-4">
-                    <span class="fa fa-inbox fa-4x"></span>
-                </div>
-                <p class="lead">
-                    @lang('luna.forget.request.complete.desc')
-                </p>
+    <div class="l-forget-request-complete">
+        <div class="text-center">
+            <div class="mb-4">
+                <span class="fa fa-inbox fa-4x"></span>
             </div>
+            <p class="lead">
+                @lang('luna.forget.request.complete.desc')
+            </p>
         </div>
     </div>
 @stop

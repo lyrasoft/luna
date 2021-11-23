@@ -23,45 +23,40 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-@extends($app->config('luna.view_extends.front.auth') ?? 'global.body')
+@extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
 @section('content')
-    <div class="container l-forget-request" style="margin-top: 70px">
-        <div class="row justify-content-center">
-            <div class="col-sm-10 col-md-8 col-lg-6">
-                <form id="forget-form" class="form-horizontal" action="{{ $nav->to('forget_request') }}"
-                    method="POST" enctype="multipart/form-data">
+    <form id="forget-form" class="form-horizontal l-forget-request"
+        action="{{ $nav->to('forget_request') }}"
+        method="POST" enctype="multipart/form-data">
 
-                    <p class="lead text-center">
-                        @lang('luna.forget.text.desc')
-                    </p>
+        <p class="lead text-center">
+            @lang('luna.forget.text.desc')
+        </p>
 
-                    <div class="mb-4">
-                        <label for="input-forget-email" class="form-label">
-                            @lang('luna.user.field.email')
-                        </label>
-                        <input id="input-forget-email"
-                            type="email"
-                            name="email"
-                            class="form-control"
-                            required
-                        />
-                    </div>
-
-                    <div class="text-center">
-                        <p class="reset-button-group">
-                            <button class="request-button btn btn-primary c-btn-width"
-                                data-dos>
-                                @lang('luna.forget.button.request')
-                            </button>
-                        </p>
-                    </div>
-
-                    <div class="hidden-inputs">
-                        @include('@csrf')
-                    </div>
-                </form>
-            </div>
+        <div class="mb-4">
+            <label for="input-forget-email" class="form-label">
+                @lang('luna.user.field.email')
+            </label>
+            <input id="input-forget-email"
+                type="email"
+                name="email"
+                class="form-control"
+                required
+            />
         </div>
-    </div>
+
+        <div class="text-center">
+            <p class="reset-button-group">
+                <button class="request-button btn btn-primary c-btn-width"
+                    data-dos>
+                    @lang('luna.forget.button.request')
+                </button>
+            </p>
+        </div>
+
+        <div class="hidden-inputs">
+            @include('@csrf')
+        </div>
+    </form>
 @stop

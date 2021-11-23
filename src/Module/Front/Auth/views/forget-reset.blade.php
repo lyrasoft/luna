@@ -23,54 +23,47 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-@extends($app->config('luna.view_extends.front.auth') ?? 'global.body')
+@extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
 @section('content')
-    <div class="container l-forget-reset" style="margin-top: 70px">
-        <div class="row justify-content-center mb-5">
-            <div class="col-md-8 col-lg-6">
-                @section('login-content')
-                    <form id="reset-form" class="form-horizontal" action="{{ $nav->to('forget_reset') }}"
-                        uni-form-validate
-                        method="POST"
-                        enctype="multipart/form-data">
+    <form id="reset-form" class="form-horizontal l-forget-request"
+        action="{{ $nav->to('forget_reset') }}"
+        uni-form-validate
+        method="POST"
+        enctype="multipart/form-data">
 
-                        <div class="form-group mb-3" uni-field-validate>
-                            <label for="input-password" class="form-label">
-                                @lang('luna.user.field.password')
-                            </label>
-                            <input id="input-password" type="password" name="password" class="form-control"
-                                autocomplete="new-password"
-                                required
-                            />
-                            <div class="invalid-tooltip" data-field-error></div>
-                        </div>
-
-                        <div class="form-group mb-3" uni-field-validate>
-                            <label for="input-password2" class="form-label">
-                                @lang('luna.user.field.password.confirm')
-                            </label>
-                            <input id="input-password2" type="password" name="password2" class="form-control"
-                                autocomplete="new-password"
-                                required
-                            />
-                            <div class="invalid-tooltip" data-field-error></div>
-                        </div>
-
-                        <p class="reset-button-group">
-                            <button class="reset-button btn btn-primary btn-block"
-                                data-dos>
-                                @lang('luna.forget.button.reset')
-                            </button>
-                        </p>
-
-                        <div class="hidden-inputs">
-                            <input name="token" type="hidden" value="{{ $token ?? '' }}" />
-                            @include('@csrf')
-                        </div>
-                    </form>
-                @show
-            </div>
+        <div class="form-group mb-3" uni-field-validate>
+            <label for="input-password" class="form-label">
+                @lang('luna.user.field.password')
+            </label>
+            <input id="input-password" type="password" name="password" class="form-control"
+                autocomplete="new-password"
+                required
+            />
+            <div class="invalid-tooltip" data-field-error></div>
         </div>
-    </div>
+
+        <div class="form-group mb-3" uni-field-validate>
+            <label for="input-password2" class="form-label">
+                @lang('luna.user.field.password.confirm')
+            </label>
+            <input id="input-password2" type="password" name="password2" class="form-control"
+                autocomplete="new-password"
+                required
+            />
+            <div class="invalid-tooltip" data-field-error></div>
+        </div>
+
+        <p class="reset-button-group">
+            <button class="reset-button btn btn-primary btn-block"
+                data-dos>
+                @lang('luna.forget.button.reset')
+            </button>
+        </p>
+
+        <div class="hidden-inputs">
+            <input name="token" type="hidden" value="{{ $token ?? '' }}" />
+            @include('@csrf')
+        </div>
+    </form>
 @stop

@@ -24,51 +24,47 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-@extends($app->config('luna.view_extends.front.auth') ?? 'global.body')
+@extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
-@section('body')
-<div class="container l-registration" style="margin-top: 70px">
-    <div class="row justify-content-center">
-        <div class="col-sm-8 col-md-6 col-lg-4">
-            <form id="registration-form-extra" action="" method="post">
+@section('content')
+    <div class="l-registration">
+        <form id="registration-form-extra" action="" method="post">
 
-                @if ($vm->hasSocialProviders())
-                    <div class="d-flex flex-column">
-                        @foreach ($vm->getSocialProviders() as $provider => $config)
-                            <button class="btn btn-secondary mb-2"
-                                type="button"
-                                data-dos
-                                onclick="form.action = '{{ $nav->to('social_auth')->var('provider', $provider) }}'; form.requestSubmit()">
-                                <i class="fa-brands fa-{{ strtolower($provider) }}"></i>
-                                {{ $provider }}
-                            </button>
-                        @endforeach
+            @if ($vm->hasSocialProviders())
+                <div class="d-flex flex-column">
+                    @foreach ($vm->getSocialProviders() as $provider => $config)
+                        <button class="btn btn-secondary mb-2"
+                            type="button"
+                            data-dos
+                            onclick="form.action = '{{ $nav->to('social_auth')->var('provider', $provider) }}'; form.requestSubmit()">
+                            <i class="fa-brands fa-{{ strtolower($provider) }}"></i>
+                            {{ $provider }}
+                        </button>
+                    @endforeach
 
-                        <div class="my-3 text-center">
-                            OR
-                        </div>
+                    <div class="my-3 text-center">
+                        OR
                     </div>
-                @endif
-            </form>
-
-            <form id="registration-form" class="" action="{{ $nav->to('registration') }}"
-                method="POST"
-                enctype="multipart/form-data">
-
-                <x-fieldset :form="$form"></x-fieldset>
-
-                <div class="l-registration-actions mt-4 mb-4">
-                    <button type="submit"
-                        class="login-button btn btn-primary btn-block w-100" data-dos>
-                        @lang('luna.button.register.submit')
-                    </button>
                 </div>
+            @endif
+        </form>
 
-                <div class="d-none">
-                    @include('@csrf')
-                </div>
-            </form>
-        </div>
+        <form id="registration-form" class="" action="{{ $nav->to('registration') }}"
+            method="POST"
+            enctype="multipart/form-data">
+
+            <x-fieldset :form="$form"></x-fieldset>
+
+            <div class="l-registration-actions mt-4 mb-4">
+                <button type="submit"
+                    class="login-button btn btn-primary btn-block w-100" data-dos>
+                    @lang('luna.button.register.submit')
+                </button>
+            </div>
+
+            <div class="d-none">
+                @include('@csrf')
+            </div>
+        </form>
     </div>
-</div>
 @stop
