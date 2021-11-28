@@ -55,7 +55,11 @@ class ArticleListView implements ViewModelInterface
     public function prepare(AppContext $app, View $view): array
     {
         $path = $app->input('path');
-        $category = $this->getCategoryOrFail('article', $path);
+        $category = $this->getCategoryOrFail(['type' => 'article', 'path' => $path]);
+
+        if (!$category->getState()->isPublished()) {
+            throw new RouteNotFoundException();
+        }
 
         $limit = 10;
         $page = $app->input('page');

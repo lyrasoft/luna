@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Front\Article;
 
 use Lyrasoft\Luna\Entity\Article;
+use Lyrasoft\Luna\Entity\Category;
+use Lyrasoft\Luna\Module\Front\Category\CategoryViewTrait;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
@@ -34,6 +36,8 @@ use function Windwalker\str;
 )]
 class ArticleItemView implements ViewModelInterface
 {
+    use CategoryViewTrait;
+
     /**
      * Constructor.
      */
@@ -41,7 +45,6 @@ class ArticleItemView implements ViewModelInterface
         #[Autowire]
         protected ArticleRepository $repository,
         #[Autowire]
-        protected CategoryRepository $categoryRepository,
         protected Navigator $nav
     ) {
         //
@@ -61,15 +64,16 @@ class ArticleItemView implements ViewModelInterface
         $alias = $app->input('alias');
 
         /** @var Article $item */
-        $item = $this->repository->getItem($id);
+        $item = $this->repository->mustGetItem($id);
 
-        if (!$item) {
+        if (!$item->getState()->isPublished()) {
             throw new RouteNotFoundException('Article not found.');
         }
 
-        $category = $this->categoryRepository->getItem($item->getCategoryId());
+        /** @var Category $category */
+        $category = $this->getCategoryOrFail($item->getCategoryId());
 
-        if (!$category) {
+        if (!$category->getState()->isPublished()) {
             throw new RouteNotFoundException('Category not published.');
         }
 
