@@ -43,6 +43,11 @@ class MenuNode extends Node implements MenuNodeInterface
 
     protected ?bool $forceActive = null;
 
+    /**
+     * @var callable
+     */
+    protected $activeHandler;
+
     #[Inject]
     protected MenuHelper $menuHelper;
 
@@ -66,6 +71,14 @@ class MenuNode extends Node implements MenuNodeInterface
     {
         if ($this->forceActive !== null) {
             return $this->forceActive;
+        }
+
+        if ($this->activeHandler) {
+            $active = ($this->activeHandler)($this);
+
+            if ($active) {
+                return true;
+            }
         }
 
         $uri = $this->getLink();
@@ -295,6 +308,26 @@ class MenuNode extends Node implements MenuNodeInterface
     public function setLayout(string $layout): static
     {
         $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * @return callable
+     */
+    public function getActiveHandler(): callable
+    {
+        return $this->activeHandler;
+    }
+
+    /**
+     * @param  callable  $activeHandler
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function activeHandler(callable $activeHandler): static
+    {
+        $this->activeHandler = $activeHandler;
 
         return $this;
     }
