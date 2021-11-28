@@ -17,6 +17,7 @@ use Lyrasoft\Luna\Tree\NodeInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\Core\Router\RouteUri;
 use Windwalker\Filesystem\Filesystem;
 
 /**
@@ -146,9 +147,15 @@ class MenuBuilder
 
         $files = Filesystem::globAll($paths);
 
+        $navOptions = RouteUri::MODE_MUTE;
+
+        if ($this->app->isDebug()) {
+            $navOptions |= RouteUri::DEBUG_ALERT;
+        }
+
         $menu = $this;
         $app  = $this->app;
-        $nav  = $app->service(Navigator::class);
+        $nav  = $app->service(Navigator::class)->withOptions($navOptions);
         $lang = $this->lang;
 
         foreach ($files as $file) {
