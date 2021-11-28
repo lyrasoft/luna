@@ -64,7 +64,10 @@ $link = ($link === \Lyrasoft\Luna\Menu\View\LinkMenuView::NO_LINK || (string) $l
             class="subnav-link {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('target', $link ? (string) $item->getTarget() : false)
         >
-            {{ $item->getTitle() }}
+            @if ($item->getIcon())
+                <span class="{{ $item->getIcon() }}"></span>
+            @endif
+            <span>{{ $item->getTitle() }}</span>
         </a>
 
         @if ($hasChildren)

@@ -52,7 +52,10 @@ $link = ($link === \Lyrasoft\Luna\Menu\View\LinkMenuView::NO_LINK || (string) $l
             target="{{ $item->getTarget() }}"
             @attr('target', $link ? $item->getTarget() : false)
         >
-            {{ $item->getTitle() }}
+            @if ($item->getIcon())
+                <span class="{{ $item->getIcon() }}"></span>
+            @endif
+            <span>{{ $item->getTitle() }}</span>
         </a>
 
         @if ($hasChildren)

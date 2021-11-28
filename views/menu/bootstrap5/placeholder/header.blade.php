@@ -33,5 +33,8 @@ $header = $item->getValue()?->getVariables()['header'] ?? '';
 <h6 class="dropdown-header"
     data-menu-id="{{ $item->getValue()?->getId() }}"
     data-lavel="{{ $item->getDepth() }}">
-    {{ $header === '' ? $item->getTitle() : $header }}
+    @if ($item->getIcon())
+        <span class="{{ $item->getIcon() }}"></span>
+    @endif
+    <span>{{ $header === '' ? $item->getTitle() : $header }}</span>
 </h6>

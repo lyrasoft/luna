@@ -34,6 +34,9 @@ $text = $item->getValue()?->getVariables()['text'] ?? '';
     data-menu-id="{{ $item->getValue()?->getId() }}"
     data-lavel="{{ $item->getDepth() }}">
     <div class="menu-placeholder-text">
-        {!! html_escape($text === '' ? $item->getTitle() : $text, true) !!}
+        @if ($item->getIcon())
+            <span class="{{ $item->getIcon() }}"></span>
+        @endif
+        <span>{!! html_escape($text === '' ? $item->getTitle() : $text, true) !!}</span>
     </div>
 </li>
