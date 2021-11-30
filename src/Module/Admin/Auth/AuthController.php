@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Auth;
 
+use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\AppContext;
@@ -20,6 +21,10 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\Utilities\Base64Url;
+
+use Windwalker\ORM\ORM;
+
+use function Windwalker\chronos;
 
 /**
  * The AuthController class.
@@ -36,7 +41,7 @@ class AuthController
 {
     use TranslatorTrait;
 
-    public function login(AppContext $app, UserService $userService, Navigator $nav)
+    public function login(AppContext $app, UserService $userService, Navigator $nav, ORM $orm): RouteUri
     {
         if ($userService->getUser()->isLogin()) {
             return $nav->to('home');
@@ -61,6 +66,12 @@ class AuthController
 
             return $nav->to('login');
         }
+
+        $orm->updateWhere(
+            User::class,
+            ['last_login' => chronos()],
+            ['id' => $userService->getCurrentUser()->getId()]
+        );
 
         $app->addMessage('Login success', 'success');
 

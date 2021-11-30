@@ -257,7 +257,7 @@ class User implements EntityInterface, UserEntityInterface
 
     public function setLastReset(\DateTimeInterface|string|null $lastReset): static
     {
-        $this->lastReset = Chronos::wrap($lastReset);
+        $this->lastReset = Chronos::wrapOrNull($lastReset);
 
         return $this;
     }
@@ -269,7 +269,7 @@ class User implements EntityInterface, UserEntityInterface
 
     public function setLastLogin(\DateTimeInterface|string|null $lastLogin): static
     {
-        $this->lastLogin = Chronos::wrap($lastLogin);
+        $this->lastLogin = Chronos::wrapOrNull($lastLogin);
 
         return $this;
     }
@@ -281,7 +281,7 @@ class User implements EntityInterface, UserEntityInterface
 
     public function setRegistered(\DateTimeInterface|string|null $registered): static
     {
-        $this->registered = Chronos::wrap($registered);
+        $this->registered = Chronos::wrapOrNull($registered);
 
         return $this;
     }
@@ -293,7 +293,7 @@ class User implements EntityInterface, UserEntityInterface
 
     public function setModified(\DateTimeInterface|string|null $modified): static
     {
-        $this->modified = Chronos::wrap($modified);
+        $this->modified = Chronos::wrapOrNull($modified);
 
         return $this;
     }

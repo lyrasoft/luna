@@ -156,6 +156,7 @@ class ForgetController
 
         $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
         $user->setResetToken('');
+        $user->setLastReset('now');
 
         $orm->updateOne(
             User::class,

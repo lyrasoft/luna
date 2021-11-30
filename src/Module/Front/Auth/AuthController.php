@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Lyrasoft\Luna\Auth\SocialAuthService;
+use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\Module\Front\Registration\RegistrationRepository;
 use Lyrasoft\Luna\User\ActivationService;
@@ -26,6 +27,9 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\Utilities\Base64Url;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\ORM\ORM;
+
+use function Windwalker\chronos;
 
 /**
  * The AuthController class.
@@ -42,7 +46,7 @@ class AuthController
 {
     use TranslatorTrait;
 
-    public function login(AppContext $app, UserService $userService, Navigator $nav): RouteUri
+    public function login(AppContext $app, UserService $userService, Navigator $nav, ORM $orm): RouteUri
     {
         if ($userService->getUser()->isLogin()) {
             return $nav->to('home');
@@ -75,6 +79,12 @@ class AuthController
         }
 
         $app->addMessage('Login success', 'success');
+
+        $orm->updateWhere(
+            User::class,
+            ['last_login' => chronos()],
+            ['id' => $userService->getCurrentUser()->getId()]
+        );
 
         if ($return = $app->getState()->getAndForget('login_return')) {
             return $nav->createRouteUri(Base64Url::decode($return));
