@@ -15,7 +15,7 @@ u.formValidation()
   .then(() => u.$ui.disableOnSubmit(form));
 u.form(form).initComponent();
 u.$ui.keepAlive(location.href);
-u.$ui.tomSelect('.has-tom-select')
+u.$ui.tomSelect('.js-tom-select')
 
 // Menu control
 const currentType = u.data('current.type');

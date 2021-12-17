@@ -62,7 +62,7 @@ class EditForm implements FieldDefinitionInterface
                     ->label($this->trans('unicorn.field.parent'))
                     ->option($this->trans('luna.menu.root'), '1')
                     ->menuType($this->type)
-                    ->addClass('has-tom-select')
+                    ->addClass('js-tom-select')
                     ->required(true)
                     ->configureQuery(
                         function (Query $query) {
@@ -80,7 +80,7 @@ class EditForm implements FieldDefinitionInterface
 
                 $form->add('view', MenuViewListField::class)
                     ->label($this->trans('luna.menu.field.view'))
-                    ->addClass('has-tom-select')
+                    ->addClass('js-tom-select')
                     ->option($this->trans('unicorn.select.placeholder'), '')
                     ->required(true);
             }

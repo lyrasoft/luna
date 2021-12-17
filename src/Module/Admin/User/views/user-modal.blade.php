@@ -24,6 +24,7 @@ use Windwalker\Core\Router\SystemUri;
 $callback = $app->input('callback');
 
 $enabledButton = $vm->createEnabledButton();
+$verifiedButton = $vm->createVerifiedButton();
 
 $imgPlaceholder = $app->service(\Unicorn\Image\ImagePlaceholder::class);
 $luna = $app->service(\Lyrasoft\Luna\LunaPackage::class);
@@ -62,7 +63,12 @@ $loginName = $luna->getLoginName();
                         <x-sort field="user.enabled">@lang('luna.user.field.enabled')</x-sort>
                     </th>
 
-                    <th>
+                    {{-- Activation --}}
+                    <th width="3%" class="text-nowrap">
+                        <x-sort field="user.verified">@lang('luna.user.field.verified')</x-sort>
+                    </th>
+
+                    <th class="text-right text-end">
                         <x-sort field="category.id">
                             ID
                         </x-sort>
@@ -121,7 +127,17 @@ $loginName = $luna->getLoginName();
                                 :options="['onlyIcon' => true]"
                             ></x-state-button>
                         </td>
-                        <td>
+
+                        {{-- Activation --}}
+                        <td class="text-center">
+                            <x-state-button :states="$verifiedButton"
+                                :value="$item->verified"
+                                :id="$item->id"
+                                :options="['onlyIcon' => true]"
+                            ></x-state-button>
+                        </td>
+
+                        <td class="text-right text-end">
                             {{ $item->id }}
                         </td>
                     </tr>
@@ -139,6 +155,7 @@ $loginName = $luna->getLoginName();
         </div>
 
         <div class="d-none">
+            <input type="hidden" name="_method" value="PUT" />
             @include('@csrf')
         </div>
 

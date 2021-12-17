@@ -75,7 +75,7 @@ class EditForm implements FieldDefinitionInterface
                 // Parent
                 $form->add('parent_id', CategoryListField::class)
                     ->label($this->trans('unicorn.field.parent'))
-                    ->addClass('has-tom-select')
+                    ->addClass('js-tom-select')
                     ->option($this->trans('luna.category.root'), '1')
                     ->categoryType($type)
                     ->configureQuery(

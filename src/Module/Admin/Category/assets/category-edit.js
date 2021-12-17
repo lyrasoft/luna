@@ -13,6 +13,6 @@ u.formValidation().then(() => {
 u.form('#admin-form').initComponent();
 
 u.$ui.bootstrap.tooltip();
-u.$ui.tomSelect('.has-tom-select');
+u.$ui.tomSelect('.js-tom-select');
 
 

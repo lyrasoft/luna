@@ -27,8 +27,6 @@ use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
 
-use function Windwalker\ref;
-
 /**
  * The UserListView class.
  */

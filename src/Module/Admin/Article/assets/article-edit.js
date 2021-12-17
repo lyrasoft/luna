@@ -15,7 +15,7 @@ u.formValidation()
   .then(() => u.$ui.disableOnSubmit(form));
 u.form(form).initComponent();
 u.$ui.keepAlive(location.href);
-u.$ui.tomSelect('.has-tom-select');
+u.$ui.tomSelect('.js-tom-select');
 u.$ui.tomSelect('#input-item-tags', {
   create: (input) => {
     return {

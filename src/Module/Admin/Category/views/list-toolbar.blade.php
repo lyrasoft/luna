@@ -32,11 +32,6 @@ use Windwalker\Core\Router\SystemUri;
         @lang('unicorn.toolbar.new')
     </a>
 
-    {{--<button type="button" class="btn btn-info btn-info btn-sm" onclick="grid.hasChecked();Phoenix.post();">--}}
-    {{--<span class="glyphicon glyphicon-duplicate fa fa-copy"></span>--}}
-    {{--@lang('phoenix.toolbar.duplicate')--}}
-    {{--</button>--}}
-
     <x-state-dropdown
         :workflow="$workflow"
         color-on="text"
@@ -57,9 +52,9 @@ use Windwalker\Core\Router\SystemUri;
     </button>
 
     <button type="button" class="btn btn-dark btn-sm"
-        data-toggle="modal" data-bs-toggle="modal"
-        data-target="#batch-modal" data-bs-target="#batch-modal"
-        onclick="grid.hasChecked(null, event);">
+        @click="grid.validateChecked(null, function () {
+            (new bootstrap.Modal('#batch-modal')).show();
+        })">
         <span class="fa fa-sliders fa-sliders-h"></span>
         @lang('unicorn.toolbar.batch')
     </button>

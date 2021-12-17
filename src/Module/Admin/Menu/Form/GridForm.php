@@ -50,7 +50,7 @@ class GridForm implements FieldDefinitionInterface
             'filter',
             function (Form $form) {
                 $form->add('menu.state', ListField::class)
-                    ->label('State')
+                    ->label($this->trans('unicorn.field.state'))
                     ->option($this->trans('unicorn.select.placeholder'), '')
                     ->registerOptions(BasicState::getTransItems($this->lang))
                     ->attr('x-on:change', '$store.grid.sendFilter()');

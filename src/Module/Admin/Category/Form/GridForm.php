@@ -12,6 +12,8 @@ use Lyrasoft\Luna\Field\CategoryListField;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Language\TranslatorTrait;
+use Windwalker\Form\Field\ListField;
+use Windwalker\Form\Field\SearchField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 
@@ -40,17 +42,15 @@ class GridForm implements FieldDefinitionInterface
      */
     public function define(Form $form): void
     {
-        $langPrefix = 'luna.';
-
         /*
          * Search Control
          * -------------------------------------------------
          * Add search fields as options, by default, model will search all columns.
          * If you hop that user can choose a field to search, change "display" to true.
          */
-        $form->group('search', function (Form $form) use ($langPrefix) {
+        $form->group('search', function (Form $form) {
             // Search Content
-            $form->add('*', \Windwalker\Form\Field\SearchField::class)
+            $form->add('*', SearchField::class)
                 ->label($this->trans('unicorn.grid.search.label'))
                 ->placeholder($this->trans('unicorn.grid.search.label'));
         });
@@ -61,12 +61,10 @@ class GridForm implements FieldDefinitionInterface
          * Add filter fields to this section.
          * Remember to add onchange event => this.form.submit();
          */
-        $form->group('filter', function (Form $form) use ($langPrefix) {
+        $form->group('filter', function (Form $form) {
             // State
-            $form->add('category.state', \Windwalker\Form\Field\ListField::class)
-                ->label($this->trans('unicorn.field.published'))
-                // Add empty option to support single deselect button
-                ->option('', '')
+            $form->add('category.state', ListField::class)
+                ->label($this->trans('unicorn.field.state'))
                 ->option($this->trans('unicorn.select.placeholder'), '')
                 ->registerOptions(BasicState::getTransItems($this->lang))
                 ->onchange('this.form.submit()');
@@ -78,11 +76,11 @@ class GridForm implements FieldDefinitionInterface
          * Every field is a table column.
          * For example, you can add a 'category_id' field to update item category.
          */
-        $form->group('batch', function (Form $form) use ($langPrefix) {
+        $form->group('batch', function (Form $form) {
             // Parent
             $form->add('parent_id', CategoryListField::class)
-                ->label($this->trans($langPrefix . 'category.field.parent'))
-                ->addClass('has-tom-select')
+                ->label($this->trans('unicorn.field.parent'))
+                ->addClass('js-tom-select')
                 ->categoryType($this->request->input('type') ?? '')
                 ->showRoot(true)
                 ->option($this->trans('luna.category.parent.select'), '');

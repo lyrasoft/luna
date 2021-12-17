@@ -39,8 +39,7 @@ class GridForm implements FieldDefinitionInterface
             function (Form $form) {
                 $form->add('*', SearchField::class)
                     ->label($this->trans('unicorn.grid.search.label'))
-                    ->placeholder($this->trans('unicorn.grid.search.label'))
-                    ->attr('x-on:keydown.enter', '$store.grid.sendFilter($event)');
+                    ->placeholder($this->trans('unicorn.grid.search.label'));
             }
         );
 
@@ -49,8 +48,6 @@ class GridForm implements FieldDefinitionInterface
             function (Form $form) {
                 $form->add('article.state', ListField::class)
                     ->label($this->trans('unicorn.field.state'))
-                    // Add empty option to support single deselect button
-                    ->option('', '')
                     ->option($this->trans('unicorn.select.placeholder'), '')
                     ->registerOptions(BasicState::getTransItems($this->lang))
                     ->onchange('this.form.submit()');
@@ -61,8 +58,8 @@ class GridForm implements FieldDefinitionInterface
             'batch',
             function (Form $form) {
                 $form->add('state', ListField::class)
-                    ->label('State')
-                    ->option($this->trans('unicorn.select.placeholder'), '')
+                    ->label($this->trans('unicorn.field.state'))
+                    ->option($this->trans('unicorn.select.no.change'), '')
                     ->registerOptions(BasicState::getTransItems($this->lang));
             }
         );

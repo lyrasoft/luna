@@ -230,6 +230,7 @@ $loginName = $luna->getLoginName();
         @endif
 
         <div class="d-none">
+            <input type="hidden" name="_method" value="PUT" />
             @include('@csrf')
         </div>
 
