@@ -10,6 +10,7 @@ use Windwalker\Core\Router\RouteCreator;
 /** @var  RouteCreator $router */
 
 $router->group('tag')
+    ->extra('menu', ['sidemenu' => 'tag_list'])
     ->register(function (RouteCreator $router) {
         $router->any('tag_list', '/tag/list')
             ->controller(TagController::class)

@@ -230,6 +230,16 @@ class MenuNode extends Node implements MenuNodeInterface
     }
 
     /**
+     * @param  UriInterface|string|null  $link
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function to(UriInterface|string|null $link): static
+    {
+        return $this->link($link);
+    }
+
+    /**
      * @param  bool  $hidden
      *
      * @return  static  Return self to support chaining.
@@ -330,5 +340,16 @@ class MenuNode extends Node implements MenuNodeInterface
         $this->activeHandler = $activeHandler;
 
         return $this;
+    }
+
+    public function activeFor(string|array $path, array|false $query = false): static
+    {
+        return $this->activeHandler(
+            function () use ($query, $path) {
+                $ns = $this->getRoot()?->getTitle() ?? '';
+
+                return $this->menuHelper->is($path, $query, $ns);
+            }
+        );
     }
 }

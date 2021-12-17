@@ -210,8 +210,6 @@ class Node implements NodeInterface, \JsonSerializable
 
         $parents = $this->getAncestors();
 
-        array_shift($parents);
-
         return $parents[array_key_first($parents)] ?? $this;
     }
 

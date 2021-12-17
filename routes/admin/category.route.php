@@ -18,6 +18,7 @@ use Windwalker\Core\Router\RouteCreator;
 /** @var RouteCreator $router */
 
 $router->group('category')
+    ->extra('menu', ['sidemenu' => 'category_list'])
     ->middleware(KeepUrlQueryMiddleware::di(options: ['key' => 'type',]))
     ->register(
         function (RouteCreator $router) {

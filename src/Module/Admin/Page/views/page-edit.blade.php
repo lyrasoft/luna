@@ -33,7 +33,7 @@ $asset->js('@luna/dist/page-builder.js');
 $asset->css('@luna/dist/page-builder-admin.min.css');
 ?>
 
-@extends('admin.global.body-edit')
+@extends($app->config('luna.view_extends.admin.edit') ?? 'admin.global.body-edit')
 
 @section('toolbar-buttons')
     @include('edit-toolbar')

@@ -89,7 +89,7 @@ class MenuBuilder
      * @return  MenuNode
      * @throws \ReflectionException
      */
-    public function add(string $title, mixed $uri): MenuNode
+    public function add(string $title, mixed $uri = null): MenuNode
     {
         if ($uri instanceof \Closure) {
             $uri = $this->app->call($uri);
@@ -97,12 +97,15 @@ class MenuBuilder
 
         $node = $this->createNodeAndSetCurrent();
         $node->title($title);
-        $node->link($uri);
+
+        if ($uri !== null) {
+            $node->link($uri);
+        }
 
         return $node;
     }
     
-    public function link(string $title, mixed $uri): MenuNode
+    public function link(string $title, mixed $uri = null): MenuNode
     {
         return $this->add($title, $uri);
     }

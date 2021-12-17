@@ -38,7 +38,7 @@ $tabs = $form->getFieldsets();
 unset($tabs['basic'], $tabs['meta']);
 ?>
 
-@extends('admin.global.body-edit')
+@extends($app->config('luna.view_extends.admin.edit') ?? 'admin.global.body-edit')
 
 @section('toolbar-buttons')
     @include('edit-toolbar')

@@ -12,6 +12,7 @@ use Windwalker\Core\Router\RouteCreator;
 /** @var  RouteCreator $router */
 
 $router->group('user')
+    ->extra('menu', ['sidemenu' => 'user_list'])
     ->register(function (RouteCreator $router) {
         $router->any('user_list', '/user/list')
             ->controller(UserController::class)

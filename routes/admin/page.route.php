@@ -11,6 +11,7 @@ use Windwalker\Core\Router\RouteCreator;
 /** @var  RouteCreator $router */
 
 $router->group('page')
+    ->extra('menu', ['sidemenu' => 'page_list'])
     ->register(function (RouteCreator $router) {
         $router->any('page_list', '/page/list')
             ->controller(PageController::class)

@@ -29,7 +29,7 @@ use Lyrasoft\Luna\Module\Admin\Page\PageListView;
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
 ?>
 
-@extends('admin.global.body-list')
+@extends($app->config('luna.view_extends.admin.list') ?? 'admin.global.body-list')
 
 @section('toolbar-buttons')
     @include('list-toolbar')

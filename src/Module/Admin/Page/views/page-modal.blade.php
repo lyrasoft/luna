@@ -25,7 +25,7 @@ use Windwalker\Core\Router\SystemUri;
 $callback = $app->input('callback');
 ?>
 
-@extends('admin.global.pure')
+@extends($app->config('luna.view_extends.admin.modal') ?? 'admin.global.pure')
 
 @section('body')
     <form id="admin-form" action="" x-data="{ grid: $store.grid }"

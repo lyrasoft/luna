@@ -13,6 +13,7 @@ use Windwalker\Core\Router\RouteCreator;
 /** @var  RouteCreator $router */
 
 $router->group('article')
+    ->extra('menu', ['sidemenu' => 'article_list'])
     ->register(function (RouteCreator $router) {
         $router->any('article_list', '/article/list')
             ->controller(ArticleController::class)
