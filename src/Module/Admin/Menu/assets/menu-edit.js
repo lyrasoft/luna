@@ -22,7 +22,7 @@ const currentType = u.data('current.type');
 const typeField = u.selectOne('#input-item-type');
 
 typeField.addEventListener('change', (e) => {
-  if (typeField.value !== currentType) {
+  if (typeField.value !== '' && typeField.value !== currentType) {
     const v = u.$validation.get('#admin-form')[0];
     v.options.enabled = false;
 
@@ -34,7 +34,7 @@ const currentView = u.data('current.view');
 const viewField = u.selectOne('#input-item-view');
 
 viewField.addEventListener('change', (e) => {
-  if (viewField.value !== currentView) {
+  if (viewField.value !== '' && viewField.value !== currentView) {
     const v = u.$validation.get('#admin-form')[0];
     v.options.enabled = false;
 

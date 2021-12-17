@@ -110,7 +110,7 @@ class EditForm implements FieldDefinitionInterface
                     ->color('success');
 
                 $form->add('created', CalendarField::class)
-                    ->label($this->trans('unicorn.field.author'));
+                    ->label($this->trans('unicorn.field.created'));
 
                 $form->add('modified', CalendarField::class)
                     ->label($this->trans('unicorn.field.modified'))
