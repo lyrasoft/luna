@@ -96,7 +96,7 @@ class EditForm implements FieldDefinitionInterface
                 $form->add('tags', TagListField::class)
                     ->label($this->trans('luna.article.field.tags'))
                     ->multiple(true)
-                    ->addClass('has-choices');
+                    ->addClass('has-tom-select');
 
                 $form->add('image', SingleImageDragField::class)
                     ->label($this->trans('unicorn.field.image'))

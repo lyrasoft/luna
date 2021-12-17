@@ -10,4 +10,4 @@ import u from '@main';
 u.$ui.bootstrap.tooltip();
 
 u.grid('#admin-form').initComponent();
-u.$ui.choices('.has-choices');
+u.$ui.tomSelect('.has-tom-select');

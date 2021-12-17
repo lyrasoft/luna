@@ -82,7 +82,7 @@ class GridForm implements FieldDefinitionInterface
             // Parent
             $form->add('parent_id', CategoryListField::class)
                 ->label($this->trans($langPrefix . 'category.field.parent'))
-                ->addClass('has-choices')
+                ->addClass('has-tom-select')
                 ->categoryType($this->request->input('type') ?? '')
                 ->showRoot(true)
                 ->option($this->trans('luna.category.parent.select'), '');

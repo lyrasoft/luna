@@ -15,4 +15,4 @@ u.formValidation()
   .then(() => u.$ui.disableOnSubmit(form));
 u.form(form).initComponent();
 u.$ui.keepAlive(location.href);
-u.$ui.choices('.has-choices');
+u.$ui.tomSelect('.has-tom-select');
