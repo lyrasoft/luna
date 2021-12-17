@@ -23,7 +23,7 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-<div x-id="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
+<div x-title="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
     <a class="btn btn-success btn-sm"
         href="{{ $nav->to('user_edit')->var('new', 1) }}"
         style="min-width: 150px"

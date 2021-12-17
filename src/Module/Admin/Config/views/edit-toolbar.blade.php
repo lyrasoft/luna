@@ -24,7 +24,7 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-<div x-id="toolbar" x-data="{ form: $store.form }">
+<div x-title="toolbar" x-data="{ form: $store.form }">
     <button type="button" class="btn btn-success btn-sm"
         style="width: 150px"
         @click="form.post();">

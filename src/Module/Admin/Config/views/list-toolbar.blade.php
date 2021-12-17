@@ -32,7 +32,7 @@ declare(strict_types=1);
 
 ?>
 
-<div x-id="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
+<div x-title="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
     <a class="btn btn-success btn-sm"
         href="{{ $nav->to('config_edit')->var('new', 1) }}"
         style="min-width: 150px"

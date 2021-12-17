@@ -26,7 +26,7 @@ $pageService = $app->service(\Lyrasoft\Luna\PageBuilder\PageService::class);
 
 ?>
 
-<div x-id="toolbar" x-data="{ form: $store.form }">
+<div x-title="toolbar" x-data="{ form: $store.form }">
     <button type="button" class="btn btn-success btn-sm"
         data-task="save"
         style="width: 150px"

@@ -24,7 +24,7 @@ use Windwalker\Core\Router\SystemUri;
 
 ?>
 
-<div x-id="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
+<div x-title="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
     <button type="button" class="btn btn-primary btn-sm"
         @click="form.post('{{ $nav->to('page_create') }}')"
         style="min-width: 150px"
