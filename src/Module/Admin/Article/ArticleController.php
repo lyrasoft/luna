@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\TagMap;
 use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
+use Lyrasoft\Luna\Services\TagService;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Windwalker\Core\Application\AppContext;
@@ -34,29 +35,20 @@ class ArticleController
         CrudController $controller,
         Navigator $nav,
         #[Autowire] ArticleRepository $repository,
+        TagService $tagService,
     ): mixed {
         $form = $app->make(EditForm::class,);
 
         $controller->afterSave(
-            function (AfterSaveEvent $event) use ($repository, $app) {
+            function (AfterSaveEvent $event) use ($tagService, $repository, $app) {
                 /** @var Article $entity */
                 $entity = $event->getEntity();
 
-                $orm = $repository->getORM();
-                $tagMapper = $orm->mapper(TagMap::class);
-                $tagIds = (array) ($app->input('item')['tags'] ?? []);
-                $maps = [];
-
-                foreach ($tagIds as $tagId) {
-                    $map = new TagMap();
-                    $map->setType('article');
-                    $map->setTagId((int) $tagId);
-                    $map->setTargetId($entity->getId());
-
-                    $maps[] = $map;
-                }
-
-                $tagMapper->flush($maps, ['target_id' => $entity->getId(), 'type' => 'article']);
+                $tagService->flushTagMapsFromInput(
+                    'article',
+                    $entity->getId(),
+                    (array) ($app->input('item')['tags'] ?? [])
+                );
             }
         );
 

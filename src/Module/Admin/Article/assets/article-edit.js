@@ -16,3 +16,11 @@ u.formValidation()
 u.form(form).initComponent();
 u.$ui.keepAlive(location.href);
 u.$ui.tomSelect('.has-tom-select');
+u.$ui.tomSelect('#input-item-tags', {
+  create: (input) => {
+    return {
+      value: `new#${input}`,
+      text: input,
+    }
+  },
+});

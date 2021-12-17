@@ -19,6 +19,7 @@ use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
 use Lyrasoft\Luna\Services\ConfigService;
 use Lyrasoft\Luna\Services\MenuService;
+use Lyrasoft\Luna\Services\TagService;
 use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\Password;
@@ -60,6 +61,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(MenuService::class);
         $container->prepareSharedObject(MenuBuilder::class);
         $container->prepareSharedObject(PageService::class);
+        $container->prepareSharedObject(TagService::class);
 
         $this->registerAuthServices($container);
 
