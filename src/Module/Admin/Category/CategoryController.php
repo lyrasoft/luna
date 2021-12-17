@@ -17,6 +17,7 @@ use Lyrasoft\Luna\Repository\CategoryRepository;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Controller\NestedSetController;
+use Unicorn\Repository\Event\PrepareSaveEvent;
 use Unicorn\Upload\FileUploadManager;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
@@ -50,20 +51,24 @@ class CategoryController
             ],
         );
 
+        $controller->prepareSave(
+            function (PrepareSaveEvent $event) use ($app) {
+                $data = &$event->getData();
+
+                $data['type'] = $app->input('type');
+            }
+        );
+
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($repository, $fileUploadManager, $app) {
-                $data = collect($app->input('item'));
-                $data['id'] = $event->getData()['id'];
+                $data = $event->getData();
 
-                $r = $fileUploadManager->get()
+                $data['image'] = $fileUploadManager->get()
                     ->handleFileIfUploaded(
                         $app->file('item')['image'] ?? null,
                         'images/category/image-' . md5((string) $data['id']) . '.jpg'
-                    );
-
-                if ($r) {
-                    $data['image'] = (string) $r->getUri(true);
-                }
+                    )
+                    ?->getUri() ?? $data['image'];
 
                 $repository->save($data);
             }
