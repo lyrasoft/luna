@@ -104,7 +104,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                         <td>
                             <x-row-checkbox :row="$i" :id="$entity->getId()"></x-row-checkbox>
                         </td>
-                        <th>
+                        <td>
                             <x-state-dropdown color-on="text"
                                 style="width: 100%"
                                 use-states
@@ -112,7 +112,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 :id="$entity->getId()"
                                 :value="$item->state"
                             />
-                        </th>
+                        </td>
                         <td>
                             <div class="mb-1">
                                 <a href="{{ $nav->to('article_edit')->id($entity->getId()) }}">

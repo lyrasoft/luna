@@ -22,6 +22,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $callback = $app->input('callback');
+$workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.modal') ?? 'admin.global.pure')
@@ -39,17 +40,22 @@ $callback = $app->input('callback');
                 <thead>
                 <tr>
                     <th>
-                        <x-sort field="content.title">
+                        <x-sort field="article.title">
                             Title
                         </x-sort>
                     </th>
-                    <th>
-                        <x-sort field="content.state">
+                    <th style="width: 15%">
+                        <x-sort field="article.category">
+                            @lang('luna.article.field.category')
+                        </x-sort>
+                    </th>
+                    <th style="width: 5%">
+                        <x-sort field="article.state">
                             State
                         </x-sort>
                     </th>
-                    <th>
-                        <x-sort field="category.id">
+                    <th class="text-right text-end">
+                        <x-sort field="article.id">
                             ID
                         </x-sort>
                     </th>
@@ -58,6 +64,9 @@ $callback = $app->input('callback');
 
                 <tbody>
                 @foreach($items as $i => $item)
+                    <?php
+                    $entity = $vm->prepareItem($item);
+                    ?>
                     @php($data = [
                         'title' => $item->title,
                         'value' => $item->id,
@@ -65,16 +74,37 @@ $callback = $app->input('callback');
                     ])
                     <tr>
                         <td>
-                            <a href="javascript://"
-                                onclick="parent.{{ $callback }}({{ json_encode($data) }})">
-                                <span class="fa fa-angle-right text-muted"></span>
-                                {{ $item->title }}
-                            </a>
+                            <div class="d-flex">
+                                <div class="mr-1 me-1">
+                                    <span class="fa fa-angle-right text-muted"></span>
+                                </div>
+                                <div>
+                                    <div>
+                                        <a href="javascript://"
+                                            onclick="parent.{{ $callback }}({{ json_encode($data) }})">
+                                            {{ $item->title }}
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted">
+                                        {{ $item->alias }}
+                                    </div>
+                                </div>
+                            </div>
                         </td>
-                        <th>
-                            {{ $item->state }}
-                        </th>
+                        <td class="">
+                            {{ $item->category->title }}
+                        </td>
                         <td>
+                            <x-state-dropdown color-on="text"
+                                style="width: 100%"
+                                use-states
+                                readonly
+                                :workflow="$workflow"
+                                :id="$entity->getId()"
+                                :value="$item->state"
+                            />
+                        </td>
+                        <td class="text-right text-end">
                             {{ $item->id }}
                         </td>
                     </tr>
@@ -92,6 +122,7 @@ $callback = $app->input('callback');
         </div>
 
         <div class="d-none">
+            <input name="_method" type="hidden" value="PUT" />
             @include('@csrf')
         </div>
 

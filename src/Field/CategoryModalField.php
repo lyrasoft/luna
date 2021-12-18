@@ -51,7 +51,7 @@ class CategoryModalField extends ModalField
      */
     public function getCategoryType(): string
     {
-        return $this->categoryType;
+        return $this->categoryType ?: throw new \LogicException('No category type for field: ' . static::class);
     }
 
     /**
