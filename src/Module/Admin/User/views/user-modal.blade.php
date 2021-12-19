@@ -91,7 +91,7 @@ $loginName = $luna->getLoginName();
                                 <div class="user-avatar-wrapper mr-2">
                                     @if (method_exists($entity, 'getAvatar'))
                                         @if ($entity->getAvatar())
-                                            <img class="c-user-avatar rounded-circle mr-2 me-2"
+                                            <img class="c-user-avatar rounded-circle me-2"
                                                 src="{{ $item->avatar }}"
                                                 height="45"
                                                 alt="Avatar">

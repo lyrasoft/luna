@@ -93,7 +93,7 @@ $orders = [];
                                 @lang('unicorn.field.ordering')
                             </x-sort>
                             @if($vm->reorderEnabled($ordering))
-                                <x-save-order class="ml-2 ms-2"></x-save-order>
+                                <x-save-order class="ms-2"></x-save-order>
                             @endif
                         </div>
                     </th>
@@ -131,7 +131,7 @@ $orders = [];
                         </td>
                         <td>
                             <div class="d-flex">
-                                <div class="{{ $entity->getLevel() > 1 ? 'mr-1 me-1' : '' }}">
+                                <div class="{{ $entity->getLevel() > 1 ? 'me-1' : '' }}">
                                     {{ str_repeat('—', $entity->getLevel() - 1) }}
                                 </div>
                                 <div>

@@ -8,7 +8,7 @@
     ></vue-slider>
     <input type="number"
       :id="id"
-      class="form-control ml-2 ms-2"
+      class="form-control ms-2"
       :style="{ width: inputWidth }"
       v-model="value"
       :step="interval"

@@ -90,7 +90,7 @@ $typeField = $app->make(\Lyrasoft\Luna\Field\MenuTypeListField::class)
                     <tr>
                         <td>
                             <div class="d-flex">
-                                <div class="{{ $entity->getLevel() > 1 ? 'mr-1 me-1' : '' }}">
+                                <div class="{{ $entity->getLevel() > 1 ? 'me-1' : '' }}">
                                     {{ str_repeat('—', $entity->getLevel() - 1) }}
                                 </div>
                                 <div>

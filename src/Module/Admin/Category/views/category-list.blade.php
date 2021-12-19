@@ -131,7 +131,7 @@ $orders = [];
                         <td class="searchable">
                             <div class="d-flex">
                                 @if ($item->level > 1)
-                                    <div class="mr-2 me-2">
+                                    <div class="me-2">
                                         {{ str_repeat('—', $item->level - 1) }}
                                     </div>
                                 @endif

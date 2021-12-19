@@ -4,7 +4,7 @@
       <div class="c-addon-instance__icon">
         <span :class="content.icon"></span>
       </div>
-      <div class="c-addon-instance__title ml-2 ms-2">
+      <div class="c-addon-instance__title ms-2">
         <h6 class="m-0">
           {{ addonProp('name', content.type) }}
         </h6>

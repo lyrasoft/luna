@@ -80,7 +80,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 @lang('unicorn.field.ordering')
                             </x-sort>
                             @if($vm->reorderEnabled($ordering))
-                                <x-save-order class="ml-2 ms-2"></x-save-order>
+                                <x-save-order class="ms-2"></x-save-order>
                             @endif
                         </div>
                     </th>

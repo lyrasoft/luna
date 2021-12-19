@@ -75,7 +75,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                     <tr>
                         <td>
                             <div class="d-flex">
-                                <div class="mr-1 me-1">
+                                <div class="me-1">
                                     <span class="fa fa-angle-right text-muted"></span>
                                 </div>
                                 <div>

@@ -12,7 +12,7 @@
       <CModalBody class="c-template-manager">
 
         <div class="form-group mb-3 d-flex align-items-center">
-          <span class="mr-2 me-2">
+          <span class="me-2">
             Filter:
           </span>
           <ButtonRadio
@@ -20,7 +20,7 @@
             color="primary"
             variant="outline"
             size="sm"
-            class="mr-2 me-2"
+            class="me-2"
             v-model="filter.type"
             :options="filterButtons"
           ></ButtonRadio>
@@ -38,7 +38,7 @@
                 <div class="c-template-item__preview card-img-top" :style="{ 'background-image': `url(${item.image})` }"></div>
                 <div class="card-footer">
                   <div class="d-flex">
-                    <h5 class="mb-0 mr-2 me-2">
+                    <h5 class="mb-0 me-2">
                       {{ item.title || 'No title' }}
                     </h5>
                     <div>
