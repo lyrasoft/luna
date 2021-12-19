@@ -23,6 +23,14 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $callback = $app->input('callback');
+$workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
+
+$app->service(\Unicorn\Script\UnicornScript::class)
+    ->addRoute('self', $nav->self()->var('type', '{{type}}'));
+
+$typeField = $app->make(\Lyrasoft\Luna\Field\MenuTypeListField::class)
+    ->setName('type')
+    ->setValue($type);
 ?>
 
 @extends($app->config('luna.view_extends.admin.modal') ?? 'admin.global.pure')
@@ -33,7 +41,11 @@ $callback = $app->input('callback');
         data-ordering="{{ $ordering }}"
         method="post">
 
-        <x-filter-bar :form="$form" :open="$showFilters"></x-filter-bar>
+        <x-filter-bar :form="$form" :open="$showFilters">
+            <x-slot name="start">
+                <x-field :field="$typeField" no-label style="min-width: 300px"></x-field>
+            </x-slot>
+        </x-filter-bar>
 
         <div>
             <table class="table table-striped table-hover">
@@ -41,17 +53,22 @@ $callback = $app->input('callback');
                 <tr>
                     <th>
                         <x-sort field="menu.title">
-                            Title
+                            @lang('unicorn.field.title')
+                        </x-sort>
+                    </th>
+                    <th class="text-nowrap">
+                        <x-sort field="menu.view">
+                            @lang('luna.menu.field.view')
                         </x-sort>
                     </th>
                     <th>
                         <x-sort field="menu.state">
-                            State
+                            @lang('unicorn.field.state')
                         </x-sort>
                     </th>
-                    <th>
-                        <x-sort field="category.id">
-                            ID
+                    <th class="text-end text-nowrap" style="width: 1%">
+                        <x-sort field="menu.id">
+                            @lang('unicorn.field.id')
                         </x-sort>
                     </th>
                 </tr>
@@ -59,6 +76,12 @@ $callback = $app->input('callback');
 
                 <tbody>
                 @foreach($items as $i => $item)
+                    <?php
+                    $entity = $vm->prepareItem($item);
+
+                    $orders[$entity->getParentId()][] = $entity->getId();
+                    $order = count($orders[$entity->getParentId()]);
+                    ?>
                     @php($data = [
                         'title' => $item->title,
                         'value' => $item->id,
@@ -66,16 +89,46 @@ $callback = $app->input('callback');
                     ])
                     <tr>
                         <td>
-                            <a href="javascript://"
-                                onclick="parent.{{ $callback }}({{ json_encode($data) }})">
-                                <span class="fa fa-angle-right text-muted"></span>
-                                {{ $item->title }}
-                            </a>
+                            <div class="d-flex">
+                                <div class="{{ $entity->getLevel() > 1 ? 'mr-1 me-1' : '' }}">
+                                    {{ str_repeat('—', $entity->getLevel() - 1) }}
+                                </div>
+                                <div>
+                                    <a href="javascript://"
+                                        onclick="parent.{{ $callback }}({{ json_encode($data) }})">
+                                        {{ $item->title }}
+                                    </a>
+                                </div>
+                            </div>
                         </td>
-                        <th>
-                            {{ $item->state }}
-                        </th>
                         <td>
+                            <div class="small text-muted">
+                                <?php $viewInstance = $vm->getViewInstance($entity->getView()) ?>
+                                @if ($viewInstance)
+                                    @lang('luna.menu.group.' . $viewInstance::getGroup())
+                                @else
+                                    @lang('luna.menu.unknown')
+                                @endif
+                            </div>
+                            <div class="has-tooltip" title="{{ $entity->getView() }}">
+                                @if ($viewInstance)
+                                    {{ $viewInstance::getTitle($lang) }}
+                                @else
+                                    @lang('luna.menu.unknown')
+                                @endif
+                            </div>
+                        </td>
+                        <td>
+                            <x-state-dropdown color-on="text"
+                                button-style="width: 100%"
+                                use-states
+                                readonly
+                                :workflow="$workflow"
+                                :id="$entity->getId()"
+                                :value="$item->state"
+                            />
+                        </td>
+                        <td class="text-end">
                             {{ $item->id }}
                         </td>
                     </tr>

@@ -68,7 +68,7 @@ $loginName = $luna->getLoginName();
                         <x-sort field="user.verified">@lang('luna.user.field.verified')</x-sort>
                     </th>
 
-                    <th class="text-right text-end">
+                    <th class="text-end">
                         <x-sort field="category.id">
                             ID
                         </x-sort>
@@ -137,7 +137,7 @@ $loginName = $luna->getLoginName();
                             ></x-state-button>
                         </td>
 
-                        <td class="text-right text-end">
+                        <td class="text-end">
                             {{ $item->id }}
                         </td>
                     </tr>

@@ -41,7 +41,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                 <tr>
                     <th>
                         <x-sort field="article.title">
-                            Title
+                            @lang('unicorn.field.title')
                         </x-sort>
                     </th>
                     <th style="width: 15%">
@@ -51,12 +51,12 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                     </th>
                     <th style="width: 5%">
                         <x-sort field="article.state">
-                            State
+                            @lang('unicorn.field.state')
                         </x-sort>
                     </th>
-                    <th class="text-right text-end">
+                    <th class="text-end text-nowrap" style="width: 1%">
                         <x-sort field="article.id">
-                            ID
+                            @lang('unicorn.field.id')
                         </x-sort>
                     </th>
                 </tr>
@@ -104,7 +104,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 :value="$item->state"
                             />
                         </td>
-                        <td class="text-right text-end">
+                        <td class="text-end">
                             {{ $item->id }}
                         </td>
                     </tr>

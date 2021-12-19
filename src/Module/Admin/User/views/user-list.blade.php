@@ -103,7 +103,7 @@ $loginName = $luna->getLoginName();
                         </th>
 
                         {{-- ID --}}
-                        <th width="3%" class="text-nowrap text-right">
+                        <th width="3%" class="text-nowrap text-end">
                             <x-sort field="user.id">@lang('unicorn.field.id')</x-sort>
                         </th>
                     </tr>
@@ -202,7 +202,7 @@ $loginName = $luna->getLoginName();
                             </td>
 
                             {{-- ID --}}
-                            <td class="searchable text-right text-end">
+                            <td class="searchable text-end">
                                 {{ $item->id }}
                             </td>
                         </tr>

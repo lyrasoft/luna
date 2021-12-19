@@ -91,7 +91,7 @@ $orders = [];
                     </th>
 
                     {{-- ID --}}
-                    <th class="text-right" width="3%">
+                    <th style="width: 1%" class="text-nowrap text-end">
                         <x-sort field="category.id" >@lang('unicorn.field.id')</x-sort>
                     </th>
                 </tr>
@@ -148,7 +148,7 @@ $orders = [];
                         </td>
 
                         {{-- ORDERING --}}
-                        <td class="text-right">
+                        <td class="text-end">
                             <x-order-control
                                 :enabled="$enableOrderControl"
                                 :row="$i"
@@ -183,7 +183,7 @@ $orders = [];
                         </td>
 
                         {{-- ID --}}
-                        <td class="text-right text-end">
+                        <td class="text-end">
                             {{ $item->id }}
                         </td>
                     </tr>

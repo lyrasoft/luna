@@ -23,7 +23,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $callback = $app->input('callback');
-
+$workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.modal') ?? 'admin.global.pure')
@@ -42,22 +42,16 @@ $callback = $app->input('callback');
                 <tr>
                     <th>
                         <x-sort field="category.title">
-                            Title
+                            @lang('unicorn.field.title')
                         </x-sort>
                     </th>
-                    <th>
-                        <x-sort field="category.state">
-                            State
-                        </x-sort>
+                    {{-- STATE --}}
+                    <th style="min-width: 90px;" width="7%">
+                        <x-sort field="category.state" >@lang('unicorn.field.state')</x-sort>
                     </th>
-                    <th>
-                        <x-sort field="category.category_id">
-                            Category
-                        </x-sort>
-                    </th>
-                    <th>
+                    <th class="text-end text-nowrap" style="width: 1%">
                         <x-sort field="category.id">
-                            ID
+                            @lang('unicorn.field.id')
                         </x-sort>
                     </th>
                 </tr>
@@ -72,19 +66,38 @@ $callback = $app->input('callback');
                     ])
                     <tr>
                         <td>
-                            <a href="javascript://"
-                                onclick="parent.{{ $callback }}({{ json_encode($data) }})">
-                                <span class="fa fa-angle-right text-muted"></span>
-                                {{ $item->title }}
-                            </a>
+                            <div class="d-flex">
+                                @if ($item->level > 1)
+                                    <div class="mr-2 me-2">
+                                        {{ str_repeat('—', $item->level - 1) }}
+                                    </div>
+                                @endif
+                                <div>
+                                    <div>
+                                        <a href="javascript://"
+                                            onclick="parent.{{ $callback }}({{ json_encode($data) }})">
+                                            {{ $item->title }}
+                                        </a>
+                                    </div>
+
+                                    <div class="text-muted small">{{ $item->alias }}</div>
+                                </div>
+                            </div>
                         </td>
-                        <th>
-                            {{ $item->state }}
-                        </th>
-                        <td>
-                            {{ $item->category->title ?? '' }}
+                        {{-- STATE --}}
+                        <td class="">
+                            <x-state-dropdown
+                                :workflow="$workflow"
+                                color-on="text"
+                                button-style="width: 100%"
+                                style="width: 100%"
+                                use-states
+                                readonly
+                                :id="$item->id"
+                                :value="$item->state"
+                            ></x-state-dropdown>
                         </td>
-                        <td>
+                        <td class="text-end">
                             {{ $item->id }}
                         </td>
                     </tr>

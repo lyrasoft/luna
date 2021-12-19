@@ -100,7 +100,7 @@ $orders = [];
                     <th style="width: 1%" class="text-nowrap">
                         @lang('unicorn.field.delete')
                     </th>
-                    <th style="width: 1%" class="text-nowrap text-right text-end">
+                    <th style="width: 1%" class="text-nowrap text-end">
                         <x-sort field="menu.id">
                             @lang('unicorn.field.id')
                         </x-sort>
@@ -158,7 +158,7 @@ $orders = [];
                                 @endif
                             </div>
                         </td>
-                        <td class="text-end text-right">
+                        <td class="text-end">
                             <x-order-control
                                 :enabled="$vm->reorderEnabled($ordering)"
                                 :row="$i"
@@ -174,7 +174,7 @@ $orders = [];
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </td>
-                        <td class="text-right text-end">
+                        <td class="text-end">
                             {{ $entity->getId() }}
                         </td>
                     </tr>

@@ -14,26 +14,15 @@ namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\TagListField;
 use Lyrasoft\Luna\Field\UserModalField;
-use Unicorn\Field\CategoryCascadeSelectField;
-use Unicorn\Field\FileDragField;
-use Unicorn\Field\MultiUploaderField;
+use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
 use Unicorn\Field\TinymceEditorField;
 use Windwalker\Core\Language\TranslatorTrait;
-use Windwalker\DI\Attributes\Inject;
-use Windwalker\Core\Language\LangService;
-use Unicorn\Field\CalendarField;
-use Windwalker\Form\Field\TextareaField;
-use Windwalker\Form\Field\NumberField;
 use Windwalker\Form\Field\HiddenField;
-use Unicorn\Enum\BasicState;
-use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
-
-use function Windwalker\raw;
 
 /**
  * The EditForm class.
@@ -41,7 +30,7 @@ use function Windwalker\raw;
 class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
-    
+
     public function __construct(protected ?string $type = 'article')
     {
     }

@@ -74,6 +74,7 @@ class MenuListView implements ViewModelInterface
                 $search['*'] ?? '',
                 $this->getSearchFields()
             )
+            ->addFilter('menu.type', $type)
             ->ordering($ordering)
             ->page($page)
             ->limit($limit);

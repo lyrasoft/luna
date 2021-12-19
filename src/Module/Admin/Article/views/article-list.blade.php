@@ -87,7 +87,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                     <th style="width: 1%" class="text-nowrap">
                         @lang('unicorn.toolbar.delete')
                     </th>
-                    <th style="width: 1%" class="text-nowrap text-right">
+                    <th style="width: 1%" class="text-nowrap text-end">
                         <x-sort field="article.id">
                             @lang('unicorn.field.id')
                         </x-sort>
@@ -127,7 +127,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                         <td class="">
                             {{ $item->category?->title }}
                         </td>
-                        <td class="text-end text-right">
+                        <td class="text-end">
                             <x-order-control
                                 :enabled="$vm->reorderEnabled($ordering)"
                                 :row="$i"
@@ -143,7 +143,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
-                        <td class="text-right">
+                        <td class="text-end">
                             {{ $entity->getId() }}
                         </td>
                     </tr>
