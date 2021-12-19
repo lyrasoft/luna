@@ -169,11 +169,13 @@ class AccessService
             function () {
                 $roles = $this->loadStaticRoles();
 
-                $dbRoles = $this->loadDBRoles();
+                if ($this->app->config('access.roles_db_enabled') ?? false) {
+                    $dbRoles = $this->loadDBRoles();
 
-                // Merge nodes
-                foreach ($dbRoles->getChildren() as $child) {
-                    $roles->addChild($child);
+                    // Merge nodes
+                    foreach ($dbRoles->getChildren() as $child) {
+                        $roles->addChild($child);
+                    }
                 }
 
                 return $roles;
@@ -275,11 +277,13 @@ class AccessService
                 // Static rules
                 $rules = $this->loadStaticRules();
 
-                // DB Rules
-                $rules = array_merge(
-                    $rules,
-                    $this->loadDBRules($action)
-                );
+                if ($this->app->config('access.actions_db_enabled') ?? false) {
+                    // DB Rules
+                    $rules = array_merge(
+                        $rules,
+                        $this->loadDBRules($action)
+                    );
+                }
 
                 if ($id) {
                     foreach ($rules as $rule) {
