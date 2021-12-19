@@ -141,7 +141,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             $errorService = $container->get(ErrorService::class);
 
             $errorService->addHandler(
-                $this->app->make(
+                $container->newInstance(
                     LunaErrorHandler::class,
                     [
                         'layout' => $this->app->config('luna.error.layout') ?? 'error',

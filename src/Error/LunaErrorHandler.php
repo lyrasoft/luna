@@ -20,6 +20,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Router;
 use Windwalker\Core\Service\ErrorService;
 use Windwalker\Core\View\View;
+use Windwalker\DI\Container;
 use Windwalker\Http\Output\StreamOutput;
 
 /**
@@ -28,7 +29,7 @@ use Windwalker\Http\Output\StreamOutput;
 class LunaErrorHandler implements ErrorHandlerInterface
 {
     public function __construct(
-        protected AppContext $app,
+        protected Container $container,
         protected string $route = 'front::home',
         protected ?string $layout = null
     ) {
@@ -39,29 +40,32 @@ class LunaErrorHandler implements ErrorHandlerInterface
      */
     public function __invoke(\Throwable $e): void
     {
-        $this->app->service(LangService::class)
+        $app = $this->container->get(AppContext::class);
+
+        $app->service(LangService::class)
             ->loadFileFromPath(LunaPackage::path('resources/languages'), 'luna', 'ini');
 
-        $router = $this->app->service(Router::class);
+        $router = $app->service(Router::class);
         $route = $router->getRoute($this->route);
+        $app = $this->container->get(AppContext::class);
 
-        $this->app->getContainer()->modify(
+        $this->container->modify(
             AppContext::class,
             fn(AppContext $context) => $context->setMatchedRoute($route)
         );
 
         $middlewares = $route->getMiddlewares();
-        $runner = $this->app->make(MiddlewareRunner::class);
+        $runner = $app->make(MiddlewareRunner::class);
 
         /** @var View $view */
-        $view = $this->app->make(ErrorView::class);
+        $view = $app->make(ErrorView::class);
 
         if ($this->layout) {
             $view->setLayoutMap(['default' => $this->layout]);
         }
 
         $res = $runner->run(
-            $this->app->getAppRequest()->getRequest(),
+            $app->getAppRequest()->getRequest(),
             $middlewares,
             fn() => $view->render(['exception' => $e])
         );
