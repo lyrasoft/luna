@@ -25,6 +25,8 @@ class FakerHelper
      */
     protected static array $fakers = [];
 
+    public static array $override = [];
+
     /**
      * getFaker
      *
@@ -74,8 +76,12 @@ class FakerHelper
      */
     public static function registerChineseLorem(string $locale = 'zh_TW'): void
     {
-        class_alias(\Lyrasoft\Luna\Faker\zh_TW\Lorem::class, 'Faker\Provider\\' . $locale . '\Lorem');
-        class_alias(\Lyrasoft\Luna\Faker\zh_TW\Internet::class, 'Faker\Provider\\' . $locale . '\Internet');
+        if (!isset(static::$override[$locale])) {
+            class_alias(\Lyrasoft\Luna\Faker\zh_TW\Lorem::class, 'Faker\Provider\\' . $locale . '\Lorem');
+            class_alias(\Lyrasoft\Luna\Faker\zh_TW\Internet::class, 'Faker\Provider\\' . $locale . '\Internet');
+
+            static::$override[$locale] = true;
+        }
     }
 
     /**
