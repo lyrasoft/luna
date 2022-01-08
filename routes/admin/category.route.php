@@ -40,5 +40,9 @@ $router->group('category')
             // Ajax Category List
             $router->any('category_ajax_list', '/category/ajax/list/{type}')
                 ->controller(CategoryController::class, 'ajaxList');
+
+            // Ajax Category List
+            $router->any('category_tree', '/category/ajax/tree/{type}')
+                ->controller(CategoryController::class, 'tree');
         }
     );

@@ -37,7 +37,7 @@ class ArticleController
         #[Autowire] ArticleRepository $repository,
         TagService $tagService,
     ): mixed {
-        $form = $app->make(EditForm::class,);
+        $form = $app->make(EditForm::class);
 
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($tagService, $repository, $app) {

@@ -14,6 +14,7 @@ namespace Lyrasoft\Luna\Module\Admin\Category;
 use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Module\Admin\Category\Form\EditForm;
 use Lyrasoft\Luna\Repository\CategoryRepository;
+use Lyrasoft\Luna\Tree\TreeBuilder;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Controller\NestedSetController;
@@ -169,5 +170,17 @@ class CategoryController
         }
 
         return $items;
+    }
+
+    #[JsonApi]
+    public function tree(string $type, ORM $orm): array
+    {
+        return TreeBuilder::create(
+            $orm->from(Category::class)
+                ->where('type', $type)
+                ->order('lft', 'ASC')
+                ->all()
+        )
+            ->getChildren();
     }
 }

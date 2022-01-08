@@ -11,14 +11,17 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
+use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\TagListField;
 use Lyrasoft\Luna\Field\UserModalField;
+use Unicorn\Field\ModalTreeField;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
 use Unicorn\Field\TinymceEditorField;
 use Windwalker\Core\Language\TranslatorTrait;
+use Windwalker\Core\Router\Navigator;
 use Windwalker\Form\Field\HiddenField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
@@ -31,7 +34,7 @@ class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
 
-    public function __construct(protected ?string $type = 'article')
+    public function __construct(protected Navigator $nav, protected ?string $type = 'article')
     {
     }
 
@@ -78,9 +81,19 @@ class EditForm implements FieldDefinitionInterface
         $form->fieldset(
             'meta',
             function (Form $form) {
-                $form->add('category_id', CategoryListField::class)
+                // $form->add('category_id', CategoryListField::class)
+                //     ->label($this->trans('luna.article.field.category'))
+                //     ->categoryType($this->type);
+                $form->add('category_id', ModalTreeField::class)
                     ->label($this->trans('luna.article.field.category'))
-                    ->categoryType($this->type);
+                    ->table(Category::class)
+                    ->modalTitle('SDFDG')
+                    // ->multiple(true)
+                    ->vertical(true)
+                    ->itemClass('badge text-primary border border-primary')
+                    ->source(
+                        $this->nav->to('category_tree')->var('type', 'article')
+                    );
 
                 $form->add('tags', TagListField::class)
                     ->label($this->trans('luna.article.field.tags'))
