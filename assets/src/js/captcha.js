@@ -57,43 +57,47 @@ class RecaptchaCaptcha {
     this.el = el;
     this.type = type;
 
-    this.callbackName = this.el.dataset.callback;
     this.key = this.el.dataset.key;
+    this.callbackName = this.el.dataset.callback;
 
-    const form = this.el.closest('form');
-    
-    if (type === 'invisible') {
-      form.addEventListener('submit', (e) => {
-        if (form.dataset.passCaptcha) {
-          return;
+    this.jsVerify = this.el.dataset.jsVerify;
+
+    if (this.jsVerify) {
+      const form = this.el.closest('form');
+
+      if (type === 'invisible') {
+        form.addEventListener('submit', (e) => {
+          if (form.dataset.passCaptcha) {
+            return;
+          }
+
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+
+          grecaptcha.execute();
+        });
+
+        window[this.callbackName] = function(response) {
+          form.dataset.passCaptcha = 'true';
+          form.requestSubmit();
         }
+      } else {
+        form.addEventListener('submit', (e) => {
+          if (form.dataset.passCaptcha) {
+            return;
+          }
 
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
 
-        grecaptcha.execute();
-      });
+          alert(u.__('luna.field.captcha.message.please.check.first'));
+        });
 
-      window[this.callbackName] = function(response) {
-        form.dataset.passCaptcha = 'true';
-        form.requestSubmit();
-      }
-    } else {
-      form.addEventListener('submit', (e) => {
-        if (form.dataset.passCaptcha) {
-          return;
+        window[this.callbackName] = function(response) {
+          form.dataset.passCaptcha = 'true';
         }
-
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-
-        alert(u.__('luna.field.captcha.message.please.check.first'));
-      });
-
-      window[this.callbackName] = function(response) {
-        form.dataset.passCaptcha = 'true';
       }
     }
   }

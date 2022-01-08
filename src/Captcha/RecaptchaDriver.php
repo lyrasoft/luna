@@ -11,7 +11,6 @@ namespace Lyrasoft\Luna\Captcha;
 use Lyrasoft\Luna\Captcha\Recaptcha\WindwalkerRequestMethod;
 use Lyrasoft\Luna\Script\LunaScript;
 use ReCaptcha\ReCaptcha;
-use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Language\TranslatorTrait;
 
 use function Windwalker\DOM\h;
@@ -87,6 +86,8 @@ class RecaptchaDriver implements CaptchaDriverInterface
      */
     public function input(array $attrs = [], array $options = []): string
     {
+        $this->lunaScript->captcha();
+
         $attrs['class'] ??= 'g-recaptcha';
 
         $attrs['data-sitekey'] = $this->key;
@@ -100,9 +101,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
             $attrs['data-callback'] = 'recaptchaCallback_' . str_replace('-', '_', $attrs['id']);
         }
 
-        if (!empty($options['js_verify'])) {
-            $this->lunaScript->captcha();
-        }
+        $attrs['data-js-verify'] = $options['js_verify'] ? '1' : null;
 
         $attrs['uni-captcha-recaptcha'] = $this->type;
 
