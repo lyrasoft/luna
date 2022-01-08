@@ -6,7 +6,6 @@
  */
 
 import u from '@main';
-import '@vendor/choices.js/public/assets/scripts/choices.min.js';
 
 u.$ui.bootstrap.tooltip();
 

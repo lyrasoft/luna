@@ -6,7 +6,12 @@
  */
 
 import u from '@main';
-import '@vendor/choices.js/public/assets/scripts/choices.min.js';
+import $ from '@jquery';
+import { Foo } from '@vendor/foo/lib.umd.js';
+
+const foo = new Foo($('.foo'));
+
+const res = await foo.handle();
 
 u.$ui.bootstrap.tooltip();
 
