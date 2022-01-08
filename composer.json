@@ -15,7 +15,9 @@
     },
     "suggest": {
         "hybridauth/hybridauth": "Install ^3.0 to support social login.",
-        "thl/pinyin": "Install ^1.2 to support pinyin alias."
+        "thl/pinyin": "Install ^1.2 to support pinyin alias.",
+        "gregwar/captcha": "Install ^1.1 to support Image Captcha",
+        "google/recaptcha": "Install ^1.2 to support Google Re-Captcha"
     },
     "autoload": {
         "psr-4": {

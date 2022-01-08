@@ -21,6 +21,16 @@ export async function css() {
   // Compile end
 }
 
+export async function js() {
+  // Watch start
+  fusion.watch('src/js/**/*.js');
+  // Watch end
+
+  // Compile Start
+  babel('src/js/**/*.{js,mjs}', 'dist/', { module: 'systemjs' });
+  // Compile end
+}
+
 export async function vue() {
   // Watch start
   fusion.watch(['scss/**/*.scss', 'src/vue/**/*']);
@@ -50,6 +60,7 @@ export async function vue() {
 
 export default parallel(
   css,
+  js,
   vue
 );
 

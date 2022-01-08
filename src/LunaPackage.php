@@ -12,11 +12,13 @@ use Faker\Generator;
 use Lyrasoft\Luna\Access\AccessAuthorization;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
+use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
 use Lyrasoft\Luna\Menu\MenuBuilder;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
+use Lyrasoft\Luna\Script\LunaScript;
 use Lyrasoft\Luna\Services\ConfigService;
 use Lyrasoft\Luna\Services\MenuService;
 use Lyrasoft\Luna\Services\TagService;
@@ -56,7 +58,9 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     {
         $container->share(static::class, $this);
 
+        $container->prepareSharedObject(CaptchaManager::class);
         $container->prepareSharedObject(ConfigService::class);
+        $container->prepareSharedObject(LunaScript::class);
         $container->prepareSharedObject(FontAwesomeScript::class);
         $container->prepareSharedObject(MenuService::class);
         $container->prepareSharedObject(MenuBuilder::class);
@@ -79,6 +83,14 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             'renderer.namespaces.@menu',
             [
                 static::path('views/menu/bootstrap5'),
+            ],
+            Container::MERGE_OVERRIDE
+        );
+
+        $container->mergeParameters(
+            'renderer.namespaces.@theme',
+            [
+                static::path('views/ui/bootstrap5'),
             ],
             Container::MERGE_OVERRIDE
         );
