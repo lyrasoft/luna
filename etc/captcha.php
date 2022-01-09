@@ -27,9 +27,9 @@ return [
         'factories' => [
             'instances' => [
                 'google' => CaptchaManager::recaptcha(
-                    env('RECAPTCHA_KEY'),
-                    env('RECAPTCHA_SECRET'),
-                    env('RECAPTCHA_TYPE', 'checkbox'),
+                    (string) env('RECAPTCHA_KEY'),
+                    (string) env('RECAPTCHA_SECRET'),
+                    (string) env('RECAPTCHA_TYPE', 'checkbox'),
                 ),
                 'image' => CaptchaManager::gregwar(),
                 'none' => fn () => new NullCaptchaDriver()
