@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Menu;
 
+use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Module\Admin\Menu\Form\GridForm;
 use Lyrasoft\Luna\Repository\MenuRepository;
-use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Services\MenuService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
@@ -62,10 +62,10 @@ class MenuListView implements ViewModelInterface
         $type = $app->input('type');
 
         // Prepare Items
-        $page     = $state->rememberFromRequest('page');
-        $limit    = $state->rememberFromRequest('limit') ?? 45;
-        $filter   = (array) $state->rememberFromRequest('filter');
-        $search   = (array) $state->rememberFromRequest('search');
+        $page = $state->rememberFromRequest('page');
+        $limit = $state->rememberFromRequest('limit') ?? 45;
+        $filter = (array) $state->rememberFromRequest('filter');
+        $search = (array) $state->rememberFromRequest('search');
         $ordering = $state->rememberFromRequest('list_ordering') ?? $this->getDefaultOrdering();
 
         $items = $this->repository->getListSelector()
@@ -189,7 +189,7 @@ class MenuListView implements ViewModelInterface
             }
 
             $title = $this->trans(
-               'luna.menu.list.title',
+                'luna.menu.list.title',
                 title: $title
             );
         }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -12,6 +13,7 @@ use Lyrasoft\Luna\PageBuilder\AbstractAddon;
 use Lyrasoft\Luna\PageBuilder\HasOwnStyleInterface;
 use Lyrasoft\Luna\PageBuilder\Renderer\AbstractPageRenderer;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
+use Windwalker\Core\Application\AppContext;
 use Windwalker\Data\Collection;
 
 /**
@@ -42,13 +44,12 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
      */
     protected function prepareData(Collection $data): void
     {
-        
     }
 
     /**
      * @inheritDoc
      */
-    public static function loadVueComponent(\Windwalker\Core\Application\AppContext $app): void
+    public static function loadVueComponent(AppContext $app): void
     {
     }
 

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Middleware;
 
+use Closure;
 use Lyrasoft\Luna\User\UserService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -39,7 +40,7 @@ class LoginRequireMiddleware implements MiddlewareInterface
     /**
      * LoginRequireMiddleware constructor.
      */
-    public function __construct(protected array|\Closure $excludes = [])
+    public function __construct(protected array|Closure $excludes = [])
     {
         //
     }

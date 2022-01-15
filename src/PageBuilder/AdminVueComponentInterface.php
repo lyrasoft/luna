@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,6 +9,7 @@
 
 namespace Lyrasoft\Luna\PageBuilder;
 
+use ReflectionException;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Renderer\CompositeRenderer;
 
@@ -45,7 +47,7 @@ interface AdminVueComponentInterface
      * @param  array              $data
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function getVueComponentTemplate(CompositeRenderer $renderer, array $data = []): string;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -37,19 +38,19 @@ class WindwalkerRequestMethod implements RequestMethod
     /**
      * WindwalkerRequestMethod constructor.
      *
-     * @param HttpClient|null $http
-     * @param null            $url
+     * @param  HttpClient|null  $http
+     * @param  null             $url
      */
     public function __construct(HttpClient $http = null, $url = null)
     {
         $this->http = $http ?: new HttpClient();
-        $this->url  = $url ?: ReCaptcha::SITE_VERIFY_URL;
+        $this->url = $url ?: ReCaptcha::SITE_VERIFY_URL;
     }
 
     /**
      * Submit the request with the specified parameters.
      *
-     * @param RequestParameters $params Request parameters
+     * @param  RequestParameters  $params  Request parameters
      *
      * @return string Body of the reCAPTCHA response
      */
@@ -59,7 +60,7 @@ class WindwalkerRequestMethod implements RequestMethod
             $this->url,
             $params->toQueryString(),
             [
-                'Content-Type' => 'application/x-www-form-urlencoded'
+                'Content-Type' => 'application/x-www-form-urlencoded',
             ]
         );
 

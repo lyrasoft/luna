@@ -16,10 +16,7 @@ use Lyrasoft\Luna\Field\MenuListField;
 use Lyrasoft\Luna\Field\MenuTypeListField;
 use Lyrasoft\Luna\Field\MenuViewListField;
 use Lyrasoft\Luna\Field\UserModalField;
-use Unicorn\Enum\BasicState;
 use Unicorn\Field\CalendarField;
-use Unicorn\Field\FileDragField;
-use Unicorn\Field\RepeatableField;
 use Unicorn\Field\SwitcherField;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\Field\HiddenField;
@@ -100,7 +97,7 @@ class EditForm implements FieldDefinitionInterface
                     ->label($this->trans('luna.menu.field.type'))
                     ->option($this->trans('unicorn.select.placeholder'), '')
                     ->required(true);
-                
+
                 $form->add('target', ListField::class)
                     ->label($this->trans('luna.menu.field.target'))
                     ->option($this->trans('luna.menu.field.target.option.blank'), '_blank')

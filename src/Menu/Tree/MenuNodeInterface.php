@@ -56,7 +56,7 @@ interface MenuNodeInterface extends NodeInterface
     /**
      * route
      *
-     * @param Navigator $nav
+     * @param  Navigator  $nav
      *
      * @return  ?UriInterface
      *
@@ -67,7 +67,7 @@ interface MenuNodeInterface extends NodeInterface
     /**
      * isActive
      *
-     * @param bool $checkChildren
+     * @param  bool  $checkChildren
      *
      * @return  bool
      *
@@ -78,7 +78,7 @@ interface MenuNodeInterface extends NodeInterface
     /**
      * find
      *
-     * @param callable $callback
+     * @param  callable  $callback
      *
      * @return  static|null
      *
@@ -107,7 +107,7 @@ interface MenuNodeInterface extends NodeInterface
     /**
      * foraceActive
      *
-     * @param bool|null $active
+     * @param  bool|null  $active
      *
      * @return  static
      *
@@ -118,8 +118,8 @@ interface MenuNodeInterface extends NodeInterface
     /**
      * is
      *
-     * @param string $view
-     * @param array  $variablesQuery
+     * @param  string  $view
+     * @param  array   $variablesQuery
      *
      * @return  bool
      *

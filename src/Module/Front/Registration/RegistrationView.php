@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -14,6 +14,7 @@ namespace Lyrasoft\Luna\Module\Front\Registration;
 use Lyrasoft\Luna\Module\Front\Auth\SocialLoginViewTrait;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\User\UserService;
+use Psr\Cache\InvalidArgumentException;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
@@ -42,8 +43,7 @@ class RegistrationView implements ViewModelInterface
         protected FormFactory $formFactory,
         protected UserService $userService,
         protected Navigator $nav
-    )
-    {
+    ) {
         //
     }
 
@@ -54,7 +54,7 @@ class RegistrationView implements ViewModelInterface
      * @param  View        $view  The view object.
      *
      * @return array|RouteUri
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function prepare(AppContext $app, View $view): array|RouteUri
     {

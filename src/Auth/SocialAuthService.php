@@ -11,7 +11,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Auth;
 
+use DomainException;
 use Hybridauth\Adapter\AdapterInterface;
+use Hybridauth\Exception\InvalidArgumentException;
+use Hybridauth\Exception\UnexpectedValueException;
 use Hybridauth\Hybridauth;
 use Lyrasoft\Luna\Auth\Profile\DefaultProfileHandler;
 use Lyrasoft\Luna\Auth\Profile\ProfileHandlerInterface;
@@ -21,7 +24,7 @@ use Lyrasoft\Luna\Module\Front\Registration\RegistrationRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Security\CsrfService;
-use Windwalker\Crypt\Password;
+use Windwalker\DI\Exception\DefinitionException;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
 
@@ -125,21 +128,21 @@ class SocialAuthService
      *
      * @return  AdapterInterface
      *
-     * @throws \Hybridauth\Exception\InvalidArgumentException
-     * @throws \Hybridauth\Exception\UnexpectedValueException
-     * @throws \Windwalker\DI\Exception\DefinitionException
+     * @throws InvalidArgumentException
+     * @throws UnexpectedValueException
+     * @throws DefinitionException
      */
     protected function getAdapter(string $provider, mixed $providers): AdapterInterface
     {
         if (!class_exists(Hybridauth::class)) {
-            throw new \DomainException('Please install hybridauth/hybridauth ^3.0 first.');
+            throw new DomainException('Please install hybridauth/hybridauth ^3.0 first.');
         }
 
         $config = [
             'callback' => (string) $this->nav->to('social_auth', [], Navigator::IGNORE_EVENTS)
                 ->var('provider', $provider)
                 ->full(),
-            'providers' => $providers
+            'providers' => $providers,
         ];
 
         $ha = new Hybridauth($config, null, $this->app->service(HASessionStorage::class));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -20,9 +21,9 @@ interface SelfRenderMenuInterface extends LayoutRenderedMenuInterface
     /**
      * render
      *
-     * @param DbMenuNode  $menu
-     * @param array       $variables
-     * @param array       $params
+     * @param  DbMenuNode  $menu
+     * @param  array       $variables
+     * @param  array       $params
      *
      * @return  string
      *

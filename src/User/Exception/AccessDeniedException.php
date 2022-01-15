@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of Windwalker project.
  *
@@ -8,6 +9,7 @@
 
 namespace Lyrasoft\Luna\User\Exception;
 
+use RuntimeException;
 use Windwalker\Utilities\Exception\MultiMessagesExceptionTrait;
 
 /**
@@ -15,7 +17,7 @@ use Windwalker\Utilities\Exception\MultiMessagesExceptionTrait;
  *
  * @since  3.0
  */
-class AccessDeniedException extends \RuntimeException
+class AccessDeniedException extends RuntimeException
 {
     use MultiMessagesExceptionTrait;
 }

@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Front\Page;
 
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\PageBuilder\PageService;
+use ReflectionClass;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
@@ -63,7 +64,7 @@ class PageView implements ViewModelInterface
 
         if (!is_file($file)) {
             // Load self layout
-            $ref = new \ReflectionClass($this);
+            $ref = new ReflectionClass($this);
             $file = dirname($ref->getFileName()) . '/views/' . Path::normalize($path) . '.blade.php';
         }
 

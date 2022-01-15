@@ -16,7 +16,6 @@ use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\Module\Front\Registration\RegistrationRepository;
 use Lyrasoft\Luna\User\ActivationService;
-use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\AppContext;

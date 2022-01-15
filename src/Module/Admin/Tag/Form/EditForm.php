@@ -11,14 +11,11 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Tag\Form;
 
-use Windwalker\Core\Language\TranslatorTrait;
-use Windwalker\Form\Field\TextareaField;
 use Lyrasoft\Luna\Field\UserModalField;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SwitcherField;
+use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\Field\HiddenField;
-use Unicorn\Enum\BasicState;
-use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
@@ -29,6 +26,7 @@ use Windwalker\Form\Form;
 class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
+
     /**
      * Define the form fields.
      *

@@ -11,23 +11,19 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Subscriber;
 
+use Closure;
 use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\UserService;
+use Throwable;
 use Windwalker\Core\Application\AppContext;
-use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Renderer\RendererService;
-use Windwalker\Core\Router\Navigator;
-use Windwalker\Core\Security\CsrfService;
 use Windwalker\Core\View\Event\BeforeRenderEvent;
 use Windwalker\DI\Container;
-use Windwalker\DI\Exception\DependencyResolutionException;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
 use Windwalker\Session\Session;
-
-use function Windwalker\DOM\h;
 
 /**
  * The UserSwitchSubscriber class.
@@ -36,8 +32,8 @@ use function Windwalker\DOM\h;
 class UserSwitchSubscriber
 {
     use TranslatorTrait;
-    
-    public function __construct(protected Container $container, protected ?\Closure $messageHandler = null)
+
+    public function __construct(protected Container $container, protected ?Closure $messageHandler = null)
     {
         //
     }
@@ -47,7 +43,7 @@ class UserSwitchSubscriber
     {
         try {
             $session = $this->container->get(Session::class);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return;
         }
 
@@ -77,22 +73,22 @@ class UserSwitchSubscriber
     }
 
     /**
-     * @return \Closure|null
+     * @return Closure|null
      */
-    public function getMessageHandler(): ?\Closure
+    public function getMessageHandler(): ?Closure
     {
-        return $this->messageHandler
-            ??= function (string $message, AssetService $asset) {
-                $asset->getTeleport('messages')->add('user-switch-notice', $message);
-            };
+        return $this->messageHandler ??=
+        static function (string $message, AssetService $asset) {
+            $asset->getTeleport('messages')->add('user-switch-notice', $message);
+        };
     }
 
     /**
-     * @param  \Closure|null  $messageHandler
+     * @param  Closure|null  $messageHandler
      *
      * @return  static  Return self to support chaining.
      */
-    public function setMessageHandler(?\Closure $messageHandler): static
+    public function setMessageHandler(?Closure $messageHandler): static
     {
         $this->messageHandler = $messageHandler;
 

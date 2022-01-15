@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Category\Form;
 
+use InvalidArgumentException;
 use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\UserModalField;
@@ -24,6 +25,7 @@ use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\ORM\ORM;
+use Windwalker\Query\Query;
 
 /**
  * The CategoryEditDefinition class.
@@ -47,7 +49,7 @@ class EditForm implements FieldDefinitionInterface
      * @param  Form  $form  The Windwalker form object.
      *
      * @return  void
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function define(Form $form): void
     {
@@ -79,7 +81,7 @@ class EditForm implements FieldDefinitionInterface
                     ->option($this->trans('luna.category.root'), '1')
                     ->categoryType($type)
                     ->configureQuery(
-                        function (\Windwalker\Query\Query $query) {
+                        function (Query $query) {
                             if ($id = $this->id) {
                                 /** @var Category $self */
                                 $self = $this->orm->mapper(Category::class)->findOne($id);

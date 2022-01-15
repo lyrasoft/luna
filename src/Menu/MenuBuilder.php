@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Menu;
 
+use Closure;
 use Lyrasoft\Luna\Menu\Tree\MenuNode;
 use Lyrasoft\Luna\Menu\Tree\MenuNodeInterface;
 use Lyrasoft\Luna\Tree\NodeInterface;
+use ReflectionException;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
@@ -87,11 +89,11 @@ class MenuBuilder
      * @param  mixed   $uri
      *
      * @return  MenuNode
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function add(string $title, mixed $uri = null): MenuNode
     {
-        if ($uri instanceof \Closure) {
+        if ($uri instanceof Closure) {
             $uri = $this->app->call($uri);
         }
 
@@ -104,7 +106,7 @@ class MenuBuilder
 
         return $node;
     }
-    
+
     public function link(string $title, mixed $uri = null): MenuNode
     {
         return $this->add($title, $uri);
@@ -157,8 +159,8 @@ class MenuBuilder
         }
 
         $menu = $this;
-        $app  = $this->app;
-        $nav  = $app->service(Navigator::class)->withOptions($navOptions);
+        $app = $this->app;
+        $nav = $app->service(Navigator::class)->withOptions($navOptions);
         $lang = $this->lang;
 
         foreach ($files as $file) {

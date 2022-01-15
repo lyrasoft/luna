@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
-use JetBrains\PhpStorm\ArrayShape;
+use DateTimeInterface;
 use Lyrasoft\Luna\Attributes\Slugify;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
@@ -266,7 +266,7 @@ class Article implements EntityInterface
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface|string|null $created): static
+    public function setCreated(DateTimeInterface|string|null $created): static
     {
         $this->created = Chronos::wrap($created);
 
@@ -278,7 +278,7 @@ class Article implements EntityInterface
         return $this->modified;
     }
 
-    public function setModified(\DateTimeInterface|string|null $modified): static
+    public function setModified(DateTimeInterface|string|null $modified): static
     {
         $this->modified = Chronos::wrap($modified);
 

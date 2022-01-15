@@ -9,6 +9,8 @@
 
 namespace Lyrasoft\Luna\Helper;
 
+use Exception;
+use JsonException;
 use Windwalker\Filesystem\Filesystem;
 use Windwalker\Http\HttpClient;
 
@@ -63,7 +65,7 @@ class UnsplashHelper
      *
      * @return  array
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  1.4
      */
     public static function getImages(
@@ -95,8 +97,8 @@ class UnsplashHelper
      *
      * @return  string
      *
-     * @throws \JsonException
-     * @throws \Exception
+     * @throws JsonException
+     * @throws Exception
      * @since  1.4
      */
     public static function getImagesJson(int $count, int $width = 800, int $height = 600, ?int $id = null): string

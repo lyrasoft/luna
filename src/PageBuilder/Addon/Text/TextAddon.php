@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -11,6 +12,7 @@ namespace Lyrasoft\Luna\PageBuilder\Addon\Text;
 use Lyrasoft\Luna\PageBuilder\AbstractAddon;
 use Lyrasoft\Luna\PageBuilder\HasOwnStyleInterface;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
+use Psr\Cache\InvalidArgumentException;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Data\Collection;
 
@@ -91,7 +93,7 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @return  void
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @since  1.5.2
      */
     public static function loadVueComponent(AppContext $app): void

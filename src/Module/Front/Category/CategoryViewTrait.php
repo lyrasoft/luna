@@ -23,7 +23,7 @@ trait CategoryViewTrait
 {
     #[Inject]
     protected CategoryRepository $categoryRepository;
-    
+
     public function getCategory(mixed $conditions): ?Category
     {
         /** @var Category $category */
@@ -33,7 +33,7 @@ trait CategoryViewTrait
 
         return $this->categoryRepository->getItem($conditions);
     }
-    
+
     public function getCategoryOrFail(mixed $conditions): Category
     {
         $category = $this->getCategory($conditions);
@@ -41,7 +41,7 @@ trait CategoryViewTrait
         if (!$category) {
             throw new RouteNotFoundException('Category not found.');
         }
-        
+
         return $category;
     }
 }

@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -11,15 +11,11 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Registration\Form;
 
-use Unicorn\Field\CalendarField;
 use Windwalker\Core\Attributes\Ref;
-use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Filter\Rule\EmailAddress;
 use Windwalker\Form\Field\EmailField;
-use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\PasswordField;
-use Windwalker\Form\Field\TextareaField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
@@ -30,7 +26,7 @@ use Windwalker\Form\Form;
 class RegistrationForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
-    
+
     /**
      * RegistrationForm constructor.
      */
@@ -41,7 +37,7 @@ class RegistrationForm implements FieldDefinitionInterface
     /**
      * Define the form fields.
      *
-     * @param    Form  $form  The Windwalker form object.
+     * @param  Form  $form  The Windwalker form object.
      *
      * @return    void
      */

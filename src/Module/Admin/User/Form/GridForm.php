@@ -13,7 +13,6 @@ namespace Lyrasoft\Luna\Module\Admin\User\Form;
 
 use Lyrasoft\Luna\Enum\UserEnabled;
 use Lyrasoft\Luna\Enum\UserVerified;
-use Unicorn\Enum\BasicState;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\SearchField;

@@ -15,7 +15,6 @@ use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Module\Front\Category\CategoryViewTrait;
 use Lyrasoft\Luna\Repository\ArticleRepository;
-use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Html\HtmlFrame;

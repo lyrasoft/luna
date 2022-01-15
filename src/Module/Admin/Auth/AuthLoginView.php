@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Admin\Auth;
 
 use Lyrasoft\Luna\Module\Admin\Auth\Form\LoginForm;
 use Lyrasoft\Luna\User\UserService;
+use Psr\Cache\InvalidArgumentException;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
@@ -51,7 +52,7 @@ class AuthLoginView implements ViewModelInterface
      * @param  View        $view  The view object.
      *
      * @return array|RouteUri
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function prepare(AppContext $app, View $view): array|RouteUri
     {

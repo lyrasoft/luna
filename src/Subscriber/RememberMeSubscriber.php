@@ -15,7 +15,6 @@ use Lyrasoft\Luna\User\Event\AfterLoginEvent;
 use Windwalker\Core\Runtime\Config;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
-use Windwalker\Session\Cookie\Cookies;
 use Windwalker\Session\Cookie\CookiesConfigurableInterface;
 use Windwalker\Session\Session;
 
@@ -35,7 +34,6 @@ class RememberMeSubscriber
         $options = $event->getOptions();
 
         if ($options['remember'] ?? false) {
-
             /** @var Session $session */
             $cookies = $this->session->getCookies();
 

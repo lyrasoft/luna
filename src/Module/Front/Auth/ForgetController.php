@@ -126,7 +126,6 @@ class ForgetController
         $password2 = $app->input('password2');
         $token = $app->input('token');
 
-
         if (!$token) {
             throw new ValidateFailException('No Token');
         }

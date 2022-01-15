@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of phoenix project.
  *
@@ -25,7 +26,7 @@ use Windwalker\Form\Form;
 class GridForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
-    
+
     /**
      * GridForm constructor.
      */
@@ -36,7 +37,7 @@ class GridForm implements FieldDefinitionInterface
     /**
      * Define the form fields.
      *
-     * @param Form $form The Windwalker form object.
+     * @param  Form  $form  The Windwalker form object.
      *
      * @return  void
      */

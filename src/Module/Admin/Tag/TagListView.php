@@ -58,10 +58,10 @@ class TagListView implements ViewModelInterface
         $state = $this->repository->getState();
 
         // Prepare Items
-        $page     = $state->rememberFromRequest('page');
-        $limit    = $state->rememberFromRequest('limit');
-        $filter   = (array) $state->rememberFromRequest('filter');
-        $search   = (array) $state->rememberFromRequest('search');
+        $page = $state->rememberFromRequest('page');
+        $limit = $state->rememberFromRequest('limit');
+        $filter = (array) $state->rememberFromRequest('filter');
+        $search = (array) $state->rememberFromRequest('search');
         $ordering = $state->rememberFromRequest('list_ordering') ?? $this->getDefaultOrdering();
 
         $items = $this->repository->getListSelector()

@@ -13,7 +13,6 @@ namespace Lyrasoft\Luna\Module\Front\Auth\Form;
 
 use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Language\TranslatorTrait;
-use Windwalker\Filter\Rule\EmailAddress;
 use Windwalker\Form\Field\EmailField;
 use Windwalker\Form\Field\PasswordField;
 use Windwalker\Form\Field\TextField;

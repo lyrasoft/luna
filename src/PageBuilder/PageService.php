@@ -18,7 +18,6 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Crypt\Password;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\ORM;
-
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
 use function Windwalker\raw;
@@ -84,7 +83,7 @@ class PageService
             ->where('extends', '!=', '')
             ->order('extends')
             ->loadColumn()
-            ->mapWithKeys(fn ($v, $k) => [$v => $v]);
+            ->mapWithKeys(fn($v, $k) => [$v => $v]);
 
         foreach ($this->app->config('pages.page_extends') ?? [] as $extend => $name) {
             if (is_numeric($extend)) {
@@ -105,7 +104,7 @@ class PageService
     {
         $salt = Password::genRandomPassword(4);
 
-        return $salt . '.' .$this->secretHash($salt, $id);
+        return $salt . '.' . $this->secretHash($salt, $id);
     }
 
     public function secretVerify(string|int $id, string $secret): bool

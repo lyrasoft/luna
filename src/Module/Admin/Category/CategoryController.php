@@ -29,8 +29,6 @@ use Windwalker\ORM\Event\AfterSaveEvent;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
 
-use function Windwalker\collect;
-
 /**
  * The CategoryController class.
  */
@@ -65,11 +63,11 @@ class CategoryController
                 $data = $event->getData();
 
                 $data['image'] = $fileUploadManager->get()
-                    ->handleFileIfUploaded(
-                        $app->file('item')['image'] ?? null,
-                        'images/category/image-' . md5((string) $data['id']) . '.jpg'
-                    )
-                    ?->getUri() ?? $data['image'];
+                        ->handleFileIfUploaded(
+                            $app->file('item')['image'] ?? null,
+                            'images/category/image-' . md5((string) $data['id']) . '.jpg'
+                        )
+                        ?->getUri() ?? $data['image'];
 
                 $repository->save($data);
             }

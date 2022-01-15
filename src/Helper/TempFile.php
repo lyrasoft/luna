@@ -9,9 +9,9 @@
 
 namespace Lyrasoft\Luna\Helper;
 
+use Exception;
 use Psr\Http\Message\StreamInterface;
 use Windwalker\Filesystem\Filesystem;
-
 use Windwalker\Stream\Stream;
 
 use function Windwalker\chronos;
@@ -27,11 +27,11 @@ class TempFile
     /**
      * folder
      *
-     * @param string|null $root
+     * @param  string|null  $root
      *
      * @return  string
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  1.5.20
      */
     public static function folder(?string $root = null): string
@@ -50,13 +50,13 @@ class TempFile
     /**
      * fileName
      *
-     * @param string|null $name
-     * @param string|null $root
-     * @param bool        $autoRemove
+     * @param  string|null  $name
+     * @param  string|null  $root
+     * @param  bool         $autoRemove
      *
      * @return  string
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  1.5.20
      */
     public static function fileName(?string $name = null, ?string $root = null, bool $autoRemove = true): string
@@ -83,13 +83,13 @@ class TempFile
     /**
      * fileResource
      *
-     * @param string|null $name
-     * @param string|null $root
-     * @param bool        $autoRemove
+     * @param  string|null  $name
+     * @param  string|null  $root
+     * @param  bool         $autoRemove
      *
      * @return  false|resource
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  1.5.20
      */
     public static function fileResource(?string $name = null, ?string $root = null, bool $autoRemove = true): mixed
@@ -102,13 +102,13 @@ class TempFile
     /**
      * fileStream
      *
-     * @param string|null $name
-     * @param string|null $root
-     * @param bool        $autoRemove
+     * @param  string|null  $name
+     * @param  string|null  $root
+     * @param  bool         $autoRemove
      *
      * @return  StreamInterface
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  1.5.20
      */
     public static function fileStream(

@@ -79,7 +79,7 @@ class ArticleMenuView extends AbstractMenuView
     /**
      * prepareVariablesStore
      *
-     * @param array $variables
+     * @param  array  $variables
      *
      * @return  void
      *

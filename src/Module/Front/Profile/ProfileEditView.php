@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Module\Front\Profile\Form\EditForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Lyrasoft\Luna\User\UserService;
+use Psr\Cache\InvalidArgumentException;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
@@ -50,7 +51,7 @@ class ProfileEditView implements ViewModelInterface
      * @param  View        $view
      *
      * @return  mixed
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function prepare(AppContext $app, View $view): mixed
     {

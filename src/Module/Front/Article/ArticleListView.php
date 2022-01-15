@@ -12,10 +12,8 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Front\Article;
 
 use Lyrasoft\Luna\Entity\Article;
-use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Module\Front\Category\CategoryViewTrait;
 use Lyrasoft\Luna\Repository\ArticleRepository;
-use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Router\Exception\RouteNotFoundException;

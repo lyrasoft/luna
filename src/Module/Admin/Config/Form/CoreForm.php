@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of Admin project.
  *
@@ -8,6 +9,8 @@
 
 namespace Lyrasoft\Luna\Module\Admin\Config\Form;
 
+use InvalidArgumentException;
+use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 
@@ -25,18 +28,18 @@ class CoreForm implements FieldDefinitionInterface
      *
      * @return  void
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function define(Form $form): void
     {
         $form->fieldset(
             'basic',
             function (Form $form) {
-                $form->add('ga', \Windwalker\Form\Field\TextField::class)
+                $form->add('ga', TextField::class)
                     ->label('Google Analytics')
                     ->placeholder('UA-xxx-xxxx-xxxx');
 
-                $form->add('google_search_console', \Windwalker\Form\Field\TextField::class)
+                $form->add('google_search_console', TextField::class)
                     ->label('Search Console');
             }
         );

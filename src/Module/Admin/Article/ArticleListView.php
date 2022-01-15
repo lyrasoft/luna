@@ -16,7 +16,6 @@ use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
-use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
@@ -63,10 +62,10 @@ class ArticleListView implements ViewModelInterface
         $this->repository->setType($type);
 
         // Prepare Items
-        $page     = $state->rememberFromRequest('page');
-        $limit    = $state->rememberFromRequest('limit');
-        $filter   = (array) $state->rememberFromRequest('filter');
-        $search   = (array) $state->rememberFromRequest('search');
+        $page = $state->rememberFromRequest('page');
+        $limit = $state->rememberFromRequest('limit');
+        $filter = (array) $state->rememberFromRequest('filter');
+        $search = (array) $state->rememberFromRequest('search');
         $ordering = $state->rememberFromRequest('list_ordering') ?? $this->getDefaultOrdering();
 
         $items = $this->repository->getListSelector()

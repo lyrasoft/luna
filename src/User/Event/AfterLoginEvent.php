@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\User\Event;
 
-use Windwalker\Authentication\ResultSet;
-
 /**
  * The AfterLoginEvent class.
  */

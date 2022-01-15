@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -115,7 +116,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     /**
      * route
      *
-     * @param Navigator $nav
+     * @param  Navigator  $nav
      *
      * @return  ?UriInterface
      *
@@ -133,7 +134,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     /**
      * isActive
      *
-     * @param bool $checkChildren
+     * @param  bool  $checkChildren
      *
      * @return  bool
      *
@@ -165,7 +166,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     /**
      * getMenuById
      *
-     * @param mixed $id
+     * @param  mixed  $id
      *
      * @return  static|null
      *
@@ -181,7 +182,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     /**
      * find
      *
-     * @param callable $callback
+     * @param  callable  $callback
      *
      * @return  static|null
      *
@@ -234,7 +235,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     /**
      * foraceActive
      *
-     * @param bool|null $active
+     * @param  bool|null  $active
      *
      * @return  static
      *
@@ -250,8 +251,8 @@ class DbMenuNode extends Node implements MenuNodeInterface
     /**
      * is
      *
-     * @param string $view
-     * @param array  $variablesQuery
+     * @param  string  $view
+     * @param  array   $variablesQuery
      *
      * @return  bool
      *

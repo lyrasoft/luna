@@ -41,7 +41,7 @@ class BuildFormFieldSubscriber
         \$form->add('$colName', UserModalField::class)
             ->label($label);
 PHP;
-            break;
+                break;
 
             case 'image':
                 $builder->addUse(SingleImageDragField::class);
@@ -53,7 +53,6 @@ PHP;
             ->width(800)
             ->height(600);
 PHP;
-
         }
 
         $event->setCode($code);

@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
+use DateTimeInterface;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\PageSlugify;
-use Lyrasoft\Luna\Attributes\Slugify;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\ORM\Attributes\AutoIncrement;
@@ -221,7 +221,7 @@ class Page implements EntityInterface
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface|string|null $created): static
+    public function setCreated(DateTimeInterface|string|null $created): static
     {
         $this->created = Chronos::wrapOrNull($created);
 
@@ -245,7 +245,7 @@ class Page implements EntityInterface
         return $this->modified;
     }
 
-    public function setModified(\DateTimeInterface|string|null $modified): static
+    public function setModified(DateTimeInterface|string|null $modified): static
     {
         $this->modified = Chronos::wrapOrNull($modified);
 

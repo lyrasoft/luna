@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -11,6 +12,7 @@ namespace Lyrasoft\Luna\PageBuilder\Addon\Emptyspace;
 use Lyrasoft\Luna\PageBuilder\AbstractAddon;
 use Lyrasoft\Luna\PageBuilder\HasOwnStyleInterface;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
+use Windwalker\Core\Application\AppContext;
 use Windwalker\Data\Collection;
 
 /**
@@ -46,7 +48,7 @@ class EmptyspaceAddon extends AbstractAddon implements HasOwnStyleInterface
     /**
      * @inheritDoc
      */
-    public static function loadVueComponent(\Windwalker\Core\Application\AppContext $app): void
+    public static function loadVueComponent(AppContext $app): void
     {
     }
 

@@ -11,20 +11,16 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Registration;
 
-use Firebase\JWT\JWT;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
-use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\User\ActivationService;
 use Symfony\Component\Mailer\SentMessage;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
-use Unicorn\Repository\Actions\ActionsFactory;
 use Unicorn\Repository\Actions\SaveAction;
 use Unicorn\Repository\CrudRepositoryInterface;
 use Unicorn\Repository\CrudRepositoryTrait;
 use Unicorn\Repository\Event\PrepareSaveEvent;
-use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\ORM\EntityMapper;

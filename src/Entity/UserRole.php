@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
+use DateTimeInterface;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Unicorn\Enum\BasicState;
@@ -145,7 +146,7 @@ class UserRole implements NestedEntityInterface
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface|string|null $created): static
+    public function setCreated(DateTimeInterface|string|null $created): static
     {
         $this->created = Chronos::wrapOrNull($created);
 
@@ -157,7 +158,7 @@ class UserRole implements NestedEntityInterface
         return $this->modified;
     }
 
-    public function setModified(\DateTimeInterface|string|null $modified): static
+    public function setModified(DateTimeInterface|string|null $modified): static
     {
         $this->modified = Chronos::wrapOrNull($modified);
 

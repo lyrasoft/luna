@@ -24,7 +24,7 @@ use Windwalker\Core\View\ViewModelInterface;
 #[ViewModel(
     layout: [
         'default' => 'forget-reset',
-        'complete' => 'forget-reset-complete'
+        'complete' => 'forget-reset-complete',
     ],
     js: 'forget-reset.js'
 )]

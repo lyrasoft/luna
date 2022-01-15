@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -18,8 +19,8 @@ class NullCaptchaDriver implements CaptchaDriverInterface
     /**
      * input
      *
-     * @param array  $attrs
-     * @param array  $options
+     * @param  array  $attrs
+     * @param  array  $options
      *
      * @return  string
      *
@@ -34,7 +35,7 @@ class NullCaptchaDriver implements CaptchaDriverInterface
      * verify
      *
      * @param  mixed  $value
-     * @param array   $options
+     * @param  array  $options
      *
      * @return  bool
      *

@@ -11,15 +11,15 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Attributes;
 
+use Attribute;
 use Lyrasoft\Luna\User\UserService;
-use Unicorn\Utilities\SlugHelper;
 use Windwalker\ORM\Attributes\CastForSave;
 use Windwalker\ORM\ORM;
 
 /**
  * The Modifier class.
  */
-#[\Attribute]
+#[Attribute]
 class Modifier extends CastForSave
 {
     protected function getDefaultCaster(): callable

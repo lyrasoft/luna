@@ -11,12 +11,11 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
-use Lyrasoft\Luna\User\UserCaster;
+use DateTimeInterface;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
-use Windwalker\ORM\Attributes\CastForSave;
 use Windwalker\ORM\Attributes\CastNullable;
 use Windwalker\ORM\Attributes\Column;
 use Windwalker\ORM\Attributes\CreatedTime;
@@ -255,7 +254,7 @@ class User implements EntityInterface, UserEntityInterface
         return $this->lastReset;
     }
 
-    public function setLastReset(\DateTimeInterface|string|null $lastReset): static
+    public function setLastReset(DateTimeInterface|string|null $lastReset): static
     {
         $this->lastReset = Chronos::wrapOrNull($lastReset);
 
@@ -267,7 +266,7 @@ class User implements EntityInterface, UserEntityInterface
         return $this->lastLogin;
     }
 
-    public function setLastLogin(\DateTimeInterface|string|null $lastLogin): static
+    public function setLastLogin(DateTimeInterface|string|null $lastLogin): static
     {
         $this->lastLogin = Chronos::wrapOrNull($lastLogin);
 
@@ -279,7 +278,7 @@ class User implements EntityInterface, UserEntityInterface
         return $this->registered;
     }
 
-    public function setRegistered(\DateTimeInterface|string|null $registered): static
+    public function setRegistered(DateTimeInterface|string|null $registered): static
     {
         $this->registered = Chronos::wrapOrNull($registered);
 
@@ -291,7 +290,7 @@ class User implements EntityInterface, UserEntityInterface
         return $this->modified;
     }
 
-    public function setModified(\DateTimeInterface|string|null $modified): static
+    public function setModified(DateTimeInterface|string|null $modified): static
     {
         $this->modified = Chronos::wrapOrNull($modified);
 

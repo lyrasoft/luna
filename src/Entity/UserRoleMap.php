@@ -25,13 +25,13 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 #[Table('user_role_maps', 'user_role_map')]
 class UserRoleMap implements EntityInterface
 {
+    use EntityTrait;
+
     #[Column('user_id'), PK]
     protected int $userId = 0;
 
     #[Column('role_id'), PK]
     protected string|int $roleId = '';
-
-    use EntityTrait;
 
     #[EntitySetup]
     public static function setup(EntityMetadata $metadata): void

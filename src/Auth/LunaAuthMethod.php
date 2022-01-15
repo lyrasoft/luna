@@ -11,8 +11,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Auth;
 
+use JsonException;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\PasswordInterface;
+use ReflectionException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\Method\MethodInterface;
@@ -56,7 +58,7 @@ class LunaAuthMethod implements MethodInterface
         $resolver->setDefaults(
             [
                 'extra_login_names' => [
-                    'email'
+                    'email',
                 ],
             ]
         );
@@ -68,8 +70,8 @@ class LunaAuthMethod implements MethodInterface
      * @param  array  $credential
      *
      * @return AuthResult
-     * @throws \JsonException
-     * @throws \ReflectionException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function authenticate(array $credential): AuthResult
     {
@@ -80,7 +82,7 @@ class LunaAuthMethod implements MethodInterface
         $loginNames = array_unique(
             [
                 $loginName,
-                ...$extraNames
+                ...$extraNames,
             ]
         );
 
@@ -126,7 +128,7 @@ class LunaAuthMethod implements MethodInterface
      *
      * @return  void
      *
-     * @throws \JsonException
+     * @throws JsonException
      * @since  1.4.6
      */
     protected function rehash(Collection $user, array $credential): void
@@ -143,7 +145,7 @@ class LunaAuthMethod implements MethodInterface
      *
      * @return  EntityMapper<User>
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function getMapper(): EntityMapper
     {

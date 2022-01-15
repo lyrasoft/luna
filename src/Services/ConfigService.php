@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Services;
 
 use Lyrasoft\Luna\Entity\Config;
+use Psr\Cache\InvalidArgumentException;
 use Windwalker\Data\Collection;
 use Windwalker\Legacy\Data\Data;
 use Windwalker\ORM\ORM;
@@ -43,7 +44,7 @@ class ConfigService
      *
      * @return  Collection
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @since  1.5.2
      */
@@ -84,7 +85,7 @@ class ConfigService
      *
      * @return  Data
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @since  1.5.2
      */

@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\Article;
 
 use Lyrasoft\Luna\Entity\Article;
-use Lyrasoft\Luna\Entity\TagMap;
 use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Services\TagService;
@@ -63,6 +62,7 @@ class ArticleController
 
             case 'save2copy':
                 $controller->rememberForClone($app, $repository);
+
                 return $nav->self($nav::WITHOUT_VARS)->var('new', 1);
 
             default:

@@ -52,10 +52,10 @@ class UserController
                 unset($data['password']);
 
                 $data['avatar'] = $uploadService->handleFileIfUploaded(
-                        $files['avatar'] ?? null,
-                        'images/avatar/' . md5((string) $data['id']) . '.jpg'
-                    )
-                        ?->getUri() ?? $data['avatar'];
+                    $files['avatar'] ?? null,
+                    'images/avatar/' . md5((string) $data['id']) . '.jpg'
+                )
+                    ?->getUri(true) ?? $data['avatar'];
 
                 $repository->save($data);
             }

@@ -12,8 +12,6 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Front\Profile;
 
 use Lyrasoft\Luna\Module\Admin\User\Form\EditForm;
-use Lyrasoft\Luna\Module\Admin\User\UserEditView;
-use Lyrasoft\Luna\Module\Admin\User\UserListView;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Lyrasoft\Luna\User\UserService;
 use Unicorn\Controller\CrudController;
@@ -69,10 +67,10 @@ class ProfileController
                 unset($data['password']);
 
                 $data['avatar'] = $uploadService->handleFileIfUploaded(
-                        $files['avatar'] ?? null,
-                        'images/avatar/' . md5((string) $data['id']) . '.jpg'
-                    )
-                        ?->getUri() ?? $data['avatar'];
+                    $files['avatar'] ?? null,
+                    'images/avatar/' . md5((string) $data['id']) . '.jpg'
+                )
+                    ?->getUri(true) ?? $data['avatar'];
 
                 $repository->save($data);
             }

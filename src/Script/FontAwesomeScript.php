@@ -19,15 +19,23 @@ use Windwalker\Core\Asset\AbstractScript;
 class FontAwesomeScript extends AbstractScript
 {
     public const PRO = 1 << 0;
+
     public const V4_SHIMS = 1 << 1;
+
     public const SOLID = 1 << 2;
+
     public const REGULAR = 1 << 3;
+
     public const LIGHT = 1 << 4;
+
     public const THIN = 1 << 5;
+
     public const DUOTONE = 1 << 6;
+
     public const BRANDS = 1 << 7;
 
     public const DEFAULT_SET = self::SOLID | self::REGULAR | self::BRANDS;
+
     public const ALL = self::SOLID | self::REGULAR | self::LIGHT | self::THIN | self::DUOTONE | self::BRANDS;
 
     public function cssFont(int $options = self::DEFAULT_SET): void

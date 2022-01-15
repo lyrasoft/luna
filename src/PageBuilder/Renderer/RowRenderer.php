@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -29,7 +30,7 @@ class RowRenderer extends AbstractPageRenderer
     /**
      * render
      *
-     * @param array    $content
+     * @param  array   $content
      * @param  string  $path
      *
      * @return  string
@@ -51,7 +52,7 @@ class RowRenderer extends AbstractPageRenderer
             [
                 'pageRenderer' => $this,
                 'row' => $row,
-                'path' => $path
+                'path' => $path,
             ]
         );
     }
@@ -92,7 +93,9 @@ class RowRenderer extends AbstractPageRenderer
         if (trim($css)) {
             $scss = new Compiler();
 
-            $css = $scss->compileString("#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }")
+            $css = $scss->compileString(
+                "#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }"
+            )
                 ->getCss();
 
             $this->internalCSS($css);
@@ -102,8 +105,8 @@ class RowRenderer extends AbstractPageRenderer
     /**
      * prepareBasicCSS
      *
-     * @param  Collection     $options
-     * @param StyleContainer  $styles
+     * @param  Collection      $options
+     * @param  StyleContainer  $styles
      *
      * @return  void
      *
@@ -140,8 +143,8 @@ class RowRenderer extends AbstractPageRenderer
     /**
      * handleContentAlign
      *
-     * @param  Collection  $options
-     * @param StyleContainer                $styles
+     * @param  Collection      $options
+     * @param  StyleContainer  $styles
      *
      * @return  void
      *

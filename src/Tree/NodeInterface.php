@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,6 +9,9 @@
 
 namespace Lyrasoft\Luna\Tree;
 
+use IteratorAggregate;
+use Traversable;
+
 /**
  * The NodeInterface class.
  *
@@ -15,12 +19,12 @@ namespace Lyrasoft\Luna\Tree;
  *
  * @since  1.0
  */
-interface NodeInterface extends \IteratorAggregate
+interface NodeInterface extends IteratorAggregate
 {
     /**
      * Set the value of the current node
      *
-     * @param mixed $value
+     * @param  mixed  $value
      *
      * @return static the current instance
      */
@@ -36,7 +40,7 @@ interface NodeInterface extends \IteratorAggregate
     /**
      * Add a child
      *
-     * @param NodeInterface $child
+     * @param  NodeInterface  $child
      *
      * @return static
      */
@@ -45,7 +49,7 @@ interface NodeInterface extends \IteratorAggregate
     /**
      * Remove a node from children
      *
-     * @param NodeInterface $child
+     * @param  NodeInterface  $child
      *
      * @return static the current instance
      */
@@ -77,7 +81,7 @@ interface NodeInterface extends \IteratorAggregate
     /**
      * Replace the children set with the given one
      *
-     * @param static[] $children
+     * @param  static[]  $children
      *
      * @return static
      */
@@ -174,7 +178,7 @@ interface NodeInterface extends \IteratorAggregate
     /**
      * iterate
      *
-     * @return  \Traversable|NodeInterface[]
+     * @return  Traversable|NodeInterface[]
      */
-    public function iterate(): \Traversable;
+    public function iterate(): Traversable;
 }

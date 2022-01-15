@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -150,7 +151,7 @@ class CaptchaField extends TextField
                 'autoValidate',
                 'jsVerify',
                 'captchaOptions',
-                'imageRoute'
+                'imageRoute',
             ]
         );
     }

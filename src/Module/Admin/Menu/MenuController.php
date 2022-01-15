@@ -82,6 +82,7 @@ class MenuController
 
             case 'save2copy':
                 $controller->rememberForClone($app, $repository);
+
                 return $nav->self($nav::WITHOUT_VARS)->var('new', 1);
 
             default:

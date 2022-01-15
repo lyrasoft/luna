@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,6 +9,8 @@
 
 namespace Lyrasoft\Luna\Tree;
 
+use Closure;
+use Traversable;
 use Windwalker\Utilities\Arr;
 
 /**
@@ -20,17 +23,17 @@ class TreeBuilder
     /**
      * fromObjects
      *
-     * @param  object[]|\Traversable  $items
-     * @param  string|\Closure        $keyName
-     * @param  string|\Closure        $parentIdName
-     * @param  string                 $nodeClass
+     * @param  object[]|Traversable  $items
+     * @param  string|Closure        $keyName
+     * @param  string|Closure        $parentIdName
+     * @param  string                $nodeClass
      *
      * @return NodeInterface
      */
     public static function create(
         iterable $items,
-        string|\Closure $keyName = 'id',
-        string|\Closure $parentIdName = 'parent_id',
+        string|Closure $keyName = 'id',
+        string|Closure $parentIdName = 'parent_id',
         string $nodeClass = Node::class
     ): NodeInterface {
         /** @var Node[] $tree */
@@ -72,7 +75,7 @@ class TreeBuilder
         return $root;
     }
 
-    protected static function getValue(array|object $data, string|\Closure $name): mixed
+    protected static function getValue(array|object $data, string|Closure $name): mixed
     {
         if (is_string($name)) {
             return Arr::get($data, $name);

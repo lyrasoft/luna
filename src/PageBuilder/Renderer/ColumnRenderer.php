@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -10,6 +11,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Exception\SassException;
 use Windwalker\Data\Collection;
 
 /**
@@ -29,7 +31,7 @@ class ColumnRenderer extends AbstractPageRenderer
     /**
      * render
      *
-     * @param array    $content
+     * @param  array  $content
      * @param  string  $path
      *
      * @return  string
@@ -51,7 +53,7 @@ class ColumnRenderer extends AbstractPageRenderer
             [
                 'pageRenderer' => $this,
                 'col' => $col,
-                'path' => $path
+                'path' => $path,
             ]
         );
     }
@@ -63,7 +65,7 @@ class ColumnRenderer extends AbstractPageRenderer
      *
      * @return  void
      *
-     * @throws \ScssPhp\ScssPhp\Exception\SassException
+     * @throws SassException
      * @since  1.5.2
      */
     protected function prepareCSS(Collection $content): void
@@ -86,7 +88,9 @@ class ColumnRenderer extends AbstractPageRenderer
         if (trim($css)) {
             $scss = new Compiler();
 
-            $css = $scss->compileString("#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }")
+            $css = $scss->compileString(
+                "#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }"
+            )
                 ->getCss();
 
             $this->internalCSS($css);
@@ -110,8 +114,8 @@ class ColumnRenderer extends AbstractPageRenderer
      * prepareElement
      *
      * @param  Collection  $options
-     * @param array        $classes
-     * @param array        $attrs
+     * @param  array       $classes
+     * @param  array       $attrs
      *
      * @return  void
      *
@@ -127,7 +131,7 @@ class ColumnRenderer extends AbstractPageRenderer
         }
 
         unset($class);
-        
+
         $classes = array_merge($classes, $display);
 
         parent::prepareElement($options, $classes, $attrs);

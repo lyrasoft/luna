@@ -16,9 +16,12 @@ use Lyrasoft\Luna\Field\MenuModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Menu\Tree\DbMenuNode;
 use Lyrasoft\Luna\Services\MenuService;
+use Psr\Cache\InvalidArgumentException;
 use Psr\Http\Message\UriInterface;
+use ReflectionException;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\DI\Exception\DependencyResolutionException;
 use Windwalker\Form\Form;
 use Windwalker\ORM\ORM;
 use Windwalker\Uri\Uri;
@@ -61,7 +64,7 @@ class AliasMenuView extends AbstractMenuView
     /**
      * prepareVariablesStore
      *
-     * @param array $variables
+     * @param  array  $variables
      *
      * @return  void
      *
@@ -107,14 +110,14 @@ class AliasMenuView extends AbstractMenuView
     /**
      * findTarget
      *
-     * @param array $variables
-     * @param array $params
+     * @param  array  $variables
+     * @param  array  $params
      *
      * @return  DbMenuNode|null
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      *
      * @since  1.7
      */

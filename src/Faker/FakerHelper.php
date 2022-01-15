@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -10,6 +11,8 @@ namespace Lyrasoft\Luna\Faker;
 
 use Faker\Factory;
 use Faker\Generator;
+use Lyrasoft\Luna\Faker\zh_TW\Internet;
+use Lyrasoft\Luna\Faker\zh_TW\Lorem;
 
 /**
  * The FakerHelper class.
@@ -30,7 +33,7 @@ class FakerHelper
     /**
      * getFaker
      *
-     * @param string $locale
+     * @param  string  $locale
      *
      * @return  Generator
      *
@@ -52,11 +55,11 @@ class FakerHelper
     /**
      * register
      *
-     * @param string $locale
+     * @param  string  $locale
      *
      * @return  void
      *
-     * @since  1.5.1
+     * @since       1.5.1
      *
      * @deprecated  Use registerChineseLorem().
      */
@@ -68,7 +71,7 @@ class FakerHelper
     /**
      * register
      *
-     * @param string $locale
+     * @param  string  $locale
      *
      * @return  void
      *
@@ -77,8 +80,8 @@ class FakerHelper
     public static function registerChineseLorem(string $locale = 'zh_TW'): void
     {
         if (!isset(static::$override[$locale])) {
-            class_alias(\Lyrasoft\Luna\Faker\zh_TW\Lorem::class, 'Faker\Provider\\' . $locale . '\Lorem');
-            class_alias(\Lyrasoft\Luna\Faker\zh_TW\Internet::class, 'Faker\Provider\\' . $locale . '\Internet');
+            class_alias(Lorem::class, 'Faker\Provider\\' . $locale . '\Lorem');
+            class_alias(Internet::class, 'Faker\Provider\\' . $locale . '\Internet');
 
             static::$override[$locale] = true;
         }
@@ -216,7 +219,7 @@ class FakerHelper
             '不可說',
             '不可說轉',
             '不可說不可說',
-            '不可說不可說轉'
+            '不可說不可說轉',
         ];
     }
 }

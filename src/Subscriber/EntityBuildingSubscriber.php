@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Subscriber;
 
-use PhpParser\Node;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
 use MyCLabs\Enum\Enum;
+use PhpParser\Node;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Unicorn\Attributes\OrderLast;
 use Windwalker\Core\Generator\Event\BuildEntityMethodEvent;
@@ -124,7 +124,7 @@ class EntityBuildingSubscriber
         $shortName = $event->getTypeName();
 
         $factory = $builder->createNodeFactory();
-        
+
         if ($event->isSetter()) {
             $className = $builder->findFQCN($shortName);
 
@@ -135,7 +135,7 @@ class EntityBuildingSubscriber
                 } else {
                     $subType = 'in|string';
                 }
-                
+
                 $subType .= '|' . $shortName;
 
                 $method->params[0] = $factory->param($propName)
@@ -151,7 +151,7 @@ class EntityBuildingSubscriber
                         $factory->new(
                             new Node\Name($shortName),
                             [
-                                new Node\Expr\Variable($propName)
+                                new Node\Expr\Variable($propName),
                             ]
                         ),
                     )

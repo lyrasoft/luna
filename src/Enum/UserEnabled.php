@@ -12,13 +12,14 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Enum;
 
 use MyCLabs\Enum\Enum;
+use UnexpectedValueException;
+use Windwalker\Utilities\Contract\LanguageInterface;
 use Windwalker\Utilities\Enum\EnumTranslatableInterface;
 use Windwalker\Utilities\Enum\EnumTranslatableTrait;
-use Windwalker\Utilities\Contract\LanguageInterface;
 
 /**
  * The UserEnabled enum class.
- * 
+ *
  * @method static $this ENABLED()
  * @method static $this DISABLED()
  */
@@ -27,6 +28,7 @@ class UserEnabled extends Enum implements EnumTranslatableInterface
     use EnumTranslatableTrait;
 
     public const ENABLED = 1;
+
     public const DISABLED = 0;
 
     /**
@@ -37,7 +39,7 @@ class UserEnabled extends Enum implements EnumTranslatableInterface
      * @param  mixed  $value
      *
      * @psalm-param T $value
-     * @throws \UnexpectedValueException if incompatible type is given.
+     * @throws UnexpectedValueException if incompatible type is given.
      */
     public function __construct(mixed $value)
     {

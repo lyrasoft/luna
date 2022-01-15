@@ -11,10 +11,6 @@ namespace Lyrasoft\Luna\User;
 
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
-use Windwalker\Edge\Edge;
-use Windwalker\Renderer\CompositeRenderer;
-use Windwalker\Renderer\EdgeRenderer;
-use Windwalker\Renderer\RendererInterface;
 
 /**
  * The UserProvider class.

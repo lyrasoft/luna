@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Error;
 
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Module\Front\Error\ErrorView;
+use Throwable;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\MiddlewareRunner;
 use Windwalker\Core\Error\ErrorHandlerInterface;
@@ -38,7 +39,7 @@ class LunaErrorHandler implements ErrorHandlerInterface
     /**
      * @inheritDoc
      */
-    public function __invoke(\Throwable $e): void
+    public function __invoke(Throwable $e): void
     {
         $app = $this->container->get(AppContext::class);
 

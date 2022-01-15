@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\User\Handler;
 
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserEntityInterface;
+use ReflectionException;
 use Windwalker\Core\Attributes\Ref;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\EntityMapper;
@@ -52,8 +53,8 @@ class UserHandler implements UserHandlerInterface
                 'current.user',
                 function () use ($mapper) {
                     $sessUserId = (array) $this->session->get('login_user_id');
-                    $pk         = $mapper->getMainKey();
-                    $loginUser  = null;
+                    $pk = $mapper->getMainKey();
+                    $loginUser = null;
 
                     // If user is logged-in, get user data from DB to refresh info.
                     if ($sessUserId ?? null) {
@@ -146,7 +147,7 @@ class UserHandler implements UserHandlerInterface
      *
      * @return  EntityMapper
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      *
      * @since  2.0.0
      */
@@ -169,9 +170,10 @@ class UserHandler implements UserHandlerInterface
      * createUserEntity
      *
      * @param  array  $data  *
+     *
      * @return  object|T
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function createUserEntity(array $data = []): object
     {

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Services;
 
+use DomainException;
 use Lyrasoft\Luna\Entity\Menu;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Menu\MenuBuilder;
@@ -19,12 +20,14 @@ use Lyrasoft\Luna\Menu\Tree\MenuNode;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
+use Psr\Cache\InvalidArgumentException;
+use ReflectionException;
 use Unicorn\Enum\BasicState;
-use Unicorn\Legacy\Html\MenuHelper;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Data\Collection;
+use Windwalker\DI\Exception\DependencyResolutionException;
 use Windwalker\ORM\ORM;
 use Windwalker\ORM\SelectorQuery;
 use Windwalker\Utilities\Arr;
@@ -78,7 +81,7 @@ class MenuService
      *
      * @return  array
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @since  1.7
      */
     public function getViews(bool $group = false): array
@@ -110,9 +113,9 @@ class MenuService
      *
      * @return  AbstractMenuView|null
      *
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
+     * @throws InvalidArgumentException
      *
      * @since  1.7
      */
@@ -183,9 +186,9 @@ class MenuService
      *
      * @return  DbMenuNode|DbMenuNode[]
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      * @since  1.7
      */
     public function getMenusTree(string $type, bool $onlyAvailable = true, int|Menu $parent = 1): Node
@@ -200,7 +203,7 @@ class MenuService
                 /** @var DbMenuNode $menuNode */
                 foreach ($node->iterate() as $menuNode) {
                     if (!$instance = $this->getViewInstance($menuNode->getValue()->getView())) {
-                        throw new \DomainException(
+                        throw new DomainException(
                             sprintf(
                                 'Menu View: %s not found',
                                 $menuNode->getValue()->view
@@ -221,7 +224,7 @@ class MenuService
      *
      * @return  DbMenuNode[]
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @since  1.7.6
      */
@@ -256,9 +259,9 @@ class MenuService
      *
      * @return  Collection
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      * @since  1.7
      */
     public function getMenus(string $type, bool $onlyAvailable = true, int|Menu $parent = 1): Collection
@@ -273,9 +276,9 @@ class MenuService
      *
      * @return  DbMenuNode|null
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      *
      * @since  1.7.6
      */
@@ -303,7 +306,7 @@ class MenuService
      *
      * @return  DbMenuNode|null
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @since  1.7.6
      */
@@ -326,9 +329,9 @@ class MenuService
      *
      * @return  static
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      *
      * @since  1.7.12
      */
@@ -357,9 +360,9 @@ class MenuService
      *
      * @return  MenuService
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      *
      * @since  1.7.12
      */
@@ -394,7 +397,7 @@ class MenuService
      *
      * @return  static
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @since  1.7.6
      */
@@ -437,7 +440,6 @@ class MenuService
 
         if ($onlyAvailable) {
             $query->where('state', BasicState::PUBLISHED());
-
             // Language enabled
         }
 
@@ -456,19 +458,19 @@ class MenuService
      *
      * @param  DbMenuNode|string  $menus   MenuNode of menu type name.
      * @param  array              $data    Some configure settings date.
-     *                                   - vertical: (bool) Vertical menu with flex-column class
-     *                                   - dropdown: (bool) Top navbar doprdown menu.
-     *                                   - fade: (bool) Fade in-out submenu. (Only for dropdown)
-     *                                   - click: (bool) Click show submenu, otherwise will be hover. (Only for
-     *                                   dropdown)
-     *                                   - level: (int) Firset level number, default is 1.
+     *                                     - vertical: (bool) Vertical menu with flex-column class
+     *                                     - dropdown: (bool) Top navbar doprdown menu.
+     *                                     - fade: (bool) Fade in-out submenu. (Only for dropdown)
+     *                                     - click: (bool) Click show submenu, otherwise will be hover. (Only for
+     *                                     dropdown)
+     *                                     - level: (int) Firset level number, default is 1.
      * @param  string             $layout  Layout parh.
      *
      * @return  string
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      *
      * @since  1.7.6
      */
@@ -492,19 +494,19 @@ class MenuService
      *
      * @param  DbMenuNode|string  $menus   MenuNode of menu type name.
      * @param  array              $data    Some configure settings date.
-     *                                   - vertical: (bool) Vertical menu with flex-column class
-     *                                   - dropdown: (bool) Top navbar doprdown menu.
-     *                                   - fade: (bool) Fade in-out submenu. (Only for dropdown)
-     *                                   - click: (bool) Click show submenu, otherwise will be hover. (Only for
-     *                                   dropdown)
-     *                                   - level: (int) Firset level number, default is 1.
+     *                                     - vertical: (bool) Vertical menu with flex-column class
+     *                                     - dropdown: (bool) Top navbar doprdown menu.
+     *                                     - fade: (bool) Fade in-out submenu. (Only for dropdown)
+     *                                     - click: (bool) Click show submenu, otherwise will be hover. (Only for
+     *                                     dropdown)
+     *                                     - level: (int) Firset level number, default is 1.
      * @param  string             $layout  Layout parh.
      *
      * @return  string
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      * @since  1.7
      */
     public function renderMenuItems($menus, array $data = [], string $layout = 'luna.menu.menu-items'): string
@@ -521,6 +523,7 @@ class MenuService
                 $data
             );
     }
+
     /**
      * registerMenuStyles
      *

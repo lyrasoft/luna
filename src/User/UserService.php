@@ -9,6 +9,7 @@
 
 namespace Lyrasoft\Luna\User;
 
+use Exception;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Services\UserSwitchService;
@@ -18,10 +19,12 @@ use Lyrasoft\Luna\User\Event\LoginAuthEvent;
 use Lyrasoft\Luna\User\Event\LoginFailEvent;
 use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
 use Lyrasoft\Luna\User\Handler\UserHandlerInterface;
+use Psr\Cache\InvalidArgumentException;
 use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
+use Windwalker\DI\Exception\DefinitionException;
 use Windwalker\Event\EventAwareInterface;
 use Windwalker\Event\EventAwareTrait;
 use Windwalker\ORM\ORM;
@@ -58,7 +61,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  UserEntityInterface|T
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getCurrentUser(): UserEntityInterface
     {
@@ -72,7 +75,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  UserEntityInterface|T
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getUser(mixed $conditions = null): UserEntityInterface
     {
@@ -85,8 +88,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  array|object  $conditions
      *
      * @return  UserEntityInterface|T|null
-     * @throws \Exception
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function load(mixed $conditions = null): ?UserEntityInterface
     {
@@ -179,8 +182,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  array  $options
      *
      * @return  boolean
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \Windwalker\DI\Exception\DefinitionException
+     * @throws InvalidArgumentException
+     * @throws DefinitionException
      */
     public function login(mixed $user, array $options = []): bool
     {
@@ -212,7 +215,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  string|T
      *
-     * @throws \Windwalker\DI\Exception\DefinitionException
+     * @throws DefinitionException
      */
     public function getUserEntityClass(): string
     {
@@ -221,7 +224,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
     /**
      * @return UserHandlerInterface
-     * @throws \Windwalker\DI\Exception\DefinitionException
+     * @throws DefinitionException
      */
     public function getUserHandler(): UserHandlerInterface
     {
@@ -234,7 +237,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  array  $data  *
      *
      * @return  object|T
-     * @throws \Windwalker\DI\Exception\DefinitionException
+     * @throws DefinitionException
      */
     public function createUserEntity(array $data = []): object
     {

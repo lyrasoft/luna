@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Attributes;
 
+use Attribute;
 use Unicorn\Utilities\SlugHelper;
 use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Arr;
@@ -18,7 +19,7 @@ use Windwalker\Utilities\Arr;
 /**
  * The PageSlugify class.
  */
-#[\Attribute]
+#[Attribute]
 class PageSlugify extends Slugify
 {
     protected function getDefaultCaster(): callable
@@ -37,7 +38,7 @@ class PageSlugify extends Slugify
             $segments = Arr::explodeAndClear('/', $value);
 
             $segments = array_map(
-                fn ($segment) => SlugHelper::slugify((string) $segment, $this->utf8),
+                fn($segment) => SlugHelper::slugify((string) $segment, $this->utf8),
                 $segments
             );
 

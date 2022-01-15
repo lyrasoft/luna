@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\Config;
 
 use Lyrasoft\Luna\Repository\ConfigRepository;
+use RuntimeException;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Windwalker\Core\Application\AppContext;
@@ -19,6 +20,8 @@ use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
+
+use function Windwalker\chronos;
 
 /**
  * The ConfigController class.
@@ -49,7 +52,7 @@ class ConfigController
                 'type' => $type,
                 'subtype' => (string) $subtype,
                 'content' => $item,
-                'modified' => \Windwalker\chronos(),
+                'modified' => chronos(),
                 'modified_by' => null,
             ];
 
@@ -67,7 +70,7 @@ class ConfigController
             );
 
             return $nav->self();
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $item = $app->input('item');
             $repository->getState()->remember('edit.data', $item);
 

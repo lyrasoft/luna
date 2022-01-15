@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
+use DateTimeInterface;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
@@ -118,7 +119,7 @@ class Config implements EntityInterface
         return $this->modified;
     }
 
-    public function setModified(\DateTimeInterface|string|null $modified): static
+    public function setModified(DateTimeInterface|string|null $modified): static
     {
         $this->modified = Chronos::wrap($modified);
 

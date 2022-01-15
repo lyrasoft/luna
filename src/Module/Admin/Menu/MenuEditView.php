@@ -18,7 +18,6 @@ use Lyrasoft\Luna\Services\MenuService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
-use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
@@ -87,10 +86,9 @@ class MenuEditView implements ViewModelInterface
                 ->fill(
                     [
                         'variables' => $item?->getVariables(),
-                        'params' => $item?->getParams()
+                        'params' => $item?->getParams(),
                     ]
                 );
-
             // $tabs = $viewInstance->getTabs();
         }
 
@@ -128,7 +126,7 @@ class MenuEditView implements ViewModelInterface
             }
 
             $title = $this->trans(
-               'luna.menu.edit.title',
+                'luna.menu.edit.title',
                 title: $title
             );
         }

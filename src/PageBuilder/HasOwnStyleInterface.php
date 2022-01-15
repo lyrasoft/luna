@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -22,8 +23,8 @@ interface HasOwnStyleInterface
     /**
      * prepareCSS
      *
-     * @param Collection      $options
-     * @param StyleContainer $styles
+     * @param  Collection      $options
+     * @param  StyleContainer  $styles
      *
      * @return  void
      *
@@ -34,9 +35,9 @@ interface HasOwnStyleInterface
     /**
      * prepareElement
      *
-     * @param Collection $options
-     * @param array      $classes
-     * @param array      $attrs
+     * @param  Collection  $options
+     * @param  array       $classes
+     * @param  array       $attrs
      *
      * @return  void
      *

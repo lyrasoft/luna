@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -25,9 +26,9 @@ class StyleRules
     /**
      * addRule
      *
-     * @param string $name
-     * @param string $value
-     * @param string $unit
+     * @param  string  $name
+     * @param  string  $value
+     * @param  string  $unit
      *
      * @return  static
      *
@@ -45,7 +46,7 @@ class StyleRules
     /**
      * addStyles
      *
-     * @param StyleContainer $style
+     * @param  StyleContainer  $style
      *
      * @return  $this
      *
@@ -61,7 +62,7 @@ class StyleRules
     /**
      * render
      *
-     * @param string $selector
+     * @param  string  $selector
      *
      * @return  string
      *

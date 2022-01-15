@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -37,9 +37,9 @@ class ConfigEditView implements ViewModelInterface
     /**
      * CategoryEditView constructor.
      *
-     * @param    ORM          $orm
-     * @param    FormFactory  $formFactory
-     * @param    Navigator    $nav
+     * @param  ORM          $orm
+     * @param  FormFactory  $formFactory
+     * @param  Navigator    $nav
      */
     public function __construct(
         protected ORM $orm,
@@ -52,8 +52,8 @@ class ConfigEditView implements ViewModelInterface
     /**
      * Prepare
      *
-     * @param    AppContext  $app
-     * @param    View        $view
+     * @param  AppContext  $app
+     * @param  View        $view
      *
      * @return    mixed
      */

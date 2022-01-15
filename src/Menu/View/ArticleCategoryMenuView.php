@@ -17,7 +17,6 @@ use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
-use Windwalker\Form\Field\TextField;
 use Windwalker\Form\Form;
 use Windwalker\ORM\ORM;
 
@@ -83,7 +82,7 @@ class ArticleCategoryMenuView extends AbstractMenuView
     /**
      * prepareVariablesStore
      *
-     * @param array $variables
+     * @param  array  $variables
      *
      * @return  void
      *

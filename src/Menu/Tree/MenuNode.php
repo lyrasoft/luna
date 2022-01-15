@@ -268,12 +268,13 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @param  array  $merge  *
+     *
      * @inheritDoc
      */
     public function getHTMLAttributes(array $merge = []): array
     {
         $attrs = [
-            'data-menu-id' => ''
+            'data-menu-id' => '',
         ];
 
         return array_merge(

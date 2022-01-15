@@ -21,7 +21,7 @@ interface UserHandlerInterface
     /**
      * load
      *
-     * @param array $conditions
+     * @param  array  $conditions
      *
      * @return  UserEntityInterface|null
      */
@@ -30,7 +30,7 @@ interface UserHandlerInterface
     /**
      * login
      *
-     * @param mixed   $user
+     * @param  mixed  $user
      * @param  array  $options
      *
      * @return  bool
@@ -40,7 +40,7 @@ interface UserHandlerInterface
     /**
      * logout
      *
-     * @param mixed $user
+     * @param  mixed  $user
      *
      * @return bool
      */

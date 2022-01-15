@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,6 +9,7 @@
 
 namespace Lyrasoft\Luna\Captcha;
 
+use DomainException;
 use Lyrasoft\Luna\Captcha\Recaptcha\WindwalkerRequestMethod;
 use Lyrasoft\Luna\Script\LunaScript;
 use ReCaptcha\ReCaptcha;
@@ -55,9 +57,9 @@ class RecaptchaDriver implements CaptchaDriverInterface
     /**
      * RecaptchaDriver constructor.
      *
-     * @param string $key
-     * @param string $secret
-     * @param string $type
+     * @param  string  $key
+     * @param  string  $secret
+     * @param  string  $type
      */
     public function __construct(
         protected LunaScript $lunaScript,
@@ -66,7 +68,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
         string $type = 'checkbox'
     ) {
         if (!class_exists(ReCaptcha::class)) {
-            throw new \DomainException('Please install google/recaptcha first.');
+            throw new DomainException('Please install google/recaptcha first.');
         }
 
         $this->key = $key;
@@ -77,8 +79,8 @@ class RecaptchaDriver implements CaptchaDriverInterface
     /**
      * input
      *
-     * @param array  $attrs
-     * @param array  $options
+     * @param  array  $attrs
+     * @param  array  $options
      *
      * @return  string
      *
@@ -112,7 +114,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
      * verify
      *
      * @param  mixed  $value
-     * @param array   $options
+     * @param  array  $options
      *
      * @return bool
      *

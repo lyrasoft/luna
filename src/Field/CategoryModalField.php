@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Field;
 
-use Lyrasoft\Luna\Entity\Menu;
+use LogicException;
 use Lyrasoft\Luna\Entity\Category;
 use Psr\Http\Message\UriInterface;
 use Unicorn\Field\ModalField;
@@ -51,7 +51,7 @@ class CategoryModalField extends ModalField
      */
     public function getCategoryType(): string
     {
-        return $this->categoryType ?: throw new \LogicException('No category type for field: ' . static::class);
+        return $this->categoryType ?: throw new LogicException('No category type for field: ' . static::class);
     }
 
     /**

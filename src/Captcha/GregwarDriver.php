@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,6 +9,7 @@
 
 namespace Lyrasoft\Luna\Captcha;
 
+use DomainException;
 use Gregwar\Captcha\CaptchaBuilder;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Renderer\RendererService;
@@ -35,7 +37,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
         array $options = []
     ) {
         if (!class_exists(CaptchaBuilder::class)) {
-            throw new \DomainException('Please install gregwar/captcha first.');
+            throw new DomainException('Please install gregwar/captcha first.');
         }
 
         $this->builder = new CaptchaBuilder();
@@ -45,8 +47,8 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
     /**
      * input
      *
-     * @param array  $attrs
-     * @param array  $options
+     * @param  array  $attrs
+     * @param  array  $options
      *
      * @return  string
      *
@@ -69,7 +71,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      * verify
      *
      * @param  mixed  $value
-     * @param array   $options
+     * @param  array  $options
      *
      * @return  bool
      *
@@ -155,7 +157,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
 
         $this->state->remember($key, [
             'phrase' => $builder->getPhrase(),
-            'time' => chronos()->toUnix()
+            'time' => chronos()->toUnix(),
         ]);
 
         return $builder;
@@ -188,7 +190,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
     /**
      * Method to set property builder
      *
-     * @param   CaptchaBuilder $builder
+     * @param  CaptchaBuilder  $builder
      *
      * @return  static  Return self to support chaining.
      *

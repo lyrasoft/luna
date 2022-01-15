@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,7 +9,9 @@
 
 namespace Lyrasoft\Luna\Faker;
 
+use Exception;
 use Faker\Provider\Base as BaseProvider;
+use JsonException;
 use Lyrasoft\Luna\Helper\PravatarHelper;
 use Lyrasoft\Luna\Helper\UnsplashHelper;
 
@@ -20,9 +23,9 @@ class LunaFakerProvider extends BaseProvider
     /**
      * unsplash
      *
-     * @param int      $width
-     * @param int      $height
-     * @param int|null $id
+     * @param  int       $width
+     * @param  int       $height
+     * @param  int|null  $id
      *
      * @return  string
      *
@@ -43,7 +46,7 @@ class LunaFakerProvider extends BaseProvider
      *
      * @return  array
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  1.5.6
      */
     public function unsplashImages(int $count, int|array $width = 800, int|array $height = 600, ?int $id = null): array
@@ -61,7 +64,7 @@ class LunaFakerProvider extends BaseProvider
      *
      * @return  string
      *
-     * @throws \JsonException
+     * @throws JsonException
      * @since  1.5.6
      */
     public function unsplashImagesJson(int $count, int $width = 800, int $height = 600, ?int $id = null): string
@@ -72,12 +75,12 @@ class LunaFakerProvider extends BaseProvider
     /**
      * avatar
      *
-     * @param int         $size
-     * @param string|null $u
+     * @param  int          $size
+     * @param  string|null  $u
      *
      * @return  string
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @since  1.5.6
      */

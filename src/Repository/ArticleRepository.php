@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -11,10 +11,8 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Repository;
 
-use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Entity\Article;
-use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
-use Lyrasoft\Luna\Module\Admin\Article\Form\GridForm;
+use Lyrasoft\Luna\Entity\Category;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\ReorderAction;
@@ -24,9 +22,6 @@ use Unicorn\Repository\ListRepositoryTrait;
 use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\ManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
-use Windwalker\Core\Application\AppContext;
-use Windwalker\Core\Form\FormFactory;
-use Windwalker\Core\Runtime\Config;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\DI\Container;
 use Windwalker\Query\Query;

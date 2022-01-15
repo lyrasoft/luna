@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Services;
 
 use Lyrasoft\Luna\Entity\Tag;
 use Lyrasoft\Luna\Entity\TagMap;
+use ReflectionException;
 use Windwalker\Database\Driver\StatementInterface;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
@@ -43,7 +44,7 @@ class TagService
                 $tag = $mapper->createOne(
                     [
                         'title' => $tagTitle,
-                        'state' => 1
+                        'state' => 1,
                     ]
                 );
 
@@ -65,7 +66,7 @@ class TagService
      *
      * @return  iterable<TagMap>
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function flushTagMapsFromInput(string $type, mixed $targetId, iterable $tagIds): iterable
     {
@@ -83,7 +84,7 @@ class TagService
      *
      * @return  iterable<TagMap>
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function flushTagMaps(string $type, mixed $targetId, iterable $tagIds): iterable
     {
@@ -109,7 +110,7 @@ class TagService
      *
      * @return  array<StatementInterface>
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function clearMapsOfTarget(string $type, mixed $targetId): array
     {
@@ -119,7 +120,7 @@ class TagService
         return $tagMapMapper->deleteWhere(
             [
                 'type' => $type,
-                'target_id' => $targetId
+                'target_id' => $targetId,
             ]
         );
     }
@@ -132,7 +133,7 @@ class TagService
         return $tagMapMapper->deleteWhere(
             [
                 'type' => $type,
-                'tag_id' => $tagId
+                'tag_id' => $tagId,
             ]
         );
     }

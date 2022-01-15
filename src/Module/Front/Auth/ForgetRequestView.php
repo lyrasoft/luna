@@ -23,7 +23,7 @@ use Windwalker\Core\View\ViewModelInterface;
 #[ViewModel(
     layout: [
         'default' => 'forget-request',
-        'complete' => 'forget-request-complete'
+        'complete' => 'forget-request-complete',
     ],
     js: 'forget-request.js'
 )]

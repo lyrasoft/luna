@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Middleware;
 
-use Lyrasoft\Luna\Access\AccessService;
+use Closure;
 use Lyrasoft\Luna\User\UserService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,7 +47,7 @@ class AccessMiddleware implements MiddlewareInterface
 
     public function __construct(
         protected ApplicationInterface $app,
-        protected \Closure|string|array $rules,
+        protected Closure|string|array $rules,
         array $options = []
     ) {
         $this->resolveOptions(
@@ -69,7 +69,7 @@ class AccessMiddleware implements MiddlewareInterface
         $allow = true;
         $userService = $this->app->service(UserService::class);
 
-        if ($this->rules instanceof \Closure) {
+        if ($this->rules instanceof Closure) {
             $result = $this->app->call($this->rules);
 
             if ($result === false) {
@@ -98,8 +98,9 @@ class AccessMiddleware implements MiddlewareInterface
     {
         $exception = $this->options['exception'];
 
-        if ($exception instanceof \Closure) {
+        if ($exception instanceof Closure) {
             $this->app->call($exception);
+
             return;
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -15,7 +16,7 @@ use RecursiveIterator;
  *
  * @since  1.0
  */
-class RecursiveNodeIterator implements \RecursiveIterator
+class RecursiveNodeIterator implements RecursiveIterator
 {
     /**
      * Property children.
@@ -27,7 +28,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
     /**
      * RecursiveNodeIterator constructor.
      *
-     * @param NodeInterface[]|NodeInterface $nodes
+     * @param  NodeInterface[]|NodeInterface  $nodes
      */
     public function __construct(array|NodeInterface $nodes)
     {

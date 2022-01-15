@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,7 +9,6 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
-use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleRules;
 use Windwalker\Core\Asset\AssetService;
@@ -43,9 +43,9 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * addOffsets
      *
-     * @param StyleRules $rules
-     * @param string     $rule
-     * @param string     $value
+     * @param  StyleRules  $rules
+     * @param  string      $rule
+     * @param  string      $value
      *
      * @return  void
      *
@@ -114,8 +114,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      * prepareElement
      *
      * @param  Collection  $options
-     * @param array        $classes
-     * @param array        $attrs
+     * @param  array       $classes
+     * @param  array       $attrs
      *
      * @return  void
      *
@@ -131,7 +131,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
             $classes[] = $options->getDeep('animation.name');
 
             $attrs['data-wow-duration'] = ($options->getDeep('animation.duration') / 1000) . 's';
-            $attrs['data-wow-delay']    = ($options->getDeep('animation.delay') / 1000) . 's';
+            $attrs['data-wow-delay'] = ($options->getDeep('animation.delay') / 1000) . 's';
         }
 
         // Video Background
@@ -159,7 +159,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
             $classes[] = 'jarallax';
 
-            $attrs['data-speed']    = '0.5';
+            $attrs['data-speed'] = '0.5';
             $attrs['data-jarallax'] = true;
         }
     }
@@ -167,8 +167,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * prepareBasicCSS
      *
-     * @param  Collection     $options
-     * @param StyleContainer  $styles
+     * @param  Collection      $options
+     * @param  StyleContainer  $styles
      *
      * @return  void
      *
@@ -224,8 +224,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * prepareTitleCSS
      *
-     * @param  Collection     $options
-     * @param StyleContainer  $styles
+     * @param  Collection      $options
+     * @param  StyleContainer  $styles
      *
      * @return  void
      *
@@ -240,7 +240,11 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
             $style->select($this->cssPrefix . '__title')
-                ->add('font-size', $this->fontSize($options->getDeep('title.font_size.' . $size)), $this->fontSizeUnit())
+                ->add(
+                    'font-size',
+                    $this->fontSize($options->getDeep('title.font_size.' . $size)),
+                    $this->fontSizeUnit()
+                )
                 ->add('margin-top', $options->getDeep('title.margin_top.' . $size), 'px')
                 ->add('margin-bottom', $options->getDeep('title.margin_bottom.' . $size), 'px');
         });
@@ -248,15 +252,19 @@ abstract class AbstractPageRenderer implements PageRendererInterface
         // Subtitle
         $styles->rwd(function (StyleContainer $style, $size) use ($options) {
             $style->select($this->cssPrefix . '__subtitle')
-                ->add('font-size', $this->fontSize($options->getDeep('title.font_size.' . $size)), $this->fontSizeUnit());
+                ->add(
+                    'font-size',
+                    $this->fontSize($options->getDeep('title.font_size.' . $size)),
+                    $this->fontSizeUnit()
+                );
         });
     }
 
     /**
      * prepareBackgroundCSS
      *
-     * @param  Collection     $options
-     * @param StyleContainer  $styles
+     * @param  Collection      $options
+     * @param  StyleContainer  $styles
      *
      * @return  void
      *
@@ -291,22 +299,28 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
             case 'gradient':
                 if ($options->getDeep('background.gradient.type') === 'linear') {
-                    $self->add('background-image', sprintf(
-                        'linear-gradient(%sdeg, %s %s%%, %s %s%%)',
-                        $options->getDeep('background.gradient.angle'),
-                        $options->getDeep('background.gradient.start_color'),
-                        $options->getDeep('background.gradient.start_pos'),
-                        $options->getDeep('background.gradient.end_color'),
-                        $options->getDeep('background.gradient.end_pos')
-                    ));
+                    $self->add(
+                        'background-image',
+                        sprintf(
+                            'linear-gradient(%sdeg, %s %s%%, %s %s%%)',
+                            $options->getDeep('background.gradient.angle'),
+                            $options->getDeep('background.gradient.start_color'),
+                            $options->getDeep('background.gradient.start_pos'),
+                            $options->getDeep('background.gradient.end_color'),
+                            $options->getDeep('background.gradient.end_pos')
+                        )
+                    );
                 } else {
-                    $self->add('background-image', sprintf(
-                        'radial-gradient(%s %s%%, %s %s%%)',
-                        $options->getDeep('background.gradient.start_color'),
-                        $options->getDeep('background.gradient.start_pos'),
-                        $options->getDeep('background.gradient.end_color'),
-                        $options->getDeep('background.gradient.end_pos')
-                    ));
+                    $self->add(
+                        'background-image',
+                        sprintf(
+                            'radial-gradient(%s %s%%, %s %s%%)',
+                            $options->getDeep('background.gradient.start_color'),
+                            $options->getDeep('background.gradient.start_pos'),
+                            $options->getDeep('background.gradient.end_color'),
+                            $options->getDeep('background.gradient.end_pos')
+                        )
+                    );
                 }
                 break;
         }
@@ -315,7 +329,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * fontSize
      *
-     * @param float|string|null $size
+     * @param  float|string|null  $size
      *
      * @return  float|string|null
      *
@@ -345,8 +359,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * handleContentAlign
      *
-     * @param  Collection     $options
-     * @param StyleContainer  $styles
+     * @param  Collection      $options
+     * @param  StyleContainer  $styles
      *
      * @return  void
      *
@@ -368,7 +382,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     /**
      * internalCSS
      *
-     * @param string $css
+     * @param  string  $css
      *
      * @return  void
      *

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Attributes;
 
+use Attribute;
 use Unicorn\Utilities\SlugHelper;
 use Windwalker\ORM\Attributes\CastForSave;
 use Windwalker\ORM\ORM;
@@ -18,7 +19,7 @@ use Windwalker\ORM\ORM;
 /**
  * The Slugify class.
  */
-#[\Attribute]
+#[Attribute]
 class Slugify extends CastForSave
 {
     public function __construct(

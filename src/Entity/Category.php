@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
+use DateTimeInterface;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
@@ -25,7 +26,6 @@ use Windwalker\ORM\Attributes\CurrentTime;
 use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
-use Windwalker\ORM\Attributes\Table;
 use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\Metadata\EntityMetadata;
 use Windwalker\ORM\Nested\NestedPathableInterface;
@@ -176,7 +176,7 @@ class Category implements NestedPathableInterface
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface|string|null $created): static
+    public function setCreated(DateTimeInterface|string|null $created): static
     {
         $this->created = Chronos::wrap($created);
 
@@ -200,7 +200,7 @@ class Category implements NestedPathableInterface
         return $this->modified;
     }
 
-    public function setModified(\DateTimeInterface|string|null $modified): static
+    public function setModified(DateTimeInterface|string|null $modified): static
     {
         $this->modified = Chronos::wrap($modified);
 

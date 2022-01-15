@@ -11,12 +11,12 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Services;
 
-use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Lyrasoft\Luna\User\UserService;
+use Psr\Cache\InvalidArgumentException;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Form\Exception\ValidateFailException;
-use Windwalker\ORM\ORM;
+use Windwalker\DI\Exception\DefinitionException;
 use Windwalker\Session\Session;
 
 /**
@@ -25,6 +25,7 @@ use Windwalker\Session\Session;
 class UserSwitchService
 {
     public const ORIGIN_USER_ID_SESS_KEY = 'origin_user_id';
+
     public const USER_MASK_ID = 'user_mask_id';
 
     /**
@@ -57,7 +58,7 @@ class UserSwitchService
     /**
      * setOriginUser
      *
-     * @param mixed $id
+     * @param  mixed  $id
      *
      * @return  static
      *
@@ -105,8 +106,8 @@ class UserSwitchService
      *
      * @return  static
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \Windwalker\DI\Exception\DefinitionException
+     * @throws InvalidArgumentException
+     * @throws DefinitionException
      * @since  1.7
      */
     public function switch(UserEntityInterface $targetUser, array $options = []): self
@@ -134,7 +135,7 @@ class UserSwitchService
      *
      * @return  static
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @since  1.7.14
      */
     public function frontendLogin(UserEntityInterface $targetUser, array $options = []): self
@@ -185,8 +186,8 @@ class UserSwitchService
      *
      * @return  static
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \Windwalker\DI\Exception\DefinitionException
+     * @throws InvalidArgumentException
+     * @throws DefinitionException
      * @since  1.7
      */
     public function recover(): self

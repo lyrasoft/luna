@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -10,6 +11,7 @@ namespace Lyrasoft\Luna\User;
 
 use Firebase\JWT\JWT;
 use Lyrasoft\Luna\Entity\User;
+use ReflectionException;
 use Symfony\Component\Mailer\SentMessage;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Language\TranslatorTrait;
@@ -70,7 +72,7 @@ class ActivationService
      *
      * @return  void
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      *
      * @since  1.7
      */
@@ -114,11 +116,11 @@ class ActivationService
      */
     public function getUserInfoGetter(): callable
     {
-        return $this->userInfoGetter ?? function (object $user) {
+        return $this->userInfoGetter ?? static function (object $user) {
             /** @var User $user */
             return [
                 'email' => $user->getEmail(),
-                'id' => $user->getId()
+                'id' => $user->getId(),
             ];
         };
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,12 +9,16 @@
 
 namespace Lyrasoft\Luna\Tree;
 
+use JsonSerializable;
+use RecursiveIteratorIterator;
+use Traversable;
+
 /**
  * The Node class.
  *
  * @since  1.0
  */
-class Node implements NodeInterface, \JsonSerializable
+class Node implements NodeInterface, JsonSerializable
 {
     /**
      * @var mixed
@@ -40,8 +45,8 @@ class Node implements NodeInterface, \JsonSerializable
     protected int $key = 0;
 
     /**
-     * @param mixed           $value
-     * @param NodeInterface[] $children
+     * @param  mixed  $value
+     * @param  NodeInterface[]  $children
      */
     public function __construct(mixed $value = null, array $children = [])
     {
@@ -55,7 +60,7 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * Set the value of the current node
      *
-     * @param mixed $value
+     * @param  mixed  $value
      *
      * @return static the current instance
      */
@@ -79,7 +84,7 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * Add a child
      *
-     * @param NodeInterface $child
+     * @param  NodeInterface  $child
      *
      * @return static
      */
@@ -94,7 +99,7 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * Remove a node from children
      *
-     * @param NodeInterface $child
+     * @param  NodeInterface  $child
      *
      * @return static the current instance
      */
@@ -154,7 +159,7 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * Replace the children set with the given one
      *
-     * @param static[] $children
+     * @param  static[]  $children
      *
      * @return static
      */
@@ -221,7 +226,7 @@ class Node implements NodeInterface, \JsonSerializable
     public function getAncestors(): array
     {
         $parents = [];
-        $node    = $this;
+        $node = $this;
 
         while ($parent = $node->getParent()) {
             array_unshift($parents, $parent);
@@ -249,7 +254,7 @@ class Node implements NodeInterface, \JsonSerializable
     public function getNeighbors(): array
     {
         $neighbors = $this->getParent()->getChildren();
-        $current   = $this;
+        $current = $this;
 
         // Uses array_values to reset indexes after filter.
         return array_values(
@@ -395,21 +400,21 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * Retrieve an external iterator
      *
-     * @return \Traversable An instance of an object implementing Iterator.
+     * @return Traversable An instance of an object implementing Iterator.
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \RecursiveIteratorIterator(
+        return new RecursiveIteratorIterator(
             new RecursiveNodeIterator($this->children),
-            \RecursiveIteratorIterator::SELF_FIRST
+            RecursiveIteratorIterator::SELF_FIRST
         );
     }
 
     /**
      * dump
      *
-     * @param bool $recursive
-     * @param bool $withoutParent
+     * @param  bool  $recursive
+     * @param  bool  $withoutParent
      *
      * @return  array
      *
@@ -447,7 +452,7 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * __get
      *
-     * @param string $name
+     * @param  string  $name
      *
      * @return  mixed
      *
@@ -461,8 +466,8 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * __set
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param  string  $name
+     * @param  mixed   $value
      *
      * @return  void
      *
@@ -476,7 +481,7 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * __isset
      *
-     * @param string $name
+     * @param  string  $name
      *
      * @return  bool
      *
@@ -495,7 +500,7 @@ class Node implements NodeInterface, \JsonSerializable
     /**
      * @inheritDoc
      */
-    public function iterate(): \Traversable
+    public function iterate(): Traversable
     {
         return $this->getIterator();
     }

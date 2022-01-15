@@ -12,21 +12,14 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\User\Form;
 
 use Lyrasoft\Luna\LunaPackage;
+use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
-use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Language\TranslatorTrait;
-use Windwalker\DI\Attributes\Inject;
-use Windwalker\Core\Language\LangService;
 use Windwalker\Filter\Rule\EmailAddress;
 use Windwalker\Form\Field\EmailField;
-use Windwalker\Form\Field\PasswordField;
-use Windwalker\Form\Field\TextareaField;
-use Unicorn\Field\CalendarField;
-use Windwalker\Form\Field\NumberField;
 use Windwalker\Form\Field\HiddenField;
-use Unicorn\Enum\BasicState;
-use Windwalker\Form\Field\ListField;
+use Windwalker\Form\Field\PasswordField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
@@ -73,7 +66,6 @@ class EditForm implements FieldDefinitionInterface
                     ->required(true)
                     ->addFilter('trim')
                     ->addValidator(EmailAddress::class);
-
             }
         );
 

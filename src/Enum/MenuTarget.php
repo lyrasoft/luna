@@ -12,13 +12,14 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Enum;
 
 use MyCLabs\Enum\Enum;
+use UnexpectedValueException;
+use Windwalker\Utilities\Contract\LanguageInterface;
 use Windwalker\Utilities\Enum\EnumTranslatableInterface;
 use Windwalker\Utilities\Enum\EnumTranslatableTrait;
-use Windwalker\Utilities\Contract\LanguageInterface;
 
 /**
  * The MenuTarget enum class.
- * 
+ *
  * @method static $this BLANK()
  * @method static $this SELF()
  * @method static $this PARENT()
@@ -29,8 +30,11 @@ class MenuTarget extends Enum implements EnumTranslatableInterface
     use EnumTranslatableTrait;
 
     public const BLANK = '_blank';
+
     public const SELF = '_self';
+
     public const PARENT = '_parent';
+
     public const TOP = '_top';
 
     /**
@@ -41,7 +45,7 @@ class MenuTarget extends Enum implements EnumTranslatableInterface
      * @param  mixed  $value
      *
      * @psalm-param T $value
-     * @throws \UnexpectedValueException if incompatible type is given.
+     * @throws UnexpectedValueException if incompatible type is given.
      */
     public function __construct(mixed $value)
     {

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Core;
 
+use InvalidArgumentException;
 use Lyrasoft\Luna\Captcha\CaptchaImageInterface;
 use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Psr\Http\Message\ResponseInterface;
@@ -32,7 +33,7 @@ class CaptchaController
         $captcha = $captchaManager->get($profile);
 
         if (!$captcha instanceof CaptchaImageInterface) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'Captcha driver: %s should implements %s',
                     get_class($captcha),

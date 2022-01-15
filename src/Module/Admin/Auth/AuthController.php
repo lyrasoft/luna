@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -21,7 +21,6 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\Utilities\Base64Url;
-
 use Windwalker\ORM\ORM;
 
 use function Windwalker\chronos;
@@ -34,7 +33,7 @@ use function Windwalker\chronos;
 )]
 #[TaskMapping(
     tasks: [
-        'save' => 'login'
+        'save' => 'login',
     ]
 )]
 class AuthController
@@ -54,7 +53,7 @@ class AuthController
             ['remember' => (bool) ($data['remember'] ?? false)],
             $resultSet
         );
-        
+
         if (!$result) {
             /** @var ResultSet $resultSet */
             $app->addMessage(

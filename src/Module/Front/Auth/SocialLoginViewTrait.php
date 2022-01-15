@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
-use Windwalker\Core\Attributes\Ref;
+use Generator;
 use Windwalker\Core\Runtime\Config;
 use Windwalker\DI\Attributes\Inject;
 
@@ -32,7 +32,7 @@ trait SocialLoginViewTrait
         return in_array(true, $enables, true);
     }
 
-    public function getSocialProviders(): \Generator
+    public function getSocialProviders(): Generator
     {
         foreach ($this->config->getDeep('social_login.social_providers') ?? [] as $name => $item) {
             if ($item['enabled'] ?? false) {

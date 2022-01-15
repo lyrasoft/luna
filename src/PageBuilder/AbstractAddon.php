@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -10,6 +11,8 @@ namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
+use ReflectionClass;
+use ReflectionException;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Data\Collection;
@@ -21,12 +24,12 @@ use Windwalker\Utilities\Iterator\PriorityQueue;
 /**
  * The AbstractAddon class.
  *
- * @property  string    title
- * @property  string    content
- * @property  string    type
- * @property  string    state
- * @property  string    ordering
- * @property  string    language
+ * @property  string     title
+ * @property  string     content
+ * @property  string     type
+ * @property  string     state
+ * @property  string     ordering
+ * @property  string     language
  * @property  Collection params
  *
  * @since  1.0
@@ -60,11 +63,11 @@ abstract class AbstractAddon implements AdminVueComponentInterface
     /**
      * AbstractModule constructor.
      *
-     * @param  array   $data
+     * @param  array  $data
      */
     public function __construct(array $data = [])
     {
-        $this->data   = Collection::wrap($data);
+        $this->data = Collection::wrap($data);
         $this->params = $this->data['params'];
     }
 
@@ -85,11 +88,11 @@ abstract class AbstractAddon implements AdminVueComponentInterface
     /**
      * getReflector
      *
-     * @return  \ReflectionClass
+     * @return  ReflectionClass
      */
-    protected static function getReflector(): \ReflectionClass
+    protected static function getReflector(): ReflectionClass
     {
-        return new \ReflectionClass(static::class);
+        return new ReflectionClass(static::class);
     }
 
     /**
@@ -98,7 +101,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * @param  CompositeRenderer  $renderer
      *
      * @return  string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function render(CompositeRenderer $renderer): string
     {
@@ -121,7 +124,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * @param  CompositeRenderer  $renderer
      *
      * @return  void
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function registerPaths(CompositeRenderer $renderer): void
     {
@@ -169,13 +172,13 @@ abstract class AbstractAddon implements AdminVueComponentInterface
         if ($this instanceof HasOwnStyleInterface) {
             $options = $data->options;
             $classes = $data->classes;
-            $attrs   = $data->attrs;
+            $attrs = $data->attrs;
 
             $this->prepareCSS($options, $styles);
             $this->prepareElement($options, $classes, $attrs);
 
             $data->classes = $classes;
-            $data->attrs   = $attrs;
+            $data->attrs = $attrs;
         }
 
         $this->getAsset()
@@ -200,7 +203,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * @param  array  $data
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function getVueComponentTemplate(CompositeRenderer $renderer, array $data = []): string
     {

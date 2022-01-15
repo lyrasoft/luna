@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 __ORGANIZATION__.
  * @license        MIT
  */
 
@@ -20,7 +20,6 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
-use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
 
@@ -54,8 +53,8 @@ class CategoryEditView implements ViewModelInterface
     /**
      * Prepare
      *
-     * @param    AppContext  $app
-     * @param    View        $view
+     * @param  AppContext  $app
+     * @param  View        $view
      *
      * @return    mixed
      */

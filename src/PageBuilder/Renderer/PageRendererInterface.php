@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -18,7 +19,7 @@ interface PageRendererInterface
     /**
      * render
      *
-     * @param array    $content
+     * @param  array   $content
      * @param  string  $i
      *
      * @return  string

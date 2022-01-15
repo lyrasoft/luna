@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -8,6 +9,7 @@
 
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
+use LogicException;
 use Lyrasoft\Luna\PageBuilder\AbstractAddon;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\Script\PageScript;
@@ -48,7 +50,7 @@ class PageRendererFactory
         $addonType = $this->pageService->getAddonType($type);
 
         if (!$addonType) {
-            throw new \LogicException("Addon type: \"$type\" not exists.");
+            throw new LogicException("Addon type: \"$type\" not exists.");
         }
 
         return $this->app->make($addonType->getClassName(), compact('data'));

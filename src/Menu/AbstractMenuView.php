@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of earth project.
  *
@@ -10,7 +11,6 @@ namespace Lyrasoft\Luna\Menu;
 
 use Psr\Http\Message\UriInterface;
 use Unicorn\Legacy\Html\MenuHelper;
-use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\Event\EventAwareInterface;

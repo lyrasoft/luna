@@ -11,27 +11,27 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Page;
 
-use Lyrasoft\Luna\Entity\Config;
+use Exception;
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\Entity\PageTemplate;
-use Lyrasoft\Luna\Module\Admin\Page\Form\EditForm;
 use Lyrasoft\Luna\Repository\PageRepository;
 use Lyrasoft\Luna\Services\ConfigService;
+use Psr\Cache\InvalidArgumentException;
+use ReflectionException;
+use RuntimeException;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Image\ImagePlaceholder;
 use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
-use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\DI\Exception\DependencyResolutionException;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Arr;
-
-use function Windwalker\collect;
 
 /**
  * The PageController class.
@@ -104,7 +104,7 @@ class PageController
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  1.8.8
      */
     public function savePage(
@@ -119,9 +119,9 @@ class PageController
         $entity = $repository->save($item);
 
         $item['image'] = $fileUploadService->handleFileIfUploaded(
-                $app->file('item')['image'] ?? null,
-                'images/pages/' . md5((string) $entity->getId()) . '.{ext}'
-            )?->getUri() ?? $item['image'];
+            $app->file('item')['image'] ?? null,
+            'images/pages/' . md5((string) $entity->getId()) . '.{ext}'
+        )?->getUri(true) ?? $item['image'];
 
         $repository->save($item);
 
@@ -137,9 +137,9 @@ class PageController
      *
      * @return  array
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws DependencyResolutionException
      *
      * @since  1.8
      */
@@ -148,7 +148,7 @@ class PageController
         ORM $orm,
         #[Autowire] ImagePlaceholder $imagePlaceholder
     ): array {
-        $type  = $app->input('type');
+        $type = $app->input('type');
         $types = Arr::explodeAndClear(',', $type);
 
         $mapper = $orm->mapper(PageTemplate::class);
@@ -157,6 +157,7 @@ class PageController
             ->map(
                 function ($tmpl) {
                     $tmpl['can_delete'] = true;
+
                     return $tmpl;
                 }
             )
@@ -200,23 +201,23 @@ class PageController
      *
      * @return object
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @since  1.8
      */
     public function saveTemplate(AppContext $app, ORM $orm): object
     {
-        $id      = (int) $app->input('id');
-        $title   = $app->input('title');
+        $id = (int) $app->input('id');
+        $title = $app->input('title');
         $description = $app->input('description');
-        $type    = $app->input('type');
-        $image   = $app->input('image');
+        $type = $app->input('type');
+        $image = $app->input('image');
         $content = $app->input('content');
 
         /** @var EntityMapper<PageTemplate> $mapper */
         $mapper = $orm->mapper(PageTemplate::class);
 
         if (!$title) {
-            throw new \RuntimeException('No title');
+            throw new RuntimeException('No title');
         }
 
         $item = $mapper->findOne($id) ?? new PageTemplate();
@@ -246,7 +247,7 @@ class PageController
         $id = $app->input('id');
 
         if (!$id) {
-            throw new \RuntimeException('No ID');
+            throw new RuntimeException('No ID');
         }
 
         $item = $orm->findOne(PageTemplate::class, $id);
@@ -264,7 +265,7 @@ class PageController
      *
      * @return  mixed
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @since  1.8
      */
     protected function value(mixed $value, AppContext $app): mixed

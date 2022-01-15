@@ -20,9 +20,7 @@ use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
-use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
-use Windwalker\Core\Application\WebApplicationInterface;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
 use Windwalker\Session\Session;
@@ -33,10 +31,11 @@ use Windwalker\Utilities\Cache\InstanceCacheTrait;
  */
 class AccessService
 {
-    public const SUPERUSER_ACTION = 'super.user';
-    public const ADMIN_ACCESS_ACTION = 'admin.access';
-
     use InstanceCacheTrait;
+
+    public const SUPERUSER_ACTION = 'super.user';
+
+    public const ADMIN_ACCESS_ACTION = 'admin.access';
 
     public function __construct(
         protected ApplicationInterface $app,
@@ -72,8 +71,8 @@ class AccessService
     /**
      * checkRolesAllowAction
      *
-     * @param  array<UserRole>   $roles
-     * @param  string  $action
+     * @param  array<UserRole>  $roles
+     * @param  string           $action
      *
      * @return  bool
      */
@@ -94,7 +93,7 @@ class AccessService
     /**
      * checkRoleAllow
      *
-     * @param  UserRole     $role
+     * @param  UserRole  $role
      * @param  array<Rule>  $rules
      *
      * @return  bool|null
@@ -254,8 +253,8 @@ class AccessService
 
                 return TreeBuilder::create(
                     $items,
-                    fn (UserRole $role) => $role->getId(),
-                    fn (UserRole $role) => $role->getParentId(),
+                    fn(UserRole $role) => $role->getId(),
+                    fn(UserRole $role) => $role->getParentId(),
                 );
             }
         );
@@ -287,7 +286,11 @@ class AccessService
 
                 if ($id) {
                     foreach ($rules as $rule) {
-                        if ($rule->getType() === $ns && $rule->getAction() === $act && (string) $rule->getTargetId() === $id) {
+                        if (
+                            $rule->getType() === $ns
+                            && $rule->getAction() === $act
+                            && (string) $rule->getTargetId() === $id
+                        ) {
                             $result[] = $rule;
                         }
                     }
@@ -347,6 +350,7 @@ class AccessService
             }
         );
     }
+
     public function loadDBRules(string $action): array
     {
         return $this->once(
@@ -413,7 +417,7 @@ class AccessService
      */
     protected static function extractAction(string $action): array
     {
-        $extracted =  explode('::', $action, 3);
+        $extracted = explode('::', $action, 3);
 
         return match (count($extracted)) {
             1 => [null, $extracted[0], null],

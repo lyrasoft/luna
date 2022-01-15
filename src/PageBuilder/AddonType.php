@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\PageBuilder;
 
-use Lyrasoft\Luna\PageBuilder\AbstractAddon;
 use Windwalker\Utilities\Contract\LanguageInterface;
 
 /**

@@ -2,7 +2,11 @@
 
 namespace Lyrasoft\Luna\Faker\zh_TW;
 
+use Exception;
 use Faker\Provider\Base;
+use InvalidArgumentException;
+
+use function count;
 
 /**
  * The Lorem class.
@@ -162,12 +166,12 @@ class Lorem extends Base
         '草木蕃',
         '天地閉',
         '賢人隱',
-        '無咎無譽'
+        '無咎無譽',
     ];
 
     /**
-     * @example '乾為天'
      * @return string
+     * @example '乾為天'
      */
     public static function word(): string
     {
@@ -177,12 +181,12 @@ class Lorem extends Base
     /**
      * Generate an array of random words
      *
-     * @example array('乾為天', '澤天夬', '火天大有')
-     *
-     * @param  integer $nb     how many words to return
-     * @param  bool    $asText if true the sentences are returned as one string
+     * @param  integer  $nb      how many words to return
+     * @param  bool     $asText  if true the sentences are returned as one string
      *
      * @return array|string
+     * @example array('乾為天', '澤天夬', '火天大有')
+     *
      */
     public static function words($nb = 3, $asText = false)
     {
@@ -198,14 +202,14 @@ class Lorem extends Base
     /**
      * Generate a random sentence
      *
-     * @example '天行健，自強不息，飛龍在天，大人造也，亢龍有悔，盈不可久也。'
-     *
-     * @param integer $nbWords          around how many words the sentence should contain
-     * @param boolean $variableNbWords  set to false if you want exactly $nbWords returned,
-     *                                  otherwise $nbWords may vary by +/-40% with a minimum of 1
+     * @param  integer  $nbWords          around how many words the sentence should contain
+     * @param  boolean  $variableNbWords  set to false if you want exactly $nbWords returned,
+     *                                    otherwise $nbWords may vary by +/-40% with a minimum of 1
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
+     * @example '天行健，自強不息，飛龍在天，大人造也，亢龍有悔，盈不可久也。'
+     *
      */
     public static function sentence($nbWords = 6, $variableNbWords = true): string
     {
@@ -225,13 +229,13 @@ class Lorem extends Base
     /**
      * Generate an array of sentences
      *
-     * @example array('天行健，自強不息。', '亢龍有悔，盈不可久也。')
-     *
-     * @param  integer $nb     how many sentences to return
-     * @param  bool    $asText if true the sentences are returned as one string
+     * @param  integer  $nb      how many sentences to return
+     * @param  bool     $asText  if true the sentences are returned as one string
      *
      * @return array|string
-     * @throws \Exception
+     * @throws Exception
+     * @example array('天行健，自強不息。', '亢龍有悔，盈不可久也。')
+     *
      */
     public static function sentences($nb = 3, $asText = false)
     {
@@ -247,14 +251,14 @@ class Lorem extends Base
     /**
      * Generate a single paragraph
      *
-     * @example '天行健，自強不息，飛龍在天，大人造也，亢龍有悔，盈不可久也。天地變化，草木蕃，天地閉，賢人隱。'
-     *
-     * @param integer $nbSentences          around how many sentences the paragraph should contain
-     * @param boolean $variableNbSentences  set to false if you want exactly $nbSentences returned,
-     *                                      otherwise $nbSentences may vary by +/-40% with a minimum of 1
+     * @param  integer  $nbSentences          around how many sentences the paragraph should contain
+     * @param  boolean  $variableNbSentences  set to false if you want exactly $nbSentences returned,
+     *                                        otherwise $nbSentences may vary by +/-40% with a minimum of 1
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
+     * @example '天行健，自強不息，飛龍在天，大人造也，亢龍有悔，盈不可久也。天地變化，草木蕃，天地閉，賢人隱。'
+     *
      */
     public static function paragraph($nbSentences = 3, $variableNbSentences = true): string
     {
@@ -272,13 +276,13 @@ class Lorem extends Base
     /**
      * Generate an array of paragraphs
      *
-     * @example array($paragraph1, $paragraph2, $paragraph3)
-     *
-     * @param  integer $nb     how many paragraphs to return
-     * @param  bool    $asText if true the paragraphs are returned as one string, separated by two newlines
+     * @param  integer  $nb      how many paragraphs to return
+     * @param  bool     $asText  if true the paragraphs are returned as one string, separated by two newlines
      *
      * @return array|string
-     * @throws \Exception
+     * @throws Exception
+     * @example array($paragraph1, $paragraph2, $paragraph3)
+     *
      */
     public static function paragraphs($nb = 3, $asText = false)
     {
@@ -295,16 +299,16 @@ class Lorem extends Base
      * Generate a text string.
      * Depending on the $maxNbChars, returns a string made of words, sentences, or paragraphs.
      *
-     * @example 'Sapiente sunt omnis. Ut pariatur ad autem ducimus et. Voluptas rem voluptas sint modi dolorem amet.'
-     *
-     * @param  integer $maxNbChars Maximum number of characters the text should contain (minimum 1)
+     * @param  integer  $maxNbChars  Maximum number of characters the text should contain (minimum 1)
      *
      * @return string
+     * @example 'Sapiente sunt omnis. Ut pariatur ad autem ducimus et. Voluptas rem voluptas sint modi dolorem amet.'
+     *
      */
     public static function text($maxNbChars = 200): string
     {
         if ($maxNbChars < 1) {
-            throw new \InvalidArgumentException('text() can only generate text of at least 5 characters');
+            throw new InvalidArgumentException('text() can only generate text of at least 5 characters');
         }
 
         if ($maxNbChars <= 5) {
@@ -344,7 +348,7 @@ class Lorem extends Base
 
             // until $maxNbChars is reached
             while ($size < $maxNbChars) {
-                $word   = ($size ? ' ' : '') . static::$type();
+                $word = ($size ? ' ' : '') . static::$type();
                 $text[] = $word;
 
                 $size += mb_strlen($word);
@@ -355,7 +359,7 @@ class Lorem extends Base
 
         if ($type === 'word') {
             // end sentence with full stop
-            $text[\count($text) - 1] .= '。';
+            $text[count($text) - 1] .= '。';
         }
 
         return implode('', $text);
@@ -364,12 +368,12 @@ class Lorem extends Base
     /**
      * randomizeNbElements
      *
-     * @param int $nbElements
+     * @param  int  $nbElements
      *
      * @return  int
      *
+     * @throws Exception
      * @since  1.5.1
-     * @throws \Exception
      */
     protected static function randomizeNbElements($nbElements): int
     {
@@ -379,7 +383,7 @@ class Lorem extends Base
     /**
      * setWordList
      *
-     * @param string|array $wordList
+     * @param  string|array  $wordList
      *
      * @return  void
      *
