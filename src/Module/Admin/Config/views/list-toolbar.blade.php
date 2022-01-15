@@ -15,20 +15,12 @@
 declare(strict_types=1);
 
 use Windwalker\Core\Application\AppContext;
-use Windwalker\Core\Application\AppContext;
-use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\DateTime\ChronosService;
-use Windwalker\Core\DateTime\ChronosService;
-use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
-use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
-use Windwalker\Core\Router\SystemUri;
-
-declare(strict_types=1);
 
 ?>
 

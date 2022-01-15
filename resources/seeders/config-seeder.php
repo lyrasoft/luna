@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of Admin project.
  *
@@ -42,7 +43,6 @@ $seeder->import(
 
         $seeder->outCounting();
     }
-
 );
 
 $seeder->clear(
