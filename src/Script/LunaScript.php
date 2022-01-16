@@ -33,4 +33,13 @@ class LunaScript extends AbstractScript
 
         return $this;
     }
+
+    public function flagIcon(): static
+    {
+        if ($this->available()) {
+            $this->css('@luna/dist/flag-icon.min.css');
+        }
+
+        return $this;
+    }
 }

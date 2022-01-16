@@ -18,6 +18,7 @@ export async function css() {
   // Compile Start
   sass('scss/page-builder-admin.scss', 'dist/', { minify: 'separate_file' });
   sass('scss/page.scss', 'dist/', { minify: 'separate_file' });
+  sass('scss/flag-icon.scss', 'dist/', { minify: 'separate_file' });
   // Compile end
 }
 
