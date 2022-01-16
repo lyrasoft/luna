@@ -4,7 +4,7 @@
  * Global variables
  * --------------------------------------------------------------
  * @var  $app       AppContext      Application context.
- * @var  $vm        object          The view model object.
+ * @var  $vm        ArticleEditView  The view model object.
  * @var  $uri       SystemUri       System Uri information.
  * @var  $chronos   ChronosService  The chronos datetime service.
  * @var  $nav       Navigator       Navigator object to build route.
@@ -21,6 +21,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Windwalker\Form\Form;
+use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
 
 /**
  * @var Form  $form
@@ -55,6 +56,14 @@ use Windwalker\Form\Form;
                     is="card"
                 >
                 </x-fieldset>
+
+                @if ($vm->isLocaleEnabled())
+                    <x-fieldset title="Assoc"
+                        :form="$form" ns="assoc" class="mb-4"
+                        is="card"
+                    >
+                    </x-fieldset>
+                @endif
             </div>
         </div>
 

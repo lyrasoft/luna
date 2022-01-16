@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\Article;
 
 use Lyrasoft\Luna\Entity\Article;
+use Lyrasoft\Luna\Locale\LanguageAssocTrait;
 use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Services\TagService;
@@ -29,6 +30,8 @@ use Windwalker\ORM\Event\AfterSaveEvent;
 #[Controller()]
 class ArticleController
 {
+    use LanguageAssocTrait;
+
     public function save(
         AppContext $app,
         CrudController $controller,
@@ -48,6 +51,15 @@ class ArticleController
                     $entity->getId(),
                     (array) ($app->input('item')['tags'] ?? [])
                 );
+
+                if ($this->localeService->isEnabled()) {
+                    $this->saveLangAssociations(
+                        'article',
+                        $entity->getLanguage(),
+                        $entity->getId(),
+                        $app->input('item')['assoc'] ?? []
+                    );
+                }
             }
         );
 

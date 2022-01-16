@@ -13,6 +13,9 @@ namespace Lyrasoft\Luna\Module\Admin\Article;
 
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\TagMap;
+use Lyrasoft\Luna\Field\ArticleModalField;
+use Lyrasoft\Luna\Locale\LanguageAssocTrait;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
@@ -34,6 +37,8 @@ use Windwalker\ORM\ORM;
 )]
 class ArticleEditView implements ViewModelInterface
 {
+    use LanguageAssocTrait;
+    use LocaleAwareTrait;
     use TranslatorTrait;
 
     public function __construct(
@@ -72,8 +77,14 @@ class ArticleEditView implements ViewModelInterface
                     ?: $this->orm->extractEntity($item)
             );
 
-        // Tags
         if ($item) {
+            if ($this->isLocaleEnabled()) {
+                // Assoc
+                $this->defineForm($item->getLanguage(), $form, ArticleModalField::class);
+                $this->prepareAssocValues('article', $item->getId(), $form);
+            }
+
+            // Tags
             $tagIds = $this->orm->findColumn(
                 TagMap::class,
                 'tag_id',

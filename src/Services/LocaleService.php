@@ -239,7 +239,7 @@ class LocaleService
         return $langCodes;
     }
 
-    public function saveLangAssociations(string $type, string $key, string|int $targetId, array $associations): void
+    public function saveLangAssociations(string $type, string $lang, string|int $targetId, array $associations): void
     {
         if (in_array($targetId, $associations)) {
             throw new ValidateFailException('Association target cannot be self');
@@ -248,12 +248,12 @@ class LocaleService
         $assocService = $this->app->service(AssociationService::class);
 
         // Remove this item from assoc if lang is all.
-        if ($key === '*') {
+        if ($lang === '*') {
             $assocService->deleteWhere(['type' => $type, 'target_id' => $targetId]);
 
             return;
         }
 
-        $assocService->saveAssociations($type, $key, $targetId, $associations);
+        $assocService->saveAssociations($type, $lang, $targetId, $associations);
     }
 }

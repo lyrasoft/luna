@@ -185,11 +185,11 @@ class AssociationService
      * @return Association|null
      * @throws \ReflectionException
      */
-    public function getRelativeItemsByIdAndKey(string $type, string|int $id, string $key): ?Association
+    public function getRelativeItemByIdAndKey(string $type, string|int $id, string $key): ?Association
     {
         $assoc = $this->getMapper()->findOne(['type' => $type, 'item_id' => $id]);
 
-        return $this->getMapper()->findOne(
+        return $this->getMapper()->findList(
             [
                 'type' => $type,
                 'hash' => $assoc->getHash(),

@@ -44,7 +44,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                             @lang('unicorn.field.title')
                         </x-sort>
                     </th>
-                    <th style="width: 15%">
+                    <th style="">
                         <x-sort field="article.category">
                             @lang('luna.article.field.category')
                         </x-sort>
