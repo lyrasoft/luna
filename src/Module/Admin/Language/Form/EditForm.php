@@ -49,10 +49,10 @@ class EditForm implements FieldDefinitionInterface
             'basic',
             function (Form $form) {
                 $form->add('title_native', TextField::class)
-                    ->label($this->trans('luna.field.title_native'));
+                    ->label($this->trans('luna.language.field.title_native'));
 
                 $form->add('code', TextField::class)
-                    ->label($this->trans('luna.field.code'));
+                    ->label($this->trans('luna.language.field.code'));
 
                 $form->add('image', FlagListField::class)
                     ->label($this->trans('unicorn.field.image'));
@@ -67,30 +67,30 @@ class EditForm implements FieldDefinitionInterface
             'meta',
             function (Form $form) {
                 $form->add('state', SwitcherField::class)
-                    ->label($this->trans('luna.field.published'))
+                    ->label($this->trans('unicorn.field.published'))
                     ->circle(true)
                     ->color('success')
                     ->defaultValue('1');
 
                 $form->add('sitename', TextField::class)
-                    ->label($this->trans('luna.field.sitename'));
+                    ->label($this->trans('luna.language.field.sitename'));
 
                 $form->add('meta/description', TextareaField::class)
-                    ->label($this->trans('luna.field.meta.description'))
+                    ->label($this->trans('luna.language.field.meta.description'))
                     ->rows(4);
 
                 $form->add('meta/cover', SingleImageDragField::class)
-                    ->label($this->trans('luna.field.meta.cover'))
+                    ->label($this->trans('luna.language.field.meta.cover'))
                     ->width(1200)
                     ->height(628)
                     ->crop(true)
                     ->showSizeNotice(true);
 
                 $form->add('meta/keywords', TextField::class)
-                    ->label($this->trans('luna.field.meta.keywords'));
+                    ->label($this->trans('luna.language.field.meta.keywords'));
 
                 $form->add('meta/custom_code', TextareaField::class)
-                    ->label($this->trans('luna.field.meta.custom.code'))
+                    ->label($this->trans('luna.language.field.meta.custom.code'))
                     ->rows(7);
             }
         );

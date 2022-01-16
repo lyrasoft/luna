@@ -229,4 +229,12 @@ class LocaleService
 
         return $first . $sep . strtoupper($second);
     }
+
+    public static function getSeederLangCodes(ORM $orm): array
+    {
+        $langCodes = $orm->findColumn(Language::class, 'code', ['state' => 1])->dump();
+        $langCodes[] = '*';
+
+        return $langCodes;
+    }
 }

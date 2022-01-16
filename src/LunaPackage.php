@@ -110,6 +110,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             [
                 'menu-root' => '@menu-root',
                 'locale-dropdown' => '@theme::i18n.locale-dropdown',
+                'lang-label' => '@theme::i18n.lang-label',
             ]
         );
 

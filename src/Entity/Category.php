@@ -81,6 +81,9 @@ class Category implements NestedPathableInterface
     #[Modifier]
     protected int $modifiedBy = 0;
 
+    #[Column('language')]
+    protected string $language = '';
+
     #[Column('params')]
     #[Cast(JsonCast::class)]
     protected array $params = [];
@@ -164,9 +167,9 @@ class Category implements NestedPathableInterface
         return $this->state;
     }
 
-    public function setState(BasicState $state): static
+    public function setState(BasicState|int $state): static
     {
-        $this->state = $state;
+        $this->state = new BasicState($state);
 
         return $this;
     }
@@ -234,5 +237,25 @@ class Category implements NestedPathableInterface
     public function getPrimaryKeyValue(): mixed
     {
         return $this->getId();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param  string  $language
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setLanguage(string $language): static
+    {
+        $this->language = $language;
+
+        return $this;
     }
 }

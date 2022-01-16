@@ -10,6 +10,8 @@
 namespace Lyrasoft\Luna\Module\Admin\Category\Form;
 
 use Lyrasoft\Luna\Field\CategoryListField;
+use Lyrasoft\Luna\Field\LanguageListField;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Language\TranslatorTrait;
@@ -25,6 +27,7 @@ use Windwalker\Form\Form;
  */
 class GridForm implements FieldDefinitionInterface
 {
+    use LocaleAwareTrait;
     use TranslatorTrait;
 
     /**
@@ -69,6 +72,14 @@ class GridForm implements FieldDefinitionInterface
                 ->option($this->trans('unicorn.select.placeholder'), '')
                 ->registerOptions(BasicState::getTransItems($this->lang))
                 ->onchange('this.form.submit()');
+
+            if ($this->isLocaleEnabled()) {
+                $form->add('category.language', LanguageListField::class)
+                    ->label($this->trans('luna.field.language'))
+                    ->option($this->trans('unicorn.select.placeholder'), '')
+                    ->option($this->trans('luna.language.all'), '*')
+                    ->onchange('this.form.submit()');
+            }
         });
 
         /*
@@ -85,6 +96,13 @@ class GridForm implements FieldDefinitionInterface
                 ->categoryType($this->request->input('type') ?? '')
                 ->showRoot(true)
                 ->option($this->trans('luna.category.parent.select'), '');
+
+            if ($this->isLocaleEnabled()) {
+                $form->add('language', LanguageListField::class)
+                    ->label($this->trans('luna.field.language'))
+                    ->option($this->trans('unicorn.select.no.change'), '')
+                    ->option($this->trans('luna.language.all'), '*');
+            }
         });
     }
 }

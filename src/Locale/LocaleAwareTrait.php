@@ -26,4 +26,9 @@ trait LocaleAwareTrait
     {
         return $this->localeService->isEnabled();
     }
+
+    public function getLocale(): ?string
+    {
+        return $this->localeService->getLocale();
+    }
 }

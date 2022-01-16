@@ -102,7 +102,8 @@ class EditForm implements FieldDefinitionInterface
 
                 if ($this->isLocaleEnabled()) {
                     $form->add('language', LanguageListField::class)
-                        ->label($this->trans('luna.field.language'));
+                        ->label($this->trans('luna.field.language'))
+                        ->option($this->trans('luna.language.all'), '*');
                 }
 
                 $form->add('created', CalendarField::class)
@@ -118,12 +119,6 @@ class EditForm implements FieldDefinitionInterface
                 $form->add('modified_by', UserModalField::class)
                     ->label($this->trans('unicorn.field.modified_by'))
                     ->disabled(true);
-
-                // $form->add('language', TextField::class)
-                //     ->label($this->trans('luna.article.language'));
-                //
-                // $form->add('page_id', NumberField::class)
-                //     ->label($this->trans('luna.article.page_id'));
 
                 $form->add('type', HiddenField::class)
                     ->label('Type');

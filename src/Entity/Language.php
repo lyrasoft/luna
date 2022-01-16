@@ -56,7 +56,7 @@ class Language implements EntityInterface
     protected string $description = '';
 
     #[Column('meta')]
-    #[Cast(MetaData::class, 'json_encode')]
+    #[Cast(MetaData::class, JsonCast::class)]
     protected MetaData $meta;
 
     #[Column('sitename')]

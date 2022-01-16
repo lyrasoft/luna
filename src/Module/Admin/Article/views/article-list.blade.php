@@ -27,6 +27,8 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleListView;
  */
 
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
+
+$localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.list') ?? 'admin.global.body-list')
@@ -84,6 +86,13 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                             @endif
                         </div>
                     </th>
+                    @if ($localeService->isEnabled())
+                        <th>
+                            <x-sort field="article.language">
+                                @lang('luna.field.language')
+                            </x-sort>
+                        </th>
+                    @endif
                     <th style="width: 1%" class="text-nowrap">
                         @lang('unicorn.toolbar.delete')
                     </th>
@@ -135,6 +144,11 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 :value="$item->ordering"
                             ></x-order-control>
                         </td>
+                        @if ($localeService->isEnabled())
+                            <td>
+                                <x-lang-label :item="$item"></x-lang-label>
+                            </td>
+                        @endif
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-outline-secondary"
                                 @click="grid.deleteItem('{{ $entity->getId() }}')"

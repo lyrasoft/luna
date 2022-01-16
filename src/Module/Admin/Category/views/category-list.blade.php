@@ -25,6 +25,7 @@ use Windwalker\Core\Router\SystemUri;
 $originOrdering = [];
 
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
+$localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
 
 $enableOrderControl = $ordering === 'category.lft ASC';
 
@@ -87,10 +88,13 @@ $orders = [];
                         <x-sort field="category.created_by" >@lang('unicorn.field.author')</x-sort>
                     </th>
 
-                    {{-- CREATED --}}
-                    <th class="text-nowrap">
-                        <x-sort field="category.created" >@lang('unicorn.field.created')</x-sort>
-                    </th>
+                    @if ($localeService->isEnabled())
+                        <th>
+                            <x-sort field="category.language">
+                                @lang('luna.field.language')
+                            </x-sort>
+                        </th>
+                    @endif
 
                     {{-- DELETE --}}
                     <th width="1%" class="text-nowrap">
@@ -169,15 +173,11 @@ $orders = [];
                             {{ $item->user->name ?? '' }}
                         </td>
 
-                        {{-- CREATED --}}
-                        <td class="text-nowrap">
-                            @if (!$chronos->isNullDate($item->created))
-                                <span class="" data-bs-toggle="tooltip"
-                                    title="{{ $chronos->toLocalFormat($item->created, 'Y-m-d H:i:s') }}">
-                                    {{ $chronos->toLocalFormat($item->created, 'Y-m-d') }}
-                                </span>
-                            @endif
-                        </td>
+                        @if ($localeService->isEnabled())
+                            <td>
+                                <x-lang-label :item="$item"></x-lang-label>
+                            </td>
+                        @endif
 
                         {{-- DELETE --}}
                         <td class="text-center">

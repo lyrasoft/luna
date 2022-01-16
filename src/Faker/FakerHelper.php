@@ -87,6 +87,24 @@ class FakerHelper
         }
     }
 
+    public static function registerJapaneseLorem(string $locale = 'ja_JP'): void
+    {
+        if (!isset(static::$override[$locale])) {
+            class_alias(
+                \Lyrasoft\Luna\Faker\ja_JP\Lorem::class,
+                'Faker\Provider\\' . $locale . '\Lorem'
+            );
+
+            static::$override[$locale] = true;
+        }
+    }
+
+    public static function registerMoreLoremClasses(): void
+    {
+        static::registerChineseLorem();
+        static::registerJapaneseLorem();
+    }
+
     /**
      * getBuddhistSizes
      *

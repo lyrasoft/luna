@@ -62,7 +62,7 @@ class ArticleListView implements ViewModelInterface
         $limit = 10;
         $page = $app->input('page');
 
-        $items = $this->repository->getListSelector()
+        $items = $this->repository->getAvailableListSelector()
             ->addFilter('article.state', 1)
             ->addFilter('category.state', 1)
             ->where('category.lft', '>=', $category->getLft())

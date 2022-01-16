@@ -12,7 +12,9 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Entity\Category;
+use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\ListRepositoryInterface;
 use Unicorn\Repository\ListRepositoryTrait;
@@ -28,6 +30,7 @@ use Windwalker\Core\Http\AppRequest;
 #[Repository(entityClass: Category::class)]
 class CategoryRepository implements ManageRepositoryInterface, ListRepositoryInterface
 {
+    use LocaleAwareTrait;
     use NestedManageRepositoryTrait;
     use ListRepositoryTrait;
 
@@ -47,6 +50,27 @@ class CategoryRepository implements ManageRepositoryInterface, ListRepositoryInt
 
         $selector->where('category.parent_id', '!=', 0)
             ->where('category.level', '>=', 1);
+
+        if ($this->localeService->isEnabled()) {
+            $selector->leftJoin(Language::class, 'lang', 'lang.code', 'category.language');
+        }
+
+        return $selector;
+    }
+
+    public function getAvailableListSelector(): ListSelector
+    {
+        $selector = $this->createSelector();
+
+        $selector->from(Category::class)
+            ->leftJoin(User::class, 'user', 'user.id', 'category.created_by');
+
+        $selector->where('category.parent_id', '!=', 0)
+            ->where('category.level', '>=', 1);
+
+        if ($this->localeService->isEnabled()) {
+            $selector->where('category.language', 'in', ['*', $this->getLocale()]);
+        }
 
         return $selector;
     }

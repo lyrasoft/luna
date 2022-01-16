@@ -6,12 +6,6 @@
  */
 
 import u from '@main';
-import $ from '@jquery';
-import { Foo } from '@vendor/foo/lib.umd.js';
-
-const foo = new Foo($('.foo'));
-
-const res = await foo.handle();
 
 u.$ui.bootstrap.tooltip();
 

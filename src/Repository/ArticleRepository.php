@@ -13,6 +13,8 @@ namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Category;
+use Lyrasoft\Luna\Entity\Language;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\ReorderAction;
@@ -32,6 +34,7 @@ use Windwalker\Query\Query;
 #[Repository(entityClass: Article::class)]
 class ArticleRepository implements ManageRepositoryInterface, ListRepositoryInterface
 {
+    use LocaleAwareTrait;
     use ManageRepositoryTrait;
     use ListRepositoryTrait;
 
@@ -46,6 +49,24 @@ class ArticleRepository implements ManageRepositoryInterface, ListRepositoryInte
 
         $selector->from(Article::class)
             ->leftJoin(Category::class);
+
+        if ($this->localeService->isEnabled()) {
+            $selector->leftJoin(Language::class, 'lang', 'lang.code', 'article.language');
+        }
+
+        return $selector;
+    }
+
+    public function getAvailableListSelector(): ListSelector
+    {
+        $selector = $this->createSelector();
+
+        $selector->from(Article::class)
+            ->leftJoin(Category::class);
+
+        if ($this->localeService->isEnabled()) {
+            $selector->where('article.language', 'in', ['*', $this->getLocale()]);
+        }
 
         return $selector;
     }
