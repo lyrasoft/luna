@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Script\LunaScript;
 use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Data\Collection;
@@ -236,5 +237,23 @@ class LocaleService
         $langCodes[] = '*';
 
         return $langCodes;
+    }
+
+    public function saveLangAssociations(string $type, string $key, string|int $targetId, array $associations): void
+    {
+        if (in_array($targetId, $associations)) {
+            throw new ValidateFailException('Association target cannot be self');
+        }
+
+        $assocService = $this->app->service(AssociationService::class);
+
+        // Remove this item from assoc if lang is all.
+        if ($key === '*') {
+            $assocService->deleteWhere(['type' => $type, 'target_id' => $targetId]);
+
+            return;
+        }
+
+        $assocService->saveAssociations($type, $key, $targetId, $associations);
     }
 }
