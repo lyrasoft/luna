@@ -15,10 +15,12 @@ use Lyrasoft\Luna\Module\Admin\Language\Form\EditForm;
 use Lyrasoft\Luna\Repository\LanguageRepository;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
+use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\ORM\Event\AfterSaveEvent;
 
 /**
  * The LanguageController class.
@@ -31,8 +33,27 @@ class LanguageController
         CrudController $controller,
         Navigator $nav,
         #[Autowire] LanguageRepository $repository,
+        FileUploadService $fileUploadService
     ): mixed {
         $form = $app->make(EditForm::class);
+
+        $controller->afterSave(
+            function (AfterSaveEvent $event) use ($repository, $app, $fileUploadService) {
+                $data = $event->getData();
+
+                $cover = $fileUploadService->handleFileIfUploaded(
+                    $app->file('item')['meta']['cover'] ?? null,
+                    'images/language/cover/' . md5((string) $data['id']) . '.jpg',
+                )?->getUri(true);
+
+                if ($cover) {
+                    $data['meta'] = json_decode($data['meta'], true);
+                    $data['meta']['cover'] = (string) $cover;
+                }
+
+                $repository->save($data);
+            }
+        );
 
         $uri = $app->call([$controller, 'save'], compact('repository', 'form'));
 

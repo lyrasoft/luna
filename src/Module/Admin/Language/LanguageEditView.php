@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Language;
 
+use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Module\Admin\Language\Form\EditForm;
 use Lyrasoft\Luna\Repository\LanguageRepository;
 use Windwalker\Core\Application\AppContext;
@@ -54,6 +55,7 @@ class LanguageEditView implements ViewModelInterface
     {
         $id = $app->input('id');
 
+        /** @var ?Language $item */
         $item = $this->repository->getItem($id);
 
         $form = $this->formFactory
@@ -62,6 +64,11 @@ class LanguageEditView implements ViewModelInterface
             ->fill(
                 $this->repository->getState()->getAndForget('edit.data')
                     ?: $this->orm->extractEntity($item)
+            )
+            ->fill(
+                [
+                    'meta' => $item?->getMeta()
+                ]
             );
 
         $this->prepareMetadata($app, $view);

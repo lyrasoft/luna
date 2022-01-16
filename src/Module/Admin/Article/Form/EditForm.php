@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
 use Lyrasoft\Luna\Field\CategoryListField;
+use Lyrasoft\Luna\Field\LanguageListField;
 use Lyrasoft\Luna\Field\TagListField;
 use Lyrasoft\Luna\Field\UserModalField;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
@@ -30,6 +32,7 @@ use Windwalker\Form\Form;
 class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
+    use LocaleAwareTrait;
 
     public function __construct(protected ?string $type = 'article')
     {
@@ -96,6 +99,11 @@ class EditForm implements FieldDefinitionInterface
                     ->label($this->trans('unicorn.field.published'))
                     ->circle(true)
                     ->color('success');
+
+                if ($this->isLocaleEnabled()) {
+                    $form->add('language', LanguageListField::class)
+                        ->label($this->trans('luna.field.language'));
+                }
 
                 $form->add('created', CalendarField::class)
                     ->label($this->trans('unicorn.field.created'));

@@ -109,6 +109,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             'renderer.edge.components',
             [
                 'menu-root' => '@menu-root',
+                'locale-dropdown' => '@theme::i18n.locale-dropdown',
             ]
         );
 
@@ -145,12 +146,6 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
     public function bootBeforeRequest(Container $container): void
     {
-        // Lang
-        if ($container->has(LangService::class)) {
-            $container->get(LangService::class)
-                ->loadAllFromPath(__DIR__ . '/../resources/languages', 'ini');
-        }
-
         // Error
         if (!$this->app->isDebug() && $this->app->getClient() === ApplicationInterface::CLIENT_WEB) {
             $errorService = $container->get(ErrorService::class);
