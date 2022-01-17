@@ -30,6 +30,7 @@ use Lyrasoft\Luna\User\Password;
 use Lyrasoft\Luna\User\PasswordInterface;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authorization\Authorization;
+use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Application\WebApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
@@ -180,7 +181,11 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
     protected function registerAuthServices(Container $container): void
     {
-        $container->prepareSharedObject(UserService::class);
+        $container->prepareSharedObject(
+            UserService::class,
+            fn(UserService $userService, Container $container)
+                => $userService->addEventDealer($container->get(AppContext::class))
+        );
         $container->prepareSharedObject(UserSwitchService::class);
         $container->prepareSharedObject(AccessService::class);
         $container->prepareSharedObject(ActivationService::class);
