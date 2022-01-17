@@ -11,10 +11,12 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Subscriber;
 
+use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\Event\LoginAuthEvent;
 use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
+use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\State\AppState;
 use Windwalker\Event\Attributes\EventSubscriber;
@@ -38,7 +40,7 @@ class UserAuthSubscriber
         /** @var User $user */
         $user = $event->getUser();
 
-        if (!$user->isVerified()) {
+        if (method_exists($user, 'isVerified') && !$user->isVerified()) {
             $this->state->remember(ActivationService::RE_ACTIVATE_SESSION_KEY, $user->getEmail());
 
             throw new AuthenticateFailException(
@@ -47,7 +49,7 @@ class UserAuthSubscriber
             );
         }
 
-        if (!$user->isEnabled()) {
+        if (method_exists($user, 'isEnabled') && !$user->isEnabled()) {
             throw new AuthenticateFailException(
                 $this->trans('luna.login.message.not.enabled'),
                 40102

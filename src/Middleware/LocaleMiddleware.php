@@ -33,7 +33,7 @@ class LocaleMiddleware implements MiddlewareInterface
         protected AppContext $app,
         protected LocaleService $localeService,
         protected bool $useBrowser = false,
-        protected bool $routePrefix = true,
+        protected bool $uriPrefix = true,
         protected string $sessionKey = 'locale',
     ) {
     }
@@ -43,6 +43,10 @@ class LocaleMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        if (!$this->localeService->isEnabled()) {
+            return $handler->handle($request);
+        }
+
         $state = $this->app->getState();
         $locale = $state->get('matched_locale');
 
@@ -62,7 +66,7 @@ class LocaleMiddleware implements MiddlewareInterface
         }
 
         // Nav
-        if ($this->routePrefix) {
+        if ($this->uriPrefix && $this->localeService->isUriPrefixEnabled()) {
             $nav = $this->app->service(Navigator::class);
             $nav->on(
                 AfterRouteBuildEvent::class,

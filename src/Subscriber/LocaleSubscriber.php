@@ -16,7 +16,6 @@ use Lyrasoft\Luna\Services\LocaleService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Events\Web\BeforeRoutingEvent;
 use Windwalker\Core\Http\AppRequest;
-use Windwalker\Core\Router\Event\AfterRouteBuildEvent;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Windwalker\DI\Container;
@@ -31,7 +30,8 @@ class LocaleSubscriber
 {
     protected ?Language $language;
 
-    public function __construct(protected Container $container) {
+    public function __construct(protected Container $container)
+    {
     }
 
     protected function getAppContext(): AppContext
@@ -49,7 +49,9 @@ class LocaleSubscriber
     {
         $app = $this->getAppContext();
 
-        if (!$app->config('luna.i18n.uri_prefix')) {
+        $localeService = $this->getLocaleService();
+
+        if (!$localeService->isEnabled() || !$localeService->isUriPrefixEnabled()) {
             return;
         }
 
@@ -117,6 +119,7 @@ class LocaleSubscriber
     {
         $container = $this->container;
 
+        // Todo: Delete this after AppContext can transform inner values.
         $container->clearCache(Navigator::class);
         $container->clearCache(AppRequest::class);
         $container->clearCache(SystemUri::class);

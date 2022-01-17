@@ -59,6 +59,11 @@ class LocaleService
         return (bool) $this->app->config('luna.i18n.enabled');
     }
 
+    public function isUriPrefixEnabled(): bool
+    {
+        return $this->isEnabled() && $this->app->config('luna.i18n.uri_prefix');
+    }
+
     public function isStageEnabled(?string $stage = null): bool
     {
         $stage ??= $this->app->getStage();
