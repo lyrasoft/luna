@@ -69,6 +69,11 @@ class PageEditView implements ViewModelInterface
             ->fill(
                 $this->repository->getState()->getAndForget('edit.data')
                     ?: $this->orm->extractEntity($item)
+            )
+            ->fill(
+                [
+                    'meta' => $item->getMeta()
+                ]
             );
 
         $this->prepareScripts($app, $item, $form);
