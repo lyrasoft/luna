@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Widget;
 
-use App\Repository\WidgetRepository;
 use Lyrasoft\Luna\Module\Admin\Widget\Form\EditForm;
+use Lyrasoft\Luna\Repository\WidgetRepository;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Windwalker\Core\Application\AppContext;

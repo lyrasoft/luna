@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Widget;
 
-use App\Repository\WidgetRepository;
 use Lyrasoft\Luna\Module\Admin\Widget\Form\GridForm;
+use Lyrasoft\Luna\Repository\WidgetRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
