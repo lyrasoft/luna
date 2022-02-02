@@ -43,7 +43,7 @@ use Windwalker\Core\Router\SystemUri;
         @include('types.' . $type)
 
         <div class="d-none">
-            @include('@csrf')
+            @csrf
         </div>
 
     </form>

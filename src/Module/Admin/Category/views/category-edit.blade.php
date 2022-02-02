@@ -53,7 +53,7 @@ use Windwalker\Core\Router\SystemUri;
                 <input name="{{ $idField->getInputName() }}" type="hidden" value="{{ $idField->getValue() }}" />
             @endif
 
-            @include('@csrf')
+            @csrf
         </div>
 
     </form>

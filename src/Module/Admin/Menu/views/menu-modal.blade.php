@@ -146,7 +146,7 @@ $typeField = $app->make(\Lyrasoft\Luna\Field\MenuTypeListField::class)
         </div>
 
         <div class="d-none">
-            @include('@csrf')
+            @csrf
         </div>
 
         <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>

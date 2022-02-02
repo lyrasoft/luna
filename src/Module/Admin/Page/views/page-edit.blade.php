@@ -54,7 +54,7 @@ $asset->css('@luna/dist/page-builder-admin.min.css');
                 <input name="{{ $idField->getInputName() }}" type="hidden" value="{{ $idField->getValue() }}" />
             @endif
 
-            @include('@csrf')
+            @csrf
         </div>
 
         <x-modal-options :form="$form" :item="$item"></x-modal-options>

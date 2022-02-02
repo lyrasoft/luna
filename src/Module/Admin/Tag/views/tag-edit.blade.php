@@ -66,7 +66,7 @@ use Windwalker\Form\Form;
                 <input name="{{ $idField->getInputName() }}" type="hidden" value="{{ $idField->getValue() }}" />
             @endif
 
-            @include('@csrf')
+            @csrf
         </div>
     </form>
 @stop

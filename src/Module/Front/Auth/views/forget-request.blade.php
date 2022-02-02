@@ -56,7 +56,7 @@ use Windwalker\Core\Router\SystemUri;
         </div>
 
         <div class="hidden-inputs">
-            @include('@csrf')
+            @csrf
         </div>
     </form>
 @stop

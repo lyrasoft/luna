@@ -63,7 +63,7 @@ use Windwalker\Core\Router\SystemUri;
             </div>
 
             <div class="d-none">
-                @include('@csrf')
+                @csrf
             </div>
         </form>
     </div>

@@ -200,7 +200,7 @@ $orders = [];
 
         <div class="d-none">
             <input name="_method" type="hidden" value="PUT" />
-            @include('@csrf')
+            @csrf
         </div>
 
         <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>

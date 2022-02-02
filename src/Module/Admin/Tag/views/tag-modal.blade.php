@@ -93,7 +93,7 @@ $callback = $app->input('callback');
         </div>
 
         <div class="d-none">
-            @include('@csrf')
+            @csrf
         </div>
 
         <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>

@@ -231,7 +231,7 @@ $loginName = $luna->getLoginName();
 
         <div class="d-none">
             <input type="hidden" name="_method" value="PUT" />
-            @include('@csrf')
+            @csrf
         </div>
 
         <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>

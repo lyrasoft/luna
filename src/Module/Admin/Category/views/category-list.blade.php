@@ -221,7 +221,7 @@ $orders = [];
             <input type="hidden" name="origin_ordering" value="{{ implode(',', $originOrdering) }}" />
 
             {{-- TOKEN --}}
-            @include('@csrf')
+            @csrf
         </div>
 
         <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>

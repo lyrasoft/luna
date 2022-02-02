@@ -63,7 +63,7 @@ use Windwalker\Core\Router\SystemUri;
 
         <div class="hidden-inputs">
             <input name="token" type="hidden" value="{{ $token ?? '' }}" />
-            @include('@csrf')
+            @csrf
         </div>
     </form>
 @stop
