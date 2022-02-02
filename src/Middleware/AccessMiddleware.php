@@ -21,6 +21,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Security\Exception\UnauthorizedException;
+use Windwalker\Http\Response\RedirectResponse;
 use Windwalker\Utilities\Options\OptionsResolverTrait;
 
 /**
@@ -76,7 +77,11 @@ class AccessMiddleware implements MiddlewareInterface
                 $this->raiseError();
             }
 
-            if ($result instanceof UriInterface || $result instanceof ResponseInterface) {
+            if ($result instanceof UriInterface) {
+                $result = new RedirectResponse($result);
+            }
+
+            if ($result instanceof ResponseInterface) {
                 return $result;
             }
         }
