@@ -23,6 +23,7 @@ use Windwalker\Core\Service\ErrorService;
 use Windwalker\Core\View\View;
 use Windwalker\DI\Container;
 use Windwalker\Http\Output\StreamOutput;
+use Windwalker\Http\Response\Response;
 
 /**
  * The LunaErrorHandler class.
@@ -55,9 +56,6 @@ class LunaErrorHandler implements ErrorHandlerInterface
             fn(AppContext $context) => $context->setMatchedRoute($route)
         );
 
-        $middlewares = $route->getMiddlewares();
-        $runner = $app->make(MiddlewareRunner::class);
-
         /** @var View $view */
         $view = $app->make(ErrorView::class);
 
@@ -65,11 +63,17 @@ class LunaErrorHandler implements ErrorHandlerInterface
             $view->setLayoutMap(['default' => $this->layout]);
         }
 
-        $res = $runner->run(
-            $app->getAppRequest()->getRequest(),
-            $middlewares,
-            fn() => $view->render(['exception' => $e])
-        );
+        if ($route) {
+            $middlewares = $route->getMiddlewares();
+            $runner = $app->make(MiddlewareRunner::class);
+            $res = $runner->run(
+                $app->getAppRequest()->getRequest(),
+                $middlewares,
+                fn() => $view->render(['exception' => $e])
+            );
+        } else {
+            $res = $view->render(['exception' => $e]);
+        }
 
         $code = $e->getCode();
 
