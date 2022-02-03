@@ -22,6 +22,7 @@ use Unicorn\Repository\ListRepositoryTrait;
 use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\ManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
+use Windwalker\Query\Query;
 
 /**
  * The WidgetRepository class.
@@ -44,13 +45,17 @@ class WidgetRepository implements ManageRepositoryInterface, ListRepositoryInter
     #[ConfigureAction(SaveAction::class)]
     protected function configureSaveAction(SaveAction $action): void
     {
-        //
+        $this->newOrderLast($action);
     }
 
     #[ConfigureAction(ReorderAction::class)]
     protected function configureReorderAction(ReorderAction $action): void
     {
-        //
+        $action->setReorderGroupHandler(
+            function (Query $query, Widget $widget) {
+                $query->where('position', $widget->getPosition());
+            }
+        );
     }
 
     #[ConfigureAction(BatchAction::class)]

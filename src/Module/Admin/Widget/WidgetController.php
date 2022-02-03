@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Module\Admin\Widget\Form\EditForm;
 use Lyrasoft\Luna\Repository\WidgetRepository;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
+use Unicorn\Repository\Event\PrepareSaveEvent;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Router\Navigator;
@@ -33,6 +34,14 @@ class WidgetController
         #[Autowire] WidgetRepository $repository,
     ): mixed {
         $form = $app->make(EditForm::class);
+
+        $controller->prepareSave(
+            function (PrepareSaveEvent $event) use ($app) {
+                $data = &$event->getData();
+
+                $data['params'] = $app->input('item')['params'] ?? [];
+            }
+        );
 
         $uri = $app->call([$controller, 'save'], compact('repository', 'form'));
 

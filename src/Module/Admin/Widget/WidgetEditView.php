@@ -11,8 +11,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Widget;
 
+use Lyrasoft\Luna\Entity\Widget;
 use Lyrasoft\Luna\Module\Admin\Widget\Form\EditForm;
 use Lyrasoft\Luna\Repository\WidgetRepository;
+use Lyrasoft\Luna\Widget\WidgetService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
@@ -38,6 +40,7 @@ class WidgetEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
+        protected WidgetService $widgetService,
         #[Autowire] protected WidgetRepository $repository
     ) {
     }
@@ -54,19 +57,27 @@ class WidgetEditView implements ViewModelInterface
     {
         $id = $app->input('id');
 
+        /** @var Widget $item */
         $item = $this->repository->getItem($id);
+        $type = $item?->getType() ?? $app->input('type');
+
+        $typeClass = $this->widgetService->getWidgetTypeClass($type);
+        $widgetInstance = $this->widgetService->createWidgetInstance($type, $item);
 
         $form = $this->formFactory
             ->create(EditForm::class)
             ->setNamespace('item')
+            ->defineFormFields($widgetInstance)
             ->fill(
                 $this->repository->getState()->getAndForget('edit.data')
                     ?: $this->orm->extractEntity($item)
-            );
+            )
+            ->fill(compact('type'))
+            ->fill(['params' => $item?->getParams()]);
 
         $this->prepareMetadata($app, $view);
 
-        return compact('form', 'id', 'item');
+        return compact('form', 'id', 'item', 'typeClass', 'widgetInstance');
     }
 
     /**
@@ -81,7 +92,7 @@ class WidgetEditView implements ViewModelInterface
     {
         $view->getHtmlFrame()
             ->setTitle(
-                $this->trans('unicorn.title.edit', title: 'Widget')
+                $this->trans('unicorn.title.edit', title: $this->trans('luna.widget.title'))
             );
     }
 }

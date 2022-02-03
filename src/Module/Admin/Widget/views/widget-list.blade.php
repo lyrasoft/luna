@@ -21,6 +21,9 @@ use Lyrasoft\Luna\Module\Admin\Widget\WidgetListView;use Windwalker\Core\Applica
  */
 
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
+
+$widgetService = $app->service(\Lyrasoft\Luna\Widget\WidgetService::class);
+$localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
 ?>
 
 @extends('admin.global.body-list')
@@ -66,6 +69,20 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                         </x-sort>
                     </th>
 
+                    {{-- Widget --}}
+                    <th class="text-nowrap" style="width: 5%">
+                        <x-sort field="widget.type">
+                            @lang('luna.widget.field.type')
+                        </x-sort>
+                    </th>
+
+                    {{-- Position --}}
+                    <th class="text-nowrap" style="width: 1%">
+                        <x-sort field="widget.position">
+                            @lang('luna.widget.field.position')
+                        </x-sort>
+                    </th>
+
                     {{-- Ordering --}}
                     <th style="width: 10%" class="text-nowrap">
                         <div class="d-flex w-100 justify-content-end">
@@ -80,6 +97,14 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                             @endif
                         </div>
                     </th>
+
+                    @if ($localeService->isEnabled())
+                        <th>
+                            <x-sort field="article.language">
+                                @lang('luna.field.language')
+                            </x-sort>
+                        </th>
+                    @endif
 
                     {{-- Delete --}}
                     <th style="width: 1%" class="text-nowrap">
@@ -99,6 +124,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                 @foreach($items as $i => $item)
                     <?php
                         $entity = $vm->prepareItem($item);
+                        $widgetType = $vm->getWidgetType($entity->getType());
                     ?>
                     <tr>
                         {{-- Checkbox --}}
@@ -124,6 +150,40 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                     {{ $item->title }}
                                 </a>
                             </div>
+                            <div class="small text-muted">
+                                {{ $entity->getNote() }}
+                            </div>
+                        </td>
+
+                        <td class="text-nowrap">
+                            <div data-bs-toggle="tooltip"
+                                title="{{ $widgetType }}">
+                                {{ $widgetType ? $widgetType::getTypeTitle($lang) : $lang('luna.widget.type.not.found') }}
+                            </div>
+                        </td>
+
+                        <td class="text-nowrap">
+                            <div>
+                                <span class="badge"
+                                    style="
+                                        background-color: {{ $bg = $widgetService->getPositionColor($entity->getPosition()) }};
+                                        color: {{ $widgetService::getTextColor($bg) }}
+                                    ">
+                                    @if ($entity->getPosition())
+                                        <?php
+                                        $position = $entity->getPosition();
+
+                                        $posName = $widgetService->getAllPositions()[$position] ?? null;
+                                        ?>
+                                        {{ $position }}
+                                        @if ($position !== $posName)
+                                            ({{ $posName }})
+                                        @endif
+                                    @else
+                                        @lang('luna.widget.position.none')
+                                    @endif
+                                </span>
+                            </div>
                         </td>
 
                         {{-- Ordering --}}
@@ -135,6 +195,12 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 :value="$item->ordering"
                             ></x-order-control>
                         </td>
+
+                        @if ($localeService->isEnabled())
+                            <td>
+                                <x-lang-label :item="$item"></x-lang-label>
+                            </td>
+                        @endif
 
                         {{-- Delete --}}
                         <td class="text-center">
@@ -177,6 +243,8 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
         </div>
 
         <x-batch-modal :form="$form" namespace="batch"></x-batch-modal>
+
+        <x-create-modal></x-create-modal>
     </form>
 
 @stop

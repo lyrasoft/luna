@@ -111,6 +111,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->mergeParameters(
             'renderer.edge.components',
             [
+                'widget' => 'widget.widget',
                 'menu-root' => '@menu-root',
                 'locale-dropdown' => '@theme::i18n.locale-dropdown',
                 'lang-label' => '@theme::i18n.lang-label',
@@ -170,15 +171,17 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
     protected function registerFaker(Container $container)
     {
-        $container->extend(FakerService::class, static function (FakerService $fakerService) {
-            $fakerService->on('faker.created', function (Event $event) {
-                /** @var Generator $faker */
-                $faker = $event['faker'];
-                $faker->addProvider(new LunaFakerProvider($faker));
-            });
+        if ($container->has(FakerService::class)) {
+            $container->extend(FakerService::class, static function (FakerService $fakerService) {
+                $fakerService->on('faker.created', function (Event $event) {
+                    /** @var Generator $faker */
+                    $faker = $event['faker'];
+                    $faker->addProvider(new LunaFakerProvider($faker));
+                });
 
-            return $fakerService;
-        });
+                return $fakerService;
+            });
+        }
     }
 
     protected function registerAuthServices(Container $container): void

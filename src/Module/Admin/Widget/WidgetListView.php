@@ -13,6 +13,8 @@ namespace Lyrasoft\Luna\Module\Admin\Widget;
 
 use Lyrasoft\Luna\Module\Admin\Widget\Form\GridForm;
 use Lyrasoft\Luna\Repository\WidgetRepository;
+use Lyrasoft\Luna\Widget\AbstractWidget;
+use Lyrasoft\Luna\Widget\WidgetService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Form\FormFactory;
@@ -41,7 +43,8 @@ class WidgetListView implements ViewModelInterface
         protected ORM $orm,
         #[Autowire]
         protected WidgetRepository $repository,
-        protected FormFactory $formFactory
+        protected FormFactory $formFactory,
+        protected WidgetService $widgetService,
     ) {
     }
 
@@ -59,7 +62,7 @@ class WidgetListView implements ViewModelInterface
 
         // Prepare Items
         $page     = $state->rememberFromRequest('page');
-        $limit    = $state->rememberFromRequest('limit');
+        $limit    = $state->rememberFromRequest('limit') ?? 30;
         $filter   = (array) $state->rememberFromRequest('filter');
         $search   = (array) $state->rememberFromRequest('search');
         $ordering = $state->rememberFromRequest('list_ordering') ?? $this->getDefaultOrdering();
@@ -99,7 +102,7 @@ class WidgetListView implements ViewModelInterface
      */
     public function getDefaultOrdering(): string
     {
-        return 'widget.id DESC';
+        return 'widget.position, widget.ordering ASC';
     }
 
     /**
@@ -112,7 +115,7 @@ class WidgetListView implements ViewModelInterface
         return [
             'widget.id',
             'widget.title',
-            'widget.alias',
+            'widget.content',
         ];
     }
 
@@ -125,7 +128,7 @@ class WidgetListView implements ViewModelInterface
      */
     public function reorderEnabled(string $ordering): bool
     {
-        return $ordering === 'widget.ordering ASC';
+        return $ordering === 'widget.position, widget.ordering ASC';
     }
 
     /**
@@ -158,7 +161,19 @@ class WidgetListView implements ViewModelInterface
     {
         $view->getHtmlFrame()
             ->setTitle(
-                $this->trans('unicorn.title.grid', title: 'Widget')
+                $this->trans('unicorn.title.grid', title: $this->trans('luna.widget.title'))
             );
+    }
+
+    /**
+     * getWidgetType
+     *
+     * @param  string  $type
+     *
+     * @return  string|null|AbstractWidget
+     */
+    public function getWidgetType(string $type): ?string
+    {
+        return $this->widgetService->getWidgetTypeClass($type);
     }
 }
