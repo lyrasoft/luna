@@ -32,11 +32,31 @@ abstract class AbstractWidget implements FieldDefinitionInterface
 {
     protected Widget $data;
 
+    protected static string $type = '';
+
     abstract public static function getTypeIcon(): string;
 
     abstract public static function getTypeTitle(LangService $lang): string;
 
     abstract public static function getTypeDescription(LangService $lang): string;
+
+    /**
+     * @return string
+     */
+    public static function getType(): string
+    {
+        return self::$type;
+    }
+
+    /**
+     * @param  string  $type
+     *
+     * @return  void
+     */
+    public static function setType(string $type): void
+    {
+        static::$type = $type;
+    }
 
     abstract public function getLayout(): string;
 

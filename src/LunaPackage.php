@@ -230,6 +230,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $this->installModules($installer, 'article');
         $this->installModules($installer, 'page');
         $this->installModules($installer, 'menu', ['admin', 'model']);
+        $this->installModules($installer, 'widget', ['admin', 'model']);
         $this->installModules($installer, 'config', ['admin', 'model']);
         $this->installModules($installer, 'user');
 
@@ -253,7 +254,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     ): void {
         $pascal = StrNormalize::toPascalCase($name);
 
-        if (in_array('front', $modules, true)) {
+        if (in_array('admin', $modules, true)) {
             $installer->installModules(
                 [
                     static::path("src/Module/Admin/$pascal/**/*") => "@source/Module/Admin/$pascal",
@@ -263,7 +264,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             );
         }
 
-        if (in_array('admin', $modules, true)) {
+        if (in_array('front', $modules, true)) {
             $installer->installModules(
                 [
                     static::path("src/Module/Front/$pascal/**/*") => "@source/Module/Front/$pascal",

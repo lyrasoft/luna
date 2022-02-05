@@ -223,6 +223,7 @@ class WidgetService
                 foreach ($typeClasses as $typeName => $typeClass) {
                     if ($typeClass && is_subclass_of($typeClass, AbstractWidget::class, true)) {
                         $types[$typeName] = $typeClass;
+                        $typeClass::setType($typeName);
                     }
                 }
 
