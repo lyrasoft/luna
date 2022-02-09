@@ -49,14 +49,13 @@ function validateOptionsModal([ validation ]) {
 }
 
 // Change alies path value
-$('[data-task="save"]').on('click', () => {
-  const link = $('.admin-toolbar-buttons').find('.btn-outline-primary').attr('href');
-  const value = $('#input-item-alias').val();
+document.getElementById('js-save-button').onclick = function () {
+  const link = document.querySelector('.js-preview-button').href;
+  const value = document.querySelector('#input-item-alias').value;
   const pre = link.split('page/');
   const next = pre[1].split('?');
 
   if (next[0] !== value) {
-    const newLink = pre[0] + 'page/' + value + '?' + next[1];
-    $('.admin-toolbar-buttons').find('.btn-outline-primary').attr('href', newLink)
+    document.querySelector('.js-preview-button').href = pre[0] + 'page/' + value + '?' + next[1];
   }
-})
+}
