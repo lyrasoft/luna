@@ -398,6 +398,7 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
      *
      * @return \Traversable An instance of an object implementing Iterator.
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \RecursiveIteratorIterator(
@@ -440,6 +441,7 @@ class Node implements NodeInterface, \IteratorAggregate, \JsonSerializable
      * @return mixed Data which can be serialized by json_encode,
      *               which is a value of any type other than a resource.
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->dump(true, true);

@@ -43,6 +43,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      *
      * @return mixed Can return any type.
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->nodes[$this->key()];
@@ -53,6 +54,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      *
      * @return void Any returned value is ignored.
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         next($this->nodes);
@@ -63,6 +65,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      *
      * @return mixed scalar on success, or null on failure.
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->nodes);
@@ -74,6 +77,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      * @return boolean The return value will be casted to boolean and then evaluated.
      *                 Returns true on success or false on failure.
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return key($this->nodes) !== null;
@@ -84,6 +88,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      *
      * @return void Any returned value is ignored.
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->nodes);
@@ -94,6 +99,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      *
      * @return bool true if the current entry can be iterated over, otherwise returns false.
      */
+    #[\ReturnTypeWillChange]
     public function hasChildren()
     {
         return !$this->current()->isLeaf();
@@ -104,6 +110,7 @@ class RecursiveNodeIterator implements \RecursiveIterator
      *
      * @return RecursiveIterator An iterator for the current entry.
      */
+    #[\ReturnTypeWillChange]
     public function getChildren()
     {
         return new static($this->current());
