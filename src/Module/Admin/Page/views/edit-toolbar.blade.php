@@ -27,7 +27,7 @@ $pageService = $app->service(\Lyrasoft\Luna\PageBuilder\PageService::class);
 ?>
 
 <div x-title="toolbar" x-data="{ form: $store.form }">
-    <button type="button" class="btn btn-success btn-sm"
+    <button type="button" class="btn btn-success btn-sm" id="js-save-button"
         data-task="save"
         style="width: 150px"
     >
@@ -46,7 +46,7 @@ $pageService = $app->service(\Lyrasoft\Luna\PageBuilder\PageService::class);
     @if ($item ?? null)
         <a href="{{ $nav->to('front::page', ['path' => $item->getAlias(), 'preview' => $pageService->genPreviewSecret($item->getId())]) }}"
             target="_blank"
-            class="btn btn-sm btn-outline-primary">
+            class="btn btn-sm btn-outline-primary js-preview-button">
             <span class="fa fa-eye"></span>
             @lang('luna.page.button.preview')
         </a>
