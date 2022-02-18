@@ -47,3 +47,15 @@ function validateOptionsModal([ validation ]) {
     }
   });
 }
+
+// Change alies path value
+document.getElementById('js-save-button').onclick = function () {
+  const link = document.querySelector('.js-preview-button').href;
+  const value = document.querySelector('#input-item-alias').value;
+  const pre = link.split('page/');
+  const next = pre[1].split('?');
+
+  if (next[0] !== value) {
+    document.querySelector('.js-preview-button').href = pre[0] + 'page/' + value + '?' + next[1];
+  }
+}
