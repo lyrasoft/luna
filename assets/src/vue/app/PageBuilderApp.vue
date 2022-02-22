@@ -365,6 +365,12 @@ export default {
       const addonData = u.data('addons')[type];
 
       u.trigger('addon:edit', { ...addonData, id: 'addon-' + u.uid(), is: 'addon' }, state.editing.column);
+
+      nextTick(() => {
+        u.selectAll('.bs-tooltip-auto', (ele) => {
+          ele.parentElement.removeChild(ele);
+        });
+      });
     }
 
     // Utilities

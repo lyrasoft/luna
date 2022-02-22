@@ -105,7 +105,7 @@ class PageView implements ViewModelInterface
         $rows = $page->getContent();
         $css = $page->getCss();
 
-        $this->prepareMeta($page, $page->getMeta());
+        $this->prepareMeta($page);
 
         return compact(
             'rows',
@@ -114,32 +114,32 @@ class PageView implements ViewModelInterface
         );
     }
 
-    public function prepareMeta(Page $page, array $meta): void
+    public function prepareMeta(Page $page): void
     {
-        if ($meta['meta_desc'] ?? null) {
-            $this->htmlFrame->setDescription($meta['meta_desc']);
+        $meta = $page->getMeta();
+
+        $this->htmlFrame->setDescriptionIfNotEmpty($meta->getDescription());
+
+        if (trim($meta->getOgDescription()) !== '') {
+            $this->htmlFrame->addOpenGraph('og:description', $meta->getOgDescription(), true);
         }
 
-        if ($meta['og_desc'] ?? null) {
-            $this->htmlFrame->addOpenGraph('og:description', $meta['og_desc']);
-        }
-
-        if ($meta['meta_keyword'] ?? null) {
-            $this->htmlFrame->addMetadata('keywords', $meta['meta_keyword'], true);
+        if (trim($meta->getKeywords()) !== '') {
+            $this->htmlFrame->addMetadata('keywords', $meta->getKeywords(), true);
         }
 
         if ($page->getImage()) {
             $this->htmlFrame->setCoverImages($page->getImage());
         }
 
-        if ($meta['meta_title'] ?? null) {
-            $this->htmlFrame->setTitle($meta['meta_title']);
+        if (trim($meta->getTitle()) !== '') {
+            $this->htmlFrame->setTitle($meta->getTitle());
         } else {
             $this->htmlFrame->setTitle($page->getTitle());
         }
 
-        if ($meta['og_title']) {
-            $this->htmlFrame->addOpenGraph('og:title', $meta['og_title'], true);
+        if ($meta->getOgTitle()) {
+            $this->htmlFrame->addOpenGraph('og:title', $meta->getOgTitle(), true);
         }
     }
 }

@@ -12,10 +12,10 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\Entity\Page;
+use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Crypt\PseudoCrypt;
 use Windwalker\Core\Language\TranslatorTrait;
-use Windwalker\Crypt\Password;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
@@ -102,7 +102,7 @@ class PageService
 
     public function genPreviewSecret(string|int $id): string
     {
-        $salt = Password::genRandomPassword(4);
+        $salt = UserService::genRandomPassword(4);
 
         return $salt . '.' . $this->secretHash($salt, $id);
     }
@@ -124,7 +124,7 @@ class PageService
 
         $seed = $appSecret . ':' . $id . ':' . $salt;
 
-        return (new PseudoCrypt())->hash(crc32($seed), 8);
+        return strtoupper(base_convert((string) crc32($seed), 10, 32));
     }
 
     protected function getAppSecret(): string

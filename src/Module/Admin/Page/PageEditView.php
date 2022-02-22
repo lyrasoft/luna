@@ -27,6 +27,7 @@ use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\Form\Form;
 use Windwalker\ORM\ORM;
+use Windwalker\Utilities\StrNormalize;
 
 /**
  * The PageEditView class.
@@ -61,6 +62,7 @@ class PageEditView implements ViewModelInterface
     {
         $id = $app->input('id');
 
+        /** @var Page|null $item */
         $item = $this->repository->getItem($id);
 
         $form = $this->formFactory
@@ -72,7 +74,7 @@ class PageEditView implements ViewModelInterface
             )
             ->fill(
                 [
-                    'meta' => $item->getMeta()
+                    'meta' => static::asSnakes($item?->getMeta()->dump() ?? [])
                 ]
             );
 
@@ -81,6 +83,17 @@ class PageEditView implements ViewModelInterface
         $this->prepareMetadata($app, $view);
 
         return compact('form', 'id', 'item');
+    }
+
+    protected static function asSnakes(array $values): array
+    {
+        $items = [];
+
+        foreach ($values as $key => $value) {
+            $items[StrNormalize::toSnakeCase($key)] = $value;
+        }
+
+        return $items;
     }
 
     /**

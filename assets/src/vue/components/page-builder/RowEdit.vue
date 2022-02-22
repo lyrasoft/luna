@@ -138,14 +138,14 @@
           <div class="tab-pane fade" id="row-edit-layout" role="tabpanel" aria-labelledby="row-edit-layout-tab">
 
             <!-- Padding -->
-            <box-offset v-model="options.padding">
-              <span slot="label">Padding</span>
-            </box-offset>
+            <BoxOffset v-model="options.padding">
+              <template v-slot:label>Padding</template>
+            </BoxOffset>
 
             <!-- Margin -->
-            <box-offset v-model="options.margin">
-              <span slot="label">Margin</span>
-            </box-offset>
+            <BoxOffset v-model="options.margin">
+              <template v-slot:label>Margin</template>
+            </BoxOffset>
 
             <!-- Background Toggler -->
             <div class="form-group mb-3">

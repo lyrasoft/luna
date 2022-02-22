@@ -83,7 +83,7 @@ class ColumnRenderer extends AbstractPageRenderer
         $this->internalCSS($styles->render());
 
         // Custom CSS
-        $css = $content->getDeep('options.html_css');
+        $css = (string) $content->getDeep('options.html_css');
 
         if (trim($css)) {
             $scss = new Compiler();

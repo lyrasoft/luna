@@ -1,7 +1,7 @@
 <template>
   <rwd-group class-name="c-box-offset">
-    <template #label class="mb-3">
-      <div>
+    <template #label>
+      <div class="mb-2">
         <slot name="label"></slot>
         <a href="javascript://" @click="lock = !lock">
           <span class="fa" :class="[lock ? 'fa-lock' : 'fa-lock-open']"></span>
@@ -40,7 +40,7 @@ export default {
   name: "box-offset",
   components: { RwdGroup },
   props: {
-    value: Object
+    modelValue: Object
   },
   setup(props, { emit }) {
     const state = reactive({
@@ -69,7 +69,7 @@ export default {
     });
     
     onMounted(() => {
-      extractValue(props.value);
+      extractValue(props.modelValue);
 
       each(state.offsets, (offset, size) => {
         each(offset, (value, pos) => {
@@ -83,7 +83,7 @@ export default {
 
             const allValue = getAllValues();
 
-            emit('update:value', allValue);
+            emit('update:modelValue', allValue);
           });
         })
       });

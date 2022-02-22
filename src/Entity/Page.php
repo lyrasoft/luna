@@ -15,6 +15,7 @@ use DateTimeInterface;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\PageSlugify;
+use Lyrasoft\Luna\Data\MetaData;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\ORM\Attributes\AutoIncrement;
@@ -66,8 +67,8 @@ class Page implements EntityInterface
     protected string $css = '';
 
     #[Column('meta')]
-    #[Cast(JsonCast::class)]
-    protected array $meta = [];
+    #[Cast(MetaData::class, JsonCast::class)]
+    protected MetaData $meta;
 
     #[Column('state')]
     #[Cast('int')]
@@ -176,18 +177,6 @@ class Page implements EntityInterface
     public function setCss(string $css): static
     {
         $this->css = $css;
-
-        return $this;
-    }
-
-    public function getMeta(): array
-    {
-        return $this->meta;
-    }
-
-    public function setMeta(array $meta): static
-    {
-        $this->meta = $meta;
 
         return $this;
     }
@@ -324,6 +313,26 @@ class Page implements EntityInterface
     public function setCategoryId(int $categoryId): static
     {
         $this->categoryId = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * @return MetaData
+     */
+    public function getMeta(): MetaData
+    {
+        return $this->meta;
+    }
+
+    /**
+     * @param  MetaData|array  $meta
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setMeta(MetaData|array $meta): static
+    {
+        $this->meta = MetaData::wrap($meta);
 
         return $this;
     }

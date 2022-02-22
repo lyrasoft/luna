@@ -102,7 +102,7 @@ class AddonRenderer extends AbstractPageRenderer
         $this->prepareBackgroundCSS($options, $styles);
 
         // Custom CSS
-        $css = $content->getDeep('options.html_css');
+        $css = (string) $content->getDeep('options.html_css');
 
         if (trim($css)) {
             $scss = new Compiler();

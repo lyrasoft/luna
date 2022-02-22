@@ -90,20 +90,20 @@ class EditForm implements FieldDefinitionInterface
         });
         $form->fieldset('meta', function (Form $form) {
             $form->group('meta', function (Form $form) {
-                $form->add('meta_title', TextField::class)
+                $form->add('title', TextField::class)
                     ->label($this->trans('luna.page.field.meta.title'));
 
-                $form->add('meta_desc', TextareaField::class)
+                $form->add('description', TextareaField::class)
                     ->label($this->trans('luna.page.field.meta.desc'))
                     ->rows(3);
 
-                $form->add('meta_keyword', TextField::class)
+                $form->add('keywords', TextField::class)
                     ->label($this->trans('luna.page.field.meta.keyword'));
 
                 $form->add('og_title', TextField::class)
                     ->label($this->trans('luna.page.field.og.title'));
 
-                $form->add('og_desc', TextareaField::class)
+                $form->add('og_description', TextareaField::class)
                     ->label($this->trans('luna.page.field.og.desc'))
                     ->rows(3);
             });

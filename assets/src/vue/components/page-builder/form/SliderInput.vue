@@ -52,7 +52,7 @@ export default {
     const value = ref(props.modelValue);
 
     watch(value, (v) => {
-      emit('update:modalValue', v);
+      emit('update:modelValue', v);
     });
 
     return {

@@ -22,6 +22,8 @@ use RuntimeException;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Image\ImagePlaceholder;
+use Unicorn\Repository\Actions\SaveAction;
+use Unicorn\Repository\Event\PrepareSaveEvent;
 use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
@@ -133,14 +135,13 @@ class PageController
     /**
      * getTemplates
      *
-     * @param  ConfigService  $configService
+     * @param  AppContext        $app
+     * @param  ORM               $orm
+     * @param  ImagePlaceholder  $imagePlaceholder
      *
      * @return  array
      *
-     * @throws InvalidArgumentException
      * @throws ReflectionException
-     * @throws DependencyResolutionException
-     *
      * @since  1.8
      */
     public function getTemplates(
