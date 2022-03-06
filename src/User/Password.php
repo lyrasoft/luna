@@ -74,4 +74,42 @@ class Password implements PasswordInterface
 
         return $this;
     }
+
+    /**
+     * Generate a random password.
+     *
+     * This is a fork of Joomla JUserHelper::genRandomPassword()
+     *
+     * @param  integer  $length  Length of the password to generate
+     *
+     * @return  string  Random Password
+     *
+     * @throws \Exception
+     * @see     https://github.com/joomla/joomla-cms/blob/staging/libraries/joomla/user/helper.php#L642
+     */
+    public static function genRandomPassword(
+        int $length = 16,
+        $seed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    ): string {
+        $base = strlen($seed);
+        $password = '';
+
+        /*
+         * Start with a cryptographic strength random string, then convert it to
+         * a string with the numeric base of the salt.
+         * Shift the base conversion on each character so the character
+         * distribution is even, and randomize the start shift so it's not
+         * predictable.
+         */
+        $random = random_bytes($length + 1);
+        $shift = ord($random[0]);
+
+        for ($i = 1; $i <= $length; ++$i) {
+            $password .= $seed[($shift + ord($random[$i])) % $base];
+
+            $shift += ord($random[$i]);
+        }
+
+        return $password;
+    }
 }
