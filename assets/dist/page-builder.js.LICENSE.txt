@@ -1,0 +1,33 @@
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+/**
+  * vue-class-component v8.0.0-beta.4
+  * (c) 2015-present Evan You
+  * @license MIT
+  */
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
+ * @license    __LICENSE__
+ */
+
+/**
+ * Part of earth project.
+ *
+ * @copyright  Copyright (C) 2021 __ORGANIZATION__.
+ * @license    __LICENSE__
+ */
+
+/**!
+ * Sortable 1.14.0
+ * @author	RubaXa   <trash@rubaxa.org>
+ * @author	owenm    <owen23355@gmail.com>
+ * @license MIT
+ */
