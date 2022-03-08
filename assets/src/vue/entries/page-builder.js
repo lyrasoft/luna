@@ -10,6 +10,7 @@ import { createApp } from 'vue';
 import PageBuilderApp from '../app/PageBuilderApp';
 import VueClickAway from "vue3-click-away";
 import Row from "../components/page-builder/Row";
+import Column from "../components/page-builder/Column";
 
 import '@/services/page-builder/addon-mixin.js';
 import AddonText from '@/components/page-builder/addons/addon-text';
@@ -41,6 +42,7 @@ S.import('@main')
     };
 
     app.component('Row', Row);
+    app.component('Column', Column);
     app.component('addon-text', AddonText);
     app.component('addon-image', AddonImage);
     app.component('addon-feature', AddonFeature);

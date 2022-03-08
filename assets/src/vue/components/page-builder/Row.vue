@@ -90,7 +90,7 @@
             @duplicate="duplicateColumn($event || column, i)"
             :index="i"
             :value="column"
-            :child="child">
+            :child="child">cssed
 
           </Column>
         </template>
@@ -142,12 +142,11 @@ import {
   readClipboard,
   duplicateAddon
 } from '../../services/page-builder/page-builder.service';
-import Column from './Column';
 
 export default {
   name: 'Row',
   components: {
-    Column,
+    // Column,
     draggable,
     CDropdown,
     CDropdownItem,

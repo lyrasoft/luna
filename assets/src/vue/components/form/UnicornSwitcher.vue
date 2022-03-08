@@ -20,6 +20,10 @@
 <script>
 export default {
   name: 'UnicornSwitcher',
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
   data() {
     return {
       idName: '',
@@ -29,7 +33,7 @@ export default {
   props: {
     id: String,
     classes: String,
-    value: null,
+    modelValue: null,
     name: String,
     disabled: Boolean,
     trueValue: {
@@ -62,7 +66,7 @@ export default {
       }
     }
 
-    this.currentValue = this.value;
+    this.currentValue = this.modelValue;
   },
   methods: {
     getDashedName() {
@@ -77,12 +81,11 @@ export default {
   },
   watch: {
     currentValue() {
-      this.$emit('input', this.currentValue);
-      this.$emit('change', this.currentValue);
+      this.$emit('update:modelValue', this.currentValue);
     },
 
-    value() {
-      this.currentValue = this.value;
+    modelValue() {
+      this.currentValue = this.modelValue;
     }
   }
 };

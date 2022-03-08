@@ -46,7 +46,7 @@ export function savePage() {
     })
     .catch((e) => {
       console.error(e);
-      swal(e.statusText, '', 'warning');
+      swal(e.message, '', 'warning');
     });
 }
 

@@ -126,6 +126,7 @@ class PageEditView implements ViewModelInterface
         }
 
         $this->unicornScript->data('builder-content', $item?->getContent() ?? []);
+        $this->unicornScript->data('css', $item?->getCss() ?? '');
         $this->unicornScript->data('addons', $addons);
 
         $this->unicornScript->addRoute(

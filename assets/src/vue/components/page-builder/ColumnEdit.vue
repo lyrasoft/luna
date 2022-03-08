@@ -454,7 +454,7 @@
                 Will auto prefix with: <code>{{ `#luna-${values.id}` }}</code>, and only affected in this scope.
               </div>
               <div>
-                <codemirror ref="cssEditor" v-model="options.html_css" :options="cmOptions" :height="350"></codemirror>
+                <CssEditor ref="cssEditor" v-model="options.html_css" :options="cmOptions" :height="350"></CssEditor>
               </div>
             </div>
           </div>
@@ -480,6 +480,7 @@
 </template>
 
 <script>
+import CssEditor from '@/components/page-builder/CssEditor';
 import { CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/vue';
 import { range } from 'lodash-es';
 import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
@@ -499,6 +500,7 @@ import TitleOptions from './form/TitleOptions';
 export default {
   name: 'ColumnEdit',
   components: {
+    CssEditor,
     ColorInput,
     UnicornSwitcher,
     SliderInput,

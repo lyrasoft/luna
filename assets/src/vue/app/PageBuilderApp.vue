@@ -118,25 +118,31 @@
 
       <CModal :visible="cssModalShow" size="xl"
         @close="cssModalShow = false"
-        :backdrop="'static'"
+        backdrop="static"
       >
         <CModalHeader>
           <CModalTitle>CSS Edit</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <CssEditor v-model:value="css"></CssEditor>
-
-          <template v-slot:modal-footer>
-            <div class="ml-auto ms-auto">
-              <button type="button" class="btn btn-primary" style="min-width: 200px"
-                @click="savePage"
-                :disabled="saving">
-                <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
-                Save
-              </button>
-            </div>
-          </template>
+          <CssEditor v-model="css"></CssEditor>
         </CModalBody>
+
+        <CModalFooter>
+          <div class="ml-auto ms-auto">
+            <button type="button" class="btn btn-outline-dark"
+              style="min-width: 150px"
+              @click="cssModalShow = false">
+              <i class="fa fa-times"></i>
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" style="min-width: 200px"
+              @click="savePage"
+              :disabled="saving">
+              <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
+              Save
+            </button>
+          </div>
+        </CModalFooter>
       </CModal>
 
       <textarea name="item[css]" id="input-item-css" style="display: none;">{{ css }}</textarea>
@@ -152,6 +158,7 @@ import {
   CModalHeader,
   CModalTitle,
   CModalBody,
+  CModalFooter,
   CDropdown,
   CDropdownItem,
   CDropdownToggle,
@@ -179,6 +186,7 @@ import {
 export default {
   name: 'PageBuilderApp',
   components: {
+    CModalFooter,
     TemplateManager,
     Store,
     AddonEdit,
@@ -496,6 +504,7 @@ function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, ad
 <style lang="scss">
 .CodeMirror {
   height: 450px !important;
+  font-size: 15px;
 }
 
 .form-group label:not(.btn) {

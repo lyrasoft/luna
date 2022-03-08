@@ -403,7 +403,7 @@
                 Will auto prefix by <code>{{ `#luna-${values.id}` }}</code>, only works for this scope.
               </div>
               <div>
-                <codemirror ref="cssEditor" v-model="options.html_css" :options="cmOptions" :height="350"></codemirror>
+                <CssEditor ref="cssEditor" v-model="options.html_css" :options="cmOptions" :height="350"></CssEditor>
               </div>
             </div>
           </div>
@@ -430,6 +430,7 @@
 </template>
 
 <script>
+import CssEditor from '@/components/page-builder/CssEditor';
 import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { savePage as doSavePage } from '@/services/page-builder/page-builder.service';
 import UnicornSwitcher from '@/components/form/UnicornSwitcher';
@@ -448,6 +449,7 @@ import { CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter } from '@co
 export default {
   name: 'RowEdit',
   components: {
+    CssEditor,
     ColorInput,
     UnicornSwitcher,
     SliderInput,
