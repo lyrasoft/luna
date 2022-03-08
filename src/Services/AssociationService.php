@@ -172,7 +172,13 @@ class AssociationService
     {
         $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
 
-        return $this->getRelativeItemsByHash($type, $assoc->getHash(), $id);
+        if (!$assoc) {
+            return;
+        }
+
+        foreach ($this->getRelativeItemsByHash($type, $assoc->getHash(), $id) as $key => $value) {
+            yield $key => $value;
+        }
     }
 
     /**
