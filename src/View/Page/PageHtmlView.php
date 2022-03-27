@@ -102,7 +102,7 @@ class PageHtmlView extends ItemView
             }
         }
 
-        $data->rows = json_decode($item->content, true);
+        $data->rows = json_decode((string) $item->content, true);
 
         $this->prepareScripts();
         $this->prepareMetadata($data);
@@ -126,7 +126,7 @@ class PageHtmlView extends ItemView
      */
     protected function prepareMetadata(Data $data)
     {
-        $meta = new Data(json_decode($data->item->meta, true));
+        $meta = new Data(json_decode((string) $data->item->meta, true));
 
         $this->setTitle($meta->meta_title ?: $data->item->title);
 
