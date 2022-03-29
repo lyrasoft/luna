@@ -26,7 +26,7 @@ $noGutter = $options['no_gutter'] ? 'no-gutters' : '';
 $classes = [];
 $attrs = [];
 
-$classes[] = implode(' ', $options['display']);
+$classes[] = implode(' ', (array) $options['display']);
 $classes[] = $options['html_class'];
 
 $pageRenderer::prepareElement($options, $classes, $attrs);

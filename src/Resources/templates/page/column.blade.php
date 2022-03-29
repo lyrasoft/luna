@@ -29,7 +29,7 @@ $pageRenderer::prepareElement($options, $classes, $attrs);
 
 $classes = array_filter($classes, '\strlen');
 ?>
-<div class="l-column {{ implode(' ', array_filter($options['width'], 'strlen')) }}">
+<div class="l-column {{ implode(' ', array_filter((array) $options['width'], 'strlen')) }}">
     <div id="{{ $options['html_id'] }}" class="l-column__body {{ implode(' ', $classes) }}"
         {!! \Windwalker\Dom\Builder\HtmlBuilder::buildAttributes($attrs) !!}>
         @if ($options['background.overlay'])
