@@ -47,6 +47,10 @@ use Windwalker\Core\Router\SystemUri;
                     </div>
                 </div>
             @endif
+
+            <div class="d-none">
+                <x-csrf></x-csrf>
+            </div>
         </form>
 
         <form id="registration-form" class="" action="{{ $nav->to('registration') }}"

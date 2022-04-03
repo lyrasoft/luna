@@ -34,6 +34,16 @@ return [
                 'scope' => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
                 'profile_handler' => \Lyrasoft\Luna\Auth\Profile\GoogleProfileHandler::class
             ],
+            'LINE' => [
+                'enabled' => true,
+                'adapter' => \Lyrasoft\Luna\Auth\Provider\LineSocialProvider::class,
+                'keys' => [
+                    'id' => env('LINE_SOCIAL_ID'),
+                    'secret' => env('LINE_SOCIAL_SECRET'),
+                ],
+                // 'scope' => '',
+                // 'profile_handler' => \App\Social\LineProfileHandler::class
+            ],
         ]
     ]
 ];

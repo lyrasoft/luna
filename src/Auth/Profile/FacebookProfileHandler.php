@@ -15,7 +15,7 @@ use Hybridauth\Adapter\AdapterInterface;
 use Lyrasoft\Luna\LunaPackage;
 
 /**
- * The FacebookProfileandler class.
+ * The FacebookProfileHandler class.
  */
 class FacebookProfileHandler implements ProfileHandlerInterface
 {
