@@ -42,4 +42,18 @@ class LunaScript extends AbstractScript
 
         return $this;
     }
+
+    public function accountCheck(): static
+    {
+        if ($this->available()) {
+            $this->unicornScript->translate('luna.message.user.account.exists');
+            $this->unicornScript->addRoute(
+                '@account_check',
+            );
+
+            $this->js('@luna/dist/account-check.js');
+        }
+
+        return $this;
+    }
 }

@@ -47,6 +47,10 @@ $router->group('auth')
             $router->any('resend_activate', '/auth/resend/activate')
                 ->controller(AuthController::class, 'resend');
 
+            // Check Account
+            $router->any('account_check', '/auth/account/check')
+                ->controller(AuthController::class, 'accountCheck');
+
             // Forget Password
             $router->any('forget_request', '/forget/request[/{layout}]')
                 ->postHandler(ForgetController::class, 'request')

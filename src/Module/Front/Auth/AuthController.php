@@ -20,6 +20,8 @@ use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
+use Windwalker\Core\Attributes\JsonApi;
+use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Attributes\TaskMapping;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
@@ -159,6 +161,21 @@ class AuthController
         $app->addMessage($this->trans('luna.message.registration.success'), 'success');
 
         return $nav->to('login');
+    }
+
+    #[JsonApi]
+    public function accountCheck(AppContext $app, #[Ref('user')] $config, UserService $userService): array
+    {
+        $field = $app->input('field');
+        $value = $app->input('value');
+
+        if ($field !== 'email') {
+            $field = $config['login_name'] ?? 'username';
+        }
+
+        $user = $userService->load([$field => $value]);
+
+        return ['exists' => (bool) $user];
     }
 
     public function socialAuth(

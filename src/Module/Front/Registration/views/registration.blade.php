@@ -22,6 +22,8 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
+$app->service(\Lyrasoft\Luna\Script\LunaScript::class)->accountCheck();
+
 ?>
 
 @extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
@@ -54,6 +56,7 @@ use Windwalker\Core\Router\SystemUri;
         </form>
 
         <form id="registration-form" class="" action="{{ $nav->to('registration') }}"
+            uni-form-validate="@json(['scroll' => true])"
             method="POST"
             enctype="multipart/form-data">
 
