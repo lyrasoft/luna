@@ -125,7 +125,7 @@ class Node implements NodeInterface, JsonSerializable
      *
      * @return NodeInterface|null
      */
-    public function getChild(mixed $key): ?NodeInterface
+    public function getChild(mixed $key): ?static
     {
         if (isset($this->children[$key])) {
             return $this->children[$key];
@@ -193,9 +193,9 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * getParent
      *
-     * @return ?NodeInterface
+     * @return ?static
      */
-    public function getParent(): ?NodeInterface
+    public function getParent(): ?static
     {
         return $this->parent;
     }
@@ -203,11 +203,11 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * getTopParent
      *
-     * @return  ?NodeInterface
+     * @return  ?static
      *
      * @since  1.7.12
      */
-    public function getRoot(): ?NodeInterface
+    public function getRoot(): ?static
     {
         if (!$this->getParent()) {
             return $this;

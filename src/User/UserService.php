@@ -12,6 +12,8 @@ namespace Lyrasoft\Luna\User;
 use Exception;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\Entity\UserRole;
+use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\Event\AfterLoginEvent;
 use Lyrasoft\Luna\User\Event\BeforeLoginEvent;
@@ -208,6 +210,31 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     public function logout(mixed $user = null): bool
     {
         return $this->getUserHandler()->logout($user);
+    }
+
+    public function isRole(UserRole|string $role, mixed $user = null): bool
+    {
+        $user = $this->getUser($user);
+
+        return $this->getAccessService()->userIsRole($user, $role);
+    }
+
+    public function isSuperUser(mixed $user = null): bool
+    {
+        return $this->getAccessService()->isSuperUser($user);
+    }
+
+    /**
+     * @param  mixed  $user
+     *
+     * @return  array<UserRole>
+     * @throws InvalidArgumentException
+     */
+    public function getUserRoles(mixed $user): array
+    {
+        $user = $this->getUser($user);
+
+        return $this->getAccessService()->getUserRoles($user);
     }
 
     /**

@@ -29,6 +29,7 @@ use Lyrasoft\Luna\Module\Admin\User\UserListView;
 $enabledButton = $vm->createEnabledButton();
 $verifiedButton = $vm->createVerifiedButton();
 
+$currentUser = $app->service(\Lyrasoft\Luna\User\UserService::class)->getCurrentUser();
 $imgPlaceholder = $app->service(\Unicorn\Image\ImagePlaceholder::class);
 $luna = $app->service(\Lyrasoft\Luna\LunaPackage::class);
 
@@ -194,6 +195,7 @@ $loginName = $luna->getLoginName();
                             {{-- Delete --}}
                             <td class="text-center">
                                 <button type="button"
+                                    @attr('disabled', $currentUser?->getId() === $entity->getId())
                                     class="waves-effect btn btn-default btn-outline-secondary btn-sm hasTooltip"
                                     @click="grid.deleteItem({{ $item->id }});"
                                     title="@lang('unicorn.toolbar.delete')">

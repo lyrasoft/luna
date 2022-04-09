@@ -20,11 +20,15 @@ use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
+use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\ORM\NestedSetMapper;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
 use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
+
+use function Windwalker\collect;
 
 /**
  * The AccessService class.
@@ -44,12 +48,13 @@ class AccessService
     ) {
     }
 
-    public function check(string $action, UserEntityInterface $user, ...$args): bool
+    public function check(string $action, mixed $user = null, ...$args): bool
     {
         if ($action === static::ADMIN_ACCESS_ACTION && $this->isAdminUserSwitched()) {
             return true;
         }
 
+        $user = $this->getUser($user);
         $userId = $user->getId();
 
         // Get roles
@@ -93,7 +98,7 @@ class AccessService
     /**
      * checkRoleAllow
      *
-     * @param  UserRole  $role
+     * @param  UserRole     $role
      * @param  array<Rule>  $rules
      *
      * @return  bool|null
@@ -133,8 +138,19 @@ class AccessService
         return $allow;
     }
 
-    public function getUserRoles(mixed $id): array
+    /**
+     * getUserRoles
+     *
+     * @param  mixed  $user
+     *
+     * @return  array<UserRole>
+     */
+    public function getUserRoles(mixed $user): array
     {
+        $user = $this->getUser($user);
+
+        $id = $user->getId();
+
         return $this->once(
             'user.roles.' . $id,
             function () use ($id) {
@@ -144,6 +160,7 @@ class AccessService
                 $matches = [];
 
                 foreach ($roleTree->iterate() as $roleNode) {
+                    /** @var UserRole $role */
                     $role = $roleNode->getValue();
 
                     if ($role && in_array($role->getId(), $roleIds)) {
@@ -154,6 +171,218 @@ class AccessService
                 return $matches;
             }
         );
+    }
+
+    /**
+     * @param  mixed                      $user
+     * @param  array<UserRoleMap|string>  $roleMaps
+     *
+     * @return  array<UserRoleMap>
+     */
+    public function addRoleMapsToUser(mixed $user, mixed $roleMaps): array
+    {
+        $currentRoleIds = collect($this->getUserRoles($user))
+            ->map(fn(UserRole $map) => $map->getId())
+            ->map('strval');
+
+        $user = $this->getUser($user);
+
+        $maps = [];
+
+        if (!is_array($roleMaps)) {
+            $roleMaps = [$roleMaps];
+        }
+
+        foreach ($roleMaps as $roleMap) {
+            if (!$roleMap instanceof UserRoleMap) {
+                $map = new UserRoleMap();
+                $map->setUserId($user->getId());
+                $map->setRoleId($roleMap);
+
+                $roleMap = $map;
+            }
+
+            if ($currentRoleIds->contains($roleMap->getRoleId())) {
+                continue;
+            }
+
+            $maps[] = $this->orm->createOne(UserRoleMap::class, $roleMap);
+        }
+
+        return $maps;
+    }
+
+    /**
+     * @param  mixed                   $user
+     * @param  array<UserRole|string>  $roles
+     * @param  array                   $extra
+     *
+     * @return  array<UserRoleMap>
+     * @throws \ReflectionException
+     */
+    public function addRolesToUser(mixed $user, mixed $roles, array $extra = []): array
+    {
+        $currentRoleIds = collect($this->getUserRoles($user))
+            ->map(fn(UserRole $map) => $map->getId())
+            ->map('strval');
+
+        $user = $this->getUser($user);
+
+        $maps = [];
+
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+
+        foreach ($roles as $role) {
+            if ($role instanceof UserRole) {
+                $roleId = (string) $role->getId();
+            } else {
+                $roleId = (string) $role;
+            }
+
+            if ($currentRoleIds->contains($roleId)) {
+                continue;
+            }
+
+            $map = new UserRoleMap();
+            $map->setUserId($user->getId());
+            $map->setRoleId($roleId);
+
+            if ($extra !== []) {
+                $map = $this->orm->hydrateEntity($extra, $map);
+            }
+
+            $maps[] = $this->orm->createOne(UserRoleMap::class, $map);
+        }
+
+        return $maps;
+    }
+
+    public function removeRoleFromUser(mixed $user, mixed $roles): void
+    {
+        $user = $this->getUser($user);
+
+        $roleIds = array_map(
+            static function (mixed $role) {
+                if ($role instanceof UserRole) {
+                    return (string) $role->getId();
+                }
+
+                if ($role instanceof UserRoleMap) {
+                    return (string) $role->getRoleId();
+                }
+
+                return (string) $role;
+            },
+            $roles
+        );
+
+        if ($roleIds === []) {
+            return;
+        }
+
+        $this->orm->deleteWhere(
+            UserRoleMap::class,
+            [
+                'user_id' => $user->getId(),
+                'role_id' => $roleIds
+            ]
+        );
+    }
+
+    public function userIsRole(mixed $user, string|int|UserRole $role): bool
+    {
+        if ($role instanceof UserRole) {
+            $roleId = (string) $role->getId();
+        } else {
+            $roleId = (string) $role;
+        }
+
+        $roles = $this->getUserRoles($user);
+
+        foreach ($roles as $userRole) {
+            if ((string) $userRole->getId() === $roleId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isSuperUser(mixed $user = null): bool
+    {
+        return $this->check(static::SUPERUSER_ACTION, $user);
+    }
+
+    public function isParentRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
+    {
+        if ($role instanceof UserRole) {
+            $role = $role->getId();
+        }
+
+        if ($targetRole instanceof UserRole) {
+            $targetRole = $targetRole->getId();
+        }
+
+        $roleNode = $this->getRoleNodeById($role);
+
+        if ($roleNode->isRoot()) {
+            return false;
+        }
+
+        $targetNode = $this->getRoleNodeById($targetRole);
+
+        if ($targetNode->isLeaf()) {
+            return false;
+        }
+
+        foreach ($roleNode->getAncestors() as $ancestor) {
+            if ($ancestor->isRoot()) {
+                continue;
+            }
+
+            if ($ancestor->getValue()->getId() === $targetNode->getValue()->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isChildRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
+    {
+        if ($role instanceof UserRole) {
+            $role = $role->getId();
+        }
+
+        if ($targetRole instanceof UserRole) {
+            $targetRole = $targetRole->getId();
+        }
+
+        $roleNode = $this->getRoleNodeById($role);
+
+        if ($roleNode->isRoot()) {
+            return false;
+        }
+
+        $targetNode = $this->getRoleNodeById($targetRole);
+
+        if ($targetNode->isLeaf()) {
+            return false;
+        }
+
+        foreach ($targetNode->getAncestors() as $ancestor) {
+            if ($ancestor->isRoot()) {
+                continue;
+            }
+
+            if ($ancestor->getValue()->getId() === $roleNode->getValue()->getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -443,5 +672,14 @@ class AccessService
         }
 
         return false;
+    }
+
+    public function getUser(mixed $conditions): ?UserEntityInterface
+    {
+        if ($conditions instanceof UserEntityInterface) {
+            return $conditions;
+        }
+
+        return $this->app->service(UserService::class)->getUser($conditions);
     }
 }

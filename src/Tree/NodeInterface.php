@@ -76,7 +76,7 @@ interface NodeInterface extends IteratorAggregate
      *
      * @return NodeInterface|null
      */
-    public function getChild(mixed $key): ?NodeInterface;
+    public function getChild(mixed $key): ?static;
 
     /**
      * Replace the children set with the given one
@@ -99,44 +99,44 @@ interface NodeInterface extends IteratorAggregate
     /**
      * getParent
      *
-     * @return ?NodeInterface
+     * @return ?static
      */
-    public function getParent(): ?NodeInterface;
+    public function getParent(): ?static;
 
     /**
      * getTopParent
      *
-     * @return  ?NodeInterface
+     * @return  ?static
      *
      * @since  1.7.12
      */
-    public function getRoot(): ?NodeInterface;
+    public function getRoot(): ?static;
 
     /**
      * Retrieves all ancestors of node excluding current node.
      *
-     * @return array
+     * @return static[]
      */
     public function getAncestors(): array;
 
     /**
      * Retrieves all ancestors of node as well as the node itself.
      *
-     * @return Node[]
+     * @return static[]
      */
     public function getAncestorsAndSelf(): array;
 
     /**
      * Retrieves all neighboring nodes, excluding the current node.
      *
-     * @return array
+     * @return static[]
      */
     public function getNeighbors(): array;
 
     /**
      * Returns all neighboring nodes, including the current node.
      *
-     * @return Node[]
+     * @return static[]
      */
     public function getNeighborsAndSelf(): array;
 
@@ -178,7 +178,7 @@ interface NodeInterface extends IteratorAggregate
     /**
      * iterate
      *
-     * @return  Traversable|NodeInterface[]
+     * @return  Traversable|static[]
      */
     public function iterate(): Traversable;
 }

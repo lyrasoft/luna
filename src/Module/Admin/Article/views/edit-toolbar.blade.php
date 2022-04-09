@@ -27,7 +27,9 @@ use Windwalker\Core\Router\SystemUri;
 <div x-title="toolbar" x-data="{ form: $store.form }">
     <div class="btn-group">
         <button type="button" class="btn btn-success btn-sm"
-            @click="form.post();">
+            @click="form.post();"
+            style="width: 150px"
+        >
             <span class="fa fa-save"></span>
             @lang('unicorn.toolbar.save')
         </button>
@@ -66,6 +68,15 @@ use Windwalker\Core\Router\SystemUri;
         <span class="fa fa-check"></span>
         @lang('unicorn.toolbar.save2close')
     </button>
+
+    @if ($item)
+        <a href="{{ $nav->to('front::article_item')->id($item->getId())->alias($item->getAlias()) }}"
+            class="btn btn-outline-primary btn-sm"
+            target="_blank">
+            <span class="fa fa-eye"></span>
+            @lang('unicorn.toolbar.preview')
+        </a>
+    @endif
 
     <a class="btn btn-default btn-outline-secondary btn-sm"
         href="{{ $nav->to('article_list') }}">

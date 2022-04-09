@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\User;
 
+use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Module\Admin\User\Form\EditForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Lyrasoft\Luna\Services\UserSwitchService;
@@ -21,11 +22,13 @@ use Unicorn\Controller\GridController;
 use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
+use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\Event\AfterSaveEvent;
+use Windwalker\ORM\Event\BeforeDeleteEvent;
 use Windwalker\Utilities\Symbol;
 
 /**
@@ -85,6 +88,20 @@ class UserController
         #[Autowire] UserRepository $repository,
         CrudController $controller
     ): mixed {
+        $controller->beforeDelete(function (BeforeDeleteEvent $event) use ($app) {
+            /** @var User $entity */
+            $entity = $event->getEntity();
+
+            $userService = $app->service(UserService::class);
+            $user = $userService->getCurrentUser();
+
+            if ($entity->getId() === $user->getId()) {
+                throw new ValidateFailException(
+                    $this->trans('luna.user.message.cant.delete.self')
+                );
+            }
+        });
+
         return $app->call([$controller, 'delete'], compact('repository'));
     }
 

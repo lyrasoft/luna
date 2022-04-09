@@ -179,4 +179,24 @@ class UserHandler implements UserHandlerInterface
     {
         return $this->orm->createEntity($this->getUserEntityClass(), $data);
     }
+
+    /**
+     * @return User|null
+     */
+    public function getCurrent(): ?User
+    {
+        return $this->cacheGet('current.user');
+    }
+
+    /**
+     * @param  User|null  $current
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setCurrent(?User $current): static
+    {
+        $this->cacheSet('current.user', $current);
+
+        return $this;
+    }
 }

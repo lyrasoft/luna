@@ -160,7 +160,7 @@ class LanguageListView implements ViewModelInterface
     {
         $view->getHtmlFrame()
             ->setTitle(
-                $this->trans('unicorn.title.grid', title: 'Language')
+                $this->trans('unicorn.title.grid', title: $this->trans('luna.language.title'))
             );
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Widget;
 
 use Lyrasoft\Luna\Entity\Widget;
+use Lyrasoft\Luna\Services\LocaleService;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
@@ -87,6 +88,7 @@ class WidgetService
     public function __construct(
         protected ApplicationInterface $app,
         protected ORM $orm,
+        protected LocaleService $localeService,
     ) {
     }
 
@@ -97,16 +99,29 @@ class WidgetService
      *
      * @return  array<AbstractWidget>
      */
-    public function loadWidgets(string $position): array
+    public function loadWidgets(string $position, string $stage = 'front'): array
     {
         return $this->once(
             'widgets.in.' . $position,
-            function () use ($position) {
-                $items = $this->orm->select()
+            function () use ($stage, $position) {
+                $query = $this->orm->select()
                     ->from(Widget::class)
+                    ->where('state', 1)
                     ->where('position', $position)
-                    ->order('ordering', 'ASC')
-                    ->getIterator(Widget::class);
+                    ->order('ordering', 'ASC');
+
+                if ($this->localeService->isEnabled() && $this->localeService->isStageEnabled($stage)) {
+                    $query->where(
+                        'language',
+                        'in',
+                        [
+                            '*',
+                            $this->localeService->getCurrentLanguageCode()
+                        ]
+                    );
+                }
+
+                $items = $query->getIterator(Widget::class);
 
                 $widgets = [];
 

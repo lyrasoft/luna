@@ -37,7 +37,6 @@ use Windwalker\Core\Application\WebApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
 use Windwalker\Core\DI\RequestBootableProviderInterface;
 use Windwalker\Core\Http\AppRequest;
-use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
 use Windwalker\Core\Seed\FakerService;
