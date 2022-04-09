@@ -22,6 +22,7 @@ use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\ORM\NestedSetMapper;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
 use Windwalker\Session\Session;
@@ -290,7 +291,7 @@ class AccessService
         );
     }
 
-    public function userIsRole(mixed $user, string|UserRole $role): bool
+    public function userIsRole(mixed $user, string|int|UserRole $role): bool
     {
         if ($role instanceof UserRole) {
             $roleId = (string) $role->getId();
@@ -312,6 +313,76 @@ class AccessService
     public function isSuperUser(mixed $user = null): bool
     {
         return $this->check(static::SUPERUSER_ACTION, $user);
+    }
+
+    public function isParentRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
+    {
+        if ($role instanceof UserRole) {
+            $role = $role->getId();
+        }
+
+        if ($targetRole instanceof UserRole) {
+            $targetRole = $targetRole->getId();
+        }
+
+        $roleNode = $this->getRoleNodeById($role);
+
+        if ($roleNode->isRoot()) {
+            return false;
+        }
+
+        $targetNode = $this->getRoleNodeById($targetRole);
+
+        if ($targetNode->isLeaf()) {
+            return false;
+        }
+
+        foreach ($roleNode->getAncestors() as $ancestor) {
+            if ($ancestor->isRoot()) {
+                continue;
+            }
+
+            if ($ancestor->getValue()->getId() === $targetNode->getValue()->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isChildRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
+    {
+        if ($role instanceof UserRole) {
+            $role = $role->getId();
+        }
+
+        if ($targetRole instanceof UserRole) {
+            $targetRole = $targetRole->getId();
+        }
+
+        $roleNode = $this->getRoleNodeById($role);
+
+        if ($roleNode->isRoot()) {
+            return false;
+        }
+
+        $targetNode = $this->getRoleNodeById($targetRole);
+
+        if ($targetNode->isLeaf()) {
+            return false;
+        }
+
+        foreach ($targetNode->getAncestors() as $ancestor) {
+            if ($ancestor->isRoot()) {
+                continue;
+            }
+
+            if ($ancestor->getValue()->getId() === $roleNode->getValue()->getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
