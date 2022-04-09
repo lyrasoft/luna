@@ -20,11 +20,13 @@ use Unicorn\Controller\GridController;
 use Unicorn\Controller\NestedSetController;
 use Unicorn\Repository\Event\PrepareSaveEvent;
 use Unicorn\Upload\FileUploadManager;
+use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Attributes\JsonApi;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\DI\Attributes\Service;
 use Windwalker\ORM\Event\AfterSaveEvent;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
@@ -40,7 +42,8 @@ class CategoryController
         #[Autowire] CategoryRepository $repository,
         CrudController $controller,
         Navigator $nav,
-        FileUploadManager $fileUploadManager
+        #[Service(FileUploadManager::class, 'image')]
+        FileUploadService $fileUploadService
     ): mixed {
         $form = $app->make(
             EditForm::class,
@@ -59,15 +62,13 @@ class CategoryController
         );
 
         $controller->afterSave(
-            function (AfterSaveEvent $event) use ($repository, $fileUploadManager, $app) {
+            function (AfterSaveEvent $event) use ($repository, $fileUploadService, $app) {
                 $data = $event->getData();
 
-                $data['image'] = $fileUploadManager->get()
-                        ->handleFileIfUploaded(
-                            $app->file('item')['image'] ?? null,
-                            'images/category/image-' . md5((string) $data['id']) . '.jpg'
-                        )
-                        ?->getUri() ?? $data['image'];
+                $data['image'] = $fileUploadService->handleFileIfUploaded(
+                    $app->file('item')['image'] ?? null,
+                    'images/category/cover-' . md5((string) $data['id']) . '.jpg'
+                )?->getUri(true) ?? $data['image'];
 
                 $repository->save($data);
             }

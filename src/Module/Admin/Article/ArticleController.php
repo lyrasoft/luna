@@ -42,12 +42,12 @@ class ArticleController
         #[Autowire] ArticleRepository $repository,
         TagService $tagService,
         #[Service(FileUploadManager::class, 'image')]
-        FileUploadService $fileUploadService,
+        FileUploadService $fileUploadService
     ): mixed {
         $form = $app->make(EditForm::class);
 
         $controller->afterSave(
-            function (AfterSaveEvent $event) use ($tagService, $repository, $fileUploadService, $app) {
+            function (AfterSaveEvent $event) use ($fileUploadService, $tagService, $repository, $app) {
                 $data = $event->getData();
 
                 $data['image'] = $fileUploadService->handleFileIfUploaded(
