@@ -27,7 +27,9 @@ use Windwalker\Core\Router\SystemUri;
 <div x-title="toolbar" x-data="{ form: $store.form }">
     <div class="btn-group">
         <button type="button" class="btn btn-success btn-sm"
-            @click="form.post();">
+            @click="form.post();"
+            style="width: 150px"
+        >
             <span class="fa fa-save"></span>
             @lang('unicorn.toolbar.save')
         </button>

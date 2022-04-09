@@ -18,10 +18,13 @@ use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Services\TagService;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
+use Unicorn\Upload\FileUploadManager;
+use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\DI\Attributes\Service;
 use Windwalker\ORM\Event\AfterSaveEvent;
 
 /**
@@ -38,11 +41,22 @@ class ArticleController
         Navigator $nav,
         #[Autowire] ArticleRepository $repository,
         TagService $tagService,
+        #[Service(FileUploadManager::class, 'image')]
+        FileUploadService $fileUploadService,
     ): mixed {
         $form = $app->make(EditForm::class);
 
         $controller->afterSave(
-            function (AfterSaveEvent $event) use ($tagService, $repository, $app) {
+            function (AfterSaveEvent $event) use ($tagService, $repository, $fileUploadService, $app) {
+                $data = $event->getData();
+
+                $data['image'] = $fileUploadService->handleFileIfUploaded(
+                    $app->file('item')['image'] ?? null,
+                    'images/article/cover-' . md5((string) $data['id']) . '.{ext}'
+                )?->getUri(true) ?? $data['image'];
+
+                $repository->save($data);
+
                 /** @var Article $entity */
                 $entity = $event->getEntity();
 
