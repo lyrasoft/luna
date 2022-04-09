@@ -26,11 +26,9 @@ use Windwalker\Core\Router\SystemUri;
  * @var $attributes \Windwalker\Edge\Component\ComponentAttributes
  */
 
-$attributes = $attributes->exceptProps(
-    [
-        'widget',
-        'data'
-    ]
+$props = $attributes->props(
+    'widget',
+    'data'
 );
 $attributes->setAttributes(
     [
@@ -38,7 +36,7 @@ $attributes->setAttributes(
     ]
 );
 
-$data ??= [];
+$data = $props['data'] ?: [];
 $view = $app->service(\Windwalker\Core\View\View::class, ['viewModel' => $widget]);
 ?>
 

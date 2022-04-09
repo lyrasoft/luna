@@ -66,6 +66,10 @@ class LocaleService
 
     public function isStageEnabled(?string $stage = null): bool
     {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
         $stage ??= $this->app->getStage();
 
         return (bool) $this->app->config('luna.i18n.' . $stage . '.enabled');

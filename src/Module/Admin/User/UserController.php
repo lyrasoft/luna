@@ -88,7 +88,7 @@ class UserController
         #[Autowire] UserRepository $repository,
         CrudController $controller
     ): mixed {
-        $controller->on(BeforeDeleteEvent::class, function (BeforeDeleteEvent $event) use ($controller, $app) {
+        $controller->beforeDelete(function (BeforeDeleteEvent $event) use ($app) {
             /** @var User $entity */
             $entity = $event->getEntity();
 
