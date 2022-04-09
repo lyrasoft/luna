@@ -69,6 +69,15 @@ use Windwalker\Core\Router\SystemUri;
         @lang('unicorn.toolbar.save2close')
     </button>
 
+    @if ($item)
+        <a href="{{ $nav->to('front::article_item')->id($item->getId())->alias($item->getAlias()) }}"
+            class="btn btn-outline-primary btn-sm"
+            target="_blank">
+            <span class="fa fa-eye"></span>
+            @lang('unicorn.toolbar.preview')
+        </a>
+    @endif
+
     <a class="btn btn-default btn-outline-secondary btn-sm"
         href="{{ $nav->to('article_list') }}">
         <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
