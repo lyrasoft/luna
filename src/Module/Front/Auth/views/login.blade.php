@@ -32,7 +32,7 @@ use Windwalker\Core\Router\SystemUri;
                 <div class="mb-4">
                     <div class="alert alert-info text-center">
                         <p>
-                            @lang('luna.login.message.inactivated')
+                            @lang('luna.login.message.not.activated')
                         </p>
                         <div>
                             <button type="button" class="btn btn-info"
