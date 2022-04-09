@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Access;
 
 use Lyrasoft\Luna\Entity\Rule;
+use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\LunaPackage;
@@ -20,6 +21,7 @@ use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
+use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
@@ -44,12 +46,13 @@ class AccessService
     ) {
     }
 
-    public function check(string $action, UserEntityInterface $user, ...$args): bool
+    public function check(string $action, mixed $user = null, ...$args): bool
     {
         if ($action === static::ADMIN_ACCESS_ACTION && $this->isAdminUserSwitched()) {
             return true;
         }
 
+        $user = $this->getUser($user);
         $userId = $user->getId();
 
         // Get roles
@@ -133,8 +136,19 @@ class AccessService
         return $allow;
     }
 
-    public function getUserRoles(mixed $id): array
+    /**
+     * getUserRoles
+     *
+     * @param  mixed  $user
+     *
+     * @return  array<UserRole>
+     */
+    public function getUserRoles(mixed $user): array
     {
+        $user = $this->getUser($user);
+
+        $id = $user->getId();
+
         return $this->once(
             'user.roles.' . $id,
             function () use ($id) {
@@ -144,6 +158,7 @@ class AccessService
                 $matches = [];
 
                 foreach ($roleTree->iterate() as $roleNode) {
+                    /** @var UserRole $role */
                     $role = $roleNode->getValue();
 
                     if ($role && in_array($role->getId(), $roleIds)) {
@@ -154,6 +169,30 @@ class AccessService
                 return $matches;
             }
         );
+    }
+
+    public function userIsRole(mixed $user, string|UserRole $role): bool
+    {
+        if ($role instanceof UserRole) {
+            $roleId = (string) $role->getId();
+        } else {
+            $roleId = (string) $role;
+        }
+
+        $roles = $this->getUserRoles($user);
+
+        foreach ($roles as $userRole) {
+            if ((string) $userRole->getId() === $roleId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isSuperUser(mixed $user = null): bool
+    {
+        return $this->check(static::SUPERUSER_ACTION, $user);
     }
 
     /**
@@ -443,5 +482,14 @@ class AccessService
         }
 
         return false;
+    }
+
+    public function getUser(mixed $conditions): ?UserEntityInterface
+    {
+        if ($conditions instanceof UserEntityInterface) {
+            return $conditions;
+        }
+
+        return $this->app->service(UserService::class)->getUser($conditions);
     }
 }
