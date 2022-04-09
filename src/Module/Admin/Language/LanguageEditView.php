@@ -88,7 +88,7 @@ class LanguageEditView implements ViewModelInterface
     {
         $view->getHtmlFrame()
             ->setTitle(
-                $this->trans('unicorn.title.edit', title: 'Language')
+                $this->trans('unicorn.title.edit', title: $this->trans('luna.language.title'))
             );
     }
 }

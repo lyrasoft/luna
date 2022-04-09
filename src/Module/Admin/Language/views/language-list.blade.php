@@ -78,13 +78,13 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                     {{-- Title --}}
                     <th class="text-nowrap">
                         <x-sort field="language.title_native">
-                            @lang('unicorn.field.titlenative')
+                            @lang('luna.language.field.title.native')
                         </x-sort>
                     </th>
 
                     <th style="width: 5%" class="text-nowrap">
                         <x-sort field="language.code">
-                            @lang('unicorn.field.code')
+                            @lang('luna.language.field.code')
                         </x-sort>
                     </th>
 
