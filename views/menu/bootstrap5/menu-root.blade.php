@@ -46,7 +46,9 @@ $attributes = $attributes->exceptProps(
         'level',
         'tag',
         'root',
-        'menu'
+        'menu',
+        'start',
+        'end'
     ]
 );
 $attributes = $attributes->class('c-luna-menu nav');
@@ -75,5 +77,13 @@ if ($dropdown) {
 <{{ $tag }} {!! $attributes !!}
     data-menu-id="{{ $menu->getValue()?->getId() }}"
     data-level="1">
-    @include('@menu::menu-items', ['parent' => $menu])
+    {!! $start ?? '' !!}
+
+    @if ($slot)
+        {!! $slot !!}
+    @else
+        @include('@menu::menu-items', ['parent' => $menu])
+    @endif
+
+    {!! $end ?? '' !!}
 </{{ $tag }}>
