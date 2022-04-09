@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\User\PasswordInterface;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
@@ -24,7 +25,10 @@ use Unicorn\Repository\ListRepositoryTrait;
 use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\ManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
+use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Form\Exception\ValidateFailException;
+use Windwalker\Core\Language\TranslatorTrait;
+use Windwalker\ORM\Event\BeforeSaveEvent;
 
 /**
  * The UserRepository class.
@@ -34,8 +38,9 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
 {
     use ManageRepositoryTrait;
     use ListRepositoryTrait;
+    use TranslatorTrait;
 
-    public function __construct(protected PasswordInterface $password)
+    public function __construct(protected PasswordInterface $password, protected LunaPackage $lunaPackage)
     {
     }
 
@@ -65,6 +70,38 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
                     unset($data['password2']);
                 } else {
                     unset($data['password']);
+                }
+            }
+        );
+
+        $action->beforeSave(
+            function (BeforeSaveEvent $event) {
+                $data = &$event->getData();
+
+                $loginName = $this->lunaPackage->getLoginName();
+
+                $account = $data[$loginName];
+
+                $exists = $this->getEntityMapper()->select()
+                    ->where($loginName, $account)
+                    ->where('id', '!=', $data['id'] ?? null)
+                    ->get();
+
+                if ($exists) {
+                    throw new ValidateFailException($this->trans('luna.message.user.account.exists'));
+                }
+
+                if ($loginName !== 'email') {
+                    $email = $data['email'];
+
+                    $exists = $this->getEntityMapper()->select()
+                        ->where('email', $email)
+                        ->where('id', '!=', $data['id'] ?? null)
+                        ->get();
+
+                    if ($exists) {
+                        throw new ValidateFailException($this->trans('luna.message.user.email.exists'));
+                    }
                 }
             }
         );
