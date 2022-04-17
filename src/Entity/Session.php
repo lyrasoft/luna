@@ -29,7 +29,7 @@ class Session implements EntityInterface
     use EntityTrait;
 
     #[Column('id'), PK]
-    protected ?int $id = null;
+    protected ?string $id = null;
 
     #[Column('data')]
     protected string $data = '';
@@ -51,19 +51,19 @@ class Session implements EntityInterface
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param  int|null  $id
+     * @param  string|null  $id
      *
      * @return  static  Return self to support chaining.
      */
-    public function setId(?int $id): static
+    public function setId(?string $id): static
     {
         $this->id = $id;
 
