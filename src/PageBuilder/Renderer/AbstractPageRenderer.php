@@ -124,11 +124,9 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     public function prepareElement(Collection $options, array &$classes, array &$attrs): void
     {
         if ($options->getDeep('animation.name') !== '') {
-            // LunaScript::wow(true);
-            // LunaScript::animate();
-
             $classes[] = 'wow';
             $classes[] = $options->getDeep('animation.name');
+            $classes[] = 'animate__animated animate__' . $options->getDeep('animation.name');
 
             $attrs['data-wow-duration'] = ($options->getDeep('animation.duration') / 1000) . 's';
             $attrs['data-wow-delay'] = ($options->getDeep('animation.delay') / 1000) . 's';
