@@ -29,28 +29,30 @@ use Windwalker\Core\Router\SystemUri;
     <form id="login-form" class="l-login" action="{{ $nav->to('login') }}" method="POST"
         enctype="multipart/form-data">
 
-        <x-fieldset :form="$form" ns="user" is="div">
+        <div class="container">
+            <x-fieldset :form="$form" ns="user" is="div">
 
-        </x-fieldset>
+            </x-fieldset>
 
-        <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
-            <div class="form-check checkbox checkbox-primary">
-                <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember" value="on">
-                <label class="form-check-label" for="input-user-remember">
-                    @lang('luna.login.field.remember')
-                </label>
+            <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
+                <div class="form-check checkbox checkbox-primary">
+                    <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember" value="on">
+                    <label class="form-check-label" for="input-user-remember">
+                        @lang('luna.login.field.remember')
+                    </label>
+                </div>
             </div>
-        </div>
 
-        <p class="login-button-group">
-            <button class="login-button btn btn-primary w-100"
-                data-dos>
-                @lang('luna.button.login')
-            </button>
-        </p>
+            <p class="login-button-group">
+                <button class="login-button btn btn-primary w-100"
+                    data-dos>
+                    @lang('luna.button.login')
+                </button>
+            </p>
 
-        <div class="hidden-inputs">
-            @csrf
+            <div class="hidden-inputs">
+                @csrf
+            </div>
         </div>
     </form>
 @stop

@@ -26,7 +26,7 @@ use Windwalker\Core\Router\SystemUri;
 @extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
 @section('content')
-    <div class="l-login">
+    <div class="l-login container">
         <form id="login-form-extra" action="" method="post">
             @if ($reActivate ?? null)
                 <div class="mb-4">

@@ -29,7 +29,7 @@ $app->service(\Lyrasoft\Luna\Script\LunaScript::class)->accountCheck();
 @extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
 @section('content')
-    <div class="l-registration">
+    <div class="l-registration container">
         <form id="registration-form-extra" action="" method="post">
 
             @if ($vm->hasSocialProviders())

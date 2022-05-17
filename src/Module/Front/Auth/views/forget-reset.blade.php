@@ -31,39 +31,40 @@ use Windwalker\Core\Router\SystemUri;
         uni-form-validate
         method="POST"
         enctype="multipart/form-data">
+        <div class="container">
+            <div class="form-group mb-3" uni-field-validate>
+                <label for="input-password" class="form-label">
+                    @lang('luna.user.field.password')
+                </label>
+                <input id="input-password" type="password" name="password" class="form-control"
+                    autocomplete="new-password"
+                    required
+                />
+                <div class="invalid-tooltip" data-field-error></div>
+            </div>
 
-        <div class="form-group mb-3" uni-field-validate>
-            <label for="input-password" class="form-label">
-                @lang('luna.user.field.password')
-            </label>
-            <input id="input-password" type="password" name="password" class="form-control"
-                autocomplete="new-password"
-                required
-            />
-            <div class="invalid-tooltip" data-field-error></div>
-        </div>
+            <div class="form-group mb-3" uni-field-validate>
+                <label for="input-password2" class="form-label">
+                    @lang('luna.user.field.password.confirm')
+                </label>
+                <input id="input-password2" type="password" name="password2" class="form-control"
+                    autocomplete="new-password"
+                    required
+                />
+                <div class="invalid-tooltip" data-field-error></div>
+            </div>
 
-        <div class="form-group mb-3" uni-field-validate>
-            <label for="input-password2" class="form-label">
-                @lang('luna.user.field.password.confirm')
-            </label>
-            <input id="input-password2" type="password" name="password2" class="form-control"
-                autocomplete="new-password"
-                required
-            />
-            <div class="invalid-tooltip" data-field-error></div>
-        </div>
+            <p class="reset-button-group">
+                <button class="reset-button btn btn-primary btn-block"
+                    data-dos>
+                    @lang('luna.forget.button.reset')
+                </button>
+            </p>
 
-        <p class="reset-button-group">
-            <button class="reset-button btn btn-primary btn-block"
-                data-dos>
-                @lang('luna.forget.button.reset')
-            </button>
-        </p>
-
-        <div class="hidden-inputs">
-            <input name="token" type="hidden" value="{{ $token ?? '' }}" />
-            @csrf
+            <div class="hidden-inputs">
+                <input name="token" type="hidden" value="{{ $token ?? '' }}" />
+                @csrf
+            </div>
         </div>
     </form>
 @stop

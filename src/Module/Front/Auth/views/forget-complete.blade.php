@@ -26,7 +26,7 @@ use Windwalker\Core\Router\SystemUri;
 @extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
 @section('content')
-    <div class="l-forget-complete">
+    <div class="l-forget-complete container">
         <div class="mb-3 text-center">
             @lang('luna.forget.complete.desc')
         </div>

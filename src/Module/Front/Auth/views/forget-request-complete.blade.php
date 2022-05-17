@@ -26,7 +26,7 @@ use Windwalker\Core\Router\SystemUri;
 @extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
 
 @section('content')
-    <div class="l-forget-request-complete">
+    <div class="l-forget-request-complete container">
         <div class="text-center">
             <div class="mb-4">
                 <span class="fa fa-inbox fa-4x"></span>

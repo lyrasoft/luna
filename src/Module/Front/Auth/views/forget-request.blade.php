@@ -30,33 +30,35 @@ use Windwalker\Core\Router\SystemUri;
         action="{{ $nav->to('forget_request') }}"
         method="POST" enctype="multipart/form-data">
 
-        <p class="lead text-center">
-            @lang('luna.forget.text.desc')
-        </p>
-
-        <div class="mb-4">
-            <label for="input-forget-email" class="form-label">
-                @lang('luna.user.field.email')
-            </label>
-            <input id="input-forget-email"
-                type="email"
-                name="email"
-                class="form-control"
-                required
-            />
-        </div>
-
-        <div class="text-center">
-            <p class="reset-button-group">
-                <button class="request-button btn btn-primary c-btn-width"
-                    data-dos>
-                    @lang('luna.forget.button.request')
-                </button>
+        <div class="container">
+            <p class="lead text-center">
+                @lang('luna.forget.text.desc')
             </p>
-        </div>
 
-        <div class="hidden-inputs">
-            @csrf
+            <div class="mb-4">
+                <label for="input-forget-email" class="form-label">
+                    @lang('luna.user.field.email')
+                </label>
+                <input id="input-forget-email"
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    required
+                />
+            </div>
+
+            <div class="text-center">
+                <p class="reset-button-group">
+                    <button class="request-button btn btn-primary c-btn-width"
+                        data-dos>
+                        @lang('luna.forget.button.request')
+                    </button>
+                </p>
+            </div>
+
+            <div class="hidden-inputs">
+                @csrf
+            </div>
         </div>
     </form>
 @stop
