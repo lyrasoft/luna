@@ -16,6 +16,7 @@ use ReCaptcha\ReCaptcha;
 use Windwalker\Core\Language\TranslatorTrait;
 
 use function Windwalker\DOM\h;
+use function Windwalker\uid;
 
 /**
  * The RecaptchaDriver class.
@@ -100,7 +101,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
         }
 
         if ($this->type === 'invisible' || !empty($options['js_verify'])) {
-            $attrs['data-callback'] = 'recaptchaCallback_' . str_replace('-', '_', $attrs['id']);
+            $attrs['data-callback'] = 'recaptchaCallback_' . uid();
         }
 
         $attrs['data-js-verify'] = $options['js_verify'] ? '1' : null;
