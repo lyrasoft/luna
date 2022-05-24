@@ -71,16 +71,21 @@ class SocialAuthService
         $userMapper = $this->orm->mapper($this->userEntity);
         $mapMapper = $this->orm->mapper($this->userSocialEntity);
 
+        $identifyName = $this->getIdentifyName($handler, $data);
+
         if ($socialMap = $mapMapper->findOne($map)) {
             $user = $userMapper->findOne($socialMap->getUserId());
+
+            if (!$user) {
+                $user = $userMapper->findOne([$identifyName => $data[$identifyName] ?? null]);
+            }
 
             if (!$user) {
                 $data = $this->prepareUserData($adapter, $data);
                 $user = $this->createUser($data);
             }
         } else {
-            $loginName = $handler->getLoginName();
-            $user = $userMapper->findOne([$loginName => $data[$loginName] ?? null]);
+            $user = $userMapper->findOne([$identifyName => $data[$identifyName] ?? null]);
 
             if (!$user) {
                 /** @var User $user */
@@ -148,5 +153,14 @@ class SocialAuthService
         $ha = new Hybridauth($config, null, $this->app->service(HASessionStorage::class));
 
         return $ha->authenticate($provider);
+    }
+
+    protected function getIdentifyName(ProfileHandlerInterface $handler, array $data)
+    {
+        if (isset($data['email'])) {
+            return 'email';
+        }
+
+        return $handler->getLoginName();
     }
 }
