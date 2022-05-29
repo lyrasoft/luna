@@ -91,13 +91,13 @@ class CategoryHtmlView extends ListView
      */
     protected function prepareHeader(DataInterface $data)
     {
-        $this->setTitle($data->category->title);
+        $this->setTitle((string) $data->category->title);
 
-        $desc = Utf8String::substr(strip_tags($data->category->description), 0, 150);
+        $desc = Utf8String::substr(strip_tags((string) $data->category->description), 0, 150);
 
-        HtmlHeader::addOpenGraph('og:image', $data->category->image, true);
-        HtmlHeader::addOpenGraph('og:description', $desc, true);
-        HtmlHeader::addMetadata('description', $desc, true);
+        HtmlHeader::addOpenGraph('og:image', (string) $data->category->image, true);
+        HtmlHeader::addOpenGraph('og:description', (string) $desc, true);
+        HtmlHeader::addMetadata('description', (string) $desc, true);
     }
 
     /**
