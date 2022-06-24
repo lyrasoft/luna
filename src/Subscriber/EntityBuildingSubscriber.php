@@ -133,7 +133,7 @@ class EntityBuildingSubscriber
                 if ($column) {
                     $subType = $column->isNumeric() ? 'int' : 'string';
                 } else {
-                    $subType = 'in|string';
+                    $subType = 'int|string';
                 }
 
                 $subType .= '|' . $shortName;
