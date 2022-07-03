@@ -23,6 +23,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $callback = $app->input('callback');
+$workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.modal') ?? 'admin.global.pure')
@@ -72,9 +73,16 @@ $callback = $app->input('callback');
                                 {{ $item->title }}
                             </a>
                         </td>
-                        <th>
-                            {{ $item->state }}
-                        </th>
+                        <td>
+                            <x-state-dropdown color-on="text"
+                                button-style="width: 100%"
+                                use-states
+                                readonly
+                                :workflow="$workflow"
+                                :id="$item->id"
+                                :value="$item->state"
+                            />
+                        </td>
                         <td>
                             {{ $item->id }}
                         </td>

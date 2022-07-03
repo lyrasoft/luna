@@ -23,6 +23,7 @@ use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\Filesystem\Path;
 use Windwalker\ORM\ORM;
+use Windwalker\Utilities\Attributes\Prop;
 
 /**
  * The PageView class.
@@ -32,6 +33,9 @@ use Windwalker\ORM\ORM;
 )]
 class PageView implements ViewModelInterface
 {
+    #[Prop]
+    protected mixed $id = null;
+
     /**
      * Constructor.
      */
@@ -55,42 +59,44 @@ class PageView implements ViewModelInterface
     {
         $path = $app->input('path');
 
-        if (!$path) {
-            throw new RouteNotFoundException();
-        }
-
         // Load root layout
-        $file = $app->path('@views/front/page/' . Path::normalize($path) . '.blade.php');
+        if ($path) {
+            $file = $app->path('@views/front/page/' . Path::normalize($path) . '.blade.php');
 
-        if (!is_file($file)) {
-            // Load self layout
-            $ref = new ReflectionClass($this);
-            $file = dirname($ref->getFileName()) . '/views/' . Path::normalize($path) . '.blade.php';
-        }
-
-        if (is_file($file)) {
-            // Render layout file
-            $layout = Path::normalize($path, '.');
-            $view->setLayout($layout);
-
-            if (!$app->isDebug()) {
-                $protects = $app->config('pages.protects');
-
-                foreach ($protects as $protect) {
-                    if (str_starts_with($layout, $protect)) {
-                        throw new RouteNotFoundException();
-                    }
-                }
+            if (!is_file($file)) {
+                // Load self layout
+                $ref = new ReflectionClass($this);
+                $file = dirname($ref->getFileName()) . '/views/' . Path::normalize($path) . '.blade.php';
             }
 
-            return compact('layout');
+            if (is_file($file)) {
+                // Render layout file
+                $layout = Path::normalize($path, '.');
+                $view->setLayout($layout);
+
+                if (!$app->isDebug()) {
+                    $protects = $app->config('pages.protects');
+
+                    foreach ($protects as $protect) {
+                        if (str_starts_with($layout, $protect)) {
+                            throw new RouteNotFoundException();
+                        }
+                    }
+                }
+
+                return compact('layout');
+            }
         }
 
         /** @var Page|null $page */
-        $page = $this->orm->mapper(Page::class)->findOne(['alias' => $path]);
+        $page = null;
+
+        if ($this->id) {
+            $page = $this->orm->mapper(Page::class)->findOne($this->id);
+        }
 
         if (!$page) {
-            throw new RouteNotFoundException();
+            $page = $this->orm->mapper(Page::class)->mustFindOne(['alias' => $path]);
         }
 
         $previewSecret = $app->input('preview');

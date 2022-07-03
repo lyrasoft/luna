@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Field;
 
 use Lyrasoft\Luna\Entity\Article;
+use Lyrasoft\Luna\Entity\Page;
 use Unicorn\Field\ModalField;
 
 /**
@@ -22,7 +23,7 @@ class PageModalField extends ModalField
     protected function configure(): void
     {
         $this->route('page_list');
-        $this->table(Article::class);
+        $this->table(Page::class);
     }
 
     protected function getItemTitle(): ?string

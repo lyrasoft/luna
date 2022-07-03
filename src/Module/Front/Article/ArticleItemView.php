@@ -14,6 +14,7 @@ namespace Lyrasoft\Luna\Module\Front\Article;
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Module\Front\Category\CategoryViewTrait;
+use Lyrasoft\Luna\Module\Front\Page\PageView;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
@@ -67,6 +68,12 @@ class ArticleItemView implements ViewModelInterface
 
         if (!$item->getState()->isPublished()) {
             throw new RouteNotFoundException('Article not found.');
+        }
+
+        if ($item->getPageId()) {
+            /** @var View $pageView */
+            $pageView = $app->make(PageView::class);
+            return $pageView->render(['id' => $item->getPageId()]);
         }
 
         /** @var Category $category */

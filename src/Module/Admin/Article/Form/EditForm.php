@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
 use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\LanguageListField;
+use Lyrasoft\Luna\Field\PageModalField;
 use Lyrasoft\Luna\Field\TagListField;
 use Lyrasoft\Luna\Field\UserModalField;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
@@ -88,6 +89,9 @@ class EditForm implements FieldDefinitionInterface
                 $form->add('tags', TagListField::class)
                     ->label($this->trans('luna.article.field.tags'))
                     ->multiple(true);
+
+                $form->add('page_id', PageModalField::class)
+                    ->label($this->trans('luna.article.field.page'));
 
                 $form->add('image', SingleImageDragField::class)
                     ->label($this->trans('unicorn.field.image'))
