@@ -27,6 +27,7 @@ use Windwalker\Core\Router\SystemUri;
 <div x-title="toolbar" x-data="{ form: $store.form }">
     <div class="btn-group">
         <button type="button" class="btn btn-success btn-sm"
+            data-task="save"
             @click="form.post();"
             style="width: 150px"
         >
@@ -42,28 +43,27 @@ use Windwalker\Core\Router\SystemUri;
             <span class="sr-only visually-hidden">Toggle Dropdown</span>
         </button>
 
-        <ul class="dropdown-menu dropdown-menu-end">
-            <li>
-                <a class="dropdown-item"
-                    href="javascript://"
-                    @click="form.post(null, { task: 'save2copy' });">
-                    <span class="fa fa-copy"></span>
-                    @lang('unicorn.toolbar.save2copy')
-                </a>
-            </li>
+        <div class="dropdown-menu dropdown-menu-end">
+            <a class="dropdown-item"
+                data-task="save"
+                href="javascript://"
+                @click="form.post(null, { task: 'save2copy' });">
+                <span class="fa fa-copy"></span>
+                @lang('unicorn.toolbar.save2copy')
+            </a>
 
-            <li>
-                <a class="dropdown-item"
-                    href="javascript://"
-                    @click="form.post(null, { task: 'save2new' });">
-                    <span class="fa fa-plus"></span>
-                    @lang('unicorn.toolbar.save2new')
-                </a>
-            </li>
-        </ul>
+            <a class="dropdown-item"
+                data-task="save"
+                href="javascript://"
+                @click="form.post(null, { task: 'save2new' });">
+                <span class="fa fa-plus"></span>
+                @lang('unicorn.toolbar.save2new')
+            </a>
+        </div>
     </div>
 
     <button type="button" class="btn  btn-primary btn-sm"
+        data-task="save"
         @click="form.post(null, { task: 'save2close' });">
         <span class="fa fa-check"></span>
         @lang('unicorn.toolbar.save2close')
