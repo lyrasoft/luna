@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Profile;
 
-use Lyrasoft\Luna\Module\Admin\User\Form\EditForm;
+use Lyrasoft\Luna\Module\Front\Profile\Form\EditForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Lyrasoft\Luna\User\UserService;
 use Unicorn\Controller\CrudController;
