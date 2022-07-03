@@ -27,25 +27,20 @@ use Windwalker\Core\Router\SystemUri;
 
 @section('content')
     <p>
-        Hi {{ $user->getName() }}
+        @lang('luna.email.hi', name: $user->getName())
     </p>
 
     <p>
-        You register a new user account at Datavideo.
-        Please verify your email.
+        @lang('luna.email.registration.intro')
     </p>
 
     <p>
-        Click this button to:
+        @lang('luna.email.registration.actions')
     </p>
 
     <p>
         <a class="btn btn-primary" href="{{ $link }}">
-            Verify my email
+            @lang('luna.email.registration.button.confirm')
         </a>
-    </p>
-
-    <p>
-        Thank you.
     </p>
 @stop

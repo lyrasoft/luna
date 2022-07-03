@@ -27,20 +27,20 @@ use Windwalker\Core\Router\SystemUri;
 
 @section('content')
     <p>
-        Hi {{ $user->getName() }}
+        @lang('luna.email.hi', name: $user->getName())
     </p>
 
     <p>
-        You send a password reset require at this site.
+        @lang('luna.email.forget.intro')
     </p>
 
     <p>
-        Please click this button to reset your password:
+        @lang('luna.email.forget.actions')
     </p>
 
     <p>
         <a href="{{ $link }}" class="btn btn-primary">
-            Reset Password
+            @lang('luna.email.forget.button.reset')
         </a>
     </p>
 @stop
