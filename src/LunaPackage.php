@@ -231,6 +231,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $this->installModules($installer, 'menu', ['admin', 'model']);
         $this->installModules($installer, 'widget', ['admin', 'model']);
         $this->installModules($installer, 'config', ['admin', 'model']);
+        $this->installModules($installer, 'auth');
         $this->installModules($installer, 'user');
 
         $installer->installModules(
@@ -243,6 +244,15 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
                 'Lyrasoft\\Luna\\Entity' => 'App\\Entity',
             ],
             ['modules', 'user_access']
+        );
+
+        $installer->installModules(
+            [
+                static::path("src/Module/Front/Profile/**/*") => "@source/Module/Front/Profile",
+                static::path("src/Repository/UserRepository.php") => '@source/Repository',
+            ],
+            ['Lyrasoft\\Luna\\Module\\Front' => 'App\\Module\\Front'],
+            ['modules', 'front_profile']
         );
     }
 
