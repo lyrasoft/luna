@@ -26,6 +26,8 @@ use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
+use Windwalker\Core\Router\Exception\RouteNotFoundException;
+use Windwalker\Core\Security\Exception\UnauthorizedException;
 use Windwalker\DI\Exception\DefinitionException;
 use Windwalker\Event\EventAwareInterface;
 use Windwalker\Event\EventAwareTrait;
@@ -85,6 +87,29 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     }
 
     /**
+     * @param  mixed|null  $conditions
+     *
+     * @return  UserEntityInterface|T
+     *
+     * @throws InvalidArgumentException
+     */
+    public function getLoggedInUser(mixed $conditions = null): UserEntityInterface
+    {
+        $user = $this->getUser($conditions);
+
+        if (!$user->isLogin()) {
+            throw new UnauthorizedException('User not logged-in.', 401);
+        }
+
+        return $user;
+    }
+
+    public function isLogin(): bool
+    {
+        return $this->getUser()->isLogin();
+    }
+
+    /**
      * load
      *
      * @param  array|object  $conditions
@@ -96,6 +121,19 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     public function load(mixed $conditions = null): ?UserEntityInterface
     {
         return $this->getUserHandler()->load($conditions);
+    }
+
+    /**
+     * @param  mixed|null  $conditions
+     *
+     * @return  UserEntityInterface|T
+     *
+     * @throws InvalidArgumentException
+     */
+    public function mustLoad(mixed $conditions = null): UserEntityInterface
+    {
+        return $this->load($conditions)
+            ?? throw new RouteNotFoundException('User not found.', 404);
     }
 
     public function attemptToLogin(
