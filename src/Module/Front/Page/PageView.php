@@ -14,8 +14,10 @@ namespace Lyrasoft\Luna\Module\Front\Page;
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use ReflectionClass;
+use ScssPhp\ScssPhp\Compiler;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Core\Router\Exception\RouteNotFoundException;
@@ -42,7 +44,8 @@ class PageView implements ViewModelInterface
     public function __construct(
         protected ORM $orm,
         protected HtmlFrame $htmlFrame,
-        protected PageService $pageService
+        protected PageService $pageService,
+        protected AssetService $asset,
     ) {
         //
     }
@@ -109,7 +112,8 @@ class PageView implements ViewModelInterface
         }
 
         $rows = $page->getContent();
-        $css = $page->getCss();
+
+        $css = $this->renderCSS($page);
 
         $this->prepareMeta($page);
 
@@ -147,5 +151,26 @@ class PageView implements ViewModelInterface
         if ($meta->getOgTitle()) {
             $this->htmlFrame->addOpenGraph('og:title', $meta->getOgTitle(), true);
         }
+    }
+
+    /**
+     * getCss
+     *
+     * @param  Page  $page
+     *
+     * @return  string
+     *
+     * @throws \ScssPhp\ScssPhp\Exception\SassException
+     */
+    protected function renderCSS(Page $page): string
+    {
+        $css = $page->getCss();
+
+        $scss = new Compiler();
+
+        $css = $scss->compileString($css)->getCss();
+        $this->asset->internalCSS($css);
+
+        return $css;
     }
 }

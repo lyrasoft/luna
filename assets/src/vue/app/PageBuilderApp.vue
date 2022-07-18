@@ -121,7 +121,7 @@
         backdrop="static"
       >
         <CModalHeader>
-          <CModalTitle>CSS Edit</CModalTitle>
+          <CModalTitle>CSS Edit (Support SCSS)</CModalTitle>
         </CModalHeader>
         <CModalBody>
           <CssEditor v-model="css"></CssEditor>

@@ -81,7 +81,7 @@ class EditForm implements FieldDefinitionInterface
                 ->defaultValue(1);
 
             $form->add('image', SingleImageDragField::class)
-                ->label('Image')
+                ->label($this->trans('luna.page.field.og.image'))
                 ->description($this->trans('luna.page.field.og.image.desc'))
                 ->maxWidth(2000)
                 ->maxHeight(2000)

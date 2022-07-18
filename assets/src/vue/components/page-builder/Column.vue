@@ -137,6 +137,7 @@
       <!-- Body -->
       <div class="card-body p-2">
         <draggable v-model="content.addons" @start="drag = true" @end="drag = false"
+          @add.stop
           v-bind="{handle: '.move-handle', group: 'addon', animation: 300}"
           style="min-height: 50px;"
           class="column__draggable"

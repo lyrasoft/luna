@@ -288,7 +288,7 @@
 
             <!-- CSS -->
             <div class="form-group mb-3">
-              <label for="input-addon-edit-css">Custom CSS</label>
+              <label for="input-addon-edit-css">Custom CSS (SCSS)</label>
               <div class="text-muted small mb-3">
                 Will auto prefix with: <code>{{ `#luna-${values.id}` }}</code>, and only affected in this scope.
               </div>

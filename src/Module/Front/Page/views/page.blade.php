@@ -27,6 +27,7 @@ use Windwalker\Core\Router\SystemUri;
  */
 
 $builder = $app->service(\Lyrasoft\Luna\PageBuilder\PageBuilder::class);
+
 ?>
 
 @extends($page->getExtends())

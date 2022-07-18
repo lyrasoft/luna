@@ -1,2 +1,137 @@
-System.register([],(function(t,e){var a,i;function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function s(t,e){for(var a=0;a<e.length;a++){var i=e[a];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}function r(t,e,a){return e&&s(t.prototype,e),a&&s(t,a),Object.defineProperty(t,"prototype",{writable:!1}),t}return{setters:[],execute:function(){a=function(){function t(e,a){var i=this;n(this,t),this.$element=e,this.options=a,this.$image=this.$element.querySelector("[data-captcha-image]"),this.$input=this.$element.querySelector("[data-captcha-input]"),this.$refreshButton=this.$element.querySelector("[data-captcha-refresh]"),this.$buttonIcon=this.$element.querySelector("[data-refresh-icon]"),this.$refreshButton.addEventListener("click",(function(){i.refresh()}))}return r(t,[{key:"refresh",value:function(){var t=this;this.$buttonIcon.classList.add("fa-spin");var e=this.$image.dataset.image,a=(new Date).getTime().toString()+"."+1e4*Math.random();-1!==e.indexOf("?")?e+="&t="+a:e+="?t="+a,this.$image.addEventListener("load",(function(){t.$buttonIcon.classList.remove("fa-spin"),t.$input.value=""}),{once:!0}),this.$image.src=e}},{key:"clear",value:function(){this.$input.value=""}}]),t}(),u.directive("captcha-gregwar",{mounted:function(t){u.module(t,"captcha.grwgwar",(function(t){return new a(t)}))}}),i=r((function t(e,a){if(n(this,t),u.import("https://www.google.com/recaptcha/api.js?967737300da43baaa71e70f4"),this.el=e,this.type=a,this.key=this.el.dataset.key,this.callbackName=this.el.dataset.callback,this.jsVerify=this.el.dataset.jsVerify,this.jsVerify){var i=this.el.closest("form");"invisible"===a?(i.addEventListener("submit",(function(t){i.dataset.passCaptcha||(t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),grecaptcha.execute())})),window[this.callbackName]=function(t){i.dataset.passCaptcha="true",i.requestSubmit()}):(i.addEventListener("submit",(function(t){i.dataset.passCaptcha||(t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),alert(u.__("luna.field.captcha.message.please.check.first")))})),window[this.callbackName]=function(t){i.dataset.passCaptcha="true"})}})),u.directive("captcha-recaptcha",{mounted:function(t,e){var a=e.value;u.module(t,"captcha.recaptcha",(function(t){return new i(t,a)}))}})}}}));
+System.register([], function (_export, _context) {
+  "use strict";
+
+  var GragwarCaptcha, RecaptchaCaptcha;
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+  return {
+    setters: [],
+    execute: function () {
+      /**
+       * Part of earth project.
+       *
+       * @copyright  Copyright (C) 2022 __ORGANIZATION__.
+       * @license    __LICENSE__
+       */
+      GragwarCaptcha = /*#__PURE__*/function () {
+        function GragwarCaptcha(el, options) {
+          var _this = this;
+
+          _classCallCheck(this, GragwarCaptcha);
+
+          this.$element = el;
+          this.options = options;
+          this.$image = this.$element.querySelector('[data-captcha-image]');
+          this.$input = this.$element.querySelector('[data-captcha-input]');
+          this.$refreshButton = this.$element.querySelector('[data-captcha-refresh]');
+          this.$buttonIcon = this.$element.querySelector('[data-refresh-icon]');
+          this.$refreshButton.addEventListener('click', function () {
+            _this.refresh();
+          });
+        }
+
+        _createClass(GragwarCaptcha, [{
+          key: "refresh",
+          value: function refresh() {
+            var _this2 = this;
+
+            this.$buttonIcon.classList.add('fa-spin');
+            var src = this.$image.dataset.image;
+            var t = new Date().getTime().toString() + '.' + Math.random() * 10000;
+
+            if (src.indexOf('?') !== -1) {
+              src += '&t=' + t;
+            } else {
+              src += '?t=' + t;
+            }
+
+            this.$image.addEventListener('load', function () {
+              _this2.$buttonIcon.classList.remove('fa-spin');
+
+              _this2.$input.value = '';
+            }, {
+              once: true
+            });
+            this.$image.src = src;
+          }
+        }, {
+          key: "clear",
+          value: function clear() {
+            this.$input.value = '';
+          }
+        }]);
+
+        return GragwarCaptcha;
+      }();
+
+      u.directive('captcha-gregwar', {
+        mounted: function mounted(el) {
+          u.module(el, 'captcha.grwgwar', function (el) {
+            return new GragwarCaptcha(el);
+          });
+        }
+      });
+      RecaptchaCaptcha = /*#__PURE__*/_createClass(function RecaptchaCaptcha(el, type) {
+        _classCallCheck(this, RecaptchaCaptcha);
+
+        u["import"]('https://www.google.com/recaptcha/api.js?339603074ca608664dacf816');
+        this.el = el;
+        this.type = type;
+        this.key = this.el.dataset.key;
+        this.callbackName = this.el.dataset.callback;
+        this.jsVerify = this.el.dataset.jsVerify;
+
+        if (this.jsVerify) {
+          var form = this.el.closest('form');
+
+          if (type === 'invisible') {
+            form.addEventListener('submit', function (e) {
+              if (form.dataset.passCaptcha) {
+                return;
+              }
+
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+              grecaptcha.execute();
+            });
+
+            window[this.callbackName] = function (response) {
+              form.dataset.passCaptcha = 'true';
+              form.requestSubmit();
+            };
+          } else {
+            form.addEventListener('submit', function (e) {
+              if (form.dataset.passCaptcha) {
+                return;
+              }
+
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+              alert(u.__('luna.field.captcha.message.please.check.first'));
+            });
+
+            window[this.callbackName] = function (response) {
+              form.dataset.passCaptcha = 'true';
+            };
+          }
+        }
+      });
+      u.directive('captcha-recaptcha', {
+        mounted: function mounted(el, _ref) {
+          var value = _ref.value;
+          u.module(el, 'captcha.recaptcha', function (el) {
+            return new RecaptchaCaptcha(el, value);
+          });
+        }
+      });
+    }
+  };
+});
 //# sourceMappingURL=captcha.js.map

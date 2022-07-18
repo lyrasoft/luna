@@ -11,7 +11,7 @@ import 'codemirror/theme/material.css';
 
 export const CodeMirrorOptions = {
   tabSize: 2,
-  mode: 'text/css',
+  mode: 'text/x-scss',
   styleActiveLine: true,
   theme: 'material',
   lineNumbers: true,

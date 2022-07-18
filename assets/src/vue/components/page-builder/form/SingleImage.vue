@@ -173,7 +173,7 @@ export default {
           let url = res.data.data.url;
 
           if (url.indexOf(u.uri('root')) === 0) {
-            url = url.substr(u.uri('root').length + 1);
+            url = url.substr(u.uri('root').length);
           }
 
           state.url = url;

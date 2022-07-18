@@ -79,6 +79,7 @@
         v-model="content.columns"
         @start="drag = true"
         @end="drag = false"
+        @add.stop
         v-bind="{handle: '.column-move-handle', group: 'column', animation: 300}"
         style="min-height: 50px;"
         item-key="id"
