@@ -31,7 +31,7 @@ trait LanguageAssocTrait
     #[Service]
     protected AssociationService $associationService;
 
-    public function defineForm(string $lang, Form $form, string $fieldClass): void
+    public function defineForm(string $lang, Form $form, string $fieldClass, ?callable $postHandler = null): void
     {
         if ($lang === '*' || !$lang) {
             return;
@@ -42,23 +42,27 @@ trait LanguageAssocTrait
 
         $form->ns(
             'assoc',
-            function (Form $form) use ($fieldClass, $langs) {
+            function (Form $form) use ($postHandler, $fieldClass, $langs) {
                 foreach ($langs as $language) {
                     $flag = h('span', ['class' => $this->localeService->getFlagIconClass($language->getImage())]);
 
-                    $form->add($language->getCode(), $fieldClass)
+                    $field = $form->add($language->getCode(), $fieldClass)
                         ->modifyLabel(
                             function (DOMElement $label) use ($language, $flag) {
                                 $label->appendChild($flag);
                                 $label->appendText(' ' . $language->getTitle());
                             }
                         );
+
+                    if ($postHandler) {
+                        $postHandler($field, $form);
+                    }
                 }
             }
         );
     }
 
-    public function prepareAssocValues(string $type, string|int $targetId, Form $form)
+    public function prepareAssocValues(string $type, string|int $targetId, Form $form): void
     {
         $associations = $this->associationService->getRelativeItemsByTargetId($type, $targetId);
 
