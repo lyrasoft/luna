@@ -79,10 +79,6 @@
         </CDropdown>
       </div>
 
-      <textarea name="item[content]" id="input-item-content" style="display: none;">{{ getSaveValue() }}</textarea>
-
-      <!-- Inline Components -->
-
       <!-- Modals -->
       <RowEdit ref="rowEditor" />
       <ColumnEdit ref="columnEditor" />
@@ -166,7 +162,7 @@ import {
   vctooltip,
 } from '@coreui/vue';
 import { each } from 'lodash-es';
-import { nextTick, onMounted, reactive, toRefs, ref } from 'vue';
+import { nextTick, onMounted, reactive, toRefs, ref, watch } from 'vue';
 import AddonEdit from '@/components/page-builder/AddonEdit';
 import ColumnEdit from '@/components/page-builder/ColumnEdit';
 import CssEditor from '@/components/page-builder/CssEditor';
@@ -381,11 +377,14 @@ export default {
       });
     }
 
-    // Utilities
-    function getSaveValue() {
-      return JSON.stringify(this.content);
-    }
+    // Save
+    const contentInput = document.querySelector('#input-item-content');
 
+    watch(() => state.content, () => {
+      contentInput.value = JSON.stringify(state.content);
+    }, { immediate: true, deep: true });
+
+    // Utilities
     function openTemplates(i = 0) {
       u.trigger('tmpl.open', (item, type, i) => {
         pasteTo(item.content, i);
@@ -423,7 +422,6 @@ export default {
       handleDuplicateColumns,
       columnsChange,
       selectAddon,
-      getSaveValue,
       emptyRow,
       openTemplates,
       savePage

@@ -40,14 +40,14 @@ $asset->css('@luna/dist/page-builder-admin.min.css');
 @stop
 
 @section('content')
+    <div class="">
+        <page-builder-app id="page-builder" class="" page-id="{{ $item?->getId() }}"></page-builder-app>
+    </div>
+
     <form name="admin-form" id="admin-form"
         novalidate uni-form-validate='{"scroll": true}'
         action="{{ $nav->to('page_edit') }}"
         method="POST" enctype="multipart/form-data">
-
-        <div class="">
-            <page-builder-app id="page-builder" class="" page-id="{{ $item?->getId() }}"></page-builder-app>
-        </div>
 
         <div class="d-none">
             @if ($idField = $form?->getField('id'))
@@ -58,5 +58,6 @@ $asset->css('@luna/dist/page-builder-admin.min.css');
         </div>
 
         <x-modal-options :form="$form" :item="$item"></x-modal-options>
+        <textarea name="item[content]" id="input-item-content" style="display: none;"></textarea>
     </form>
 @stop
