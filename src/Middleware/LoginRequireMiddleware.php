@@ -40,7 +40,7 @@ class LoginRequireMiddleware implements MiddlewareInterface
     /**
      * LoginRequireMiddleware constructor.
      */
-    public function __construct(protected array|Closure $excludes = [])
+    public function __construct(protected array|Closure $excludes = [], protected string|\Closure $route = 'login')
     {
         //
     }
@@ -78,9 +78,27 @@ class LoginRequireMiddleware implements MiddlewareInterface
      * @param  Navigator  $nav
      *
      * @return  RedirectResponse
+     * @throws \ReflectionException
      */
     public function getRedirectResponse(Navigator $nav): RedirectResponse
     {
-        return $nav->to('login')->withReturn()->toResponse();
+        if ($this->route instanceof Closure) {
+            $route = $this->container->call(
+                $this->route,
+                [
+                    'nav' => $nav,
+                    Navigator::class => $nav,
+                    'middleware' => $this
+                ]
+            );
+
+            if (!$route instanceof RouteUri) {
+                $route = $nav->createRouteUri($route);
+            }
+        } else {
+            $route = $nav->to('login');
+        }
+
+        return $route->withReturn()->toResponse();
     }
 }
