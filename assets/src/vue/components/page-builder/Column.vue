@@ -5,7 +5,7 @@
       <div class="column__top-bar d-flex card-header" :class="{'p-2': child}">
         <div class="column__title mb-2 d-flex align-items-center">
           <div class="column__move">
-            <div class="badge badge-secondary column-move-handle me-2" style="cursor: move">
+            <div class="badge bg-secondary column-move-handle me-2" style="cursor: move">
               <span class="fa fa-fw fa-arrows-alt"></span>
             </div>
           </div>

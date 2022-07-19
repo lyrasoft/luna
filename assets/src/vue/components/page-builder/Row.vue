@@ -3,7 +3,7 @@
     <div class="page-row__title-bar d-flex mb-2">
       <div class="page-row__title d-flex">
         <div class="page-row__move-cursor">
-          <span class="badge badge-secondary me-2" style="cursor: move">
+          <span class="badge bg-secondary me-2" style="cursor: move">
             <span class="fa fa-fw fa-arrows-alt-v"
               :class="[moveHandle]"></span>
           </span>
