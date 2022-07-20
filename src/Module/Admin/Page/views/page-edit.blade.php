@@ -59,5 +59,6 @@ $asset->css('@luna/dist/page-builder-admin.min.css');
 
         <x-modal-options :form="$form" :item="$item"></x-modal-options>
         <textarea name="item[content]" id="input-item-content" style="display: none;"></textarea>
+        <textarea name="item[css]" id="input-item-css" style="display: none;"></textarea>
     </form>
 @stop

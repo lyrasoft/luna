@@ -140,8 +140,6 @@
           </div>
         </CModalFooter>
       </CModal>
-
-      <textarea name="item[css]" id="input-item-css" style="display: none;">{{ css }}</textarea>
     </div>
 
     <Store />
@@ -382,6 +380,12 @@ export default {
 
     watch(() => state.content, () => {
       contentInput.value = JSON.stringify(state.content);
+    }, { immediate: true, deep: true });
+
+    const cssInput = document.querySelector('#input-item-css');
+
+    watch(() => state.css, () => {
+      cssInput.value = state.css;
     }, { immediate: true, deep: true });
 
     // Utilities
