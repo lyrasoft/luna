@@ -5,11 +5,7 @@
  * Released under the MIT License.
  */
 
-/**
-  * vue-class-component v8.0.0-beta.4
-  * (c) 2015-present Evan You
-  * @license MIT
-  */
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
 /**
  * Part of earth project.
