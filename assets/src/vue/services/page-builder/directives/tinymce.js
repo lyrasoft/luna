@@ -14,64 +14,49 @@ export default {
         target: el,
         height: 500,
         plugins: [
-          'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-          'searchreplace wordcount visualblocks visualchars code fullscreen',
-          'insertdatetime media nonbreaking save table directionality',
-          'emoticons template paste textpattern imagetools',
+          'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+          'preview', 'anchor', 'pagebreak', 'searchreplace', 'wordcount',
+          'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+          'media', 'nonbreaking', 'save', 'table', 'directionality',
+          'emoticons', 'template',
         ],
-        toolbar1: 'undo redo | styleselect formatselect fontsizeselect ' +
-          '| bold italic strikethrough forecolor backcolor | removeformat ' +
-          '| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ' +
-          '| link image media | table code | fullscreen',
-        fontsize_formats: "12px 13px 14px 16px 18px 24px 36px 48px",
+        toolbar: 'undo redo ' +
+          'bold italic strikethrough forecolor backcolor removeformat | ' +
+          'alignleft aligncenter alignright alignjustify bullist numlist outdent indent | ' +
+          'blocks fontsize styles styleselect formatselect fontsizeselect | ' +
+          'link image media table code | fullscreen',
+        toolbar_mode: 'sliding',
+        fontsize_formats: "13px 14px 15px 16px 18px 20px 22px 28px 36px 48px",
         menubar: false,
         content_css: u.data('tinymce_content_css'),
         document_base_url: u.uri('root') + '/',
         paste_data_images: true,
         remove_script_host: true,
-        relative_urls: false,
+        relative_urls: true,
+        convert_urls: true,
         entity_encoding: 'raw',
+        table_header_type: 'sectionCells',
+        table_class_list: [
+          { title: 'BS Simple', value: 'table' },
+          { title: 'BS Striped', value: 'table table-striped' },
+          { title: 'BS Bordered', value: 'table table-bordered' },
+          { title: 'BS Striped Bordered', value: 'table table-striped table-bordered' },
+          { title: 'None', value: '' },
+        ],
         images_upload_url: u.route('@file_upload'),
-        images_upload_handler: function (blobInfo, success, failure) {
-          var editorElement = jQuery(el);
-
-          editorElement.trigger('image-upload-start');
-
-          var xhr, formData;
-
-          xhr = new XMLHttpRequest;
-          xhr.withCredentials = false;
-          xhr.open('POST', u.route('@file_upload'));
-
-          xhr.onload = function() {
-            var json;
-            editorElement.trigger('image-upload-complete');
-
-            if (xhr.status !== 200) {
-              failure('HTTP Error: ' + decodeURIComponent(xhr.statusText));
-              editorElement.trigger('image-upload-error');
-              return;
-            }
-
-            json = JSON.parse(xhr.responseText);
-
-            if (!json || typeof json.data.url !== 'string') {
-              failure('Invalid JSON: ' + xhr.responseText);
-              console.error('Invalid JSON: ' + xhr.responseText);
-              editorElement.trigger('image-upload-error');
-              return;
-            }
-
-            success(json.data.url);
-
-            editorElement.trigger('image-upload-success');
-          };
-
-          formData = new FormData;
-          formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-          xhr.send(formData);
-        },
+        images_upload_handler: Number(tinymce.majorVersion) >= 6
+          ? imageUploader
+          : (blobInfo, success, failure, progress) => {
+            return imageUploader(blobInfo, progress)
+              .then((url) => {
+                success(url);
+                return url;
+              })
+              .catch((e) => {
+                failure(e.message, { remove: true });
+                throw e;
+              });
+          },
         setup: function (editor) {
           editor.on('change', () => {
             el.value = editor.getContent();
@@ -81,6 +66,45 @@ export default {
         }
       });
     });
+
+    function imageUploader(blobInfo, progress) {
+      const element = el;
+
+      element.dispatchEvent(new CustomEvent('upload-start'));
+
+      const formData = new FormData();
+      formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+      const stack = u.stack('uploading');
+      stack.push(true);
+
+      return u.$http.post(
+          this.options.images_upload_url,
+          formData,
+          {
+            withCredentials: false,
+            onUploadProgress: (e) => {
+              progress(e.loaded / e.total * 100);
+            }
+          }
+        )
+        .then((res) => {
+          element.dispatchEvent(new CustomEvent('upload-success'));
+
+          return res.data.data.url;
+        })
+        .catch((e) => {
+          const message = e?.response?.data?.message || e.message;
+          console.error(e?.response?.data?.message || e.message, e);
+          element.dispatchEvent(new CustomEvent('upload-error', { detail: e }));
+
+          return Promise.reject({ message, remove: true });
+        })
+        .finally(() => {
+          element.dispatchEvent(new CustomEvent('upload-complete'));
+          stack.pop();
+        });
+    }
   }
 };
 
