@@ -41,7 +41,10 @@ $asset->css('@luna/dist/page-builder-admin.min.css');
 
 @section('content')
     <div class="">
-        <page-builder-app id="page-builder" class="" page-id="{{ $item?->getId() }}"></page-builder-app>
+        <page-builder-app id="page-builder-app"
+            class="env-{{ $app->getMode() }}"
+            page-id="{{ $item?->getId() }}"
+        ></page-builder-app>
     </div>
 
     <form name="admin-form" id="admin-form"

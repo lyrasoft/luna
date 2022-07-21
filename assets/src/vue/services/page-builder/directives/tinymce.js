@@ -9,8 +9,8 @@ export default {
   mounted(el) {
     u.import('@tinymce').then(() => {
       tinymce.remove();
-
-      tinymce.init({
+      console.log(u.uri('root'));
+      const options = {
         target: el,
         height: 500,
         plugins: [
@@ -29,7 +29,7 @@ export default {
         fontsize_formats: "13px 14px 15px 16px 18px 20px 22px 28px 36px 48px",
         menubar: false,
         content_css: u.data('tinymce_content_css'),
-        document_base_url: u.uri('root') + '/',
+        document_base_url: u.uri('root'),
         paste_data_images: true,
         remove_script_host: true,
         relative_urls: true,
@@ -64,47 +64,49 @@ export default {
             el.dispatchEvent(new Event('input', {bubbles: true}));
           });
         }
-      });
-    });
+      };
 
-    function imageUploader(blobInfo, progress) {
-      const element = el;
+      tinymce.init(options);
 
-      element.dispatchEvent(new CustomEvent('upload-start'));
+      function imageUploader(blobInfo, progress) {
+        const element = el;
 
-      const formData = new FormData();
-      formData.append('file', blobInfo.blob(), blobInfo.filename());
+        element.dispatchEvent(new CustomEvent('upload-start'));
 
-      const stack = u.stack('uploading');
-      stack.push(true);
+        const formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
 
-      return u.$http.post(
-          this.options.images_upload_url,
-          formData,
-          {
-            withCredentials: false,
-            onUploadProgress: (e) => {
-              progress(e.loaded / e.total * 100);
+        const stack = u.stack('uploading');
+        stack.push(true);
+
+        return u.$http.post(
+            options.images_upload_url,
+            formData,
+            {
+              withCredentials: false,
+              onUploadProgress: (e) => {
+                progress(e.loaded / e.total * 100);
+              }
             }
-          }
-        )
-        .then((res) => {
-          element.dispatchEvent(new CustomEvent('upload-success'));
+          )
+          .then((res) => {
+            element.dispatchEvent(new CustomEvent('upload-success'));
 
-          return res.data.data.url;
-        })
-        .catch((e) => {
-          const message = e?.response?.data?.message || e.message;
-          console.error(e?.response?.data?.message || e.message, e);
-          element.dispatchEvent(new CustomEvent('upload-error', { detail: e }));
+            return res.data.data.url;
+          })
+          .catch((e) => {
+            const message = e?.response?.data?.message || e.message;
+            console.error(e?.response?.data?.message || e.message, e);
+            element.dispatchEvent(new CustomEvent('upload-error', { detail: e }));
 
-          return Promise.reject({ message, remove: true });
-        })
-        .finally(() => {
-          element.dispatchEvent(new CustomEvent('upload-complete'));
-          stack.pop();
-        });
-    }
+            return Promise.reject({ message, remove: true });
+          })
+          .finally(() => {
+            element.dispatchEvent(new CustomEvent('upload-complete'));
+            stack.pop();
+          });
+      }
+    });
   }
 };
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <CModal :visible="modalShow" size="lg" @close="modalShow = false"
-      backdrop="static">
+      backdrop="static" class="c-modal-column-edit">
       <CModalHeader class="d-flex bg-white" :class="{'sticky-top': sticky}"
         :close-button="false">
         <ul class="nav nav-pills border-0">

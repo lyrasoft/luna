@@ -85,7 +85,8 @@
       <AddonEdit ref="addonEditor" />
 
       <!-- Addon selector -->
-      <CModal :visible="addonListShow" @close="addonListShow = false" size="lg">
+      <CModal :visible="addonListShow" @close="addonListShow = false" size="lg"
+        class="c-modal-addon-select">
         <CModalHeader>
           <CModalTitle>New Addon</CModalTitle>
         </CModalHeader>
@@ -115,6 +116,7 @@
       <CModal :visible="cssModalShow" size="xl"
         @close="cssModalShow = false"
         backdrop="static"
+        class="c-modal-css-edit"
       >
         <CModalHeader>
           <CModalTitle>CSS Edit (Support SCSS)</CModalTitle>
