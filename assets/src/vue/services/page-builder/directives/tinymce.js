@@ -9,7 +9,7 @@ export default {
   mounted(el) {
     u.import('@tinymce').then(() => {
       tinymce.remove();
-      console.log(u.uri('root'));
+
       const options = {
         target: el,
         height: 500,
