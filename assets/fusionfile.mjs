@@ -5,7 +5,7 @@
  * @license    MIT
  */
 
-import fusion, { sass, babel, parallel } from '@windwalker-io/fusion';
+import fusion, { sass, babel, parallel, wait } from '@windwalker-io/fusion';
 import { jsSync, installVendors } from '@windwalker-io/core';
 import path from 'path';
 import webpack from 'webpack';
@@ -38,7 +38,7 @@ export async function vue() {
   // Watch end
 
   // Compile Start
-  fusion.vue(
+  const p = fusion.vue(
     'src/vue/entries/**/*.js',
     'dist/',
     {
@@ -56,6 +56,8 @@ export async function vue() {
       },
     }
   );
+
+  return wait(p);
   // Compile end
 }
 
