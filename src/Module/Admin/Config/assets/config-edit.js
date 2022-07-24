@@ -5,7 +5,7 @@
  * @license        __LICENSE__
  */
 
-import u from '@main';
+import '@main';
 
 u.formValidation().then(() => {
   u.$ui.disableOnSubmit();
