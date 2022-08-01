@@ -13,5 +13,9 @@ const form = '#admin-form';
 
 u.formValidation()
   .then(() => u.$ui.disableOnSubmit(form));
+
 u.form(form).initComponent();
+
 u.$ui.keepAlive(location.href);
+
+u.$ui.bootstrap.keepTab(form);
