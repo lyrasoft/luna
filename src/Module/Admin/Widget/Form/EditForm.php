@@ -44,7 +44,8 @@ class EditForm implements FieldDefinitionInterface
     {
         $form->add('title', TextField::class)
             ->label($this->trans('unicorn.field.title'))
-            ->addFilter('trim');
+            ->addFilter('trim')
+            ->required(true);
 
         $form->fieldset(
             'meta',
