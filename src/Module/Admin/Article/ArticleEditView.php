@@ -14,6 +14,7 @@ namespace Lyrasoft\Luna\Module\Admin\Article;
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\TagMap;
 use Lyrasoft\Luna\Field\ArticleModalField;
+use Lyrasoft\Luna\Field\LocaleSwitchField;
 use Lyrasoft\Luna\Locale\LanguageAssocTrait;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
@@ -79,6 +80,10 @@ class ArticleEditView implements ViewModelInterface
 
         if ($item) {
             if ($this->isLocaleEnabled()) {
+                /** @var LocaleSwitchField $localeField */
+                $localeField = $form->getField('language');
+                $localeField->currentId($item?->getId());
+
                 // Assoc
                 $this->defineForm($item->getLanguage(), $form, ArticleModalField::class);
                 $this->prepareAssocValues('article', $item->getId(), $form);

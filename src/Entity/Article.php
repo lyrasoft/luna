@@ -24,6 +24,7 @@ use Windwalker\ORM\Attributes\CurrentTime;
 use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\PK;
 use Windwalker\ORM\Attributes\Table;
+use Windwalker\ORM\Attributes\Watch;
 use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;

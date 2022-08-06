@@ -95,7 +95,7 @@ class LocaleService
     }
 
     /**
-     * getLanguageByCode
+     * getLanguageByAlias
      *
      * @param  string  $code
      *
@@ -107,7 +107,7 @@ class LocaleService
     }
 
     /**
-     * getLanguageByCode
+     * getLanguageById
      *
      * @param  int  $id
      *
@@ -115,13 +115,45 @@ class LocaleService
      */
     public function getLanguageById(int $id): ?Language
     {
-        foreach ($this->getAvailableLanguages() as $language) {
-            if ($language->getId() === $id) {
-                return $language;
-            }
-        }
+        $lang = $this->once(
+            'language.id.' . $id,
+            function () use ($id) {
+                foreach ($this->getAvailableLanguages() as $language) {
+                    if ($language->getCode() === $id) {
+                        return $language;
+                    }
+                }
 
-        return null;
+                return false;
+            }
+        );
+
+        return $lang ?: null;
+    }
+
+    /**
+     * getLanguageByCode
+     *
+     * @param  string  $code
+     *
+     * @return  ?Language
+     */
+    public function getLanguageByCode(string $code): ?Language
+    {
+        $lang = $this->once(
+            'language.code.' . $code,
+            function () use ($code) {
+                foreach ($this->getAvailableLanguages() as $language) {
+                    if ($language->getCode() === $code) {
+                        return $language;
+                    }
+                }
+
+                return false;
+            }
+        );
+
+        return $lang ?: null;
     }
 
     /**

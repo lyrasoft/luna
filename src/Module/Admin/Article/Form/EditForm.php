@@ -11,8 +11,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
+use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\LanguageListField;
+use Lyrasoft\Luna\Field\LocaleSwitchField;
 use Lyrasoft\Luna\Field\PageModalField;
 use Lyrasoft\Luna\Field\TagListField;
 use Lyrasoft\Luna\Field\UserModalField;
@@ -105,9 +107,10 @@ class EditForm implements FieldDefinitionInterface
                     ->color('success');
 
                 if ($this->isLocaleEnabled()) {
-                    $form->add('language', LanguageListField::class)
+                    $form->add('language', LocaleSwitchField::class)
                         ->label($this->trans('luna.field.language'))
-                        ->option($this->trans('luna.language.all'), '*');
+                        ->table(Article::class)
+                        ->allowCreateEmpty(true);
                 }
 
                 $form->add('created', CalendarField::class)

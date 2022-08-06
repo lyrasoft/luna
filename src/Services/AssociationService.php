@@ -193,7 +193,7 @@ class AssociationService
      */
     public function getRelativeItemByIdAndKey(string $type, string|int $id, string $key): ?Association
     {
-        $assoc = $this->getMapper()->findOne(['type' => $type, 'item_id' => $id]);
+        $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
 
         return $this->getMapper()->findList(
             [
