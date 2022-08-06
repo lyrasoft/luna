@@ -49,8 +49,6 @@ class LocaleSwitchField extends AbstractField
 
     protected ?string $routeName = null;
 
-    protected ?\Closure $routeCallback = null;
-
     protected bool $allowCreateEmpty = false;
 
     #[Inject]
@@ -154,37 +152,6 @@ class LocaleSwitchField extends AbstractField
         $this->languageField = $languageField;
 
         return $this;
-    }
-
-    /**
-     * @return \Closure|null
-     */
-    public function getRouteCallback(): ?\Closure
-    {
-        return $this->routeCallback ?? $this->getDefaultRouteCallback();
-    }
-
-    /**
-     * @param  \Closure|null  $routeCallback
-     *
-     * @return  static  Return self to support chaining.
-     */
-    public function setRouteCallback(?\Closure $routeCallback): static
-    {
-        $this->routeCallback = $routeCallback;
-
-        return $this;
-    }
-
-    protected function getDefaultRouteCallback(): \Closure
-    {
-        return function (Navigator $nav, object $item) {
-            $idName = $this->getIdName();
-
-            $item = $this->getDb()->orm()->toCollection($item);
-
-            return $nav->to($this->getRouteName())->var($idName, $item[$idName]);
-        };
     }
 
     public function getIdName(): string

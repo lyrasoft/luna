@@ -187,6 +187,11 @@ class LocaleService
         return $this->langService->getLocale();
     }
 
+    public function getFallback(): string
+    {
+        return $this->langService->getFallback();
+    }
+
     /**
      * setLanguage
      *

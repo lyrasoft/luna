@@ -106,13 +106,6 @@ class EditForm implements FieldDefinitionInterface
                     ->circle(true)
                     ->color('success');
 
-                if ($this->isLocaleEnabled()) {
-                    $form->add('language', LocaleSwitchField::class)
-                        ->label($this->trans('luna.field.language'))
-                        ->table(Article::class)
-                        ->allowCreateEmpty(true);
-                }
-
                 $form->add('created', CalendarField::class)
                     ->label($this->trans('unicorn.field.created'));
 
@@ -133,5 +126,13 @@ class EditForm implements FieldDefinitionInterface
         );
 
         $form->add('id', HiddenField::class);
+
+        if ($this->isLocaleEnabled()) {
+            $form->add('language', LocaleSwitchField::class)
+                ->label($this->trans('luna.field.language'))
+                ->table(Article::class)
+                ->required(true)
+                ->allowCreateEmpty(true);
+        }
     }
 }

@@ -74,27 +74,27 @@ $app->service(UnicornScript::class)
             </div>
         </div>
     </div>
+
+    {!! $input !!}
 @else
-        <?php
-        $languageField = $app->make(LanguageListField::class);
-        $languageField->setNamespace($field->getNamespace());
-        $languageField->setName($field->getName());
-        $languageField->setForm($field->getForm());
-        $languageField->required($field->isRequired());
-        $languageField->disabled($field->isDisabled());
-        $languageField->isReadonly($field->isReadonly());
-        $languageField->setWrapperClass($field->getWrapperClass());
-        $languageField->setClass($field->getClass());
-        $languageField->option(
-            $lang('unicorn.select.placeholder'),
-            ''
-        );
-        ?>
+    <?php
+    $languageField = $app->make(LanguageListField::class);
+    $languageField->setNamespace($field->getNamespace());
+    $languageField->setName($field->getName());
+    $languageField->setForm($field->getForm());
+    $languageField->required($field->isRequired());
+    $languageField->disabled($field->isDisabled());
+    $languageField->isReadonly($field->isReadonly());
+    // $languageField->setWrapperClass($field->getWrapperClass());
+    // $languageField->setClass($field->getClass());
+    $languageField->option(
+        $lang('luna.field.locale.select.placeholder'),
+        ''
+    );
+    ?>
 
-    {!! $languageField->buildFieldElement($languageField->getPreparedInput()) !!}
+    <x-input :field="$languageField"></x-input>
 @endif
-
-{!! $input !!}
 
 @teleport('locale-swich__' . $field->getId())
 <?php

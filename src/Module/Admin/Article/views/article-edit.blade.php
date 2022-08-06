@@ -41,7 +41,11 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
         action="{{ $nav->to('article_edit') }}"
         method="POST" enctype="multipart/form-data">
 
-        <x-title-bar :form="$form"></x-title-bar>
+        <x-title-bar :form="$form">
+            <x-slot name="end">
+                <x-field :field="$form['language']" no-label></x-field>
+            </x-slot>
+        </x-title-bar>
 
         <div class="row">
             <div class="col-md-8">

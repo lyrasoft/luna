@@ -33,6 +33,17 @@ class LanguageListField extends SqlListField
 
     protected ?string $valueField = 'code';
 
+    protected bool $defaultAsFallback = false;
+
+    public function prepareInput(DOMElement $input): DOMElement
+    {
+        if (!$this->getValue() && $this->isDefaultAsFallback()) {
+            $this->setValue($this->localeService->getFallback());
+        }
+
+        return parent::prepareInput($input);
+    }
+
     /**
      * @inheritDoc
      */
@@ -82,6 +93,26 @@ u.\$ui.tomSelect('$selector', {
 JS;
 
         $this->unicornScript->importMainThen($js);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDefaultAsFallback(): bool
+    {
+        return $this->defaultAsFallback;
+    }
+
+    /**
+     * @param  bool  $defaultAsFallback
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function defaultAsFallback(bool $defaultAsFallback): static
+    {
+        $this->defaultAsFallback = $defaultAsFallback;
+
+        return $this;
     }
 
     /**
