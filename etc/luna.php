@@ -57,6 +57,9 @@ return [
         'i18n' => [
             'enabled' => false,
             'uri_prefix' => true,
+            'types' => [
+                //
+            ]
         ],
 
         'error' => [
