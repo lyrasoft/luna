@@ -42,9 +42,11 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
         method="POST" enctype="multipart/form-data">
 
         <x-title-bar :form="$form">
-            <x-slot name="end">
-                <x-field :field="$form['language']" no-label></x-field>
-            </x-slot>
+            @if ($vm->isLocaleEnabled())
+                <x-slot name="end">
+                    <x-field :field="$form['language']" no-label></x-field>
+                </x-slot>
+            @endif
         </x-title-bar>
 
         <div class="row">
@@ -60,14 +62,6 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
                     is="card"
                 >
                 </x-fieldset>
-
-{{--                @if ($vm->isLocaleEnabled())--}}
-{{--                    <x-fieldset title="Assoc"--}}
-{{--                        :form="$form" ns="assoc" class="mb-4"--}}
-{{--                        is="card"--}}
-{{--                    >--}}
-{{--                    </x-fieldset>--}}
-{{--                @endif--}}
             </div>
         </div>
 
