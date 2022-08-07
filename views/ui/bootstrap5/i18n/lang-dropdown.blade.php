@@ -50,6 +50,8 @@ $props = $attributes->props(
     'routeName'
 );
 
+$attributes = $attributes->class('c-lang-dropdown dropdown');
+
 $jsOptions = [
     'id' => $id,
     'type' => $type,
@@ -61,23 +63,25 @@ $jsOptions = [
 ];
 ?>
 
-<div class="dropdown" x-data="LangDropdown(@json($jsOptions))">
-    <button type="button" class="btn btn-light btn-sm dropdown-toggle"
+<div {!! $attributes !!} x-data="LangDropdown(@json($jsOptions))">
+    <button type="button" class="btn btn-light btn-sm dropdown-toggle d-flex align-items-center w-100"
         x-on:click="buttonClicked"
         data-bs-toggle="dropdown"
     >
-        @if ($item?->$langField === '*')
-            <span class="fa fa-earth-americas"></span>
-            @lang('luna.language.all')
-        @else
-            <span class="" title="{{ $labelField === 'code' ? $language->title : $language->code }}"
-                data-bs-toggle="tooltip"
-                data-toggle="tooltip"
-            >
+        <span class="ml-auto me-auto">
+            @if ($item?->$langField === '*')
+                <span class="fa fa-earth-americas"></span>
+                @lang('luna.language.all')
+            @else
+                <span class="" title="{{ $labelField === 'code' ? $language->title : $language->code }}"
+                    data-bs-toggle="tooltip"
+                    data-toggle="tooltip"
+                >
                 <span class="{{ $localeService->getFlagIconClass($language->image) }}"></span>
-                {{ $language->$labelField }}
-            </span>
-        @endif
+                    {{ $language->$labelField }}
+                </span>
+            @endif
+        </span>
     </button>
 
     <div class="dropdown-menu">
