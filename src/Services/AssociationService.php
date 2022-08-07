@@ -198,7 +198,11 @@ class AssociationService
     {
         $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
 
-        return $this->getMapper()->findList(
+        if (!$assoc) {
+            return null;
+        }
+
+        return $this->getMapper()->findOne(
             [
                 'type' => $type,
                 'hash' => $assoc->getHash(),
@@ -206,18 +210,5 @@ class AssociationService
                 ['target_id', '!=', $id],
             ]
         );
-    }
-
-    /**
-     * @param  string  $type
-     * @param  array   $ids
-     *
-     * @return  Collection|Association[]
-     *
-     * @throws \ReflectionException
-     */
-    public function getAssocItemsByIds(string $type, array $ids): Collection
-    {
-        return $this->getMapper()->findList(['type' => $type, 'target_id' => $ids])->all();
     }
 }

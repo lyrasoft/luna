@@ -151,7 +151,6 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                                     :table="$entity::class"
                                     :item="$item"
                                     :language="$item->lang"
-                                    label-field="title"
                                     class="w-100"
                                 ></x-lang-dropdown>
                             </td>
