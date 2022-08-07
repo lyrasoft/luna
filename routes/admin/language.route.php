@@ -2,6 +2,7 @@
 
 namespace App\Routes;
 
+use Lyrasoft\Luna\Module\Admin\Language\LanguageAjaxController;
 use Lyrasoft\Luna\Module\Admin\Language\LanguageController;
 use Lyrasoft\Luna\Module\Admin\Language\LanguageEditView;
 use Lyrasoft\Luna\Module\Admin\Language\LanguageListView;
@@ -25,6 +26,6 @@ $router->group('language')
             ->view(LanguageEditView::class);
 
         $router->any('language_ajax', '/language/ajax/{task}')
-            ->controller(LanguageController::class)
+            ->controller(LanguageAjaxController::class, 'handle')
             ->middleware(JsonApiMiddleware::class);
     });

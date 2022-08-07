@@ -10,6 +10,7 @@
 namespace Lyrasoft\Luna;
 
 use Faker\Generator;
+use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Access\AccessAuthorization;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
@@ -42,6 +43,7 @@ use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
 use Windwalker\Core\Seed\FakerService;
 use Windwalker\Core\Service\ErrorService;
+use Windwalker\DI\Attributes\AttributeType;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 use Windwalker\Event\Event;
@@ -78,6 +80,11 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
         $this->registerFaker($container);
 
+        // Attributes
+        $container->getAttributesResolver()
+            ->registerAttribute(LangAssoc::class, AttributeType::CALLABLE);
+
+        // View
         $container->mergeParameters(
             'renderer.paths',
             [
@@ -116,9 +123,11 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
                 'menu-root' => '@menu-root',
                 'locale-dropdown' => '@theme::i18n.locale-dropdown',
                 'lang-label' => '@theme::i18n.lang-label',
+                'lang-dropdown' => '@theme::i18n.lang-dropdown',
             ]
         );
 
+        // Assets
         $container->mergeParameters(
             'asset.import_map.imports',
             [

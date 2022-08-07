@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Article;
 
+use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Locale\LanguageAssocTrait;
 use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
@@ -35,6 +36,7 @@ class ArticleController
 {
     use LanguageAssocTrait;
 
+    #[LangAssoc]
     public function save(
         AppContext $app,
         CrudController $controller,
@@ -65,15 +67,6 @@ class ArticleController
                     $entity->getId(),
                     (array) ($app->input('item')['tags'] ?? [])
                 );
-
-                if ($this->localeService->isEnabled()) {
-                    $this->saveLangAssociations(
-                        'article',
-                        $entity->getLanguage(),
-                        $entity->getId(),
-                        $app->input('item')['assoc'] ?? []
-                    );
-                }
             }
         );
 

@@ -11,12 +11,14 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Middleware;
 
+use Closure;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Services\AssociationService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Middleware\AttributeMiddlewareTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\ORM;
@@ -27,19 +29,21 @@ use Windwalker\ORM\ORM;
 class LangAssocMiddleware implements MiddlewareInterface
 {
     use LocaleAwareTrait;
+    use AttributeMiddlewareTrait;
 
     public function __construct(
+        protected AppContext $app,
         protected AssociationService $associationService,
         protected ORM $orm,
         protected Navigator $nav,
         protected string $inputName = 'lang_assoc',
-        protected ?\Closure $routeCallback = null
     ) {
+        //
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function run(ServerRequestInterface $request, Closure $next): ResponseInterface
     {
-        $res = $handler->handle($request);
+        $res = $next($request);
 
         if (!$this->isLocaleEnabled()) {
             return $res;
@@ -131,13 +135,24 @@ class LangAssocMiddleware implements MiddlewareInterface
             $assoc
         );
 
-        $routeCallback = $this->routeCallback ?? function (Navigator $nav, object $item) use ($idName, $routeName) {
-            $item = $this->orm->toCollection($item);
+        $config = $this->app->config('luna.i18n.types.' . $type) ?? [];
 
-            return $this->nav->to($routeName)->var($idName, $item?->$idName);
-        };
+        $routeCallback = $config['edit_route'] ??
+            function (
+                Navigator $nav,
+                object $item
+            ) use (
+                $routeName,
+                $idName
+            ) {
+                $item = $this->orm->toCollection($item);
 
-        return $this->nav->redirect($routeCallback($this->nav, $new));
+                return (string) $nav->to($routeName)->var($idName, $item?->$idName);
+            };
+
+        return $this->nav->redirect(
+            $this->app->call($routeCallback, [$this->nav, $new])
+        );
     }
 
     protected function switch(array $data): ResponseInterface

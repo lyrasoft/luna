@@ -79,7 +79,7 @@ System.register([], function (_export, _context) {
       RecaptchaCaptcha = /*#__PURE__*/_createClass(function RecaptchaCaptcha(el, type) {
         _classCallCheck(this, RecaptchaCaptcha);
 
-        u["import"]('https://www.google.com/recaptcha/api.js?ccdd9feedee68db1bfd14921');
+        u["import"]('https://www.google.com/recaptcha/api.js?58ac0fdc45361bdf88e0f69c');
         this.el = el;
         this.type = type;
         this.key = this.el.dataset.key;

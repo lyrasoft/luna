@@ -61,13 +61,13 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
                 >
                 </x-fieldset>
 
-                @if ($vm->isLocaleEnabled())
-                    <x-fieldset title="Assoc"
-                        :form="$form" ns="assoc" class="mb-4"
-                        is="card"
-                    >
-                    </x-fieldset>
-                @endif
+{{--                @if ($vm->isLocaleEnabled())--}}
+{{--                    <x-fieldset title="Assoc"--}}
+{{--                        :form="$form" ns="assoc" class="mb-4"--}}
+{{--                        is="card"--}}
+{{--                    >--}}
+{{--                    </x-fieldset>--}}
+{{--                @endif--}}
             </div>
         </div>
 

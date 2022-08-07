@@ -12,7 +12,10 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Services;
 
 use Lyrasoft\Luna\Entity\Association;
+use Psr\Http\Message\ResponseInterface;
 use Windwalker\Core\Form\Exception\ValidateFailException;
+use Windwalker\Core\Router\Navigator;
+use Windwalker\Data\Collection;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
 
@@ -21,7 +24,7 @@ use Windwalker\ORM\ORM;
  */
 class AssociationService
 {
-    public function __construct(protected ORM $orm)
+    public function __construct(protected ORM $orm, protected Navigator $nav)
     {
     }
 
@@ -203,5 +206,18 @@ class AssociationService
                 ['target_id', '!=', $id],
             ]
         );
+    }
+
+    /**
+     * @param  string  $type
+     * @param  array   $ids
+     *
+     * @return  Collection|Association[]
+     *
+     * @throws \ReflectionException
+     */
+    public function getAssocItemsByIds(string $type, array $ids): Collection
+    {
+        return $this->getMapper()->findList(['type' => $type, 'target_id' => $ids])->all();
     }
 }

@@ -146,7 +146,13 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                         </td>
                         @if ($localeService->isEnabled())
                             <td>
-                                <x-lang-label :item="$item"></x-lang-label>
+                                <x-lang-dropdown
+                                    type="article"
+                                    :table="$entity::class"
+                                    :item="$item"
+                                    :language="$item->lang"
+                                    label-field="code"
+                                ></x-lang-dropdown>
                             </td>
                         @endif
                         <td class="text-center">
