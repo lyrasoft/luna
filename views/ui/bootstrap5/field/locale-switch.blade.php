@@ -185,14 +185,14 @@ $jsOptions = [
                                             data-lang="{{ $language->getCode() }}"
                                             data-copy="current"
                                         >
-                                            Copy From Current
+                                            @lang('luna.field.locale.switch.button.copy.current')
                                         </button>
                                         @if ($defaultItem || $defaultItem?->$idName !== $item?->$idName)
                                             <button class="dropdown-item"
                                                 data-task="create_lang_version"
                                                 data-lang="{{ $language->getCode() }}"
                                                 data-copy="default">
-                                                Copy From Default
+                                                @lang('luna.field.locale.switch.button.copy.default')
                                             </button>
                                         @endif
                                         @if ($field->isAllowCreateEmpty())
@@ -200,7 +200,7 @@ $jsOptions = [
                                                 data-task="create_lang_version"
                                                 data-lang="{{ $language->getCode() }}"
                                                 data-copy="no">
-                                                Create Empty
+                                                @lang('luna.field.locale.switch.button.create.empty')
                                             </button>
                                         @endif
                                     </div>

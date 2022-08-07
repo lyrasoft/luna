@@ -57,6 +57,12 @@ return [
         'i18n' => [
             'enabled' => false,
             'uri_prefix' => true,
+            'front' => [
+                'enabled' => false
+            ],
+            'admin' => [
+                'enabled' => false
+            ],
             'types' => [
                 //
             ]
