@@ -188,7 +188,7 @@ class LocaleSwitchField extends AbstractField
      *
      * @return  static  Return self to support chaining.
      */
-    public function setRouteName(?string $routeName): static
+    public function routeName(?string $routeName): static
     {
         $this->routeName = $routeName;
 
