@@ -596,12 +596,15 @@ class AccessService
                                     ->bind('ns', $ns)
                                     ->bind('action', $act)
                                     ->bind('target', $id);
+                                return;
                             }
 
                             if ($ns) {
-                                $query->whereRaw('type = \'\' AND action = :action AND target_id = :target')
+                                $query->whereRaw('type = :ns AND action = :action AND target_id = :target')
+                                    ->bind('ns', $ns)
                                     ->bind('action', $act)
-                                    ->bind('target', $id);
+                                    ->bind('target', (string) $id);
+                                return;
                             }
 
                             $query->whereRaw('type = \'\' AND action = :action AND target_id = \'\'')

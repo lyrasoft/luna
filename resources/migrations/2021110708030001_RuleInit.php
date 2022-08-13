@@ -27,7 +27,6 @@ $mig->up(
         $mig->createTable(
             Rule::class,
             function (Schema $schema) {
-                $schema->primary('id');
                 $schema->varchar('role_id');
                 $schema->varchar('name');
                 $schema->varchar('type');

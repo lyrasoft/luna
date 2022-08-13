@@ -32,23 +32,23 @@ class Rule implements EntityInterface
     #[Column('id'), PK, AutoIncrement]
     protected ?int $id = null;
 
-    #[Column('role_id')]
+    #[Column('role_id'), PK]
     protected string|int $roleId = '';
+
+    #[Column('name'), PK]
+    protected string $name = '';
 
     #[Column('type')]
     protected string $type = '';
 
-    #[Column('name')]
-    protected string $name = '';
+    #[Column('action')]
+    protected string $action = '';
 
-    #[Column('target_id')]
+    #[Column('target_id'), PK]
     protected string $targetId = '';
 
     #[Column('title')]
     protected string $title = '';
-
-    #[Column('action')]
-    protected string $action = '';
 
     #[Column('allow')]
     #[CastNullable('bool')]
