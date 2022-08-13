@@ -83,10 +83,6 @@ class ArticleEditView implements ViewModelInterface
                 /** @var LocaleSwitchField $localeField */
                 $localeField = $form->getField('language');
                 $localeField->currentId($item?->getId());
-
-                // Assoc
-                $this->defineForm($item->getLanguage(), $form, ArticleModalField::class);
-                $this->prepareAssocValues('article', $item->getId(), $form);
             }
 
             // Tags

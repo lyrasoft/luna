@@ -13,9 +13,11 @@ namespace Lyrasoft\Luna\Module\Front\Article;
 
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Category;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Module\Front\Category\CategoryViewTrait;
 use Lyrasoft\Luna\Module\Front\Page\PageView;
 use Lyrasoft\Luna\Repository\ArticleRepository;
+use Lyrasoft\Luna\Services\AssociationService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Html\HtmlFrame;
@@ -37,6 +39,7 @@ use function Windwalker\str;
 class ArticleItemView implements ViewModelInterface
 {
     use CategoryViewTrait;
+    use LocaleAwareTrait;
 
     /**
      * Constructor.
@@ -45,7 +48,8 @@ class ArticleItemView implements ViewModelInterface
         #[Autowire]
         protected ArticleRepository $repository,
         #[Autowire]
-        protected Navigator $nav
+        protected Navigator $nav,
+        protected AssociationService $associationService,
     ) {
         //
     }
@@ -65,6 +69,24 @@ class ArticleItemView implements ViewModelInterface
 
         /** @var Article $item */
         $item = $this->repository->mustGetItem($id);
+
+        $locale = $this->getLocale();
+
+        if ($item->getLanguage() !== $locale) {
+            $assoc = $this->associationService->getRelativeItemByIdAndKey(
+                'article',
+                $item->getId(),
+                $locale
+            );
+
+            if (!$assoc) {
+                throw new RouteNotFoundException('Assoc not found');
+            }
+
+            $item = $this->repository->mustGetItem($assoc->getTargetId());
+
+            return $this->nav->self()->id($item->getId())->alias($item->getAlias());
+        }
 
         if (!$item->getState()->isPublished()) {
             throw new RouteNotFoundException('Article not found.');
