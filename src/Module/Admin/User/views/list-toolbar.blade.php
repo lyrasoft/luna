@@ -36,7 +36,7 @@ use Windwalker\Core\Router\SystemUri;
         @click="grid.validateChecked(null, function () {
             grid.batch('resend');
         });">
-        <span class="glyphicon glyphicon-ok fa fa-envelope"></span>
+        <span class="fa fa-envelope"></span>
         @lang('luna.button.resend.activate.mail')
     </button>
 

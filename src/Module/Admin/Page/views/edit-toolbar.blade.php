@@ -54,7 +54,7 @@ $pageService = $app->service(\Lyrasoft\Luna\PageBuilder\PageService::class);
 
     <a class="btn btn-default btn-outline-secondary btn-sm"
         href="{{ $nav->to('page_list') }}">
-        <span class="glyphicon glyphicon-remove fa fa-remove fa-times"></span>
+        <span class="fa fa-times"></span>
         @lang('unicorn.toolbar.cancel')
     </a>
 </div>

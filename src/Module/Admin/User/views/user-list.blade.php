@@ -199,7 +199,7 @@ $loginName = $luna->getLoginName();
                                     class="waves-effect btn btn-default btn-outline-secondary btn-sm hasTooltip"
                                     @click="grid.deleteItem({{ $item->id }});"
                                     title="@lang('unicorn.toolbar.delete')">
-                                    <span class="glyphicon glyphicon-trash fa fa-trash"></span>
+                                    <span class="fa fa-trash"></span>
                                 </button>
                             </td>
 
