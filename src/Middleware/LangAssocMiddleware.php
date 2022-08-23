@@ -41,7 +41,7 @@ class LangAssocMiddleware implements MiddlewareInterface
         //
     }
 
-    public function run(ServerRequestInterface $request, Closure $next): ResponseInterface
+    public function run(ServerRequestInterface $request, Closure $next): mixed
     {
         $res = $next($request);
 
