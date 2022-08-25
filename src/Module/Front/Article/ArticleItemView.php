@@ -72,7 +72,7 @@ class ArticleItemView implements ViewModelInterface
 
         $locale = $this->getLocale();
 
-        if ($item->getLanguage() !== $locale) {
+        if ($this->isLocaleEnabled() && $item->getLanguage() !== $locale) {
             $assoc = $this->associationService->getRelativeItemByIdAndKey(
                 'article',
                 $item->getId(),
