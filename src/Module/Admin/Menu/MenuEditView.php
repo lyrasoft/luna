@@ -76,6 +76,8 @@ class MenuEditView implements ViewModelInterface
         );
 
         if ($viewInstance) {
+            $viewInstance->getEventDispatcher()->addDealer($app->getEventDispatcher());
+
             $vars = $item?->getVariables() ?? [];
 
             $viewInstance->prepareVariablesForm($vars);

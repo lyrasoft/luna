@@ -54,5 +54,11 @@ S.import('@main')
     app.use(Codemirror);
     app.use(VueClickAway);
 
-    app.mount('page-builder-app');
+    u.trigger('page-builder.app.prepared', app);
+
+    app.provide('app', app);
+
+    u.domready(() => {
+      app.mount('page-builder-app');
+    });
   });

@@ -162,7 +162,7 @@ import {
   vctooltip,
 } from '@coreui/vue';
 import { each } from 'lodash-es';
-import { nextTick, onMounted, reactive, toRefs, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, toRefs, ref, watch, getCurrentInstance, inject } from 'vue';
 import AddonEdit from '@/components/page-builder/AddonEdit';
 import ColumnEdit from '@/components/page-builder/ColumnEdit';
 import CssEditor from '@/components/page-builder/CssEditor';
@@ -220,7 +220,19 @@ export default {
       cssModalShow: false,
     });
 
-    u.trigger('page-builder.created', this);
+    const app = inject('app');
+
+    for (const k in state.addons) {
+      const addon = state.addons[k];
+
+      if (addon.componentModuleUrl) {
+        S.import(addon.componentModuleUrl).then((module) => {
+          app.component(addon.componentName, module.default);
+        });
+      }
+    }
+
+    u.trigger('page-builder.created', getCurrentInstance());
 
     const rowEditor = ref(null);
     const columnEditor = ref(null);

@@ -91,13 +91,13 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @param  AppContext  $app
      *
-     * @return  void
+     * @return  string|null
      *
      * @throws InvalidArgumentException
      * @since  1.5.2
      */
-    public static function loadVueComponent(AppContext $app): void
+    public static function loadVueComponent(AppContext $app): ?string
     {
-        //
+        return null;
     }
 }

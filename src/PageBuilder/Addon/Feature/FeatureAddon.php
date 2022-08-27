@@ -49,8 +49,9 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
     /**
      * @inheritDoc
      */
-    public static function loadVueComponent(AppContext $app): void
+    public static function loadVueComponent(AppContext $app): ?string
     {
+        return null;
     }
 
     /**

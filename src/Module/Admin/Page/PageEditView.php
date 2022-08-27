@@ -120,9 +120,12 @@ class PageEditView implements ViewModelInterface
 
         foreach ($this->pageService->getAddonTypes() as $addonType) {
             $class = $addonType->getClassName();
-            $class::loadVueComponent($app);
 
-            $addons[$addonType->getType()] = $addonType->toArray($this->lang);
+            $addon = $addonType->toArray($this->lang);
+
+            $addon['componentModuleUrl'] = $class::loadVueComponent($app);
+
+            $addons[$addonType->getType()] = $addon;
         }
 
         $this->unicornScript->data('builder-content', $item?->getContent() ?? []);
