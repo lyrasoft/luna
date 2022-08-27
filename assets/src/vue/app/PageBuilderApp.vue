@@ -163,6 +163,7 @@ import {
 } from '@coreui/vue';
 import { each } from 'lodash-es';
 import { nextTick, onMounted, reactive, toRefs, ref, watch, getCurrentInstance, inject } from 'vue';
+import Vue from 'vue';
 import AddonEdit from '@/components/page-builder/AddonEdit';
 import ColumnEdit from '@/components/page-builder/ColumnEdit';
 import CssEditor from '@/components/page-builder/CssEditor';
@@ -227,7 +228,7 @@ export default {
 
       if (addon.componentModuleUrl) {
         S.import(addon.componentModuleUrl).then((module) => {
-          app.component(addon.componentName, module.default);
+          app.component(addon.componentName, module.default(app, Vue));
         });
       }
     }
