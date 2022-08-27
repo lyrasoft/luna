@@ -163,7 +163,7 @@ import {
 } from '@coreui/vue';
 import { each } from 'lodash-es';
 import { nextTick, onMounted, reactive, toRefs, ref, watch, getCurrentInstance, inject } from 'vue';
-import Vue from 'vue';
+import * as Vue from 'vue';
 import AddonEdit from '@/components/page-builder/AddonEdit';
 import ColumnEdit from '@/components/page-builder/ColumnEdit';
 import CssEditor from '@/components/page-builder/CssEditor';
@@ -222,7 +222,7 @@ export default {
     });
 
     const app = inject('app');
-
+    console.log(Vue);
     for (const k in state.addons) {
       const addon = state.addons[k];
 
