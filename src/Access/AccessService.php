@@ -50,7 +50,11 @@ class AccessService
 
     public function check(string $action, mixed $user = null, ...$args): bool
     {
-        if ($action === static::ADMIN_ACCESS_ACTION && $this->isAdminUserSwitched()) {
+        if (
+            $user === null
+            && $action === static::ADMIN_ACCESS_ACTION
+            && $this->isAdminUserSwitched()
+        ) {
             return true;
         }
 
