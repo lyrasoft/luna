@@ -94,7 +94,7 @@ class TagService
 
         foreach ($tagIds as $tagId) {
             $map = $tagMapMapper->createEntity();
-            $map->setType('article');
+            $map->setType($type);
             $map->setTagId((int) $tagId);
             $map->setTargetId($targetId);
 

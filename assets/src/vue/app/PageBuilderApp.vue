@@ -222,7 +222,7 @@ export default {
     });
 
     const app = inject('app');
-    console.log(Vue);
+
     for (const k in state.addons) {
       const addon = state.addons[k];
 
