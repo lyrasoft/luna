@@ -103,7 +103,7 @@ class ArticleListView implements ViewModelInterface
      */
     public function getDefaultOrdering(): string
     {
-        return 'article.category_id, article.id DESC';
+        return 'article.id DESC';
     }
 
     /**
