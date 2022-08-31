@@ -47,10 +47,10 @@ class WidgetController
 
         switch ($app->input('task')) {
             case 'save2close':
-                return $nav->to(WidgetListView::class);
+                return $nav->to('widget_list');
 
             case 'save2new':
-                return $nav->to(WidgetEditView::class)->var('new', 1);
+                return $nav->to('widget_edit')->var('new', 1);
 
             case 'save2copy':
                 $controller->rememberForClone($app, $repository);

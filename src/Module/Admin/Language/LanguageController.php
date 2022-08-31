@@ -59,10 +59,10 @@ class LanguageController
 
         switch ($app->input('task')) {
             case 'save2close':
-                return $nav->to(LanguageListView::class);
+                return $nav->to('language_list');
 
             case 'save2new':
-                return $nav->to(LanguageEditView::class)->var('new', 1);
+                return $nav->to('language_edit')->var('new', 1);
 
             case 'save2copy':
                 $controller->rememberForClone($app, $repository);

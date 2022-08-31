@@ -68,10 +68,10 @@ class UserController
 
         switch ($app->input('task')) {
             case 'save2close':
-                return $nav->to(UserListView::class);
+                return $nav->to('user_list');
 
             case 'save2new':
-                return $nav->to(UserEditView::class)->var('new', 1);
+                return $nav->to('user_edit')->var('new', 1);
 
             case 'save2copy':
                 $controller->rememberForClone($app, $repository);

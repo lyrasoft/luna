@@ -75,10 +75,10 @@ class MenuController
 
         switch ($app->input('task')) {
             case 'save2close':
-                return $nav->to(MenuListView::class);
+                return $nav->to('menu_list');
 
             case 'save2new':
-                return $nav->to(MenuEditView::class)->var('new', 1);
+                return $nav->to('menu_edit')->var('new', 1);
 
             case 'save2copy':
                 $controller->rememberForClone($app, $repository);

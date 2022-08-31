@@ -38,10 +38,10 @@ class TagController
 
         switch ($app->input('task')) {
             case 'save2close':
-                return $nav->to(TagListView::class);
+                return $nav->to('tag_list');
 
             case 'save2new':
-                return $nav->to(TagEditView::class)->var('new', 1);
+                return $nav->to('tag_edit')->var('new', 1);
 
             case 'save2copy':
                 $controller->rememberForClone($app, $repository);
