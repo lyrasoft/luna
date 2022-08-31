@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use ReflectionClass;
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Exception\SassException;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -57,14 +58,21 @@ class PageView implements ViewModelInterface
      * @param  View        $view  The view object.
      *
      * @return  mixed
+     * @throws \ReflectionException
+     * @throws SassException
      */
     public function prepare(AppContext $app, View $view): array
     {
         $path = $app->input('path');
 
-        // Load root layout
         if ($path) {
+            // Load root layout
             $file = $app->path('@views/front/page/' . Path::normalize($path) . '.blade.php');
+
+            if (!is_file($file)) {
+                // Load front module layout
+                $file = WINDWALKER_SOURCE . '/Module/Front/Page/views/' . Path::normalize($path) . '.blade.php';
+            }
 
             if (!is_file($file)) {
                 // Load self layout
@@ -73,6 +81,10 @@ class PageView implements ViewModelInterface
             }
 
             if (is_file($file)) {
+                if (str_starts_with(static::class, 'Lyrasoft\\')) {
+                    $view->addPath(WINDWALKER_SOURCE . '/Module/Front/Page/views/');
+                }
+
                 // Render layout file
                 $layout = Path::normalize($path, '.');
                 $view->setLayout($layout);
