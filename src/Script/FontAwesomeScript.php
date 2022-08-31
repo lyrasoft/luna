@@ -77,4 +77,44 @@ class FontAwesomeScript extends AbstractScript
             $this->asset->css("$package/v4-shims.min.css");
         }
     }
+
+    public function jsSvg(int $options = self::DEFAULT_SET): void
+    {
+        $package = $options & static::PRO ? '@fortawesome/fontawesome-pro' : '@fortawesome/fontawesome-free';
+        $package = "vendor/$package/js";
+
+        if (($options & static::ALL) === static::ALL) {
+            $this->asset->js("$package/all.min.css");
+        } else {
+            $this->asset->js("$package/fontawesome.min.js");
+
+            if ($options & static::SOLID) {
+                $this->asset->js("$package/solid.min.js");
+            }
+
+            if ($options & static::REGULAR) {
+                $this->asset->js("$package/regular.min.js");
+            }
+
+            if ($options & static::LIGHT) {
+                $this->asset->js("$package/light.min.js");
+            }
+
+            if ($options & static::THIN) {
+                $this->asset->js("$package/thin.min.js");
+            }
+
+            if ($options & static::DUOTONE) {
+                $this->asset->js("$package/duotone.min.js");
+            }
+
+            if ($options & static::BRANDS) {
+                $this->asset->js("$package/brands.min.js");
+            }
+        }
+
+        if ($options & static::V4_SHIMS) {
+            $this->asset->js("$package/v4-shims.min.js");
+        }
+    }
 }
