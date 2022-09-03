@@ -127,14 +127,14 @@ $jsOptions = [
                     <span aria-hidden="true" class="visually-hidden">&times;</span>
                 </button>
             </div>
-            <div class="modal-body overflow-hidden list-group list-group-flush p-0">
+            <div class="modal-body list-group list-group-flush p-0">
                 @foreach ($languages as $language)
-                        <?php
-                        $item = $field->getItemByLandCode($language->getCode());
-                        $titleField = $field->getTitleField();
+                    <?php
+                    $item = $field->getItemByLandCode($language->getCode());
+                    $titleField = $field->getTitleField();
 
-                        $active = (string) $item?->$idName === (string) $currentId;
-                        ?>
+                    $active = (string) $item?->$idName === (string) $currentId;
+                    ?>
                     <div
                         class="list-group-item d-flex align-items-center gap-2 {{ $active ? 'active' : '' }} {{ $item ? '' : 'bg-light' }}">
                         <div class="flex-grow-1">
@@ -144,12 +144,12 @@ $jsOptions = [
                                 - {{ $language->getTitleNative() }}
                                 <span
                                     class="badge {{ $active ? 'bg-light text-primary' : '' }} {{ $item ? 'bg-success' : 'bg-secondary' }}">
-                                {{ $language->getCode() }}
+                                    {{ $language->getCode() }}
                                 </span>
                                 @if ($defaultLang === $language->getCode())
                                     <span class="badge {{ $active ? 'bg-light text-primary' : 'bg-dark' }}">
-                                    @lang('luna.field.locale.switch.default')
-                                </span>
+                                        @lang('luna.field.locale.switch.default')
+                                    </span>
                                 @endif
                             </div>
                             @if ($item)
@@ -179,7 +179,7 @@ $jsOptions = [
                                         data-bs-toggle="dropdown">
                                         @lang('luna.field.locale.switch.button.create')
                                     </button>
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-right">
                                         <button class="dropdown-item"
                                             data-task="create_lang_version"
                                             data-lang="{{ $language->getCode() }}"
