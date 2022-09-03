@@ -73,19 +73,19 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                             @lang('luna.article.field.category')
                         </x-sort>
                     </th>
-                    <th style="width: 10%" class="text-nowrap">
-                        <div class="d-flex w-100 justify-content-end">
-                            <x-sort
-                                asc="article.category_id, article.ordering ASC"
-                                desc="article.category_id, article.ordering DESC"
-                            >
-                                @lang('unicorn.field.ordering')
-                            </x-sort>
-                            @if($vm->reorderEnabled($ordering))
-                                <x-save-order class="ms-2"></x-save-order>
-                            @endif
-                        </div>
-                    </th>
+{{--                    <th style="width: 10%" class="text-nowrap">--}}
+{{--                        <div class="d-flex w-100 justify-content-end">--}}
+{{--                            <x-sort--}}
+{{--                                asc="article.category_id, article.ordering ASC"--}}
+{{--                                desc="article.category_id, article.ordering DESC"--}}
+{{--                            >--}}
+{{--                                @lang('unicorn.field.ordering')--}}
+{{--                            </x-sort>--}}
+{{--                            @if($vm->reorderEnabled($ordering))--}}
+{{--                                <x-save-order class="ms-2"></x-save-order>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                    </th>--}}
                     @if ($localeService->isEnabled())
                         <th>
                             <x-sort field="article.language">
@@ -136,14 +136,14 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                         <td class="">
                             {{ $item->category?->title }}
                         </td>
-                        <td class="text-end">
-                            <x-order-control
-                                :enabled="$vm->reorderEnabled($ordering)"
-                                :row="$i"
-                                :id="$entity->getId()"
-                                :value="$item->ordering"
-                            ></x-order-control>
-                        </td>
+{{--                        <td class="text-end">--}}
+{{--                            <x-order-control--}}
+{{--                                :enabled="$vm->reorderEnabled($ordering)"--}}
+{{--                                :row="$i"--}}
+{{--                                :id="$entity->getId()"--}}
+{{--                                :value="$item->ordering"--}}
+{{--                            ></x-order-control>--}}
+{{--                        </td>--}}
                         @if ($localeService->isEnabled())
                             <td>
                                 <x-lang-dropdown
