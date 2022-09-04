@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\Form\Field\TextField;
 use Windwalker\Form\Field\UrlField;
 use Windwalker\Form\Form;
 use Windwalker\Uri\Uri;
@@ -39,7 +40,7 @@ class LinkMenuView extends AbstractMenuView
      */
     protected function defineVariablesForm(Form $form): void
     {
-        $form->add('url', UrlField::class)
+        $form->add('url', TextField::class)
             ->label($this->trans('luna.menu.field.url'))
             ->required(true);
     }
