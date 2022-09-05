@@ -50,6 +50,7 @@ class LocaleController
             $uri = $app->getSystemUri();
             $root = $uri->root() . $uri->getScriptName('index.php');
             $path = Str::removeLeft($return, UriNormalizer::clean($root));
+            $path = ltrim($path, '/');
             $path = Str::removeLeft($path, $previousLang?->getAlias() . '/');
 
             $path = $lang->getAlias() . '/' . $path;
