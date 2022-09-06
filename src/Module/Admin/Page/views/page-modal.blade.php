@@ -101,6 +101,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
         </div>
 
         <div class="d-none">
+            <input name="_method" type="hidden" value="PUT" />
             @csrf
         </div>
 
