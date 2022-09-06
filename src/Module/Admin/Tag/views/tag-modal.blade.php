@@ -93,6 +93,7 @@ $callback = $app->input('callback');
         </div>
 
         <div class="d-none">
+            <input name="_method" type="hidden" value="PUT" />
             @csrf
         </div>
 

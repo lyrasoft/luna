@@ -93,6 +93,14 @@ class EditForm implements FieldDefinitionInterface
                 ->showSizeNotice(true);
         });
         $form->fieldset('meta', function (Form $form) {
+            if ($this->isLocaleEnabled()) {
+                $form->add('language', LocaleSwitchField::class)
+                    ->label($this->trans('luna.field.language'))
+                    ->table(Page::class)
+                    ->required(true)
+                    ->allowCreateEmpty(false);
+            }
+
             $form->group('meta', function (Form $form) {
                 $form->add('title', TextField::class)
                     ->label($this->trans('luna.page.field.meta.title'));
@@ -111,14 +119,6 @@ class EditForm implements FieldDefinitionInterface
                     ->label($this->trans('luna.page.field.og.desc'))
                     ->rows(3);
             });
-
-            if ($this->isLocaleEnabled()) {
-                $form->add('language', LocaleSwitchField::class)
-                    ->label($this->trans('luna.field.language'))
-                    ->table(Page::class)
-                    ->required(true)
-                    ->allowCreateEmpty(false);
-            }
         });
 
         // Created fieldset

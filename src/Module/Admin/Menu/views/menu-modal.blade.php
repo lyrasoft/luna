@@ -146,6 +146,7 @@ $typeField = $app->make(\Lyrasoft\Luna\Field\MenuTypeListField::class)
         </div>
 
         <div class="d-none">
+            <input name="_method" type="hidden" value="PUT" />
             @csrf
         </div>
 
