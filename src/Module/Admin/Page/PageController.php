@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\Page;
 
 use Exception;
+use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\Entity\PageTemplate;
 use Lyrasoft\Luna\Repository\PageRepository;
@@ -28,6 +29,7 @@ use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\Core\Router\RouteUri;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\DI\Exception\DependencyResolutionException;
@@ -41,6 +43,12 @@ use Windwalker\Utilities\Arr;
 #[Controller()]
 class PageController
 {
+    #[LangAssoc]
+    public function save(Navigator $nav): RouteUri
+    {
+        return $nav->back();
+    }
+
     public function create(
         AppContext $app,
         CrudController $controller,

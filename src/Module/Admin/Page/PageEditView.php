@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\Page;
 
 use Lyrasoft\Luna\Entity\Page;
+use Lyrasoft\Luna\Field\LocaleSwitchField;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Module\Admin\Page\Form\EditForm;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\Repository\PageRepository;
@@ -39,6 +41,7 @@ use Windwalker\Utilities\StrNormalize;
 class PageEditView implements ViewModelInterface
 {
     use TranslatorTrait;
+    use LocaleAwareTrait;
 
     public function __construct(
         protected ORM $orm,
@@ -77,6 +80,12 @@ class PageEditView implements ViewModelInterface
                     'meta' => static::asSnakes($item?->getMeta()->dump() ?? [])
                 ]
             );
+
+        if ($this->isLocaleEnabled()) {
+            /** @var LocaleSwitchField $localeField */
+            $localeField = $form->getField('language');
+            $localeField->currentId($item?->getId());
+        }
 
         $this->prepareScripts($app, $item, $form);
 

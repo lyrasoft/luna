@@ -12,7 +12,9 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Repository;
 
 use Lyrasoft\Luna\Entity\Category;
+use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Entity\Page;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\BatchAction;
@@ -33,6 +35,7 @@ class PageRepository implements ManageRepositoryInterface, ListRepositoryInterfa
 {
     use ManageRepositoryTrait;
     use ListRepositoryTrait;
+    use LocaleAwareTrait;
 
     public function getListSelector(): ListSelector
     {
@@ -45,6 +48,10 @@ class PageRepository implements ManageRepositoryInterface, ListRepositoryInterfa
                 'category.id',
                 'page.category_id'
             );
+
+        if ($this->localeService->isEnabled()) {
+            $selector->leftJoin(Language::class, 'lang', 'lang.code', 'page.language');
+        }
 
         return $selector;
     }

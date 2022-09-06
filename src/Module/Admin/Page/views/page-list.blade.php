@@ -27,6 +27,8 @@ use Lyrasoft\Luna\Module\Admin\Page\PageListView;
  */
 
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
+
+$localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.list') ?? 'admin.global.body-list')
@@ -71,19 +73,26 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                             @lang('unicorn.field.title')
                         </x-sort>
                     </th>
-                    <th style="width: 10%" class="text-nowrap">
-                        <div class="d-flex w-100 justify-content-end">
-                            <x-sort
-                                asc="page.category_id DESC, page.ordering ASC"
-                                desc="page.category_id DESC, page.ordering DESC"
-                            >
-                                @lang('unicorn.field.ordering')
+{{--                    <th style="width: 10%" class="text-nowrap">--}}
+{{--                        <div class="d-flex w-100 justify-content-end">--}}
+{{--                            <x-sort--}}
+{{--                                asc="page.category_id DESC, page.ordering ASC"--}}
+{{--                                desc="page.category_id DESC, page.ordering DESC"--}}
+{{--                            >--}}
+{{--                                @lang('unicorn.field.ordering')--}}
+{{--                            </x-sort>--}}
+{{--                            @if($vm->reorderEnabled($ordering))--}}
+{{--                                <x-save-order class="ms-2"></x-save-order>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                    </th>--}}
+                    @if ($localeService->isEnabled())
+                        <th style="width: 10%">
+                            <x-sort field="article.language">
+                                @lang('luna.field.language')
                             </x-sort>
-                            @if($vm->reorderEnabled($ordering))
-                                <x-save-order class="ms-2"></x-save-order>
-                            @endif
-                        </div>
-                    </th>
+                        </th>
+                    @endif
                     <th style="width: 1%" class="text-nowrap">
                         @lang('unicorn.field.delete')
                     </th>
@@ -126,14 +135,25 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 {{ $item->alias }}
                             </div>
                         </td>
-                        <td class="text-end">
-                            <x-order-control
-                                :enabled="$vm->reorderEnabled($ordering)"
-                                :row="$i"
-                                :id="$entity->getId()"
-                                :value="$item->ordering"
-                            ></x-order-control>
-                        </td>
+{{--                        <td class="text-end">--}}
+{{--                            <x-order-control--}}
+{{--                                :enabled="$vm->reorderEnabled($ordering)"--}}
+{{--                                :row="$i"--}}
+{{--                                :id="$entity->getId()"--}}
+{{--                                :value="$item->ordering"--}}
+{{--                            ></x-order-control>--}}
+{{--                        </td>--}}
+                        @if ($localeService->isEnabled())
+                            <td>
+                                <x-lang-dropdown
+                                    type="page"
+                                    :table="$entity::class"
+                                    :item="$item"
+                                    :language="$item->lang"
+                                    class="w-100"
+                                ></x-lang-dropdown>
+                            </td>
+                        @endif
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-outline-secondary"
                                 @click="grid.deleteItem('{{ $entity->getId() }}')"

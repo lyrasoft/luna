@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Category;
 
+use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Module\Admin\Category\Form\EditForm;
 use Lyrasoft\Luna\Repository\CategoryRepository;
@@ -37,6 +38,7 @@ use Windwalker\Query\Query;
 #[Controller()]
 class CategoryController
 {
+    #[LangAssoc]
     public function save(
         AppContext $app,
         #[Autowire] CategoryRepository $repository,

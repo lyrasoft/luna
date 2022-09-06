@@ -48,14 +48,14 @@ class LocaleController
 
         if ($return) {
             $uri = $app->getSystemUri();
-            $root = $uri->root() . $uri->getScriptName('index.php');
-            $path = Str::removeLeft($return, UriNormalizer::clean($root));
-            $path = ltrim($path, '/');
+            $scriptName = $uri->getScriptName('index.php');
+            $root = $uri->root() . $scriptName;
+            $path = ltrim(Str::removeLeft($return, UriNormalizer::clean($root)), '/');
             $path = Str::removeLeft($path, $previousLang?->getAlias() . '/');
 
             $path = $lang->getAlias() . '/' . $path;
 
-            $path = Str::removeLeft($uri->getScriptName('index.php') . '/' . $path, '/');
+            $path = Str::removeLeft($scriptName . '/' . $path, '/');
 
             $return = $nav->createRouteUri($uri->root($path));
         } else {

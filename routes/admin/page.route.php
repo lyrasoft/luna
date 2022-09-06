@@ -20,7 +20,7 @@ $router->group('page')
             ->putHandler('filter')
             ->patchHandler('batch');
 
-        $router->get('page_edit', '/page/edit[/{id}]')
+        $router->any('page_edit', '/page/edit[/{id}]')
             ->controller(PageController::class)
             ->view(PageEditView::class);
 

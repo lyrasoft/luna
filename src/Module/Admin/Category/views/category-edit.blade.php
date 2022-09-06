@@ -36,7 +36,14 @@ use Windwalker\Core\Router\SystemUri;
         uni-form-validate='{"scroll": true}'
         method="POST" enctype="multipart/form-data">
 
-        <x-title-bar :form="$form"></x-title-bar>
+        <x-title-bar :form="$form">
+            @if ($vm->isLocaleEnabled())
+                <x-slot name="end">
+                    <?php $form['language']->currentId($item?->getId()) ?>
+                    <x-field :field="$form['language']" no-label></x-field>
+                </x-slot>
+            @endif
+        </x-title-bar>
 
         <div class="row">
             <div class="col-md-7">

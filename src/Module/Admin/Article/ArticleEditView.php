@@ -79,12 +79,6 @@ class ArticleEditView implements ViewModelInterface
             );
 
         if ($item) {
-            if ($this->isLocaleEnabled()) {
-                /** @var LocaleSwitchField $localeField */
-                $localeField = $form->getField('language');
-                $localeField->currentId($item?->getId());
-            }
-
             // Tags
             $tagIds = $this->orm->findColumn(
                 TagMap::class,

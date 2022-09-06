@@ -11,7 +11,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Page\Form;
 
+use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\Field\CategoryListField;
+use Lyrasoft\Luna\Field\LocaleSwitchField;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
@@ -29,6 +32,7 @@ use Windwalker\Form\Form;
 class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
+    use LocaleAwareTrait;
 
     public function __construct(protected PageService $pageService)
     {
@@ -107,6 +111,14 @@ class EditForm implements FieldDefinitionInterface
                     ->label($this->trans('luna.page.field.og.desc'))
                     ->rows(3);
             });
+
+            if ($this->isLocaleEnabled()) {
+                $form->add('language', LocaleSwitchField::class)
+                    ->label($this->trans('luna.field.language'))
+                    ->table(Page::class)
+                    ->required(true)
+                    ->allowCreateEmpty(false);
+            }
         });
 
         // Created fieldset

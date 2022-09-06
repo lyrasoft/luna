@@ -175,7 +175,13 @@ $orders = [];
 
                         @if ($localeService->isEnabled())
                             <td>
-                                <x-lang-label :item="$item"></x-lang-label>
+                                <x-lang-dropdown
+                                    type="category"
+                                    :table="$entity::class"
+                                    :item="$item"
+                                    :language="$item->lang"
+                                    class="w-100"
+                                ></x-lang-dropdown>
                             </td>
                         @endif
 

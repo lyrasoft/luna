@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Category;
 
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Module\Admin\Category\Form\EditForm;
 use Lyrasoft\Luna\Repository\CategoryRepository;
 use Windwalker\Core\Application\AppContext;
@@ -33,6 +34,7 @@ use Windwalker\ORM\ORM;
 class CategoryEditView implements ViewModelInterface
 {
     use TranslatorTrait;
+    use LocaleAwareTrait;
 
     /**
      * CategoryEditView constructor.

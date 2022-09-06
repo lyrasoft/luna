@@ -44,24 +44,24 @@ $defaultLang = $lang->getFallback();
 
 $app->service(UnicornScript::class)
     ->addRoute('@language_ajax');
+
+$currentLang = $localeService->getLanguageByCode((string) $value);
+
 ?>
 
-@if ($value)
-    <?php
-    $currentLang = $localeService->getLanguageByCode((string) $value);
-    ?>
+@if ($value && $currentLang)
     <div class="card">
         <div class="card-body p-2 d-flex gap-3">
             <div class="flex-grow-1">
                 <h4>
-                    {{ $currentLang->getTitle() }}
+                    {{ $currentLang?->getTitle() }}
                     <span class="badge bg-secondary">
-                    {{ $currentLang->getCode() }}
+                    {{ $currentLang?->getCode() }}
                     </span>
                 </h4>
                 <div class="small text-muted">
-                    <span class="{{ $localeService->getFlagIconClass($currentLang->getImage()) }}"></span>
-                    {{ $currentLang->getTitleNative() }}
+                    <span class="{{ $localeService->getFlagIconClass($currentLang?->getImage() ?? '') }}"></span>
+                    {{ $currentLang?->getTitleNative() }}
                 </div>
             </div>
             <div>

@@ -77,7 +77,7 @@ $jsOptions = [
                     data-bs-toggle="tooltip"
                     data-toggle="tooltip"
                 >
-                <span class="{{ $localeService->getFlagIconClass($language->image) }}"></span>
+                <span class="{{ $localeService->getFlagIconClass($language->image ?? '') }}"></span>
                     {{ $language->$labelField }}
                 </span>
             @endif

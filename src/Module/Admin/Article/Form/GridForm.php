@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
+use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\LanguageListField;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Enum\BasicState;
@@ -55,11 +56,17 @@ class GridForm implements FieldDefinitionInterface
                     ->registerOptions(BasicState::getTransItems($this->lang))
                     ->onchange('this.form.submit()');
 
+                $form->add('article.category_id', CategoryListField::class)
+                    ->label($this->trans('luna.article.field.category'))
+                    ->option($this->trans('unicorn.select.placeholder'), '')
+                    ->categoryType('article')
+                    ->onchange('this.form.submit()');
+
                 if ($this->isLocaleEnabled()) {
                     $form->add('article.language', LanguageListField::class)
                         ->label($this->trans('luna.field.language'))
                         ->option($this->trans('unicorn.select.placeholder'), '')
-                        ->option($this->trans('luna.language.all'), '*')
+                        // ->option($this->trans('luna.language.all'), '*')
                         ->onchange('this.form.submit()');
                 }
             }
@@ -73,12 +80,12 @@ class GridForm implements FieldDefinitionInterface
                     ->option($this->trans('unicorn.select.no.change'), '')
                     ->registerOptions(BasicState::getTransItems($this->lang));
 
-                if ($this->isLocaleEnabled()) {
-                    $form->add('language', LanguageListField::class)
-                        ->label($this->trans('luna.field.language'))
-                        ->option($this->trans('unicorn.select.no.change'), '')
-                        ->option($this->trans('luna.language.all'), '*');
-                }
+                // if ($this->isLocaleEnabled()) {
+                //     $form->add('language', LanguageListField::class)
+                //         ->label($this->trans('luna.field.language'))
+                //         ->option($this->trans('unicorn.select.no.change'), '')
+                //         ->option($this->trans('luna.language.all'), '*');
+                // }
             }
         );
     }

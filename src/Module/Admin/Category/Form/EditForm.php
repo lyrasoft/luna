@@ -14,7 +14,7 @@ namespace Lyrasoft\Luna\Module\Admin\Category\Form;
 use InvalidArgumentException;
 use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Field\CategoryListField;
-use Lyrasoft\Luna\Field\LanguageListField;
+use Lyrasoft\Luna\Field\LocaleSwitchField;
 use Lyrasoft\Luna\Field\UserModalField;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Field\CalendarField;
@@ -136,12 +136,6 @@ class EditForm implements FieldDefinitionInterface
                     ->color('success')
                     ->defaultValue(1);
 
-                if ($this->isLocaleEnabled()) {
-                    $form->add('language', LanguageListField::class)
-                        ->label($this->trans('luna.field.language'))
-                        ->option($this->trans('luna.language.all'), '*');
-                }
-
                 // Created
                 $form->add('created', CalendarField::class)
                     ->label($this->trans('unicorn.field.created'));
@@ -161,5 +155,13 @@ class EditForm implements FieldDefinitionInterface
                     ->disabled(true);
             }
         );
+
+        if ($this->isLocaleEnabled()) {
+            $form->add('language', LocaleSwitchField::class)
+                ->label($this->trans('luna.field.language'))
+                ->table(Category::class)
+                ->required(true)
+                ->allowCreateEmpty(true);
+        }
     }
 }
