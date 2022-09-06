@@ -47,6 +47,21 @@ $app->service(UnicornScript::class)
 
 $currentLang = $localeService->getLanguageByCode((string) $value);
 
+$languageField = $app->make(LanguageListField::class);
+$languageField->setNamespace($field->getNamespace());
+$languageField->setName($field->getName());
+$languageField->setForm($field->getForm());
+$languageField->required($field->isRequired());
+$languageField->disabled($field->isDisabled());
+$languageField->isReadonly($field->isReadonly());
+// $languageField->setWrapperClass($field->getWrapperClass());
+// $languageField->setClass($field->getClass());
+$languageField->option(
+    $lang('luna.field.locale.select.placeholder'),
+    ''
+);
+$languageField->option($lang('luna.language.all'), '*');
+$languageField->setValue($value, '*');
 ?>
 
 @if ($value && $currentLang)
@@ -73,26 +88,19 @@ $currentLang = $localeService->getLanguageByCode((string) $value);
                 </button>
             </div>
         </div>
+        @if ($field->isCanChangeSelfLang())
+            <div class="card-footer">
+                <x-input :field="$languageField"></x-input>
+
+                <input name="lang_assoc[currentId]" type="hidden" value="{{ $field->getCurrentId() }}" />
+                <input name="lang_assoc[code]" type="hidden" value="{{ $value }}" />
+                <input name="lang_assoc[type]" type="hidden" value="{{ $field->getAssocType() }}" />
+            </div>
+        @else
+            {!! $input !!}
+        @endif
     </div>
-
-    {!! $input !!}
 @else
-    <?php
-    $languageField = $app->make(LanguageListField::class);
-    $languageField->setNamespace($field->getNamespace());
-    $languageField->setName($field->getName());
-    $languageField->setForm($field->getForm());
-    $languageField->required($field->isRequired());
-    $languageField->disabled($field->isDisabled());
-    $languageField->isReadonly($field->isReadonly());
-    // $languageField->setWrapperClass($field->getWrapperClass());
-    // $languageField->setClass($field->getClass());
-    $languageField->option(
-        $lang('luna.field.locale.select.placeholder'),
-        ''
-    );
-    ?>
-
     <x-input :field="$languageField"></x-input>
 @endif
 

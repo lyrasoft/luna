@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Middleware;
 
 use Closure;
+use Lyrasoft\Luna\Entity\Association;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Services\AssociationService;
 use Psr\Http\Message\ResponseInterface;
@@ -60,6 +61,8 @@ class LangAssocMiddleware implements MiddlewareInterface
         if ($task === 'switch') {
             return $this->switch($data);
         }
+
+        $this->refreshAssoc($data);
 
         return $res;
     }
@@ -174,5 +177,33 @@ class LangAssocMiddleware implements MiddlewareInterface
         };
 
         return $this->nav->redirect($routeCallback($this->nav, $item));
+    }
+
+    protected function refreshAssoc(array $data): void
+    {
+        [
+            'type' => $type,
+            'code' => $code,
+            'currentId' => $currentId,
+        ] = $data;
+
+        $assoc = $this->orm->findOne(
+            Association::class,
+            [
+                'type' => $type,
+                'target_id' => $currentId,
+            ]
+        );
+
+        if ($assoc && $assoc->getKey() !== $code) {
+            $this->orm->deleteWhere(
+                Association::class,
+                [
+                    'type' => $assoc->getType(),
+                    'target_id' => $assoc->getTargetId(),
+                    'key' => $assoc->getKey(),
+                ]
+            );
+        }
     }
 }

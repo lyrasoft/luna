@@ -51,6 +51,8 @@ class LocaleSwitchField extends AbstractField
 
     protected bool $allowCreateEmpty = false;
 
+    protected bool $canChangeSelfLang = true;
+
     #[Inject]
     protected AssociationService $associationService;
 
@@ -114,6 +116,26 @@ class LocaleSwitchField extends AbstractField
     public function titleField(string $titleField): static
     {
         $this->titleField = $titleField;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCanChangeSelfLang(): bool
+    {
+        return $this->canChangeSelfLang;
+    }
+
+    /**
+     * @param  bool  $canChangeSelfLang
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function canChangeSelfLang(bool $canChangeSelfLang): static
+    {
+        $this->canChangeSelfLang = $canChangeSelfLang;
 
         return $this;
     }
