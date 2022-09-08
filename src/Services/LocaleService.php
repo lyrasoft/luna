@@ -215,6 +215,10 @@ class LocaleService
 
         $accept = $this->app->getServerRequest()->getServerParams()['HTTP_ACCEPT_LANGUAGE'] ?? null;
 
+        if (!class_exists(LanguageNegotiator::class)) {
+            throw new \DomainException('Please install "willdurand/negotiation" first to get browser language.');
+        }
+
         $negotiator = new LanguageNegotiator();
         /** @var AcceptLanguage $best */
         $best = $negotiator->getBest($accept, $available);
