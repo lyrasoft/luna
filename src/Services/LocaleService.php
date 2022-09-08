@@ -13,6 +13,8 @@ namespace Lyrasoft\Luna\Services;
 
 use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Script\LunaScript;
+use Negotiation\AcceptLanguage;
+use Negotiation\LanguageNegotiator;
 use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Form\Exception\ValidateFailException;
@@ -212,6 +214,14 @@ class LocaleService
             ->dump();
 
         $accept = $this->app->getServerRequest()->getServerParams()['HTTP_ACCEPT_LANGUAGE'] ?? null;
+
+        $negotiator = new LanguageNegotiator();
+        /** @var AcceptLanguage $best */
+        $best = $negotiator->getBest($accept, $available);
+
+        if ($best) {
+            return $best->getValue();
+        }
 
         if ($accept) {
             $langs = explode(',', $accept);
