@@ -35,6 +35,7 @@ use Windwalker\ORM\Nested\NestedEntityTrait;
  * The Menu class.
  */
 #[NestedSet('menus', 'menu')]
+#[\AllowDynamicProperties]
 class Menu implements NestedEntityInterface
 {
     use NestedEntityTrait;

@@ -24,6 +24,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The Session class.
  */
 #[Table('sessions', 'session')]
+#[\AllowDynamicProperties]
 class Session implements EntityInterface
 {
     use EntityTrait;

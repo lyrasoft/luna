@@ -23,6 +23,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The UserRoleMap class.
  */
 #[Table('user_role_maps', 'user_role_map')]
+#[\AllowDynamicProperties]
 class UserRoleMap implements EntityInterface
 {
     use EntityTrait;

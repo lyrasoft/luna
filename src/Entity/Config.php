@@ -29,6 +29,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The Config class.
  */
 #[Table('configs', 'config')]
+#[\AllowDynamicProperties]
 class Config implements EntityInterface
 {
     use EntityTrait;

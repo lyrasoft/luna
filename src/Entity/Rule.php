@@ -25,6 +25,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The Access class.
  */
 #[Table('rules', 'rule')]
+#[\AllowDynamicProperties]
 class Rule implements EntityInterface
 {
     use EntityTrait;

@@ -24,6 +24,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The Association class.
  */
 #[Table('associations', 'association')]
+#[\AllowDynamicProperties]
 class Association implements EntityInterface
 {
     use EntityTrait;
