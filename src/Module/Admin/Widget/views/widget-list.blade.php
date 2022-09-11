@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -11,8 +15,6 @@
  * @var  $asset     AssetService    The Asset manage service.
  * @var  $lang      LangService     The language translation service.
  */
-
-declare(strict_types=1);
 
 use Lyrasoft\Luna\Module\Admin\Widget\WidgetListView;use Windwalker\Core\Application\AppContext;use Windwalker\Core\Asset\AssetService;use Windwalker\Core\DateTime\ChronosService;use Windwalker\Core\Language\LangService;use Windwalker\Core\Router\Navigator;use Windwalker\Core\Router\SystemUri;
 
