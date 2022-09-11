@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,8 +16,7 @@
  * @var  $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\Menu\View\LinkMenuView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -22,14 +25,14 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 
-$link = ($link === \Lyrasoft\Luna\Menu\View\LinkMenuView::NO_LINK || (string) $link === '') ? false : $link;
+$link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $link;
 ?>
 
 @if ($level === 1)
     <li class="nav-item {{ $hasChildren ? 'dropdown' : '' }}"
         data-menu-id="{{ $item->getValue()?->getId() }}" data-level="{{ $level }}">
         <a @attr('href', $link)
-            class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $item->isActive(true) ? 'active' : '' }}"
+        class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('target', $link ? (string) $item->getTarget() : false)
             @attr('data-bs-toggle', $click && $hasChildren ? 'dropdown' : false)>
             {{ $item->getTitle() }}
@@ -48,7 +51,7 @@ $link = ($link === \Lyrasoft\Luna\Menu\View\LinkMenuView::NO_LINK || (string) $l
     <li class="{{ $hasChildren ? 'dropdown-submenu' : '' }}"
         data-menu-id="{{ $item->getValue()?->getId() }}" data-level="{{ $level }}">
         <a @attr('href', $link)
-            class="dropdown-item {{ $item->isActive(true) ? 'active' : '' }}"
+        class="dropdown-item {{ $item->isActive(true) ? 'active' : '' }}"
             target="{{ $item->getTarget() }}"
             @attr('target', $link ? $item->getTarget() : false)
         >

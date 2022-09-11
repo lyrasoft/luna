@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,8 +16,9 @@
  * @var  $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\Menu\AbstractMenuView;
+use Lyrasoft\Luna\Menu\MenuNode;
+use Lyrasoft\Luna\Menu\SelfRenderMenuInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -23,8 +28,8 @@ use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 
 /**
- * @var $item \Lyrasoft\Luna\Menu\MenuNode
- * @var $viewInstance \Lyrasoft\Luna\Menu\AbstractMenuView|\Lyrasoft\Luna\Menu\SelfRenderMenuInterface
+ * @var $item         MenuNode
+ * @var $viewInstance AbstractMenuView|SelfRenderMenuInterface
  */
 ?>
 

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,18 +16,18 @@
  * @var $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\Services\LocaleService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+use Windwalker\Edge\Component\ComponentAttributes;
 
-$localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
+$localeService = $app->service(LocaleService::class);
 
-/** @var \Windwalker\Edge\Component\ComponentAttributes $attributes */
+/** @var ComponentAttributes $attributes */
 $attributes = $attributes->exceptProps(
     [
         'buttonClass',
@@ -49,10 +53,10 @@ $itemClass ??= '';
         <ul class="dropdown-menu">
             @foreach ($localeService->getAvailableLanguages() as $lang)
                 <li class="{{ $itemClass }}">
-                   <a class="dropdown-item"
-                       href="{{ $nav->to('locale_switch')->var('alias', $lang->getAlias())->withReturn() }}">
-                       {{ $lang->getTitleNative() }}
-                   </a>
+                    <a class="dropdown-item"
+                        href="{{ $nav->to('locale_switch')->var('alias', $lang->getAlias())->withReturn() }}">
+                        {{ $lang->getTitleNative() }}
+                    </a>
                 </li>
             @endforeach
         </ul>

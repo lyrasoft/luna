@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,21 +16,21 @@
  * @var $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\User\UserEntityInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+use Windwalker\Core\Security\CsrfService;
 
 /**
- * @var \Lyrasoft\Luna\User\UserEntityInterface $user
- * @var bool $keepaccess
+ * @var UserEntityInterface $user
+ * @var bool                $keepaccess
  */
 
-$csrf = $app->service(\Windwalker\Core\Security\CsrfService::class);
+$csrf = $app->service(CsrfService::class);
 
 $link = $nav->to(
     'user_list',

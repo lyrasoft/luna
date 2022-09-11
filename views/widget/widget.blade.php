@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,18 +16,19 @@
  * @var $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\Widget\AbstractWidget;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+use Windwalker\Core\View\View;
+use Windwalker\Edge\Component\ComponentAttributes;
 
 /**
- * @var $widget \Lyrasoft\Luna\Widget\AbstractWidget
- * @var $attributes \Windwalker\Edge\Component\ComponentAttributes
+ * @var $widget     AbstractWidget
+ * @var $attributes ComponentAttributes
  */
 
 $props = $attributes->props(
@@ -37,7 +42,7 @@ $attributes->setAttributes(
 );
 
 $data = $props['data'] ?: [];
-$view = $app->service(\Windwalker\Core\View\View::class, ['viewModel' => $widget]);
+$view = $app->service(View::class, ['viewModel' => $widget]);
 ?>
 
 <div {!! $attributes->class('c-widget-wrapper') !!}>

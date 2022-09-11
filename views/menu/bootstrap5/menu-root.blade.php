@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,8 +16,9 @@
  * @var  $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\Menu\Tree\MenuNodeInterface;
+use Lyrasoft\Luna\Services\MenuService;
+use Unicorn\Script\BootstrapScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -21,6 +26,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
+use Windwalker\Edge\Component\ComponentAttributes;
 
 $click = $click ?? false;
 $fade = $fade ?? false;
@@ -30,13 +36,13 @@ $level = (int) ($level ?? 1);
 $tag ??= 'ul';
 $menu ??= 'mainmenu';
 
-$menuService = $app->service(\Lyrasoft\Luna\Services\MenuService::class);
+$menuService = $app->service(MenuService::class);
 
 if (is_string($menu)) {
     $menu = $menuService->getMenusTree($menu);
 }
 
-$attributes ??= new \Windwalker\Edge\Component\ComponentAttributes();
+$attributes ??= new ComponentAttributes();
 $attributes = $attributes->exceptProps(
     [
         'click',
@@ -66,24 +72,24 @@ if ($fade) {
 }
 
 if ($dropdown) {
-    $app->service(\Unicorn\Script\BootstrapScript::class)->multiLevelMenu();
+    $app->service(BootstrapScript::class)->multiLevelMenu();
 }
 
 /**
- * @var \Lyrasoft\Luna\Menu\Tree\MenuNodeInterface $root
+ * @var MenuNodeInterface $root
  */
 ?>
 
 <{{ $tag }} {!! $attributes !!}
     data-menu-id="{{ $menu->getValue()?->getId() }}"
-    data-level="1">
-    {!! $start ?? '' !!}
+data-level="1">
+{!! $start ?? '' !!}
 
-    @if ($slot)
-        {!! $slot !!}
-    @else
-        @include('@menu::menu-items', ['parent' => $menu])
-    @endif
+@if ($slot)
+    {!! $slot !!}
+@else
+    @include('@menu::menu-items', ['parent' => $menu])
+@endif
 
-    {!! $end ?? '' !!}
+{!! $end ?? '' !!}
 </{{ $tag }}>

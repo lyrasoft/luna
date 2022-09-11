@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,8 +16,8 @@
  * @var  $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\Menu\Tree\MenuNodeInterface;
+use Lyrasoft\Luna\Menu\View\LinkMenuView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -22,13 +26,15 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 
-$id = $id ?? 'menu-' . \Windwalker\uid();
+use function Windwalker\uid;
+
+$id = $id ?? 'menu-' . uid();
 $click = $click ?? false;
 $vertical = $vertical ?? false;
-$link = ($link === \Lyrasoft\Luna\Menu\View\LinkMenuView::NO_LINK || (string) $link === '') ? false : $link;
+$link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $link;
 
 /**
- * @var \Lyrasoft\Luna\Menu\Tree\MenuNodeInterface $item
+ * @var MenuNodeInterface $item
  */
 ?>
 
@@ -61,7 +67,7 @@ $link = ($link === \Lyrasoft\Luna\Menu\View\LinkMenuView::NO_LINK || (string) $l
         data-menu-id="{{ $item->getValue()?->getId() }}"
         data-level="{{ $level }}">
         <a @attr('href', $link)
-            class="subnav-link {{ $item->isActive(true) ? 'active' : '' }}"
+        class="subnav-link {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('target', $link ? (string) $item->getTarget() : false)
         >
             @if ($item->getIcon())
