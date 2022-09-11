@@ -20,10 +20,10 @@ export default {
           'media', 'nonbreaking', 'save', 'table', 'directionality',
           'emoticons', 'template',
         ],
-        toolbar: 'undo redo ' +
-          'bold italic strikethrough forecolor backcolor removeformat | ' +
+        toolbar:
+          'bold italic strikethrough forecolor backcolor blockquote removeformat | ' +
+          'styles fontsize | ' +
           'alignleft aligncenter alignright alignjustify bullist numlist outdent indent | ' +
-          'blocks fontsize styles styleselect formatselect fontsizeselect | ' +
           'link image media table code | fullscreen',
         toolbar_mode: 'sliding',
         fontsize_formats: "13px 14px 15px 16px 18px 20px 22px 28px 36px 48px",

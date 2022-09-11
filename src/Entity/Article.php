@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Entity;
 
 use DateTimeInterface;
+use Lyrasoft\Luna\Attributes\Author;
+use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
@@ -89,9 +91,11 @@ class Article implements EntityInterface
     protected ?Chronos $modified = null;
 
     #[Column('created_by')]
+    #[Author]
     protected int $createdBy = 0;
 
     #[Column('modified_by')]
+    #[Modifier]
     protected int $modifiedBy = 0;
 
     #[Column('language')]
