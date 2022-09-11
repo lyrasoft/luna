@@ -35,6 +35,7 @@ use Windwalker\ORM\Nested\NestedPathableTrait;
  * The Category class.
  */
 #[NestedSet('categories', 'category')]
+#[\AllowDynamicProperties]
 class Category implements NestedPathableInterface
 {
     use NestedPathableTrait;

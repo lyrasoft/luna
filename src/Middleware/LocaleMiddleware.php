@@ -53,15 +53,14 @@ class LocaleMiddleware implements MiddlewareInterface
         if ($locale) {
             $state->remember($this->sessionKey, $locale);
         } else {
-            $locale = $state->get($this->sessionKey) ?: $this->localeService->getLocale();
+            $locale = $state->get($this->sessionKey);
+        }
+
+        if (!$locale && $this->useBrowser) {
+            $locale = $this->localeService->getBrowserLanguage();
         }
 
         if ($locale) {
-            // If URL has lang prefix
-            $this->localeService->setLocale($locale);
-        } elseif ($this->useBrowser) {
-            $locale = $this->localeService->getBrowserLanguage();
-
             $this->localeService->setLocale($locale);
         }
 

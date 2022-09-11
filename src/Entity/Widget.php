@@ -33,6 +33,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The Widget class.
  */
 #[Table('widgets', 'widget')]
+#[\AllowDynamicProperties]
 class Widget implements EntityInterface
 {
     use EntityTrait;

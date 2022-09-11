@@ -34,6 +34,7 @@ use Windwalker\ORM\Nested\NestedEntityTrait;
  * The UserRoles class.
  */
 #[NestedSet('user_roles', 'user_role')]
+#[\AllowDynamicProperties]
 class UserRole implements NestedEntityInterface
 {
     use NestedEntityTrait;

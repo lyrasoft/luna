@@ -36,6 +36,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The Article class.
  */
 #[Table('articles', 'article')]
+#[\AllowDynamicProperties]
 class Article implements EntityInterface
 {
     use EntityTrait;

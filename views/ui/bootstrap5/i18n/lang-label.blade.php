@@ -14,16 +14,28 @@
 
 declare(strict_types=1);
 
+namespace App\View;
+
+use Lyrasoft\Luna\Entity\Language;
+use Lyrasoft\Luna\Services\LocaleService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+use Windwalker\Data\Collection;
+use Windwalker\ORM\ORM;
 
-$localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
+$localeService = $app->service(LocaleService::class);
 
 $field ??= 'title';
+
+$lang ??= $item->lang;
+
+/**
+ * @var $lang Language|Collection
+ */
 ?>
 
 <div class="text-nowrap">
@@ -31,12 +43,12 @@ $field ??= 'title';
         <span class="fa fa-earth-americas"></span>
         @lang('luna.language.all')
     @else
-        <span class="" title="{{ $field === 'code' ? $item->lang->title : $item->lang->code }}"
+        <span class="" title="{{ $field === 'code' ? $lang->title : $lang->code }}"
             data-bs-toggle="tooltip"
             data-toggle="tooltip"
         >
-            <span class="{{ $localeService->getFlagIconClass($item->lang->image) }}"></span>
-            {{ $item->lang->$field }}
+            <span class="{{ $localeService->getFlagIconClass($lang->image) }}"></span>
+            {{ $lang->$field }}
         </span>
     @endif
 </div>

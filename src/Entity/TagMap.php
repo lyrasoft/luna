@@ -22,6 +22,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The TagMap class.
  */
 #[Table('tag_maps', 'tag_map')]
+#[\AllowDynamicProperties]
 class TagMap implements EntityInterface
 {
     use EntityTrait;

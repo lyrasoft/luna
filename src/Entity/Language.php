@@ -29,6 +29,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The Language class.
  */
 #[Table('languages', 'language')]
+#[\AllowDynamicProperties]
 class Language implements EntityInterface
 {
     use EntityTrait;

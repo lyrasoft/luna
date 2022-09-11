@@ -52,11 +52,9 @@ class ArticleController
             function (AfterSaveEvent $event) use ($fileUploadService, $tagService, $repository, $app) {
                 $data = $event->getData();
 
-                $ext = function_exists('imagewebp') ? '.webp' : '.{ext}';
-
                 $data['image'] = $fileUploadService->handleFileIfUploaded(
                     $app->file('item')['image'] ?? null,
-                    'images/article/cover-' . md5((string) $data['id']) . $ext
+                    'images/article/cover-' . md5((string) $data['id']) . '.{ext}'
                 )?->getUri(true) ?? $data['image'];
 
                 $repository->save($data);

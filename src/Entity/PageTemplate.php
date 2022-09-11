@@ -33,6 +33,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The PageTemplate class.
  */
 #[Table('page_templates', 'page_template')]
+#[\AllowDynamicProperties]
 class PageTemplate implements EntityInterface
 {
     use EntityTrait;
