@@ -148,7 +148,10 @@ class UserController
             $activationService->sendActivateMail($id);
         }
 
-        $app->addMessage($this->trans('luna.message.batch.resend.actication.success', count($ids)));
+        $app->addMessage(
+            $this->trans('luna.message.batch.resend.activation.success', count: count($ids)),
+            'success'
+        );
 
         return $nav->to('user_list');
     }
