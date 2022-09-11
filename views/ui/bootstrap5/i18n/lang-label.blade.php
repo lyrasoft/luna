@@ -37,6 +37,11 @@ if ($item->lang ?? null) {
 
 $code ??= $item->language ?? '';
 
+$langItem = $lang;
+
+// Reset lang variable
+$lang = $app->service(LangService::class);
+
 /**
  * @var $lang Language|Collection
  */
@@ -47,12 +52,12 @@ $code ??= $item->language ?? '';
         <span class="fa fa-earth-americas"></span>
         @lang('luna.language.all')
     @else
-        <span class="" title="{{ $field === 'code' ? $lang->title : $lang->code }}"
+        <span class="" title="{{ $field === 'code' ? $langItem->title : $langItem->code }}"
             data-bs-toggle="tooltip"
             data-toggle="tooltip"
         >
-            <span class="{{ $localeService->getFlagIconClass((string) $lang->image) }}"></span>
-            {{ $lang->$field }}
+            <span class="{{ $localeService->getFlagIconClass((string) $langItem->image) }}"></span>
+            {{ $langItem->$field }}
         </span>
     @endif
 </div>
