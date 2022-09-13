@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Helper;
 
 use Exception;
 use JsonException;
+use Psr\Http\Message\ResponseInterface;
 use Windwalker\Filesystem\Filesystem;
 use Windwalker\Http\HttpClient;
 
@@ -22,18 +23,13 @@ use Windwalker\Http\HttpClient;
 class UnsplashHelper
 {
     /**
-     * Property images.
-     *
-     * @var  array
-     */
-    protected static array $images = [];
-
-    /**
      * Property ids.
      *
      * @var  array|null
      */
     protected static array|null $ids = null;
+
+    protected static ?\Closure $imageListHandler = null;
 
     /**
      * getImageUrl
@@ -117,7 +113,11 @@ class UnsplashHelper
             $file = static::getTempPath();
 
             if (!is_file($file)) {
-                static::dump();
+                try {
+                    static::dumpFromApi();
+                } catch (\RuntimeException $e) {
+                    $file = __DIR__ . '/../../resources/data/picsum-list.data';
+                }
             }
 
             $content = file_get_contents($file);
@@ -135,7 +135,7 @@ class UnsplashHelper
      */
     protected static function getTempPath(): string
     {
-        return WINDWALKER_TEMP . '/unidev/images/picsum-list.data';
+        return WINDWALKER_TEMP . '/luna/images/picsum-list.data';
     }
 
     /**
@@ -143,20 +143,29 @@ class UnsplashHelper
      *
      * @return  array
      */
-    public static function getList(): array
+    public static function getIdListFromApi(): array
     {
-        if (!static::$images) {
-            $http = new HttpClient();
-            $response = $http->get('https://picsum.photos/list');
+        $ids = [];
 
-            $images = json_decode($response->getBody()->__toString(), true);
+        $http = new HttpClient();
 
-            foreach ($images as $image) {
-                static::$images[$image['id']] = $image;
-            }
+        /** @var ResponseInterface $response */
+        $response = static::getImageListHandler()($http, 'https://picsum.photos/list');
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \RuntimeException(
+                $response->getReasonPhrase(),
+                $response->getStatusCode()
+            );
         }
 
-        return static::$images;
+        $images = json_decode($response->getBody()->__toString(), true);
+
+        foreach ($images as $image) {
+            $ids[] = $image['id'];
+        }
+
+        return $ids;
     }
 
     /**
@@ -164,14 +173,40 @@ class UnsplashHelper
      *
      * @return  void
      */
-    public static function dump(): void
+    public static function dumpFromApi(): void
     {
-        $list = static::getList();
-
-        $ids = array_column($list, 'id');
+        $ids = static::getIdListFromApi();
 
         $content = implode(',', $ids);
 
         Filesystem::write(static::getTempPath(), $content);
+    }
+
+    /**
+     * @return \Closure|null
+     */
+    public static function getImageListHandler(): ?\Closure
+    {
+        return static::$imageListHandler ?? static function (HttpClient $client, string $url) {
+            return $client->get(
+                $url,
+                [
+                    'headers' => [
+                        'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' .
+                            '(KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+                    ]
+                ]
+            );
+        };
+    }
+
+    /**
+     * @param  \Closure|null  $imageListHandler
+     *
+     * @return  void
+     */
+    public static function setImageListHandler(?\Closure $imageListHandler): void
+    {
+        static::$imageListHandler = $imageListHandler;
     }
 }
