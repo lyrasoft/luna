@@ -92,8 +92,10 @@ class ActivationService
         )
             ->full();
 
+        $site = $this->app->config('company.site_name') ?: 'Confirm';
+
         $message = $this->mailer->createMessage(
-            $this->trans('luna.registration.mail.subject')
+            $this->trans('luna.registration.mail.subject', site: $site)
         )
             ->to("{$user->getName()} <{$user->getEmail()}>")
             ->html(

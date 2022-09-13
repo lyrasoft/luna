@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,31 +16,32 @@
  * @var $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\Services\LocaleService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+use Windwalker\Edge\Component\ComponentAttributes;
+use Windwalker\ORM\ORM;
 
 $asset->js('@vendor/lyrasoft/luna/dist/lang-dropdown.js');
 
-$localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
+$localeService = $app->service(LocaleService::class);
 
 $labelField ??= 'title';
 $langField ??= 'language';
 $routeName ??= '';
 
-$orm = $app->service(\Windwalker\ORM\ORM::class);
+$orm = $app->service(ORM::class);
 $metadata = $orm->getEntityMetadata($table);
 $idName = $metadata->getMainKey();
 
 $id = $item?->$idName;
 
 /**
- * @var \Windwalker\Edge\Component\ComponentAttributes $attributes
+ * @var ComponentAttributes $attributes
  */
 
 $props = $attributes->props(

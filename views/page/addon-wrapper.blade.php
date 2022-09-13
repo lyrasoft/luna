@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,8 +16,6 @@
  * @var  $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Attributes\ViewModel;
@@ -21,12 +23,14 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+use Windwalker\DOM\DOMElement;
+
 ?>
 <div id="{{ $options['html_id'] }}" class="c-addon c-addon--{{ $content['type'] }} {{ implode(' ', $classes) }}"
     uni-page-edit="addon"
     data-path="{{ $path }}"
     data-addon-type="{{ $content['type'] }}"
-    {!! \Windwalker\DOM\DOMElement::buildAttributes($attrs) !!}>
+    {!! DOMElement::buildAttributes($attrs) !!}>
     @if ($options->getDeep('background.overlay'))
         <div class="l-bg-overlay"></div>
     @endif

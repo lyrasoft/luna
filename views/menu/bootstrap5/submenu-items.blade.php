@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,8 +16,10 @@
  * @var  $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
+use Lyrasoft\Luna\Menu\LayoutRenderedMenuInterface;
+use Lyrasoft\Luna\Menu\Tree\DbMenuNode;
+use Lyrasoft\Luna\Menu\Tree\MenuNode;
+use Lyrasoft\Luna\Menu\Tree\MenuNodeInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -27,8 +33,8 @@ $dropdown = $dropdown ?? false;
 $vertical = $vertical ?? false;
 
 /**
- * @var \Lyrasoft\Luna\Menu\Tree\MenuNodeInterface $parent
- * @var \Lyrasoft\Luna\Menu\Tree\MenuNodeInterface $item
+ * @var MenuNodeInterface $parent
+ * @var MenuNodeInterface $item
  */
 ?>
 
@@ -37,9 +43,9 @@ $vertical = $vertical ?? false;
         @continue
     @endif
 
-    @if ($item instanceof \Lyrasoft\Luna\Menu\Tree\DbMenuNode && $item->getViewInstance() instanceof \Lyrasoft\Luna\Menu\LayoutRenderedMenuInterface)
+    @if ($item instanceof DbMenuNode && $item->getViewInstance() instanceof LayoutRenderedMenuInterface)
         @include($item->getViewInstance()->getLayout())
-    @elseif ($level > 1 && $item instanceof \Lyrasoft\Luna\Menu\Tree\MenuNode)
+    @elseif ($level > 1 && $item instanceof MenuNode)
         @include('@menu::' . $item->getLayout())
     @else
         @include('@menu::link.link')

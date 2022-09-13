@@ -3,12 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @var $app   \Windwalker\Core\Application\AppContext
+ * @var $app     AppContext
  * @var $attrs   array
  * @var $options array
  */
 
-$app->service(\Lyrasoft\Luna\Script\LunaScript::class)->captcha();
+use Lyrasoft\Luna\Script\LunaScript;
+use Windwalker\Core\Application\AppContext;
+
+$app->service(LunaScript::class)->captcha();
 
 $route = $options['route'] ?? null;
 
@@ -23,7 +26,9 @@ $attrs['data-captcha-input'] = true;
     <div class="mt-3 mt-md-0 flex-grow-1 me-2">
         <input {!! \Windwalker\DOM\DOMElement::buildAttributes($attrs) !!} />
     </div>
-    <img class="c-gregwar-captcha__image" src="{{ $route ?: $nav->to('_captcha_image', ['t' => time(), 'profile' => $options['profile']]) }}" alt="Captcha"
+    <img class="c-gregwar-captcha__image"
+        src="{{ $route ?: $nav->to('_captcha_image', ['t' => time(), 'profile' => $options['profile']]) }}"
+        alt="Captcha"
         data-captcha-image data-image="{{ $route ?: $nav->to('_captcha_image', ['profile' => $options['profile']]) }}">
     <button type="button" class="btn btn-link c-gregwar-captcha__button text-nowrap" data-captcha-refresh>
         <span class="fa fa-sync c-gregwar-captcha__refresh-icon" data-refresh-icon></span>

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -11,10 +15,6 @@
  * @var $asset     AssetService    The Asset manage service.
  * @var $lang      LangService     The language translation service.
  */
-
-declare(strict_types=1);
-
-namespace App\View;
 
 use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Services\LocaleService;
@@ -31,7 +31,16 @@ $localeService = $app->service(LocaleService::class);
 
 $field ??= 'title';
 
-$lang ??= $item->lang;
+if ($item->lang ?? null) {
+    $lang = $item->lang;
+}
+
+$code ??= $item->language ?? '';
+
+$langItem = $lang;
+
+// Reset lang variable
+$lang = $app->service(LangService::class);
 
 /**
  * @var $lang Language|Collection
@@ -39,16 +48,16 @@ $lang ??= $item->lang;
 ?>
 
 <div class="text-nowrap">
-    @if ($item->language === '*')
+    @if ($code === '*')
         <span class="fa fa-earth-americas"></span>
         @lang('luna.language.all')
     @else
-        <span class="" title="{{ $field === 'code' ? $lang->title : $lang->code }}"
+        <span class="" title="{{ $field === 'code' ? $langItem->title : $langItem->code }}"
             data-bs-toggle="tooltip"
             data-toggle="tooltip"
         >
-            <span class="{{ $localeService->getFlagIconClass($lang->image) }}"></span>
-            {{ $lang->$field }}
+            <span class="{{ $localeService->getFlagIconClass((string) $langItem->image) }}"></span>
+            {{ $langItem->$field }}
         </span>
     @endif
 </div>

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\View;
+
 /**
  * Global variables
  * --------------------------------------------------------------
@@ -12,8 +16,6 @@
  * @var  $lang      LangService     The language translation service.
  */
 
-declare(strict_types=1);
-
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Attributes\ViewModel;
@@ -21,6 +23,7 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+use Windwalker\DOM\DOMElement;
 
 $options = $col->extract('options');
 
@@ -38,7 +41,7 @@ $classes = array_filter($classes, '\strlen');
     data-path="{{ $path }}"
 >
     <div id="{{ $options->getDeep('html_id') }}" class="l-column__body {{ implode(' ', $classes) }}"
-        {!! \Windwalker\DOM\DOMElement::buildAttributes($attrs) !!}>
+        {!! DOMElement::buildAttributes($attrs) !!}>
         @if ($options->getDeep('background.overlay'))
             <div class="l-bg-overlay"></div>
         @endif
