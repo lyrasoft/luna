@@ -14,6 +14,8 @@ namespace App\Seeder;
 use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Language;
+use Lyrasoft\Luna\Entity\Tag;
+use Lyrasoft\Luna\Entity\TagMap;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Services\LocaleService;
 use Unicorn\Utilities\SlugHelper;
@@ -40,6 +42,7 @@ $seeder->import(
         $langCodes = LocaleService::getSeederLangCodes($orm);
         $categoryIds = $orm->findColumn(Category::class, 'id', ['type' => $type])->dump();
         $userIds = $orm->findColumn(User::class, 'id')->dump();
+        $tagIds = $orm->findColumn(Tag::class, 'id')->dump();
 
         foreach (range(1, 150) as $i) {
             $langCode = $faker->randomElement($langCodes);
@@ -67,6 +70,15 @@ $seeder->import(
 
             $item = $mapper->createOne($item);
 
+            foreach ($faker->randomElements($tagIds, random_int(3, 5)) as $tagId) {
+                $map = new TagMap();
+                $map->setTagId((int) $tagId);
+                $map->setType('article');
+                $map->setTargetId($item->getId());
+
+                $orm->createOne(TagMap::class, $map);
+            }
+
             $seeder->outCounting();
         }
     }
@@ -74,6 +86,6 @@ $seeder->import(
 
 $seeder->clear(
     static function () use ($seeder, $orm, $db) {
-        //
+        $seeder->truncate(Article::class);
     }
 );
