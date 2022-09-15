@@ -84,6 +84,8 @@ class AccessMiddleware implements MiddlewareInterface
             if ($result instanceof ResponseInterface) {
                 return $result;
             }
+
+            return $handler->handle($request);
         }
 
         $rules = (array) $this->rules;
