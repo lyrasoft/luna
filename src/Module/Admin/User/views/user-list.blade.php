@@ -16,6 +16,7 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
+use Unicorn\Image\ImagePlaceholder;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -36,7 +37,6 @@ $imgPlaceholder = $app->service(\Unicorn\Image\ImagePlaceholder::class);
 $luna = $app->service(\Lyrasoft\Luna\LunaPackage::class);
 
 $loginName = $luna->getLoginName();
-
 ?>
 
 @extends($app->config('luna.view_extends.admin.list') ?? 'admin.global.body-list')
@@ -114,9 +114,9 @@ $loginName = $luna->getLoginName();
 
                     <tbody>
                     @foreach ($items as $i => $item)
-                        <?php
-                        $entity = $vm->prepareItem($item);
-                        ?>
+                            <?php
+                            $entity = $vm->prepareItem($item);
+                            ?>
                         <tr data-order-group="">
                             {{-- CHECKBOX --}}
                             <td>
@@ -128,15 +128,11 @@ $loginName = $luna->getLoginName();
                                 <div class="d-flex align-items-center">
                                     <div class="user-avatar-wrapper mr-2">
                                         @if (method_exists($entity, 'getAvatar'))
-                                            @if ($entity->getAvatar())
-                                                <img class="c-user-avatar rounded-circle me-2"
-                                                    src="{{ $item->avatar }}"
-                                                    height="45"
-                                                    width="45"
-                                                    alt="Avatar">
-                                            @else
-                                                <div class="user-avatar user-avatar-default"></div>
-                                            @endif
+                                            <img class="c-user-avatar rounded-circle me-2"
+                                                src="{{ $entity->getAvatar() ?: $imgPlaceholder->avatar() }}"
+                                                height="45"
+                                                width="45"
+                                                alt="Avatar">
                                         @endif
                                     </div>
                                     <div>
@@ -222,7 +218,7 @@ $loginName = $luna->getLoginName();
                     </tr>
                     </tfoot>
                 </table>
-                
+
             </div>
 
         @else
