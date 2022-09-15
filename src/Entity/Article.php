@@ -57,7 +57,7 @@ class Article implements EntityInterface
     protected string $title = '';
 
     #[Column('alias')]
-    #[Slugify]
+    #[Slugify(utf8: true)]
     protected string $alias = '';
 
     #[Column('image')]

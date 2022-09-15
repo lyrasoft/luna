@@ -23,9 +23,9 @@ use Windwalker\ORM\ORM;
 class Slugify extends CastForSave
 {
     public function __construct(
-        protected $utf8 = false,
-        protected $titleColumn = 'title',
-        protected int $limit = 16
+        protected bool $utf8 = false,
+        protected string $titleColumn = 'title',
+        protected int $limit = 8
     ) {
         parent::__construct(null);
     }
@@ -39,7 +39,7 @@ class Slugify extends CastForSave
                 $default = $orm->extractField($entity, $this->titleColumn);
             }
 
-            return SlugHelper::safe((string) $value, $this->utf8, $default);
+            return SlugHelper::safe((string) $value, $this->utf8, $default, $this->limit);
         };
     }
 }
