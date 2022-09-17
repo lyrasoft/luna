@@ -20,8 +20,10 @@
               </div>
             </button>
             <button class="btn btn-outline-secondary btn-sm dropdown-toggle dropdown-toggle-split"
-              data-bs-toggle="dropdown">
-              <span class="visually-hidden">Toggle Dropdown</span>
+              data-toggle="dropdown"
+              data-bs-toggle="dropdown"
+            >
+              <span class="visually-hidden sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-right">
               <button class="dropdown-item" @click="$trigger('tmpl.save', content, 'page')">

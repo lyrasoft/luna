@@ -54,6 +54,7 @@
           <button
             type="button"
             class="btn btn-link btn-mini p-0 d-inline-block"
+            data-toggle="dropdown"
             data-bs-toggle="dropdown"
           >
             <span class="fa fa-fw fa-gear text-dark"></span>
@@ -77,7 +78,7 @@
 
 <script>
 import { emptyRow, addTextToClipboard, readClipboard } from '@/services/page-builder/page-builder.service';
-import { computed, reactive, watch, toRefs } from 'vue';
+import { computed, reactive, watch, toRefs, nextTick } from 'vue';
 
 export default {
   name: 'addon',
@@ -102,10 +103,16 @@ export default {
 
     function toggleDisabled(e) {
       const button = e.currentTarget;
+      const ver = Number(bootstrap.Tooltip.VERSION.split('.').shift());
 
-      const tt = bootstrap.Tooltip.getInstance(button);
+      if (ver <= 4) {
+        $(button).tooltip('hide');
+      } else {
+        const tt = u.$ui.bootstrap.tooltip(button);
+        tt.hide();
+      }
 
-      tt.hide();
+      button.blur();
 
       props.content.disabled = !props.content.disabled;
     }

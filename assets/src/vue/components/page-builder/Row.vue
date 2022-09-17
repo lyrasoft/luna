@@ -35,6 +35,7 @@
         </button>
         <span class="dropdown">
             <button href="#" class="btn btn-sm btn-outline-primary"
+              data-toggle="dropdown"
               data-bs-toggle="dropdown"
             >
                 <span class="fa fa-cog"></span>
@@ -114,7 +115,8 @@
             class="btn btn-sm btn-outline-secondary">
             Add New Row
           </button>
-          <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle doprdown-toggle-split"
+          <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle dropdown-toggle-split"
+            data-toggle="dropdown"
             data-bs-toggle="dropdown">
             <span class="visually-hidden sr-only">Toggle Dropdown</span>
           </button>

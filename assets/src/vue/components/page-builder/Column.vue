@@ -39,16 +39,19 @@
 
             <div class="dropdown d-inline-block">
               <button type="button" href="#" class="btn btn-sm px-2 py-0 btn-outline-secondary"
+                data-toggle="dropdown"
                 data-bs-toggle="dropdown"
               >
                 <span class="fa fa-arrows-alt-h"></span>
               </button>
 
-              <div class="dropdown-menu dropdown-menu-right dropdown-menu-end px-3" :class="widthMenuOpen"
-              >
+              <div class="dropdown-menu dropdown-menu-right dropdown-menu-end px-3" :class="widthMenuOpen">
                 <div class="form-group mb-3">
-                  <label :for="`input-column-edit-width-desktop--${content.id}`">Desktop Width</label>
+                  <label :for="`input-column-edit-width-desktop--${content.id}`" class="d-block">
+                    Desktop Width
+                  </label>
                   <select :id="`input-column-edit-width-desktop--${content.id}`"
+                    @click.stop=""
                     v-model="content.options.width.lg" class="form-select custom-select">
                     <option v-for="w of widthRange()" :value="'col-lg-' + w">
                       col-lg-{{ w }}
@@ -58,8 +61,11 @@
 
                 <!-- Tablet Layout -->
                 <div class="form-group mb-3">
-                  <label :for="`input-column-edit-width-tablet--${content.id}`">Tablet Width</label>
+                  <label :for="`input-column-edit-width-tablet--${content.id}`" class="d-block">
+                    Tablet Width
+                  </label>
                   <select :id="`input-column-edit-width-tablet--${content.id}`"
+                    @click.stop=""
                     v-model="content.options.width.md" class="form-select custom-select">
                     <option value="">- None -</option>
                     <option v-for="w of widthRange()" :value="'col-md-' + w">
@@ -70,8 +76,11 @@
 
                 <!-- Mobile Layout -->
                 <div class="form-group mb-3">
-                  <label :for="`input-column-edit-width-mobile--${content.id}`">Mobile Width</label>
+                  <label :for="`input-column-edit-width-mobile--${content.id}`" class="d-block">
+                    Mobile Width
+                  </label>
                   <select :id="`input-column-edit-width-mobile--${content.id}`"
+                    @click.stop=""
                     v-model="content.options.width.xs" class="form-select custom-select">
                     <option value="">- None -</option>
                     <option v-for="w of widthRange()" :value="'col-' + w">
@@ -87,6 +96,7 @@
               <button
                 type="button"
                 class="btn btn-outline-secondary btn-sm px-2 py-0"
+                data-toggle="dropdown"
                 data-bs-toggle="dropdown"
               >
                 <span class="fa fa-cog"></span>

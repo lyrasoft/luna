@@ -106,11 +106,11 @@ export default {
     });
 
     function getModalInstance() {
-      return bootstrap.Modal.getOrCreateInstance(modal.value);
+      return bootstrap.Modal.getInstance(modal.value);
     }
 
     function hasSlots(name) {
-      return slots[name] != undefined;
+      return slots[name] !== undefined;
     }
 
     return {

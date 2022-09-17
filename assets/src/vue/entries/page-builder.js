@@ -11,11 +11,6 @@ import Row from "../components/page-builder/Row";
 import Column from "../components/page-builder/Column";
 
 import '@/services/page-builder/addon-mixin.js';
-// import AddonText from '@/components/page-builder/addons/addon-text';
-// import AddonImage from '@/components/page-builder/addons/addon-image';
-// import AddonFeature from '@/components/page-builder/addons/addon-feature';
-// import AddonEmptyspace from '@/components/page-builder/addons/addon-emptyspace';
-// import AddonButton from '@/components/page-builder/addons/addon-button';
 
 import Tinymce from '@/services/page-builder/directives/tinymce';
 import BsTooltip from '@/services/page-builder/directives/tooltip';
@@ -24,7 +19,7 @@ import('sweetalert');
 
 S.import('@main')
   .then(() => Promise.all([
-    u.import(
+    u.importSync(
       '@sortablejs',
       '@vuedraggable',
     ),

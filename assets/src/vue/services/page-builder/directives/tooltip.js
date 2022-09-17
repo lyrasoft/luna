@@ -11,10 +11,11 @@ export default class BsTooltip {
       mounted(el, { value }) {
         value = value || {};
         value.container = 'body';
-        const tooltip = new bootstrap.Tooltip(el, value);
+
+        const tooltip = u.$ui.bootstrap.tooltip(el, value);
       },
       beforeUpdated(el) {
-        const tooltip = bootstrap.Tooltip.getInstance(el);
+        const tooltip = u.$ui.bootstrap.tooltip(el);
 
         tooltip.dispose();
         tooltip.enable();

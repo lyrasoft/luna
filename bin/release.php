@@ -37,6 +37,8 @@ HELP;
      */
     protected function doExecute()
     {
+        $this->compileAssets();
+
         $currentVersion = trim(file_get_contents(__DIR__ . '/../VERSION'));
         $targetVersion = $this->getArgument(0);
 
@@ -46,7 +48,6 @@ HELP;
 
         $this->out('Release version: ' . $targetVersion);
 
-        $this->compileAssets();
         $this->replaceDocblockTags($targetVersion);
 
         static::writeVersion($targetVersion);
@@ -171,6 +172,14 @@ HELP;
      */
     protected function compileAssets()
     {
+        foreach (glob(__DIR__ . '/../assets/dist/*.js.map') as $file) {
+            unlink($file);
+        }
+
+        foreach (glob(__DIR__ . '/../assets/dist/page/*') as $file) {
+            unlink($file);
+        }
+
         $this->exec('yarn --cwd ./assets build:prod');
     }
 
