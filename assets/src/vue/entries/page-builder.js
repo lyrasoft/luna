@@ -5,20 +5,22 @@
  * @license    __LICENSE__
  */
 
-import { createApp } from 'vue';
+import { createApp, defineAsyncComponent } from 'vue';
 import PageBuilderApp from '../app/PageBuilderApp';
 import Row from "../components/page-builder/Row";
 import Column from "../components/page-builder/Column";
 
 import '@/services/page-builder/addon-mixin.js';
-import AddonText from '@/components/page-builder/addons/addon-text';
-import AddonImage from '@/components/page-builder/addons/addon-image';
-import AddonFeature from '@/components/page-builder/addons/addon-feature';
-import AddonEmptyspace from '@/components/page-builder/addons/addon-emptyspace';
-import AddonButton from '@/components/page-builder/addons/addon-button';
+// import AddonText from '@/components/page-builder/addons/addon-text';
+// import AddonImage from '@/components/page-builder/addons/addon-image';
+// import AddonFeature from '@/components/page-builder/addons/addon-feature';
+// import AddonEmptyspace from '@/components/page-builder/addons/addon-emptyspace';
+// import AddonButton from '@/components/page-builder/addons/addon-button';
 
 import Tinymce from '@/services/page-builder/directives/tinymce';
 import BsTooltip from '@/services/page-builder/directives/tooltip';
+
+import('sweetalert');
 
 S.import('@main')
   .then(() => Promise.all([
@@ -48,11 +50,11 @@ S.import('@main')
     app.component('Column', Column);
 
     // Register these components because they are addons, not core.
-    app.component('addon-text', AddonText);
-    app.component('addon-image', AddonImage);
-    app.component('addon-feature', AddonFeature);
-    app.component('addon-emptyspace', AddonEmptyspace);
-    app.component('addon-button', AddonButton);
+    app.component('addon-text', defineAsyncComponent(() => import('@/components/page-builder/addons/addon-text')));
+    app.component('addon-image', defineAsyncComponent(() => import('@/components/page-builder/addons/addon-image')));
+    app.component('addon-feature', defineAsyncComponent(() => import('@/components/page-builder/addons/addon-feature')));
+    app.component('addon-emptyspace', defineAsyncComponent(() => import('@/components/page-builder/addons/addon-emptyspace')));
+    app.component('addon-button', defineAsyncComponent(() => import('@/components/page-builder/addons/addon-button')));
 
     app.directive('tinymce', Tinymce)
 

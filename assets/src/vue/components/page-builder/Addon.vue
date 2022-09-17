@@ -1,5 +1,5 @@
 <template>
-  <div class="card c-addon-instance move-handle" style="cursor: move;" :disabled="content.disabled ? true : null">
+  <div class="card c-addon-instance border-2 move-handle" style="cursor: move;" :disabled="content.disabled ? true : null">
     <div class="card-body d-flex">
       <div class="c-addon-instance__icon">
         <span :class="content.icon"></span>

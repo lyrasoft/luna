@@ -135,7 +135,6 @@
 </template>
 
 <script>
-import swal from 'sweetalert';
 import { defaultsDeep, startsWith } from 'lodash-es';
 import { computed, reactive, toRefs, watch } from 'vue';
 import {

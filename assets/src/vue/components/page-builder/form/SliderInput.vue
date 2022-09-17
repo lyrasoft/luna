@@ -17,14 +17,13 @@
 </template>
 
 <script>
-import VueSlider from 'vue-slider-component';
-import 'vue-slider-component/theme/default.css'
-import { ref, watch } from 'vue';
+import { ref, watch, defineAsyncComponent } from 'vue';
+import('vue-slider-component/theme/default.css');
 
 export default {
   name: 'SliderInput',
   components: {
-    VueSlider
+    VueSlider: defineAsyncComponent(() => import('vue-slider-component'))
   },
   props: {
     id: String,

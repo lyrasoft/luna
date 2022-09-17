@@ -44,6 +44,10 @@ export async function vue() {
     'dist/',
     {
       override: (config) => {
+        config.output.chunkFilename = process.env.NODE_ENV === 'production'
+          ? 'page/chunk-vendor.[name].js'
+          : 'dev/page-vendor.[name].js';
+
         config.resolve.alias = {
           // 'vue$': path.resolve('src/vue/services/vue-adapter.js'),
           '@': path.resolve(path.resolve(), './src/vue/') // Will be overwrite when compile
@@ -53,9 +57,9 @@ export async function vue() {
           vue: 'Vue'
         };
 
-        config.plugins.push(
-          new BundleAnalyzerPlugin()
-        );
+        // config.plugins.push(
+        //   new BundleAnalyzerPlugin()
+        // );
 
         config.plugins.push(
           new webpack.DefinePlugin({
