@@ -5,10 +5,6 @@
  * @license    __LICENSE__
  */
 
-import 'codemirror/mode/css/css.js';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-
 export const CodeMirrorOptions = {
   tabSize: 2,
   mode: 'text/x-scss',
@@ -16,7 +12,8 @@ export const CodeMirrorOptions = {
   theme: 'material',
   lineNumbers: true,
   line: true,
-  height: '450px'
+  height: '450px',
+  autoCloseBrackets: true,
 };
 
 /**

@@ -17,7 +17,9 @@
         <div class="column__actions ml-auto ms-auto text-nowrap">
           <button type="button" class="btn btn-sm px-2 py-0 btn-primary"
             v-if="!content.disabled"
-            v-c-tooltip="'New Addon'"
+            v-tooltip
+
+            title="New Addon"
             @click="addAddon()">
             <span class="fa fa-plus"></span>
             <!--            <span v-if="!child">-->
@@ -27,23 +29,20 @@
 
           <button type="button" class="btn btn-sm px-2 py-0 btn-outline-secondary"
             @click="edit()"
-            v-c-tooltip="'Edit Column'"
+            v-tooltip
             title="Edit Column"
             v-if="!content.disabled">
             <span class="fa fa-edit"></span>
           </button>
 
-          <div class="dropdown d-inline-block" :class="widthMenuOpen"
-            v-click-away="closeWidthMenu">
+          <div class="dropdown d-inline-block">
             <button type="button" href="#" class="btn btn-sm px-2 py-0 btn-outline-secondary"
-              v-c-tooltip="'Width'"
-              title="Width"
-              @click="widthMenuOpen = widthMenuOpen === 'show' ? '' : 'show'"
+              data-bs-toggle="dropdown"
             >
               <span class="fa fa-arrows-alt-h"></span>
             </button>
 
-            <div class="dropdown-menu dropdown-menu-right px-3" :class="widthMenuOpen"
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-end px-3" :class="widthMenuOpen"
             >
               <div class="form-group mb-3">
                 <label :for="`input-column-edit-width-desktop--${content.id}`">Desktop Width</label>
@@ -82,55 +81,53 @@
           </div>
 
           <!-- Topbar Dropdown -->
-          <CDropdown class="d-inline-block">
-            <CDropdownToggle
-              class="d-inline-block px-2 py-0"
-              color="secondary"
-              variant="outline"
-              size="sm"
-              v-c-tooltip="'Manage'"
+          <div class="d-inline-block doprdown">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm px-2 py-0"
+              data-bs-toggle="dropdown"
             >
               <span class="fa fa-cog"></span>
-            </CDropdownToggle>
-            <CDropdownMenu>
-              <CDropdownItem @click="duplicate()"
+            </button>
+            <div class="dropdown-menu dropdown-menu-end dropdown-menu-right">
+              <button type="button" class="dropdown-item" @click="duplicate()"
                 v-if="!content.disabled">
                 <span class="fa fa-fw fa-clone"></span>
                 Clone
-              </CDropdownItem>
-              <CDropdownItem @click="copy()"
+              </button>
+              <button type="button" class="dropdown-item" @click="copy()"
                 v-if="!content.disabled">
                 <span class="fa fa-fw fa-copy"></span>
                 Copy
-              </CDropdownItem>
-              <CDropdownItem @click="paste()"
+              </button>
+              <button type="button" class="dropdown-item" @click="paste()"
                 v-if="!content.disabled">
                 <span class="fa fa-fw fa-paste"></span>
                 Paste
-              </CDropdownItem>
-              <CDropdownItem @click="toggleDisabled()">
+              </button>
+              <button type="button" class="dropdown-item" @click="toggleDisabled()">
                 <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                 {{ content.disabled ? 'Enabled' : 'Disabled' }}
-              </CDropdownItem>
-              <CDropdownItem @click="addNewRow()"
+              </button>
+              <button type="button" class="dropdown-item" @click="addNewRow()"
                 v-if="!content.disabled && !child">
                 <span class="fa fa-fw fa-plus"></span>
                 New Row
-              </CDropdownItem>
-              <CDropdownItem @click="openTemplates" v-if="!content.disabled">
+              </button>
+              <button type="button" class="dropdown-item" @click="openTemplates" v-if="!content.disabled">
                 <span class="fa fa-fw fa-file-code"></span>
                 Insert Template
-              </CDropdownItem>
-              <CDropdownItem @click="$trigger('tmpl.save', content, 'column')">
+              </button>
+              <button type="button" class="dropdown-item" @click="$trigger('tmpl.save', content, 'column')">
                 <span class="fa fa-fw fa-save"></span>
                 Save as Template
-              </CDropdownItem>
-              <CDropdownItem @click="remove()">
+              </button>
+              <button type="button" class="dropdown-item" @click="remove()">
                 <span class="fa fa-fw fa-trash"></span>
                 Delete
-              </CDropdownItem>
-            </CDropdownMenu>
-          </CDropdown>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -182,17 +179,15 @@
 
 <script>
 import swal from 'sweetalert';
-import { CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle, vctooltip } from '@coreui/vue';
 import { defaultsDeep, range, startsWith, values } from 'lodash-es';
 import { computed, reactive, toRefs, watch } from 'vue';
-import draggable from 'vuedraggable';
 import {
   addTextToClipboard,
   duplicateAddon,
   emptyColumn,
   emptyRow,
   readClipboard
-} from '../../services/page-builder/page-builder.service';
+} from '@/services/page-builder/page-builder.service';
 import Addon from './Addon';
 import Row from './Row';
 
@@ -201,14 +196,6 @@ export default {
   components: {
     Row,
     Addon,
-    draggable,
-    CDropdown,
-    CDropdownItem,
-    CDropdownToggle,
-    CDropdownMenu,
-  },
-  directives: {
-    'c-tooltip': vctooltip
   },
 
   props: {

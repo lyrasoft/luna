@@ -1,43 +1,40 @@
 <template>
-  <div class="btn-group" :class="[`btn-${size}`]">
-    <CFormCheck v-for="option of options"
-      type="radio"
-      :name="uid"
-      :id="uid + '__' + option.value"
-      :label="option.text || option.value"
-      :value="option.value"
-      :button="{ color: option.color || color, variant: option.variant || variant }"
-      @change="value = option.value"
-      :checked="option.value === value"
-      :class="[`btn-${size}`]"
-    >
-    </CFormCheck>
+  <div class="btn-group">
+    <template v-for="option of options">
+      <input type="radio" class="btn-check"
+        :id="uid + '__' + option.value"
+        :name="uid"
+        :value="option.value"
+        :checked="option.value === value"
+        v-model="value"
+        autocomplete="off">
+      <label class="btn" :for="uid + '__' + option.value"
+        @change="updateValue(option)"
+        :class="[ buttonColor(option), `btn-${size}` ]">
+        {{ option.text || option.value }}
+      </label>
+    </template>
   </div>
 </template>
 
 <script>
-import { CFormCheck } from '@coreui/vue';
 import { ref, watch } from 'vue';
 
 export default {
   name: 'ButtonRadio',
   components: {
-    CFormCheck,
   },
   props: {
     modelValue: {
-      defualt: ''
+      default: ''
     },
     color: {
       type: String,
-      defualt: 'secondary'
-    },
-    variant: {
-      type: String,
+      default: 'secondary'
     },
     size: {
       type: String,
-      defualt: ''
+      default: ''
     },
     options: Array
   },
@@ -45,18 +42,30 @@ export default {
     const uid = ref('br-' + u.uid());
     const value = ref(props.modelValue);
 
-    function updateValue(vaule) {
+    function updateValue(option) {
+      value.value = option.value;
+
       console.log(value);
     }
 
     watch(value, () => {
+      console.log(value);
       emit('update:modelValue', value);
     });
+
+    function buttonColor(option) {
+      if (!option.color) {
+        return 'btn-outline-' + props.color;
+      }
+
+      return 'btn-' + option.variant + '-' + option.color;
+    }
 
     return {
       uid,
       value,
-      updateValue
+      updateValue,
+      buttonColor
     };
   }
 };

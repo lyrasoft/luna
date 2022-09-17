@@ -35,11 +35,12 @@
         </button>
         <span class="dropdown">
             <button href="#" class="btn btn-sm btn-outline-primary"
-              data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              data-bs-toggle="dropdown"
+            >
                 <span class="fa fa-cog"></span>
             </button>
 
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-end">
                 <a class="dropdown-item" href="#" @click.prevent="toggleDisabled()">
                     <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye' : 'fa-eye-slash']"></span>
                     {{ content.disabled ? 'Enabled' : 'Disabled' }}
@@ -108,23 +109,26 @@
 
     <div class="page-row__bottom-toolbar mt-3 text-center">
       <div class="page-builder__bottom-toolbar text-center">
-        <CDropdown>
+        <div class="btn-group">
           <button type="button" @click="$emit('add')"
             class="btn btn-sm btn-outline-secondary">
             Add New Row
           </button>
-          <CDropdownToggle size="sm" split color="secondary" variant="outline"></CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem @click="paste(true)">
+          <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle doprdown-toggle-split"
+            data-bs-toggle="dropdown">
+            <span class="visually-hidden sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end dropdown-menu-right">
+            <button type="button" class="dropdown-item" @click="paste(true)">
               <span class="fa fa-fw fa-paste"></span>
               Paste
-            </CDropdownItem>
-            <CDropdownItem v-if="!child" @click="$emit('open-templates')">
+            </button>
+            <button type="button" class="dropdown-item" v-if="!child" @click="$emit('open-templates')">
               <span class="fa fa-fw fa-file-code"></span>
               Insert Template
-            </CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -132,27 +136,20 @@
 
 <script>
 import swal from 'sweetalert';
-import { CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle } from '@coreui/vue';
 import { defaultsDeep, startsWith } from 'lodash-es';
 import { computed, reactive, toRefs, watch } from 'vue';
-import draggable from 'vuedraggable';
 import {
   addTextToClipboard,
   emptyColumn,
   emptyRow,
   readClipboard,
   duplicateAddon
-} from '../../services/page-builder/page-builder.service';
+} from '@/services/page-builder/page-builder.service';
 
 export default {
   name: 'Row',
   components: {
     // Column,
-    draggable,
-    CDropdown,
-    CDropdownItem,
-    CDropdownToggle,
-    CDropdownMenu,
   },
 
   props: {

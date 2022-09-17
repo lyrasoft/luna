@@ -17,75 +17,71 @@
 
       <div class="c-addon-instance__toolbar">
         <a href="#" class="text-dark"
-          v-c-tooltip.hover="'Edit'"
+          v-tooltip
+          title="Edit"
           @click.prevent="edit()"
           v-if="!content.disabled">
           <span class="fa fa-fw fa-edit"></span>
         </a>
         <a href="#" class="text-dark"
-          v-c-tooltip="'Duplicate'"
+          v-tooltip
+          title="Duplicate"
           v-if="!content.disabled" @click.prevent="duplicate()">
           <span class="fa fa-fw fa-clone"></span>
         </a>
         <a href="#" class="text-dark"
-          v-c-tooltip="'Copy'"
+          v-tooltip
+          title="Copy"
           v-if="!content.disabled" @click.prevent="copy()">
           <span class="fa fa-fw fa-copy"></span>
         </a>
         <a href="#" class="text-dark"
-          v-c-tooltip.hover="content.disabled ? 'Enabled' : 'Disabled'"
-          @click.prevent="toggleDisabled()">
-          <span class="fa fa-fw" :class="[content.disabled ? 'fa-eye-slash' : 'fa-eye']"></span>
+          v-if="content.disabled"
+          v-tooltip
+          title="Enable"
+          @click.prevent="toggleDisabled($event)">
+          <span class="fa fa-fw fa-eye-slash"></span>
+        </a>
+        <a href="#" class="text-dark"
+          v-else
+          v-tooltip
+          title="Disable"
+          @click.prevent="toggleDisabled($event)">
+          <span class="fa fa-fw fa-eye"></span>
         </a>
 
-        <CDropdown
-          right
-          toggle-class="px-0">
-          <CDropdownToggle
-            varient="link"
-            class="p-0 d-inline-block"
-            :caret="false"
+        <div class="dropdown d-inline-block">
+          <button
+            type="button"
+            class="btn btn-link btn-mini p-0 d-inline-block"
+            data-bs-toggle="dropdown"
           >
             <span class="fa fa-fw fa-gear text-dark"></span>
-          </CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem @click="$trigger('tmpl.save', content, 'addon')">
+          </button>
+          <div class="dropdown-menu dropdown-menu-end dropdown-menu-right"
+            >
+            <button type="button" class="dropdown-item" @click="$trigger('tmpl.save', content, 'addon')">
               <span class="fa fa-fw fa-save"></span>
               Save as Template
-            </CDropdownItem>
-            <CDropdownItem @click="remove">
+            </button>
+            <button type="button" class="dropdown-item" @click="remove">
               <span class="fa fa-fw fa-trash"></span>
               Delete
-            </CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  vctooltip,
-  CDropdown,
-  CDropdownItem,
-  CDropdownToggle,
-  CDropdownMenu,
-} from '@coreui/vue';
-import { emptyRow, addTextToClipboard, readClipboard } from '../../services/page-builder/page-builder.service';
+import { emptyRow, addTextToClipboard, readClipboard } from '@/services/page-builder/page-builder.service';
 import { computed, reactive, watch, toRefs } from 'vue';
 
 export default {
   name: 'addon',
-
   components: {
-    CDropdown,
-    CDropdownItem,
-    CDropdownToggle,
-    CDropdownMenu,
-  },
-  directives: {
-    'c-tooltip': vctooltip
   },
   props: {
     content: Object,
@@ -104,7 +100,13 @@ export default {
       u.trigger('addon:edit', props.content, props.column);
     }
 
-    function toggleDisabled() {
+    function toggleDisabled(e) {
+      const button = e.currentTarget;
+
+      const tt = bootstrap.Tooltip.getInstance(button);
+
+      tt.hide();
+
       props.content.disabled = !props.content.disabled;
     }
 

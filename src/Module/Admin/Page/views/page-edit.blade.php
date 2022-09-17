@@ -35,6 +35,12 @@ use Windwalker\Form\Form;
 $vueScript = $app->service(VueScript::class);
 $vueScript->vue();
 
+$asset->js('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js');
+$asset->js('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/sass/sass.min.js', [], ['async' => true]);
+$asset->js('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/closebrackets.min.js', [], ['async' => true]);
+$asset->js('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js', [], ['async' => true]);
+$asset->css('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css');
+$asset->css('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/material.min.css');
 $asset->js('@luna/dist/page-builder.js');
 $asset->css('@luna/dist/page-builder-admin.min.css');
 ?>

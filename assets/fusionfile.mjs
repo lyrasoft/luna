@@ -9,6 +9,7 @@ import fusion, { sass, babel, parallel, wait } from '@windwalker-io/fusion';
 import { jsSync, installVendors } from '@windwalker-io/core';
 import path from 'path';
 import webpack from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 export async function css() {
   // Watch start
@@ -51,6 +52,10 @@ export async function vue() {
         config.externals = {
           vue: 'Vue'
         };
+
+        config.plugins.push(
+          new BundleAnalyzerPlugin()
+        );
 
         config.plugins.push(
           new webpack.DefinePlugin({

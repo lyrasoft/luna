@@ -11,7 +11,7 @@
         </button>
 
         <div class="d-inline-block">
-          <CDropdown class="text-nowrap">
+          <div class="text-nowrap btn-group dropdown">
             <button type="button" class="btn btn-outline-secondary btn-sm"
               @click="openTemplates(content.length)">
               <div style="display: inline-block; min-width: 120px">
@@ -19,14 +19,17 @@
                 Insert Template
               </div>
             </button>
-            <CDropdownToggle color="secondary" vaiant="outline" size="sm" split></CDropdownToggle>
-            <CDropdownMenu>
-              <CDropdownItem @click="$trigger('tmpl.save', content, 'page')">
+            <button class="btn btn-outline-secondary btn-sm dropdown-toggle dropdown-toggle-split"
+              data-bs-toggle="dropdown">
+              <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end dropdown-menu-right">
+              <button class="dropdown-item" @click="$trigger('tmpl.save', content, 'page')">
                 <span class="fa fa-fw fa-save"></span>
                 Save as Template
-              </CDropdownItem>
-            </CDropdownMenu>
-          </CDropdown>
+              </button>
+            </div>
+          </div>
         </div>
 
         <button type="button" class="btn btn-outline-secondary btn-sm" @click="copy"
@@ -60,23 +63,25 @@
       </div>
 
       <div class="page-builder__bottom-toolbar text-center" v-if="content.length === 0">
-        <CDropdown class="text-nowrap">
+        <div class="dropdown btn-group text-nowrap">
           <button type="button" class="btn btn-outline-secondary btn-sm"
             @click="addNewRow()">
             Add New Row
           </button>
-          <CDropdownToggle color="secondary" vaiant="outline" size="sm" split></CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem @click="paste">
+          <button class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" >
+            <span class="visually-hidden sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu dropdown-menu-right ">
+            <div class="dropdown-item" @click="paste">
               <span class="fa fa-fw fa-paste"></span>
               Paste
-            </CDropdownItem>
-            <CDropdownItem @click="paste">
+            </div>
+            <div class="dropdown-item" @click="paste">
               <span class="fa fa-fw fa-file-code"></span>
               Insert Template
-            </CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Modals -->
@@ -85,47 +90,40 @@
       <AddonEdit ref="addonEditor" />
 
       <!-- Addon selector -->
-      <CModal :visible="addonListShow" @close="addonListShow = false" size="lg"
-        class="c-modal-addon-select">
-        <CModalHeader>
-          <CModalTitle>New Addon</CModalTitle>
-        </CModalHeader>
-
-        <CModalBody>
-          <div class="row c-addon-list">
-            <div v-for="addon of addons" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
-              <button class="d-inline-block p-4 c-addon__link btn btn-outline-dark w-100 text-center"
-                type="button"
-                v-c-tooltip="addon.description"
-                @click.prevent="selectAddon(addon.type)">
-                <div class="c-addon__icon">
-                  <span class="fa-3x" :class="addon.icon"></span>
-                </div>
-                <h5 class="m-0">
-                  {{ addon.name }}
-                </h5>
-              </button>
-            </div>
+      <BsModal :open="addonListShow" @hidden="addonListShow = false" size="lg"
+        class="c-modal-addon-select"
+        title="New Addon">
+        <div class="row c-addon-list">
+          <div v-for="addon of addons" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
+            <button class="d-inline-block p-4 c-addon__link btn btn-outline-dark w-100 text-center"
+              type="button"
+              v-tooltip
+              :title="addon.description"
+              @click.prevent="selectAddon(addon.type)">
+              <div class="c-addon__icon">
+                <span class="fa-3x" :class="addon.icon"></span>
+              </div>
+              <h5 class="m-0">
+                {{ addon.name }}
+              </h5>
+            </button>
           </div>
-        </CModalBody>
-      </CModal>
+        </div>
+      </BsModal>
 
       <!-- Templates -->
       <TemplateManager ref="tmplManager" />
 
-      <CModal :visible="cssModalShow" size="xl"
-        @close="cssModalShow = false"
-        backdrop="static"
+      <BsModal title="CSS Edit (Support SCSS)"
+        size="xl"
         class="c-modal-css-edit"
+        :open="cssModalShow"
+        @hidden="cssModalShow = false"
+        backdrop="static"
       >
-        <CModalHeader>
-          <CModalTitle>CSS Edit (Support SCSS)</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          <CssEditor v-model="css"></CssEditor>
-        </CModalBody>
+        <CssEditor v-model="css"></CssEditor>
 
-        <CModalFooter>
+        <template #footer>
           <div class="ml-auto ms-auto">
             <button type="button" class="btn btn-outline-dark"
               style="min-width: 150px"
@@ -140,8 +138,8 @@
               Save
             </button>
           </div>
-        </CModalFooter>
-      </CModal>
+        </template>
+      </BsModal>
     </div>
 
     <Store />
@@ -149,18 +147,7 @@
 </template>
 
 <script>
-import {
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CModalFooter,
-  CDropdown,
-  CDropdownItem,
-  CDropdownToggle,
-  CDropdownMenu,
-  vctooltip,
-} from '@coreui/vue';
+import BsModal from '@/components/page-builder/bootstrap/BsModal';
 import { each } from 'lodash-es';
 import { nextTick, onMounted, reactive, toRefs, ref, watch, getCurrentInstance, inject } from 'vue';
 import * as Vue from 'vue';
@@ -170,7 +157,6 @@ import CssEditor from '@/components/page-builder/CssEditor';
 import Row from '@/components/page-builder/Row';
 import RowEdit from '@/components/page-builder/RowEdit';
 import Store from '@/components/page-builder/Store';
-import draggable from 'vuedraggable';
 import TemplateManager from '@/components/page-builder/templates/TemplateManager';
 import {
   addTextToClipboard,
@@ -183,7 +169,7 @@ import {
 export default {
   name: 'PageBuilderApp',
   components: {
-    CModalFooter,
+    BsModal,
     TemplateManager,
     Store,
     AddonEdit,
@@ -191,18 +177,6 @@ export default {
     RowEdit,
     Row,
     CssEditor,
-    CModal,
-    CModalHeader,
-    CModalTitle,
-    CModalBody,
-    CDropdown,
-    CDropdownItem,
-    CDropdownToggle,
-    CDropdownMenu,
-    draggable,
-  },
-  directives: {
-    'c-tooltip': vctooltip
   },
 
   setup(props) {

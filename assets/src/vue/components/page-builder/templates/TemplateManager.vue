@@ -1,139 +1,122 @@
 <template>
   <div>
-    <CModal :visible="tmplModalShow"
+    <BsModal :open="tmplModalShow"
+      title="Template"
       :size="'xl'"
-      @close="tmplModalShow = false"
+      @hidden="tmplModalShow = false"
+      class-name="c-template-manager"
     >
-      <CModalHeader>
-        <CModalTitle>
-          Template
-        </CModalTitle>
-      </CModalHeader>
-      <CModalBody class="c-template-manager">
-
-        <div class="form-group mb-3 d-flex align-items-center">
+      <div class="form-group mb-3 d-flex align-items-center">
           <span class="me-2">
             Filter:
           </span>
-          <ButtonRadio
-            id="input-filter"
-            color="primary"
-            variant="outline"
-            size="sm"
-            class="me-2"
-            v-model="filter.type"
-            :options="filterButtons"
-          ></ButtonRadio>
-          <div>
-            <input type="search" placeholder="Search" v-model="q" class="form-control form-control-sm" />
-          </div>
+        <ButtonRadio
+          id="input-filter"
+          color="primary"
+          variant="outline"
+          size="sm"
+          class="me-2"
+          v-model="filter.type"
+          :options="filterButtons"
+        ></ButtonRadio>
+        <div>
+          <input type="search" placeholder="Search" v-model="q" class="form-control form-control-sm" />
         </div>
+      </div>
 
-        <div class="c-template-manager__items row">
-          <transition-group name="fade">
-            <div v-for="(item, i) of filteredItems" class="col-md-6" :key="item.id || item.key"
-              :data-id="item.id"
-              style="animation-duration: .3s">
-              <div class="c-template-item card my-3" @click.prevent="selected(item)" style="cursor: pointer;">
-                <div class="c-template-item__preview card-img-top" :style="{ 'background-image': `url(${item.image})` }"></div>
-                <div class="card-footer">
-                  <div class="d-flex">
-                    <h5 class="mb-0 me-2">
-                      {{ item.title || 'No title' }}
-                    </h5>
-                    <div>
-                      <div class="badge" :class="`bg-${badgeColor(item.type)}`">{{ item.type }}</div>
-                    </div>
-                    <div class="ml-auto ms-auto">
-                      <a v-if="item.can_delete === true"
-                        href="#" class="text-dark" @click.prevent.stop="remove(item, i)">
-                        <span class="fa fa-trash"></span>
-                        Delete
-                      </a>
-                    </div>
+      <div class="c-template-manager__items row">
+        <transition-group name="fade">
+          <div v-for="(item, i) of filteredItems" class="col-md-6" :key="item.id || item.key"
+            :data-id="item.id"
+            style="animation-duration: .3s">
+            <div class="c-template-item card my-3" @click.prevent="selected(item)" style="cursor: pointer;">
+              <div class="c-template-item__preview card-img-top" :style="{ 'background-image': `url(${item.image})` }"></div>
+              <div class="card-footer">
+                <div class="d-flex">
+                  <h5 class="mb-0 me-2">
+                    {{ item.title || 'No title' }}
+                  </h5>
+                  <div>
+                    <div class="badge" :class="`bg-${badgeColor(item.type)}`">{{ item.type }}</div>
                   </div>
-                  <div class="small mt-2">
-                    {{ item.description || 'No description' }}
+                  <div class="ml-auto ms-auto">
+                    <a v-if="item.can_delete === true"
+                      href="#" class="text-dark" @click.prevent.stop="remove(item, i)">
+                      <span class="fa fa-trash"></span>
+                      Delete
+                    </a>
                   </div>
+                </div>
+                <div class="small mt-2">
+                  {{ item.description || 'No description' }}
                 </div>
               </div>
             </div>
-          </transition-group>
-        </div>
+          </div>
+        </transition-group>
+      </div>
 
-        <div v-if="items.length === 0 && this.loading" class="d-flex justify-content-center py-5 my-5">
-          <span class="spinner spinner-border"></span>
-        </div>
-
-      </CModalBody>
-    </CModal>
+      <div v-if="items.length === 0 && this.loading" class="d-flex justify-content-center py-5 my-5">
+        <span class="spinner spinner-border"></span>
+      </div>
+    </BsModal>
 
     <!-- Save Modal -->
-    <CModal :visible="saveModalShow" @close="saveModalShow = false">
-      <CModalHeader>
-        <CModalTitle>
-          Save as Template
-        </CModalTitle>
-      </CModalHeader>
-      <CModalBody>
+    <BsModal :open="saveModalShow" @hidden="saveModalShow = false"
+      title="Save as Template">
+      <div>
+        Save as: <div class="badge" :class="`bg-${badgeColor(save.type)}`">{{ save.type }}</div>
+      </div>
+      <div class="form-group mb-3">
+        <label for="input-tmpl-title">Title</label>
         <div>
-          Save as: <div class="badge" :class="`bg-${badgeColor(save.type)}`">{{ save.type }}</div>
+          <input id="input-tmpl-title" type="text" class="form-control" v-model="save.title" />
         </div>
-        <div class="form-group mb-3">
-          <label for="input-tmpl-title">Title</label>
-          <div>
-            <input id="input-tmpl-title" type="text" class="form-control" v-model="save.title" />
-          </div>
-        </div>
+      </div>
 
-        <div class="form-group mb-3">
-          <label for="input-tmpl-description">Description</label>
-          <div>
+      <div class="form-group mb-3">
+        <label for="input-tmpl-description">Description</label>
+        <div>
             <textarea id="input-tmpl-description" type="text"
               class="form-control"
               v-model="save.description"
               rows="3"
             />
-          </div>
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="input-tmpl-image">Cover</label>
+        <div>
+          <SingleImage v-model="save.image" id="input-tmpl-image"></SingleImage>
         </div>
 
         <div class="form-group mb-3">
-          <label for="input-tmpl-image">Cover</label>
-          <div>
-            <SingleImage v-model="save.image" id="input-tmpl-image"></SingleImage>
-          </div>
-
-          <div class="form-group mb-3">
-            <button type="button" class="btn btn-primary btn-block"
-              :disabled="save.loading"
-              @click="saveContent">
-              <span :class="save.loading ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
-              Save
-            </button>
-          </div>
+          <button type="button" class="btn btn-primary btn-block"
+            :disabled="save.loading"
+            @click="saveContent">
+            <span :class="save.loading ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
+            Save
+          </button>
         </div>
-      </CModalBody>
-    </CModal>
+      </div>
+    </BsModal>
 
   </div>
 </template>
 
 <script>
+import BsModal from '@/components/page-builder/bootstrap/BsModal';
 import SingleImage from '@/components/page-builder/form/SingleImage';
-import { CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/vue';
 import ButtonRadio from '@/components/page-builder/form/ButtonRadio';
 import { computed, reactive, ref, toRefs } from 'vue';
 import { toFormData } from '../../../services/page-builder/page-builder.service';
 export default {
   name: 'TemplateManager',
   components: {
+    BsModal,
     SingleImage,
     ButtonRadio,
-    CModal,
-    CModalHeader,
-    CModalTitle,
-    CModalBody,
-    CModalFooter,
   },
   setup(props, { emit }) {
     const state = reactive({

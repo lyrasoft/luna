@@ -32,7 +32,9 @@
         </button>
         <button type="button" class="btn btn-primary" @click="pasteFromButton()"
           :disabled="uploading"
-          v-c-tooltip="'Paste'">
+          v-tooltip
+
+          title="Paste">
           <span class="fa fa-paste"></span>
         </button>
         <button v-if="url !== ''" type="button" class="btn btn-primary" @click.stop="clearUrl"
@@ -48,14 +50,10 @@
 </template>
 
 <script>
-import { vctooltip } from '@coreui/vue';
 import { computed, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue';
 
 export default {
   name: "single-image",
-  directives: {
-    'c-tooltip': vctooltip
-  },
   props: {
     modelValue: {
       type: String,

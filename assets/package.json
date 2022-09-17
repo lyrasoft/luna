@@ -7,8 +7,6 @@
         "watch:reload": "cross-env NODE_ENV=development node_modules/.bin/gulp --watch=1 --livereload=1"
     },
     "dependencies": {
-        "@coreui/coreui": "coreui/coreui",
-        "@coreui/vue": "4.0.2",
         "@vue/compiler-sfc": "^3.2.31",
         "babel-loader": "^8.2.3",
         "codemirror": "^5.63.3",
@@ -34,6 +32,7 @@
         "webpack-stream": "^7.0.0"
     },
     "devDependencies": {
-        "@windwalker-io/fusion": "^1.0"
+        "@windwalker-io/fusion": "^1.0",
+        "webpack-bundle-analyzer": "^4.6.1"
     }
 }

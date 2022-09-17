@@ -5,10 +5,8 @@
  * @license    __LICENSE__
  */
 
-// import '@coreui/coreui/dist/css/coreui.min.css';
 import { createApp } from 'vue';
 import PageBuilderApp from '../app/PageBuilderApp';
-import VueClickAway from "vue3-click-away";
 import Row from "../components/page-builder/Row";
 import Column from "../components/page-builder/Column";
 
@@ -20,14 +18,14 @@ import AddonEmptyspace from '@/components/page-builder/addons/addon-emptyspace';
 import AddonButton from '@/components/page-builder/addons/addon-button';
 
 import Tinymce from '@/services/page-builder/directives/tinymce';
-
-// CodeMirror
-import Codemirror from 'codemirror-editor-vue3';
-import "codemirror-editor-vue3/dist/style.css";
+import BsTooltip from '@/services/page-builder/directives/tooltip';
 
 S.import('@main')
   .then(() => Promise.all([
-    u.import('@sortablejs'),
+    u.import(
+      '@sortablejs',
+      '@vuedraggable',
+    ),
     u.importCSS('@vue2-animate'),
   ]))
   .then(() => {
@@ -41,8 +39,15 @@ S.import('@main')
       return u.data('addons')[type][prop];
     };
 
+    // We pre-register libraries from browser because page may have some other widgets re-use them
+    // We shouldn't bundle it.
+    app.component('draggable', vuedraggable);
+
+    // Register this components because they may put nested.
     app.component('Row', Row);
     app.component('Column', Column);
+
+    // Register these components because they are addons, not core.
     app.component('addon-text', AddonText);
     app.component('addon-image', AddonImage);
     app.component('addon-feature', AddonFeature);
@@ -51,8 +56,8 @@ S.import('@main')
 
     app.directive('tinymce', Tinymce)
 
-    app.use(Codemirror);
-    app.use(VueClickAway);
+    // app.use(Codemirror);
+    app.use(BsTooltip);
 
     u.trigger('page-builder.app.prepared', app);
 
