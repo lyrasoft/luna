@@ -18,6 +18,7 @@ namespace App\View;
 
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\Module\Admin\Page\PageEditView;
+use Unicorn\Script\VueScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -30,6 +31,9 @@ use Windwalker\Form\Form;
  * @var Form $form
  * @var Page $item
  */
+
+$vueScript = $app->service(VueScript::class);
+$vueScript->vue();
 
 $asset->js('@luna/dist/page-builder.js');
 $asset->css('@luna/dist/page-builder-admin.min.css');

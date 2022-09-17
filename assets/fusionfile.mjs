@@ -44,8 +44,13 @@ export async function vue() {
     {
       override: (config) => {
         config.resolve.alias = {
+          // 'vue$': path.resolve('src/vue/services/vue-adapter.js'),
           '@': path.resolve(path.resolve(), './src/vue/') // Will be overwrite when compile
         }
+
+        config.externals = {
+          vue: 'Vue'
+        };
 
         config.plugins.push(
           new webpack.DefinePlugin({
