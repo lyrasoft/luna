@@ -106,7 +106,13 @@ export default {
     });
 
     function getModalInstance() {
-      return bootstrap.Modal.getInstance(modal.value);
+      const v = bootstrap.Modal.VERSION.split('.').shift();
+
+      if (v >= 5) {
+        return bootstrap.Modal.getOrCreateInstance(modal.value);
+      } else {
+        return bootstrap.Modal.getInstance(modal.value);
+      }
     }
 
     function hasSlots(name) {
