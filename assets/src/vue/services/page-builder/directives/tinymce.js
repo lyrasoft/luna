@@ -26,7 +26,7 @@ export default {
           'alignleft aligncenter alignright alignjustify bullist numlist outdent indent | ' +
           'link image media table code | fullscreen',
         toolbar_mode: 'sliding',
-        fontsize_formats: "13px 14px 15px 16px 18px 20px 22px 28px 36px 48px",
+        font_size_formats: "13px 14px 15px 16px 18px 20px 22px 28px 36px 48px",
         menubar: false,
         content_css: u.data('tinymce_content_css'),
         document_base_url: u.uri('root'),

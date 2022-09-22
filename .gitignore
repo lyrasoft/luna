@@ -18,7 +18,7 @@ composer.lock
 /coverage
 
 # JS #
-yarn.lock
+/yarn.lock
 /node_modules
 
 # Test #
