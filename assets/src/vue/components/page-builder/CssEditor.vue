@@ -12,7 +12,6 @@
 
 <script>
 import { onMounted, reactive, ref, watch } from 'vue';
-import { CodeMirrorOptions } from '@/services/page-builder/codemirror';
 
 export default {
   name: 'CssEditor',
@@ -25,14 +24,17 @@ export default {
     let cm = null;
     const css = ref('');
     const show = ref(false);
-    const options = reactive(CodeMirrorOptions);
+    const options = ref({});
     let firstLoad = false;
 
-    onMounted(() => {
+    onMounted(async () => {
+      const { default: CodeMirror, CodeMirrorOptions } = await import('../../services/page-builder/codemirror.js');
+      options.value = CodeMirrorOptions;
+
       setTimeout(() => {
         // show.value = true;
 
-        cm = CodeMirror(editor.value, options);
+        cm = CodeMirror(editor.value, options.value);
         cm.setValue(css.value);
         cm.on('change', (cm, co) => {
           css.value = cm.getValue();
@@ -66,6 +68,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style scoped>

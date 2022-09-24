@@ -16,6 +16,14 @@ export const CodeMirrorOptions = {
   autoCloseBrackets: true,
 };
 
+import CodeMirror from 'codemirror/lib/codemirror.js';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/mode/css/css.js';
+import 'codemirror/addon/edit/closebrackets.js';
+import 'codemirror/theme/material.css';
+
+export default CodeMirror;
+
 /**
  * @param {codemirror|Vue} component
  * @param {number} delay

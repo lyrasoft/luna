@@ -293,7 +293,7 @@
               Will auto prefix with: <code>{{ `#luna-${values.id}` }}</code>, and only affected in this scope.
             </div>
             <div v-if="currentTab === 'layout'">
-              <CssEditor ref="css-editor" v-model="options.html_css" :options="cmOptions" :height="350"></CssEditor>
+              <CssEditor ref="css-editor" v-model="options.html_css" :height="350"></CssEditor>
             </div>
           </div>
         </div>
@@ -334,7 +334,6 @@ import BoxOffset from "@/components/page-builder/form/BoxOffset";
 import Animations from "@/components/page-builder/form/Animations";
 import SingleImage from "@/components/page-builder/form/SingleImage";
 import Gradient from "@/components/page-builder/form/Gradient";
-import { CodeMirrorOptions, refreshCodeMirror } from '@/services/page-builder/codemirror.js';
 
 export default {
   name: 'addon-edit',
@@ -355,7 +354,6 @@ export default {
   setup(props, { emit }) {
     const state = reactive({
       values: {},
-      cmOptions: CodeMirrorOptions,
       saving: false,
       modalShow: false,
     });

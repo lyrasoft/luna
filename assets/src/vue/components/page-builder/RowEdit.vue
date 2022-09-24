@@ -404,7 +404,7 @@
               Will auto prefix by <code>{{ `#luna-${values.id}` }}</code>, only works for this scope.
             </div>
             <div v-if="currentTab === 'layout'">
-              <CssEditor ref="cssEditor" v-model="options.html_css" :options="cmOptions" :height="350"></CssEditor>
+              <CssEditor ref="cssEditor" v-model="options.html_css" :height="350"></CssEditor>
             </div>
           </div>
         </div>
@@ -444,7 +444,6 @@ import SingleImage from "@/components/page-builder/form/SingleImage";
 import Gradient from "@/components/page-builder/form/Gradient";
 import SliderInput from '@/components/page-builder/form/SliderInput';
 import TitleOptions from '@/components/page-builder/form/TitleOptions';
-import { CodeMirrorOptions, refreshCodeMirror } from "@/services/page-builder/codemirror";
 
 export default {
   name: 'RowEdit',
@@ -466,7 +465,6 @@ export default {
     const state = reactive({
       values: {},
       sticky: false,
-      cmOptions: CodeMirrorOptions,
       saving: false,
       modalShow: false,
     });

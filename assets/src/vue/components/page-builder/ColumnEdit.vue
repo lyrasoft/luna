@@ -454,7 +454,7 @@
               Will auto prefix with: <code>{{ `#luna-${values.id}` }}</code>, and only affected in this scope.
             </div>
             <div v-if="currentTab === 'layout'">
-              <CssEditor ref="cssEditor" v-model="options.html_css" :options="cmOptions" :height="350"></CssEditor>
+              <CssEditor ref="cssEditor" v-model="options.html_css" :height="350"></CssEditor>
             </div>
           </div>
         </div>
@@ -484,7 +484,6 @@ import CssEditor from '@/components/page-builder/CssEditor';
 import { range } from 'lodash-es';
 import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { savePage as doSavePage } from '../../services/page-builder/page-builder.service';
-import { CodeMirrorOptions, refreshCodeMirror } from '../../services/page-builder/codemirror';
 import UnicornSwitcher from '../form/UnicornSwitcher';
 import Animations from "./form/Animations";
 import BoxOffset from "./form/BoxOffset";
@@ -515,7 +514,6 @@ export default {
   setup(props, { emit }) {
     const state = reactive({
       values: {},
-      cmOptions: CodeMirrorOptions,
       saving: false,
       modalShow: false
     });
