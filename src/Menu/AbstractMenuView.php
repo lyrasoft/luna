@@ -11,6 +11,7 @@ namespace Lyrasoft\Luna\Menu;
 
 use Psr\Http\Message\UriInterface;
 use Unicorn\Legacy\Html\MenuHelper;
+use Windwalker\Core\Event\CoreEventAwareTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\Event\EventAwareInterface;
@@ -28,7 +29,7 @@ abstract class AbstractMenuView implements
     FieldDefinitionInterface,
     EventAwareInterface
 {
-    use EventAwareTrait;
+    use CoreEventAwareTrait;
 
     public const NO_LINK = '__NO_LINK__';
 

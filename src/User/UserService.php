@@ -26,6 +26,7 @@ use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
+use Windwalker\Core\Event\CoreEventAwareTrait;
 use Windwalker\Core\Router\Exception\RouteNotFoundException;
 use Windwalker\Core\Security\Exception\UnauthorizedException;
 use Windwalker\DI\Exception\DefinitionException;
@@ -44,7 +45,7 @@ use Windwalker\Utilities\Cache\InstanceCacheTrait;
  */
 class UserService implements UserHandlerInterface, EventAwareInterface
 {
-    use EventAwareTrait;
+    use CoreEventAwareTrait;
     use InstanceCacheTrait;
 
     protected string $userEntity = User::class;
