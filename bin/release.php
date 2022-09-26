@@ -52,6 +52,7 @@ HELP;
 
         static::writeVersion($targetVersion);
 
+        $this->exec('git add .');
         $this->exec(sprintf('git commit -am "Release version: %s"', $targetVersion));
         $this->exec(sprintf('git tag %s', $targetVersion));
 
