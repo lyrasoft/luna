@@ -19,6 +19,7 @@ use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
 use Windwalker\ORM\Attributes\Column;
 use Windwalker\ORM\Attributes\CreatedTime;
+use Windwalker\ORM\Attributes\CurrentTime;
 use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\PK;
 use Windwalker\ORM\Attributes\Table;
@@ -87,6 +88,7 @@ class User implements EntityInterface, UserEntityInterface
     protected ?Chronos $registered = null;
 
     #[Column('modified')]
+    #[CurrentTime]
     #[CastNullable(Chronos::class)]
     protected ?Chronos $modified = null;
 
