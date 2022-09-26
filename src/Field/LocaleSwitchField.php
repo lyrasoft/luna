@@ -11,11 +11,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Field;
 
-use Lyrasoft\Luna\Entity\Association;
 use Lyrasoft\Luna\Services\AssociationService;
 use Unicorn\Field\DatabaseAwareTrait;
 use Unicorn\Field\LayoutFieldTrait;
-use Windwalker\Core\Router\Navigator;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\DOM\DOMElement;
@@ -23,12 +21,10 @@ use Windwalker\Form\Field\AbstractField;
 use Windwalker\ORM\Metadata\EntityMetadata;
 use Windwalker\Query\Query;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
-
 use Windwalker\Utilities\StrNormalize;
 use Windwalker\Utilities\TypeCast;
 
 use function Windwalker\collect;
-use function Windwalker\Query\val;
 
 /**
  * The LocaleSwitchField class.

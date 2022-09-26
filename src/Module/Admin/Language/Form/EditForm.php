@@ -28,6 +28,7 @@ use Windwalker\Form\Form;
 class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
+
     /**
      * Define the form fields.
      *

@@ -122,7 +122,7 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                                 :workflow="$workflow"
                                 :id="$entity->getId()"
                                 :value="$item->state"
-                            />
+                            ></x-state-dropdown>
                         </td>
                         <td class="text-nowrap">
                             {{ $item->category->title ?: '-' }}

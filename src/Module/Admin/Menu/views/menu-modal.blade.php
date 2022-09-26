@@ -128,7 +128,7 @@ $typeField = $app->make(\Lyrasoft\Luna\Field\MenuTypeListField::class)
                                 :workflow="$workflow"
                                 :id="$entity->getId()"
                                 :value="$item->state"
-                            />
+                            ></x-state-dropdown>
                         </td>
                         <td class="text-end">
                             {{ $item->id }}

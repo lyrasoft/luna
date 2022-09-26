@@ -83,7 +83,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 :workflow="$workflow"
                                 :id="$item->id"
                                 :value="$item->state"
-                            />
+                            ></x-state-dropdown>
                         </th>
                         <td class="text-end">
                             {{ $item->id }}
