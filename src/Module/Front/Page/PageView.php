@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Front\Page;
 
 use Lyrasoft\Luna\Entity\Page;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use ReflectionClass;
 use ScssPhp\ScssPhp\Compiler;
@@ -36,6 +37,8 @@ use Windwalker\Utilities\Attributes\Prop;
 )]
 class PageView implements ViewModelInterface
 {
+    use LocaleAwareTrait;
+
     #[Prop]
     protected mixed $id = null;
 
@@ -111,7 +114,13 @@ class PageView implements ViewModelInterface
         }
 
         if (!$page) {
-            $page = $this->orm->mapper(Page::class)->mustFindOne(['alias' => $path]);
+            $conditions = ['alias' => $path];
+
+            if ($this->isLocaleEnabled()) {
+                $conditions['language'] = $this->getLocale();
+            }
+
+            $page = $this->orm->mapper(Page::class)->mustFindOne($conditions);
         }
 
         $previewSecret = $app->input('preview');
