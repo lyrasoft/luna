@@ -54,7 +54,7 @@ class UserHandler implements UserHandlerInterface
                 function () use ($mapper) {
                     $sessUserId = (array) $this->session->get('login_user_id');
                     $pk = $mapper->getMainKey();
-                    $loginUser = null;
+                    $loginUser = false;
 
                     // If user is logged-in, get user data from DB to refresh info.
                     if ($sessUserId ?? null) {
@@ -66,27 +66,34 @@ class UserHandler implements UserHandlerInterface
                         }
                     }
 
-                    return $loginUser;
+                    return $this->handleFoundUser($loginUser, $mapper);
                 }
             );
 
             if (!$user) {
                 return null;
             }
-        } else {
-            if (isset($conditions['email'])) {
-                $conditions['email'] = idn_to_ascii($conditions['email']);
-            }
 
-            $user = $mapper->findOne($conditions, Collection::class);
-
-            if (!$user) {
-                return null;
-            }
-
-            $user = $user?->dump(true) ?? [];
+            return $user;
         }
 
+        if (isset($conditions['email'])) {
+            $conditions['email'] = idn_to_ascii($conditions['email']);
+        }
+
+        $user = $mapper->findOne($conditions, Collection::class);
+
+        if (!$user) {
+            return null;
+        }
+
+        $user = $user?->dump(true) ?? [];
+
+        return $this->handleFoundUser($user, $mapper);
+    }
+
+    private function handleFoundUser(array $user, EntityMapper $mapper)
+    {
         if ($user['email'] ?? null) {
             $user['email'] = idn_to_utf8($user['email']);
         }

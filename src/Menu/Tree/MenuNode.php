@@ -48,7 +48,6 @@ class MenuNode extends Node implements MenuNodeInterface
      */
     protected $activeHandler;
 
-    #[Inject]
     protected MenuHelper $menuHelper;
 
     public function getTitle(): string
@@ -352,5 +351,25 @@ class MenuNode extends Node implements MenuNodeInterface
                 return $this->menuHelper->is($path, $query, $ns);
             }
         );
+    }
+
+    /**
+     * @return MenuHelper
+     */
+    public function getMenuHelper(): MenuHelper
+    {
+        return $this->menuHelper;
+    }
+
+    /**
+     * @param  MenuHelper  $menuHelper
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setMenuHelper(MenuHelper $menuHelper): static
+    {
+        $this->menuHelper = $menuHelper;
+
+        return $this;
     }
 }

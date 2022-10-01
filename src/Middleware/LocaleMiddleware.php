@@ -31,7 +31,6 @@ class LocaleMiddleware implements MiddlewareInterface
 {
     public function __construct(
         protected AppContext $app,
-        protected LocaleService $localeService,
         protected bool $useBrowser = false,
         protected bool $uriPrefix = true,
         protected string $sessionKey = 'locale',
@@ -43,9 +42,11 @@ class LocaleMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (!$this->localeService->isEnabled()) {
+        if (!$this->app->config('luna.i18n.enabled')) {
             return $handler->handle($request);
         }
+
+        $localeService = $this->app->service(LocaleService::class);
 
         $state = $this->app->getState();
         $locale = $state->get('matched_locale');
@@ -57,19 +58,19 @@ class LocaleMiddleware implements MiddlewareInterface
         }
 
         if (!$locale && $this->useBrowser) {
-            $locale = $this->localeService->getBrowserLanguage();
+            $locale = $localeService->getBrowserLanguage();
         }
 
         if ($locale) {
-            $this->localeService->setLocale($locale);
+            $localeService->setLocale($locale);
         }
 
         // Nav
-        if ($this->uriPrefix && $this->localeService->isUriPrefixEnabled()) {
+        if ($this->uriPrefix && $localeService->isUriPrefixEnabled()) {
             $nav = $this->app->service(Navigator::class);
             $nav->on(
                 AfterRouteBuildEvent::class,
-                function (AfterRouteBuildEvent $event) {
+                function (AfterRouteBuildEvent $event) use ($localeService) {
                     $nav = $event->getNavigator();
                     $route = $nav->findRoute($event->getRoute());
                     $matched = $nav->getMatchedRoute();
@@ -82,7 +83,7 @@ class LocaleMiddleware implements MiddlewareInterface
                         if ($this->isSame($item)) {
                             $url = &$event->getUrl();
 
-                            $lang = $this->localeService->getCurrentLanguage();
+                            $lang = $localeService->getCurrentLanguage();
 
                             if ($lang) {
                                 $alias = $lang->getAlias();

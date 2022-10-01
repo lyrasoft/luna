@@ -16,6 +16,7 @@ use Lyrasoft\Luna\Menu\Tree\MenuNode;
 use Lyrasoft\Luna\Menu\Tree\MenuNodeInterface;
 use Lyrasoft\Luna\Tree\NodeInterface;
 use ReflectionException;
+use Unicorn\Legacy\Html\MenuHelper;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
@@ -35,6 +36,8 @@ class MenuBuilder
 
     protected ?MenuNodeInterface $last;
 
+    protected MenuHelper $menuHelper;
+
     /**
      * @var array<MenuNodeInterface>
      */
@@ -42,13 +45,12 @@ class MenuBuilder
 
     public function __construct(protected AppContext $app)
     {
-        //
+        $this->menuHelper = $this->app->service(MenuHelper::class);
     }
 
     public function createTree(string $name): static
     {
-        $root = $this->app->make(MenuNode::class)
-            ->title($name);
+        $root = $this->createNode()->title($name);
 
         $this->root = $root;
         $this->current = $root;
@@ -68,7 +70,15 @@ class MenuBuilder
      */
     public function createNode(string $className = MenuNode::class): MenuNodeInterface
     {
-        return $this->app->make($className);
+        if ($className === MenuNode::class) {
+            /** @var MenuNode $menu */
+            $menu = new $className();
+            $menu->setMenuHelper($this->menuHelper);
+        } else {
+            $menu = $this->app->make($className);
+        }
+
+        return $menu;
     }
 
     protected function createNodeAndSetCurrent(string $layout = 'link.link'): MenuNode

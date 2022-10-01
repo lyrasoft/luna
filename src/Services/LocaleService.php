@@ -52,7 +52,6 @@ class LocaleService
         protected ORM $orm,
         protected Navigator $nav,
         protected LangService $langService,
-        protected LunaScript $lunaScript,
     ) {
     }
 
@@ -259,7 +258,7 @@ class LocaleService
 
     public function getFlagIconClass(string $name, int $type = self::FLAG_NORMAL): string
     {
-        $this->lunaScript->flagIcon();
+        $this->app->service(LunaScript::class)->flagIcon();
 
         $name = trim(LanguageNormalizer::normalizeLangCode($name), '-');
 

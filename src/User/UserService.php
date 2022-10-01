@@ -50,6 +50,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
     protected string $userEntity = User::class;
 
+    protected ?User $currentUser = null;
+
     /**
      * UserService constructor.
      */
@@ -121,6 +123,10 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function load(mixed $conditions = null): ?UserEntityInterface
     {
+        if ($conditions === null) {
+
+        }
+
         return $this->getUserHandler()->load($conditions);
     }
 
@@ -356,5 +362,17 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         }
 
         return $password;
+    }
+
+    /**
+     * @param  User|null  $currentUser
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setCurrentUser(?User $currentUser): static
+    {
+        $this->currentUser = $currentUser;
+
+        return $this;
     }
 }
