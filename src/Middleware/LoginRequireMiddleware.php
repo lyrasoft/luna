@@ -47,7 +47,7 @@ class LoginRequireMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (!$this->userService->getUser()->isLogin()) {
+        if (!$this->userService->isLogin()) {
             $nav = $this->container->get(Navigator::class);
 
             $route = $nav->getMatchedRoute();
