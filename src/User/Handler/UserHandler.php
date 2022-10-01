@@ -54,7 +54,6 @@ class UserHandler implements UserHandlerInterface
                 function () use ($mapper) {
                     $sessUserId = (array) $this->session->get('login_user_id');
                     $pk = $mapper->getMainKey();
-                    $loginUser = false;
 
                     // If user is logged-in, get user data from DB to refresh info.
                     if ($sessUserId ?? null) {
@@ -63,10 +62,12 @@ class UserHandler implements UserHandlerInterface
                         if ($user) {
                             unset($user->password);
                             $loginUser = $user->dump();
+
+                            return $this->handleFoundUser($loginUser, $mapper);
                         }
                     }
 
-                    return $this->handleFoundUser($loginUser, $mapper);
+                    return false;
                 }
             );
 
