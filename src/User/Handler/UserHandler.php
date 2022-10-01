@@ -48,12 +48,18 @@ class UserHandler implements UserHandlerInterface
 
         $mapper = $this->getMapper();
 
+        $sessUserId = $this->session->get('login_user_id');
+
+        // If session user id same as conditions
+        // Just get current user
+        if ((string) $conditions === (string) $sessUserId) {
+            $conditions = null;
+        }
+
         if (!$conditions) {
             $user = $this->once(
                 'current.user',
-                function () use ($mapper) {
-                    $sessUserId = $this->session->get('login_user_id');
-
+                function () use ($sessUserId, $mapper) {
                     if (!$sessUserId) {
                         return false;
                     }

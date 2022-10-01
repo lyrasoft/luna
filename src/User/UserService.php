@@ -212,8 +212,6 @@ class UserService implements UserHandlerInterface, EventAwareInterface
             $user = $this->getUser($id);
         }
 
-        $user ??= $this->getUser($user);
-
         return $this->getAuthService()->authorize($action, $user, ...$args);
     }
 

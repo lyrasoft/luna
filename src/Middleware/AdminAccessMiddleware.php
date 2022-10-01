@@ -54,9 +54,7 @@ class AdminAccessMiddleware implements MiddlewareInterface
             }
         );
 
-        $user = $this->userService->getUser();
-
-        if ($user->isLogin() && !$this->userService->can(AccessService::ADMIN_ACCESS_ACTION, $user)) {
+        if ($this->userService->isLogin() && !$this->userService->can(AccessService::ADMIN_ACCESS_ACTION)) {
             throw new RouteNotFoundException();
         }
 
