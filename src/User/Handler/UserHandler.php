@@ -52,22 +52,25 @@ class UserHandler implements UserHandlerInterface
             $user = $this->once(
                 'current.user',
                 function () use ($mapper) {
-                    $sessUserId = (array) $this->session->get('login_user_id');
+                    $sessUserId = $this->session->get('login_user_id');
+
+                    if (!$sessUserId) {
+                        return false;
+                    }
+
                     $pk = $mapper->getMainKey();
 
                     // If user is logged-in, get user data from DB to refresh info.
-                    if ($sessUserId ?? null) {
-                        $user = $mapper->findOne([$pk => $sessUserId], Collection::class);
+                    $user = $mapper->findOne([$pk => $sessUserId], Collection::class);
 
-                        if ($user) {
-                            unset($user->password);
-                            $loginUser = $user->dump();
-
-                            return $this->handleFoundUser($loginUser, $mapper);
-                        }
+                    if (!$user) {
+                        return false;
                     }
 
-                    return false;
+                    unset($user->password);
+                    $loginUser = $user->dump();
+
+                    return $this->handleFoundUser($loginUser, $mapper);
                 }
             );
 
