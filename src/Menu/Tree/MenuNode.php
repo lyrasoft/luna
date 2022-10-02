@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Enum\MenuTarget;
 use Lyrasoft\Luna\Tree\Node;
 use Psr\Http\Message\UriInterface;
 use Unicorn\Legacy\Html\MenuHelper;
+use Windwalker\Core\Router\Exception\RouteNotFoundException;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\Route;
 use Windwalker\Core\Router\RouteUri;
@@ -87,8 +88,12 @@ class MenuNode extends Node implements MenuNodeInterface
 
         if ($uri instanceof RouteUri) {
             $vars = $uri->getQueryValues();
-            /** @var Route $route */
-            [, , $route] = $uri->getHandledData();
+            try {
+                /** @var Route $route */
+                [, , $route] = $uri->getHandledData();
+            } catch (RouteNotFoundException $e) {
+                return false;
+            }
 
             $active = $this->menuHelper->is($route->getName(), $vars, $ns);
         }
