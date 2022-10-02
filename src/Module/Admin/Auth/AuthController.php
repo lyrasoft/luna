@@ -72,7 +72,7 @@ class AuthController
             ['id' => $userService->getCurrentUser()->getId()]
         );
 
-        $app->addMessage('Login success', 'success');
+        $app->addMessage($this->trans('luna.login.message.success'), 'success');
 
         if ($return = $app->getState()->getAndForget('login_return')) {
             return $nav->createRouteUri(Base64Url::decode($return));

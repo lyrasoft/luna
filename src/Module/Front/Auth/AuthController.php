@@ -79,7 +79,7 @@ class AuthController
             return $nav->to('login');
         }
 
-        $app->addMessage('Login success', 'success');
+        $app->addMessage($this->trans('luna.login.message.success'), 'success');
 
         $orm->updateWhere(
             User::class,
