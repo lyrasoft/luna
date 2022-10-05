@@ -52,7 +52,12 @@ class UserHandler implements UserHandlerInterface
 
         // If session user id same as conditions
         // Just get current user
-        if ((string) $conditions === (string) $sessUserId) {
+        if (
+            $conditions
+            && $sessUserId
+            && is_scalar($conditions)
+            && (string) $conditions === (string) $sessUserId
+        ) {
             $conditions = null;
         }
 
