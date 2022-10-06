@@ -30,7 +30,7 @@ class AccessAuthorization implements AuthorizationInterface
     public function authorize(string $policy, mixed $user, ...$args): bool
     {
         if ($this->hasPolicy($policy)) {
-            return $this->authorization->getPolicy($policy)?->authorize($policy, $user, ...$args);
+            return $this->authorization->getPolicy($policy)?->authorize($user, ...$args);
         }
 
         return $this->accessService->check($policy, $user, ...$args);
