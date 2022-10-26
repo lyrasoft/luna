@@ -123,10 +123,6 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function load(mixed $conditions = null): ?UserEntityInterface
     {
-        if ($conditions === null) {
-
-        }
-
         return $this->getUserHandler()->load($conditions);
     }
 
