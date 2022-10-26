@@ -10,6 +10,7 @@
 declare(strict_types=1);
 
 use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\Subscriber\AutoOpenGraphSubscriber;
 use Lyrasoft\Luna\Subscriber\BuildFormFieldSubscriber;
 use Lyrasoft\Luna\Subscriber\EntityBuildingSubscriber;
 use Lyrasoft\Luna\Subscriber\LocaleSubscriber;
@@ -29,7 +30,8 @@ return [
             EntityBuildingSubscriber::class,
             BuildFormFieldSubscriber::class,
             AppContext::class => [
-                LocaleSubscriber::class
+                LocaleSubscriber::class,
+                AutoOpenGraphSubscriber::class
             ]
         ],
 
