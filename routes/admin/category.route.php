@@ -2,12 +2,7 @@
 
 declare(strict_types=1);
 
-/**
- * Part of phoenix project.
- *
- * @copyright  Copyright {C} 2016 {ORGANIZATION}. All rights reserved.
- * @license    GNU General Public License version 2 or later.
- */
+namespace App\Routes;
 
 use Lyrasoft\Luna\Module\Admin\Category\CategoryController;
 use Lyrasoft\Luna\Module\Admin\Category\CategoryEditView;

@@ -1,6 +1,8 @@
 <?php
 
-namespace Lyrasoft\Luna\Routes;
+declare(strict_types=1);
+
+namespace App\Routes;
 
 use Lyrasoft\Luna\Module\Admin\Page\PageController;
 use Lyrasoft\Luna\Module\Admin\Page\PageEditView;
