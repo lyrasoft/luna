@@ -34,12 +34,22 @@ class TreeBuilder
         iterable $items,
         string|Closure $keyName = 'id',
         string|Closure $parentIdName = 'parent_id',
-        string $nodeClass = Node::class
+        string $nodeClass = Node::class,
+        object|int|string $root = 1,
     ): NodeInterface {
         /** @var Node[] $tree */
         $tree = [];
 
-        $root = new $nodeClass();
+        if (!is_object($root)) {
+            $rootId = $root;
+            $root = new $nodeClass();
+        } elseif ($root instanceof NodeInterface) {
+            $rootId = static::getValue($root->getValue(), $keyName);
+        } else {
+            $rootId = static::getValue($root, $keyName);
+            $root = new $nodeClass($root);
+        }
+
         $count = 0;
 
         if ($items === []) {
@@ -74,7 +84,7 @@ class TreeBuilder
 
             if (isset($tree[$parentId])) {
                 $tree[$parentId]->addChild($node);
-            } else {
+            } elseif ((string) $rootId === (string) $parentId) {
                 $root->addChild($node);
             }
         }

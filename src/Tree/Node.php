@@ -504,4 +504,15 @@ class Node implements NodeInterface, JsonSerializable
     {
         return $this->getIterator();
     }
+
+    public function filterChildren(callable $callback): static
+    {
+        foreach ($this->iterate() as $node) {
+            if (!$callback($node)) {
+                $node->getParent()?->removeChild($node);
+            }
+        }
+
+        return $this;
+    }
 }

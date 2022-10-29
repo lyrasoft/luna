@@ -57,13 +57,12 @@ class MenuService
     }
 
     /**
-     * createTree
+     * @param  iterable           $menus
+     * @param  object|int|string  $root
      *
-     * @param  iterable<Menu>  $menus
-     *
-     * @return  DbMenuNode|DbMenuNode[]
+     * @return  NodeInterface|DbMenuNode|DbMenuNode[]
      */
-    public static function createTree(iterable $menus): NodeInterface
+    public static function createTree(iterable $menus, object|int|string $root = 1): NodeInterface
     {
         if ($menus instanceof Query || $menus instanceof ListSelector) {
             $menus->setDefaultItemClass(Menu::class);
@@ -73,7 +72,8 @@ class MenuService
             $menus,
             'id',
             'parentId',
-            DbMenuNode::class
+            DbMenuNode::class,
+            $root
         );
     }
 
@@ -203,7 +203,7 @@ class MenuService
     {
         return $this->once(
             'menu.tree:' . sha1(json_encode(get_defined_vars())),
-            fn() => $this->buildTree($this->getMenus($type, $onlyAvailable, $parent))
+            fn() => $this->buildTree($this->getMenus($type, $onlyAvailable, $parent), $parent)
         );
     }
 
@@ -225,11 +225,9 @@ class MenuService
      * @throws InvalidArgumentException
      * @throws ReflectionException
      */
-    public function buildTree(iterable $menus): Node
+    public function buildTree(iterable $menus, object|int|string $root = 1): Node
     {
-
-
-        $node = static::createTree($menus);
+        $node = static::createTree($menus, $root);
 
         /** @var DbMenuNode $menuNode */
         foreach ($node->iterate() as $menuNode) {
