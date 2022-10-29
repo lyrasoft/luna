@@ -148,7 +148,8 @@ class PageEditView implements ViewModelInterface
 
         $this->unicornScript->addRoute(
             '@file_upload',
-            $this->nav->to('file_upload')->var('profile', 'image')
+            $this->nav->to('file_upload')
+                ->var('profile', $app->config('pages.upload_profile') ?: 'image')
         );
 
         $this->unicornScript->addRoute('@page_ajax');
