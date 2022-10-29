@@ -11,15 +11,19 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Widget;
 
+use Lyrasoft\Luna\Entity\Widget;
 use Lyrasoft\Luna\Module\Admin\Widget\Form\EditForm;
 use Lyrasoft\Luna\Repository\WidgetRepository;
+use Lyrasoft\Luna\Widget\WidgetService;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Repository\Event\PrepareSaveEvent;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
+use Windwalker\Core\Form\FormFactory;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\ORM\ORM;
 
 /**
  * The WidgetController class.
@@ -32,16 +36,25 @@ class WidgetController
         CrudController $controller,
         Navigator $nav,
         #[Autowire] WidgetRepository $repository,
+        WidgetService $widgetService,
+        FormFactory $formFactory,
     ): mixed {
-        $form = $app->make(EditForm::class);
-
         $controller->prepareSave(
-            function (PrepareSaveEvent $event) use ($app) {
+            function (PrepareSaveEvent $event) use ($widgetService, $app) {
                 $data = &$event->getData();
 
                 $data['params'] = $app->input('item')['params'] ?? [];
             }
         );
+
+        $item = $app->input('item');
+        $widgetInstance = $widgetService->createWidgetInstance(
+            $item['type'],
+            $app->service(ORM::class)->toEntity(Widget::class, $item)
+        );
+
+        $form = $formFactory->create(EditForm::class)
+            ->defineFormFields($widgetInstance);
 
         $uri = $app->call([$controller, 'save'], compact('repository', 'form'));
 

@@ -320,7 +320,10 @@ class MenuService
             $query->where('state', BasicState::PUBLISHED());
 
             if ($this->isLocaleEnabled()) {
-                $query->where('state', $this->getLocale());
+                $query->where(
+                    'language',
+                    ['*', $this->getLocale()]
+                );
             }
         }
 

@@ -74,10 +74,6 @@ class EditForm implements FieldDefinitionInterface
                 $form->add('note', TextField::class)
                     ->label($this->trans('luna.widget.field.note'));
 
-                // $form->add('content', TextareaField::class)
-                //     ->label($this->trans('luna.widget.field.content'))
-                //     ->rows(7);
-
                 $form->add('created', CalendarField::class)
                     ->label($this->trans('unicorn.field.created'))
                     ->disabled(true);
@@ -97,5 +93,8 @@ class EditForm implements FieldDefinitionInterface
         );
 
         $form->add('id', HiddenField::class);
+
+        // $form->add('content', HiddenField::class)
+        //     ->label($this->trans('luna.widget.field.content'));
     }
 }

@@ -68,6 +68,11 @@ class GridForm implements FieldDefinitionInterface
                     ->label($this->trans('unicorn.field.state'))
                     ->option($this->trans('unicorn.select.no.change'), '')
                     ->registerOptions(BasicState::getTransItems($this->lang));
+
+                $form->add('position', WidgetPositionListField::class)
+                    ->label($this->trans('luna.widget.field.position'))
+                    ->option($this->trans('unicorn.select.no.change'), '')
+                    ->allowCreate(true);
             }
         );
     }

@@ -42,7 +42,7 @@ $attributes->setAttributes(
 );
 
 $data = $props['data'] ?: [];
-$view = $app->service(View::class, ['viewModel' => $widget]);
+$view = $app->make(View::class, ['viewModel' => $widget]);
 ?>
 
 <div {!! $attributes->class('c-widget-wrapper') !!}>

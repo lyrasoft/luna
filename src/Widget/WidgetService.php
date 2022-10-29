@@ -35,7 +35,7 @@ class WidgetService
      *
      * @var  array
      */
-    protected $colors = [
+    protected array $colors = [
         '#00acac',
         '#3e2723',
         '#3f51b5',
@@ -96,6 +96,7 @@ class WidgetService
      * getWidgets
      *
      * @param  string  $position
+     * @param  string  $stage
      *
      * @return  array<AbstractWidget>
      */
