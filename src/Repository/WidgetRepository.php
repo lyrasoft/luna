@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Repository;
 
+use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Entity\Widget;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\BatchAction;
@@ -32,12 +34,17 @@ class WidgetRepository implements ManageRepositoryInterface, ListRepositoryInter
 {
     use ManageRepositoryTrait;
     use ListRepositoryTrait;
+    use LocaleAwareTrait;
 
     public function getListSelector(): ListSelector
     {
         $selector = $this->createSelector();
 
         $selector->from(Widget::class);
+
+        if ($this->localeService->isEnabled()) {
+            $selector->leftJoin(Language::class, 'lang', 'lang.code', 'widget.language');
+        }
 
         return $selector;
     }

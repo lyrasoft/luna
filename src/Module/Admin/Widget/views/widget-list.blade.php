@@ -210,7 +210,7 @@ $localeService = $app->service(LocaleService::class);
 
                             @if ($localeService->isEnabled())
                                 <td>
-                                    <x-lang-label :item="$item"></x-lang-label>
+                                    <x-lang-label :item="$item" :lang="$item->lang"></x-lang-label>
                                 </td>
                             @endif
 
