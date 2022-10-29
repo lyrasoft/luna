@@ -60,7 +60,7 @@ class EntityDefaultValueSubscriber
     }
 
     #[BeforeSaveEvent]
-    public function beforeSave(BeforeSaveEvent $event)
+    public function beforeSave(BeforeSaveEvent $event): void
     {
         $data = &$event->getData();
 

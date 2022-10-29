@@ -24,6 +24,7 @@ use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
 use Windwalker\ORM\Attributes\CreatedTime;
 use Windwalker\ORM\Attributes\CurrentTime;
+use Windwalker\Utilities\Enum\EnumMetaInterface;
 use Windwalker\Utilities\Options\OptionsResolverTrait;
 
 /**
@@ -129,7 +130,7 @@ class EntityBuildingSubscriber
             $className = $builder->findFQCN($shortName);
 
             // Enum can set pure value
-            if ($className && class_exists($className) && is_a($className, Enum::class, true)) {
+            if ($className && class_exists($className) && $this->isEnum($className)) {
                 if ($column) {
                     $subType = $column->isNumeric() ? 'int' : 'string';
                 } else {
@@ -142,21 +143,44 @@ class EntityBuildingSubscriber
                     ->setType($subType)
                     ->getNode();
 
+                if (is_a($className, EnumMetaInterface::class, true)) {
+                    $enum = $factory->staticCall(
+                        new Node\Name($shortName),
+                        'wrap',
+                        [
+                            new Node\Expr\Variable($propName),
+                        ]
+                    );
+                } else {
+                    $enum = $factory->new(
+                        new Node\Name($shortName),
+                        [
+                            new Node\Expr\Variable($propName),
+                        ]
+                    );
+                }
+
                 $method->stmts[0] = new Node\Stmt\Expression(
                     new Node\Expr\Assign(
                         $factory->propertyFetch(
                             new Node\Expr\Variable('this'),
                             $propName
                         ),
-                        $factory->new(
-                            new Node\Name($shortName),
-                            [
-                                new Node\Expr\Variable($propName),
-                            ]
-                        ),
+                        $enum
                     )
                 );
             }
         }
+    }
+
+    /**
+     * @param  string  $className
+     *
+     * @return  bool
+     */
+    protected function isEnum(string $className): bool
+    {
+        return is_a($className, Enum::class, true)
+            || is_a($className, \UnitEnum::class, true);
     }
 }
