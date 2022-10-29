@@ -40,8 +40,9 @@ class TreeBuilder
         $tree = [];
 
         $root = new $nodeClass();
+        $count = 0;
 
-        if (!count($items)) {
+        if ($items === []) {
             return $root;
         }
 
@@ -54,6 +55,12 @@ class TreeBuilder
             }
 
             $tree[$pk] = new $nodeClass($data);
+
+            $count++;
+        }
+
+        if ($count === 0) {
+            return $root;
         }
 
         foreach ($tree as $node) {

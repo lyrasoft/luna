@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Services;
 
 use DomainException;
 use Lyrasoft\Luna\Entity\Menu;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Lyrasoft\Luna\Menu\MenuBuilder;
 use Lyrasoft\Luna\Menu\Tree\DbMenuNode;
@@ -23,6 +24,7 @@ use Lyrasoft\Luna\Tree\TreeBuilder;
 use Psr\Cache\InvalidArgumentException;
 use ReflectionException;
 use Unicorn\Enum\BasicState;
+use Unicorn\Selector\ListSelector;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Renderer\RendererService;
@@ -30,6 +32,7 @@ use Windwalker\Data\Collection;
 use Windwalker\DI\Exception\DependencyResolutionException;
 use Windwalker\ORM\ORM;
 use Windwalker\ORM\SelectorQuery;
+use Windwalker\Query\Query;
 use Windwalker\Utilities\Arr;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
@@ -40,6 +43,7 @@ class MenuService
 {
     use InstanceCacheTrait;
     use TranslatorTrait;
+    use LocaleAwareTrait;
 
     public function __construct(
         protected ApplicationInterface $app,
@@ -55,12 +59,16 @@ class MenuService
     /**
      * createTree
      *
-     * @param  mixed  $menus
+     * @param  iterable<Menu>  $menus
      *
      * @return  DbMenuNode|DbMenuNode[]
      */
-    public static function createTree($menus): NodeInterface
+    public static function createTree(iterable $menus): NodeInterface
     {
+        if ($menus instanceof Query || $menus instanceof ListSelector) {
+            $menus->setDefaultItemClass(Menu::class);
+        }
+
         return TreeBuilder::create(
             $menus,
             'id',
@@ -180,9 +188,9 @@ class MenuService
     /**
      * getMenusTree
      *
-     * @param  string  $type
-     * @param  bool    $onlyAvailable
-     * @param  int     $parent
+     * @param  string    $type
+     * @param  bool      $onlyAvailable
+     * @param  int|Menu  $parent
      *
      * @return  DbMenuNode|DbMenuNode[]
      *
@@ -195,28 +203,49 @@ class MenuService
     {
         return $this->once(
             'menu.tree:' . sha1(json_encode(get_defined_vars())),
-            function () use ($type, $onlyAvailable, $parent) {
-                $node = static::createTree(
-                    $this->getMenus($type, $onlyAvailable, $parent)
-                );
-
-                /** @var DbMenuNode $menuNode */
-                foreach ($node->iterate() as $menuNode) {
-                    if (!$instance = $this->getViewInstance($menuNode->getValue()->getView())) {
-                        throw new DomainException(
-                            sprintf(
-                                'Menu View: %s not found',
-                                $menuNode->getValue()->view
-                            )
-                        );
-                    }
-
-                    $menuNode->setViewInstance($instance);
-                }
-
-                return $node;
-            }
+            fn() => $this->buildTree($this->getMenus($type, $onlyAvailable, $parent))
         );
+    }
+
+    /**
+     * Build custom menu tree.
+     *
+     * ```php
+     * $menuService->buildTree(
+     *      $menuService->createSelectQuery('mainmenu', false)
+     *          ->where(...)
+     * );
+     * ```
+     *
+     * @param  iterable<Menu>  $menus
+     *
+     * @return  Node
+     *
+     * @throws DependencyResolutionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     */
+    public function buildTree(iterable $menus): Node
+    {
+
+
+        $node = static::createTree($menus);
+
+        /** @var DbMenuNode $menuNode */
+        foreach ($node->iterate() as $menuNode) {
+            if (!$instance = $this->getViewInstance($menuNode->getValue()->getView())) {
+                throw new DomainException(
+                    sprintf(
+                        'Menu View: %s not found',
+                        $menuNode->getValue()->view
+                    )
+                );
+            }
+
+            $menuNode->setViewInstance($instance);
+        }
+
+        return $node;
     }
 
     /**
@@ -243,7 +272,7 @@ class MenuService
                     continue;
                 }
 
-                $trees[] = $this->getMenusTree($type);
+                $trees[$type] = $this->getMenusTree($type);
             }
 
             return $trees;
@@ -267,6 +296,44 @@ class MenuService
     public function getMenus(string $type, bool $onlyAvailable = true, int|Menu $parent = 1): Collection
     {
         return $this->createSelectQuery($type, $onlyAvailable, $parent)->all(Menu::class);
+    }
+
+    /**
+     * createSelectQuery
+     *
+     * @param  string      $type
+     * @param  bool        $onlyAvailable
+     * @param  int|object  $parent
+     *
+     * @return  SelectorQuery
+     *
+     * @since  1.7
+     */
+    public function createSelectQuery(
+        string $type,
+        bool $onlyAvailable = true,
+        int|Menu $parent = 1
+    ): SelectorQuery {
+        $query = $this->orm->from(Menu::class)
+            ->where('type', $type)
+            ->order('lft', 'ASC');
+
+        if ($onlyAvailable) {
+            $query->where('state', BasicState::PUBLISHED());
+
+            if ($this->isLocaleEnabled()) {
+                $query->where('state', $this->getLocale());
+            }
+        }
+
+        if (!is_object($parent)) {
+            $parent = $this->orm->findOne(Menu::class, $parent);
+        }
+
+        $query->where('lft', '>=', $parent->getLft())
+            ->where('rgt', '<=', $parent->getRgt());
+
+        return $query;
     }
 
     /**
@@ -416,41 +483,6 @@ class MenuService
         });
 
         return $this;
-    }
-
-    /**
-     * createSelectQuery
-     *
-     * @param  string      $type
-     * @param  bool        $onlyAvailable
-     * @param  int|object  $parent
-     *
-     * @return  SelectorQuery
-     *
-     * @since  1.7
-     */
-    public function createSelectQuery(
-        string $type,
-        bool $onlyAvailable = true,
-        int|Menu $parent = 1
-    ): SelectorQuery {
-        $query = $this->orm->from(Menu::class)
-            ->where('type', $type)
-            ->order('lft', 'ASC');
-
-        if ($onlyAvailable) {
-            $query->where('state', BasicState::PUBLISHED());
-            // Language enabled
-        }
-
-        if (!is_object($parent)) {
-            $parent = $this->orm->findOne(Menu::class, $parent);
-        }
-
-        $query->where('lft', '>=', $parent->getLft())
-            ->where('rgt', '<=', $parent->getRgt());
-
-        return $query;
     }
 
     /**
