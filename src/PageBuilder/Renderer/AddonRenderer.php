@@ -105,13 +105,7 @@ class AddonRenderer extends AbstractPageRenderer
         $css = (string) $content->getDeep('options.html_css');
 
         if (trim($css)) {
-            $scss = new Compiler();
-
-            $css = $scss->compileString(
-                "#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }"
-            );
-
-            $this->internalCSS($css->getCss());
+            $this->renderCustomCSS($content);
         }
     }
 

@@ -177,11 +177,11 @@ class PageView implements ViewModelInterface
     /**
      * getCss
      *
-     * @param  Page  $page
+     * @param  Page        $page
      *
      * @return  string
      *
-     * @throws \ScssPhp\ScssPhp\Exception\SassException
+     * @throws SassException
      */
     protected function renderCSS(Page $page): string
     {
@@ -189,8 +189,13 @@ class PageView implements ViewModelInterface
 
         $scss = new Compiler();
 
-        $css = $scss->compileString($css)->getCss();
-        $this->asset->internalCSS($css);
+        try {
+            $css = $scss->compileString($css)->getCss();
+
+            $this->asset->internalCSS($css);
+        } catch (\Throwable) {
+            //
+        }
 
         return $css;
     }

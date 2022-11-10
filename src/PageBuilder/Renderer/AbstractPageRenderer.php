@@ -11,6 +11,8 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleRules;
+use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Exception\SassException;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Data\Collection;
@@ -404,5 +406,27 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     public function createRenderer(): CompositeRenderer
     {
         return $this->rendererService->createRenderer();
+    }
+
+    /**
+     * @param  Collection  $content
+     *
+     * @return  void
+     *
+     * @throws SassException
+     */
+    protected function renderCustomCSS(Collection $content): void
+    {
+        $scss = new Compiler();
+
+        try {
+            $css = $scss->compileString(
+                "#{$content->getDeep('options.html_id')} { {$content->getDeep('options.html_css')} }"
+            );
+
+            $this->internalCSS($css->getCss());
+        } catch (\Throwable) {
+            //
+        }
     }
 }
