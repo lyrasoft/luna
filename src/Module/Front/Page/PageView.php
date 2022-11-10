@@ -177,7 +177,7 @@ class PageView implements ViewModelInterface
     /**
      * getCss
      *
-     * @param  Page        $page
+     * @param  Page  $page
      *
      * @return  string
      *
