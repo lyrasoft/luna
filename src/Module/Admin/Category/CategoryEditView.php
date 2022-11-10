@@ -73,6 +73,11 @@ class CategoryEditView implements ViewModelInterface
             ->fill(
                 $this->repository->getState()->getAndForget('edit.data')
                     ?: $this->repository->getORM()->extractEntity($item)
+            )
+            ->fill(
+                [
+                    'params' => $item?->getParams(),
+                ]
             );
 
         $this->prepareMetadata($app, $view);

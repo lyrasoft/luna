@@ -69,7 +69,12 @@ class MenuEditView implements ViewModelInterface
                 $this->repository->getState()->getAndForget('edit.data')
                     ?: $this->orm->extractEntity($item)
             )
-            ->fill(compact('type'));
+            ->fill(compact('type'))
+            ->fill(
+                [
+                    'params' => $item?->getParams(),
+                ]
+            );
 
         $viewInstance = $this->menuService->getViewInstance(
             $form->getField('view')?->getValue() ?: $item?->getView() ?: ''

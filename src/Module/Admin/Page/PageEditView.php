@@ -77,7 +77,8 @@ class PageEditView implements ViewModelInterface
             )
             ->fill(
                 [
-                    'meta' => static::asSnakes($item?->getMeta()->dump() ?? [])
+                    'meta' => static::asSnakes($item?->getMeta()->dump() ?? []),
+                    'params' => $item?->getParams(),
                 ]
             );
 

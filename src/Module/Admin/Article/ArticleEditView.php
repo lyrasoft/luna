@@ -76,6 +76,11 @@ class ArticleEditView implements ViewModelInterface
             ->fill(
                 $this->repository->getState()->getAndForget('edit.data')
                     ?: $this->orm->extractEntity($item)
+            )
+            ->fill(
+                [
+                    'params' => $item?->getParams(),
+                ]
             );
 
         if ($item) {
