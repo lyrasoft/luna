@@ -9,6 +9,7 @@ import { defaultsDeep } from 'lodash-es';
 export default {
   mounted(el) {
     const options = defaultsDeep(
+      {},
       u.data('tinymce_options') || {},
       {
         target: el,
