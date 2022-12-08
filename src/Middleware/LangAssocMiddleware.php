@@ -52,6 +52,10 @@ class LangAssocMiddleware implements MiddlewareInterface
 
         $data = $request->getParsedBody()[$this->inputName] ?? null;
 
+        if (!$data) {
+            return $res;
+        }
+
         $task = $data['task'] ?? '';
 
         if ($task === 'create') {
@@ -179,7 +183,7 @@ class LangAssocMiddleware implements MiddlewareInterface
         return $this->nav->redirect($routeCallback($this->nav, $item));
     }
 
-    protected function refreshAssoc(array|null $data): void
+    protected function refreshAssoc(array $data): void
     {
         [
             'type' => $type,

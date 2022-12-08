@@ -48,7 +48,7 @@ class LocaleSwitchField extends AbstractField
     protected bool $allowCreateEmpty = false;
 
     protected bool $canChangeSelfLang = true;
-    
+
     protected bool $showAllOption = true;
 
     #[Inject]
