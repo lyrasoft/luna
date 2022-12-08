@@ -63,8 +63,9 @@ $languageField->option(
 
 if ($field->isShowAllOption()) {
     $languageField->option($lang('luna.language.all'), '*');
-    $languageField->setValue($value, '*');
 }
+
+$languageField->setValue($value, '*');
 ?>
 
 @if ($value && $currentLang)

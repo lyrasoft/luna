@@ -179,7 +179,7 @@ class LangAssocMiddleware implements MiddlewareInterface
         return $this->nav->redirect($routeCallback($this->nav, $item));
     }
 
-    protected function refreshAssoc(array $data): void
+    protected function refreshAssoc(array|null $data): void
     {
         [
             'type' => $type,
