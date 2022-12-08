@@ -48,6 +48,8 @@ class LocaleSwitchField extends AbstractField
     protected bool $allowCreateEmpty = false;
 
     protected bool $canChangeSelfLang = true;
+    
+    protected bool $showAllOption = true;
 
     #[Inject]
     protected AssociationService $associationService;
@@ -296,6 +298,26 @@ class LocaleSwitchField extends AbstractField
     public function allowCreateEmpty(bool $allowCreateEmpty): static
     {
         $this->allowCreateEmpty = $allowCreateEmpty;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowAllOption()
+    {
+        return $this->showAllOption;
+    }
+
+    /**
+     * @param  bool  $showAllOption
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function showAllOption(bool $showAllOption)
+    {
+        $this->showAllOption = $showAllOption;
 
         return $this;
     }
