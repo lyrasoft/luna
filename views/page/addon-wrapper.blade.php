@@ -31,7 +31,7 @@ use Windwalker\DOM\DOMElement;
     data-path="{{ $path }}"
     data-addon-type="{{ $content['type'] }}"
     {!! DOMElement::buildAttributes($attrs) !!}>
-    @if ($options->getDeep('background.overlay'))
+    @if ($options->getDeep('background.type') === 'image' && $options->getDeep('background.overlay'))
         <div class="l-bg-overlay"></div>
     @endif
     <div class="l-bg-content c-addon__body">

@@ -42,7 +42,7 @@ $classes = array_filter($classes, '\strlen');
 >
     <div id="{{ $options->getDeep('html_id') }}" class="l-column__body {{ implode(' ', $classes) }}"
         {!! DOMElement::buildAttributes($attrs) !!}>
-        @if ($options->getDeep('background.overlay'))
+        @if ($options->getDeep('background.type') === 'image' && $options->getDeep('background.overlay'))
             <div class="l-bg-overlay"></div>
         @endif
 

@@ -47,7 +47,7 @@ $classes = array_filter($classes, '\strlen');
     uni-page-edit="row"
     data-path="{{ $path }}"
     {!! DOMElement::buildAttributes($attrs) !!}>
-    @if ($options->getDeep('background.overlay'))
+    @if ($options->getDeep('background.type') === 'image' && $options->getDeep('background.overlay'))
         <div class="l-bg-overlay"></div>
     @endif
     <div class="l-section__container l-bg-content {{ $container }}">
