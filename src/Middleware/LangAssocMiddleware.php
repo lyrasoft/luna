@@ -52,6 +52,10 @@ class LangAssocMiddleware implements MiddlewareInterface
 
         $data = $request->getParsedBody()[$this->inputName] ?? null;
 
+        if (!$data) {
+            return $res;
+        }
+
         $task = $data['task'] ?? '';
 
         if ($task === 'create') {

@@ -60,7 +60,11 @@ $languageField->option(
     $lang('luna.field.locale.select.placeholder'),
     ''
 );
-$languageField->option($lang('luna.language.all'), '*');
+
+if ($field->isShowAllOption()) {
+    $languageField->option($lang('luna.language.all'), '*');
+}
+
 $languageField->setValue($value, '*');
 ?>
 
