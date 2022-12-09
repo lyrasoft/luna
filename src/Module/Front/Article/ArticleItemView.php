@@ -21,11 +21,14 @@ use Lyrasoft\Luna\Services\AssociationService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Html\HtmlFrame;
+use Windwalker\Core\Http\Browser;
 use Windwalker\Core\Router\Exception\RouteNotFoundException;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\DI\Attributes\Autowire;
+
+use Windwalker\DI\Exception\DefinitionException;
 
 use function Windwalker\str;
 
@@ -49,7 +52,7 @@ class ArticleItemView implements ViewModelInterface
         protected ArticleRepository $repository,
         #[Autowire]
         protected Navigator $nav,
-        protected AssociationService $associationService,
+        protected AssociationService $associationService
     ) {
         //
     }
@@ -61,6 +64,8 @@ class ArticleItemView implements ViewModelInterface
      * @param  View        $view  The view object.
      *
      * @return  mixed
+     * @throws \ReflectionException
+     * @throws DefinitionException
      */
     public function prepare(AppContext $app, View $view): mixed
     {
@@ -106,7 +111,7 @@ class ArticleItemView implements ViewModelInterface
         }
 
         // Keep URL unique
-        if ($item->getAlias() !== $alias) {
+        if (($item->getAlias() !== $alias) && !$app->service(Browser::class)->isRobot()) {
             return $this->nav->self()->alias($item->getAlias());
         }
 
