@@ -19,6 +19,8 @@ use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 
+use function Windwalker\DOM\h;
+
 /**
  * The LoginForm class.
  */
@@ -52,7 +54,18 @@ class LoginForm implements FieldDefinitionInterface
 
             $form->add('password', PasswordField::class)
                 ->label($this->trans('user.field.password'))
-                ->required(true);
+                ->required(true)
+                ->set(
+                    'append',
+                    <<<HTML
+                    <button type="button" class="btn btn-outline-primary"
+                        data-bs-toggle="tooltip" title="生物辨識"
+                        data-task="webauthn"
+                        >
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </button>
+                    HTML
+                );
         });
     }
 }
