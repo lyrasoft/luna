@@ -19,6 +19,7 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Filter\Rule\EmailAddress;
 use Windwalker\Form\Field\EmailField;
 use Windwalker\Form\Field\HiddenField;
+use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\PasswordField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
@@ -90,6 +91,15 @@ class EditForm implements FieldDefinitionInterface
                     ->crop(true)
                     ->width(400)
                     ->height(400);
+
+                $roles = $this->luna->app->config('user.selectable_roles');
+
+                $form->add('roles', ListField::class)
+                    ->label($this->trans('luna.user.field.roles'))
+                    // ->required(true)
+                    ->registerFromEnums($roles)
+                    ->multiple(true)
+                    ->addClass('has-tom-select');
 
                 $form->add('enabled', SwitcherField::class)
                     ->label($this->trans('luna.user.field.enabled'))

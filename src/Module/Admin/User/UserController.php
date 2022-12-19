@@ -11,7 +11,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\User;
 
+use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\Entity\UserRole;
+use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\Module\Admin\User\Form\EditForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Lyrasoft\Luna\Services\UserSwitchService;
@@ -31,6 +34,8 @@ use Windwalker\ORM\Event\AfterSaveEvent;
 use Windwalker\ORM\Event\BeforeDeleteEvent;
 use Windwalker\Utilities\Symbol;
 
+use function Windwalker\value;
+
 /**
  * The UserController class.
  */
@@ -45,10 +50,11 @@ class UserController
         Navigator $nav,
         #[Autowire] UserRepository $repository,
         #[Autowire] EditForm $form,
-        FileUploadService $uploadService
+        FileUploadService $uploadService,
+        AccessService $accessService,
     ): mixed {
         $controller->afterSave(
-            function (AfterSaveEvent $event) use ($repository, $uploadService, $app) {
+            function (AfterSaveEvent $event) use ($accessService, $repository, $uploadService, $app) {
                 $data = $event->getData();
                 $files = $app->file('item');
 
@@ -59,6 +65,41 @@ class UserController
                     'images/avatar/' . md5((string) $data['id']) . '.jpg'
                 )
                     ?->getUri(true) ?? $data['avatar'];
+
+                $roles = $accessService->getAllowedRolesForUser($data['id']);
+                
+                show($roles);
+                exit(' @Checkpoint');
+
+                // User Roles
+                $orm = $event->getORM();
+                $roles = $app->input('item')['roles'];
+                $basicRole = $accessService->unwrapRole($app->config('user.basic_role'));
+
+                if ($basicRole) {
+                    $roles[] = $basicRole;
+                    $roles = array_unique($roles);
+                }
+
+                $superUserRoles = $accessService->getRolesAllowAction(AccessService::SUPERUSER_ACTION);
+                $superUserRoles = array_map(static fn (UserRole $role) => $role->getId(), $superUserRoles);
+
+                $maps = [];
+
+                foreach ($roles as $role) {
+                    $maps[] = $map = new UserRoleMap();
+                    $map->setUserId((int) $data['id']);
+                    $map->setRoleId($role);
+                }
+
+                $orm->flush(
+                    UserRoleMap::class,
+                    $maps,
+                    [
+                        'user_id' => $data['id'],
+                        ['role_id', 'not in', $superUserRoles]
+                    ]
+                );
 
                 $repository->save($data);
             }

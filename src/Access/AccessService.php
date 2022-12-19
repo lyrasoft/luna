@@ -29,6 +29,7 @@ use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
 use function Windwalker\collect;
+use function Windwalker\value;
 
 /**
  * The AccessService class.
@@ -40,6 +41,8 @@ class AccessService
     public const SUPERUSER_ACTION = 'super.user';
 
     public const ADMIN_ACCESS_ACTION = 'admin.access';
+
+    public const ROLE_MODIFY_ACTION = 'role.modify';
 
     public function __construct(
         protected ApplicationInterface $app,
@@ -80,11 +83,26 @@ class AccessService
     /**
      * checkRolesAllowAction
      *
-     * @param  array<UserRole>  $roles
-     * @param  string           $action
+     * @param  string  $action
      *
-     * @return  bool
+     * @return  array<UserRole>
      */
+    public function getRolesAllowAction(string $action): array
+    {
+        $roles = $this->getRoles();
+
+        $allowed = [];
+
+        // Check permissions
+        foreach ($roles as $role) {
+            if ($this->checkRoleAllowAction($role, $action) === true) {
+                $allowed[] = $role;
+            }
+        }
+
+        return $allowed;
+    }
+
     public function checkRolesAllowAction(array $roles, string $action): bool
     {
         $rules = $this->getRules($action);
@@ -97,6 +115,13 @@ class AccessService
         }
 
         return false;
+    }
+
+    public function checkRoleAllowAction(UserRole $role, string $action): bool
+    {
+        $rules = $this->getRules($action);
+
+        return (bool) $this->checkRoleAllowForRules($role, $rules);
     }
 
     /**
@@ -321,13 +346,8 @@ class AccessService
 
     public function isParentRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
     {
-        if ($role instanceof UserRole) {
-            $role = $role->getId();
-        }
-
-        if ($targetRole instanceof UserRole) {
-            $targetRole = $targetRole->getId();
-        }
+        $role = (string) $this->unwrapRole($role);
+        $targetRole = (string) $this->unwrapRole($targetRole);
 
         $roleNode = $this->getRoleNodeById($role);
 
@@ -356,13 +376,8 @@ class AccessService
 
     public function isChildRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
     {
-        if ($role instanceof UserRole) {
-            $role = $role->getId();
-        }
-
-        if ($targetRole instanceof UserRole) {
-            $targetRole = $targetRole->getId();
-        }
+        $role = (string) $this->unwrapRole($role);
+        $targetRole = (string) $this->unwrapRole($targetRole);
 
         $roleNode = $this->getRoleNodeById($role);
 
@@ -387,6 +402,34 @@ class AccessService
         }
 
         return false;
+    }
+
+    /**
+     * @param  mixed  $user
+     *
+     * @return  array<UserRole>
+     */
+    public function getAllowedRolesForUser(mixed $user): array
+    {
+        $roles = $this->getRoles();
+        $userRoles = $this->getUserRoles($user);
+        $allowed = [];
+
+        foreach ($userRoles as $userRole) {
+            foreach ($roles as $role) {
+                if (
+                    !isset($allowed[$role->getId()])
+                    && (
+                        $this->unwrapRole($userRole) === $this->unwrapRole($role)
+                        || $this->isChildRole($userRole, $role)
+                    )
+                ) {
+                    $allowed[$role->getId()] = $role;
+                }
+            }
+        }
+
+        return $allowed;
     }
 
     /**
@@ -461,7 +504,7 @@ class AccessService
         );
     }
 
-    public function getRoleNodeById(string|int $id)
+    public function getRoleNodeById(string|int $id): ?NodeInterface
     {
         return $this->getRoleFlatNodes()[$id] ?? null;
     }
@@ -548,6 +591,34 @@ class AccessService
                 return $result;
             }
         );
+    }
+
+    public function wrapUserRole(string|int|UserRole $role): ?UserRole
+    {
+        if ($role instanceof UserRole) {
+            return $role;
+        }
+
+        foreach ($this->getRoles() as $userRole) {
+            if ((string) $userRole->getId() === (string) $role) {
+                return $userRole;
+            }
+        }
+
+        return null;
+    }
+
+    public function unwrapRole(mixed $role): ?string
+    {
+        if ($role === null) {
+            return null;
+        }
+
+        if ($role instanceof UserRole) {
+            return $role->getId();
+        }
+
+        return (string) value($role);
     }
 
     /**

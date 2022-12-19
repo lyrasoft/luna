@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\User;
 
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\Module\Admin\User\Form\EditForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Windwalker\Core\Application\AppContext;
@@ -74,6 +75,16 @@ class UserEditView implements ViewModelInterface
                     'params' => $item?->getParams(),
                 ]
             );
+
+        if ($item) {
+            $roles = $this->orm->findColumn(
+                UserRoleMap::class,
+                'role_id',
+                ['user_id' => $item->getId()]
+            );
+
+            $form->fill(['roles' => $roles]);
+        }
 
         $this->prepareMetadata($app, $view);
 

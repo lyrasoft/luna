@@ -56,7 +56,7 @@ use Windwalker\Utilities\StrNormalize;
  */
 class LunaPackage extends AbstractPackage implements ServiceProviderInterface, RequestBootableProviderInterface
 {
-    public function __construct(protected ApplicationInterface $app)
+    public function __construct(public ApplicationInterface $app)
     {
     }
 
