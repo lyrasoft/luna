@@ -768,4 +768,9 @@ class AccessService
 
         return $this->app->service(UserService::class)->getUser($conditions);
     }
+
+    public function getBasicRole(): UserRole
+    {
+        return $this->wrapUserRole($this->app->config('access.basic_role'));
+    }
 }
