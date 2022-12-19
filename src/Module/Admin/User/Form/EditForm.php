@@ -104,7 +104,7 @@ class EditForm implements FieldDefinitionInterface
 
                     $form->add('roles', ListField::class)
                         ->label($this->trans('luna.user.field.roles'))
-                        // ->required(true)
+                        ->required(true)
                         ->registerOptions(
                             $roles,
                             function (ListField $field, mixed $text, mixed $value) use ($iAmSuperUser) {
