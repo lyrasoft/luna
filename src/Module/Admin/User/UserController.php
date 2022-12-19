@@ -32,9 +32,8 @@ use Windwalker\Core\Router\RouteUri;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\Event\AfterSaveEvent;
 use Windwalker\ORM\Event\BeforeDeleteEvent;
+use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Symbol;
-
-use function Windwalker\value;
 
 /**
  * The UserController class.
@@ -51,11 +50,12 @@ class UserController
         #[Autowire] UserRepository $repository,
         #[Autowire] EditForm $form,
         FileUploadService $uploadService,
-        AccessService $accessService,
+        UserService $userService,
     ): mixed {
         $controller->afterSave(
-            function (AfterSaveEvent $event) use ($accessService, $repository, $uploadService, $app) {
+            function (AfterSaveEvent $event) use ($userService, $repository, $uploadService, $app) {
                 $data = $event->getData();
+                $user = $event->getEntity();
                 $files = $app->file('item');
 
                 unset($data['password']);
@@ -66,40 +66,12 @@ class UserController
                 )
                     ?->getUri(true) ?? $data['avatar'];
 
-                $roles = $accessService->getAllowedRolesForUser($data['id']);
-                
-                show($roles);
-                exit(' @Checkpoint');
-
                 // User Roles
-                $orm = $event->getORM();
-                $roles = $app->input('item')['roles'];
-                $basicRole = $accessService->unwrapRole($app->config('user.basic_role'));
+                $roles = $app->input('item')['roles'] ?? null;
 
-                if ($basicRole) {
-                    $roles[] = $basicRole;
-                    $roles = array_unique($roles);
+                if ($roles !== null && $userService->can(AccessService::ROLE_MODIFY_ACTION)) {
+                    $app->call([$this, 'saveUserRoles'], ['user' => $user, 'roles' => $roles]);
                 }
-
-                $superUserRoles = $accessService->getRolesAllowAction(AccessService::SUPERUSER_ACTION);
-                $superUserRoles = array_map(static fn (UserRole $role) => $role->getId(), $superUserRoles);
-
-                $maps = [];
-
-                foreach ($roles as $role) {
-                    $maps[] = $map = new UserRoleMap();
-                    $map->setUserId((int) $data['id']);
-                    $map->setRoleId($role);
-                }
-
-                $orm->flush(
-                    UserRoleMap::class,
-                    $maps,
-                    [
-                        'user_id' => $data['id'],
-                        ['role_id', 'not in', $superUserRoles]
-                    ]
-                );
 
                 $repository->save($data);
             }
@@ -122,6 +94,57 @@ class UserController
             default:
                 return $uri;
         }
+    }
+
+    public function saveUserRoles(
+        User $user,
+        array $roles,
+        AppContext $app,
+        ORM $orm,
+        AccessService $accessService
+    ): void {
+        $me = $accessService->getUser();
+        $iAmSuperUser = $accessService->isSuperUser($me);
+        $theyAreSuperUser = $accessService->isSuperUser($user);
+
+        if ($theyAreSuperUser && !$iAmSuperUser) {
+            return;
+        }
+
+        $basicRole = $accessService->unwrapRole($app->config('access.basic_role'));
+
+        // Always keep basic role
+        if ($basicRole) {
+            $roles[] = $basicRole;
+            $roles = array_unique($roles);
+        }
+
+        $maps = [];
+        $newRolesIsSuperUser = false;
+
+        foreach ($roles as $role) {
+            $maps[] = $map = new UserRoleMap();
+            $map->setUserId($user->getId());
+            $map->setRoleId($role);
+
+            if (!$newRolesIsSuperUser) {
+                $newRolesIsSuperUser = $accessService->isSuperUserRole($role);
+            }
+        }
+
+        $conditions = ['user_id' => $user->getId()];
+
+        // If I'm not superuser, always ignore superuser roles
+        // This will prevent a non-superuser delete another superuser's role
+        // And we also must prevent a superuser delete own superuser roles
+        if (!$iAmSuperUser || !$newRolesIsSuperUser) {
+            $superUserRoles = $accessService->getRolesAllowAction(AccessService::SUPERUSER_ACTION);
+            $superUserRoles = array_map([$accessService, 'unwrapRole'], $superUserRoles);
+
+            $conditions[] = ['role_id', 'not in', $superUserRoles];
+        }
+
+        $orm->flush(UserRoleMap::class, $maps, $conditions);
     }
 
     public function delete(

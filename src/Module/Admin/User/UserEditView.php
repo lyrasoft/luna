@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\User;
 
+use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\Module\Admin\User\Form\EditForm;
@@ -40,7 +41,8 @@ class UserEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
-        #[Autowire] protected UserRepository $repository
+        protected AccessService $accessService,
+        #[Autowire] protected UserRepository $repository,
     ) {
     }
 
@@ -52,7 +54,7 @@ class UserEditView implements ViewModelInterface
      *
      * @return  mixed
      */
-    public function prepare(AppContext $app, View $view): array
+    public function prepare(AppContext $app, View $view): mixed
     {
         $id = $app->input('id');
 
@@ -60,6 +62,11 @@ class UserEditView implements ViewModelInterface
         $item = $this->repository->getItem($id);
 
         if ($item) {
+            // Non-Superuser cannot edit Superuser profile
+            if ($this->accessService->isSuperUser($item) && !$this->accessService->isSuperUser()) {
+                return $this->nav->to('user_list');
+            }
+
             $item->setPassword('');
         }
 

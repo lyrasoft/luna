@@ -17,6 +17,14 @@ return [
     'access' => [
         'enabled' => true,
 
+        'selectable_roles' => [
+            'registered',
+            'admin',
+            'superuser',
+        ],
+
+        'basic_role' => 'registered',
+
         'roles_db_enabled' => false,
         'roles' => [
             'superuser' => create_role(
@@ -32,8 +40,7 @@ return [
                         'Manager',
                         children: [
                             'admin' => create_role(
-                                'admin',
-                                'Admin'
+                                'Admin',
                             ),
                         ]
                     ),

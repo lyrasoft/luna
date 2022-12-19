@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\User;
 
+use Lyrasoft\Luna\Entity\UserRole;
+use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\Enum\UserEnabled;
 use Lyrasoft\Luna\Enum\UserVerified;
 use Lyrasoft\Luna\LunaPackage;
@@ -27,6 +29,8 @@ use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
 
+use function Windwalker\collect;
+
 /**
  * The UserListView class.
  */
@@ -40,6 +44,11 @@ use Windwalker\ORM\ORM;
 class UserListView implements ViewModelInterface
 {
     use TranslatorTrait;
+
+    /**
+     * @var Collection
+     */
+    protected Collection $roles;
 
     public function __construct(
         protected ORM $orm,
@@ -81,9 +90,19 @@ class UserListView implements ViewModelInterface
 
         $pagination = $items->getPagination();
 
+        $items = $items->all();
+
         // Prepare Form
         $form = $this->formFactory->create(GridForm::class);
         $form->fill(compact('search', 'filter'));
+
+        // Load Roles
+        $ids = $items->column('id')->dump();
+        $this->roles = $this->orm->select()
+            ->from(UserRoleMap::class)
+            ->where('user_id', $ids)
+            ->all(UserRoleMap::class)
+            ->groupBy(fn (UserRoleMap $map) => $map->getUserId());
 
         $showFilters = $this->showFilterBar($filter);
 
@@ -206,5 +225,15 @@ class UserListView implements ViewModelInterface
             ->color('danger');
 
         return $button;
+    }
+
+    /**
+     * @param  int  $userId
+     *
+     * @return  Collection|UserRoleMap[]
+     */
+    public function getUserRoles(int $userId): Collection
+    {
+        return $this->roles[$userId] ?? collect();
     }
 }

@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\User\Form;
 
+use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\User\UserService;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
@@ -24,6 +26,9 @@ use Windwalker\Form\Field\PasswordField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
+use Windwalker\Utilities\Enum\EnumTranslatableInterface;
+
+use function Windwalker\value;
 
 /**
  * The EditForm class.
@@ -32,7 +37,7 @@ class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
 
-    public function __construct(protected LunaPackage $luna)
+    public function __construct(protected LunaPackage $luna, protected AccessService $accessService)
     {
     }
 
@@ -92,14 +97,32 @@ class EditForm implements FieldDefinitionInterface
                     ->width(400)
                     ->height(400);
 
-                $roles = $this->luna->app->config('user.selectable_roles');
+                $roles = $this->luna->app->config('access.selectable_roles') ?: [];
 
-                $form->add('roles', ListField::class)
-                    ->label($this->trans('luna.user.field.roles'))
-                    // ->required(true)
-                    ->registerFromEnums($roles)
-                    ->multiple(true)
-                    ->addClass('has-tom-select');
+                if ($roles && $this->accessService->check(AccessService::ROLE_MODIFY_ACTION)) {
+                    $iAmSuperUser = $this->accessService->isSuperUser();
+
+                    $form->add('roles', ListField::class)
+                        ->label($this->trans('luna.user.field.roles'))
+                        // ->required(true)
+                        ->registerOptions(
+                            $roles,
+                            function (ListField $field, mixed $text, mixed $value) use ($iAmSuperUser) {
+                                if ($text instanceof EnumTranslatableInterface || is_numeric($value)) {
+                                    $value = value($text);
+                                    $text = $this->accessService->wrapUserRole($value)->getTitle();
+                                }
+
+                                if (!$iAmSuperUser && $this->accessService->isSuperUserRole($value)) {
+                                    return;
+                                }
+
+                                $field->option($text, (string) $value);
+                            }
+                        )
+                        ->multiple(true)
+                        ->addClass('has-tom-select');
+                }
 
                 $form->add('enabled', SwitcherField::class)
                     ->label($this->trans('luna.user.field.enabled'))

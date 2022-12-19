@@ -16,6 +16,9 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
+use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\User\UserService;
 use Unicorn\Image\ImagePlaceholder;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -26,15 +29,17 @@ use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\User\UserListView;
 
 /**
- * @var \Lyrasoft\Luna\Entity\User $entity
+ * @var User $entity
  */
 
 $enabledButton = $vm->createEnabledButton();
 $verifiedButton = $vm->createVerifiedButton();
 
-$currentUser = $app->service(\Lyrasoft\Luna\User\UserService::class)->getCurrentUser();
-$imgPlaceholder = $app->service(\Unicorn\Image\ImagePlaceholder::class);
-$luna = $app->service(\Lyrasoft\Luna\LunaPackage::class);
+$userService = $app->service(UserService::class);
+$currentUser = $userService->getCurrentUser();
+$iAmSuperUser = $userService->getAccessService()->isSuperUser();
+$imgPlaceholder = $app->service(ImagePlaceholder::class);
+$luna = $app->service(LunaPackage::class);
 
 $loginName = $luna->getLoginName();
 ?>
@@ -81,6 +86,11 @@ $loginName = $luna->getLoginName();
                             </th>
                         @endif
 
+                        {{-- Roles --}}
+                        <th width="3%" class="text-nowrap">
+                            @lang('luna.user.field.roles')
+                        </th>
+
                         {{-- ENABLED --}}
                         <th width="3%" class="text-nowrap">
                             <x-sort field="user.enabled">@lang('luna.user.field.enabled')</x-sort>
@@ -116,6 +126,7 @@ $loginName = $luna->getLoginName();
                     @foreach ($items as $i => $item)
                             <?php
                             $entity = $vm->prepareItem($item);
+                            $superuser = $userService->isSuperUser($entity);
                             ?>
                         <tr data-order-group="">
                             {{-- CHECKBOX --}}
@@ -137,9 +148,13 @@ $loginName = $luna->getLoginName();
                                     </div>
                                     <div>
                                         <div class="user-name">
-                                            <a href="{{ $nav->to('user_edit', ['id' => $item->id]) }}">
+                                            @if ($superuser && !$iAmSuperUser)
                                                 {{ $entity->getName() }}
-                                            </a>
+                                            @else
+                                                <a href="{{ $nav->to('user_edit', ['id' => $item->id]) }}">
+                                                    {{ $entity->getName() }}
+                                                </a>
+                                            @endif
                                         </div>
 
                                         <span class="small user-email text-muted">{{ $item->email }}</span>
@@ -152,6 +167,20 @@ $loginName = $luna->getLoginName();
                                     {{ $item->$loginName }}
                                 </td>
                             @endif
+
+                            {{-- Roles --}}
+                            <td>
+                                @php($roles = $vm->getUserRoles($entity->getId()))
+
+                                @foreach ($roles as $role)
+                                    <div>
+                                        <span class="badge bg-primary">
+                                            {{ $userService->getAccessService()->wrapUserRole($role->getRoleId())->getTitle() }}
+                                        </span>
+                                    </div>
+                                @endforeach
+
+                            </td>
 
                             {{-- ENABLED --}}
                             <td class="text-center">

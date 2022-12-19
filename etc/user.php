@@ -29,13 +29,6 @@ return [
 
         'entity' => User::class,
 
-        'selectable_roles' => [
-            \App\Enum\UserRole::REGISTERED(),
-            \App\Enum\UserRole::ADMIN(),
-        ],
-
-        'basic_role' => null,
-
         'bindings' => [
             UserHandlerInterface::class => UserHandler::class
         ],

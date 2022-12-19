@@ -344,6 +344,14 @@ class AccessService
         return $this->check(static::SUPERUSER_ACTION, $user);
     }
 
+    public function isSuperUserRole(mixed $role): bool
+    {
+        return $this->checkRoleAllowAction(
+            $this->wrapUserRole($role),
+            static::SUPERUSER_ACTION
+        );
+    }
+
     public function isParentRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
     {
         $role = (string) $this->unwrapRole($role);
@@ -752,7 +760,7 @@ class AccessService
         return false;
     }
 
-    public function getUser(mixed $conditions): ?UserEntityInterface
+    public function getUser(mixed $conditions = null): ?UserEntityInterface
     {
         if ($conditions instanceof UserEntityInterface) {
             return $conditions;
