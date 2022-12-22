@@ -13,7 +13,6 @@ namespace Lyrasoft\Luna\Module\Admin\User\Form;
 
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\LunaPackage;
-use Lyrasoft\Luna\User\UserService;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
@@ -80,10 +79,14 @@ class EditForm implements FieldDefinitionInterface
             function (Form $form) {
                 $form->add('password', PasswordField::class)
                     ->label($this->trans('luna.user.field.password'))
+                    ->attr('data-role', 'password')
                     ->autocomplete('new-password');
 
                 $form->add('password2', PasswordField::class)
                     ->label($this->trans('luna.user.field.password.confirm'))
+                    ->attr('data-validate', 'password-confirm')
+                    ->attr('data-confirm-target', '[data-role=password]')
+                    ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
                     ->autocomplete('new-password');
             }
         );

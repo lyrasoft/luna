@@ -513,7 +513,16 @@ class AccessService
 
     protected function getConfigRoles(): array
     {
-        return $this->cacheStorage['roles.static'] ??= value($this->app->config('access.roles')) ?: [];
+        return $this->cacheStorage['roles.static'] ??= $this->stripValue($this->app->config('access.roles')) ?: [];
+    }
+
+    protected function stripValue(mixed $value): mixed
+    {
+        if ($value instanceof \Closure) {
+            return $this->app->call($value);
+        }
+
+        return $value;
     }
 
     public function loadDBRoles(): NodeInterface

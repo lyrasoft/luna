@@ -54,11 +54,7 @@ $seeder->import(
 
             $item = $mapper->createOne($item);
 
-            $map = new UserRoleMap();
-            $map->setUserId($item->getId());
-            $map->setRoleId($basicRole->getId());
-
-            $orm->createOne(UserRoleMap::class, $map);
+            $accessService->addRolesToUser($item, $basicRole);
 
             $seeder->outCounting();
         }

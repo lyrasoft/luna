@@ -76,7 +76,7 @@ class RegistrationForm implements FieldDefinitionInterface
                 ->label($this->trans('luna.user.field.password.confirm'))
                 ->attr('data-validate', 'password-confirm')
                 ->attr('data-confirm-target', '[data-role=password]')
-                ->attr('data-custom-error-message', $this->trans('luna.forget.reset.message.password.not.match'))
+                ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
                 ->autocomplete('new-password');
         });
     }

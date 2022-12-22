@@ -41,6 +41,7 @@ use Windwalker\Core\Router\SystemUri;
                 <input id="input-password" type="password" name="password" class="form-control"
                     autocomplete="new-password"
                     required
+                    data-role="password"
                 />
                 <div class="invalid-tooltip" data-field-error></div>
             </div>
@@ -52,6 +53,9 @@ use Windwalker\Core\Router\SystemUri;
                 <input id="input-password2" type="password" name="password2" class="form-control"
                     autocomplete="new-password"
                     required
+                    data-validate="password-confirm"
+                    data-confirm-target="[data-role=password]"
+                    data-custom-error-message="@lang('luna.message.password.not.match')"
                 />
                 <div class="invalid-tooltip" data-field-error></div>
             </div>
