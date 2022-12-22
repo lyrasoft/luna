@@ -35,11 +35,11 @@ if (url.searchParams.get('new') === '1' || titleInput.value === '') {
 }
 
 // Validate options
-function validateOptionsModal([ validation ]) {
+function validateOptionsModal(validation) {
   const modal = u.selectOne('#options-modal');
 
   modal.addEventListener('hide.bs.modal', (e) => {
-    var result = validation.validateAll(modal.querySelectorAll('[uni-field-validate]'));
+    const result = validation.validateAll(modal.querySelectorAll('[uni-field-validate]'));
 
     if (!result) {
       e.stopPropagation();
@@ -48,7 +48,7 @@ function validateOptionsModal([ validation ]) {
   });
 }
 
-// Change alies path value
+// Change alias path value
 document.getElementById('js-save-button').onclick = function () {
   const link = document.querySelector('.js-preview-button').href;
   const value = document.querySelector('#input-item-alias').value;

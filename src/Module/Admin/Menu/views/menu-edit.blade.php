@@ -56,7 +56,7 @@ unset($tabs['basic'], $tabs['meta']);
         <x-title-bar :form="$form"></x-title-bar>
 
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-lg-7">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
                         <a href="#tab-basic" class="nav-link active" data-bs-toggle="tab">
@@ -132,7 +132,7 @@ unset($tabs['basic'], $tabs['meta']);
                     @endif
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-lg-5">
                 <x-fieldset name="meta" :title="$lang('unicorn.fieldset.meta')"
                     :form="$form"
                     class="mb-4"

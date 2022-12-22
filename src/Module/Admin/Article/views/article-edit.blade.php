@@ -53,13 +53,13 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
         </x-title-bar>
 
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <x-fieldset name="text"
                     :form="$form" class="mb-4"
                 >
                 </x-fieldset>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <x-fieldset name="meta" title="Meta"
                     :form="$form" class="mb-4"
                     is="card"

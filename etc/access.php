@@ -60,6 +60,10 @@ return [
                 'superuser' => true,
             ],
 
+            AccessService::ROLE_MODIFY_ACTION => [
+                'admin' => true,
+            ],
+
             'create' => [
                 'manager' => true,
             ],

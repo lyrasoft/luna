@@ -46,7 +46,7 @@ use Windwalker\Form\Form;
         <x-title-bar :form="$form"></x-title-bar>
 
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-lg-7">
                 <x-fieldset name="basic" :title="$lang('unicorn.fieldset.basic')"
                     :form="$form"
                     class="mb-4"
@@ -54,7 +54,7 @@ use Windwalker\Form\Form;
                 >
                 </x-fieldset>
             </div>
-            <div class="col-md-5">
+            <div class="col-lg-5">
                 <x-fieldset name="meta" :title="$lang('unicorn.fieldset.meta')"
                     :form="$form"
                     class="mb-4"

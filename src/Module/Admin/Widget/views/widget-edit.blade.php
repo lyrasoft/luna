@@ -56,7 +56,7 @@ unset($tabs['meta']);
         </div>
 
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-lg-7">
                 <ul class="nav nav-tabs" role="tablist">
                     <?php $i = 0; ?>
                     @foreach ($tabs as $name => $tab)
@@ -100,7 +100,7 @@ unset($tabs['meta']);
                 @endforeach
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-lg-5">
                 <x-fieldset name="meta" :title="$lang('unicorn.fieldset.meta')"
                     :form="$form"
                     class="mb-4"
