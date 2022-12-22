@@ -770,8 +770,17 @@ class AccessService
         return $this->app->service(UserService::class)->getUser($conditions);
     }
 
-    public function getBasicRole(): UserRole
+    /**
+     * @return  array<UserRole>
+     */
+    public function getBasicRoles(): array
     {
-        return $this->wrapUserRole($this->app->config('access.basic_role'));
+        $roles = $this->app->config('access.basic_roles') ?: [];
+
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+
+        return array_map([$this, 'wrapUserRole'], $roles);
     }
 }

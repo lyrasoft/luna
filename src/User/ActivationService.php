@@ -45,7 +45,6 @@ class ActivationService
         protected UserService $userService,
         protected AppContext $app,
         protected ORM $orm,
-        protected Mailer $mailer,
         protected Navigator $nav,
         protected RendererService $rendererService
     ) {
@@ -94,7 +93,8 @@ class ActivationService
 
         $site = $this->app->config('company.site_name') ?: 'Confirm';
 
-        $message = $this->mailer->createMessage(
+        $mailer = $this->app->service(Mailer::class);
+        $message = $mailer->createMessage(
             $this->trans('luna.registration.mail.subject', site: $site)
         )
             ->to("{$user->getName()} <{$user->getEmail()}>")
@@ -105,7 +105,7 @@ class ActivationService
                 )
             );
 
-        return $this->mailer->send($message);
+        return $mailer->send($message);
     }
 
     public function getUserInfo(object $user): array

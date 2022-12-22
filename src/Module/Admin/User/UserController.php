@@ -111,10 +111,10 @@ class UserController
             return;
         }
 
-        $basicRole = $accessService->unwrapRole($app->config('access.basic_role'));
+        $basicRoles = array_map(static fn (UserRole $role) => $role->getId(), $accessService->getBasicRoles());
 
         // Add basic role if is empty
-        $roles = $roles ?: [$basicRole];
+        $roles = $roles ?: $basicRoles;
         $roles = array_unique($roles);
 
         $maps = [];

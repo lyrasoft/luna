@@ -23,7 +23,9 @@ return [
             'superuser',
         ],
 
-        'basic_role' => 'member',
+        'basic_roles' => [
+            'member'
+        ],
 
         'roles_db_enabled' => false,
         'roles' => static fn () => [

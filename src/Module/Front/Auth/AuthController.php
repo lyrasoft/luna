@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
+use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
@@ -115,15 +116,27 @@ class AuthController
         $user = $app->input('user');
         $app->getState()->remember('reg.data', $user);
 
+        /** @var User $user */
         $user = $repository->register($user, RegistrationForm::class);
+
+        $this->saveUserRoles($user, $userService->getAccessService());
 
         $app->getState()->forget('reg.data');
 
-        $repository->sendActivateMail($user->getId());
+        if (env('MAIL_ENABLED')) {
+            $repository->sendActivateMail($user->getId());
+        }
 
         $app->addMessage($this->trans('luna.message.registration.success'), 'success');
 
         return $nav->to('login');
+    }
+
+    public function saveUserRoles(User $user, AccessService $accessService): void
+    {
+        $basicRoles = $accessService->getBasicRoles();
+
+        $accessService->addRolesToUser($user, $basicRoles);
     }
 
     public function activate(
@@ -148,7 +161,7 @@ class AuthController
         AppContext $app,
         #[Autowire] RegistrationRepository $repository,
         Navigator $nav
-    ) {
+    ): RouteUri {
         $email = $app->getState()->getAndForget(ActivationService::RE_ACTIVATE_SESSION_KEY);
         $user = $repository->getItem(compact('email'));
 
