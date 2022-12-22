@@ -169,6 +169,7 @@
                 move-handle="move-handle"
                 comment-columns-change="columnsChange(addon, $event)"
                 @delete="deleteAddon(i)"
+                @add="addNewRow"
               ></Row>
             </div>
           </template>
