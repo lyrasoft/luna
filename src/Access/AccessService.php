@@ -243,7 +243,7 @@ class AccessService
 
     /**
      * @param  mixed                   $user
-     * @param  array<UserRole|string>  $roles
+     * @param  array<UserRole|string>  $roles Can be an array or single role string|int|entity|enum
      * @param  array                   $extra
      *
      * @return  array<UserRoleMap>
@@ -264,11 +264,7 @@ class AccessService
         }
 
         foreach ($roles as $role) {
-            if ($role instanceof UserRole) {
-                $roleId = (string) $role->getId();
-            } else {
-                $roleId = (string) $role;
-            }
+            $roleId = $this->unwrapRole($role);
 
             if ($currentRoleIds->contains($roleId)) {
                 continue;
@@ -292,24 +288,15 @@ class AccessService
     {
         $user = $this->getUser($user);
 
-        $roleIds = array_map(
-            static function (mixed $role) {
-                if ($role instanceof UserRole) {
-                    return (string) $role->getId();
-                }
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
 
-                if ($role instanceof UserRoleMap) {
-                    return (string) $role->getRoleId();
-                }
-
-                return (string) $role;
-            },
-            $roles
-        );
-
-        if ($roleIds === []) {
+        if ($roles === []) {
             return;
         }
+
+        $roleIds = array_map([$this, 'unwrapRole'], $roles);
 
         $this->orm->deleteWhere(
             UserRoleMap::class,
@@ -322,16 +309,12 @@ class AccessService
 
     public function userIsRole(mixed $user, string|int|UserRole $role): bool
     {
-        if ($role instanceof UserRole) {
-            $roleId = (string) $role->getId();
-        } else {
-            $roleId = (string) $role;
-        }
+        $roleId = $this->unwrapRole($role);
 
         $roles = $this->getUserRoles($user);
 
         foreach ($roles as $userRole) {
-            if ((string) $userRole->getId() === $roleId) {
+            if ((string) $userRole->getId() === (string) $roleId) {
                 return true;
             }
         }
@@ -523,9 +506,14 @@ class AccessService
             'roles.static',
             fn() => new Node(
                 null,
-                static::injectIdToRoles($this->app->config('access.roles') ?? [])
+                static::injectIdToRoles(static::getConfigRoles())
             )
         );
+    }
+
+    protected function getConfigRoles(): array
+    {
+        return $this->cacheStorage['roles.static'] ??= value($this->app->config('access.roles')) ?: [];
     }
 
     public function loadDBRoles(): NodeInterface
@@ -537,8 +525,8 @@ class AccessService
 
                 return TreeBuilder::create(
                     $items,
-                    fn(UserRole $role) => $role->getId(),
-                    fn(UserRole $role) => $role->getParentId(),
+                    static fn(UserRole $role) => $role->getId(),
+                    static fn(UserRole $role) => $role->getParentId(),
                 );
             }
         );
@@ -624,6 +612,10 @@ class AccessService
 
         if ($role instanceof UserRole) {
             return $role->getId();
+        }
+
+        if ($role instanceof UserRoleMap) {
+            return (string) $role->getRoleId();
         }
 
         return (string) value($role);

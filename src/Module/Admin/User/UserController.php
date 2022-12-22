@@ -113,11 +113,9 @@ class UserController
 
         $basicRole = $accessService->unwrapRole($app->config('access.basic_role'));
 
-        // Always keep basic role
-        if ($basicRole) {
-            $roles[] = $basicRole;
-            $roles = array_unique($roles);
-        }
+        // Add basic role if is empty
+        $roles = $roles ?: [$basicRole];
+        $roles = array_unique($roles);
 
         $maps = [];
         $newRolesIsSuperUser = false;

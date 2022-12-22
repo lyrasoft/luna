@@ -18,29 +18,31 @@ return [
         'enabled' => true,
 
         'selectable_roles' => [
-            'registered',
+            'member',
             'admin',
             'superuser',
         ],
 
-        'basic_role' => 'registered',
+        'basic_role' => 'member',
 
         'roles_db_enabled' => false,
-        'roles' => [
+        'roles' => static fn () => [
             'superuser' => create_role(
                 'Super User',
             ),
             'public' => create_role(
                 'Public',
                 children: [
-                    'registered' => create_role(
-                        'Registered'
-                    ),
-                    'manager' => create_role(
-                        'Manager',
+                    'member' => create_role(
+                        'Member',
                         children: [
-                            'admin' => create_role(
-                                'Admin',
+                            'manager' => create_role(
+                                'Manager',
+                                children: [
+                                    'admin' => create_role(
+                                        'Admin',
+                                    ),
+                                ]
                             ),
                         ]
                     ),
