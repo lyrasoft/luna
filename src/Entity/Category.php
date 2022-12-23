@@ -172,7 +172,7 @@ class Category implements NestedPathableInterface
 
     public function setState(BasicState|int $state): static
     {
-        $this->state = new BasicState($state);
+        $this->state = BasicState::wrap($state);
 
         return $this;
     }
