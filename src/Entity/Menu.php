@@ -205,7 +205,7 @@ class Menu implements NestedEntityInterface
 
     public function setState(int|BasicState $state): static
     {
-        $this->state = new BasicState($state);
+        $this->state = BasicState::wrap($state);
 
         return $this;
     }
@@ -309,7 +309,7 @@ class Menu implements NestedEntityInterface
      */
     public function setTarget(MenuTarget|string $target): static
     {
-        $this->target = new MenuTarget($target);
+        $this->target = MenuTarget::wrap($target);
 
         return $this;
     }
