@@ -238,7 +238,7 @@ class Article implements EntityInterface
 
     public function setState(int|BasicState $state): static
     {
-        $this->state = BasicState::from($state);
+        $this->state = BasicState::wrap($state);
 
         return $this;
     }
