@@ -17,10 +17,14 @@ use Windwalker\Stream\Stream;
 use function Windwalker\chronos;
 use function Windwalker\uid;
 
+use const Windwalker\Stream\READ_WRITE_RESET;
+
 /**
  * The TempHelper class.
  *
  * @since  1.5.20
+ *
+ * @deprecated Use windwalker/filesystem Filesystem::createTemp() instead.
  */
 class TempFile
 {
@@ -116,6 +120,6 @@ class TempFile
         ?string $root = null,
         bool $autoRemove = true
     ): StreamInterface {
-        return new Stream(static::fileName($name, $root, $autoRemove), Stream::MODE_READ_WRITE_RESET);
+        return new Stream(static::fileName($name, $root, $autoRemove), READ_WRITE_RESET);
     }
 }
