@@ -27,7 +27,6 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\DI\Attributes\Autowire;
-
 use Windwalker\DI\Exception\DefinitionException;
 
 use function Windwalker\str;
