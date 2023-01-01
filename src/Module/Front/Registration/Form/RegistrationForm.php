@@ -50,14 +50,15 @@ class RegistrationForm implements FieldDefinitionInterface
                 $form->add($loginName, TextField::class)
                     ->label($this->trans('luna.user.field.' . $loginName))
                     ->addFilter('trim')
-                    ->attr('uni-account-check', '')
+                    ->attr('data-validate', "account_check(field: $loginName)")
+                    ->attr('data-field', $loginName)
                     ->required(true);
             }
 
             $form->add('email', EmailField::class)
                 ->label($this->trans('luna.user.field.email'))
                 ->addValidator(EmailAddress::class)
-                ->attr('uni-account-check', '{"field": "email"}')
+                ->attr('data-validate', 'account_check(field: email)')
                 ->addFilter('trim')
                 ->required(true);
 

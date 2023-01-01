@@ -26,7 +26,7 @@ use Windwalker\Core\Router\SystemUri;
 use Windwalker\Form\Form;
 
 /**
- * @var Form      $form
+ * @var Form $form
  * @var User $item
  */
 ?>

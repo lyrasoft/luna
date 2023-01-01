@@ -24,4 +24,8 @@ $router->group('user')
         $router->any('user_edit', '/user/edit[/{id}]')
             ->controller(UserController::class)
             ->view(UserEditView::class);
+
+        // Check Account
+        $router->any('account_check', '/user/account/check')
+            ->controller(UserController::class, 'accountCheck');
     });

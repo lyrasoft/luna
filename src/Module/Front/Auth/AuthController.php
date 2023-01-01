@@ -14,6 +14,7 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\Module\Front\Registration\RegistrationRepository;
 use Lyrasoft\Luna\User\ActivationService;
@@ -177,13 +178,13 @@ class AuthController
     }
 
     #[JsonApi]
-    public function accountCheck(AppContext $app, #[Ref('user')] $config, UserService $userService): array
+    public function accountCheck(AppContext $app, LunaPackage $lunaPackage, UserService $userService): array
     {
         $field = $app->input('field');
         $value = $app->input('value');
 
         if ($field !== 'email') {
-            $field = $config['login_name'] ?? 'username';
+            $field = $lunaPackage->getLoginName() ?? 'username';
         }
 
         $user = $userService->load([$field => $value]);

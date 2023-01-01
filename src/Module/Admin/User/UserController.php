@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\Entity\UserRoleMap;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Module\Admin\User\Form\EditForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Lyrasoft\Luna\Services\UserSwitchService;
@@ -25,6 +26,7 @@ use Unicorn\Controller\GridController;
 use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
+use Windwalker\Core\Attributes\JsonApi;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
@@ -224,6 +226,21 @@ class UserController
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));
+    }
+
+    #[JsonApi]
+    public function accountCheck(AppContext $app, LunaPackage $lunaPackage, UserService $userService): array
+    {
+        $field = $app->input('field');
+        $value = $app->input('value');
+
+        if ($field !== 'email') {
+            $field = $lunaPackage->getLoginName() ?? 'username';
+        }
+
+        $user = $userService->load([$field => $value]);
+
+        return ['exists' => (bool) $user];
     }
 
     public function switch(
