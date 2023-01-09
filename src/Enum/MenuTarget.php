@@ -14,6 +14,7 @@ namespace Lyrasoft\Luna\Enum;
 use MyCLabs\Enum\Enum;
 use UnexpectedValueException;
 use Windwalker\Utilities\Contract\LanguageInterface;
+use Windwalker\Utilities\Enum\EnumSingleton;
 use Windwalker\Utilities\Enum\EnumTranslatableInterface;
 use Windwalker\Utilities\Enum\EnumTranslatableTrait;
 
@@ -25,7 +26,7 @@ use Windwalker\Utilities\Enum\EnumTranslatableTrait;
  * @method static $this PARENT()
  * @method static $this TOP()
  */
-class MenuTarget extends Enum implements EnumTranslatableInterface
+class MenuTarget extends EnumSingleton implements EnumTranslatableInterface
 {
     use EnumTranslatableTrait;
 
