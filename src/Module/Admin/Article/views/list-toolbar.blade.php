@@ -22,7 +22,11 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+use Windwalker\Form\Form;
 
+/**
+ * @var $form Form
+ */
 ?>
 
 <div x-title="toolbar" x-data="{ form: $store.grid.form, grid: $store.grid }">
@@ -39,14 +43,16 @@ use Windwalker\Core\Router\SystemUri;
         <i class="fa fa-clone"></i>
         @lang('unicorn.toolbar.duplicate')
     </button>
-    <button type="button" class="btn btn-dark btn-sm"
-        @click="grid.validateChecked(null, function () {
+    @if ($form?->countFields(null, 'batch'))
+        <button type="button" class="btn btn-dark btn-sm"
+            @click="grid.validateChecked(null, function () {
             (new bootstrap.Modal('#batch-modal')).show();
         })"
-    >
-        <i class="fa fa-sliders"></i>
-        @lang('unicorn.toolbar.batch')
-    </button>
+        >
+            <i class="fa fa-sliders"></i>
+            @lang('unicorn.toolbar.batch')
+        </button>
+    @endif
     <button type="button" class="btn btn-outline-danger btn-sm"
         @click="grid.deleteList()"
     >

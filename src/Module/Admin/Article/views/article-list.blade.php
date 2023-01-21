@@ -171,15 +171,11 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                     </tr>
                 @endforeach
                 </tbody>
-
-                <tfoot>
-                <tr>
-                    <td colspan="20">
-                        {!! $pagination->render() !!}
-                    </td>
-                </tr>
-                </tfoot>
             </table>
+
+            <div>
+                <x-pagination :pagination="$pagination"></x-pagination>
+            </div>
         </div>
         @else
             <div class="grid-no-items card bg-light" style="padding: 125px 0;">
