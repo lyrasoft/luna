@@ -67,6 +67,11 @@ class EditDefinition extends AbstractFieldDefinition
                 ->width(400)
                 ->height(300);
 
+            // Images
+            $this->multiUploader('images')
+                ->label(__($langPrefix . 'article.field.images'))
+                ->maxConcurrent(5);
+
             // State
             $this->switch('state')
                 ->label(__($langPrefix . 'article.field.published'))

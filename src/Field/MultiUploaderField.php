@@ -42,6 +42,7 @@ use Windwalker\Utilities\Arr;
  * @method  mixed|$this  thumbSize(int $value = null)
  * @method  mixed|$this  accept(string $value = null)
  * @method  mixed|$this  canReUpload(bool $value = null)
+ * @method  mixed|$this  maxConcurrent(int $value = null)
  *
  * @since  1.5.2
  */
@@ -175,7 +176,8 @@ class MultiUploaderField extends AbstractField
             'disabled' => (bool) $this->get('disabled'),
             'readonly' => (bool) $this->get('readonly'),
             'loading' => false,
-            'canReUpload' => $this->canReUpload()
+            'canReUpload' => $this->canReUpload(),
+            'maxConcurrent' => $this->maxConcurrent(),
         ];
 
         $options = HtmlHelper::getJSObject($data);
@@ -289,6 +291,7 @@ JS;
             'thumbSize' => 'thumb_size',
             'accept',
             'canReUpload',
+            'maxConcurrent',
         ]);
     }
 }

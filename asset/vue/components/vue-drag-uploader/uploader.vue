@@ -25,6 +25,7 @@
               :upload-url="url"
               :size="thumbSize"
               :is-readonly="isReadonly"
+              :queue="queue"
               @delete="deleteItem"
               @upload-start="uploadStart"
               @upload-end="uploadEnd"
@@ -75,6 +76,7 @@
 <script>
   import VueDragUploaderItem from './item';
   import { itemStates, swal } from './util';
+  import queue from 'queue';
 
   const { ref, reactive, toRefs, onMounted, computed, watch } = VueCompositionAPI;
 
@@ -99,12 +101,17 @@
       readonly: {
         default: false
       },
+      maxConcurrent: [String, Number],
     },
     setup(props, { emit }) {
       const el = ref(null);
       const state = reactive({
         items: [],
-        uploadQueue: {}
+        uploadQueue: {},
+        queue: queue({
+          concurrency: Number(props.maxConcurrent || 2),
+          autostart: true
+        })
       });
       const value = computed(() => props.value);
 

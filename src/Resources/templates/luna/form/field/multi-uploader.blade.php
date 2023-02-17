@@ -16,6 +16,7 @@ $form = $editForm ?? $imageMetaForm;
             :thumb-size="thumbSize"
             :disabled="disabled"
             :readonly="readonly"
+            :max-concurrent="maxConcurrent"
             accept="{{ $field->accept() }}"
             placeholder="{{ $attrs['placeholder'] }}"
             @change="value = $event"

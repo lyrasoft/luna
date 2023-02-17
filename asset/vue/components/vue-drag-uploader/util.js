@@ -5,6 +5,7 @@
  * @license    __LICENSE__
  */
 
+import queue, { Options } from 'queue';
 export let swal;
 
 $(() => {

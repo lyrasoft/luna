@@ -46,7 +46,8 @@
       initState: String,
       uploadUrl: String,
       size: Number,
-      isReadonly: Boolean
+      isReadonly: Boolean,
+      queue: Object,
     },
     setup(props, { emit }) {
       const state = reactive({
@@ -65,7 +66,9 @@
 
       onMounted(() => {
         if (props.initState === itemStates.NEW) {
-          upload();
+          props.queue.push(() => {
+            return upload();
+          });
         }
       });
 
@@ -111,7 +114,7 @@
             }
           })
           .fail(xhr => {
-            console.error(xhr.responseJSON.message, xhr);
+            console.error(xhr.responseJSON?.message, xhr);
             state.state = itemStates.FAIL;
             state.messages.error = xhr.responseJSON.message;
           })
