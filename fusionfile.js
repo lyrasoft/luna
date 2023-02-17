@@ -64,7 +64,7 @@ fusion.task('install', function () {
   ], `${destPath}/js/tinymce5/langs/`);
 });
 
-fusion.default(['js', 'scss', 'vue']);
+fusion.default(['js', 'css', 'vue']);
 
 /*
  * APIs
