@@ -27,7 +27,7 @@
         "vue3-click-away": "^1.2.1",
         "vue3-slide-up-down": "^1.2.5",
         "vuedraggable": "^4.0.3",
-        "webpack": "^5.70.0",
+        "webpack": "^5.76.0",
         "webpack-comment-remover-loader": "^0.0.3",
         "webpack-stream": "^7.0.0"
     },
