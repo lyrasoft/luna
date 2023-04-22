@@ -41,15 +41,11 @@ class UserSwitchSubscriber
     #[ListenTo(BeforeRenderEvent::class)]
     public function beforeRender(BeforeRenderEvent $event): void
     {
-        try {
-            $session = $this->container->get(Session::class);
-        } catch (Throwable $e) {
+        if (!$this->container->has(Session::class)) {
             return;
         }
 
-        if (!isset($session)) {
-            return;
-        }
+        $session = $this->container->get(Session::class);
 
         /** @var AppContext $app */
         $app = $this->container->get(AppContext::class);
