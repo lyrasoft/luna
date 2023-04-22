@@ -16,6 +16,7 @@ use Lyrasoft\Luna\Subscriber\EntityBuildingSubscriber;
 use Lyrasoft\Luna\Subscriber\LocaleSubscriber;
 use Lyrasoft\Luna\User\Handler\SessionDatabaseHandler;
 use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Console\ConsoleApplication;
 use Windwalker\Session\Handler\DatabaseHandler;
 
 return [
@@ -27,8 +28,10 @@ return [
         ],
 
         'listeners' => [
-            EntityBuildingSubscriber::class,
-            BuildFormFieldSubscriber::class,
+            ConsoleApplication::class => [
+                EntityBuildingSubscriber::class,
+                BuildFormFieldSubscriber::class,
+            ],
             AppContext::class => [
                 LocaleSubscriber::class,
                 AutoOpenGraphSubscriber::class
