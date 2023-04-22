@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Subscriber;
 
 use Lyrasoft\Luna\Field\UserModalField;
+use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Form\Event\BuildFormFieldEvent;
 use Windwalker\Event\Attributes\EventSubscriber;
@@ -39,7 +40,19 @@ class BuildFormFieldSubscriber
 
                 $code = <<<PHP
         \$form->add('$colName', UserModalField::class)
-            ->label($label);
+            ->label($label)
+            ->disabled(true);
+PHP;
+                break;
+
+            case 'created':
+            case 'modified':
+                $builder->addUse(CalendarField::class);
+
+                $code = <<<PHP
+        \$form->add('$colName', CalendarField::class)
+            ->label($label)
+            ->disabled(true);
 PHP;
                 break;
 
