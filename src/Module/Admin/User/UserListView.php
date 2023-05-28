@@ -100,7 +100,7 @@ class UserListView implements ViewModelInterface
         $ids = $items->column('id')->dump();
         $this->roles = $this->orm->select()
             ->from(UserRoleMap::class)
-            ->where('user_id', $ids)
+            ->where('user_id', $ids ?: [0])
             ->all(UserRoleMap::class)
             ->groupBy(fn (UserRoleMap $map) => $map->getUserId());
 
