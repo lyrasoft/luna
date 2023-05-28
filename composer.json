@@ -9,7 +9,7 @@
         "windwalker/unicorn": "^1.0",
         "scssphp/scssphp": "^1.0",
         "symfony/polyfill-intl-idn": "^1.23",
-        "firebase/php-jwt": "^5.4"
+        "firebase/php-jwt": "^5.4||^6.0"
     },
     "require-dev": {
     },
