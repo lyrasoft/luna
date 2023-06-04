@@ -27,7 +27,7 @@ export default {
           'alignleft aligncenter alignright alignjustify bullist numlist outdent indent | ' +
           'link image media table code | fullscreen',
         toolbar_mode: 'sliding',
-        font_size_formats: "13px 14px 15px 16px 18px 20px 22px 28px 36px 48px",
+        font_size_formats: '13px 14px 15px 16px 18px 20px 22px 28px 36px 48px',
         menubar: false,
         content_css: u.data('tinymce_content_css'),
         document_base_url: u.uri('root'),
@@ -48,8 +48,11 @@ export default {
         setup: function (editor) {
           editor.on('change', () => {
             el.value = editor.getContent();
-            el.dispatchEvent(new Event('change', {bubbles: true}));
-            el.dispatchEvent(new Event('input', {bubbles: true}));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+          editor.on('input', () => {
+            el.value = editor.getContent();
+            el.dispatchEvent(new Event('input', { bubbles: true }));
           });
         }
       }
@@ -63,7 +66,7 @@ export default {
 };
 
 document.addEventListener('focusin', (e) => {
-  if (e.target.closest(".mce-window, .tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
+  if (e.target.closest('.mce-window, .tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root') !== null) {
     e.stopImmediatePropagation();
   }
 });
