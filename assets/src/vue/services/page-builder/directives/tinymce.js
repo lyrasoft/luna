@@ -46,11 +46,12 @@ export default {
         ],
         images_upload_url: u.route('@file_upload'),
         setup: function (editor) {
-          editor.on('change', () => {
+          editor.on('change undo redo', (e) => {
             el.value = editor.getContent();
             el.dispatchEvent(new Event('change', { bubbles: true }));
+            el.dispatchEvent(new Event('input', { bubbles: true }));
           });
-          editor.on('input', () => {
+          editor.on('input', (e) => {
             el.value = editor.getContent();
             el.dispatchEvent(new Event('input', { bubbles: true }));
           });
