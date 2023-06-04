@@ -16,7 +16,11 @@ import { onMounted, reactive, ref, watch } from 'vue';
 export default {
   name: 'CssEditor',
   props: {
-    modelValue: String
+    modelValue: String,
+    autoFocus: {
+      type: Boolean,
+      default: false,
+    }
   },
   setup(props, { emit }) {
     const wrapper = ref(null);
@@ -40,9 +44,9 @@ export default {
           css.value = cm.getValue();
         });
 
-        setTimeout(() => {
-          cm.focus();
-        }, 500);
+        if (props.autoFocus) {
+          setTimeout(() => cm.focus(), 500);
+        }
       }, 300);
     });
 
