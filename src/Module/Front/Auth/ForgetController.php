@@ -45,7 +45,7 @@ class ForgetController
         $email = $app->input('email');
 
         if (!$email) {
-            throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
+            return $nav->back();
         }
 
         /** @var User $user */
