@@ -9,16 +9,17 @@ export default class BsTooltip {
   static install(app) {
     app.directive('tooltip', {
       mounted(el, { value }) {
-        value = value || {};
-        value.container = 'body';
-
-        const tooltip = u.$ui.bootstrap.tooltip(el, value);
+        const inc = u.$ui.bootstrap.tooltip(el, value);
       },
-      beforeUpdated(el) {
-        const tooltip = u.$ui.bootstrap.tooltip(el);
+      updated(el, { value }) {
+        const inc = u.$ui.bootstrap.tooltip(el, value);
 
-        tooltip.dispose();
-        tooltip.enable();
+        inc.update();
+      },
+      beforeUnmount(el) {
+        const inc = u.$ui.bootstrap.tooltip(el);
+
+        inc.dispose();
       }
     });
   }

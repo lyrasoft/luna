@@ -1,17 +1,15 @@
 <template>
-<div class="d-flex">
-  <input type="color"
-    v-model="value" class="form-control form-control-color me-2" />
-  <input type="text"
-    :id="id"
-    class="form-control flex-grow-1"
-    v-model.lazy="value"
-  />
-</div>
+    <input ref="input" type="text"
+        :id="id"
+        class="form-control flex-grow-1"
+        :class="inputClass"
+        v-model.lazy="value"
+    />
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import Spectrum from 'spectrum-vanilla';
+import { onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue';
 
 export default {
   name: 'ColorInput',
@@ -20,22 +18,38 @@ export default {
       default: ''
     },
     id: String,
-    inputClass: String
+    inputClass: String,
+    options: Object
   },
   setup(props, { emit }) {
     const value = ref(props.modelValue);
+    const input = ref(null);
+
+    onMounted(() => {
+      Spectrum.getInstance(input.value, props.options || {});
+    });
+
+    onBeforeUnmount(() => {
+      const sp = Spectrum.getInstance(input.value);
+      sp.destroy();
+    });
 
     watch(value, (v) => {
       emit('update:modelValue', v);
     });
 
     return {
-      value
+      value,
+      input
     };
   }
 };
 </script>
 
-<style scoped>
+<style>
+  @import "spectrum-vanilla/dist/spectrum.min.css";
 
+  .sp-add-on {
+    width: 40px !important;
+  }
 </style>
