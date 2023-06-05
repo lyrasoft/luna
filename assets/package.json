@@ -7,7 +7,11 @@
         "watch:reload": "cross-env NODE_ENV=development node_modules/.bin/gulp --watch=1 --livereload=1"
     },
     "dependencies": {
+
+    },
+    "devDependencies": {
         "@vue/compiler-sfc": "^3.2.31",
+        "@windwalker-io/fusion": "^1.0",
         "babel-loader": "^8.2.3",
         "codemirror": "^5.63.3",
         "codemirror-editor-vue3": "^0.2.4",
@@ -28,11 +32,8 @@
         "vue3-slide-up-down": "^1.2.5",
         "vuedraggable": "^4.0.3",
         "webpack": "^5.76.0",
-        "webpack-comment-remover-loader": "^0.0.3",
-        "webpack-stream": "^7.0.0"
-    },
-    "devDependencies": {
-        "@windwalker-io/fusion": "^1.0",
         "webpack-bundle-analyzer": "^4.6.1"
+        "webpack-comment-remover-loader": "^0.0.3",
+        "webpack-stream": "^7.0.0",
     }
 }
