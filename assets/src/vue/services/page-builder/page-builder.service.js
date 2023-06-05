@@ -30,7 +30,15 @@ export function bindSaveButton() {
   });
 }
 
+let previousContent = '';
+
 export function savePage() {
+  const contentInput = document.querySelector('#input-item-content');
+
+  if (previousContent !== '' && previousContent === contentInput.value) {
+    console.warn('[Page] Content not change, there was an error or you didn\'t edit anything.');
+  }
+
   return u.$http.post(
       '@page_ajax/savePage',
       new FormData(document.querySelector('#admin-form'))
@@ -43,6 +51,9 @@ export function savePage() {
       }
 
       return res;
+    })
+    .finally(() => {
+      previousContent = contentInput.value;
     })
     .catch((e) => {
       console.error(e);
