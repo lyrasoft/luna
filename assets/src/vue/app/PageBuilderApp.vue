@@ -123,7 +123,7 @@
         @hidden="cssModalShow = false"
         backdrop="static"
       >
-        <CssEditor v-model="css"></CssEditor>
+        <CssEditor v-model="css" :auto-focus="true"></CssEditor>
 
         <template #footer>
           <div class="ml-auto ms-auto">
