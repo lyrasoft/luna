@@ -58,6 +58,9 @@ $router->group('auth')
                 ->postHandler(ForgetController::class, 'request')
                 ->view(ForgetRequestView::class);
 
+            $router->any('forget_wellknown', '/.well-known/change-password')
+                ->redirect('forget_request');
+
             $router->any('forget_confirm', '/forget/confirm')
                 ->controller(ForgetController::class, 'confirm');
 
