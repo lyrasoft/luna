@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Data;
 
+use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Data\ValueObject;
 
 /**
@@ -192,5 +193,26 @@ class MetaData extends ValueObject
         $this->ogTitle = $ogTitle;
 
         return $this;
+    }
+
+    public function processHtmlFrame(HtmlFrame $htmlFrame): void
+    {
+        if ($this->getTitle()) {
+            $htmlFrame->setTitle($this->getTitle());
+        }
+
+        if ($this->getOgTitle()) {
+            $htmlFrame->addOpenGraph('og:title', $this->getOgDescription(), true);
+        }
+
+        $htmlFrame->setDescriptionIfNotEmpty($this->getDescription());
+
+        if ($this->getOgDescription()) {
+            $htmlFrame->addOpenGraph('og:description', $this->getOgDescription(), true);
+        }
+
+        $htmlFrame->setCoverImagesIfNotEmpty(
+            $this->getCover() ?: $this->getOgImage()
+        );
     }
 }
