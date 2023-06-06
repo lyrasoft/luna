@@ -57,8 +57,11 @@ class UserController
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($userService, $repository, $uploadService, $app) {
                 $data = $event->getData();
+                /** @var User $user */
                 $user = $event->getEntity();
                 $files = $app->file('item');
+
+                $user->setId((int) $data['id']);
 
                 unset($data['password']);
 
