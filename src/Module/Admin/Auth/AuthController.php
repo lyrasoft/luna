@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright      Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright      Copyright (C) 2021 LYRASOFT.
  * @license        MIT
  */
 
@@ -13,6 +13,7 @@ namespace Lyrasoft\Luna\Module\Admin\Auth;
 
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserService;
+use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
@@ -55,13 +56,24 @@ class AuthController
         );
 
         if (!$result) {
-            /** @var ResultSet $resultSet */
-            $app->addMessage(
-                $this->trans(
-                    'luna.login.message.' . $resultSet->getFirstFailure()?->getStatus()
-                ),
-                'warning'
-            );
+            $authResult = $resultSet->getFirstFailure();
+            $message = $authResult?->getException()?->getMessage();
+
+            if (!$message) {
+                $status = $authResult?->getStatus();
+
+                if (
+                    $status === AuthResult::INVALID_USERNAME
+                    || $status === AuthResult::INVALID_PASSWORD
+                    || $status === AuthResult::USER_NOT_FOUND
+                ) {
+                    $message = $this->trans('luna.login.message.invalid.credential');
+                } else {
+                    $message = $this->trans('luna.login.message.' . $authResult?->getStatus());
+                }
+            }
+
+            $app->addMessage($message, 'warning');
 
             return $nav->to('login');
         }

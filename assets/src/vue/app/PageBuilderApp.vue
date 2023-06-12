@@ -97,8 +97,8 @@
         title="New Addon">
         <div class="row c-addon-list">
           <div v-for="addon of addons" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
-            <button class="d-inline-block p-4 c-addon__link btn btn-outline-dark w-100 text-center"
-              type="button"
+            <a class="d-inline-block p-4 c-addon__link btn btn-outline-dark w-100 text-center"
+              href="javascript://"
               v-tooltip
               :title="addon.description"
               @click.prevent="selectAddon(addon.type)">
@@ -108,7 +108,7 @@
               <h5 class="m-0">
                 {{ addon.name }}
               </h5>
-            </button>
+            </a>
           </div>
         </div>
       </BsModal>
@@ -123,7 +123,7 @@
         @hidden="cssModalShow = false"
         backdrop="static"
       >
-        <CssEditor v-model="css"></CssEditor>
+        <CssEditor v-model="css" :auto-focus="true"></CssEditor>
 
         <template #footer>
           <div class="ml-auto ms-auto">
@@ -222,7 +222,8 @@ export default {
         cssEdit();
       }
 
-      // Prevent CModaal close button submit form
+      // Prevent CModal close button submit form
+      // Todo: Can drop this now
       u.delegate(root.value, '.btn-close', 'click', (e) => {
         e.preventDefault();
       });
@@ -388,6 +389,7 @@ export default {
 
     function savePage() {
       state.saving = true;
+
       nextTick(() => {
         doSavePage(state.saving)
           .finally(() => {
@@ -425,12 +427,12 @@ export default {
 };
 
 function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, addonListShow, tmplManager }) {
-  u.on('row:edit', (content, column) => {
+  u.on('row:edit', (content) => {
     state.editing.column = {};
-    state.editing.row = {};
+    state.editing.addon = {};
 
+    state.editing.row = {};
     state.editing.row = content;
-    state.editing.column = content;
     rowEditor.value.edit(content);
   });
 
@@ -441,6 +443,9 @@ function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, ad
   });
 
   u.on('column:edit', content => {
+    state.editing.row = {};
+    state.editing.addon = {};
+
     state.editing.column = {};
     state.editing.column = content;
     columnEditor.value.edit(content);
@@ -460,8 +465,10 @@ function registerUnicornEvents(state, { rowEditor, columnEditor, addonEditor, ad
   });
 
   u.on('addon:edit', (addon, column) => {
-    state.editing.addon = {};
+    state.editing.row = {};
     state.editing.column = {};
+
+    state.editing.addon = {};
     state.editing.addon = addon;
     state.editing.column = column;
 

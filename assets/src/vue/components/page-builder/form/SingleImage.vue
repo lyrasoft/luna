@@ -30,7 +30,7 @@
           <i class="fa fa-upload"></i>
           Upload
         </button>
-        <button type="button" class="btn btn-primary" @click="pasteFromButton()"
+        <button type="button" class="btn btn-primary" @click="pasteFromButton"
           :disabled="uploading"
           v-tooltip
 
@@ -43,7 +43,7 @@
         </button>
       </div>
       <small class="form-text text-muted">
-        Paste image url or drag/upload image here.
+        Paste image url/file or drag and upload image here.
       </small>
     </div>
   </div>
@@ -133,19 +133,25 @@ export default {
     function pasteFromButton() {
       navigator.clipboard.read().then((items) => {
         const type = items[0].types[1];
-
-        items[0].getType(type).then((blob) => {
-          uploadFile(blob);
-        });
+        
+        items[0].getType(type)
+          .then((blob) => {
+            console.log(blob);
+            uploadFile(new File([blob], 'image.png', { type: blob.type }));
+          })
+          .catch((e) => {
+            console.warn('Unable to paste this data');
+            console.warn(e);
+          });
       });
     }
 
     function pasteFile(event) {
-      if (event.clipboardData.items[1] && event.clipboardData.items[1].kind === 'file') {
+      if (event.clipboardData.items[0] && event.clipboardData.items[0].kind === 'file') {
         event.preventDefault();
         event.stopPropagation();
 
-        const item = event.clipboardData.items[1];
+        const item = event.clipboardData.items[0];
 
         if (!item) {
           console.error('No paste item');
@@ -228,6 +234,7 @@ export default {
       clearUrl,
       chooseFile,
       pasteFromButton,
+      pasteFile,
     }
   },
 }

@@ -93,8 +93,7 @@
             @duplicate="duplicateColumn($event || column, i)"
             :index="i"
             :value="column"
-            :child="child">cssed
-
+            :child="child">
           </Column>
         </template>
 
