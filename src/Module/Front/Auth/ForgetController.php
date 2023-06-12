@@ -3,7 +3,7 @@
 /**
  * Part of starter project.
  *
- * @copyright  Copyright (C) 2021 __ORGANIZATION__.
+ * @copyright  Copyright (C) 2021 LYRASOFT.
  * @license    MIT
  */
 
@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
@@ -45,7 +46,7 @@ class ForgetController
         $email = $app->input('email');
 
         if (!$email) {
-            throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
+            return $nav->back();
         }
 
         /** @var User $user */
@@ -94,8 +95,7 @@ class ForgetController
 
         $payload = JWT::decode(
             $token,
-            $app->config('app.secret'),
-            ['HS256'],
+            new Key($app->config('app.secret'), 'HS256'),
         );
 
         $email = $payload->email ?? null;
@@ -132,8 +132,7 @@ class ForgetController
 
         $payload = JWT::decode(
             $token,
-            $app->config('app.secret'),
-            ['HS256'],
+            new Key($app->config('app.secret'), 'HS256'),
         );
 
         $email = $payload->email ?? null;

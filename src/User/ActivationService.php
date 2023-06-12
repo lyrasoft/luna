@@ -10,6 +10,7 @@
 namespace Lyrasoft\Luna\User;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Lyrasoft\Luna\Entity\User;
 use ReflectionException;
 use Symfony\Component\Mailer\SentMessage;
@@ -61,7 +62,10 @@ class ActivationService
 
     public function decodeToken(string $token): array
     {
-        return (array) JWT::decode($token, $this->app->config('app.secret'), [$this->tokenAlgo]);
+        return (array) JWT::decode(
+            $token,
+            new Key($this->app->config('app.secret'), $this->tokenAlgo)
+        );
     }
 
     /**
