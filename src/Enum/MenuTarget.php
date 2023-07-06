@@ -38,6 +38,11 @@ enum MenuTarget: string implements EnumTranslatableInterface
 
     case TOP = '_top';
 
+    public static function preprocessValue(mixed $value): mixed
+    {
+        return $value ?: self::SELF;
+    }
+
     public function trans(LanguageInterface $lang, ...$args): string
     {
         return $lang->trans('luna.menu.field.target.option.' . $this->getKey());
