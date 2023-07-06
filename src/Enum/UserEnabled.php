@@ -24,28 +24,13 @@ use Windwalker\Utilities\Enum\EnumTranslatableTrait;
  * @method static $this ENABLED()
  * @method static $this DISABLED()
  */
-class UserEnabled extends EnumSingleton implements EnumTranslatableInterface
+enum UserEnabled: int implements EnumTranslatableInterface
 {
     use EnumTranslatableTrait;
 
-    public const ENABLED = 1;
+    case ENABLED = 1;
 
-    public const DISABLED = 0;
-
-    /**
-     * Creates a new value of some type
-     *
-     * @psalm-pure
-     *
-     * @param  mixed  $value
-     *
-     * @psalm-param T $value
-     * @throws UnexpectedValueException if incompatible type is given.
-     */
-    public function __construct(mixed $value)
-    {
-        parent::__construct($value);
-    }
+    case DISABLED = 0;
 
     public function trans(LanguageInterface $lang, ...$args): string
     {

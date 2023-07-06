@@ -40,7 +40,8 @@
             ]
         },
         "branch-alias": {
-            "dev-master": "2.x-dev"
+            "dev-master": "2.x-dev",
+            "dev-next": "2.1.x-dev",
         }
     }
 }

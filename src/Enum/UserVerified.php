@@ -24,28 +24,13 @@ use Windwalker\Utilities\Enum\EnumTranslatableTrait;
  * @method static $this VERIFIED()
  * @method static $this UNVERIFIED()
  */
-class UserVerified extends EnumSingleton implements EnumTranslatableInterface
+enum UserVerified: int implements EnumTranslatableInterface
 {
     use EnumTranslatableTrait;
 
-    public const VERIFIED = 1;
+    case VERIFIED = 1;
 
-    public const UNVERIFIED = 0;
-
-    /**
-     * Creates a new value of some type
-     *
-     * @psalm-pure
-     *
-     * @param  mixed  $value
-     *
-     * @psalm-param T $value
-     * @throws UnexpectedValueException if incompatible type is given.
-     */
-    public function __construct(mixed $value)
-    {
-        parent::__construct($value);
-    }
+    case UNVERIFIED = 0;
 
     public function trans(LanguageInterface $lang, ...$args): string
     {

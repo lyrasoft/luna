@@ -26,32 +26,17 @@ use Windwalker\Utilities\Enum\EnumTranslatableTrait;
  * @method static $this PARENT()
  * @method static $this TOP()
  */
-class MenuTarget extends EnumSingleton implements EnumTranslatableInterface
+enum MenuTarget: string implements EnumTranslatableInterface
 {
     use EnumTranslatableTrait;
 
-    public const BLANK = '_blank';
+    case BLANK = '_blank';
 
-    public const SELF = '_self';
+    case SELF = '_self';
 
-    public const PARENT = '_parent';
+    case PARENT = '_parent';
 
-    public const TOP = '_top';
-
-    /**
-     * Creates a new value of some type
-     *
-     * @psalm-pure
-     *
-     * @param  mixed  $value
-     *
-     * @psalm-param T $value
-     * @throws UnexpectedValueException if incompatible type is given.
-     */
-    public function __construct(mixed $value)
-    {
-        parent::__construct($value ?: static::SELF);
-    }
+    case TOP = '_top';
 
     public function trans(LanguageInterface $lang, ...$args): string
     {
