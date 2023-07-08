@@ -21,6 +21,7 @@ use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Lyrasoft\Luna\User\UserService;
+use Windwalker\Core\Application\AppClient;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\ORM\NestedSetMapper;
 use Windwalker\ORM\ORM;
@@ -749,7 +750,7 @@ class AccessService
      */
     protected function isAdminUserSwitched(): bool
     {
-        if ($this->app->getClient() === ApplicationInterface::CLIENT_WEB) {
+        if ($this->app->getClient() === AppClient::WEB) {
             $userSwitcher = $this->app->service(UserSwitchService::class);
             $luna = $this->app->service(LunaPackage::class);
 

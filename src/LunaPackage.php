@@ -33,6 +33,7 @@ use Lyrasoft\Luna\User\PasswordInterface;
 use Lyrasoft\Luna\User\UserService;
 use Lyrasoft\Luna\Widget\WidgetService;
 use Windwalker\Authorization\Authorization;
+use Windwalker\Core\Application\AppClient;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Application\WebApplicationInterface;
@@ -162,7 +163,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     public function bootBeforeRequest(Container $container): void
     {
         // Error
-        if (!$this->app->isDebug() && $this->app->getClient() === ApplicationInterface::CLIENT_WEB) {
+        if (!$this->app->isDebug() && $this->app->getClient() === AppClient::WEB) {
             $errorService = $container->get(ErrorService::class);
 
             $errorService->addHandler(

@@ -23,7 +23,7 @@ return [
     'user' => [
         'enabled' => true,
 
-        'login_name' => 'username',
+        'login_name' => 'email',
 
         'remember_expires' => '+100days',
 
