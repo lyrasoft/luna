@@ -129,6 +129,6 @@ class PageService
 
     protected function getAppSecret(): string
     {
-        return $this->app->config('app.secret') ?? '';
+        return $this->app->getSecret() ?? '';
     }
 }

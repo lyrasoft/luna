@@ -60,7 +60,8 @@ class ForgetController
             [
                 'email' => $email,
             ],
-            $app->config('app.secret')
+            $app->getSecret(),
+            'HS256'
         );
 
         $link = $nav->to('forget_confirm', ['token' => $token, 'email' => idn_to_ascii($email)])
@@ -132,7 +133,7 @@ class ForgetController
 
         $payload = JWT::decode(
             $token,
-            new Key($app->config('app.secret'), 'HS256'),
+            new Key($app->getSecret(), 'HS256'),
         );
 
         $email = $payload->email ?? null;
