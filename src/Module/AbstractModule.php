@@ -93,6 +93,11 @@ abstract class AbstractModule
     protected $data;
 
     /**
+     * @var Structure
+     */
+    protected $params;
+
+    /**
      * getInstance
      *
      * @param array  $data
