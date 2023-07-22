@@ -130,7 +130,12 @@ class AuthController
         $app->getState()->remember('reg.data', $user);
 
         /** @var User $user */
-        $user = $repository->register($user, RegistrationForm::class);
+        try {
+            $user = $repository->register($user, RegistrationForm::class);
+        } catch (\Throwable $e) {
+            $app->addMessage($e->getMessage(), 'warning');
+            return $nav->to('registration');
+        }
 
         $this->saveUserRoles($user, $userService->getAccessService());
 
