@@ -26,6 +26,8 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 
+use Windwalker\Utilities\TypeCast;
+
 use function Windwalker\uid;
 
 $id = $id ?? 'menu-' . uid();
@@ -45,7 +47,7 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
     >
         <a class="nav-link {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('href', $link)
-            @attr('target', $link ? (string) $item->getTarget()->value : false)
+            @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
             @attr('data-bs-target', $click ? "#$id" : false)
             @attr('data-bs-toggle', $click && $hasChildren ? 'collapse' : false)>
             {{ $item->getTitle() }}
@@ -68,7 +70,7 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
         data-level="{{ $level }}">
         <a @attr('href', $link)
         class="subnav-link {{ $item->isActive(true) ? 'active' : '' }}"
-            @attr('target', $link ? (string) $item->getTarget()->value : false)
+            @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
         >
             @if ($item->getIcon())
                 <span class="{{ $item->getIcon() }}"></span>

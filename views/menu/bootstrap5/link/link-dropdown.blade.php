@@ -16,6 +16,7 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
+use Lyrasoft\Luna\Menu\Tree\MenuNode;
 use Lyrasoft\Luna\Menu\View\LinkMenuView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -24,6 +25,11 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
+use Windwalker\Utilities\TypeCast;
+
+/**
+ * @var $item MenuNode
+ */
 
 $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $link;
 ?>
@@ -33,7 +39,7 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
         data-menu-id="{{ $item->getValue()?->getId() }}" data-level="{{ $level }}">
         <a @attr('href', $link)
         class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $item->isActive(true) ? 'active' : '' }}"
-            @attr('target', $link ? (string) $item->getTarget() : false)
+            @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
             @attr('data-bs-toggle', $click && $hasChildren ? 'dropdown' : false)>
             {{ $item->getTitle() }}
         </a>
@@ -52,8 +58,7 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
         data-menu-id="{{ $item->getValue()?->getId() }}" data-level="{{ $level }}">
         <a @attr('href', $link)
         class="dropdown-item {{ $item->isActive(true) ? 'active' : '' }}"
-            target="{{ $item->getTarget() }}"
-            @attr('target', $link ? $item->getTarget() : false)
+            @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
         >
             @if ($item->getIcon())
                 <span class="{{ $item->getIcon() }}"></span>
