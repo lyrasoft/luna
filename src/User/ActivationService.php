@@ -55,7 +55,7 @@ class ActivationService
     {
         return JWT::encode(
             $this->getUserInfo($user),
-            $this->app->config('app.secret'),
+            $this->app->getSecret(),
             $this->tokenAlgo
         );
     }
@@ -64,7 +64,7 @@ class ActivationService
     {
         return (array) JWT::decode(
             $token,
-            new Key($this->app->config('app.secret'), $this->tokenAlgo)
+            new Key($this->app->getSecret(), $this->tokenAlgo)
         );
     }
 

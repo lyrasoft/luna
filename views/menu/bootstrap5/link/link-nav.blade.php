@@ -45,7 +45,7 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
     >
         <a class="nav-link {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('href', $link)
-            @attr('target', $link ? (string) $item->getTarget() : false)
+            @attr('target', $link ? (string) $item->getTarget()->value : false)
             @attr('data-bs-target', $click ? "#$id" : false)
             @attr('data-bs-toggle', $click && $hasChildren ? 'collapse' : false)>
             {{ $item->getTitle() }}
@@ -68,7 +68,7 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
         data-level="{{ $level }}">
         <a @attr('href', $link)
         class="subnav-link {{ $item->isActive(true) ? 'active' : '' }}"
-            @attr('target', $link ? (string) $item->getTarget() : false)
+            @attr('target', $link ? (string) $item->getTarget()->value : false)
         >
             @if ($item->getIcon())
                 <span class="{{ $item->getIcon() }}"></span>
