@@ -13,12 +13,12 @@ namespace Lyrasoft\Luna\Auth;
 
 use JsonException;
 use Lyrasoft\Luna\Entity\User;
-use Lyrasoft\Luna\User\PasswordInterface;
 use ReflectionException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\Method\MethodInterface;
 use Windwalker\Core\Runtime\Config;
+use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
@@ -36,15 +36,15 @@ class LunaAuthMethod implements MethodInterface
     /**
      * DatabaseMethod constructor.
      *
-     * @param  ORM                $orm
-     * @param  Config             $config
-     * @param  PasswordInterface  $password
-     * @param  array              $options
+     * @param  ORM                      $orm
+     * @param  Config                   $config
+     * @param  PasswordHasherInterface  $password
+     * @param  array                    $options
      */
     public function __construct(
         protected ORM $orm,
         protected Config $config,
-        protected PasswordInterface $password,
+        protected PasswordHasherInterface $password,
         array $options = []
     ) {
         $this->resolveOptions(
