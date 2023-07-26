@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\User;
 
+use Windwalker\Crypt\Hasher\PasswordHasherInterface;
+
 /**
  * Interface PasswordInterface
+ *
+ * @deprecated  Use PasswordHasherInterface
  */
-interface PasswordInterface
+interface PasswordInterface extends PasswordHasherInterface
 {
-    public function hash(string $password): string;
-
-    public function verify(string $password, string $hash): bool;
-
-    public function needsRehash(string $password): bool;
+    //
 }
