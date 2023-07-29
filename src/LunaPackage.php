@@ -44,6 +44,8 @@ use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
 use Windwalker\Core\Seed\FakerService;
 use Windwalker\Core\Service\ErrorService;
+use Windwalker\Crypt\Hasher\PasswordHasher;
+use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\DI\Attributes\AttributeType;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
@@ -223,6 +225,15 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
                     $auth,
                     $container->get(AccessService::class)
                 )
+            );
+        }
+
+        if (!$container->has(PasswordHasherInterface::class)) {
+            $container->share(
+                PasswordHasherInterface::class,
+                function (Container $container) {
+                    return $container->newInstance(PasswordHasher::class);
+                }
             );
         }
     }
