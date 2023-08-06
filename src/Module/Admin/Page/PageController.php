@@ -15,6 +15,7 @@ use Exception;
 use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\Entity\PageTemplate;
+use Lyrasoft\Luna\PageBuilder\PageBuilder;
 use Lyrasoft\Luna\Repository\PageRepository;
 use Lyrasoft\Luna\Services\ConfigService;
 use Psr\Cache\InvalidArgumentException;
@@ -32,6 +33,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\DI\Attributes\Service;
 use Windwalker\DI\Exception\DependencyResolutionException;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
@@ -122,6 +124,8 @@ class PageController
         #[Autowire]
         PageRepository $repository,
         FileUploadService $fileUploadService,
+        #[Service]
+        PageBuilder $pageBuilder,
     ): array {
         $item = $app->input('item');
 
@@ -134,6 +138,9 @@ class PageController
         )?->getUri(true) ?? $item['image'];
 
         $repository->save($item);
+
+        // Cache
+        $pageBuilder->renderByEntityAndCache($entity);
 
         return [
             'item' => $entity,

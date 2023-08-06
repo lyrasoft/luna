@@ -134,7 +134,8 @@ class PageView implements ViewModelInterface
 
         $rows = $page->getContent();
 
-        $css = $this->renderCSS($page);
+        // $css = $this->renderCSS($page);
+        $css = '';
 
         $this->prepareMeta($page);
 

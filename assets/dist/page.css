@@ -1,12 +1,5 @@
-.l-page-container .container-full > .row {
-  margin-left: 0;
-  margin-right: 0;
-}
-.l-page-container .container-full > .row > [class*=col-]:first-child {
-  padding-left: 0;
-}
-.l-page-container .container-full > .row > [class*=col-]:last-child {
-  padding-right: 0;
+.l-page-container .container-fluid {
+  --bs-gutter-x: 0;
 }
 .l-page-container .l-section__header {
   margin-bottom: 50px;

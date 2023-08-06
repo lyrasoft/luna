@@ -36,8 +36,6 @@ $builder = $app->service(\Lyrasoft\Luna\PageBuilder\PageBuilder::class);
 
 @section('content')
     <div class="l-page-container">
-        @if (is_array($rows))
-            {!! $builder->renderPage($rows) !!}
-        @endif
+        {!! $builder->renderFrontend($page) !!}
     </div>
 @stop
