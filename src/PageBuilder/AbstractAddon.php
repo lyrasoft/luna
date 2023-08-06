@@ -10,6 +10,7 @@
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\PageBuilder\Renderer\PageRendererFactory;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use ReflectionClass;
 use ReflectionException;
@@ -57,15 +58,17 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      */
     protected array|Collection $data;
 
-    #[Inject]
-    protected AssetService $asset;
+    /**
+     * @var ?Collection
+     */
+    protected ?Collection $params;
 
     /**
      * AbstractModule constructor.
      *
      * @param  array  $data
      */
-    public function __construct(array $data = [])
+    public function __construct(protected PageRendererFactory $factory, array $data = [])
     {
         $this->data = Collection::wrap($data);
         $this->params = $this->data['params'];
@@ -339,6 +342,6 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      */
     public function getAsset(): AssetService
     {
-        return $this->asset;
+        return $this->factory->getAsset();
     }
 }

@@ -2,22 +2,26 @@
 
 .l-page-container {
   // Full container
-  .container-full {
-    > .row {
-      margin-left: 0;
-      margin-right: 0;
-
-      > [class*=col-] {
-        &:first-child {
-          padding-left: 0;
-        }
-
-        &:last-child {
-          padding-right: 0;
-        }
-      }
-    }
+  .container-fluid {
+    --bs-gutter-x: 0;
   }
+
+  //.container-full {
+  //  > .row {
+  //    margin-left: 0;
+  //    margin-right: 0;
+  //
+  //    > [class*=col-] {
+  //      &:first-child {
+  //        padding-left: 0;
+  //      }
+  //
+  //      &:last-child {
+  //        padding-right: 0;
+  //      }
+  //    }
+  //  }
+  //}
 
   // Section
   .l-section {

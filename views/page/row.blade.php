@@ -28,7 +28,7 @@ use Windwalker\DOM\DOMElement;
 
 $options = $row->extract('options');
 
-$container = $options->getDeep('fluid_row') ? 'container-full' : 'container';
+$container = $options->getDeep('fluid_row') ? 'container-fluid' : 'container';
 $noGutter = $options->getDeep('no_gutter') ? 'no-gutters' : '';
 
 $classes = [];

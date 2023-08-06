@@ -14,6 +14,7 @@ use Lyrasoft\Luna\PageBuilder\AbstractAddon;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\Script\PageScript;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\Core\Asset\AssetService;
 
 /**
  * The PageRendererFactory class.
@@ -25,8 +26,12 @@ class PageRendererFactory
     /**
      * PageRendererFactory constructor.
      */
-    public function __construct(protected ApplicationInterface $app, protected PageService $pageService)
-    {
+    public function __construct(
+        protected ApplicationInterface $app,
+        protected PageService $pageService,
+        protected AssetService $asset,
+    ) {
+        $this->resetAssets();
     }
 
     /**
@@ -42,7 +47,13 @@ class PageRendererFactory
     {
         $class = sprintf(__NAMESPACE__ . '\%sRenderer', ucfirst($type));
 
-        return $this->app->make($class);
+        return $this->app->make(
+            $class,
+            [
+                static::class => $this,
+                'factory' => $this,
+            ]
+        );
     }
 
     public function createAddonInstance(string $type, array $data): AbstractAddon
@@ -53,11 +64,39 @@ class PageRendererFactory
             throw new LogicException("Addon type: \"$type\" not exists.");
         }
 
-        return $this->app->make($addonType->getClassName(), compact('data'));
+        return $this->app->make(
+            $addonType->getClassName(),
+            [
+                'data' => $data,
+                static::class => $this,
+                'factory' => $this,
+            ]
+        );
     }
 
     public function getScript(): PageScript
     {
         return $this->app->service(PageScript::class);
+    }
+
+    /**
+     * @return AssetService
+     */
+    public function getAsset(): AssetService
+    {
+        return $this->asset;
+    }
+
+    /**
+     * @return  void
+     */
+    public function resetAssets(): void
+    {
+        $this->asset = clone $this->asset;
+
+        $this->asset->setStyles([]);
+        $this->asset->setInternalStyles([]);
+        $this->asset->setScripts([]);
+        $this->asset->setInternalScripts([]);
     }
 }

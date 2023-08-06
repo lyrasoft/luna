@@ -33,14 +33,14 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      */
     protected string $cssPrefix = 'unknown';
 
-    #[Inject]
-    protected AssetService $asset;
-
-    #[Inject]
-    protected PageRendererFactory $factory;
-
-    #[Inject]
-    protected RendererService $rendererService;
+    /**
+     * @param  PageRendererFactory  $factory
+     * @param  RendererService      $rendererService
+     */
+    public function __construct(protected PageRendererFactory $factory, protected RendererService $rendererService)
+    {
+        //
+    }
 
     /**
      * addOffsets
@@ -136,7 +136,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
         // Video Background
         if ($options->getDeep('background.type') === 'video') {
-            $this->factory->getScript()->jarallax();
+            // $this->factory->getScript()->jarallax();
 
             $classes[] = 'jarallax';
 
@@ -155,7 +155,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
 
         // Use Parallax
         if ($options->getDeep('background.parallax')) {
-            $this->factory->getScript()->jarallax();
+            // $this->factory->getScript()->jarallax();
 
             $classes[] = 'jarallax';
 
@@ -391,7 +391,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
     protected function internalCSS(string $css): void
     {
         if (trim($css)) {
-            $this->asset->internalCSS($css);
+            $this->factory->getAsset()->internalCSS($css);
         }
     }
 
