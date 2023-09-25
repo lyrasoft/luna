@@ -72,7 +72,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function getCurrentUser(): UserEntityInterface
     {
-        return $this->currentUser;
+        return $this->getUser();
     }
 
     /**
@@ -86,7 +86,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function getUser(mixed $conditions = null): UserEntityInterface
     {
-        return $this->getCurrentUser() ?? $this->load($conditions) ?? $this->createUserEntity();
+        return $this->currentUser ?? $this->load($conditions) ?? $this->createUserEntity();
     }
 
     /**
