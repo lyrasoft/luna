@@ -24,7 +24,11 @@ class Modifier extends CastForSave
 {
     protected function getDefaultCaster(): callable
     {
-        return function (mixed $value, ORM $orm, object $entity, UserService $userService) {
+        return function (mixed $value, ORM $orm, object $entity, UserService $userService = null) {
+            if (!$userService) {
+                return $value;
+            }
+
             $mapper = $orm->mapper($entity::class);
 
             if ($mapper->canCheckIsNew()) {
