@@ -24,8 +24,8 @@ class Author extends CastForSave
 {
     protected function getDefaultCaster(): callable
     {
-        return function (mixed $value, ORM $orm, object $entity, UserService $userService) {
-            if (!$value) {
+        return function (mixed $value, ORM $orm, object $entity, UserService $userService = null) {
+            if (!$value && $userService) {
                 $mapper = $orm->mapper($entity::class);
 
                 if ($mapper->canCheckIsNew()) {

@@ -36,6 +36,7 @@ use Windwalker\Authorization\Authorization;
 use Windwalker\Core\Application\AppClient;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\Core\Application\Context\AppContextInterface;
 use Windwalker\Core\Application\WebApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
 use Windwalker\Core\DI\RequestBootableProviderInterface;
@@ -202,7 +203,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(
             UserService::class,
             fn(UserService $userService, Container $container)
-                => $userService->addEventDealer($container->get(AppContext::class))
+                => $userService->addEventDealer($container->get(AppContextInterface::class))
         );
         $container->prepareSharedObject(UserSwitchService::class);
         $container->prepareSharedObject(AccessService::class);
