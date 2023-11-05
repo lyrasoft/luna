@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2020 .
- * @license    MIT
- */
-
 namespace Lyrasoft\Luna\Helper;
 
 use Exception;

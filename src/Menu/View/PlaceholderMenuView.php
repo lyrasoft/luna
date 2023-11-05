@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2021 $this->transORGANIZATION$this->trans.
- * @license    $this->transLICENSE$this->trans
- */
-
 declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Menu\View;

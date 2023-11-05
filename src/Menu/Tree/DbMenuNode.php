@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2019 .
- * @license    LGPL-2.0-or-later
- */
-
 namespace Lyrasoft\Luna\Menu\Tree;
 
 use Lyrasoft\Luna\Entity\Menu;

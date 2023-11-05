@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2018 LYRASOFT.
- * @license    LGPL-2.0-or-later
- */
-
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;

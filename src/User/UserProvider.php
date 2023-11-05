@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of luna project.
- *
- * @copyright  Copyright (C) 2021 .
- * @license    MIT
- */
-
 namespace Lyrasoft\Luna\User;
 
 use Windwalker\DI\Container;
