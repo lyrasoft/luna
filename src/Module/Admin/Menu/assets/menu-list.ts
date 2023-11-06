@@ -1,10 +1,3 @@
-/**
- * Part of starter project.
- *
- * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    __LICENSE__
- */
-
 import '@main';
 
 u.$ui.bootstrap.tooltip();
@@ -18,7 +11,7 @@ u.$ui.checkboxesMultiSelect(form);
 // Switch type
 const route = u.route('self');
 
-const typeField = u.selectOne('#input-type');
+const typeField = u.selectOne<HTMLInputElement>('#input-type')!;
 
 typeField.addEventListener('change', () => {
   const type = typeField.value;

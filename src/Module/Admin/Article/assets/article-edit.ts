@@ -1,10 +1,3 @@
-/**
- * Part of starter project.
- *
- * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    __LICENSE__
- */
-
 import '@main';
 
 u.$ui.bootstrap.tooltip();
@@ -26,10 +19,10 @@ u.$ui.tomSelect('.js-tom-select');
 
 // Tags
 u.$ui.tomSelect('#input-item-tags', {
-  create: (input) => {
+  create: (input: string) => {
     return {
       value: `new#${input}`,
       text: input,
-    }
+    };
   },
 });

@@ -5,7 +5,8 @@
     "license": "MIT",
     "minimum-stability": "beta",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.2",
+        "windwalker/core": "^4.0",
         "windwalker/unicorn": "^1.0",
         "scssphp/scssphp": "^1.0",
         "symfony/polyfill-intl-idn": "^1.23",

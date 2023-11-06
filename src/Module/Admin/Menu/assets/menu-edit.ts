@@ -1,10 +1,3 @@
-/**
- * Part of starter project.
- *
- * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    __LICENSE__
- */
-
 import '@main';
 
 u.$ui.bootstrap.tooltip();
@@ -15,11 +8,11 @@ u.formValidation()
   .then(() => u.$ui.disableOnSubmit(form));
 u.form(form).initComponent();
 u.$ui.keepAlive(location.href);
-u.$ui.tomSelect('.js-tom-select')
+u.$ui.tomSelect('.js-tom-select');
 
 // Menu control
 const currentType = u.data('current.type');
-const typeField = u.selectOne('#input-item-type');
+const typeField = u.selectOne<HTMLInputElement>('#input-item-type')!;
 
 typeField.addEventListener('change', (e) => {
   if (typeField.value !== '' && typeField.value !== currentType) {
@@ -31,7 +24,7 @@ typeField.addEventListener('change', (e) => {
 });
 
 const currentView = u.data('current.view');
-const viewField = u.selectOne('#input-item-view');
+const viewField = u.selectOne<HTMLInputElement>('#input-item-view')!;
 
 viewField.addEventListener('change', (e) => {
   if (viewField.value !== '' && viewField.value !== currentView) {
