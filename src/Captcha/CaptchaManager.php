@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Captcha;
 
 use Windwalker\Core\Manager\AbstractManager;
+use Windwalker\DI\Attributes\Isolation;
 use Windwalker\DI\Container;
 use Windwalker\DI\Definition\ObjectBuilderDefinition;
 
@@ -23,6 +24,7 @@ use function Windwalker\DI\create;
  * @method CaptchaDriverInterface create(?string $name = null, ...$args)
  * @method CaptchaDriverInterface get(?string $name = null, ...$args)
  */
+#[Isolation]
 class CaptchaManager extends AbstractManager
 {
     public function getConfigPrefix(): string

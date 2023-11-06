@@ -126,7 +126,7 @@ class PageView implements ViewModelInterface
         $previewSecret = $app->input('preview');
 
         if (
-            $page->getState()->equals(BasicState::UNPUBLISHED())
+            $page->getState()->equals(BasicState::UNPUBLISHED)
             && (!$previewSecret || !$this->pageService->secretVerify($page->getId(), (string) $previewSecret))
         ) {
             throw new RouteNotFoundException();
