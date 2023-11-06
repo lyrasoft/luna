@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of phoenix project.
- *
- * @copyright  Copyright (C) 2016 LYRASOFT. All rights reserved.
- * @license    GNU General Public License version 2 or later.
- */
-
 namespace Lyrasoft\Luna;
 
 use Faker\Generator;
@@ -43,6 +36,7 @@ use Windwalker\Core\DI\RequestBootableProviderInterface;
 use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
+use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Core\Seed\FakerService;
 use Windwalker\Core\Service\ErrorService;
 use Windwalker\Crypt\Hasher\PasswordHasher;
@@ -51,6 +45,7 @@ use Windwalker\DI\Attributes\AttributeType;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 use Windwalker\Event\Event;
+use Windwalker\Utilities\Iterator\PriorityQueue;
 use Windwalker\Utilities\StrNormalize;
 
 /**
@@ -89,29 +84,19 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             ->registerAttribute(LangAssoc::class, AttributeType::CALLABLE);
 
         // View
-        $container->mergeParameters(
-            'renderer.paths',
-            [
-                static::path('views'),
-            ],
-            Container::MERGE_OVERRIDE
-        );
-
-        $container->mergeParameters(
-            'renderer.namespaces.@menu',
-            [
+        $container->extend(RendererService::class, function (RendererService $rendererService) {
+            $rendererService->addPath(static::path('views'), PriorityQueue::BELOW_NORMAL);
+            $rendererService->addPath(
                 static::path('views/menu/bootstrap5'),
-            ],
-            Container::MERGE_OVERRIDE
-        );
-
-        $container->mergeParameters(
-            'renderer.namespaces.@theme',
-            [
+                PriorityQueue::BELOW_NORMAL,
+                '@menu'
+            );
+            $rendererService->addPath(
                 static::path('views/ui/bootstrap5'),
-            ],
-            Container::MERGE_OVERRIDE
-        );
+                PriorityQueue::BELOW_NORMAL,
+                '@theme'
+            );
+        });
 
         $container->mergeParameters(
             'renderer.aliases',

@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2019 LYRASOFT.
- * @license    MIT
- */
-
 namespace Lyrasoft\Luna\User\Exception;
 
 use Throwable;

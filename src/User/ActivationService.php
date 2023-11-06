@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2019 .
- * @license    MIT
- */
-
 namespace Lyrasoft\Luna\User;
 
 use Firebase\JWT\JWT;

@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2018 LYRASOFT.
- * @license    MIT
- */
-
 namespace Lyrasoft\Luna\Faker;
 
 use Faker\Factory;
