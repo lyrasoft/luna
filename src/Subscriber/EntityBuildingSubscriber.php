@@ -7,17 +7,12 @@ namespace Lyrasoft\Luna\Subscriber;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
-use MyCLabs\Enum\Enum;
-use PhpParser\Node;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Unicorn\Attributes\OrderLast;
-use Windwalker\Core\Generator\Event\BuildEntityMethodEvent;
 use Windwalker\Core\Generator\Event\BuildEntityPropertyEvent;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
 use Windwalker\ORM\Attributes\CreatedTime;
 use Windwalker\ORM\Attributes\CurrentTime;
-use Windwalker\Utilities\Enum\EnumMetaInterface;
 use Windwalker\Utilities\Options\OptionsResolverTrait;
 
 /**
@@ -106,74 +101,5 @@ class EntityBuildingSubscriber
                 $builder->attribute('CurrentTime'),
             );
         }
-    }
-
-    #[ListenTo(BuildEntityMethodEvent::class)]
-    public function buildMethod(BuildEntityMethodEvent $event): void
-    {
-        $builder = $event->getEntityMemberBuilder();
-        $method = $event->getMethod();
-        $propName = $event->getPropName();
-        $column = $event->getColumn();
-        $shortName = $event->getTypeName();
-
-        $factory = $builder->createNodeFactory();
-
-        if ($event->isSetter()) {
-            $className = $builder->findFQCN($shortName);
-
-            // Enum can set pure value
-            if ($className && class_exists($className) && $this->isEnum($className)) {
-                if ($column) {
-                    $subType = $column->isNumeric() ? 'int' : 'string';
-                } else {
-                    $subType = 'int|string';
-                }
-
-                $subType .= '|' . $shortName;
-
-                $method->params[0] = $factory->param($propName)
-                    ->setType($subType)
-                    ->getNode();
-
-                if (is_a($className, EnumMetaInterface::class, true)) {
-                    $enum = $factory->staticCall(
-                        new Node\Name($shortName),
-                        'wrap',
-                        [
-                            new Node\Expr\Variable($propName),
-                        ]
-                    );
-                } else {
-                    $enum = $factory->new(
-                        new Node\Name($shortName),
-                        [
-                            new Node\Expr\Variable($propName),
-                        ]
-                    );
-                }
-
-                $method->stmts[0] = new Node\Stmt\Expression(
-                    new Node\Expr\Assign(
-                        $factory->propertyFetch(
-                            new Node\Expr\Variable('this'),
-                            $propName
-                        ),
-                        $enum
-                    )
-                );
-            }
-        }
-    }
-
-    /**
-     * @param  string  $className
-     *
-     * @return  bool
-     */
-    protected function isEnum(string $className): bool
-    {
-        return is_a($className, Enum::class, true)
-            || is_a($className, \UnitEnum::class, true);
     }
 }
