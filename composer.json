@@ -36,9 +36,12 @@
             "modules": [
                 "src/Module"
             ],
-            "asset_vendors": [
-                "codemirror"
-            ]
+            "assets": {
+                "vendors": {
+                    "codemirror": "^5.63.3"
+                },
+                "link": "assets/"
+            }
         },
         "branch-alias": {
             "dev-master": "2.x-dev",

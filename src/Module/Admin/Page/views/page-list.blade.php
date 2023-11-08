@@ -125,7 +125,7 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                             ></x-state-dropdown>
                         </td>
                         <td class="text-nowrap">
-                            {{ $item->category->title ?: '-' }}
+                            {{ $item->category?->title ?: '-' }}
                         </td>
                         <td>
                             <div>
