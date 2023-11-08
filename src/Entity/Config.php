@@ -6,6 +6,7 @@ namespace Lyrasoft\Luna\Entity;
 
 use DateTimeInterface;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Core\DateTime\ServerTimeCast;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
 use Windwalker\ORM\Attributes\Column;
@@ -39,7 +40,7 @@ class Config implements EntityInterface
 
     #[Column('modified')]
     #[CurrentTime('now', false)]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     protected ?Chronos $modified = null;
 
     #[Column('modified_by')]

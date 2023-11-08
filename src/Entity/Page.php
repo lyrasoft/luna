@@ -11,6 +11,7 @@ use Lyrasoft\Luna\Attributes\PageSlugify;
 use Lyrasoft\Luna\Data\MetaData;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Core\DateTime\ServerTimeCast;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
@@ -73,7 +74,7 @@ class Page implements EntityInterface
     protected int $ordering = 0;
 
     #[Column('created')]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     #[CreatedTime]
     protected ?Chronos $created = null;
 
@@ -82,7 +83,7 @@ class Page implements EntityInterface
     protected int $createdBy = 0;
 
     #[Column('modified')]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     #[CurrentTime]
     protected ?Chronos $modified = null;
 

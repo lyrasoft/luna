@@ -9,6 +9,7 @@ use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Core\DateTime\ServerTimeCast;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
@@ -47,12 +48,12 @@ class UserRole implements NestedEntityInterface
     protected BasicState $state;
 
     #[Column('created')]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     #[CreatedTime]
     protected ?Chronos $created = null;
 
     #[Column('modified')]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     #[CurrentTime]
     protected ?Chronos $modified = null;
 

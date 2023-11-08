@@ -7,6 +7,7 @@ namespace Lyrasoft\Luna\Entity;
 use DateTimeInterface;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Core\DateTime\ServerTimeCast;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
@@ -68,21 +69,21 @@ class User implements EntityInterface, UserEntityInterface
     protected string $resetToken = '';
 
     #[Column('last_reset')]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     protected ?Chronos $lastReset = null;
 
     #[Column('last_login')]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     protected ?Chronos $lastLogin = null;
 
     #[Column('registered')]
     #[CreatedTime]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     protected ?Chronos $registered = null;
 
     #[Column('modified')]
     #[CurrentTime]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     protected ?Chronos $modified = null;
 
     #[Column('params')]

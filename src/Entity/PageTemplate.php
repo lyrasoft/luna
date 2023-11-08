@@ -8,6 +8,7 @@ use DateTimeInterface;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Core\DateTime\ServerTimeCast;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
@@ -51,7 +52,7 @@ class PageTemplate implements EntityInterface
     protected array $content = [];
 
     #[Column('created')]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     #[CreatedTime]
     protected ?Chronos $created = null;
 
@@ -60,7 +61,7 @@ class PageTemplate implements EntityInterface
     protected int $createdBy = 0;
 
     #[Column('modified')]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     #[CurrentTime]
     protected ?Chronos $modified = null;
 

@@ -10,6 +10,7 @@ use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Core\DateTime\ServerTimeCast;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
@@ -76,12 +77,12 @@ class Article implements EntityInterface
 
     #[Column('created')]
     #[CreatedTime]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     protected ?Chronos $created = null;
 
     #[Column('modified')]
     #[CurrentTime]
-    #[CastNullable(Chronos::class)]
+    #[CastNullable(ServerTimeCast::class)]
     protected ?Chronos $modified = null;
 
     #[Column('created_by')]
