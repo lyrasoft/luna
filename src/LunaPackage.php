@@ -7,6 +7,7 @@ use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Access\AccessAuthorization;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
+use Lyrasoft\Luna\Auth\SrpService;
 use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
@@ -74,6 +75,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(LocaleService::class);
         $container->prepareSharedObject(WidgetService::class);
         $container->prepareSharedObject(AssociationService::class);
+        $container->prepareSharedObject(SrpService::class);
 
         $this->registerAuthServices($container);
 

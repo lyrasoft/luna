@@ -55,12 +55,14 @@ class EditForm implements FieldDefinitionInterface
                 if ($loginName !== 'email') {
                     $form->add($loginName, TextField::class)
                         ->label($this->trans('luna.user.field.' . $loginName))
+                        ->attr('data-username', true)
                         ->required(true)
                         ->addFilter('trim');
                 }
 
                 $form->add('email', EmailField::class)
                     ->label($this->trans('luna.user.field.email'))
+                    ->attr('data-username', $loginName === 'email')
                     ->required(true)
                     ->addFilter('trim')
                     ->addValidator(EmailAddress::class);

@@ -16,12 +16,16 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
+use Unicorn\Script\UnicornScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+
+$uniScript = $app->service(UnicornScript::class);
+$uniScript->addRoute('@auth_ajax');
 
 ?>
 
@@ -78,15 +82,15 @@ use Windwalker\Core\Router\SystemUri;
             <x-fieldset :form="$form"></x-fieldset>
 
             <div class="d-sm-flex justify-content-between mb-5">
-{{--                <div id="input-user-remember-control mb-3 mb-sm-0" class="checkbox-field">--}}
-{{--                    <div class="form-check checkbox checkbox-primary">--}}
-{{--                        <input name="user[remember]" class="form-check-input" type="checkbox"--}}
-{{--                            id="input-user-remember" value="on">--}}
-{{--                        <label class="form-check-label" for="input-user-remember">--}}
-{{--                            @lang('luna.user.field.remember')--}}
-{{--                        </label>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                {{--                <div id="input-user-remember-control mb-3 mb-sm-0" class="checkbox-field">--}}
+                {{--                    <div class="form-check checkbox checkbox-primary">--}}
+                {{--                        <input name="user[remember]" class="form-check-input" type="checkbox"--}}
+                {{--                            id="input-user-remember" value="on">--}}
+                {{--                        <label class="form-check-label" for="input-user-remember">--}}
+                {{--                            @lang('luna.user.field.remember')--}}
+                {{--                        </label>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
 
                 <div class="l-login__action ms-auto">
                     <a class="forget-link"

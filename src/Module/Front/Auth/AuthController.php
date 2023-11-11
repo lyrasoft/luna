@@ -6,23 +6,26 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
+use Lyrasoft\Luna\Auth\SrpService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\Module\Front\Registration\RegistrationRepository;
 use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\UserService;
+use Unicorn\Attributes\Ajax;
+use Unicorn\Controller\AjaxControllerTrait;
 use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Attributes\JsonApi;
-use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Attributes\TaskMapping;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\Utilities\Base64Url;
+use Windwalker\Crypt\SecretToolkit;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
 
@@ -42,6 +45,7 @@ use function Windwalker\chronos;
 class AuthController
 {
     use TranslatorTrait;
+    use AjaxControllerTrait;
 
     public function login(AppContext $app, UserService $userService, Navigator $nav, ORM $orm): RouteUri
     {
@@ -127,6 +131,7 @@ class AuthController
             $user = $repository->register($user, RegistrationForm::class);
         } catch (\Throwable $e) {
             $app->addMessage($e->getMessage(), 'warning');
+
             return $nav->to('registration');
         }
 
@@ -228,5 +233,33 @@ class AuthController
         $userService->login($user);
 
         return $nav->to('home');
+    }
+
+    #[Ajax]
+    public function challenge(
+        AppContext $app,
+        LunaPackage $luna,
+        UserService $userService,
+        SrpService $srpService,
+    ) {
+        [$username, $public] = $app->input('seed', 'public');
+
+        $srpService->storeClientPublicEphemeral($public);
+
+        $loginName = $luna->getLoginName();
+
+        /** @var User $user */
+        $user = $userService->load([$loginName => $username]);
+
+        if (!$user) {
+            throw new \RuntimeException('User not found.');
+        }
+
+        $secret = $user->getParams()['srp_secret'] ?? '';
+
+        $seed = $srpService->generateRandomSeed();
+        $public = $srpService->generatePublicEphemeral($seed, SecretToolkit::decode($secret));
+
+        return compact('seed', 'public');
     }
 }
