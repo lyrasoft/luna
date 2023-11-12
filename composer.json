@@ -8,6 +8,7 @@
         "php": ">=8.2",
         "windwalker/core": "^4.1",
         "windwalker/unicorn": "^1.1",
+        "windwalker/crypt": "^4.1",
         "scssphp/scssphp": "^1.0",
         "symfony/polyfill-intl-idn": "^1.23",
         "firebase/php-jwt": "^5.4||^6.0"
