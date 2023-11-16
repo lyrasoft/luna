@@ -43,6 +43,9 @@
                     "wowjs": "^1.1.3",
                     "jarallax": "^1.12.8"
                 },
+                "exposes": [
+                    "@windwalker-io/srp"
+                ],
                 "link": "assets/"
             }
         },

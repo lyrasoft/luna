@@ -127,8 +127,7 @@ class AuthController
 
         $rememberData = $user;
         unset($rememberData['password'], $rememberData['password2']);
-        show($app->input());
-        exit(' @Checkpoint');
+
         $app->getState()->remember('reg.data', $rememberData);
 
         /** @var User $user */
