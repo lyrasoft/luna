@@ -16,6 +16,7 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Attributes\ViewModel;
@@ -26,6 +27,8 @@ use Windwalker\Core\Router\SystemUri;
 
 $app->service(\Lyrasoft\Luna\Script\LunaScript::class)->accountCheck();
 
+$srp = $app->service(SRPService::class);
+
 ?>
 
 @extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
@@ -33,7 +36,6 @@ $app->service(\Lyrasoft\Luna\Script\LunaScript::class)->accountCheck();
 @section('content')
     <div class="l-registration container">
         <form id="registration-form-extra" action="" method="post">
-
             @if ($vm->hasSocialProviders())
                 <div class="d-flex flex-column">
                     @foreach ($vm->getSocialProviders() as $provider => $config)
@@ -60,7 +62,9 @@ $app->service(\Lyrasoft\Luna\Script\LunaScript::class)->accountCheck();
         <form id="registration-form" class="" action="{{ $nav->to('registration') }}"
             uni-form-validate="@json(['scroll' => true])"
             method="POST"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data"
+            {!! $srp->registerDirective() !!}
+        >
 
             <x-fieldset :form="$form"></x-fieldset>
 

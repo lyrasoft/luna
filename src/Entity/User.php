@@ -8,8 +8,6 @@ use DateTimeInterface;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\DateTime\ServerTimeCast;
-use Windwalker\Crypt\SecretToolkit;
-use Windwalker\Data\Collection;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
@@ -106,12 +104,6 @@ class User implements EntityInterface, UserEntityInterface
         if (isset($data['password']) && $data['password'] === '') {
             unset($data['password']);
         }
-
-        $params = &$data['params'];
-        $params = Collection::from($params ?: '{}', 'json');
-        $params['srp_secret'] = SecretToolkit::genSecret();
-
-        $params = $params->dump();
     }
 
     /**

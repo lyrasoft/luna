@@ -1,18 +1,15 @@
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2022 __ORGANIZATION__.
- * @license    __LICENSE__
- */
 
 class GragwarCaptcha {
-  constructor(el, options) {
-    this.$element = el;
-    this.options = options;
-    this.$image = this.$element.querySelector('[data-captcha-image]');
-    this.$input = this.$element.querySelector('[data-captcha-input]');
-    this.$refreshButton = this.$element.querySelector('[data-captcha-refresh]');
-    this.$buttonIcon = this.$element.querySelector('[data-refresh-icon]');
+  public $image: HTMLImageElement;
+  public $input: HTMLInputElement;
+  public $refreshButton: HTMLButtonElement;
+  public $buttonIcon: HTMLSpanElement;
+
+  constructor(public $element: Element, public options: any = {}) {
+    this.$image = this.$element.querySelector('[data-captcha-image]')!;
+    this.$input = this.$element.querySelector('[data-captcha-input]')!;
+    this.$refreshButton = this.$element.querySelector('[data-captcha-refresh]')!;
+    this.$buttonIcon = this.$element.querySelector('[data-refresh-icon]')!;
 
     this.$refreshButton.addEventListener('click', () => {
       this.refresh();
@@ -51,11 +48,12 @@ u.directive('captcha-gregwar', {
 });
 
 class RecaptchaCaptcha {
-  constructor(el, type) {
-    u.import('https://www.google.com/recaptcha/api.js');
+  public key: string | undefined;
+  public callbackName: string | undefined;
+  public jsVerify: string | undefined;
 
-    this.el = el;
-    this.type = type;
+  constructor(public el: HTMLElement, public type: string) {
+    u.import('https://www.google.com/recaptcha/api.js');
 
     this.key = this.el.dataset.key;
     this.callbackName = this.el.dataset.callback;
@@ -105,6 +103,10 @@ class RecaptchaCaptcha {
 
 u.directive('captcha-recaptcha', {
   mounted(el, { value }) {
-    u.module(el, 'captcha.recaptcha', (el) => new RecaptchaCaptcha(el, value));
+    u.module(
+      el,
+      'captcha.recaptcha',
+      (el) => new RecaptchaCaptcha(el as HTMLElement, value)
+    );
   }
 });

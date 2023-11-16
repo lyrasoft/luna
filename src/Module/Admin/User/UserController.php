@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\User;
 
 use Lyrasoft\Luna\Access\AccessService;
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\Entity\UserRoleMap;
@@ -27,6 +28,7 @@ use Windwalker\Core\Router\RouteUri;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\Event\AfterSaveEvent;
 use Windwalker\ORM\Event\BeforeDeleteEvent;
+use Windwalker\ORM\Event\BeforeSaveEvent;
 use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Symbol;
 
@@ -46,7 +48,18 @@ class UserController
         #[Autowire] EditForm $form,
         FileUploadService $uploadService,
         UserService $userService,
+        SRPService $srpService,
     ): mixed {
+        $controller->beforeSave(
+            function (BeforeSaveEvent $event) use ($srpService, $app) {
+                $data = &$event->getData();
+
+                if ($srpService->isEnabled()) {
+                    $data = $srpService->handleRegister($app, $data);
+                }
+            }
+        );
+
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($userService, $repository, $uploadService, $app) {
                 $data = $event->getData();

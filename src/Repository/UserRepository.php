@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Repository;
 
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
-use Lyrasoft\Luna\User\PasswordInterface;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\BatchAction;
@@ -18,9 +18,9 @@ use Unicorn\Repository\ListRepositoryTrait;
 use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\ManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
-use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
+use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\Event\BeforeSaveEvent;
 
 /**
@@ -33,8 +33,11 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     use ListRepositoryTrait;
     use TranslatorTrait;
 
-    public function __construct(protected PasswordInterface $password, protected LunaPackage $lunaPackage)
-    {
+    public function __construct(
+        protected PasswordHasherInterface $password,
+        protected LunaPackage $lunaPackage,
+        protected SRPService $srpService,
+    ) {
     }
 
     public function getListSelector(): ListSelector
@@ -51,6 +54,10 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     {
         $action->prepareSave(
             function (PrepareSaveEvent $event) {
+                if ($this->srpService->isEnabled()) {
+                    return;
+                }
+
                 $data = &$event->getData();
 
                 if ($data['password'] ?? null) {

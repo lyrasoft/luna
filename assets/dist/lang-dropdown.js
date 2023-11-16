@@ -1,2 +1,33 @@
-System.register([],(function(t,e){return{setters:[],execute:function(){document.addEventListener("alpine:init",(()=>{Alpine.data("LangDropdown",(t=>({options:t,dropdown:null,items:[],loaded:!1,init(){this.dropdown=bootstrap.Dropdown.getOrCreateInstance(this.$el,{autoClose:!0})},buttonClicked(t){this.loaded||u.$http.get(this.options.ajaxUrl,{params:{id:this.options.id,type:this.options.type,table:this.options.table,idName:this.options.idName,langField:this.options.langField,routeName:this.options.routeName}}).then((t=>{this.items=t.data.data,this.loaded=!0}))}})))}))}}}));
+document.addEventListener('alpine:init', () => {
+    Alpine.data('LangDropdown', (options) => ({
+        options,
+        dropdown: null,
+        items: [],
+        loaded: false,
+        init() {
+            this.dropdown = bootstrap.Dropdown.getOrCreateInstance(this.$el, {
+                autoClose: true
+            });
+        },
+        buttonClicked(e) {
+            if (this.loaded) {
+                return;
+            }
+            u.$http.get(this.options.ajaxUrl, {
+                params: {
+                    id: this.options.id,
+                    type: this.options.type,
+                    table: this.options.table,
+                    idName: this.options.idName,
+                    langField: this.options.langField,
+                    routeName: this.options.routeName,
+                }
+            }).then((res) => {
+                this.items = res.data.data;
+                this.loaded = true;
+            });
+        }
+    }));
+});
+
 //# sourceMappingURL=lang-dropdown.js.map

@@ -45,6 +45,7 @@ class RegistrationForm implements FieldDefinitionInterface
                     ->addFilter('trim')
                     ->attr('data-validate', "account_check(field: $loginName)")
                     ->attr('data-field', $loginName)
+                    ->attr('data-input-identity', true)
                     ->required(true);
             }
 
@@ -52,6 +53,7 @@ class RegistrationForm implements FieldDefinitionInterface
                 ->label($this->trans('luna.user.field.email'))
                 ->addValidator(EmailAddress::class)
                 ->attr('data-validate', 'account_check(field: email)')
+                ->attr('data-input-identity', $loginName === 'email')
                 ->addFilter('trim')
                 ->required(true);
 
@@ -64,14 +66,18 @@ class RegistrationForm implements FieldDefinitionInterface
                 ->label($this->trans('luna.user.field.password'))
                 ->required(true)
                 ->attr('data-role', 'password')
+                ->attr('data-input-password', true)
                 ->autocomplete('new-password');
 
-            $form->add('password2', PasswordField::class)
-                ->label($this->trans('luna.user.field.password.confirm'))
-                ->attr('data-validate', 'password-confirm')
-                ->attr('data-confirm-target', '[data-role=password]')
-                ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
-                ->autocomplete('new-password');
+            if (!($this->config['srp']['enabled'] ?? false)) {
+                $form->add('password2', PasswordField::class)
+                    ->label($this->trans('luna.user.field.password.confirm'))
+                    ->attr('data-srp-override', true)
+                    ->attr('data-validate', 'password-confirm')
+                    ->attr('data-confirm-target', '[data-role=password]')
+                    ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
+                    ->autocomplete('new-password');
+            }
         });
     }
 }

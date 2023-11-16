@@ -5,7 +5,7 @@
  * @license    MIT
  */
 
-import fusion, { sass, babel, parallel, wait } from '@windwalker-io/fusion';
+import fusion, { sass, babel, parallel, wait, ts } from '@windwalker-io/fusion';
 import { jsSync, installVendors } from '@windwalker-io/core';
 import path from 'path';
 import webpack from 'webpack';
@@ -25,11 +25,14 @@ export async function css() {
 
 export async function js() {
   // Watch start
-  fusion.watch('src/js/**/*.js');
+  fusion.watch('src/js/**/*.{js,mjs,ts}');
   // Watch end
 
   // Compile Start
-  babel('src/js/**/*.{js,mjs}', 'dist/', { module: 'systemjs' });
+  return wait(
+    babel('src/js/**/*.{js,mjs}', 'dist/', { module: 'systemjs' }),
+    ts(['src/js/**/*.ts', 'src/**/*.d.ts'], 'dist/', { tsconfig: './tsconfig.json' }),
+  );
   // Compile end
 }
 

@@ -36,18 +36,18 @@ class LoginForm implements FieldDefinitionInterface
             if ($loginName === 'email') {
                 $form->add('email', EmailField::class)
                     ->label($this->trans('user.field.email'))
-                    ->attr('data-username', true)
+                    ->attr('data-input-identity', true)
                     ->required(true);
             } else {
                 $form->add($loginName, TextField::class)
                     ->label($this->trans('user.field.' . $loginName))
-                    ->attr('data-username', true)
+                    ->attr('data-input-identity', true)
                     ->required(true);
             }
 
             $form->add('password', PasswordField::class)
                 ->label($this->trans('user.field.password'))
-                ->attr('data-password', true)
+                ->attr('data-input-password', true)
                 ->required(true);
         });
     }

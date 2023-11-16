@@ -26,7 +26,7 @@ $router->group('auth')
             $router->any('logout', '/logout')
                 ->controller(AuthController::class, 'logout');
 
-            $router->any('auth_ajax', '/auth/ajax')
+            $router->any('auth_ajax', '/auth/ajax[/{task}]')
                 ->controller(AuthController::class, 'ajax');
 
             // Registration

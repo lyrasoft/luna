@@ -1,9 +1,3 @@
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2022 __ORGANIZATION__.
- * @license    __LICENSE__
- */
 
 document.addEventListener('alpine:init', () => {
   Alpine.data('LangDropdown', (options) => ({

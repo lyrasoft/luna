@@ -4,9 +4,10 @@ namespace Lyrasoft\Luna\User;
 
 use Exception;
 use Lyrasoft\Luna\Access\AccessService;
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Entity\UserRole;
-use Lyrasoft\Luna\Entity\UserRoleMap;
+use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\Event\AfterLoginEvent;
 use Lyrasoft\Luna\User\Event\BeforeLoginEvent;
@@ -22,9 +23,10 @@ use Windwalker\Core\Auth\AuthService;
 use Windwalker\Core\Event\CoreEventAwareTrait;
 use Windwalker\Core\Router\Exception\RouteNotFoundException;
 use Windwalker\Core\Security\Exception\UnauthorizedException;
+use Windwalker\Crypt\Hasher\PasswordHasherInterface;
+use Windwalker\Data\Collection;
 use Windwalker\DI\Exception\DefinitionException;
 use Windwalker\Event\EventAwareInterface;
-use Windwalker\Event\EventAwareTrait;
 use Windwalker\ORM\ORM;
 use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
@@ -352,14 +354,41 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     }
 
     /**
-     * @param  User|null  $currentUser
+     * @param  UserEntityInterface|null  $currentUser
      *
      * @return  static  Return self to support chaining.
      */
-    public function setCurrentUser(?User $currentUser): static
+    public function setCurrentUser(?UserEntityInterface $currentUser): static
     {
         $this->currentUser = $currentUser;
 
         return $this;
+    }
+
+    public function hashPasswordForSave(User $user, string $password): User
+    {
+        $srp = $this->app->retrieve(SRPService::class);
+
+        if ($srp->isEnabled()) {
+            $pf = $srp->generateVerifier(
+                $this->getUserIdentity($user),
+                $user->getPassword()
+            );
+
+            $user->setPassword($srp::encodePasswordVerifier($pf->salt, $pf->verifier));
+        } else {
+            $hasher = $this->app->retrieve(PasswordHasherInterface::class);
+            $user->setPassword($hasher->hash($password));
+        }
+
+        return $user;
+    }
+
+    public function getUserIdentity(User|Collection $user): string
+    {
+        $luna = $this->app->retrieve(LunaPackage::class);
+        $loginName = $luna->getLoginName();
+
+        return (string) $this->orm->extractField($user, $loginName);
     }
 }

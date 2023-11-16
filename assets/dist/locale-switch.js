@@ -1,2 +1,97 @@
-System.register(["@main"],(function(t,e){var i;function a(t,e,i){return(e=function(t){var e=function(t,e){if("object"!=typeof t||null===t)return t;var i=t[Symbol.toPrimitive];if(void 0!==i){var a=i.call(t,e||"default");if("object"!=typeof a)return a;throw new TypeError("@@toPrimitive must return a primitive value.")}return("string"===e?String:Number)(t)}(t,"string");return"symbol"==typeof e?e:String(e)}(e))in t?Object.defineProperty(t,e,{value:i,enumerable:!0,configurable:!0,writable:!0}):t[e]=i,t}return t("LocaleSwitchModal",void 0),{setters:[function(t){}],execute:function(){t("LocaleSwitchModal",i=class{constructor(t,e){a(this,"options",{type:"",table:"",routeName:"",currentId:"",defaultId:"",inputId:"",langField:"",titleField:"",triggerInputName:"lang_assoc"}),this.el=t,this.options=Object.assign({},this.options,e);let i=this.el.querySelectorAll("[data-task=create_lang_version]");u.each(i,(t=>{t.addEventListener("click",(e=>{this.saveCurrentAndCreateLang(t)}))})),i=this.el.querySelectorAll("[data-task=switch_lang]"),u.each(i,(t=>{t.addEventListener("click",(e=>{this.switchLang(t)}))}))}validateForm(){const t=document.querySelector("#"+this.options.inputId).form;if(!u.$validation.get(t).validateAll())throw alert(u.__("luna.field.locale.switch.message.form.invalid")),new Error("Form invalid");return t}saveCurrentAndCreateLang(t){const e=this.validateForm();u.form(e).post(null,{[this.options.triggerInputName]:{task:"create",type:this.options.type,table:this.options.table,routeName:this.options.routeName,code:t.dataset.lang,copy:t.dataset.copy,langField:this.options.langField,titleField:this.options.titleField,currentId:this.options.currentId,defaultId:this.options.defaultId}})}switchLang(t){const e=this.validateForm();u.form(e).post(null,{[this.options.triggerInputName]:{task:"switch",table:this.options.table,routeName:this.options.routeName,targetId:t.dataset.targetId}})}}),u.directive("locale-switch-modal",{mounted(t,e){let{value:a}=e;const o=JSON.parse(a);u.module(t,"locale.switch",(()=>new i(t,o)))}})}}}));
+System.register(["@main"], function (exports_1, context_1) {
+    "use strict";
+    var LocaleSwitchModal;
+    var __moduleName = context_1 && context_1.id;
+    return {
+        setters: [
+            function (_1) {
+            }
+        ],
+        execute: function () {
+            LocaleSwitchModal = class LocaleSwitchModal {
+                constructor(el, options = {}) {
+                    this.el = el;
+                    this.options = {
+                        type: '',
+                        table: '',
+                        routeName: '',
+                        currentId: '',
+                        defaultId: '',
+                        inputId: '',
+                        langField: '',
+                        titleField: '',
+                        triggerInputName: 'lang_assoc'
+                    };
+                    // the modal element
+                    this.options = Object.assign({}, this.options, options);
+                    let buttons = this.el.querySelectorAll('[data-task=create_lang_version]');
+                    u.each(buttons, (button) => {
+                        button.addEventListener('click', (e) => {
+                            this.saveCurrentAndCreateLang(button);
+                        });
+                    });
+                    buttons = this.el.querySelectorAll('[data-task=switch_lang]');
+                    u.each(buttons, (button) => {
+                        button.addEventListener('click', (e) => {
+                            this.switchLang(button);
+                        });
+                    });
+                }
+                validateForm() {
+                    const input = document.querySelector('#' + this.options.inputId);
+                    const form = input.form;
+                    const validation = u.$validation.get(form);
+                    const valid = validation.validateAll();
+                    if (!valid) {
+                        alert(u.__('luna.field.locale.switch.message.form.invalid'));
+                        throw new Error('Form invalid');
+                    }
+                    return form;
+                }
+                /**
+                 * @param {HTMLButtonElement} button
+                 */
+                saveCurrentAndCreateLang(button) {
+                    const form = this.validateForm();
+                    u.form(form).post(null, {
+                        [this.options.triggerInputName]: {
+                            task: 'create',
+                            type: this.options.type,
+                            table: this.options.table,
+                            routeName: this.options.routeName,
+                            code: button.dataset.lang,
+                            copy: button.dataset.copy,
+                            langField: this.options.langField,
+                            titleField: this.options.titleField,
+                            currentId: this.options.currentId,
+                            defaultId: this.options.defaultId
+                        }
+                    });
+                }
+                /**
+                 * @param {HTMLButtonElement} button
+                 */
+                switchLang(button) {
+                    const form = this.validateForm();
+                    u.form(form).post(null, {
+                        [this.options.triggerInputName]: {
+                            task: 'switch',
+                            table: this.options.table,
+                            routeName: this.options.routeName,
+                            targetId: button.dataset.targetId
+                        }
+                    });
+                }
+            };
+            exports_1("LocaleSwitchModal", LocaleSwitchModal);
+            u.directive('locale-switch-modal', {
+                mounted(el, { value }) {
+                    const options = JSON.parse(value);
+                    u.module(el, 'locale.switch', () => new LocaleSwitchModal(el, options));
+                }
+            });
+        }
+    };
+});
+
 //# sourceMappingURL=locale-switch.js.map

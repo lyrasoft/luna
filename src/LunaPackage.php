@@ -3,11 +3,11 @@
 namespace Lyrasoft\Luna;
 
 use Faker\Generator;
-use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Access\AccessAuthorization;
 use Lyrasoft\Luna\Access\AccessService;
+use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Auth\SocialAuthService;
-use Lyrasoft\Luna\Auth\SrpService;
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Menu\MenuBuilder;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\Script\FontAwesomeScript;
 use Lyrasoft\Luna\Script\LunaScript;
+use Lyrasoft\Luna\Script\SRPScript;
 use Lyrasoft\Luna\Services\AssociationService;
 use Lyrasoft\Luna\Services\ConfigService;
 use Lyrasoft\Luna\Services\LocaleService;
@@ -28,7 +29,6 @@ use Lyrasoft\Luna\User\UserService;
 use Lyrasoft\Luna\Widget\WidgetService;
 use Windwalker\Authorization\Authorization;
 use Windwalker\Core\Application\AppClient;
-use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Application\Context\AppContextInterface;
 use Windwalker\Core\Application\WebApplicationInterface;
@@ -46,6 +46,8 @@ use Windwalker\DI\Attributes\AttributeType;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 use Windwalker\Event\Event;
+use Windwalker\SRP\SRPClient;
+use Windwalker\SRP\SRPServer;
 use Windwalker\Utilities\Iterator\PriorityQueue;
 use Windwalker\Utilities\StrNormalize;
 
@@ -75,9 +77,10 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(LocaleService::class);
         $container->prepareSharedObject(WidgetService::class);
         $container->prepareSharedObject(AssociationService::class);
-        $container->prepareSharedObject(SrpService::class);
+        $container->prepareSharedObject(SRPService::class);
 
         $this->registerAuthServices($container);
+        $this->registerSRPServices($container);
 
         $this->registerFaker($container);
 
@@ -307,5 +310,40 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
                 ['modules', $name . '_model']
             );
         }
+    }
+
+    protected function registerSRPServices(Container $container): void
+    {
+        $container->share(
+            SRPServer::class,
+            function (Container $container) {
+                return SRPServer::createFromConfig(
+                    $container->getParam('user.srp') ?? []
+                );
+            }
+        );
+
+        $container->share(
+            SRPClient::class,
+            function (Container $container) {
+                return SRPClient::createFromConfig(
+                    $container->getParam('user.srp') ?? []
+                );
+            }
+        );
+
+        $container->share(
+            SRPService::class,
+            function (Container $container) {
+                return $container->newInstance(
+                    SRPService::class,
+                    [
+                        'enabled' => (bool) $container->getParam('user.srp.enabled')
+                    ]
+                );
+            }
+        );
+
+        $container->prepareSharedObject(SRPScript::class);
     }
 }

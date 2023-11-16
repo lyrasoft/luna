@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
+use Brick\Math\BigInteger;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
-use Lyrasoft\Luna\Auth\SrpService;
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
@@ -25,7 +26,6 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\Utilities\Base64Url;
-use Windwalker\Crypt\SecretToolkit;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
 
@@ -124,10 +124,18 @@ class AuthController
         }
 
         $user = $app->input('user');
-        $app->getState()->remember('reg.data', $user);
+
+        $rememberData = $user;
+        unset($rememberData['password'], $rememberData['password2']);
+        show($app->input());
+        exit(' @Checkpoint');
+        $app->getState()->remember('reg.data', $rememberData);
 
         /** @var User $user */
         try {
+            $srpService = $app->retrieve(\Lyrasoft\Luna\Auth\SRP\SRPService::class);
+            $user = $srpService->handleRegister($app, $user);
+
             $user = $repository->register($user, RegistrationForm::class);
         } catch (\Throwable $e) {
             $app->addMessage($e->getMessage(), 'warning');
@@ -236,30 +244,80 @@ class AuthController
     }
 
     #[Ajax]
-    public function challenge(
+    public function srpChallenge(
         AppContext $app,
         LunaPackage $luna,
         UserService $userService,
-        SrpService $srpService,
-    ) {
-        [$username, $public] = $app->input('seed', 'public');
+        SRPService $srpService,
+    ): ?array {
+        if (!$srpService->isEnabled()) {
+            return null;
+        }
 
-        $srpService->storeClientPublicEphemeral($public);
+        $identity = $app->input('identity');
 
         $loginName = $luna->getLoginName();
 
         /** @var User $user */
-        $user = $userService->load([$loginName => $username]);
+        $user = $userService->load([$loginName => $identity]);
 
         if (!$user) {
-            throw new \RuntimeException('User not found.');
+            return null;
         }
 
-        $secret = $user->getParams()['srp_secret'] ?? '';
+        $password = $user->getPassword();
 
-        $seed = $srpService->generateRandomSeed();
-        $public = $srpService->generatePublicEphemeral($seed, SecretToolkit::decode($secret));
+        if ($srpService::shouldFallback($password)) {
+            return [
+                'salt' => '',
+                'B' => '',
+                'fallback' => true,
+            ];
+        }
 
-        return compact('seed', 'public');
+        $pf = $srpService::decodePasswordVerifier($password);
+
+        $e = $srpService->step1($identity, $pf->salt, $pf->verifier);
+
+        return [
+            'salt' => $pf->salt->toBase(16),
+            'B' => $e->public->toBase(16),
+            'fallback' => false,
+        ];
+    }
+
+    #[Ajax]
+    public function srpAuthenticate(
+        AppContext $app,
+        LunaPackage $luna,
+        UserService $userService,
+        SRPService $SRPService
+    ): array {
+        [$identity, $A, $M1] = $app->input('identity', 'A', 'M1')->values();
+
+        $loginName = $luna->getLoginName();
+
+        /** @var User $user */
+        $user = $userService->mustLoad([$loginName => $identity]);
+
+        $password = $user->getPassword();
+
+        $pf = $SRPService::decodePasswordVerifier($password);
+
+        $A = BigInteger::fromBase($A, 16);
+        $M1 = BigInteger::fromBase($M1, 16);
+
+        $result = $SRPService->step2(
+            $identity,
+            $pf->salt,
+            $pf->verifier,
+            $A,
+            $M1
+        );
+
+        return [
+            'key' => $result->key->toBase(16),
+            'proof' => $result->proof->toBase(16),
+        ];
     }
 }

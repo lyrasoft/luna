@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Registration;
 
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\User\ActivationService;
@@ -16,6 +17,7 @@ use Unicorn\Repository\CrudRepositoryTrait;
 use Unicorn\Repository\Event\PrepareSaveEvent;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
+use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\EntityMapper;
 
 /**
@@ -27,8 +29,12 @@ class RegistrationRepository implements CrudRepositoryInterface
     use TranslatorTrait;
     use CrudRepositoryTrait;
 
-    public function __construct(protected LunaPackage $luna, protected ActivationService $activationService)
-    {
+    public function __construct(
+        protected LunaPackage $luna,
+        protected ActivationService $activationService,
+        protected PasswordHasherInterface $hasher,
+        protected SRPService $srpService,
+    ) {
     }
 
     public function register(array|object $user, mixed $form = null): object
@@ -47,15 +53,17 @@ class RegistrationRepository implements CrudRepositoryInterface
             );
         }
 
-        $password = $user['password'];
-        $password2 = $user['password2'];
+        if (!$this->srpService->isEnabled()) {
+            $password = $user['password'];
+            $password2 = $user['password2'];
 
-        if ($password !== $password2) {
-            throw new ValidateFailException($this->trans('luna.message.password.not.match'));
+            if ($password !== $password2) {
+                throw new ValidateFailException($this->trans('luna.message.password.not.match'));
+            }
+
+            $user['password'] = $this->hasher->hash($password);
+            unset($user['password2']);
         }
-
-        $user['password'] = password_hash($password, PASSWORD_DEFAULT);
-        unset($user['password2']);
 
         return $this->createSaveAction()
             ->processDataAndSave($user, $form);

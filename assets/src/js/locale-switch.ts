@@ -1,14 +1,20 @@
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2022 __ORGANIZATION__.
- * @license    __LICENSE__
- */
 
 import '@main';
 
+interface LocaleSwitchOptions {
+  type: string;
+  table: string;
+  routeName: string;
+  currentId: string;
+  defaultId: string;
+  inputId: string;
+  langField: string;
+  titleField: string;
+  triggerInputName: string;
+}
+
 export class LocaleSwitchModal {
-  options = {
+  public options: LocaleSwitchOptions = {
     type: '',
     table: '',
     routeName: '',
@@ -20,12 +26,11 @@ export class LocaleSwitchModal {
     triggerInputName: 'lang_assoc'
   };
 
-  constructor(el, options) {
+  constructor(public el: HTMLElement, options: Partial<LocaleSwitchOptions> = {}) {
     // the modal element
-    this.el = el;
     this.options = Object.assign({}, this.options, options);
 
-    let buttons = this.el.querySelectorAll('[data-task=create_lang_version]');
+    let buttons = this.el.querySelectorAll<HTMLButtonElement|HTMLAnchorElement>('[data-task=create_lang_version]');
 
     u.each(buttons, (button) => {
       button.addEventListener('click', (e) => {
@@ -33,7 +38,7 @@ export class LocaleSwitchModal {
       });
     });
 
-    buttons = this.el.querySelectorAll('[data-task=switch_lang]');
+    buttons = this.el.querySelectorAll<HTMLButtonElement|HTMLAnchorElement>('[data-task=switch_lang]');
 
     u.each(buttons, (button) => {
       button.addEventListener('click', (e) => {
@@ -43,7 +48,7 @@ export class LocaleSwitchModal {
   }
 
   validateForm() {
-    const input = document.querySelector('#' + this.options.inputId);
+    const input = document.querySelector<HTMLInputElement>('#' + this.options.inputId);
 
     const form = input.form;
 
@@ -62,7 +67,7 @@ export class LocaleSwitchModal {
   /**
    * @param {HTMLButtonElement} button
    */
-  saveCurrentAndCreateLang(button) {
+  saveCurrentAndCreateLang(button: HTMLButtonElement) {
     const form = this.validateForm();
 
     u.form(form).post(
@@ -87,7 +92,7 @@ export class LocaleSwitchModal {
   /**
    * @param {HTMLButtonElement} button
    */
-  switchLang(button) {
+  switchLang(button: HTMLButtonElement) {
     const form = this.validateForm();
 
     u.form(form).post(
@@ -110,7 +115,7 @@ u.directive(
     mounted(el, { value }) {
       const options = JSON.parse(value);
 
-      u.module(el, 'locale.switch', () => new LocaleSwitchModal(el, options));
+      u.module(el, 'locale.switch', () => new LocaleSwitchModal(el as HTMLElement, options));
     }
   }
 );
