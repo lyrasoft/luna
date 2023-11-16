@@ -1,6 +1,6 @@
 System.register(["@main"], function (exports_1, context_1) {
     "use strict";
-    var defaultOptions, $http, SRPLogin;
+    var defaultOptions, $http, SRPRegistration, SRPLogin;
     var __moduleName = context_1 && context_1.id;
     function hexToBigint(hex) {
         return BigInt(`0x${hex}`);
@@ -15,8 +15,84 @@ System.register(["@main"], function (exports_1, context_1) {
                 identitySelector: '[data-input-identity]',
                 passwordSelector: '[data-input-password]',
                 size: 256,
+                hasher: 'sha256'
             };
             $http = u.$http;
+            SRPRegistration = class SRPRegistration {
+                constructor(el, options = {}) {
+                    this.el = el;
+                    this.options = options;
+                    this.submitting = false;
+                    this.options = Object.assign({}, defaultOptions, this.options);
+                    this.init();
+                }
+                init() {
+                    this.identityInput = this.el.querySelector(this.options.identitySelector);
+                    this.passwordInput = this.el.querySelector(this.options.passwordSelector);
+                    if (!this.identityInput || !this.passwordInput) {
+                        throw new Error('Identity or password input not found.');
+                    }
+                    this.el.addEventListener('submit', async (e) => {
+                        if (!this.submitting) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                            await this.register();
+                            this.disablePasswords();
+                            this.submitting = true;
+                            this.el.requestSubmit();
+                            return;
+                        }
+                    });
+                    this.el.addEventListener('invalid', () => {
+                        this.submitting = false;
+                    }, true);
+                }
+                disablePasswords() {
+                    if (this.passwordInput.value) {
+                        this.passwordInput.disabled = true;
+                        setTimeout(() => {
+                            this.passwordInput.disabled = false;
+                        }, 1000);
+                    }
+                    const inputs = this.el.querySelectorAll('[data-srp-override]');
+                    for (const input of inputs) {
+                        if (input.value) {
+                            input.disabled = true;
+                            setTimeout(() => {
+                                input.disabled = false;
+                            }, 1000);
+                        }
+                    }
+                }
+                createClient() {
+                    const client = SRPClient.create(this.options.prime, this.options.generator, this.options.key);
+                    client.setSize(this.options.size);
+                    client.setHasher(this.options?.hasher);
+                    return client;
+                }
+                async register() {
+                    const client = this.createClient();
+                    const identity = this.identityInput.value;
+                    const password = this.passwordInput.value;
+                    let { salt, verifier } = await client.register(identity, password);
+                    const saltInput = this.getHiddenInput('srp[salt]');
+                    saltInput.value = salt.toString(16);
+                    const verifierInput = this.getHiddenInput('srp[verifier]');
+                    verifierInput.value = verifier.toString(16);
+                }
+                getHiddenInput(name) {
+                    return this.el.querySelector(`[name="${name}"]`)
+                        || this.createHiddenInput(name);
+                }
+                createHiddenInput(name) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    this.el.appendChild(input);
+                    return input;
+                }
+            };
             SRPLogin = class SRPLogin {
                 constructor(el, options = {}) {
                     this.el = el;
@@ -33,12 +109,11 @@ System.register(["@main"], function (exports_1, context_1) {
                         throw new Error('Identity or password input not found.');
                     }
                     this.el.addEventListener('submit', async (e) => {
+                        this.submitter = e.submitter;
                         if (!this.submitting) {
                             e.stopPropagation();
                             e.preventDefault();
                             e.stopImmediatePropagation();
-                            this.submitter = e.submitter;
-                            this.submitter.disabled = true;
                             try {
                                 await this.auth();
                             }
@@ -58,13 +133,18 @@ System.register(["@main"], function (exports_1, context_1) {
                     }, true);
                 }
                 release() {
+                    if (this.submitter) {
+                        this.submitter.disabled = false;
+                    }
                     this.submitting = false;
-                    this.submitter.disabled = false;
                     this.fallback = false;
                 }
                 async auth() {
                     if (!this.identityInput.value || !this.passwordInput.value) {
                         return;
+                    }
+                    if (this.submitter) {
+                        this.submitter.disabled = true;
                     }
                     const identity = this.identityInput.value;
                     const password = this.passwordInput.value;
@@ -108,16 +188,7 @@ System.register(["@main"], function (exports_1, context_1) {
                         // Just return
                         return;
                     }
-                    this.getHiddenInput('srp[M1]').value = M1.toString(16);
-                    this.getHiddenInput('srp[A]').value = A.toString(16);
-                }
-                async registerSubmit() {
-                    await this.register();
-                    this.disablePasswords();
-                    setTimeout(() => {
-                        this.submitting = true;
-                        this.el.requestSubmit();
-                    }, 0);
+                    this.getHiddenInput('srp[M2]').value = M2.toString(16);
                 }
                 disablePasswords() {
                     if (this.passwordInput.value) {
@@ -139,20 +210,8 @@ System.register(["@main"], function (exports_1, context_1) {
                 createClient() {
                     const client = SRPClient.create(this.options.prime, this.options.generator, this.options.key);
                     client.setSize(this.options.size);
-                    client.setHasher(async (buffer) => {
-                        return new Uint8Array(
-                        // SHA256
-                        await crypto.subtle.digest("SHA-256", buffer));
-                    });
+                    client.setHasher(this.options.hasher);
                     return client;
-                }
-                async register() {
-                    const client = this.createClient();
-                    const { salt, verifier } = await client.register(this.identityInput.value, this.passwordInput.value);
-                    const srpInput = this.saltInput ?? (this.saltInput = this.createHiddenInput('srp[salt]'));
-                    srpInput.value = salt.toString(16);
-                    const verifierInput = this.verifierInput ?? (this.verifierInput = this.createHiddenInput('srp[verifier]'));
-                    verifierInput.value = verifier.toString(16);
                 }
                 getHiddenInput(name) {
                     return this.el.querySelector(`[name="${name}"]`)
@@ -166,6 +225,12 @@ System.register(["@main"], function (exports_1, context_1) {
                     return input;
                 }
             };
+            u.directive('srp-registration', {
+                mounted(el, { value }) {
+                    const options = JSON.parse(value);
+                    u.module(el, 'srp.registration', (el) => new SRPRegistration(el, options));
+                }
+            });
             u.directive('srp-login', {
                 mounted(el, { value }) {
                     const options = JSON.parse(value);
@@ -176,4 +241,4 @@ System.register(["@main"], function (exports_1, context_1) {
     };
 });
 
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=srp.js.map

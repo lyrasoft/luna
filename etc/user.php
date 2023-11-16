@@ -22,6 +22,15 @@ return [
 
         'entity' => User::class,
 
+        'srp' => [
+            'enabled' => true,
+            'prime' => null,
+            'generator' => null,
+            'key' => null,
+            'hasher' => 'sha256',
+            'size' => 256
+        ],
+
         'bindings' => [
             UserHandlerInterface::class => UserHandler::class
         ],

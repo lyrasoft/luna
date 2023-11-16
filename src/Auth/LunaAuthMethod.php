@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Auth;
 
-use JsonException;
+use Brick\Math\BigInteger;
+use Brick\Math\Exception\NumberFormatException;
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use ReflectionException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,12 +34,14 @@ class LunaAuthMethod implements MethodInterface
      * @param  ORM                      $orm
      * @param  Config                   $config
      * @param  PasswordHasherInterface  $password
+     * @param  SRPService               $srpService
      * @param  array                    $options
      */
     public function __construct(
         protected ORM $orm,
         protected Config $config,
         protected PasswordHasherInterface $password,
+        protected SRPService $srpService,
         array $options = []
     ) {
         $this->resolveOptions(
@@ -63,32 +67,72 @@ class LunaAuthMethod implements MethodInterface
      * @param  array  $credential
      *
      * @return AuthResult
-     * @throws JsonException
      * @throws ReflectionException
+     * @throws NumberFormatException
      */
     public function authenticate(array $credential): AuthResult
     {
-        $loginName = $this->config->getDeep('user.login_name');
+        $isSRPEnabled = $this->isSRPEnabled($credential, $srp);
 
-        $extraNames = $this->options['extra_login_names'] ?? [];
+        if (!$isSRPEnabled) {
+            $password = $credential['password'] ?? '';
 
-        $loginNames = array_unique(
-            [
-                $loginName,
-                ...$extraNames,
-            ]
-        );
+            if ((string) $password === '') {
+                return new AuthResult(AuthResult::EMPTY_CREDENTIAL, $credential);
+            }
 
-        $mapper = $this->getMapper();
-        $usernames = Arr::only($credential, $loginNames);
+            $usernames = $this->getUsernames($credential);
 
-        $password = $credential['password'] ?? '';
+            if ($usernames === []) {
+                return new AuthResult(AuthResult::EMPTY_CREDENTIAL, $credential);
+            }
 
-        if ($usernames === [] || (string) $password === '') {
-            return new AuthResult(AuthResult::EMPTY_CREDENTIAL, $credential);
+            $user = $this->getUser($usernames);
+
+            if (!$user) {
+                return new AuthResult(AuthResult::USER_NOT_FOUND, $credential);
+            }
+
+            if (!$this->password->verify($password, $user->password ?? '')) {
+                return new AuthResult(AuthResult::INVALID_PASSWORD, $credential);
+            }
+
+            $this->rehash($user, $credential);
+        } else {
+            $usernames = $this->getUsernames($credential);
+
+            if ($usernames === []) {
+                return new AuthResult(AuthResult::EMPTY_CREDENTIAL, $credential);
+            }
+
+            $user = $this->getUser($usernames);
+
+            $M2 = $srp['M2'] ?? '';
+
+            if (!$M2) {
+                return new AuthResult(AuthResult::INVALID_PASSWORD, $credential);
+            }
+
+            $M2 = BigInteger::fromBase($M2, 16);
+
+            $proof = (string) $this->srpService->getUserState();
+            $proof = BigInteger::fromBase($proof, 16);
+
+            if (!hash_equals((string) $proof, (string) $M2)) {
+                return new AuthResult(AuthResult::INVALID_PASSWORD, $credential);
+            }
         }
 
-        $user = $mapper->select()
+        $credential = array_merge($credential, $user->dump());
+
+        return new AuthResult(AuthResult::SUCCESS, $credential);
+    }
+
+    protected function getUser(array $usernames): Collection|null
+    {
+        $mapper = $this->getMapper();
+
+        return $mapper->select()
             ->orWhere(
                 function (Query $query) use ($usernames) {
                     foreach ($usernames as $field => $username) {
@@ -97,20 +141,6 @@ class LunaAuthMethod implements MethodInterface
                 }
             )
             ->get(Collection::class);
-
-        if (!$user) {
-            return new AuthResult(AuthResult::USER_NOT_FOUND, $credential);
-        }
-
-        if (!$this->password->verify($password, $user->password ?? '')) {
-            return new AuthResult(AuthResult::INVALID_PASSWORD, $credential);
-        }
-
-        $this->rehash($user, $credential);
-
-        $credential = array_merge($credential, $user->dump());
-
-        return new AuthResult(AuthResult::SUCCESS, $credential);
     }
 
     /**
@@ -120,12 +150,17 @@ class LunaAuthMethod implements MethodInterface
      * @param  array       $credential
      *
      * @return  void
-     *
-     * @throws JsonException
+     * @throws ReflectionException
      * @since  1.4.6
      */
     protected function rehash(Collection $user, array $credential): void
     {
+        if ($this->srpService->isEnabled()) {
+            $this->rehashSRP($user, $credential);
+
+            return;
+        }
+
         if ($this->password->needsRehash($user->password)) {
             $user->password = $this->password->hash($credential['password'] ?? '');
 
@@ -145,5 +180,66 @@ class LunaAuthMethod implements MethodInterface
         $userEntityClass = $this->config->getDeep('user.entity');
 
         return $this->orm->mapper($userEntityClass);
+    }
+
+    /**
+     * @param  array  $credential
+     *
+     * @return  array|object
+     */
+    protected function getUsernames(array $credential): array|object
+    {
+        $loginName = $this->getLoginName();
+
+        $extraNames = $this->options['extra_login_names'] ?? [];
+
+        $loginNames = array_unique(
+            [
+                $loginName,
+                ...$extraNames,
+            ]
+        );
+
+        return Arr::only($credential, $loginNames);
+    }
+
+    protected function isSRPEnabled(array $credential, array &$srp = null): bool
+    {
+        if (!$this->srpService->isEnabled()) {
+            return false;
+        }
+
+        $srp = $credential['srp'] ?? [];
+
+        return !($srp['fallback'] ?? false);
+    }
+
+    /**
+     * @return  string
+     */
+    protected function getLoginName(): string
+    {
+        return $this->config->getDeep('user.login_name')
+            ?: throw new \RuntimeException('User login name not set in config.');
+    }
+
+    protected function rehashSRP(Collection $user, array $credential): void
+    {
+        $hash = $user->password;
+
+        if ($this->srpService::isValidSRPHash($hash)) {
+            return;
+        }
+
+        $loginName = $this->getLoginName();
+
+        $identity = $user[$loginName];
+        $password = $credential['password'];
+
+        $pf = $this->srpService->getSRPClient()->register($identity, $password);
+
+        $user['password'] = $this->srpService::encodePasswordVerifier($pf->salt, $pf->verifier);
+
+        $this->getMapper()->updateOne($user);
     }
 }

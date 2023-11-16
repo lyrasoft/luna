@@ -7,6 +7,7 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 use Brick\Math\BigInteger;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
+use Lyrasoft\Luna\Auth\SRP\SRPControllerTrait;
 use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
@@ -46,6 +47,7 @@ class AuthController
 {
     use TranslatorTrait;
     use AjaxControllerTrait;
+    use SRPControllerTrait;
 
     public function login(AppContext $app, UserService $userService, Navigator $nav, ORM $orm): RouteUri
     {
@@ -54,6 +56,9 @@ class AuthController
         }
 
         $data = $app->input('user');
+        $srp = $app->input('srp');
+
+        $data['srp'] = (array) $srp;
 
         // Social Login
         if ($provider = $app->input('provider')) {
@@ -130,11 +135,11 @@ class AuthController
 
         $app->getState()->remember('reg.data', $rememberData);
 
-        /** @var User $user */
         try {
             $srpService = $app->retrieve(\Lyrasoft\Luna\Auth\SRP\SRPService::class);
             $user = $srpService->handleRegister($app, $user);
 
+            /** @var User $user */
             $user = $repository->register($user, RegistrationForm::class);
         } catch (\Throwable $e) {
             $app->addMessage($e->getMessage(), 'warning');
@@ -240,83 +245,5 @@ class AuthController
         $userService->login($user);
 
         return $nav->to('home');
-    }
-
-    #[Ajax]
-    public function srpChallenge(
-        AppContext $app,
-        LunaPackage $luna,
-        UserService $userService,
-        SRPService $srpService,
-    ): ?array {
-        if (!$srpService->isEnabled()) {
-            return null;
-        }
-
-        $identity = $app->input('identity');
-
-        $loginName = $luna->getLoginName();
-
-        /** @var User $user */
-        $user = $userService->load([$loginName => $identity]);
-
-        if (!$user) {
-            return null;
-        }
-
-        $password = $user->getPassword();
-
-        if ($srpService::shouldFallback($password)) {
-            return [
-                'salt' => '',
-                'B' => '',
-                'fallback' => true,
-            ];
-        }
-
-        $pf = $srpService::decodePasswordVerifier($password);
-
-        $e = $srpService->step1($identity, $pf->salt, $pf->verifier);
-
-        return [
-            'salt' => $pf->salt->toBase(16),
-            'B' => $e->public->toBase(16),
-            'fallback' => false,
-        ];
-    }
-
-    #[Ajax]
-    public function srpAuthenticate(
-        AppContext $app,
-        LunaPackage $luna,
-        UserService $userService,
-        SRPService $SRPService
-    ): array {
-        [$identity, $A, $M1] = $app->input('identity', 'A', 'M1')->values();
-
-        $loginName = $luna->getLoginName();
-
-        /** @var User $user */
-        $user = $userService->mustLoad([$loginName => $identity]);
-
-        $password = $user->getPassword();
-
-        $pf = $SRPService::decodePasswordVerifier($password);
-
-        $A = BigInteger::fromBase($A, 16);
-        $M1 = BigInteger::fromBase($M1, 16);
-
-        $result = $SRPService->step2(
-            $identity,
-            $pf->salt,
-            $pf->verifier,
-            $A,
-            $M1
-        );
-
-        return [
-            'key' => $result->key->toBase(16),
-            'proof' => $result->proof->toBase(16),
-        ];
     }
 }

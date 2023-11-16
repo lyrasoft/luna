@@ -24,7 +24,7 @@ class SRPService
 {
     public const PASSWORD_PREFIX = '$srp$';
 
-    public const SESSION_KEY = 'srp.group';
+    public const SESSION_KEY = 'srp.state';
 
     public function __construct(
         protected ApplicationInterface $app,
@@ -36,9 +36,19 @@ class SRPService
         //
     }
 
+    public function getUserState(): mixed
+    {
+        return $this->session->get(static::SESSION_KEY);
+    }
+
+    public function setUserState(mixed $data): mixed
+    {
+        return $this->session->set(static::SESSION_KEY, $data);
+    }
+
     public function generateVerifier(string $identity, string $password): PasswordFile
     {
-        return $this->app->retrieve(SRPClient::class)->register($identity, $password);
+        return $this->getSRPClient()->register($identity, $password);
     }
 
     public function registerDirective(array $options = []): string
@@ -95,15 +105,11 @@ class SRPService
         }
 
         return static::PASSWORD_PREFIX . $salt . ':' . $verifier;
-
-        $encoder = ENCODER_BASE64URLSAFE;
-
-        return static::PASSWORD_PREFIX . $encoder . ':' . SecretToolkit::encode($salt . ':' . $verifier, $encoder);
     }
 
-    public static function shouldFallback(string $encoded): bool
+    public static function isValidSRPHash(string $hash): bool
     {
-        return !str_starts_with($encoded, static::PASSWORD_PREFIX);
+        return str_starts_with($hash, static::PASSWORD_PREFIX);
     }
 
     public static function decodePasswordVerifier(string $encoded): PasswordFile
@@ -133,7 +139,7 @@ class SRPService
     {
         $r = $this->server->step1($identity, $salt, $verifier);
 
-        $this->session->set(static::SESSION_KEY, $r->json());
+        $this->setUserState($r->json());
 
         return $r;
     }
@@ -145,11 +151,11 @@ class SRPService
         BigInteger $A,
         BigInteger $M1
     ): ProofResult {
-        $data = $this->session->get(static::SESSION_KEY);
+        $state = $this->getUserState();
 
-        $keys = EphemeralResult::fromJson($data);
+        $keys = EphemeralResult::fromJson($state);
 
-        return $this->server->step2(
+        $result = $this->server->step2(
             $identity,
             $salt,
             $verifier,
@@ -157,5 +163,25 @@ class SRPService
             $keys->secret,
             $M1
         );
+
+        $this->setUserState($result->proof->toBase(16));
+
+        return $result;
+    }
+
+    /**
+     * @return  SRPClient
+     */
+    public function getSRPClient(): SRPClient
+    {
+        return $this->app->retrieve(SRPClient::class);
+    }
+
+    /**
+     * @return SRPServer
+     */
+    public function getSRPServer(): SRPServer
+    {
+        return $this->server;
     }
 }

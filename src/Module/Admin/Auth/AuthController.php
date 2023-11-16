@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Auth;
 
+use Lyrasoft\Luna\Auth\SRP\SRPControllerTrait;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserService;
+use Unicorn\Controller\AjaxControllerTrait;
 use Windwalker\Authentication\AuthResult;
-use Windwalker\Authentication\ResultSet;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Attributes\TaskMapping;
@@ -33,6 +34,8 @@ use function Windwalker\chronos;
 class AuthController
 {
     use TranslatorTrait;
+    use AjaxControllerTrait;
+    use SRPControllerTrait;
 
     public function login(AppContext $app, UserService $userService, Navigator $nav, ORM $orm): RouteUri
     {
@@ -41,6 +44,9 @@ class AuthController
         }
 
         $data = $app->input('user');
+        $srp = $app->input('srp');
+
+        $data['srp'] = (array) $srp;
 
         $result = $userService->attemptToLogin(
             $data,

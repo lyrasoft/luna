@@ -16,6 +16,7 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -23,13 +24,16 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
+$srp = $app->service(SRPService::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.auth') ?? 'admin.global.auth')
 
 @section('container')
     <form id="login-form" class="l-login" action="{{ $nav->to('login') }}" method="POST"
-        enctype="multipart/form-data">
+        enctype="multipart/form-data"
+        {!! $srp->loginDirective() !!}
+    >
 
         <div class="container">
             <x-fieldset :form="$form" ns="user" is="div">
@@ -38,7 +42,8 @@ use Windwalker\Core\Router\SystemUri;
 
             <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
                 <div class="form-check checkbox checkbox-primary">
-                    <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember" value="on">
+                    <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember"
+                        value="on">
                     <label class="form-check-label" for="input-user-remember">
                         @lang('luna.login.field.remember')
                     </label>

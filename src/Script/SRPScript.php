@@ -18,7 +18,7 @@ class SRPScript extends AbstractScript
     public function loadRegisterAssets(): void
     {
         $this->js('@vendor/@windwalker-io/srp/dist/client.min.js');
-        $this->js('@vendor/lyrasoft/luna/dist/srp/registration.js');
+        $this->js('@vendor/lyrasoft/luna/dist/srp.js');
     }
 
     public function loadLoginAssets(): void
@@ -26,6 +26,6 @@ class SRPScript extends AbstractScript
         $this->unicornScript->addRoute('@auth_ajax');
 
         $this->js('@vendor/@windwalker-io/srp/dist/client.min.js');
-        $this->js('@vendor/lyrasoft/luna/dist/srp/login.js');
+        $this->js('@vendor/lyrasoft/luna/dist/srp.js');
     }
 }
