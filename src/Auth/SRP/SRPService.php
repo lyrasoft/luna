@@ -29,8 +29,8 @@ class SRPService
     public function __construct(
         protected ApplicationInterface $app,
         protected Session $session,
-        protected SRPServer $server,
         protected SRPScript $script,
+        protected ?SRPServer $server = null,
         protected bool $enabled = false,
     ) {
         //

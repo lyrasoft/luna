@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Registration\Form;
 
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Windwalker\Core\Attributes\Ref;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Filter\Rule\EmailAddress;
@@ -23,7 +24,7 @@ class RegistrationForm implements FieldDefinitionInterface
     /**
      * RegistrationForm constructor.
      */
-    public function __construct(#[Ref('user')] protected $config)
+    public function __construct(#[Ref('user')] protected $config, protected SRPService $SRPService)
     {
     }
 
@@ -69,7 +70,7 @@ class RegistrationForm implements FieldDefinitionInterface
                 ->attr('data-input-password', true)
                 ->autocomplete('new-password');
 
-            if (!($this->config['srp']['enabled'] ?? false)) {
+            if (!$this->SRPService->isEnabled()) {
                 $form->add('password2', PasswordField::class)
                     ->label($this->trans('luna.user.field.password.confirm'))
                     ->attr('data-srp-override', true)
