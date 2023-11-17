@@ -160,6 +160,7 @@ class SRPService
             $salt,
             $verifier,
             $A,
+            $keys->public,
             $keys->secret,
             $M1
         );
