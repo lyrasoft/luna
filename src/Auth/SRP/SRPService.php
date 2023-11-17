@@ -125,6 +125,10 @@ class SRPService
 
     public function isEnabled(): bool
     {
+        if (!class_exists(SRPServer::class)) {
+            return false;
+        }
+
         return $this->enabled;
     }
 
