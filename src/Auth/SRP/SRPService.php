@@ -88,7 +88,14 @@ class SRPService
 
         $srp = $app->input('srp');
 
-        $password = static::encodePasswordVerifier($srp['salt'], $srp['verifier']);
+        $salt = $srp['salt'] ?? '';
+        $verifier = $srp['verifier'] ?? '';
+
+        if (!$salt || !$verifier) {
+            return $user;
+        }
+
+        $password = static::encodePasswordVerifier($salt, $verifier);
 
         if ($user instanceof User) {
             $user->setPassword($password);

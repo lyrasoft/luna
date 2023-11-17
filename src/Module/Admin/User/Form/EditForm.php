@@ -80,17 +80,19 @@ class EditForm implements FieldDefinitionInterface
                     ->label($this->trans('luna.user.field.password'))
                     ->attr('data-role', 'password')
                     ->attr('data-input-password', true)
+                    ->attr(
+                        'data-value-missing-message',
+                        $this->trans('luna.user.field.validate.change.identity.required.password')
+                    )
                     ->autocomplete('new-password');
 
-                if (!$this->srpService->isEnabled()) {
-                    $form->add('password2', PasswordField::class)
-                        ->label($this->trans('luna.user.field.password.confirm'))
-                        ->attr('data-validate', 'password-confirm')
-                        ->attr('data-confirm-target', '[data-role=password]')
-                        ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
-                        ->attr('data-srp-override', true)
-                        ->autocomplete('new-password');
-                }
+                $form->add('password2', PasswordField::class)
+                    ->label($this->trans('luna.user.field.password.confirm'))
+                    ->attr('data-validate', 'password-confirm')
+                    ->attr('data-confirm-target', '[data-role=password]')
+                    ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
+                    ->attr('data-srp-override', true)
+                    ->autocomplete('new-password');
             }
         );
 

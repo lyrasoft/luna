@@ -106,6 +106,12 @@ class SRPRegistration {
     const identity = this.identityInput.value;
     const password = this.passwordInput.value;
 
+    if (!identity || !password) {
+      this.getHiddenInput('srp[salt]').value = '';
+      this.getHiddenInput('srp[verifier]').value = '';
+      return;
+    }
+
     let { salt, verifier } = await client.register(identity, password);
 
     const saltInput = this.getHiddenInput('srp[salt]');

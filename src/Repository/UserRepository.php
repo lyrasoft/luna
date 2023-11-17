@@ -54,18 +54,16 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     {
         $action->prepareSave(
             function (PrepareSaveEvent $event) {
-                if ($this->srpService->isEnabled()) {
-                    return;
-                }
-
                 $data = &$event->getData();
 
                 if ($data['password'] ?? null) {
-                    if ($data['password'] !== $data['password2']) {
-                        throw new ValidateFailException('Password not match');
-                    }
+                    if (!$this->srpService->isEnabled()) {
+                        if ($data['password'] !== $data['password2']) {
+                            throw new ValidateFailException('Password not match');
+                        }
 
-                    $data['password'] = $this->password->hash($data['password']);
+                        $data['password'] = $this->password->hash($data['password']);
+                    }
 
                     unset($data['password2']);
                 } else {
