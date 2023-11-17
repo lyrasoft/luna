@@ -6,6 +6,7 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
@@ -16,6 +17,7 @@ use Windwalker\Core\Mailer\MailerInterface;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
+use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\ORM;
 
 /**
@@ -114,10 +116,12 @@ class ForgetController
         return $nav->to('forget_reset');
     }
 
-    public function reset(AppContext $app, UserService $userService, ORM $orm, Navigator $nav): RouteUri
-    {
-        $password = $app->input('password');
-        $password2 = $app->input('password2');
+    public function reset(
+        AppContext $app,
+        UserService $userService,
+        ORM $orm,
+        Navigator $nav
+    ): RouteUri {
         $token = $app->input('token');
 
         if (!$token) {
@@ -142,13 +146,26 @@ class ForgetController
             throw new ValidateFailException($this->trans('luna.forget.request.message.invalid.token'));
         }
 
-        if ($password !== $password2) {
-            throw new ValidateFailException($this->trans('luna.forget.reset.message.password.not.match'));
+        $srpService = $app->retrieve(SRPService::class);
+
+        if ($srpService->isEnabled()) {
+            $user = $srpService->handleRegister($app, $user);
+        } else {
+            $password = $app->input('password');
+            $password2 = $app->input('password2');
+
+            $hasher = $app->retrieve(PasswordHasherInterface::class);
+
+            if ($password !== $password2) {
+                throw new ValidateFailException($this->trans('luna.forget.reset.message.password.not.match'));
+            }
+
+            $user->setPassword($hasher->hash($password));
         }
 
-        $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
         $user->setResetToken('');
         $user->setLastReset('now');
+
 
         $orm->updateOne(
             User::class,

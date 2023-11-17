@@ -23,6 +23,7 @@ System.register(["@main"], function (exports_1, context_1) {
                     this.el = el;
                     this.options = options;
                     this.submitting = false;
+                    this.disabledInputs = [];
                     this.options = Object.assign({}, defaultOptions, this.options);
                     this.init();
                 }
@@ -45,20 +46,27 @@ System.register(["@main"], function (exports_1, context_1) {
                         }
                     });
                     this.el.addEventListener('invalid', () => {
-                        this.submitting = false;
+                        this.release();
                     }, true);
                 }
-                disablePasswords() {
-                    if (this.passwordInput.value) {
-                        this.passwordInput.disabled = true;
-                        setTimeout(() => {
-                            this.passwordInput.disabled = false;
-                        }, 1000);
+                release() {
+                    this.submitting = false;
+                    for (const disabledInput of this.disabledInputs) {
+                        disabledInput.disabled = false;
                     }
-                    const inputs = this.el.querySelectorAll('[data-srp-override]');
-                    for (const input of inputs) {
-                        if (input.value) {
+                }
+                getPasswordInputs() {
+                    return [
+                        this.passwordInput,
+                        ...this.el.querySelectorAll('[data-srp-override]')
+                    ];
+                }
+                disablePasswords() {
+                    this.disabledInputs = [];
+                    for (const input of this.getPasswordInputs()) {
+                        if (input.value && !input.disabled) {
                             input.disabled = true;
+                            this.disabledInputs.push(input);
                             setTimeout(() => {
                                 input.disabled = false;
                             }, 1000);
@@ -99,6 +107,7 @@ System.register(["@main"], function (exports_1, context_1) {
                     this.options = options;
                     this.fallback = false;
                     this.submitting = false;
+                    this.disabledInputs = [];
                     this.options = Object.assign({}, defaultOptions, this.options);
                     this.init();
                 }
@@ -138,6 +147,10 @@ System.register(["@main"], function (exports_1, context_1) {
                     }
                     this.submitting = false;
                     this.fallback = false;
+                    this.getHiddenInput('srp[M2]').value = '';
+                    for (const disabledInput of this.disabledInputs) {
+                        disabledInput.disabled = false;
+                    }
                 }
                 async auth() {
                     if (!this.identityInput.value || !this.passwordInput.value) {
@@ -190,17 +203,18 @@ System.register(["@main"], function (exports_1, context_1) {
                     }
                     this.getHiddenInput('srp[M2]').value = M2.toString(16);
                 }
+                getPasswordInputs() {
+                    return [
+                        this.passwordInput,
+                        ...this.el.querySelectorAll('[data-srp-override]')
+                    ];
+                }
                 disablePasswords() {
-                    if (this.passwordInput.value) {
-                        this.passwordInput.disabled = true;
-                        setTimeout(() => {
-                            this.passwordInput.disabled = false;
-                        }, 1000);
-                    }
-                    const inputs = this.el.querySelectorAll('[data-srp-override]');
-                    for (const input of inputs) {
-                        if (input.value) {
+                    this.disabledInputs = [];
+                    for (const input of this.getPasswordInputs()) {
+                        if (input.value && !input.disabled) {
                             input.disabled = true;
+                            this.disabledInputs.push(input);
                             setTimeout(() => {
                                 input.disabled = false;
                             }, 1000);

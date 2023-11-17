@@ -17,6 +17,7 @@ class SRPRegistration {
   verifierInput: HTMLInputElement;
 
   public submitting = false;
+  public disabledInputs = [];
 
   constructor(public el: HTMLFormElement, public options: Partial<SRPOptions> = {}) {
     this.options = Object.assign({}, defaultOptions, this.options);
@@ -51,24 +52,33 @@ class SRPRegistration {
     });
 
     this.el.addEventListener('invalid', () => {
-      this.submitting = false;
+      this.release();
     }, true);
   }
 
-  disablePasswords() {
-    if (this.passwordInput.value) {
-      this.passwordInput.disabled = true;
+  release() {
+    this.submitting = false;
 
-      setTimeout(() => {
-        this.passwordInput.disabled = false;
-      }, 1000);
+    for (const disabledInput of this.disabledInputs) {
+      disabledInput.disabled = false;
     }
+  }
 
-    const inputs = this.el.querySelectorAll<HTMLInputElement>('[data-srp-override]');
+  getPasswordInputs() {
+    return [
+      this.passwordInput,
+      ...this.el.querySelectorAll<HTMLInputElement>('[data-srp-override]')
+    ];
+  }
 
-    for (const input of inputs) {
-      if (input.value) {
+  disablePasswords() {
+    this.disabledInputs = [];
+
+    for (const input of this.getPasswordInputs()) {
+      if (input.value && !input.disabled) {
         input.disabled = true;
+
+        this.disabledInputs.push(input);
 
         setTimeout(() => {
           input.disabled = false;
@@ -132,6 +142,8 @@ class SRPLogin {
   public submitting = false;
   public submitter: HTMLButtonElement;
 
+  public disabledInputs = [];
+
   constructor(public el: HTMLFormElement, public options: Partial<SRPOptions> = {}) {
     this.options = Object.assign({}, defaultOptions, this.options);
 
@@ -184,6 +196,11 @@ class SRPLogin {
 
     this.submitting = false;
     this.fallback = false;
+    this.getHiddenInput('srp[M2]').value = '';
+
+    for (const disabledInput of this.disabledInputs) {
+      disabledInput.disabled = false;
+    }
   }
 
   async auth() {
@@ -261,20 +278,21 @@ class SRPLogin {
     this.getHiddenInput('srp[M2]').value = M2.toString(16);
   }
 
+  getPasswordInputs() {
+    return [
+      this.passwordInput,
+      ...this.el.querySelectorAll<HTMLInputElement>('[data-srp-override]')
+    ];
+  }
+
   disablePasswords() {
-    if (this.passwordInput.value) {
-      this.passwordInput.disabled = true;
+    this.disabledInputs = [];
 
-      setTimeout(() => {
-        this.passwordInput.disabled = false;
-      }, 1000);
-    }
-
-    const inputs = this.el.querySelectorAll<HTMLInputElement>('[data-srp-override]');
-
-    for (const input of inputs) {
-      if (input.value) {
+    for (const input of this.getPasswordInputs()) {
+      if (input.value && !input.disabled) {
         input.disabled = true;
+
+        this.disabledInputs.push(input);
 
         setTimeout(() => {
           input.disabled = false;

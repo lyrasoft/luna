@@ -16,6 +16,7 @@ namespace App\View;
  * @var $lang      LangService     The language translation service.
  */
 
+use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -23,6 +24,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
+$srp = $app->retrieve(SRPService::class);
 ?>
 
 @extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
@@ -32,7 +34,9 @@ use Windwalker\Core\Router\SystemUri;
         action="{{ $nav->to('forget_reset') }}"
         uni-form-validate
         method="POST"
-        enctype="multipart/form-data">
+        enctype="multipart/form-data"
+        {!! $srp->registerDirective() !!}
+    >
         <div class="container">
             <div class="form-group mb-3" uni-field-validate>
                 <label for="input-password" class="form-label">
@@ -42,9 +46,11 @@ use Windwalker\Core\Router\SystemUri;
                     autocomplete="new-password"
                     required
                     data-role="password"
+                    data-input-password
                 />
                 <div class="invalid-tooltip" data-field-error></div>
             </div>
+
 
             <div class="form-group mb-3" uni-field-validate>
                 <label for="input-password2" class="form-label">
@@ -69,6 +75,9 @@ use Windwalker\Core\Router\SystemUri;
 
             <div class="hidden-inputs">
                 <input name="token" type="hidden" value="{{ $token ?? '' }}" />
+                @if ($srp->isEnabled())
+                    <input name="identity" type="hidden" value="{{ $identity ?? '' }}" data-input-identity />
+                @endif
                 @csrf
             </div>
         </div>

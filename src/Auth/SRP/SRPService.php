@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Auth\SRP;
 
 use Brick\Math\BigInteger;
+use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Script\SRPScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Application\ApplicationInterface;
@@ -79,7 +80,7 @@ class SRPService
         return HTMLElement::buildAttributes(['uni-srp-login' => json_encode($options)]);
     }
 
-    public function handleRegister(AppContext $app, array $user): array
+    public function handleRegister(AppContext $app, array|User $user): array|User
     {
         if (!$this->isEnabled()) {
             return $user;
@@ -89,7 +90,11 @@ class SRPService
 
         $password = static::encodePasswordVerifier($srp['salt'], $srp['verifier']);
 
-        $user['password'] = $password;
+        if ($user instanceof User) {
+            $user->setPassword($password);
+        } else {
+            $user['password'] = $password;
+        }
 
         return $user;
     }

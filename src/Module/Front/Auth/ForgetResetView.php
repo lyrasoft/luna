@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Lyrasoft\Luna\Auth\SRP\SRPService;
+use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
 use Windwalker\Core\View\ViewModelInterface;
+use Windwalker\Data\Collection;
+use Windwalker\ORM\ORM;
 
 /**
  * The ForgetResetView class.
@@ -28,7 +36,7 @@ class ForgetResetView implements ViewModelInterface
     /**
      * Constructor.
      */
-    public function __construct(protected Navigator $nav)
+    public function __construct(protected Navigator $nav, protected SRPService $srp)
     {
         //
     }
@@ -51,6 +59,25 @@ class ForgetResetView implements ViewModelInterface
 
         $view->setTitle($this->trans('luna.reset.form.title'));
 
-        return compact('token');
+        $identity = '';
+
+        if ($this->srp->isEnabled()) {
+            $payload = JWT::decode(
+                $token,
+                new Key($app->getSecret(), 'HS256'),
+            );
+
+            $email = $payload->email ?? null;
+
+            /** @var User $user */
+            $user = $app->retrieve(ORM::class)
+                ->findOne(User::class, ['email' => (string) $email], Collection::class);
+
+            $loginName = $app->service(LunaPackage::class)->getLoginName();
+
+            $identity = $user->$loginName;
+        }
+
+        return compact('token', 'identity');
     }
 }

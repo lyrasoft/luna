@@ -24,7 +24,7 @@ class RegistrationForm implements FieldDefinitionInterface
     /**
      * RegistrationForm constructor.
      */
-    public function __construct(#[Ref('user')] protected $config, protected SRPService $SRPService)
+    public function __construct(#[Ref('user')] protected $config)
     {
     }
 
@@ -70,15 +70,14 @@ class RegistrationForm implements FieldDefinitionInterface
                 ->attr('data-input-password', true)
                 ->autocomplete('new-password');
 
-            if (!$this->SRPService->isEnabled()) {
-                $form->add('password2', PasswordField::class)
-                    ->label($this->trans('luna.user.field.password.confirm'))
-                    ->attr('data-srp-override', true)
-                    ->attr('data-validate', 'password-confirm')
-                    ->attr('data-confirm-target', '[data-role=password]')
-                    ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
-                    ->autocomplete('new-password');
-            }
+            $form->add('password2', PasswordField::class)
+                ->label($this->trans('luna.user.field.password.confirm'))
+                ->required(true)
+                ->attr('data-srp-override', true)
+                ->attr('data-validate', 'password-confirm')
+                ->attr('data-confirm-target', '[data-role=password]')
+                ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
+                ->autocomplete('new-password');
         });
     }
 }
