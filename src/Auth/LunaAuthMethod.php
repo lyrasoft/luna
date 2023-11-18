@@ -116,7 +116,10 @@ class LunaAuthMethod implements MethodInterface
             $M2 = BigInteger::fromBase($M2, 16);
 
             $proof = (string) $this->srpService->getUserState();
+
             $proof = BigInteger::fromBase($proof, 16);
+
+            $this->srpService->clearUserState();
 
             if (!hash_equals((string) $proof, (string) $M2)) {
                 return new AuthResult(AuthResult::INVALID_PASSWORD, $credential);

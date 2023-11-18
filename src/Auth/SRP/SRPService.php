@@ -42,9 +42,14 @@ class SRPService
         return $this->session->get(static::SESSION_KEY);
     }
 
-    public function setUserState(mixed $data): mixed
+    public function setUserState(mixed $data): void
     {
-        return $this->session->set(static::SESSION_KEY, $data);
+        $this->session->set(static::SESSION_KEY, $data);
+    }
+
+    public function clearUserState(): void
+    {
+        $this->session->remove(static::SESSION_KEY);
     }
 
     public function generateVerifier(string $identity, string $password): PasswordFile
