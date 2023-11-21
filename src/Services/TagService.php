@@ -10,6 +10,7 @@ use ReflectionException;
 use Windwalker\Database\Driver\StatementInterface;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
+use Windwalker\ORM\SelectorQuery;
 use Windwalker\Utilities\Str;
 
 /**
@@ -51,17 +52,15 @@ class TagService
     }
 
     /**
-     * flushTags
-     *
-     * @param  string    $type
-     * @param  mixed     $targetId
-     * @param  iterable  $tagIds
+     * @param  string|\BackedEnum  $type
+     * @param  mixed               $targetId
+     * @param  iterable            $tagIds
      *
      * @return  iterable<TagMap>
      *
      * @throws ReflectionException
      */
-    public function flushTagMapsFromInput(string $type, mixed $targetId, iterable $tagIds): iterable
+    public function flushTagMapsFromInput(string|\BackedEnum $type, mixed $targetId, iterable $tagIds): iterable
     {
         $tagIds = $this->createTagsIfNew($tagIds);
 
@@ -69,17 +68,15 @@ class TagService
     }
 
     /**
-     * flushTags
-     *
-     * @param  string    $type
-     * @param  mixed     $targetId
-     * @param  iterable  $tagIds
+     * @param  string|\BackedEnum  $type
+     * @param  mixed               $targetId
+     * @param  iterable            $tagIds
      *
      * @return  iterable<TagMap>
      *
      * @throws ReflectionException
      */
-    public function flushTagMaps(string $type, mixed $targetId, iterable $tagIds): iterable
+    public function flushTagMaps(string|\BackedEnum $type, mixed $targetId, iterable $tagIds): iterable
     {
         /** @var EntityMapper<TagMap> $tagMapMapper */
         $tagMapMapper = $this->orm->mapper(TagMap::class);
@@ -101,16 +98,16 @@ class TagService
      * @param  string  $type
      * @param  mixed   $targetId
      *
-     * @return  array<StatementInterface>
+     * @return void
      *
      * @throws ReflectionException
      */
-    public function clearMapsOfTarget(string $type, mixed $targetId): array
+    public function clearMapsOfTarget(string $type, mixed $targetId): void
     {
         /** @var EntityMapper<TagMap> $tagMapMapper */
         $tagMapMapper = $this->orm->mapper(TagMap::class);
 
-        return $tagMapMapper->deleteWhere(
+        $tagMapMapper->deleteWhere(
             [
                 'type' => $type,
                 'target_id' => $targetId,
@@ -118,17 +115,35 @@ class TagService
         );
     }
 
-    public function clearMapsOfTag(string $type, mixed $tagId): array
+    public function clearMapsOfTag(string $type, mixed $tagId): void
     {
         /** @var EntityMapper<TagMap> $tagMapMapper */
         $tagMapMapper = $this->orm->mapper(TagMap::class);
 
-        return $tagMapMapper->deleteWhere(
+        $tagMapMapper->deleteWhere(
             [
                 'type' => $type,
                 'tag_id' => $tagId,
             ]
         );
+    }
+
+    public function getTagListQuery(string|\BackedEnum $type, mixed $targetIds = null): SelectorQuery
+    {
+        $query = $this->orm->from(Tag::class)
+            ->leftJoin(TagMap::class)
+            ->where('tag_map.type', $type);
+
+        if (is_iterable($targetIds)) {
+            $targetIds = iterator_to_array($targetIds);
+        }
+
+        if ($targetIds !== null && $targetIds !== []) {
+            $query->where('tag_map.target_id', $targetIds);
+        }
+
+        return $query->groupByJoins()
+            ->setDefaultItemClass(Tag::class);
     }
 
     /**

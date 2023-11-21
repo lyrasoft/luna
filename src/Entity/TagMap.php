@@ -11,6 +11,8 @@ use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
 use Windwalker\ORM\Metadata\EntityMetadata;
 
+use function Windwalker\unwrap_enum;
+
 /**
  * The TagMap class.
  */
@@ -64,9 +66,9 @@ class TagMap implements EntityInterface
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(string|\BackedEnum $type): static
     {
-        $this->type = $type;
+        $this->type = (string) unwrap_enum($type);
 
         return $this;
     }
