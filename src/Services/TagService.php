@@ -24,7 +24,7 @@ class TagService
     {
     }
 
-    public function createTagsIfNew(iterable $tagIds): array
+    public function createTagsIfNew(iterable $tagIds, callable $configure = null): array
     {
         $r = [];
 
@@ -35,12 +35,15 @@ class TagService
             if (str_starts_with((string) $tagId, $this->getNewTagPrefix())) {
                 $tagTitle = Str::removeLeft((string) $tagId, 'new#');
 
-                $tag = $mapper->createOne(
-                    [
-                        'title' => $tagTitle,
-                        'state' => 1,
-                    ]
-                );
+                $tag = new Tag();
+                $tag->setTitle($tagTitle);
+                $tag->setState(1);
+
+                if ($configure) {
+                    $tag = $configure($tag) ?? $tag;
+                }
+
+                $tag = $mapper->createOne($tag);
 
                 $r[$i] = (string) $tag->getId();
             } else {
@@ -55,14 +58,19 @@ class TagService
      * @param  string|\BackedEnum  $type
      * @param  mixed               $targetId
      * @param  iterable            $tagIds
+     * @param  callable|null       $configureNewTag
      *
      * @return  iterable<TagMap>
      *
      * @throws ReflectionException
      */
-    public function flushTagMapsFromInput(string|\BackedEnum $type, mixed $targetId, iterable $tagIds): iterable
-    {
-        $tagIds = $this->createTagsIfNew($tagIds);
+    public function flushTagMapsFromInput(
+        string|\BackedEnum $type,
+        mixed $targetId,
+        iterable $tagIds,
+        callable $configureNewTag = null
+    ): iterable {
+        $tagIds = $this->createTagsIfNew($tagIds, $configureNewTag);
 
         return $this->flushTagMaps($type, $targetId, $tagIds);
     }
