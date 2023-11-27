@@ -60,7 +60,8 @@ class ForgetController
             [
                 'email' => $email,
             ],
-            $app->config('app.secret')
+            $app->config('app.secret'),
+            'HS256'
         );
 
         $link = $nav->to('forget_confirm', ['token' => $token, 'email' => idn_to_ascii($email)])
