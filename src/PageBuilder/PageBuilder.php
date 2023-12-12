@@ -63,11 +63,11 @@ class PageBuilder
         return $html;
     }
 
-    public function renderByEntityAndCache(Page $page): string
+    public function renderByEntityAndCache(Page $page, bool $refresh = false): string
     {
         $cache = $this->getCacheFile($page->getId());
 
-        if ($cache->isFile()) {
+        if ($cache->isFile() && !$refresh) {
             return (string) $cache->read();
         }
 
