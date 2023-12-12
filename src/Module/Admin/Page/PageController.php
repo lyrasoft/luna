@@ -140,7 +140,7 @@ class PageController
         $repository->save($item);
 
         // Cache
-        $pageBuilder->renderByEntityAndCache($entity);
+        $pageBuilder->renderByEntityAndCache($entity, true);
 
         return [
             'item' => $entity,
