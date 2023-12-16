@@ -76,7 +76,7 @@ $loginName = $luna->getLoginName();
                         </th>
 
                         <th class="text-nowrap">
-                            <x-sort field="user.last_name">@lang('luna.user.field.name')</x-sort>
+                            <x-sort field="user.name">@lang('luna.user.field.name')</x-sort>
                             /
                             <x-sort field="user.email">@lang('luna.user.field.email')</x-sort>
                         </th>
