@@ -777,4 +777,19 @@ class AccessService
 
         return array_map([$this, 'wrapUserRole'], $roles);
     }
+
+    /**
+     * @return  array<string|\BackedEnum>
+     */
+    public function getSelectableRoles(): array
+    {
+        return $this->app->config('access.selectable_roles') ?: [];
+    }
+
+    public function canSelectUserRoles(): bool
+    {
+        $roles = $this->getSelectableRoles();
+
+        return $roles !== [] && $this->check(static::ROLE_MODIFY_ACTION);
+    }
 }

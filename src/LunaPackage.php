@@ -62,6 +62,49 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     {
     }
 
+    public function getLoginName(): string
+    {
+        return $this->app->config('user.login_name') ?? 'username';
+    }
+
+    public function isAdmin(): bool
+    {
+        if ($this->app instanceof WebApplicationInterface) {
+            return $this->app->service(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'admin';
+        }
+
+        return false;
+    }
+
+    public function isFront(): bool
+    {
+        if ($this->app instanceof WebApplicationInterface) {
+            return $this->app->service(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'front';
+        }
+
+        return false;
+    }
+
+    public function bootBeforeRequest(Container $container): void
+    {
+        // Error
+        if (!$this->app->isDebug() && $this->app->getClient() === AppClient::WEB) {
+            $errorService = $container->get(ErrorService::class);
+
+            $errorService->addHandler(
+                $container->newInstance(
+                    LunaErrorHandler::class,
+                    [
+                        'layout' => $this->app->config('luna.error.layout') ?? 'error',
+                        'route' => $this->app->config('luna.error.route') ?? 'front::home',
+                    ]
+                ),
+                'default'
+            );
+            $errorService->register();
+        }
+    }
+
     public function register(Container $container): void
     {
         $container->share(static::class, $this);
@@ -128,49 +171,6 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
                 '@luna/' => 'vendor/lyrasoft/luna/',
             ]
         );
-    }
-
-    public function getLoginName(): string
-    {
-        return $this->app->config('user.login_name') ?? 'username';
-    }
-
-    public function isAdmin(): bool
-    {
-        if ($this->app instanceof WebApplicationInterface) {
-            return $this->app->service(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'admin';
-        }
-
-        return false;
-    }
-
-    public function isFront(): bool
-    {
-        if ($this->app instanceof WebApplicationInterface) {
-            return $this->app->service(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'front';
-        }
-
-        return false;
-    }
-
-    public function bootBeforeRequest(Container $container): void
-    {
-        // Error
-        if (!$this->app->isDebug() && $this->app->getClient() === AppClient::WEB) {
-            $errorService = $container->get(ErrorService::class);
-
-            $errorService->addHandler(
-                $container->newInstance(
-                    LunaErrorHandler::class,
-                    [
-                        'layout' => $this->app->config('luna.error.layout') ?? 'error',
-                        'route' => $this->app->config('luna.error.route') ?? 'front::home',
-                    ]
-                ),
-                'default'
-            );
-            $errorService->register();
-        }
     }
 
     protected function registerFaker(Container $container)
