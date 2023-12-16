@@ -36,6 +36,7 @@ $enabledButton = $vm->createEnabledButton();
 $verifiedButton = $vm->createVerifiedButton();
 
 $userService = $app->service(UserService::class);
+$accessService = $userService->getAccessService();
 $currentUser = $userService->getCurrentUser();
 $iAmSuperUser = $userService->getAccessService()->isSuperUser();
 $imgPlaceholder = $app->service(ImagePlaceholder::class);
@@ -175,7 +176,7 @@ $loginName = $luna->getLoginName();
                                 @foreach ($roles as $role)
                                     <div>
                                         <span class="badge bg-primary">
-                                            {{ $userService->getAccessService()->wrapUserRole($role->getRoleId())->getTitle() }}
+                                            {{ $accessService->wrapUserRole($role->getRoleId())?->getTitle() ?? $role->getRoleId() }}
                                         </span>
                                     </div>
                                 @endforeach
