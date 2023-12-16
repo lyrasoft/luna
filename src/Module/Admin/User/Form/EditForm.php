@@ -118,7 +118,7 @@ class EditForm implements FieldDefinitionInterface
                             function (ListField $field, mixed $text, mixed $value) use ($iAmSuperUser) {
                                 if ($text instanceof EnumTranslatableInterface || is_numeric($value)) {
                                     $value = value($text);
-                                    $text = $this->accessService->wrapUserRole($value)->getTitle();
+                                    $text = $this->accessService->wrapUserRole($value)?->getTitle() ?? $value;
                                 }
 
                                 if (!$iAmSuperUser && $this->accessService->isSuperUserRole($value)) {
