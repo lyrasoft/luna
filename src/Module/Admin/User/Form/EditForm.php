@@ -6,6 +6,7 @@ namespace Lyrasoft\Luna\Module\Admin\User\Form;
 
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SRP\SRPService;
+use Lyrasoft\Luna\Field\UserRoleListField;
 use Lyrasoft\Luna\LunaPackage;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
@@ -14,14 +15,10 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Filter\Rule\EmailAddress;
 use Windwalker\Form\Field\EmailField;
 use Windwalker\Form\Field\HiddenField;
-use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\PasswordField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
-use Windwalker\Utilities\Enum\EnumTranslatableInterface;
-
-use function Windwalker\value;
 
 /**
  * The EditForm class.
@@ -105,29 +102,9 @@ class EditForm implements FieldDefinitionInterface
                     ->width(400)
                     ->height(400);
 
-                $roles = $this->luna->app->config('access.selectable_roles') ?: [];
-
-                if ($roles && $this->accessService->check(AccessService::ROLE_MODIFY_ACTION)) {
-                    $iAmSuperUser = $this->accessService->isSuperUser();
-
-                    $form->add('roles', ListField::class)
+                if ($this->accessService->canSelectUserRoles()) {
+                    $form->add('roles', UserRoleListField::class)
                         ->label($this->trans('luna.user.field.roles'))
-                        // ->required(true)
-                        ->registerOptions(
-                            $roles,
-                            function (ListField $field, mixed $text, mixed $value) use ($iAmSuperUser) {
-                                if ($text instanceof EnumTranslatableInterface || is_numeric($value)) {
-                                    $value = value($text);
-                                    $text = $this->accessService->wrapUserRole($value)?->getTitle() ?? $value;
-                                }
-
-                                if (!$iAmSuperUser && $this->accessService->isSuperUserRole($value)) {
-                                    return;
-                                }
-
-                                $field->option($text, (string) $value);
-                            }
-                        )
                         ->multiple(true)
                         ->addClass('has-tom-select');
                 }
