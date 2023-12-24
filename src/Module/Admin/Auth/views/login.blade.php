@@ -17,6 +17,8 @@ namespace App\View;
  */
 
 use Lyrasoft\Luna\Auth\SRP\SRPService;
+use Unicorn\Script\UnicornScript;
+use Unicorn\Script\VueScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -25,40 +27,83 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $srp = $app->service(SRPService::class);
+$vueScript = $app->service(VueScript::class);
+$uniScript = $app->service(UnicornScript::class);
+
+$vueScript->vue();
+$asset->js('js/admin/login/login.js');
+
+$uniScript->addRoute('@auth_ajax');
+$uniScript->data('login.props', [
+    'mfaEnabled' => (bool) env('MFA_ENABLED')
+]);
 ?>
 
-@extends($app->config('luna.view_extends.admin.auth') ?? 'admin.global.auth')
+@extends('global.html')
 
-@section('container')
+@section('superbody')
     <form id="login-form" class="l-login" action="{{ $nav->to('login') }}" method="POST"
         enctype="multipart/form-data"
         {!! $srp->loginDirective() !!}
     >
+        <div>
+            <div class="container-fluid p-0">
+                <div class="row g-0">
 
-        <div class="container">
-            <x-fieldset :form="$form" ns="user" is="div">
+                    <div class="col-xl-9">
+                        <div class="auth-full-bg pt-lg-5 p-4"
+                            style="background-image: url(assets/images/admin/taipei-bg.jpg); background-size: cover">
+                            <div class="w-100">
+                                <div class="bg-overlay"
+                                    style="background: rgba(76, 132, 255, .85)"
+                                ></div>
+                                <div class="d-flex h-100 flex-column">
 
-            </x-fieldset>
+                                    <div class="p-4 my-auto">
+                                        <div class="row">
+                                            <div class="col-lg-7">
+                                                <div class="">
 
-            <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
-                <div class="form-check checkbox checkbox-primary">
-                    <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember"
-                        value="on">
-                    <label class="form-check-label" for="input-user-remember">
-                        @lang('luna.login.field.remember')
-                    </label>
+                                                    <h4 class="mb-3 display-3 text-white"
+                                                        style="font-weight: 900; font-family: system-ui;">
+                                                        UR HOUSE
+                                                    </h4>
+
+                                                    <p class="text-white fs-3">
+                                                        給客戶一個最好的家
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="col-xl-3">
+                        <div class="auth-full-page-content d-flex align-items-center p-md-5 p-4">
+                            <div class="w-100">
+
+                                <div class="mx-4 mb-4 text-center">
+                                    <img src="{{ $asset->path('images/global/logo-en.svg') }}" alt="LOGO">
+
+                                    <p class="text-muted my-3">登入管理員帳號</p>
+                                </div>
+
+                                <!-- Form -->
+                                <login-app>
+
+                                </login-app>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
                 </div>
-            </div>
-
-            <p class="login-button-group">
-                <button class="login-button btn btn-primary w-100"
-                    data-dos>
-                    @lang('luna.button.login')
-                </button>
-            </p>
-
-            <div class="hidden-inputs">
-                @csrf
+                <!-- end row -->
             </div>
         </div>
     </form>

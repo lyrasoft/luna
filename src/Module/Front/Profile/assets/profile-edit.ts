@@ -14,23 +14,23 @@ const form = u.selectOne<HTMLFormElement>(formSelector);
 const passwordInput = u.selectOne<HTMLInputElement>('[data-input-password]');
 const password2Input = u.selectOne<HTMLInputElement>('[data-validate=password-confirm]');
 
-passwordInput.addEventListener('input', () => {
+passwordInput?.addEventListener('input', () => {
   if (passwordInput.value) {
-    password2Input.setAttribute('required', 'true');
+    password2Input?.setAttribute('required', 'true');
   } else {
-    password2Input.removeAttribute('required');
+    password2Input?.removeAttribute('required');
   }
 });
 
-if (form.hasAttribute('uni-srp-registration')) {
+if (form?.hasAttribute('uni-srp-registration')) {
   const identityInput = u.selectOne<HTMLInputElement>('[data-input-identity]');
-  const oldIdentity = identityInput.value;
+  const oldIdentity = identityInput?.value;
 
-  identityInput.addEventListener('input', () => {
+  identityInput?.addEventListener('input', () => {
     if (oldIdentity !== identityInput.value) {
-      passwordInput.setAttribute('required', 'true');
+      passwordInput?.setAttribute('required', 'true');
     } else {
-      passwordInput.removeAttribute('required');
+      passwordInput?.removeAttribute('required');
     }
   });
 }
