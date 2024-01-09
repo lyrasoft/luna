@@ -28,7 +28,7 @@ return [
                 'profile_handler' => \Lyrasoft\Luna\Auth\Profile\GoogleProfileHandler::class
             ],
             'LINE' => [
-                'enabled' => true,
+                'enabled' => false,
                 'adapter' => \Lyrasoft\Luna\Auth\Provider\LineSocialProvider::class,
                 'keys' => [
                     'id' => env('LINE_SOCIAL_ID'),

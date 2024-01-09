@@ -168,7 +168,7 @@ class AccessService
      *
      * @return  array<UserRole>
      */
-    public function getUserRoles(mixed $user): array
+    public function getUserRoles(mixed $user = null): array
     {
         $user = $this->getUser($user);
 
@@ -202,7 +202,7 @@ class AccessService
      *
      * @return  array<UserRoleMap>
      */
-    public function addRoleMapsToUser(mixed $user, mixed $roleMaps): array
+    public function addRoleMapsToUser(mixed $user = null, mixed $roleMaps = []): array
     {
         $currentRoleIds = collect($this->getUserRoles($user))
             ->map(fn(UserRole $map) => $map->getId())
@@ -243,7 +243,7 @@ class AccessService
      * @return  array<UserRoleMap>
      * @throws \ReflectionException
      */
-    public function addRolesToUser(mixed $user, mixed $roles, array $extra = []): array
+    public function addRolesToUser(mixed $user = null, mixed $roles = [], array $extra = []): array
     {
         $currentRoleIds = collect($this->getUserRoles($user))
             ->map(fn(UserRole $map) => $map->getId())
@@ -278,7 +278,7 @@ class AccessService
         return $maps;
     }
 
-    public function removeRoleFromUser(mixed $user, mixed $roles): void
+    public function removeRoleFromUser(mixed $user = null, mixed $roles = []): void
     {
         $user = $this->getUser($user);
 
@@ -301,14 +301,32 @@ class AccessService
         );
     }
 
-    public function userIsRole(mixed $user, string|int|UserRole $role): bool
+    public function userIsRole(mixed $user = null, mixed $role = null): bool
     {
+        $user ??= $this->getUser();
         $roleId = $this->unwrapRole($role);
 
         $roles = $this->getUserRoles($user);
 
         foreach ($roles as $userRole) {
             if ((string) $userRole->getId() === (string) $roleId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function userInRoles(mixed $user = null, mixed $roles = []): bool
+    {
+        $user ??= $this->getUser();
+
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+
+        foreach ($roles as $role) {
+            if ($this->userIsRole($user, $role)) {
                 return true;
             }
         }
@@ -394,8 +412,9 @@ class AccessService
      *
      * @return  array<UserRole>
      */
-    public function getAllowedRolesForUser(mixed $user): array
+    public function getAllowedRolesForUser(mixed $user = null): array
     {
+        $user ??= $this->getUser();
         $roles = $this->getRoles();
         $userRoles = $this->getUserRoles($user);
         $allowed = [];
