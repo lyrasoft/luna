@@ -52,7 +52,7 @@ class TagListView implements ViewModelInterface
 
         // Prepare Items
         $page = $state->rememberFromRequest('page');
-        $limit = $state->rememberFromRequest('limit') ?: 30;
+        $limit = $state->rememberFromRequest('limit') ?? 30;
         $filter = (array) $state->rememberFromRequest('filter');
         $search = (array) $state->rememberFromRequest('search');
         $ordering = $state->rememberFromRequest('list_ordering') ?? $this->getDefaultOrdering();

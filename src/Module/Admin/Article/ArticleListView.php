@@ -62,7 +62,7 @@ class ArticleListView implements ViewModelInterface
         $ordering = $state->rememberFromRequest('list_ordering') ?? $this->getDefaultOrdering();
 
         $items = $this->repository->getListSelector()
-            ->setFilters($filter)
+            ->addFilters($filter)
             ->searchTextFor(
                 $search['*'] ?? '',
                 $this->getSearchFields()
