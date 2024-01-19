@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lyrasoft\Luna\Module\Admin\Article;
+namespace App\Module\Admin\Article;
 
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\TagMap;
@@ -10,7 +10,7 @@ use Lyrasoft\Luna\Field\ArticleModalField;
 use Lyrasoft\Luna\Field\LocaleSwitchField;
 use Lyrasoft\Luna\Locale\LanguageAssocTrait;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
-use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
+use App\Module\Admin\Article\Form\EditForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
@@ -59,7 +59,7 @@ class ArticleEditView implements ViewModelInterface
         /** @var Article $item */
         $item = $this->repository->getItem(compact('id'));
 
-        if ($type && $item->getType() !== $type) {
+        if ($type && $item && $item->getType() !== $type) {
             return $this->nav->self()->var('type', $item->getType());
         }
 
@@ -102,9 +102,20 @@ class ArticleEditView implements ViewModelInterface
      */
     protected function prepareMetadata(AppContext $app, View $view): void
     {
+        $type = $app->input('type');
+
+        $langKey = "luna.$type.article.edit.title";
+        $appLangKey = "app.$type.article.edit.title";
+
+        if ($this->lang->has($langKey)) {
+            $title = $this->trans($langKey);
+        } elseif ($this->lang->has($appLangKey)) {
+            $title = $this->trans($appLangKey);
+        } else {
+            $title = $this->trans('unicorn.title.edit', title: $this->trans('luna.article.title'));
+        }
+
         $view->getHtmlFrame()
-            ->setTitle(
-                $this->trans('unicorn.title.edit', title: $this->trans('luna.article.title'))
-            );
+            ->setTitle($title);
     }
 }

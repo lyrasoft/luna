@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Lyrasoft\Luna\Module\Admin\Article;
+namespace App\Module\Admin\Article;
 
-use Lyrasoft\Luna\Module\Admin\Article\Form\GridForm;
+use App\Module\Admin\Article\Form\GridForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
@@ -63,6 +63,7 @@ class ArticleListView implements ViewModelInterface
 
         $items = $this->repository->getListSelector()
             ->addFilters($filter)
+            ->where('article.type', $type)
             ->searchTextFor(
                 $search['*'] ?? '',
                 $this->getSearchFields()
@@ -155,9 +156,19 @@ class ArticleListView implements ViewModelInterface
      */
     protected function prepareMetadata(AppContext $app, View $view): void
     {
-        $view->getHtmlFrame()
-            ->setTitle(
-                $this->trans('unicorn.title.grid', title: $this->trans('luna.article.title'))
-            );
+        $type = $app->input('type');
+
+        $langKey = "luna.$type.article.list.title";
+        $appLangKey = "app.$type.article.list.title";
+
+        if ($this->lang->has($langKey)) {
+            $title = $this->trans($langKey);
+        } elseif ($this->lang->has($appLangKey)) {
+            $title = $this->trans($appLangKey);
+        } else {
+            $title = $this->trans('unicorn.title.grid', title: $this->trans('luna.article.title'));
+        }
+
+        $view->setTitle($title);
     }
 }

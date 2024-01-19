@@ -12,6 +12,7 @@ use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Services\TagService;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
+use Unicorn\Repository\Event\PrepareSaveEvent;
 use Unicorn\Upload\FileUploadManager;
 use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
@@ -40,6 +41,14 @@ class ArticleController
         FileUploadService $fileUploadService
     ): mixed {
         $form = $app->make(EditForm::class);
+
+        $controller->prepareSave(
+            function (PrepareSaveEvent $event) use ($app) {
+                $data = &$event->getData();
+
+                $data['type'] = $app->input('type');
+            }
+        );
 
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($fileUploadService, $tagService, $repository, $app) {
