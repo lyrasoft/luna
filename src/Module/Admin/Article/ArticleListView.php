@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Admin\Article;
+namespace Lyrasoft\Luna\Module\Admin\Article;
 
-use App\Module\Admin\Article\Form\GridForm;
+use Lyrasoft\Luna\Module\Admin\Article\Form\GridForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
@@ -48,7 +48,7 @@ class ArticleListView implements ViewModelInterface
      */
     public function prepare(AppContext $app, View $view): array
     {
-        $type = $app->input('type');
+        $type = $app->input('type') ?: 'article';
 
         $state = $this->repository->getState();
 

@@ -61,6 +61,7 @@ class ArticleListView implements ViewModelInterface
         $page = $app->input('page');
 
         $items = $this->repository->getAvailableListSelector()
+            ->addFilter('article.type', 'article')
             ->addFilter('article.state', 1)
             ->addFilter('category.state', 1)
             ->tapIf(

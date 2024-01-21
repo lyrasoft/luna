@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Admin\Article;
+namespace Lyrasoft\Luna\Module\Admin\Article;
 
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\TagMap;
@@ -10,7 +10,7 @@ use Lyrasoft\Luna\Field\ArticleModalField;
 use Lyrasoft\Luna\Field\LocaleSwitchField;
 use Lyrasoft\Luna\Locale\LanguageAssocTrait;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
-use App\Module\Admin\Article\Form\EditForm;
+use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
