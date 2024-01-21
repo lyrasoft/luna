@@ -60,7 +60,7 @@ class AccessMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $allow = true;
+        $allow = false;
         $userService = $this->app->service(UserService::class);
 
         if ($this->rules instanceof Closure) {
@@ -84,7 +84,7 @@ class AccessMiddleware implements MiddlewareInterface
         $rules = (array) $this->rules;
 
         foreach ($rules as $rule) {
-            $allow = $allow && $userService->can($rule);
+            $allow = $allow || $userService->can($rule);
         }
 
         if (!$allow) {
