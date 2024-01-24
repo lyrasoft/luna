@@ -9,7 +9,6 @@ use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Captcha\CaptchaManager;
-use Lyrasoft\Luna\Entity\CurrentUser;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
 use Lyrasoft\Luna\Menu\MenuBuilder;
@@ -110,12 +109,6 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
     public function register(Container $container): void
     {
-        $container->share(static::class, $this);
-        $container->share(
-            CurrentUser::class,
-            fn(Container $container) => $container->get(UserService::class)->getCurrentUser()
-        );
-
         $container->prepareSharedObject(CaptchaManager::class);
         $container->prepareSharedObject(ConfigService::class);
         $container->prepareSharedObject(LunaScript::class);
