@@ -22,16 +22,16 @@ class Build extends Console
     --dry-run  Dry run without git push or commit.
 HELP;
 
+    protected array $scripts = [];
+
     /**
-     * doExecute
-     *
      * @return  bool|mixed
-     *
-     * @since  __DEPLOY_VERSION__
      */
     protected function doExecute()
     {
-        $this->compileAssets();
+        foreach ($this->scripts as $script) {
+            $this->exec($script);
+        }
 
         $currentVersion = trim(file_get_contents(__DIR__ . '/../VERSION'));
         $targetVersion = $this->getArgument(0);
@@ -42,11 +42,9 @@ HELP;
 
         $this->out('Release version: ' . $targetVersion);
 
+        static::writeVersion($targetVersion);
         $this->replaceDocblockTags($targetVersion);
 
-        static::writeVersion($targetVersion);
-
-        $this->exec('git add .');
         $this->exec(sprintf('git commit -am "Release version: %s"', $targetVersion));
         $this->exec(sprintf('git tag %s', $targetVersion));
 
@@ -54,6 +52,13 @@ HELP;
         $this->exec('git push --tags');
 
         return true;
+    }
+
+    public function addScript(string $script): static
+    {
+        $this->scripts[] = $script;
+
+        return $this;
     }
 
     /**
@@ -153,29 +158,9 @@ HELP;
             file_put_contents($file->getPathname(), $content);
         }
 
-        $this->exec('git checkout master');
+        $this->exec('git checkout main');
         $this->exec(sprintf('git commit -am "Prepare for %s release."', $version));
-        $this->exec('git push origin master');
-    }
-
-    /**
-     * compileAssets
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function compileAssets()
-    {
-        foreach (glob(__DIR__ . '/../assets/dist/*.js.map') as $file) {
-            unlink($file);
-        }
-
-        foreach (glob(__DIR__ . '/../assets/dist/page/*') as $file) {
-            unlink($file);
-        }
-
-        $this->exec('yarn --cwd ./assets build:prod');
+        $this->exec('git push origin main');
     }
 
     /**
@@ -197,4 +182,8 @@ HELP;
     }
 }
 
-exit((new Build())->execute());
+exit((new Build())
+    ->addScript('rm -rf ' . __DIR__ . '/../assets/dist/*.js.map')
+    ->addScript('rm -rf ' . __DIR__ . '/../assets/dist/page/*')
+    ->addScript('yarn --cwd ./assets build:prod')
+    ->execute());
