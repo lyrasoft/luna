@@ -14,8 +14,10 @@ use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Lyrasoft\Luna\User\UserService;
+use Windwalker\Authorization\Authorization;
 use Windwalker\Core\Application\AppClient;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\Core\Auth\AuthService;
 use Windwalker\ORM\NestedSetMapper;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
@@ -40,9 +42,15 @@ class AccessService
 
     public function __construct(
         protected ApplicationInterface $app,
+        protected Authorization $authorization,
         protected ORM $orm,
         protected Session $session
     ) {
+    }
+
+    public function can(string $action, mixed $user = null, ...$args): bool
+    {
+        return $this->check($action, $user, ...$args);
     }
 
     public function check(string $action, mixed $user = null, ...$args): bool
@@ -53,6 +61,10 @@ class AccessService
             && $this->isAdminUserSwitched()
         ) {
             return true;
+        }
+
+        if ($this->authorization->hasPolicy($action)) {
+            return $this->authorization->authorize($action, $user, ...$args);
         }
 
         $user = $this->getUser($user);

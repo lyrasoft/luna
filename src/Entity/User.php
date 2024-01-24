@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Entity;
 
 use DateTimeInterface;
+use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\User\UserEntityInterface;
+use Lyrasoft\Luna\User\UserService;
+use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\DateTime\ServerTimeCast;
 use Windwalker\ORM\Attributes\AutoIncrement;
@@ -21,6 +24,7 @@ use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
 use Windwalker\ORM\Event\BeforeSaveEvent;
+use Windwalker\ORM\Event\EnergizeEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 
 /**
@@ -96,6 +100,20 @@ class User implements EntityInterface, UserEntityInterface
         //
     }
 
+    #[EnergizeEvent]
+    public static function energize(EnergizeEvent $event): void
+    {
+        $event->storeCallback(
+            'user.service',
+            fn(UserService $userService) => $userService
+        );
+
+        $event->storeCallback(
+            'access.service',
+            fn(AccessService $accessService) => $accessService
+        );
+    }
+
     #[BeforeSaveEvent]
     public static function beforeSave(BeforeSaveEvent $event): void
     {
@@ -104,6 +122,22 @@ class User implements EntityInterface, UserEntityInterface
         if (isset($data['password']) && $data['password'] === '') {
             unset($data['password']);
         }
+    }
+
+    public function can(string $action, ...$args): bool
+    {
+        /** @var AccessService $accessService */
+        $accessService = $this->retrieveMeta('access.service')();
+
+        return $accessService->can($action, $this, ...$args);
+    }
+
+    public function isRoles(mixed ...$roles): bool
+    {
+        /** @var AccessService $accessService */
+        $accessService = $this->retrieveMeta('access.service')();
+
+        return $accessService->userInRoles($this, $roles);
     }
 
     /**
