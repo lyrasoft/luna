@@ -10,6 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Http\Browser;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Event\AfterRouteBuildEvent;
 use Windwalker\Core\Router\Event\BeforeRouteBuildEvent;
@@ -50,7 +51,9 @@ class LocaleMiddleware implements MiddlewareInterface
             $locale = $state->get($this->sessionKey);
         }
 
-        if (!$locale && $this->useBrowser) {
+        $browser = $this->app->retrieve(Browser::class);
+
+        if (!$locale && $this->useBrowser && !$browser->isRobot()) {
             $locale = $localeService->getBrowserLanguage();
         }
 
