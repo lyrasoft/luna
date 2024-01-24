@@ -32,13 +32,12 @@ use Windwalker\Core\Security\CsrfService;
 
 $csrf = $app->service(CsrfService::class);
 
-$link = $nav->to(
-    'user_list',
-    [
-        'task' => 'recover',
-        $csrf->getToken() => '1'
-    ]
-);
+if ($nav->has('user_switch_recover')) {
+    $link = $nav->to('user_switch_recover');
+} else {
+    $link = $nav->to('user_list')->task('recover');
+}
+
 ?>
 
 <div class="alert alert-warning alert-dismissible fade show">
@@ -53,7 +52,7 @@ $link = $nav->to(
         </div>
         <div>
             <button type="button" class="btn btn-warning btn-sm"
-                onclick="u.form().patch('{{ $link }}')"
+                onclick="u.form().patch('{{ $link }}', { anticsrf: '{{ $csrf->getToken() }}' })"
             >
                 @lang('luna.user.switch.recover.button')
             </button>

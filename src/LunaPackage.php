@@ -71,7 +71,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     public function isAdmin(): bool
     {
         if ($this->app instanceof WebApplicationInterface) {
-            return $this->app->service(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'admin';
+            return $this->app->retrieve(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'admin';
         }
 
         return false;
@@ -80,7 +80,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     public function isFront(): bool
     {
         if ($this->app instanceof WebApplicationInterface) {
-            return $this->app->service(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'front';
+            return $this->app->retrieve(AppRequest::class)->getMatchedRoute()?->getExtraValue('namespace') === 'front';
         }
 
         return false;
@@ -126,6 +126,9 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(WidgetService::class);
         $container->prepareSharedObject(AssociationService::class);
         $container->prepareSharedObject(SRPService::class);
+
+        // Override package object for request
+        $container->prepareSharedObject(LunaPackage::class);
 
         $this->registerAuthServices($container);
         $this->registerSRPServices($container);

@@ -298,6 +298,6 @@ class UserController
 
         $app->addMessage($this->trans('luna.message.user.recover.success'), 'success');
 
-        return $nav->back();
+        return $nav->to('user_list');
     }
 }

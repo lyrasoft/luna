@@ -55,8 +55,10 @@ class AccessService
 
     public function check(string $action, mixed $user = null, ...$args): bool
     {
+        $currentUser = $this->getUser($user);
+
         if (
-            $user === null
+            ($user === null || $user->getId() === $currentUser?->getId())
             && $action === static::ADMIN_ACCESS_ACTION
             && $this->isAdminUserSwitched()
         ) {
@@ -67,7 +69,7 @@ class AccessService
             return $this->authorization->authorize($action, $user, ...$args);
         }
 
-        $user = $this->getUser($user);
+        $user = $this->getUser($user ?? $currentUser);
         $userId = $user->getId();
 
         // Get roles

@@ -18,7 +18,7 @@ $modal?.addEventListener('hidden.bs.modal', () => {
 
 u.directive('user-switch-button', {
   mounted(el, { value }) {
-    value = JSON.parse(value);
+    value = JSON.parse(value || '{}');
     el.addEventListener('click', () => {
       u.$ui.bootstrap.modal($modal).show();
       $switchUserId.value = value.id;

@@ -211,10 +211,7 @@ $loginName = $luna->getLoginName();
                                 <button
                                     class="user-switch-button btn btn-outline-secondary btn-sm"
                                     type="button"
-                                    uni-user-switch-button='{
-                                        "id": "{{ $item->id }}",
-                                        "name": "{{ $item->name }}"
-                                    }'
+                                    uni-user-switch-button="@json(['id' => $item->id, 'name' => $item->name])"
                                 >
                                     <i class="fa-solid fa-people-arrows-left-right"></i>
                                 </button>

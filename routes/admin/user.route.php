@@ -29,3 +29,6 @@ $router->group('user')
         $router->any('account_check', '/user/account/check')
             ->controller(UserController::class, 'accountCheck');
     });
+
+$router->post('user_switch_recover', '/user/switch/recover')
+    ->controller(UserController::class, 'recover');
