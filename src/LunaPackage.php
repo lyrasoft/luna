@@ -92,14 +92,16 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         if (!$this->app->isDebug() && $this->app->getClient() === AppClient::WEB) {
             $errorService = $container->get(ErrorService::class);
 
+            $handler = $container->newInstance(
+                LunaErrorHandler::class,
+                [
+                    'layout' => $this->app->config('luna.error.layout') ?? 'error',
+                    'route' => $this->getErrorRoute(),
+                ]
+            );
+
             $errorService->addHandler(
-                $container->newInstance(
-                    LunaErrorHandler::class,
-                    [
-                        'layout' => $this->app->config('luna.error.layout') ?? 'error',
-                        'route' => $this->app->config('luna.error.route') ?? 'front::home',
-                    ]
-                ),
+                $handler,
                 'default'
             );
             $errorService->register();
@@ -200,8 +202,9 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
     {
         $container->prepareSharedObject(
             UserService::class,
-            fn(UserService $userService, Container $container)
-                => $userService->addEventDealer($container->get(AppContextInterface::class))
+            fn(UserService $userService, Container $container) => $userService->addEventDealer(
+                $container->get(AppContextInterface::class)
+            )
         );
         $container->prepareSharedObject(UserSwitchService::class);
         $container->prepareSharedObject(AccessService::class);
@@ -346,12 +349,22 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
                 return $container->newInstance(
                     SRPService::class,
                     [
-                        'enabled' => (bool) $container->getParam('user.srp.enabled')
+                        'enabled' => (bool) $container->getParam('user.srp.enabled'),
                     ]
                 );
             }
         );
 
         $container->prepareSharedObject(SRPScript::class);
+    }
+
+    /**
+     * @return  string|\Closure
+     */
+    protected function getErrorRoute(): string|\Closure
+    {
+        return $this->app->config('luna.error.route') ?? function (LunaPackage $luna) {
+            return $luna->isAdmin() ? 'admin::home' : 'front::home';
+        };
     }
 }

@@ -17,7 +17,6 @@ use Windwalker\Core\View\View;
 use Windwalker\DI\Container;
 use Windwalker\Http\Output\StreamOutput;
 use Windwalker\Http\Response\HtmlResponse;
-use Windwalker\Http\Response\Response;
 
 /**
  * The LunaErrorHandler class.
@@ -26,7 +25,7 @@ class LunaErrorHandler implements ErrorHandlerInterface
 {
     public function __construct(
         protected Container $container,
-        protected string $route = 'front::home',
+        protected string|\Closure $route = 'front::home',
         protected ?string $layout = null
     ) {
     }
@@ -42,7 +41,7 @@ class LunaErrorHandler implements ErrorHandlerInterface
             ->loadFileFromPath(LunaPackage::path('resources/languages'), 'luna', 'ini');
 
         $router = $app->service(Router::class);
-        $route = $router->getRoute($this->route);
+        $route = $router->getRoute($routeName = $this->getRouteName());
         $app = $this->container->get(AppContext::class);
 
         $this->container->modify(
@@ -60,17 +59,20 @@ class LunaErrorHandler implements ErrorHandlerInterface
         if ($route) {
             $middlewares = $route->getMiddlewares();
             $runner = $app->make(MiddlewareRunner::class);
+
+            $stage = $route->getExtraValue('namespace') ?: 'front';
+
             try {
                 $res = $runner->run(
-                    $app->getAppRequest()->getRequest(),
+                    $app->getAppRequest()->getServerRequest(),
                     $middlewares,
-                    fn() => $view->render(['exception' => $e])
+                    fn() => $view->render(['exception' => $e, 'stage' => $stage])
                 );
             } catch (\Throwable $e) {
                 $res = HtmlResponse::fromString($e->getMessage());
             }
         } else {
-            $res = $view->render(['exception' => $e]);
+            $res = $view->render(['exception' => $e, 'stage' => 'front']);
         }
 
         $code = $e->getCode();
@@ -81,5 +83,28 @@ class LunaErrorHandler implements ErrorHandlerInterface
 
         $output = new StreamOutput();
         $output->respond($res);
+    }
+
+    public function getRouteName(): string
+    {
+        $route = $this->getRoute();
+
+        if ($route instanceof \Closure) {
+            $route = (string) $this->container->call($route, [static::class => $this]);
+        }
+
+        return $route;
+    }
+
+    public function getRoute(): \Closure|string
+    {
+        return $this->route;
+    }
+
+    public function setRoute(\Closure|string $route): static
+    {
+        $this->route = $route;
+
+        return $this;
     }
 }

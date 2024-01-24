@@ -40,7 +40,7 @@ if ($code === 404) {
 
 ?>
 
-@extends($app->config('luna.view_extends.front.error') ?? 'global.body')
+@extends($app->config('luna.view_extends.' . $stage . '.error') ?? 'global.body')
 
 @section('content')
     <style>

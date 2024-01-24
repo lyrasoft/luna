@@ -12,6 +12,7 @@ use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\LangService;
+use Windwalker\Core\Router\Event\AfterRouteBuildEvent;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Data\Collection;
 use Windwalker\Language\LanguageNormalizer;
@@ -307,5 +308,16 @@ class LocaleService
         }
 
         $assocService->saveAssociations($type, $lang, $targetId, $associations);
+    }
+
+    public function listenNavigatorBuildEventOnce(Navigator $nav, \Closure $listener): mixed
+    {
+        return $this->once(
+            'nav.build.event',
+            fn () => $nav->on(
+                AfterRouteBuildEvent::class,
+                $listener
+            )
+        );
     }
 }

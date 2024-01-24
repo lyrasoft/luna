@@ -61,8 +61,9 @@ class LocaleMiddleware implements MiddlewareInterface
         // Nav
         if ($this->uriPrefix && $localeService->isUriPrefixEnabled()) {
             $nav = $this->app->service(Navigator::class);
-            $nav->on(
-                AfterRouteBuildEvent::class,
+
+            $localeService->listenNavigatorBuildEventOnce(
+                $nav,
                 function (AfterRouteBuildEvent $event) use ($localeService) {
                     $nav = $event->getNavigator();
                     $route = $nav->findRoute($event->getRoute());

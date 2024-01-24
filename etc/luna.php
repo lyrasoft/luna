@@ -48,7 +48,7 @@ return [
                 'edit' => 'admin.global.body-edit',
                 'list' => 'admin.global.body-list',
                 'modal' => 'admin.global.pure',
-                'error' => 'admin.global.pure',
+                'error' => 'admin.global.body',
             ]
         ],
 
@@ -67,7 +67,7 @@ return [
         ],
 
         'error' => [
-            'route' => 'front::home',
+            'route' => null,
             'layout' => null
         ]
     ]
