@@ -88,20 +88,18 @@ class AccessMiddleware implements MiddlewareInterface
         }
 
         if (!$allow) {
-            $this->raiseError();
+            return $this->raiseError();
         }
 
         return $handler->handle($request);
     }
 
-    protected function raiseError(): void
+    protected function raiseError(): ResponseInterface
     {
         $exception = $this->options['exception'];
 
         if ($exception instanceof Closure) {
-            $this->app->call($exception);
-
-            return;
+            return $this->app->call($exception);
         }
 
         throw new $exception('Access denied', $this->options['error_code']);
