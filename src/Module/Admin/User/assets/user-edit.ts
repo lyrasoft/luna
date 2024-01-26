@@ -38,27 +38,3 @@ if (form?.hasAttribute('uni-srp-registration')) {
     }
   });
 }
-
-// Refresh Totps
-u.selectOne('[data-task=refresh-totps]')!.addEventListener('click', async (e) => {
-  let button = e.currentTarget as HTMLButtonElement;
-
-  button.disabled = true;
-
-  const userId = button.dataset.userId;
-
-  try {
-    await u.$http.post(
-      '@user_ajax/refreshTotps',
-      {
-        id: userId
-      }
-    );
-
-    location.reload();
-  } catch (e) {
-    u.alert(decodeURIComponent((e as any).statusText));
-  }
-
-  button.disabled = false;
-});
