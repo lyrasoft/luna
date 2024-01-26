@@ -15,6 +15,7 @@ use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authorization\Authorization;
+use Windwalker\Authorization\AuthorizationInterface;
 use Windwalker\Core\Application\AppClient;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Auth\AuthService;
@@ -42,7 +43,7 @@ class AccessService
 
     public function __construct(
         protected ApplicationInterface $app,
-        protected Authorization $authorization,
+        protected AuthorizationInterface $authorization,
         protected ORM $orm,
         protected Session $session
     ) {
