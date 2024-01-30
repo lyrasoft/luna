@@ -59,6 +59,8 @@ class RegistrationView implements ViewModelInterface
         $form->setNamespace('user')
             ->fill($app->getState()->getAndForget('reg.data') ?? []);
 
+        $form['password2']?->required(true);
+
         $view->setTitle($this->trans('luna.registration.title'));
 
         return compact('form');
