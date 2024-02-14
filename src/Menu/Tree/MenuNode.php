@@ -37,6 +37,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     protected ?bool $forceActive = null;
 
+    protected array $extra = [];
+
     /**
      * @var callable
      */
@@ -369,5 +371,29 @@ class MenuNode extends Node implements MenuNodeInterface
         $this->menuHelper = $menuHelper;
 
         return $this;
+    }
+
+    public function &getExtra(): array
+    {
+        return $this->extra;
+    }
+
+    public function setExtra(array $extra): static
+    {
+        $this->extra = $extra;
+
+        return $this;
+    }
+
+    public function setExtraValue(string $name, mixed $value): static
+    {
+        $this->extra[$name] = $value;
+
+        return $this;
+    }
+
+    public function getExtraValue(string $name): mixed
+    {
+        return $this->extra[$name] ?? null;
     }
 }
