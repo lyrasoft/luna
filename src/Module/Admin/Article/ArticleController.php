@@ -46,7 +46,7 @@ class ArticleController
             function (PrepareSaveEvent $event) use ($app) {
                 $data = &$event->getData();
 
-                $data['type'] = $app->input('type');
+                $data['type'] = $app->input('type') ?: 'article';
             }
         );
 

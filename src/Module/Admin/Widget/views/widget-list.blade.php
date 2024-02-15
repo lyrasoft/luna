@@ -99,8 +99,8 @@ $localeService = $app->service(LocaleService::class);
                         <th style="width: 10%" class="text-nowrap">
                             <div class="d-flex w-100 justify-content-end">
                                 <x-sort
-                                    asc="widget.ordering ASC"
-                                    desc="widget.ordering DESC"
+                                    asc="widget.position, widget.ordering ASC"
+                                    desc="widget.position, widget.ordering DESC"
                                 >
                                     @lang('unicorn.field.ordering')
                                 </x-sort>

@@ -66,6 +66,8 @@ $jsOptions = [
     'routeName' => $routeName,
     'ajaxUrl' => $ajaxUrl ?? (string) $nav->to('language_ajax')->task('getAssociations')
 ];
+
+$currentLang = $item?->$langField ?: '*';
 ?>
 
 <div {!! $attributes !!} x-data="LangDropdown(@json($jsOptions))">
@@ -74,16 +76,16 @@ $jsOptions = [
         data-bs-toggle="dropdown"
     >
         <span class="ml-auto me-auto">
-            @if ($item?->$langField === '*')
+            @if ($currentLang === '*')
                 <span class="fa fa-earth-americas"></span>
                 @lang('luna.language.all')
             @else
-                <span class="" title="{{ $labelField === 'code' ? $language->title : $language->code }}"
+                <span class="" title="{{ $labelField === 'code' ? $language?->title : $language?->code }}"
                     data-bs-toggle="tooltip"
                     data-toggle="tooltip"
                 >
-                <span class="{{ $localeService->getFlagIconClass($language->image ?? '') }}"></span>
-                    {{ $language->$labelField }}
+                <span class="{{ $localeService->getFlagIconClass($language?->image ?? '') }}"></span>
+                    {{ $language?->$labelField }}
                 </span>
             @endif
         </span>
