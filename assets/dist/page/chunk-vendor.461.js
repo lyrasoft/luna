@@ -1,3 +1,0 @@
-/*! For license information please see chunk-vendor.461.js.LICENSE.txt */
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[461],{1461:(e,t,s)=>{s.d(t,{CodeMirrorOptions:()=>l,default:()=>n});var i=s(4631),a=s.n(i);s(7529),s(6629),s(2801),s(4315);const l={tabSize:2,mode:"text/x-scss",styleActiveLine:!0,theme:"material",lineNumbers:!0,line:!0,height:"450px",autoCloseBrackets:!0},n=a()}}]);
-//# sourceMappingURL=../461.js.map
