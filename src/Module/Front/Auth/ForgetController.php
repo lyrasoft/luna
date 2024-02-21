@@ -91,7 +91,7 @@ class ForgetController
 
         $payload = JWT::decode(
             $token,
-            new Key($app->config('app.secret'), 'HS256'),
+            new Key($app->getSecret(), 'HS256'),
         );
 
         $email = $payload->email ?? null;
