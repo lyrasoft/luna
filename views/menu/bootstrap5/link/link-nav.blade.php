@@ -33,7 +33,9 @@ use function Windwalker\uid;
 $id = $id ?? 'menu-' . uid();
 $click = $click ?? false;
 $vertical = $vertical ?? false;
-$link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $link;
+
+$link = ((string) $link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $link;
+$nolink = (string) $link === '' || $link === false;
 
 /**
  * @var MenuNodeInterface $item
@@ -45,7 +47,7 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
         data-menu-id="{{ $item->getValue()?->getId() }}"
         data-level="{{ $level }}"
     >
-        <a class="nav-link {{ $item->isActive(true) ? 'active' : '' }}"
+        <a class="nav-link {{ $item->isActive(true) ? 'active' : '' }} {{ $nolink ? 'nav-link--nolink' : '' }}"
             @attr('href', $link)
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
             @attr('data-bs-target', $click ? "#$id" : false)
@@ -69,7 +71,7 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
         data-menu-id="{{ $item->getValue()?->getId() }}"
         data-level="{{ $level }}">
         <a @attr('href', $link)
-        class="subnav-link {{ $item->isActive(true) ? 'active' : '' }}"
+        class="subnav-link {{ $item->isActive(true) ? 'active' : '' }} {{ $nolink ? 'subnav-link--nolink' : '' }}"
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
         >
             @if ($item->getIcon())
