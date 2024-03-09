@@ -120,4 +120,5 @@ exit((new Build())
     ->addScript('rm -rf ' . __DIR__ . '/../assets/dist/*.js.map')
     ->addScript('rm -rf ' . __DIR__ . '/../assets/dist/page/*')
     ->addScript('yarn --cwd ./assets build:prod')
+    ->addScript('git add .')
     ->execute());
