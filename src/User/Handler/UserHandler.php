@@ -6,6 +6,7 @@ namespace Lyrasoft\Luna\User\Handler;
 
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserEntityInterface;
+use Ramsey\Uuid\UuidInterface;
 use ReflectionException;
 use Windwalker\Core\Attributes\Ref;
 use Windwalker\Data\Collection;
@@ -35,6 +36,10 @@ class UserHandler implements UserHandlerInterface
 
     public function load(mixed $conditions = null): ?UserEntityInterface
     {
+        if ($conditions instanceof UuidInterface) {
+            $conditions = $conditions->getBytes();
+        }
+
         if (is_object($conditions)) {
             $conditions = get_object_vars($conditions);
         }
