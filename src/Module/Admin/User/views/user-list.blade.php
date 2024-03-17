@@ -230,7 +230,7 @@ $loginName = $luna->getLoginName();
 
                             {{-- ID --}}
                             <td class="searchable text-end">
-                                {{ $item->id }}
+                                {{ $entity->getId() }}
                             </td>
                         </tr>
                     @endforeach

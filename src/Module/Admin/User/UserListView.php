@@ -221,12 +221,12 @@ class UserListView implements ViewModelInterface
     }
 
     /**
-     * @param  int  $userId
+     * @param  mixed  $userId
      *
      * @return  Collection|UserRoleMap[]
      */
-    public function getUserRoles(int $userId): Collection
+    public function getUserRoles(mixed $userId): Collection
     {
-        return $this->roles[$userId] ?? collect();
+        return $this->roles[(string) $userId] ?? collect();
     }
 }
