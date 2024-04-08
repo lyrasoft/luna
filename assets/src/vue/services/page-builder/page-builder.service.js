@@ -88,18 +88,64 @@ export function readClipboard() {
     });
 }
 
+export function duplicateAny(data, child = false) {
+  data = JSON.parse(JSON.stringify(data));
+
+  if (Array.isArray(data)) {
+    return data.map((datum) => duplicateAny(datum));
+  }
+
+  if (data.id.startsWith('row-')) {
+    return duplicateRow(data);
+  }
+
+  if (data.id.startsWith('col-')) {
+    return duplicateColumn(data);
+  }
+
+  if (data.id.startsWith('addon-')) {
+    return duplicateAddon(data, child);
+  }
+
+  throw new Error('Unable to duplicate this type.');
+}
+
+export function duplicateRow(row) {
+  row = JSON.parse(JSON.stringify(row));
+
+  row.id = 'row-' + u.uid();
+
+  row.columns = row.columns.map((column) => duplicateColumn(column));
+
+  return row;
+}
+
+export function duplicateColumn(column) {
+  column = JSON.parse(JSON.stringify(column));
+
+  column.id = 'col-' + u.uid();
+
+  column.addons = column.addons.map((addon) => duplicateAddon(addon))
+    .filter((addon) => addon != null);
+
+  return column;
+}
+
 export function duplicateAddon(item, child = false) {
-  const newItem = JSON.parse(JSON.stringify(item));
+  let newItem = JSON.parse(JSON.stringify(item));
 
   if (item.type === 'row' || startsWith(item.id, 'row-')) {
+    // Row
     if (child) {
       console.log('Cannot add row to child column.');
       return null;
     }
 
-    newItem.id = 'row-' + u.uid();
     newItem.type = 'row';
+
+    newItem = duplicateRow(newItem);
   } else {
+    // Addon
     newItem.id = 'addon-' + u.uid();
   }
 

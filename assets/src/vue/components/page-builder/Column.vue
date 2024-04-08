@@ -105,7 +105,7 @@
                 <button type="button" class="dropdown-item" @click="duplicate()"
                   v-if="!content.disabled">
                   <span class="fa fa-fw fa-clone"></span>
-                  Clone
+                  Duplicate
                 </button>
                 <button type="button" class="dropdown-item" @click="copy()"
                   v-if="!content.disabled">
@@ -193,7 +193,7 @@ import { defaultsDeep, range, startsWith, values } from 'lodash-es';
 import { computed, reactive, toRefs, watch } from 'vue';
 import {
   addTextToClipboard,
-  duplicateAddon,
+  duplicateAddon, duplicateAny,
   emptyColumn,
   emptyRow,
   readClipboard
@@ -316,7 +316,7 @@ export default {
     }
 
     function duplicateThisAddon(item, i) {
-      const newItem = duplicateAddon(item, props.child);
+      const newItem = duplicateAny(item, props.child);
 
       if (newItem) {
         addons.value.splice(i + 1, 0, newItem);

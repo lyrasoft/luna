@@ -165,7 +165,7 @@ import {
   emptyRow,
   readClipboard,
   savePage as doSavePage,
-  bindSaveButton
+  bindSaveButton, duplicateAny
 } from '../services/page-builder/page-builder.service.js';
 
 export default {
@@ -307,46 +307,42 @@ export default {
 
     // Duplicate
     function duplicateRow(row, i) {
-      row = JSON.parse(JSON.stringify(row));
-
-      row.id = 'row-' + u.uid();
-
-      row.columns = handleDuplicateColumns(row.columns);
+      row = duplicateAny(row);
 
       state.content.splice(i + 1, 0, row);
     }
 
-    function handleDuplicateColumns(columns) {
-      return columns.map(column => {
-        column.id = 'col-' + u.uid();
-
-        column.addons = handleDuplicateAddons(column.addons);
-
-        return column;
-      });
-    }
-
-    function handleDuplicateAddons(addons) {
-      return addons.map(addon => {
-        if (addon.type !== 'row') {
-          addon.id = 'addon-' + u.uid();
-          return addon;
-        }
-
-        // Is row
-        addon.id = 'row-' + u.uid();
-
-        addon.columns = addon.columns.map(column => {
-          column.id = 'col-' + u.uid();
-
-          column.addons = handleDuplicateAddons(column.addons);
-
-          return column;
-        });
-
-        return addon;
-      });
-    }
+    // function handleDuplicateColumns(columns) {
+    //   return columns.map(column => {
+    //     column.id = 'col-' + u.uid();
+    //
+    //     column.addons = handleDuplicateAddons(column.addons);
+    //
+    //     return column;
+    //   });
+    // }
+    //
+    // function handleDuplicateAddons(addons) {
+    //   return addons.map(addon => {
+    //     if (addon.type !== 'row') {
+    //       addon.id = 'addon-' + u.uid();
+    //       return addon;
+    //     }
+    //
+    //     // Is row
+    //     addon.id = 'row-' + u.uid();
+    //
+    //     addon.columns = addon.columns.map(column => {
+    //       column.id = 'col-' + u.uid();
+    //
+    //       column.addons = handleDuplicateAddons(column.addons);
+    //
+    //       return column;
+    //     });
+    //
+    //     return addon;
+    //   });
+    // }
 
     // Events
     function columnsChange(row, $event) {
@@ -415,8 +411,8 @@ export default {
       pasteTo,
       pastePage,
       duplicateRow,
-      handleDuplicateAddons,
-      handleDuplicateColumns,
+      // handleDuplicateAddons,
+      // handleDuplicateColumns,
       columnsChange,
       selectAddon,
       emptyRow,

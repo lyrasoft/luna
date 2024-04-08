@@ -143,7 +143,7 @@ import {
   emptyColumn,
   emptyRow,
   readClipboard,
-  duplicateAddon
+  duplicateAddon, duplicateAny
 } from '@/services/page-builder/page-builder.service';
 
 export default {
@@ -259,11 +259,7 @@ export default {
     }
 
     function duplicateColumn(column, i) {
-      column = JSON.parse(JSON.stringify(column));
-
-      column.id = 'col-' + u.uid();
-
-      column.addons = handleDuplicateAddons(column.addons);
+      column = duplicateAny(column);
 
       state.content.columns.splice(i + 1, 0, column);
     }
