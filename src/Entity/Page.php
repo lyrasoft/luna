@@ -24,6 +24,7 @@ use Windwalker\ORM\Attributes\Table;
 use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
+use Windwalker\ORM\Event\BeforeStoreEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 
 /**
@@ -102,6 +103,14 @@ class Page implements EntityInterface
     public static function setup(EntityMetadata $metadata): void
     {
         //
+    }
+
+    #[BeforeStoreEvent]
+    public static function beforeStore(BeforeStoreEvent $event): void
+    {
+        $data = &$event->getData();
+
+        $data['language'] = $data['language'] ?? null ?: '*';
     }
 
     public function getId(): ?int

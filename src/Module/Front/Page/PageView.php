@@ -110,7 +110,7 @@ class PageView implements ViewModelInterface
             $conditions = ['alias' => $path];
 
             if ($this->isLocaleEnabled()) {
-                $conditions['language'] = $this->getLocale();
+                $conditions['language'] = [$this->getLocale(), '*'];
             }
 
             $page = $this->orm->mapper(Page::class)->mustFindOne($conditions);

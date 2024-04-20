@@ -21,6 +21,7 @@ use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
 use Windwalker\ORM\Cast\JsonCast;
+use Windwalker\ORM\Event\BeforeStoreEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 use Windwalker\ORM\Nested\NestedEntityInterface;
 use Windwalker\ORM\Nested\NestedEntityTrait;
@@ -98,6 +99,14 @@ class Menu implements NestedEntityInterface
     public static function setup(EntityMetadata $metadata): void
     {
         //
+    }
+
+    #[BeforeStoreEvent]
+    public static function beforeStore(BeforeStoreEvent $event): void
+    {
+        $data = &$event->getData();
+
+        $data['language'] = $data['language'] ?? null ?: '*';
     }
 
     /**

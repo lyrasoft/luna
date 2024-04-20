@@ -22,6 +22,7 @@ use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
 use Windwalker\ORM\Attributes\Watch;
 use Windwalker\ORM\Cast\JsonCast;
+use Windwalker\ORM\Event\BeforeStoreEvent;
 use Windwalker\ORM\Event\WatchEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 use Windwalker\ORM\Nested\NestedPathableInterface;
@@ -89,6 +90,14 @@ class Category implements NestedPathableInterface
     public static function setup(EntityMetadata $metadata): void
     {
         //
+    }
+
+    #[BeforeStoreEvent]
+    public static function beforeStore(BeforeStoreEvent $event): void
+    {
+        $data = &$event->getData();
+
+        $data['language'] = $data['language'] ?? null ?: '*';
     }
 
     /**
