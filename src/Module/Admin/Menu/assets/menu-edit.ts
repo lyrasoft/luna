@@ -16,7 +16,7 @@ const typeField = u.selectOne<HTMLInputElement>('#input-item-type')!;
 
 typeField.addEventListener('change', (e) => {
   if (typeField.value !== '' && typeField.value !== currentType) {
-    const v = u.$validation.get('#admin-form')[0];
+    const v = u.$validation.get('#admin-form')!;
     v.options.enabled = false;
 
     u.form(form).post(null, { task: 'switch_type' });
@@ -28,7 +28,7 @@ const viewField = u.selectOne<HTMLInputElement>('#input-item-view')!;
 
 viewField.addEventListener('change', (e) => {
   if (viewField.value !== '' && viewField.value !== currentView) {
-    const v = u.$validation.get('#admin-form')[0];
+    const v = u.$validation.get('#admin-form')!;
     v.options.enabled = false;
 
     u.form(form).post(null, { task: 'switch_type' });
