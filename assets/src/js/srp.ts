@@ -1,9 +1,12 @@
 import '@main';
 import type { SRPOptions } from '../types/srp';
 
-const defaultOptions: Partial<SRPOptions> = {
+const defaultOptions: SRPOptions = {
   identitySelector: '[data-input-identity]',
   passwordSelector: '[data-input-password]',
+  prime: undefined,
+  generator: undefined,
+  key: undefined,
   size: 256,
   hasher: 'sha256'
 };
@@ -11,24 +14,24 @@ const defaultOptions: Partial<SRPOptions> = {
 const $http = u.$http;
 
 class SRPRegistration {
-  identityInput: HTMLInputElement;
-  passwordInput: HTMLInputElement;
-  saltInput: HTMLInputElement;
-  verifierInput: HTMLInputElement;
+  identityInput: HTMLInputElement | null;
+  passwordInput: HTMLInputElement | null;
+  // saltInput: HTMLInputElement;
+  // verifierInput: HTMLInputElement;
+  options: SRPOptions;
 
   public submitting = false;
-  public disabledInputs = [];
+  public disabledInputs: HTMLInputElement[] = [];
 
-  constructor(public el: HTMLFormElement, public options: Partial<SRPOptions> = {}) {
-    this.options = Object.assign({}, defaultOptions, this.options);
+  constructor(public el: HTMLFormElement, options: Partial<SRPOptions> = {}) {
+    this.options = Object.assign({}, defaultOptions, options);
+    this.identityInput = this.el.querySelector(this.options.identitySelector);
+    this.passwordInput = this.el.querySelector(this.options.passwordSelector);
 
     this.init();
   }
 
   init() {
-    this.identityInput = this.el.querySelector(this.options.identitySelector);
-    this.passwordInput = this.el.querySelector(this.options.passwordSelector);
-
     if (!this.identityInput || !this.passwordInput) {
       throw new Error('Identity or password input not found.');
     }
@@ -75,7 +78,7 @@ class SRPRegistration {
     this.disabledInputs = [];
 
     for (const input of this.getPasswordInputs()) {
-      if (input.value && !input.disabled) {
+      if (input && input.value && !input.disabled) {
         input.disabled = true;
 
         this.disabledInputs.push(input);
@@ -103,8 +106,8 @@ class SRPRegistration {
   async register() {
     const client = this.createClient();
 
-    const identity = this.identityInput.value;
-    const password = this.passwordInput.value;
+    const identity = this.identityInput?.value;
+    const password = this.passwordInput?.value;
 
     if (!identity || !password) {
       this.getHiddenInput('srp[salt]').value = '';
@@ -139,27 +142,28 @@ class SRPRegistration {
 }
 
 class SRPLogin {
-  identityInput: HTMLInputElement;
-  passwordInput: HTMLInputElement;
-  saltInput: HTMLInputElement;
-  verifierInput: HTMLInputElement;
+  identityInput: HTMLInputElement | null;
+  passwordInput: HTMLInputElement | null;
+  // saltInput: HTMLInputElement | null;
+  // verifierInput: HTMLInputElement | null;
 
   public fallback = false;
   public submitting = false;
-  public submitter: HTMLButtonElement;
+  public submitter: HTMLButtonElement | null = null;
 
-  public disabledInputs = [];
+  public disabledInputs: HTMLInputElement[] = [];
+  options: SRPOptions;
 
-  constructor(public el: HTMLFormElement, public options: Partial<SRPOptions> = {}) {
-    this.options = Object.assign({}, defaultOptions, this.options);
+  constructor(public el: HTMLFormElement, options: Partial<SRPOptions> = {}) {
+    this.options = Object.assign({}, defaultOptions, options);
+
+    this.identityInput = this.el.querySelector(this.options.identitySelector);
+    this.passwordInput = this.el.querySelector(this.options.passwordSelector);
 
     this.init();
   }
 
   init() {
-    this.identityInput = this.el.querySelector(this.options.identitySelector);
-    this.passwordInput = this.el.querySelector(this.options.passwordSelector);
-
     if (!this.identityInput || !this.passwordInput) {
       throw new Error('Identity or password input not found.');
     }
@@ -210,7 +214,7 @@ class SRPLogin {
   }
 
   async auth() {
-    if (!this.identityInput.value || !this.passwordInput.value) {
+    if (!this.identityInput?.value || !this.passwordInput?.value) {
       return;
     }
 
@@ -295,7 +299,7 @@ class SRPLogin {
     this.disabledInputs = [];
 
     for (const input of this.getPasswordInputs()) {
-      if (input.value && !input.disabled) {
+      if (input && input.value && !input.disabled) {
         input.disabled = true;
 
         this.disabledInputs.push(input);

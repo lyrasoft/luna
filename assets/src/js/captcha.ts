@@ -19,7 +19,7 @@ class GragwarCaptcha {
   refresh() {
     this.$buttonIcon.classList.add('fa-spin');
 
-    let src = this.$image.dataset.image;
+    let src = this.$image.dataset.image || '';
     const t = (new Date).getTime().toString() + '.' + (Math.random() * 10000);
 
     if (src.indexOf('?') !== -1) {
@@ -55,13 +55,17 @@ class RecaptchaCaptcha {
   constructor(public el: HTMLElement, public type: string) {
     u.import('https://www.google.com/recaptcha/api.js');
 
-    this.key = this.el.dataset.key;
-    this.callbackName = this.el.dataset.callback;
+    this.key = this.el.dataset.key || '';
+    this.callbackName = this.el.dataset.callback || '';
 
-    this.jsVerify = this.el.dataset.jsVerify;
+    this.jsVerify = this.el.dataset.jsVerify || '';
 
     if (this.jsVerify) {
       const form = this.el.closest('form');
+
+      if (!form) {
+        return;
+      }
 
       if (type === 'invisible') {
         form.addEventListener('submit', (e) => {
@@ -76,7 +80,8 @@ class RecaptchaCaptcha {
           grecaptcha.execute();
         });
 
-        window[this.callbackName] = function(response) {
+        // @ts-ignore
+        window[this.callbackName] = function(response: any) {
           form.dataset.passCaptcha = 'true';
           form.requestSubmit();
         }
@@ -93,7 +98,8 @@ class RecaptchaCaptcha {
           alert(u.__('luna.field.captcha.message.please.check.first'));
         });
 
-        window[this.callbackName] = function(response) {
+        // @ts-ignore
+        window[this.callbackName] = function(response: any) {
           form.dataset.passCaptcha = 'true';
         }
       }

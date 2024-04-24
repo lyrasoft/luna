@@ -1,1 +1,345 @@
-System.register(["@main"],(function(e,t){"use strict";var i,s,r,n;t&&t.id;function a(e){return BigInt(`0x${e}`)}return{setters:[function(e){}],execute:function(){i={identitySelector:"[data-input-identity]",passwordSelector:"[data-input-password]",size:256,hasher:"sha256"},s=u.$http,r=class{constructor(e,t={}){Object.defineProperty(this,"el",{enumerable:!0,configurable:!0,writable:!0,value:e}),Object.defineProperty(this,"options",{enumerable:!0,configurable:!0,writable:!0,value:t}),Object.defineProperty(this,"identityInput",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"passwordInput",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"saltInput",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"verifierInput",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"submitting",{enumerable:!0,configurable:!0,writable:!0,value:!1}),Object.defineProperty(this,"disabledInputs",{enumerable:!0,configurable:!0,writable:!0,value:[]}),this.options=Object.assign({},i,this.options),this.init()}init(){if(this.identityInput=this.el.querySelector(this.options.identitySelector),this.passwordInput=this.el.querySelector(this.options.passwordSelector),!this.identityInput||!this.passwordInput)throw new Error("Identity or password input not found.");this.el.addEventListener("submit",(async e=>{if(!this.submitting)return e.stopPropagation(),e.preventDefault(),e.stopImmediatePropagation(),await this.register(),this.disablePasswords(),this.submitting=!0,void this.el.requestSubmit()})),this.el.addEventListener("invalid",(()=>{this.release()}),!0)}release(){this.submitting=!1;for(const e of this.disabledInputs)e.disabled=!1}getPasswordInputs(){return[this.passwordInput,...this.el.querySelectorAll("[data-srp-override]")]}disablePasswords(){this.disabledInputs=[];for(const e of this.getPasswordInputs())e.value&&!e.disabled&&(e.disabled=!0,this.disabledInputs.push(e),setTimeout((()=>{e.disabled=!1}),1e3))}createClient(){const e=SRPClient.create(this.options.prime,this.options.generator,this.options.key);return e.setSize(this.options.size),e.setHasher(this.options?.hasher),e}async register(){const e=this.createClient(),t=this.identityInput.value,i=this.passwordInput.value;if(!t||!i)return this.getHiddenInput("srp[salt]").value="",void(this.getHiddenInput("srp[verifier]").value="");let{salt:s,verifier:r}=await e.register(t,i);this.getHiddenInput("srp[salt]").value=s.toString(16);this.getHiddenInput("srp[verifier]").value=r.toString(16)}getHiddenInput(e){return this.el.querySelector(`[name="${e}"]`)||this.createHiddenInput(e)}createHiddenInput(e){const t=document.createElement("input");return t.type="hidden",t.name=e,this.el.appendChild(t),t}},n=class{constructor(e,t={}){Object.defineProperty(this,"el",{enumerable:!0,configurable:!0,writable:!0,value:e}),Object.defineProperty(this,"options",{enumerable:!0,configurable:!0,writable:!0,value:t}),Object.defineProperty(this,"identityInput",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"passwordInput",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"saltInput",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"verifierInput",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"fallback",{enumerable:!0,configurable:!0,writable:!0,value:!1}),Object.defineProperty(this,"submitting",{enumerable:!0,configurable:!0,writable:!0,value:!1}),Object.defineProperty(this,"submitter",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"disabledInputs",{enumerable:!0,configurable:!0,writable:!0,value:[]}),this.options=Object.assign({},i,this.options),this.init()}init(){if(this.identityInput=this.el.querySelector(this.options.identitySelector),this.passwordInput=this.el.querySelector(this.options.passwordSelector),!this.identityInput||!this.passwordInput)throw new Error("Identity or password input not found.");this.el.addEventListener("submit",(async e=>{if(this.submitter=e.submitter,!this.submitting){e.stopPropagation(),e.preventDefault(),e.stopImmediatePropagation();try{await this.auth()}catch(e){console.warn(e)}return this.fallback||this.disablePasswords(),this.submitting=!0,void this.el.requestSubmit()}})),this.el.addEventListener("invalid",(()=>{this.release()}),!0)}release(){this.submitter&&(this.submitter.disabled=!1),this.submitting=!1,this.fallback=!1,this.getHiddenInput("srp[M2]").value="";for(const e of this.disabledInputs)e.disabled=!1}async auth(){if(!this.identityInput.value||!this.passwordInput.value)return;this.submitter&&(this.submitter.disabled=!0);const e=this.identityInput.value,t=this.passwordInput.value,i=this.createClient(),r=(await s.get("@auth_ajax/srpChallenge{?identity}",{vars:{identity:e}})).data.data;if(null==r)return;if(this.fallback=!!r.fallback,this.getHiddenInput("srp[fallback]").value=this.fallback?"1":"0",this.fallback)return;let{salt:n,B:o}=r;n=a(n),o=a(o);const u=await i.generateRandomSecret(),l=await i.generatePublic(u),d=await i.generatePasswordHash(n,e,t),p=await i.generateCommonSecret(l,o),h=await i.generatePreMasterSecret(u,o,d,p),b=await i.hash(h),c=await i.generateClientSessionProof(e,n,l,o,b),f=await s.post("@auth_ajax/srpAuthenticate",{identity:e,A:l.toString(16),M1:c.toString(16)}),{proof:g}=f.data.data,v=await i.generateServerSessionProof(l,c,b);v===a(g)&&(this.getHiddenInput("srp[M2]").value=v.toString(16))}getPasswordInputs(){return[this.passwordInput,...this.el.querySelectorAll("[data-srp-override]")]}disablePasswords(){this.disabledInputs=[];for(const e of this.getPasswordInputs())e.value&&!e.disabled&&(e.disabled=!0,this.disabledInputs.push(e),setTimeout((()=>{e.disabled=!1}),1e3))}createClient(){const e=SRPClient.create(this.options.prime,this.options.generator,this.options.key);return e.setSize(this.options.size),e.setHasher(this.options.hasher),e}getHiddenInput(e){return this.el.querySelector(`[name="${e}"]`)||this.createHiddenInput(e)}createHiddenInput(e){const t=document.createElement("input");return t.type="hidden",t.name=e,this.el.appendChild(t),t}},u.directive("srp-registration",{mounted(e,{value:t}){const i=JSON.parse(t);u.module(e,"srp.registration",(e=>new r(e,i)))}}),u.directive("srp-login",{mounted(e,{value:t}){const i=JSON.parse(t);u.module(e,"srp.registration",(e=>new n(e,i)))}})}}}));
+System.register(["@main"], function (exports_1, context_1) {
+    "use strict";
+    var defaultOptions, $http, SRPRegistration, SRPLogin;
+    var __moduleName = context_1 && context_1.id;
+    function hexToBigint(hex) {
+        return BigInt(`0x${hex}`);
+    }
+    return {
+        setters: [
+            function (_1) {
+            }
+        ],
+        execute: function () {
+            defaultOptions = {
+                identitySelector: '[data-input-identity]',
+                passwordSelector: '[data-input-password]',
+                prime: undefined,
+                generator: undefined,
+                key: undefined,
+                size: 256,
+                hasher: 'sha256'
+            };
+            $http = u.$http;
+            SRPRegistration = class SRPRegistration {
+                constructor(el, options = {}) {
+                    Object.defineProperty(this, "el", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: el
+                    });
+                    Object.defineProperty(this, "identityInput", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: void 0
+                    });
+                    Object.defineProperty(this, "passwordInput", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: void 0
+                    });
+                    // saltInput: HTMLInputElement;
+                    // verifierInput: HTMLInputElement;
+                    Object.defineProperty(this, "options", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: void 0
+                    });
+                    Object.defineProperty(this, "submitting", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: false
+                    });
+                    Object.defineProperty(this, "disabledInputs", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: []
+                    });
+                    this.options = Object.assign({}, defaultOptions, options);
+                    this.identityInput = this.el.querySelector(this.options.identitySelector);
+                    this.passwordInput = this.el.querySelector(this.options.passwordSelector);
+                    this.init();
+                }
+                init() {
+                    if (!this.identityInput || !this.passwordInput) {
+                        throw new Error('Identity or password input not found.');
+                    }
+                    this.el.addEventListener('submit', async (e) => {
+                        if (!this.submitting) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                            await this.register();
+                            this.disablePasswords();
+                            this.submitting = true;
+                            this.el.requestSubmit();
+                            return;
+                        }
+                    });
+                    this.el.addEventListener('invalid', () => {
+                        this.release();
+                    }, true);
+                }
+                release() {
+                    this.submitting = false;
+                    for (const disabledInput of this.disabledInputs) {
+                        disabledInput.disabled = false;
+                    }
+                }
+                getPasswordInputs() {
+                    return [
+                        this.passwordInput,
+                        ...this.el.querySelectorAll('[data-srp-override]')
+                    ];
+                }
+                disablePasswords() {
+                    this.disabledInputs = [];
+                    for (const input of this.getPasswordInputs()) {
+                        if (input && input.value && !input.disabled) {
+                            input.disabled = true;
+                            this.disabledInputs.push(input);
+                            setTimeout(() => {
+                                input.disabled = false;
+                            }, 1000);
+                        }
+                    }
+                }
+                createClient() {
+                    const client = SRPClient.create(this.options.prime, this.options.generator, this.options.key);
+                    client.setSize(this.options.size);
+                    client.setHasher(this.options?.hasher);
+                    return client;
+                }
+                async register() {
+                    const client = this.createClient();
+                    const identity = this.identityInput?.value;
+                    const password = this.passwordInput?.value;
+                    if (!identity || !password) {
+                        this.getHiddenInput('srp[salt]').value = '';
+                        this.getHiddenInput('srp[verifier]').value = '';
+                        return;
+                    }
+                    let { salt, verifier } = await client.register(identity, password);
+                    const saltInput = this.getHiddenInput('srp[salt]');
+                    saltInput.value = salt.toString(16);
+                    const verifierInput = this.getHiddenInput('srp[verifier]');
+                    verifierInput.value = verifier.toString(16);
+                }
+                getHiddenInput(name) {
+                    return this.el.querySelector(`[name="${name}"]`)
+                        || this.createHiddenInput(name);
+                }
+                createHiddenInput(name) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    this.el.appendChild(input);
+                    return input;
+                }
+            };
+            SRPLogin = class SRPLogin {
+                constructor(el, options = {}) {
+                    Object.defineProperty(this, "el", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: el
+                    });
+                    Object.defineProperty(this, "identityInput", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: void 0
+                    });
+                    Object.defineProperty(this, "passwordInput", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: void 0
+                    });
+                    // saltInput: HTMLInputElement | null;
+                    // verifierInput: HTMLInputElement | null;
+                    Object.defineProperty(this, "fallback", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: false
+                    });
+                    Object.defineProperty(this, "submitting", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: false
+                    });
+                    Object.defineProperty(this, "submitter", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: null
+                    });
+                    Object.defineProperty(this, "disabledInputs", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: []
+                    });
+                    Object.defineProperty(this, "options", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: void 0
+                    });
+                    this.options = Object.assign({}, defaultOptions, options);
+                    this.identityInput = this.el.querySelector(this.options.identitySelector);
+                    this.passwordInput = this.el.querySelector(this.options.passwordSelector);
+                    this.init();
+                }
+                init() {
+                    if (!this.identityInput || !this.passwordInput) {
+                        throw new Error('Identity or password input not found.');
+                    }
+                    this.el.addEventListener('submit', async (e) => {
+                        this.submitter = e.submitter;
+                        if (!this.submitting) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                            try {
+                                await this.auth();
+                            }
+                            catch (e) {
+                                console.warn(e);
+                            }
+                            if (!this.fallback) {
+                                this.disablePasswords();
+                            }
+                            this.submitting = true;
+                            this.el.requestSubmit();
+                            return;
+                        }
+                    });
+                    this.el.addEventListener('invalid', () => {
+                        this.release();
+                    }, true);
+                }
+                release() {
+                    if (this.submitter) {
+                        this.submitter.disabled = false;
+                    }
+                    this.submitting = false;
+                    this.fallback = false;
+                    this.getHiddenInput('srp[M2]').value = '';
+                    for (const disabledInput of this.disabledInputs) {
+                        disabledInput.disabled = false;
+                    }
+                }
+                async auth() {
+                    if (!this.identityInput?.value || !this.passwordInput?.value) {
+                        return;
+                    }
+                    if (this.submitter) {
+                        this.submitter.disabled = true;
+                    }
+                    const identity = this.identityInput.value;
+                    const password = this.passwordInput.value;
+                    const client = this.createClient();
+                    // Challenge
+                    const res = await $http.get('@auth_ajax/srpChallenge{?identity}', {
+                        vars: {
+                            identity
+                        }
+                    });
+                    const r = res.data.data;
+                    if (r == null) {
+                        return;
+                    }
+                    this.fallback = !!r.fallback;
+                    this.getHiddenInput('srp[fallback]').value = this.fallback ? '1' : '0';
+                    if (this.fallback) {
+                        return;
+                    }
+                    let { salt, B } = r;
+                    // Step1
+                    salt = hexToBigint(salt);
+                    B = hexToBigint(B);
+                    // Step 1
+                    const a = await client.generateRandomSecret();
+                    const A = await client.generatePublic(a);
+                    const x = await client.generatePasswordHash(salt, identity, password);
+                    // Step 2
+                    const u = await client.generateCommonSecret(A, B);
+                    const S = await client.generatePreMasterSecret(a, B, x, u);
+                    const K = await client.hash(S);
+                    const M1 = await client.generateClientSessionProof(identity, salt, A, B, K);
+                    const res2 = await $http.post('@auth_ajax/srpAuthenticate', {
+                        identity,
+                        A: A.toString(16),
+                        M1: M1.toString(16)
+                    });
+                    const { proof } = res2.data.data;
+                    const M2 = await client.generateServerSessionProof(A, M1, K);
+                    if (M2 !== hexToBigint(proof)) {
+                        // Just return
+                        return;
+                    }
+                    this.getHiddenInput('srp[M2]').value = M2.toString(16);
+                }
+                getPasswordInputs() {
+                    return [
+                        this.passwordInput,
+                        ...this.el.querySelectorAll('[data-srp-override]')
+                    ];
+                }
+                disablePasswords() {
+                    this.disabledInputs = [];
+                    for (const input of this.getPasswordInputs()) {
+                        if (input && input.value && !input.disabled) {
+                            input.disabled = true;
+                            this.disabledInputs.push(input);
+                            setTimeout(() => {
+                                input.disabled = false;
+                            }, 1000);
+                        }
+                    }
+                }
+                createClient() {
+                    const client = SRPClient.create(this.options.prime, this.options.generator, this.options.key);
+                    client.setSize(this.options.size);
+                    client.setHasher(this.options.hasher);
+                    return client;
+                }
+                getHiddenInput(name) {
+                    return this.el.querySelector(`[name="${name}"]`)
+                        || this.createHiddenInput(name);
+                }
+                createHiddenInput(name) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    this.el.appendChild(input);
+                    return input;
+                }
+            };
+            u.directive('srp-registration', {
+                mounted(el, { value }) {
+                    const options = JSON.parse(value);
+                    u.module(el, 'srp.registration', (el) => new SRPRegistration(el, options));
+                }
+            });
+            u.directive('srp-login', {
+                mounted(el, { value }) {
+                    const options = JSON.parse(value);
+                    u.module(el, 'srp.registration', (el) => new SRPLogin(el, options));
+                }
+            });
+        }
+    };
+});
+
+//# sourceMappingURL=srp.js.map

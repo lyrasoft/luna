@@ -48,11 +48,15 @@ export class LocaleSwitchModal {
   }
 
   validateForm() {
-    const input = document.querySelector<HTMLInputElement>('#' + this.options.inputId);
+    const input = document.querySelector<HTMLInputElement>('#' + this.options.inputId)!;
 
     const form = input.form;
 
-    const validation = u.$validation.get(form);
+    if (!form) {
+      return undefined;
+    }
+
+    const validation = u.$validation.get(form)!;
 
     const valid = validation.validateAll();
 
@@ -67,8 +71,8 @@ export class LocaleSwitchModal {
   /**
    * @param {HTMLButtonElement} button
    */
-  saveCurrentAndCreateLang(button: HTMLButtonElement) {
-    const form = this.validateForm();
+  saveCurrentAndCreateLang(button: HTMLAnchorElement | HTMLButtonElement) {
+    const form = this.validateForm()!;
 
     u.form(form).post(
       null,
@@ -89,11 +93,8 @@ export class LocaleSwitchModal {
     );
   }
 
-  /**
-   * @param {HTMLButtonElement} button
-   */
-  switchLang(button: HTMLButtonElement) {
-    const form = this.validateForm();
+  switchLang(button: HTMLAnchorElement | HTMLButtonElement) {
+    const form = this.validateForm()!;
 
     u.form(form).post(
       null,

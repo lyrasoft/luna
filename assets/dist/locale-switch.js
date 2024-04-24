@@ -1,1 +1,107 @@
-System.register(["@main"],(function(t,e){"use strict";var i;e&&e.id;return{setters:[function(t){}],execute:function(){t("LocaleSwitchModal",i=class{constructor(t,e={}){Object.defineProperty(this,"el",{enumerable:!0,configurable:!0,writable:!0,value:t}),Object.defineProperty(this,"options",{enumerable:!0,configurable:!0,writable:!0,value:{type:"",table:"",routeName:"",currentId:"",defaultId:"",inputId:"",langField:"",titleField:"",triggerInputName:"lang_assoc"}}),this.options=Object.assign({},this.options,e);let i=this.el.querySelectorAll("[data-task=create_lang_version]");u.each(i,(t=>{t.addEventListener("click",(e=>{this.saveCurrentAndCreateLang(t)}))})),i=this.el.querySelectorAll("[data-task=switch_lang]"),u.each(i,(t=>{t.addEventListener("click",(e=>{this.switchLang(t)}))}))}validateForm(){const t=document.querySelector("#"+this.options.inputId).form;if(!u.$validation.get(t).validateAll())throw alert(u.__("luna.field.locale.switch.message.form.invalid")),new Error("Form invalid");return t}saveCurrentAndCreateLang(t){const e=this.validateForm();u.form(e).post(null,{[this.options.triggerInputName]:{task:"create",type:this.options.type,table:this.options.table,routeName:this.options.routeName,code:t.dataset.lang,copy:t.dataset.copy,langField:this.options.langField,titleField:this.options.titleField,currentId:this.options.currentId,defaultId:this.options.defaultId}})}switchLang(t){const e=this.validateForm();u.form(e).post(null,{[this.options.triggerInputName]:{task:"switch",table:this.options.table,routeName:this.options.routeName,targetId:t.dataset.targetId}})}}),u.directive("locale-switch-modal",{mounted(t,{value:e}){const a=JSON.parse(e);u.module(t,"locale.switch",(()=>new i(t,a)))}})}}}));
+System.register(["@main"], function (exports_1, context_1) {
+    "use strict";
+    var LocaleSwitchModal;
+    var __moduleName = context_1 && context_1.id;
+    return {
+        setters: [
+            function (_1) {
+            }
+        ],
+        execute: function () {
+            LocaleSwitchModal = class LocaleSwitchModal {
+                constructor(el, options = {}) {
+                    Object.defineProperty(this, "el", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: el
+                    });
+                    Object.defineProperty(this, "options", {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: {
+                            type: '',
+                            table: '',
+                            routeName: '',
+                            currentId: '',
+                            defaultId: '',
+                            inputId: '',
+                            langField: '',
+                            titleField: '',
+                            triggerInputName: 'lang_assoc'
+                        }
+                    });
+                    // the modal element
+                    this.options = Object.assign({}, this.options, options);
+                    let buttons = this.el.querySelectorAll('[data-task=create_lang_version]');
+                    u.each(buttons, (button) => {
+                        button.addEventListener('click', (e) => {
+                            this.saveCurrentAndCreateLang(button);
+                        });
+                    });
+                    buttons = this.el.querySelectorAll('[data-task=switch_lang]');
+                    u.each(buttons, (button) => {
+                        button.addEventListener('click', (e) => {
+                            this.switchLang(button);
+                        });
+                    });
+                }
+                validateForm() {
+                    const input = document.querySelector('#' + this.options.inputId);
+                    const form = input.form;
+                    if (!form) {
+                        return undefined;
+                    }
+                    const validation = u.$validation.get(form);
+                    const valid = validation.validateAll();
+                    if (!valid) {
+                        alert(u.__('luna.field.locale.switch.message.form.invalid'));
+                        throw new Error('Form invalid');
+                    }
+                    return form;
+                }
+                /**
+                 * @param {HTMLButtonElement} button
+                 */
+                saveCurrentAndCreateLang(button) {
+                    const form = this.validateForm();
+                    u.form(form).post(null, {
+                        [this.options.triggerInputName]: {
+                            task: 'create',
+                            type: this.options.type,
+                            table: this.options.table,
+                            routeName: this.options.routeName,
+                            code: button.dataset.lang,
+                            copy: button.dataset.copy,
+                            langField: this.options.langField,
+                            titleField: this.options.titleField,
+                            currentId: this.options.currentId,
+                            defaultId: this.options.defaultId
+                        }
+                    });
+                }
+                switchLang(button) {
+                    const form = this.validateForm();
+                    u.form(form).post(null, {
+                        [this.options.triggerInputName]: {
+                            task: 'switch',
+                            table: this.options.table,
+                            routeName: this.options.routeName,
+                            targetId: button.dataset.targetId
+                        }
+                    });
+                }
+            };
+            exports_1("LocaleSwitchModal", LocaleSwitchModal);
+            u.directive('locale-switch-modal', {
+                mounted(el, { value }) {
+                    const options = JSON.parse(value);
+                    u.module(el, 'locale.switch', () => new LocaleSwitchModal(el, options));
+                }
+            });
+        }
+    };
+});
+
+//# sourceMappingURL=locale-switch.js.map

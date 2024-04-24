@@ -1,6 +1,6 @@
 
 document.addEventListener('alpine:init', () => {
-  Alpine.data('LangDropdown', (options) => ({
+  Alpine.data('LangDropdown', (options: any) => ({
     options,
     dropdown: null,
     items: [],
@@ -12,23 +12,25 @@ document.addEventListener('alpine:init', () => {
         {
           autoClose: true
         }
-      );
+      ) as any;
     },
-    buttonClicked(e) {
+    buttonClicked(e: Event) {
       if (this.loaded) {
         return;
       }
 
+      const options = this.options as any;
+
       u.$http.get(
-        this.options.ajaxUrl,
+        options.ajaxUrl,
         {
           params: {
-            id: this.options.id,
-            type: this.options.type,
-            table: this.options.table,
-            idName: this.options.idName,
-            langField: this.options.langField,
-            routeName: this.options.routeName,
+            id: options.id,
+            type: options.type,
+            table: options.table,
+            idName: options.idName,
+            langField: options.langField,
+            routeName: options.routeName,
           }
         }
       ).then((res) => {
