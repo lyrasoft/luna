@@ -251,7 +251,6 @@ export default {
 
     // CRUD
     function addNewRow(i = null) {
-      throw new Error();
       if (i != null) {
         state.content.splice(i + 1, 0, emptyRow());
       } else {
