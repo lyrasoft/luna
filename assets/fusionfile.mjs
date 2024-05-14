@@ -1,10 +1,3 @@
-/**
- * Part of Windwalker Fusion project.
- *
- * @copyright  Copyright (C) 2021 LYRASOFT.
- * @license    MIT
- */
-
 import fusion, { sass, babel, parallel, wait, ts } from '@windwalker-io/fusion';
 import { jsSync, installVendors } from '@windwalker-io/core';
 import path from 'path';
@@ -36,47 +29,13 @@ export async function js() {
   // Compile end
 }
 
-export async function vue() {
-  // Watch start
-  fusion.watch(['scss/**/*.scss', 'src/vue/**/*']);
-  // Watch end
+export * from './build/vue-tasks.mjs';
+import * as vueTasks from './build/vue-tasks.mjs';
 
-  // Compile Start
-  const p = fusion.vue(
-    'src/vue/entries/**/*.js',
-    'dist/',
-    {
-      override: (config) => {
-        config.output.chunkFilename = process.env.NODE_ENV === 'production'
-          ? 'page/chunk-vendor.[name].js'
-          : 'dev/page-vendor.[name].js';
-
-        config.resolve.alias = {
-          // 'vue$': path.resolve('src/vue/services/vue-adapter.js'),
-          '@': path.resolve(path.resolve(), './src/vue/') // Will be overwrite when compile
-        }
-
-        config.externals = {
-          vue: 'Vue'
-        };
-
-        // config.plugins.push(
-        //   new BundleAnalyzerPlugin()
-        // );
-
-        config.plugins.push(
-          new webpack.DefinePlugin({
-            __VUE_OPTIONS_API__: true,
-            __VUE_PROD_DEVTOOLS__: true,
-          })
-        )
-      },
-    }
-  );
-
-  return wait(p);
-  // Compile end
-}
+// compile vue
+export const vue = parallel(
+  ...Object.values(vueTasks)
+);
 
 export default parallel(
   css,

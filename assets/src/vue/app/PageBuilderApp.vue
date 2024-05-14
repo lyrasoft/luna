@@ -47,13 +47,14 @@
         <draggable v-model="content" @start="drag = true" @end="drag = false"
           v-bind="{ handle: '.row-move-handle', animation: 300 }"
           item-key="id"
+          @add.stop
         >
           <template #item="{ element: row, index: i }">
             <Row class="body__row page-row mb-4"
               :value="row"
               move-handle="row-move-handle"
               @columns-change="columnsChange(row, $event)"
-              @add="addNewRow(i)"
+              @add-new="addNewRow(i)"
               @duplicate="duplicateRow($event || row, i)"
               @paste-page="pastePage($event, i)"
               @open-templates="openTemplates(i)"
@@ -250,6 +251,7 @@ export default {
 
     // CRUD
     function addNewRow(i = null) {
+      throw new Error();
       if (i != null) {
         state.content.splice(i + 1, 0, emptyRow());
       } else {

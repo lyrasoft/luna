@@ -110,7 +110,7 @@
     <div class="page-row__bottom-toolbar mt-3 text-center">
       <div class="page-builder__bottom-toolbar text-center">
         <div class="btn-group">
-          <button type="button" @click="$emit('add')"
+          <button type="button" @click="$emit('add-new')"
             class="btn btn-sm btn-outline-secondary">
             Add New Row
           </button>
@@ -135,9 +135,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { defaultsDeep, startsWith } from 'lodash-es';
-import { computed, reactive, toRefs, watch } from 'vue';
+import { computed, reactive, ref, toRefs, watch } from 'vue';
 import {
   addTextToClipboard,
   emptyColumn,
@@ -146,210 +146,180 @@ import {
   duplicateAddon, duplicateAny
 } from '@/services/page-builder/page-builder.service';
 
-export default {
-  name: 'Row',
-  components: {
-    // Column,
+const props = defineProps({
+  value: Object,
+  child: {
+    type: Boolean,
+    default: false
   },
+  moveHandle: {
+    type: String,
+    default: 'move-handle'
+  }
+});
 
-  props: {
-    value: Object,
-    child: {
-      type: Boolean,
-      default: false
-    },
-    moveHandle: {
-      type: String,
-      default: 'move-handle'
+const emit = defineEmits();
+
+const content = ref({});
+const drag = ref(false);
+content.value = props.value;
+content.value = defaultsDeep(content.value, emptyRow());
+
+function addNewColumn() {
+  content.value.columns.push(emptyColumn(props.child));
+}
+
+function copy() {
+  addTextToClipboard(content.value);
+}
+
+function paste(append = false) {
+  readClipboard().then((text) => {
+    pasteData(text, append);
+  });
+}
+
+function pasteData(text, append = false) {
+  try {
+    const data = JSON.parse(text);
+
+    if (Array.isArray(data)) {
+      emit('paste-page', data);
+      return;
     }
-  },
 
-  setup(props, { emit }) {
-    const state = reactive({
-      content: {},
-      drag: false,
-    });
-
-    state.content = props.value;
-    state.content = defaultsDeep(state.content, emptyRow());
-
-    function addNewColumn() {
-      state.content.columns.push(emptyColumn(props.child));
+    if (startsWith(data.id, 'addon-')) {
+      alert('Unable to paste addon here.');
+      return;
     }
 
-    function copy() {
-      addTextToClipboard(state.content);
+    if (startsWith(data.id, 'col-')) {
+      duplicateColumn(data, content.value.columns.length - 1);
+      return;
     }
 
-    function paste(append = false) {
-      readClipboard().then((text) => {
-        pasteData(text, append);
-      });
-    }
-
-    function pasteData(text, append = false) {
-      try {
-        const data = JSON.parse(text);
-
-        if (Array.isArray(data)) {
-          emit('paste-page', data);
-          return;
-        }
-
-        if (startsWith(data.id, 'addon-')) {
-          alert('Unable to paste addon here.');
-          return;
-        }
-
-        if (startsWith(data.id, 'col-')) {
-          duplicateColumn(data, state.content.columns.length - 1);
-          return;
-        }
-
-        if (startsWith(data.id, 'row-')) {
-          if (append) {
-            duplicate(data);
-            return;
-          }
-
-          swal({
-            title: 'You are pasting a row to a another row.',
-            text: 'Please choose an action.',
-            buttons: {
-              add: {
-                text: 'Merge',
-                value: 'add',
-                className: 'btn-info'
-              },
-              replace: {
-                text: 'Replace',
-                value: 'replace',
-                className: 'btn-warning'
-              },
-              append: {
-                text: 'After',
-                value: 'append',
-                className: 'btn-dark'
-              }
-            }
-          })
-            .then((v) => {
-              switch (v) {
-                case 'replace':
-                  state.content.columns = [];
-                case 'add':
-                  data.columns.forEach((column) => {
-                    duplicateColumn(column, state.columns.length - 1);
-                  });
-                  break;
-                case 'append':
-                  duplicate(data);
-              }
-            });
-          return;
-        }
-      } catch (e) {
-        console.error(e);
-        alert('Invalid format.');
+    if (startsWith(data.id, 'row-')) {
+      if (append) {
+        duplicate(data);
+        return;
       }
-    }
 
-    function duplicate(data = null) {
-      emit('duplicate', data);
-    }
-
-    function duplicateColumn(column, i) {
-      column = duplicateAny(column);
-
-      state.content.columns.splice(i + 1, 0, column);
-    }
-
-    function handleDuplicateAddons(addons) {
-      return addons.map(addon => {
-          addon = duplicateAddon(addon, props.child);
-
-          if (addon === null) {
-            return null;
+      swal({
+        title: 'You are pasting a row to a another row.',
+        text: 'Please choose an action.',
+        buttons: {
+          add: {
+            text: 'Merge',
+            value: 'add',
+            className: 'btn-info'
+          },
+          replace: {
+            text: 'Replace',
+            value: 'replace',
+            className: 'btn-warning'
+          },
+          append: {
+            text: 'After',
+            value: 'append',
+            className: 'btn-dark'
           }
-
-          if (addon.type !== 'row') {
-            return addon;
+        }
+      })
+        .then((v) => {
+          switch (v) {
+            case 'replace':
+              content.value.columns = [];
+            case 'add':
+              data.columns.forEach((column) => {
+                duplicateColumn(column, state.columns.length - 1);
+              });
+              break;
+            case 'append':
+              duplicate(data);
           }
-
-          // Is row
-          addon.columns = addon.columns.map(column => {
-            column.id = 'col-' + u.uid();
-
-            column.addons = handleDuplicateAddons(column.addons);
-
-            return column;
-          });
-
-          return addon;
-        })
-        .filter(addon => addon !== null);
+        });
+      return;
     }
+  } catch (e) {
+    console.error(e);
+    alert('Invalid format.');
+  }
+}
 
-    function edit() {
-      u.trigger('row:edit', state.content);
-    }
+function duplicate(data = null) {
+  emit('duplicate', data);
+}
 
-    function toggleDisabled() {
-      state.content.disabled = !state.content.disabled;
-    }
+function duplicateColumn(column, i) {
+  column = duplicateAny(column);
 
-    function remove() {
-      u.confirm('Are you sure you want to delete??')
-        .then(() => emit('delete'));
-    }
+  content.value.columns.splice(i + 1, 0, column);
+}
 
-    function getEmptyRow() {
-      return emptyRow();
-    }
+function handleDuplicateAddons(addons) {
+  return addons.map(addon => {
+      addon = duplicateAddon(addon, props.child);
 
-    function deleteColumn(i) {
-      columns.value.splice(i, 1);
-    }
+      if (addon === null) {
+        return null;
+      }
 
-    function openTemplates() {
-      u.trigger('tmpl.open', (item, type, i) => {
-        pasteData(item.content);
-      }, 'column,row', columns.value.length);
-    }
+      if (addon.type !== 'row') {
+        return addon;
+      }
 
-    const columns = computed(() => {
-      return state.content.columns;
-    });
+      // Is row
+      addon.columns = addon.columns.map(column => {
+        column.id = 'col-' + u.uid();
 
-    const options = computed(() => {
-      return state.content.options;
-    });
+        column.addons = handleDuplicateAddons(column.addons);
 
-    watch(() => columns, () => {
-      emit('columns-change', { columns: columns.value });
-    }, { deep: true });
+        return column;
+      });
 
-    return {
-      ...toRefs(state),
-      columns,
-      options,
+      return addon;
+    })
+    .filter(addon => addon !== null);
+}
 
-      addNewColumn,
-      copy,
-      paste,
-      pasteData,
-      duplicate,
-      duplicateColumn,
-      handleDuplicateAddons,
-      edit,
-      toggleDisabled,
-      remove,
-      getEmptyRow,
-      deleteColumn,
-      openTemplates
-    };
-  },
-};
+function edit() {
+  u.trigger('row:edit', content.value);
+}
+
+function toggleDisabled() {
+  content.value.disabled = !content.value.disabled;
+}
+
+function remove() {
+  u.confirm('Are you sure you want to delete??')
+    .then(() => emit('delete'));
+}
+
+function getEmptyRow() {
+  return emptyRow();
+}
+
+function deleteColumn(i) {
+  columns.value.splice(i, 1);
+}
+
+function openTemplates() {
+  u.trigger('tmpl.open', (item, type, i) => {
+    pasteData(item.content);
+  }, 'column,row', columns.value.length);
+}
+
+const columns = computed(() => {
+  return content.value.columns;
+});
+
+const options = computed(() => {
+  return content.value.options;
+});
+
+watch(() => columns, () => {
+  emit('columns-change', { columns: columns.value });
+}, { deep: true });
 </script>
 
 <style scoped>
