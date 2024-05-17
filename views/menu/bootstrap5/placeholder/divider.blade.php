@@ -26,13 +26,16 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
+use Windwalker\DOM\DOMElement;
 
 /**
  * @var $item         MenuNode
  * @var $viewInstance AbstractMenuView|SelfRenderMenuInterface
  */
-?>
 
-<div class="dropdown-divider"
-    data-menu-id="{{ $item->getValue()?->getId() }}"
-    data-lavel="{{ $item->getDepth() }}"></div>
+$attrs = $item->getHTMLAttributes();
+$attrs['class'] ??= '';
+$attrs['class'] .= ' dropdown-divider';
+$attrs['data-level'] = $item->getDepth();
+?>
+<div {!! DOMElement::buildAttributes($attrs) !!}></div>

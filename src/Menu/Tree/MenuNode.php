@@ -255,12 +255,12 @@ class MenuNode extends Node implements MenuNodeInterface
      */
     public function getTarget(): MenuTarget
     {
-        return $this->target ??= MenuTarget::SELF();
+        return $this->target ??= MenuTarget::SELF;
     }
 
-    public function linkTarget(MenuTarget $target): static
+    public function linkTarget(MenuTarget|string $target): static
     {
-        $this->target = $target;
+        $this->target = MenuTarget::tryWrap($target);
 
         return $this;
     }
@@ -285,7 +285,7 @@ class MenuNode extends Node implements MenuNodeInterface
 
     public function getElement(): DOMElement
     {
-        return $this->element ??= new DOMElement();
+        return $this->element ??= DOMElement::create('div');
     }
 
     public function attr(string $name, string $value): static

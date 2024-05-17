@@ -27,6 +27,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
+use Windwalker\DOM\DOMElement;
 
 /**
  * @var $item         MenuNode|DbMenuNode
@@ -34,11 +35,14 @@ use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
  */
 
 $text = $item->getValue()?->getVariables()['text'] ?? '';
+
+$attrs = $item->getHTMLAttributes();
+$attrs['class'] ??= '';
+$attrs['class'] .= ' text-muted d-block m-3';
+$attrs['data-level'] = $item->getDepth();
 ?>
 
-<li class="text-muted d-block m-3"
-    data-menu-id="{{ $item->getValue()?->getId() }}"
-    data-lavel="{{ $item->getDepth() }}">
+<li {!! DOMElement::buildAttributes($attrs) !!}>
     <div class="menu-placeholder-text">
         @if ($item->getIcon())
             <span class="{{ $item->getIcon() }}"></span>

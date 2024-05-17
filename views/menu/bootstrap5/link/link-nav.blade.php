@@ -26,6 +26,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 
+use Windwalker\DOM\DOMElement;
 use Windwalker\Utilities\TypeCast;
 
 use function Windwalker\uid;
@@ -40,13 +41,15 @@ $nolink = (string) $link === '' || $link === false;
 /**
  * @var MenuNodeInterface $item
  */
+
+$attrs = $item->getHTMLAttributes();
+$attrs['class'] ??= '';
+$attrs['data-level'] = $level;
 ?>
 
 @if ($level === 1)
-    <li class="nav-item"
-        data-menu-id="{{ $item->getValue()?->getId() }}"
-        data-level="{{ $level }}"
-    >
+    <?php $attrs['class'] .= ' nav-item'; ?>
+    <li {!! DOMElement::buildAttributes($attrs) !!}>
         <a class="nav-link {{ $item->isActive(true) ? 'active' : '' }} {{ $nolink ? 'nav-link--nolink' : '' }}"
             @attr('href', $link)
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
@@ -67,9 +70,13 @@ $nolink = (string) $link === '' || $link === false;
         @endif
     </li>
 @else
-    <li class="subnav-item {{ $hasChildren ? 'accordion-submenu' : '' }}"
-        data-menu-id="{{ $item->getValue()?->getId() }}"
-        data-level="{{ $level }}">
+    <?php
+    if ($hasChildren) {
+        $attrs['class'] .= ' accordion-submenu';
+    }
+    $attrs['class'] .= ' subnav-item';
+    ?>
+    <li {!! DOMElement::buildAttributes($attrs) !!}>
         <a @attr('href', $link)
         class="subnav-link {{ $item->isActive(true) ? 'active' : '' }} {{ $nolink ? 'subnav-link--nolink' : '' }}"
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)

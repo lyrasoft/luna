@@ -17,6 +17,7 @@ namespace App\View;
  */
 
 use Lyrasoft\Luna\Menu\Tree\MenuNode;
+use Lyrasoft\Luna\Menu\Tree\MenuNodeInterface;
 use Lyrasoft\Luna\Menu\View\LinkMenuView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -25,18 +26,28 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
+use Windwalker\DOM\DOMElement;
 use Windwalker\Utilities\TypeCast;
 
 /**
- * @var $item MenuNode
+ * @var $item MenuNodeInterface
  */
 
 $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $link;
+
+$attrs = $item->getHTMLAttributes();
+$attrs['class'] ??= '';
+$attrs['class'] .= ' nav-item';
+$attrs['data-level'] = $level;
 ?>
 
 @if ($level === 1)
-    <li class="nav-item {{ $hasChildren ? 'dropdown' : '' }}"
-        data-menu-id="{{ $item->getValue()?->getId() }}" data-level="{{ $level }}">
+    <?php
+    if ($hasChildren) {
+        $attrs['class'] .= ' dropdown';
+    }
+    ?>
+    <li {!! DOMElement::buildAttributes($attrs) !!}>
         <a @attr('href', $link)
         class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
@@ -54,8 +65,12 @@ $link = ($link === LinkMenuView::NO_LINK || (string) $link === '') ? false : $li
         @endif
     </li>
 @else
-    <li class="{{ $hasChildren ? 'dropdown-submenu' : '' }}"
-        data-menu-id="{{ $item->getValue()?->getId() }}" data-level="{{ $level }}">
+    <?php
+    if ($hasChildren) {
+        $attrs['class'] .= ' dropdown-submenu';
+    }
+    ?>
+    <li {!! DOMElement::buildAttributes($attrs) !!}>
         <a @attr('href', $link)
         class="dropdown-item {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
