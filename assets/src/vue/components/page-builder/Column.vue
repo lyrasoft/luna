@@ -301,9 +301,14 @@ function toggleDisabled() {
   content.value.disabled = !content.value.disabled;
 }
 
-function remove() {
-  u.confirm('Are you sure you want to delete?')
-    .then(() => emit('delete'));
+async function remove() {
+  const v = await u.confirm('Are you sure you want to delete??');
+
+  if (v) {
+    emit('delete');
+  }
+
+  return v;
 }
 
 function duplicateThisAddon(item, i) {

@@ -125,9 +125,14 @@ export default {
       emit('duplicate');
     }
 
-    function remove() {
-      u.confirm('Are you sure to delete it?')
-        .then(() => emit('delete'));
+    async function remove() {
+      const v = await u.confirm('Are you sure you want to delete??');
+
+      if (v) {
+        emit('delete');
+      }
+
+      return v;
     }
 
     // function addAddon() {
