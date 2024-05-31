@@ -80,6 +80,18 @@ class FakerHelper
         }
     }
 
+    public static function registerCNLorem(string $locale = 'zh_CN'): void
+    {
+        if (!isset(static::$override[$locale])) {
+            class_alias(
+                \Lyrasoft\Luna\Faker\zh_CN\Lorem::class,
+                'Faker\Provider\\' . $locale . '\Lorem'
+            );
+
+            static::$override[$locale] = true;
+        }
+    }
+
     public static function registerJapaneseLorem(string $locale = 'ja_JP'): void
     {
         if (!isset(static::$override[$locale])) {
@@ -95,6 +107,7 @@ class FakerHelper
     public static function registerMoreLoremClasses(): void
     {
         static::registerChineseLorem();
+        static::registerCNLorem();
         static::registerJapaneseLorem();
     }
 

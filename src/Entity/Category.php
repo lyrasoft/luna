@@ -22,6 +22,7 @@ use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
 use Windwalker\ORM\Attributes\Watch;
 use Windwalker\ORM\Cast\JsonCast;
+use Windwalker\ORM\Event\BeforeSaveEvent;
 use Windwalker\ORM\Event\BeforeStoreEvent;
 use Windwalker\ORM\Event\WatchEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
@@ -92,8 +93,8 @@ class Category implements NestedPathableInterface
         //
     }
 
-    #[BeforeStoreEvent]
-    public static function beforeStore(BeforeStoreEvent $event): void
+    #[BeforeSaveEvent]
+    public static function beforeSave(BeforeSaveEvent $event): void
     {
         $data = &$event->getData();
 

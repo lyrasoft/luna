@@ -24,6 +24,7 @@ use Windwalker\ORM\Attributes\Table;
 use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
+use Windwalker\ORM\Event\BeforeSaveEvent;
 use Windwalker\ORM\Event\BeforeStoreEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 
@@ -105,8 +106,8 @@ class Page implements EntityInterface
         //
     }
 
-    #[BeforeStoreEvent]
-    public static function beforeStore(BeforeStoreEvent $event): void
+    #[BeforeSaveEvent]
+    public static function beforeSave(BeforeSaveEvent $event): void
     {
         $data = &$event->getData();
 

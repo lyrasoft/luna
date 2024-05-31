@@ -44,6 +44,7 @@ class PageController
         return $nav->back();
     }
 
+    #[LangAssoc]
     public function create(
         AppContext $app,
         CrudController $controller,
@@ -130,7 +131,7 @@ class PageController
             'images/pages/' . md5((string) $entity->getId()) . '.{ext}'
         )?->getUri(true) ?? $item['image'];
 
-        $repository->save($item);
+        $entity = $repository->save($item);
 
         // Cache
         $pageBuilder->renderByEntityAndCache($entity, true);
