@@ -240,7 +240,11 @@ $loginName = $luna->getLoginName();
                     <tr>
                         {{-- PAGINATION --}}
                         <td colspan="25">
-                            {!! $pagination->render() !!}
+                            <x-pagination :pagination="$pagination">
+                                <x-slot name="end">
+                                    <x-pagination-stats :pagination="$pagination"></x-pagination-stats>
+                                </x-slot>
+                            </x-pagination>
                         </td>
                     </tr>
                     </tfoot>
