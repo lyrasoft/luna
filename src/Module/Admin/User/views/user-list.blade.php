@@ -242,7 +242,7 @@ $loginName = $luna->getLoginName();
                         <td colspan="25">
                             <x-pagination :pagination="$pagination">
                                 <x-slot name="end">
-                                    <x-pagination-stats :pagination="$pagination"></x-pagination-stats>
+                                    <x-pagination-stats :pagination="$pagination" class="ms-0 ms-md-auto" />
                                 </x-slot>
                             </x-pagination>
                         </td>
