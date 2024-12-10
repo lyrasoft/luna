@@ -24,7 +24,7 @@ class TagService
     {
     }
 
-    public function createTagsIfNew(iterable $tagIds, callable $configure = null): array
+    public function createTagsIfNew(iterable $tagIds, ?callable $configure = null): array
     {
         $r = [];
 
@@ -68,7 +68,7 @@ class TagService
         string|\BackedEnum $type,
         mixed $targetId,
         iterable $tagIds,
-        callable $configureNewTag = null
+        ?callable $configureNewTag = null
     ): iterable {
         $tagIds = $this->createTagsIfNew($tagIds, $configureNewTag);
 

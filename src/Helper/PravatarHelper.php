@@ -30,7 +30,7 @@ class PravatarHelper
      *
      * @return  string
      */
-    public static function url(int $size = 300, int $id = null, string $u = null): string
+    public static function url(int $size = 300, ?int $id = null, ?string $u = null): string
     {
         $uri = new Uri(static::$host);
 
@@ -58,7 +58,7 @@ class PravatarHelper
      * @return  string
      * @throws Exception
      */
-    public static function unique(int $size = 300, string $u = null): string
+    public static function unique(int $size = 300, ?string $u = null): string
     {
         if ((string) $u === '') {
             $u = uid();

@@ -206,7 +206,7 @@ class LunaAuthMethod implements MethodInterface
         return Arr::only($credential, $loginNames);
     }
 
-    protected function isSRPEnabled(array $credential, array &$srp = null): bool
+    protected function isSRPEnabled(array $credential, ?array &$srp = null): bool
     {
         if (!$this->srpService->isEnabled()) {
             return false;

@@ -17,7 +17,7 @@ class Modifier extends CastForSave
 {
     protected function getDefaultCaster(): callable
     {
-        return function (mixed $value, ORM $orm, object $entity, UserService $userService = null) {
+        return function (mixed $value, ORM $orm, object $entity, ?UserService $userService = null) {
             if (!$userService) {
                 return $value;
             }

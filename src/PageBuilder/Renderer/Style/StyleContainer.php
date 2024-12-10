@@ -57,7 +57,7 @@ class StyleContainer
      *
      * @since  1.5.2
      */
-    public function select(string $selector, callable $callback = null): StyleRules
+    public function select(string $selector, ?callable $callback = null): StyleRules
     {
         $k = trim($this->prefix . ' ' . $selector);
 
@@ -74,7 +74,7 @@ class StyleContainer
      *
      * @since  1.5.2
      */
-    public function selectAppend(string $selector, callable $callback = null): StyleRules
+    public function selectAppend(string $selector, ?callable $callback = null): StyleRules
     {
         $k = trim($this->prefix . $selector);
 
@@ -91,7 +91,7 @@ class StyleContainer
      *
      * @since  1.5.2
      */
-    protected function doSelect(string $selector, callable $callback = null): StyleRules
+    protected function doSelect(string $selector, ?callable $callback = null): StyleRules
     {
         if (!isset($this->selectors[$selector])) {
             $this->selectors[$selector] = new StyleRules();
@@ -116,7 +116,7 @@ class StyleContainer
      *
      * @since  1.5.2
      */
-    public function wrap(string $selector, callable $callback = null): StyleContainer
+    public function wrap(string $selector, ?callable $callback = null): StyleContainer
     {
         if (!isset($this->selectors[$selector])) {
             $this->selectors[$selector] = new StyleRules();
