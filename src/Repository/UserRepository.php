@@ -10,6 +10,7 @@ use Lyrasoft\Luna\LunaPackage;
 use Unicorn\Attributes\ConfigureAction;
 use Unicorn\Attributes\Repository;
 use Unicorn\Repository\Actions\BatchAction;
+use Unicorn\Repository\Actions\DeleteAction;
 use Unicorn\Repository\Actions\ReorderAction;
 use Unicorn\Repository\Actions\SaveAction;
 use Unicorn\Repository\Event\PrepareSaveEvent;
@@ -113,6 +114,12 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
 
     #[ConfigureAction(BatchAction::class)]
     protected function configureBatchAction(BatchAction $action): void
+    {
+        //
+    }
+
+    #[ConfigureAction(DeleteAction::class)]
+    protected function configureDeleteAction(DeleteAction $action): void
     {
         //
     }

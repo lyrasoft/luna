@@ -23,6 +23,8 @@ use Windwalker\ORM\Attributes\Table;
 use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
+use Windwalker\ORM\Event\AfterDeleteEvent;
+use Windwalker\ORM\Event\BeforeDeleteEvent;
 use Windwalker\ORM\Event\BeforeSaveEvent;
 use Windwalker\ORM\Event\EnergizeEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
@@ -122,6 +124,17 @@ class User implements EntityInterface, UserEntityInterface
         if (isset($data['password']) && $data['password'] === '') {
             unset($data['password']);
         }
+    }
+
+    #[AfterDeleteEvent]
+    public static function afterDelete(AfterDeleteEvent $event): void
+    {
+        /** @var static $item */
+        $item = $event->getEntity();
+
+        $orm = $event->getORM();
+
+        $orm->deleteWhere(UserSocial::class, ['user_id' => $item->getId()]);
     }
 
     public function can(string $action, ...$args): bool
