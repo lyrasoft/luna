@@ -135,6 +135,7 @@ class User implements EntityInterface, UserEntityInterface
         $orm = $event->getORM();
 
         $orm->deleteWhere(UserSocial::class, ['user_id' => $item->getId()]);
+        $orm->deleteWhere(UserRoleMap::class, ['user_id' => $item->getId()]);
     }
 
     public function can(string $action, ...$args): bool
