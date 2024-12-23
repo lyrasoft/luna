@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Access;
 
 use Lyrasoft\Luna\Entity\Rule;
+use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\LunaPackage;
@@ -14,13 +15,11 @@ use Lyrasoft\Luna\Tree\NodeInterface;
 use Lyrasoft\Luna\Tree\TreeBuilder;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Lyrasoft\Luna\User\UserService;
-use Windwalker\Authorization\Authorization;
 use Windwalker\Authorization\AuthorizationInterface;
 use Windwalker\Core\Application\AppClient;
 use Windwalker\Core\Application\ApplicationInterface;
-use Windwalker\Core\Auth\AuthService;
-use Windwalker\ORM\NestedSetMapper;
 use Windwalker\ORM\ORM;
+use Windwalker\ORM\SelectorQuery;
 use Windwalker\Query\Query;
 use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
@@ -252,7 +251,7 @@ class AccessService
 
     /**
      * @param  mixed                   $user
-     * @param  array<UserRole|string>  $roles Can be an array or single role string|int|entity|enum
+     * @param  array<UserRole|string>  $roles  Can be an array or single role string|int|entity|enum
      * @param  array                   $extra
      *
      * @return  array<UserRoleMap>
@@ -311,7 +310,7 @@ class AccessService
             UserRoleMap::class,
             [
                 'user_id' => $user->getId(),
-                'role_id' => $roleIds
+                'role_id' => $roleIds,
             ]
         );
     }
@@ -362,29 +361,64 @@ class AccessService
         );
     }
 
-    public function isParentRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
+    public function getSuperUserRoles(): array
     {
-        $role = (string) $this->unwrapRole($role);
-        $targetRole = (string) $this->unwrapRole($targetRole);
+        return $this->getRolesAllowAction(static::SUPERUSER_ACTION);
+    }
 
-        $roleNode = $this->getRoleNodeById($role);
-
-        if ($roleNode->isRoot()) {
-            return false;
+    /**
+     * @param  mixed  $roles
+     * @param  bool   $includeSelf
+     *
+     * @return  array<UserRole>
+     */
+    public function getParentRoles(mixed $roles, bool $includeSelf = false): array
+    {
+        if (!is_array($roles)) {
+            $roles = [$roles];
         }
 
-        $targetNode = $this->getRoleNodeById($targetRole);
+        /** @var UserRole[] $roles */
+        $roles = array_map($this->wrapUserRole(...), $roles);
+
+        $parents = [];
+
+        foreach ($roles as $role) {
+            $roleNode = $this->getRoleNodeById($role->getId());
+
+            if (!$roleNode) {
+                return [];
+            }
+
+            foreach ($roleNode->getAncestors() as $ancestor) {
+                if ($ancestor->isRoot()) {
+                    continue;
+                }
+
+                $parentRole = $ancestor->getValue();
+                $parents[$parentRole->getId()] = $parentRole;
+            }
+
+            if ($includeSelf) {
+                $parents[$role->getId()] = $role;
+            }
+        }
+
+        return $parents;
+    }
+
+    public function isParentRole(UserRole|string|int $parentRole, UserRole|string|int $role): bool
+    {
+        $parentRole = (string) $this->unwrapRole($parentRole);
+
+        $targetNode = $this->getRoleNodeById($parentRole);
 
         if ($targetNode->isLeaf()) {
             return false;
         }
 
-        foreach ($roleNode->getAncestors() as $ancestor) {
-            if ($ancestor->isRoot()) {
-                continue;
-            }
-
-            if ($ancestor->getValue()->getId() === $targetNode->getValue()->getId()) {
+        foreach ($this->getParentRoles($role) as $ancestor) {
+            if ($ancestor->getId() === $targetNode->getValue()->getId()) {
                 return true;
             }
         }
@@ -392,29 +426,73 @@ class AccessService
         return false;
     }
 
-    public function isChildRole(UserRole|string|int $targetRole, UserRole|string|int $role): bool
+    public function getDescendantRoles(mixed $roles, bool $includeSelf = false): array
+    {
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+
+        /** @var UserRole[] $roles */
+        $roles = array_map($this->wrapUserRole(...), $roles);
+
+        $descendants = [];
+
+        foreach ($roles as $role) {
+            $roleNode = $this->getRoleNodeById($role->getId());
+
+            if (!$roleNode) {
+                return [];
+            }
+
+            if ($includeSelf) {
+                $descendants[$role->getId()] = $role;
+            }
+
+            foreach ($roleNode->iterate() as $descendant) {
+                if ($descendant->isRoot()) {
+                    continue;
+                }
+
+                $descendantRole = $descendant->getValue();
+
+                $descendants[$descendantRole->getId()] = $descendantRole;
+            }
+        }
+
+        return $descendants;
+    }
+
+    public function isChildRole(UserRole|string|int $childRole, UserRole|string|int $role): bool
     {
         $role = (string) $this->unwrapRole($role);
-        $targetRole = (string) $this->unwrapRole($targetRole);
 
         $roleNode = $this->getRoleNodeById($role);
 
-        if ($roleNode->isRoot()) {
+        if ($roleNode->isLeaf()) {
             return false;
         }
 
-        $targetNode = $this->getRoleNodeById($targetRole);
+        foreach ($this->getParentRoles($childRole) as $ancestor) {
+            if ($ancestor->getId() === $roleNode->getValue()->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isSuperior(UserRole|string|int $superiorRole, UserRole|string|int $role): bool
+    {
+        $superiorRole = (string) $this->unwrapRole($superiorRole);
+
+        $targetNode = $this->getRoleNodeById($superiorRole);
 
         if ($targetNode->isLeaf()) {
             return false;
         }
 
-        foreach ($targetNode->getAncestors() as $ancestor) {
-            if ($ancestor->isRoot()) {
-                continue;
-            }
-
-            if ($ancestor->getValue()->getId() === $roleNode->getValue()->getId()) {
+        foreach ($this->getDescendantRoles($role) as $descendantRole) {
+            if ($descendantRole->getId() === $targetNode->getValue()->getId()) {
                 return true;
             }
         }
@@ -523,6 +601,11 @@ class AccessService
         );
     }
 
+    /**
+     * @param  string|int  $id
+     *
+     * @return  NodeInterface<UserRole>|null
+     */
     public function getRoleNodeById(string|int $id): ?NodeInterface
     {
         return $this->getRoleFlatNodes()[$id] ?? null;
@@ -708,6 +791,7 @@ class AccessService
                                     ->bind('ns', $ns)
                                     ->bind('action', $act)
                                     ->bind('target', $id);
+
                                 return;
                             }
 
@@ -716,6 +800,7 @@ class AccessService
                                     ->bind('ns', $ns)
                                     ->bind('action', $act)
                                     ->bind('target', (string) $id);
+
                                 return;
                             }
 
@@ -825,5 +910,39 @@ class AccessService
         $roles = $this->getSelectableRoles();
 
         return $roles !== [] && $this->check(static::ROLE_MODIFY_ACTION);
+    }
+
+    public function getUserByRolesQuery(
+        mixed $roles,
+        bool $includesSuperior = false,
+        bool $includeSuperUser = false
+    ): SelectorQuery {
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+
+        if ($includesSuperior) {
+            $roles = $this->getDescendantRoles($roles, true);
+        }
+
+        if ($includeSuperUser) {
+            $roles = [
+                ...$roles,
+                ...$this->getSuperUserRoles()
+            ];
+        }
+
+        $roleIds = array_map($this->unwrapRole(...), $roles);
+        $roleIds = array_unique($roleIds);
+
+        return $this->orm->from(User::class, 'user')
+            ->whereExists(
+                function (Query $query) use ($roleIds) {
+                    $query->from(UserRoleMap::class)
+                        ->whereRaw('user_id = user.id')
+                        ->whereRaw('role_id IN (:...roles)')
+                        ->bind('roles', $roleIds);
+                }
+            );
     }
 }

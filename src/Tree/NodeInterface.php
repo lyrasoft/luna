@@ -8,6 +8,8 @@ use Traversable;
 /**
  * The NodeInterface class.
  *
+ * @template T
+ *
  * @link   https://github.com/nicmart/Tree/blob/master/src/Node/NodeInterface.php
  *
  * @since  1.0
@@ -17,7 +19,7 @@ interface NodeInterface extends IteratorAggregate
     /**
      * Set the value of the current node
      *
-     * @param  mixed  $value
+     * @param  T  $value
      *
      * @return static the current instance
      */
@@ -26,7 +28,7 @@ interface NodeInterface extends IteratorAggregate
     /**
      * Get the current node value
      *
-     * @return mixed
+     * @return T
      */
     public function getValue(): mixed;
 
