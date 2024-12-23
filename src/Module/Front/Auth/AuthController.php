@@ -225,6 +225,7 @@ class AuthController
         SocialAuthService $socialAuth,
         UserService $userService,
         Navigator $nav,
+        ORM $orm,
     ): RouteUri {
         if (($msg = $app->input('error_message')) || $app->input('error_code')) {
             if ($msg) {
@@ -243,6 +244,12 @@ class AuthController
         [$user, $map] = $result;
 
         $userService->login($user);
+
+        $orm->updateWhere(
+            User::class,
+            ['last_login' => chronos()],
+            ['id' => $user->getId()]
+        );
 
         return $nav->to('home');
     }

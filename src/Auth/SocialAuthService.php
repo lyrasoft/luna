@@ -38,6 +38,15 @@ class SocialAuthService
     ) {
     }
 
+    /**
+     * @param  string  $provider
+     *
+     * @return  array{ 0: User, 1: UserSocial }|null
+     *
+     * @throws DefinitionException
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
     public function auth(string $provider): ?array
     {
         if (!$provider) {
