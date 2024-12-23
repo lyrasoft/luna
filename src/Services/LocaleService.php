@@ -212,15 +212,15 @@ class LocaleService
             throw new \DomainException('Please install "willdurand/negotiation" first to get browser language.');
         }
 
-        $negotiator = new LanguageNegotiator();
-        /** @var AcceptLanguage $best */
-        $best = $negotiator->getBest($accept, $available);
-
-        if ($best) {
-            return $best->getValue();
-        }
-
         if ($accept) {
+            $negotiator = new LanguageNegotiator();
+            /** @var AcceptLanguage $best */
+            $best = $negotiator->getBest($accept, $available);
+
+            if ($best) {
+                return $best->getValue();
+            }
+
             $langs = explode(',', $accept);
 
             if (empty($available)) {
