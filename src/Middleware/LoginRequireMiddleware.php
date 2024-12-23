@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Windwalker\Core\Middleware\RoutingExcludesTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\DI\Attributes\Inject;
@@ -23,6 +24,7 @@ use Windwalker\Http\Response\RedirectResponse;
 class LoginRequireMiddleware implements MiddlewareInterface
 {
     use DICreateTrait;
+    use RoutingExcludesTrait;
 
     #[Inject]
     protected UserService $userService;
@@ -41,25 +43,15 @@ class LoginRequireMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (!$this->userService->isLogin()) {
+            if ($result = $this->isExclude()) {
+                return $result === true
+                    ? $handler->handle($request)
+                    : $result;
+            }
+
             $nav = $this->container->get(Navigator::class);
 
-            $route = $nav->getMatchedRoute();
-
-            if (is_array($this->excludes)) {
-                if (!in_array($route?->getName(), $this->excludes, true)) {
-                    return $this->getRedirectResponse($nav);
-                }
-            } else {
-                $result = $this->container->call($this->excludes, ['route' => $route]);
-
-                if (!$result) {
-                    return $this->getRedirectResponse($nav);
-                }
-
-                if ($result instanceof RouteUri) {
-                    return new RedirectResponse($result);
-                }
-            }
+            return $this->getRedirectResponse($nav);
         }
 
         return $handler->handle($request);
@@ -93,5 +85,10 @@ class LoginRequireMiddleware implements MiddlewareInterface
         }
 
         return $route->withReturn()->toResponse();
+    }
+
+    public function getExcludes(): mixed
+    {
+        return $this->excludes;
     }
 }

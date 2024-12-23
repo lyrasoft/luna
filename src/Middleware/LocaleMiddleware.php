@@ -12,6 +12,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Http\Browser;
 use Windwalker\Core\Language\LangService;
+use Windwalker\Core\Middleware\RoutingExcludesTrait;
 use Windwalker\Core\Router\Event\AfterRouteBuildEvent;
 use Windwalker\Core\Router\Event\BeforeRouteBuildEvent;
 use Windwalker\Core\Router\Navigator;
@@ -23,11 +24,14 @@ use Windwalker\DI\Definition\DefinitionInterface;
  */
 class LocaleMiddleware implements MiddlewareInterface
 {
+    use RoutingExcludesTrait;
+
     public function __construct(
         protected AppContext $app,
         protected bool $useBrowser = false,
         protected bool $uriPrefix = true,
         protected string $sessionKey = 'locale',
+        protected mixed $excludes = null,
     ) {
     }
 
@@ -38,6 +42,10 @@ class LocaleMiddleware implements MiddlewareInterface
     {
         if (!$this->app->config('luna.i18n.enabled')) {
             return $handler->handle($request);
+        }
+
+        if ($result = $this->isExclude()) {
+            return $result === true ? $handler->handle($request) : $result;
         }
 
         $localeService = $this->app->service(LocaleService::class);
@@ -122,5 +130,10 @@ class LocaleMiddleware implements MiddlewareInterface
         }
 
         return true;
+    }
+
+    public function getExcludes(): mixed
+    {
+        return $this->excludes;
     }
 }
