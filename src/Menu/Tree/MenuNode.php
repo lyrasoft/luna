@@ -34,7 +34,7 @@ class MenuNode extends Node implements MenuNodeInterface
 
     protected string $layout = 'link.link';
 
-    protected ?HTMLElement $element = null;
+    protected ?DOMElement $element = null;
 
     protected ?bool $forceActive = null;
 
@@ -284,9 +284,9 @@ class MenuNode extends Node implements MenuNodeInterface
         );
     }
 
-    public function getElement(): HTMLElement
+    public function getElement(): DOMElement
     {
-        return $this->element ??= HTMLElement::new('div');
+        return $this->element ??= HTMLElement::create('div');
     }
 
     public function attr(string $name, string $value): static
