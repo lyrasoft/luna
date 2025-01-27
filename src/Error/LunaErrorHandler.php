@@ -79,6 +79,11 @@ class LunaErrorHandler implements ErrorHandlerInterface
 
         $code = ErrorService::normalizeCode($code);
 
+        // Erro page statue should not be 10x or 20x
+        if ($code < 300) {
+            $code = 500;
+        }
+
         $res = $res->withStatus($code);
 
         $output = new StreamOutput();
