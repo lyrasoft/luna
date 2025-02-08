@@ -36,7 +36,6 @@
         "webpack-stream": "^7.0.0"
     },
     "resolutions": {
-        "chokidar": "^4.0",
         "micromatch": "^4.0.8",
         "postcss": "^8.4.31",
         "gulp-autoprefixer": "^9.0||^10.0"
