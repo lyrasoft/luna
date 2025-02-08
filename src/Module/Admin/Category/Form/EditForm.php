@@ -13,6 +13,7 @@ use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Field\CalendarField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
+use Unicorn\Field\TinymceEditorField;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\Field\HiddenField;
 use Windwalker\Form\Field\TextareaField;
@@ -98,19 +99,19 @@ class EditForm implements FieldDefinitionInterface
                     ->height(600);
 
                 // Description
-                // $form->add('description', TinymceEditorField::class)
-                //     ->label($this->trans('luna.category.field.description'))
-                //     ->editorOptions(
-                //         [
-                //             'height' => 450,
-                //         ]
-                //     )
-                //     ->rows(10);
+                $form->add('description', TinymceEditorField::class)
+                    ->label($this->trans('unicorn.field.description'))
+                    ->editorOptions(
+                        [
+                            'height' => 450,
+                        ]
+                    )
+                    ->rows(10);
 
                 // Description
-                $form->add('description', TextareaField::class)
-                    ->label($this->trans('unicorn.field.description'))
-                    ->rows(10);
+                // $form->add('description', TextareaField::class)
+                //     ->label($this->trans('unicorn.field.description'))
+                //     ->rows(10);
 
                 $form->add('type', HiddenField::class)
                     ->label($this->trans('unicorn.field.type'));

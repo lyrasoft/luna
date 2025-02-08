@@ -43,6 +43,15 @@ use Windwalker\Form\Form;
         <i class="fa fa-clone"></i>
         @lang('unicorn.toolbar.duplicate')
     </button>
+    <x-state-dropdown
+        :workflow="$workflow"
+        color-on="text"
+        button-style=""
+        use-states
+        batch
+    >
+        @lang('unicorn.toolbar.state.change')
+    </x-state-dropdown>
     @if ($form?->countFields(null, 'batch'))
         <button type="button" class="btn btn-dark btn-sm"
             @click="grid.validateChecked(null, function () {
