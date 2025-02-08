@@ -24,6 +24,16 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
+$cancelUrl = null;
+$route = $app->getMatchedRoute();
+
+if ($route) {
+    $cancelUrl = $route->getExtraValue('cancelUrl');
+
+    if ($cancelUrl) {
+        $cancelUrl = $app->getContainer()->extractValue($cancelUrl);
+    }
+}
 ?>
 
 <div x-title="toolbar" x-data="{ form: $store.form }">
@@ -35,7 +45,7 @@ use Windwalker\Core\Router\SystemUri;
     </button>
 
     <a class="btn btn-default btn-outline-secondary btn-sm"
-        href="{{ $nav->to('home') }}">
+        href="{{ $cancelUrl ?: $nav->to('home') }}">
         <span class="fa fa-times"></span>
         @lang('unicorn.toolbar.cancel')
     </a>

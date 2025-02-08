@@ -5,7 +5,6 @@ namespace App\Routes;
 use Lyrasoft\Luna\Module\Admin\Config\ConfigController;
 use Lyrasoft\Luna\Module\Admin\Config\ConfigEditView;
 use Lyrasoft\Luna\Module\Admin\Config\Form\CoreForm;
-use Unicorn\Middleware\KeepUrlQueryMiddleware;
 use Windwalker\Core\Router\RouteCreator;
 
 /** @var RouteCreator $router */
