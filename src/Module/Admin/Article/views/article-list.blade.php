@@ -100,6 +100,11 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                                 </x-sort>
                             </th>
                         @endif
+                        <th style="" class="text-nowrap">
+                            <x-sort field="article.created">
+                                @lang('unicorn.field.created')
+                            </x-sort>
+                        </th>
                         <th style="width: 1%" class="text-nowrap">
                             @lang('unicorn.toolbar.delete')
                         </th>
@@ -162,6 +167,12 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                                     ></x-lang-dropdown>
                                 </td>
                             @endif
+                            <td>
+                                <div data-bs-toggle="tooltip"
+                                    title="{{ $chronos->toLocalFormat($entity->getCreated()) }}">
+                                    {{ $chronos->toLocalFormat($entity->getCreated(), 'Y-m-d') }}
+                                </div>
+                            </td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-outline-secondary"
                                     @click="grid.deleteItem('{{ $entity->getId() }}')"
