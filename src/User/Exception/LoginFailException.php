@@ -21,12 +21,12 @@ class LoginFailException extends AuthenticateFailException
     /**
      * Class init.
      *
-     * @param  string        $mainMessage
-     * @param  string|array  $messages
-     * @param  int           $code
-     * @param  Throwable    $previous
+     * @param  string          $mainMessage
+     * @param  string|array    $messages
+     * @param  int             $code
+     * @param  Throwable|null  $previous
      */
-    public function __construct(string $mainMessage, $messages = [], int $code = 0, Throwable $previous = null)
+    public function __construct(string $mainMessage, $messages = [], int $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($messages, $code, $previous);
 

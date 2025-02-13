@@ -41,7 +41,7 @@ class WindwalkerRequestMethod implements RequestMethod
      * @param  HttpClient|null  $http
      * @param  null             $url
      */
-    public function __construct(HttpClient $http = null, $url = null)
+    public function __construct(?HttpClient $http = null, $url = null)
     {
         $this->http = $http ?: new HttpClient();
         $this->url = $url ?: ReCaptcha::SITE_VERIFY_URL;

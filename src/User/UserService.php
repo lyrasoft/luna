@@ -142,7 +142,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     public function attemptToLogin(
         array $credential,
         array $options = [],
-        ResultSet &$resultSet = null
+        ?ResultSet &$resultSet = null
     ): false|AuthResult {
         $event = $this->emit(
             BeforeLoginEvent::class,
@@ -211,7 +211,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         return $this->getAuthService()->authorize($action, $user, ...$args);
     }
 
-    public function authenticate(array $credential, ResultSet &$resultSet = null): false|AuthResult
+    public function authenticate(array $credential, ?ResultSet &$resultSet = null): false|AuthResult
     {
         return $this->getAuthService()->authenticate($credential, $resultSet);
     }
