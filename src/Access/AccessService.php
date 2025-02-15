@@ -246,6 +246,8 @@ class AccessService
             $maps[] = $this->orm->createOne(UserRoleMap::class, $roleMap);
         }
 
+        $this->cacheRemove('user.roles.' . $user->getId());
+
         return $maps;
     }
 
@@ -289,6 +291,8 @@ class AccessService
             $maps[] = $this->orm->createOne(UserRoleMap::class, $map);
         }
 
+        $this->cacheRemove('user.roles.' . $user->getId());
+
         return $maps;
     }
 
@@ -313,6 +317,8 @@ class AccessService
                 'role_id' => $roleIds,
             ]
         );
+
+        $this->cacheRemove('user.roles.' . $user->getId());
     }
 
     public function userIsRole(mixed $user = null, mixed $role = null): bool
