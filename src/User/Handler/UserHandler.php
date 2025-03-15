@@ -136,7 +136,7 @@ class UserHandler implements UserHandlerInterface
         if ($sessHandler instanceof DatabaseHandler) {
             $table = $sessHandler->getOption('table');
 
-            if ($this->orm->getDb()->getTable($table)->hasColumn('user_id')) {
+            if ($this->orm->getDb()->getTableManager($table)->hasColumn('user_id')) {
                 $this->orm->getDb()->update($table)
                     ->set('user_id', $userId)
                     ->set('remember', (int) ($options['remember'] ?? 0))
