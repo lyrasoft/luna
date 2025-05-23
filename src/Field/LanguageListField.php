@@ -9,7 +9,7 @@ use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Field\SqlListField;
 use Unicorn\Script\UnicornScript;
 use Windwalker\DI\Attributes\Service;
-use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Query\Query;
 
 /**
@@ -28,7 +28,7 @@ class LanguageListField extends SqlListField
 
     protected bool $defaultAsFallback = false;
 
-    public function prepareInput(DOMElement $input): DOMElement
+    public function prepareInput(HTMLElement $input): HTMLElement
     {
         if (!$this->getValue() && $this->isDefaultAsFallback()) {
             $this->setValue($this->localeService->getFallback());
@@ -40,7 +40,7 @@ class LanguageListField extends SqlListField
     /**
      * @inheritDoc
      */
-    public function buildFieldElement(DOMElement $input, array $options = []): string|DOMElement
+    public function buildFieldElement(HTMLElement $input, array $options = []): string|HTMLElement
     {
         $this->prepareScript();
 
@@ -56,7 +56,7 @@ class LanguageListField extends SqlListField
         $query->order('language.ordering', 'ASC');
     }
 
-    public function createItemOption(object $item): DOMElement
+    public function createItemOption(object $item): HTMLElement
     {
         $option = parent::createItemOption($item);
 

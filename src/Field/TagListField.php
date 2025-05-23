@@ -6,7 +6,7 @@ namespace Lyrasoft\Luna\Field;
 
 use Lyrasoft\Luna\Entity\Tag;
 use Unicorn\Field\SqlListField;
-use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Query\Query;
 
 /**
@@ -19,7 +19,7 @@ class TagListField extends SqlListField
     /**
      * @inheritDoc
      */
-    public function buildFieldElement(DOMElement $input, array $options = []): string|DOMElement
+    public function buildFieldElement(HTMLElement $input, array $options = []): string|HTMLElement
     {
         return parent::buildFieldElement($input, $options);
     }

@@ -8,7 +8,7 @@ use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Services\AssociationService;
 use Lyrasoft\Luna\Services\LocaleService;
 use Windwalker\DI\Attributes\Service;
-use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Form\Form;
 
 use function Windwalker\DOM\h;
@@ -41,7 +41,7 @@ trait LanguageAssocTrait
 
                     $field = $form->add($language->getCode(), $fieldClass)
                         ->modifyLabel(
-                            function (DOMElement $label) use ($language, $flag) {
+                            function (HTMLElement $label) use ($language, $flag) {
                                 $label->appendChild($flag);
                                 $label->appendText(' ' . $language->getTitle());
                             }

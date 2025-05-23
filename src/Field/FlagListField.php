@@ -8,7 +8,7 @@ use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Services\LocaleService;
 use Unicorn\Script\UnicornScript;
 use Windwalker\DI\Attributes\Service;
-use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Filesystem\FileObject;
 use Windwalker\Filesystem\Filesystem;
 use Windwalker\Filesystem\Path;
@@ -31,7 +31,7 @@ class FlagListField extends ListField
     /**
      * @inheritDoc
      */
-    public function buildFieldElement(DOMElement $input, array $options = []): string|DOMElement
+    public function buildFieldElement(HTMLElement $input, array $options = []): string|HTMLElement
     {
         $this->prepareScript();
 

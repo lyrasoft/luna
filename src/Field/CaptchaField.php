@@ -7,7 +7,7 @@ use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\DI\Attributes\Inject;
-use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\ValidateResult;
 
@@ -40,7 +40,7 @@ class CaptchaField extends TextField
      */
     protected CaptchaDriverInterface $driver;
 
-    public function buildFieldElement(DOMElement $input, array $options = []): string|DOMElement
+    public function buildFieldElement(HTMLElement $input, array $options = []): string|HTMLElement
     {
         $options['profile'] = $this->getProfile();
 

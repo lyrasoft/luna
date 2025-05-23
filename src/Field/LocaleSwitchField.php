@@ -9,7 +9,7 @@ use Unicorn\Field\DatabaseAwareTrait;
 use Unicorn\Field\LayoutFieldTrait;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Inject;
-use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Form\Field\AbstractField;
 use Windwalker\ORM\Metadata\EntityMetadata;
 use Windwalker\Query\Query;
@@ -47,7 +47,7 @@ class LocaleSwitchField extends AbstractField
     #[Inject]
     protected AssociationService $associationService;
 
-    public function prepareInput(DOMElement $input): DOMElement
+    public function prepareInput(HTMLElement $input): HTMLElement
     {
         $input['style'] = 'display: none;';
         $input['data-role'] = 'value';
@@ -57,7 +57,7 @@ class LocaleSwitchField extends AbstractField
         return $input;
     }
 
-    public function buildFieldElement(DOMElement $input, array $options = []): string|DOMElement
+    public function buildFieldElement(HTMLElement $input, array $options = []): string|HTMLElement
     {
         $field = $this;
 

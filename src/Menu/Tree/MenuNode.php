@@ -12,8 +12,6 @@ use Windwalker\Core\Router\Exception\RouteNotFoundException;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\Route;
 use Windwalker\Core\Router\RouteUri;
-use Windwalker\DI\Attributes\Inject;
-use Windwalker\DOM\DOMElement;
 use Windwalker\DOM\HTMLElement;
 use Windwalker\Uri\Uri;
 
@@ -34,7 +32,7 @@ class MenuNode extends Node implements MenuNodeInterface
 
     protected string $layout = 'link.link';
 
-    protected ?DOMElement $element = null;
+    protected ?HTMLElement $element = null;
 
     protected ?bool $forceActive = null;
 
@@ -284,7 +282,7 @@ class MenuNode extends Node implements MenuNodeInterface
         );
     }
 
-    public function getElement(): DOMElement
+    public function getElement(): HTMLElement
     {
         return $this->element ??= HTMLElement::create('div');
     }

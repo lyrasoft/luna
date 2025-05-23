@@ -11,7 +11,7 @@ use Lyrasoft\Luna\Widget\WidgetService;
 use Unicorn\Field\SqlListField;
 use Unicorn\Script\UnicornScript;
 use Windwalker\DI\Attributes\Service;
-use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Query\Query;
 
@@ -36,7 +36,7 @@ class WidgetPositionListField extends ListField
     /**
      * @inheritDoc
      */
-    public function buildFieldElement(DOMElement $input, array $options = []): string|DOMElement
+    public function buildFieldElement(HTMLElement $input, array $options = []): string|HTMLElement
     {
         $this->prepareScript();
 
