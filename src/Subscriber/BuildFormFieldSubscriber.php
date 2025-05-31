@@ -20,10 +20,10 @@ class BuildFormFieldSubscriber
     #[ListenTo(BuildFormFieldEvent::class)]
     public function buildFormField(BuildFormFieldEvent $event): void
     {
-        $column = $event->getColumn();
-        $label = $event->getLabel();
+        $column = $event->column;
+        $label = $event->label;
         $colName = $column->getColumnName();
-        $builder = $event->getFormFieldsBuilder();
+        $builder = $event->formFieldsBuilder;
         $code = null;
 
         switch ($colName) {

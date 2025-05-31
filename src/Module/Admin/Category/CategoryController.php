@@ -50,15 +50,13 @@ class CategoryController
 
         $controller->prepareSave(
             function (PrepareSaveEvent $event) use ($app) {
-                $data = &$event->getData();
-
-                $data['type'] = $app->input('type');
+                $event->data['type'] = $app->input('type');
             }
         );
 
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($repository, $fileUploadService, $app) {
-                $data = $event->getData();
+                $data = $event->data;
 
                 $data['image'] = $fileUploadService->handleFileIfUploaded(
                     $app->file('item')['image'] ?? null,

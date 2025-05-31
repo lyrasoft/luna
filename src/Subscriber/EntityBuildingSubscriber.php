@@ -58,9 +58,9 @@ class EntityBuildingSubscriber
     #[ListenTo(BuildEntityPropertyEvent::class)]
     public function buildEntityProperty(BuildEntityPropertyEvent $event): void
     {
-        $builder = $event->getEntityMemberBuilder();
-        $column = $event->getColumn();
-        $prop = $event->getProp();
+        $builder = $event->entityMemberBuilder;
+        $column = $event->column;
+        $prop = $event->prop;
 
         if ($column->columnName === $this->getOption('slug_column')) {
             $builder->addUse(Slugify::class);

@@ -86,17 +86,15 @@ class Tag implements EntityInterface
     #[BeforeSaveEvent]
     public static function beforeSave(BeforeSaveEvent $event): void
     {
-        $data = &$event->getData();
-
-        $data['language'] = $data['language'] ?? null ?: '*';
+        $event->data['language'] = $event->data['language'] ?? null ?: '*';
     }
 
     #[AfterDeleteEvent]
     public static function afterDelete(AfterDeleteEvent $event): void
     {
         /** @var static $entity */
-        $entity = $event->getEntity();
-        $orm = $event->getORM();
+        $entity = $event->entity;
+        $orm = $event->orm;
 
         $orm->deleteWhere(TagMap::class, ['tag_id' => $entity->getId()]);
     }

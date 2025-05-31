@@ -50,7 +50,7 @@ class MenuController
         // Prepare
         $controller->prepareSave(
             function (PrepareSaveEvent $event) use ($app, $menuService) {
-                $data = &$event->getData();
+                $data = &$event->data;
                 $data['variables'] = $app->input('item')['variables'] ?? [];
 
                 $view = $data['view'] ?? null;

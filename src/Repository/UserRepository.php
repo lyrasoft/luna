@@ -55,7 +55,7 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     {
         $action->prepareSave(
             function (PrepareSaveEvent $event) {
-                $data = &$event->getData();
+                $data = &$event->data;
 
                 if ($data['password'] ?? null) {
                     if (!$this->srpService->isEnabled()) {
@@ -75,7 +75,7 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
 
         $action->beforeSave(
             function (BeforeSaveEvent $event) {
-                $data = &$event->getData();
+                $data = &$event->data;
 
                 $loginName = $this->lunaPackage->getLoginName();
 

@@ -99,11 +99,7 @@ abstract class AbstractMenuView implements
         });
 
         $this->emit(
-            MenuFieldDefineEvent::class,
-            [
-                'form' => $form,
-                'menu' => $this,
-            ]
+            new MenuFieldDefineEvent(form: $form, menu: $this)
         );
     }
 

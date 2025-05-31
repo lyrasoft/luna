@@ -36,9 +36,9 @@ class AdminAccessMiddleware implements MiddlewareInterface
             LoginAuthEvent::class,
             function (LoginAuthEvent $event) {
                 /** @var User $user */
-                $user = $event->getUser();
+                $user = $event->user;
 
-                if (!$this->userService->can(AccessService::ADMIN_ACCESS_ACTION, $user)) {
+                if ($user && !$this->userService->can(AccessService::ADMIN_ACCESS_ACTION, $user)) {
                     throw new AuthenticateFailException(
                         $this->trans('luna.login.message.authorize.fail'),
                         403

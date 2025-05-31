@@ -76,8 +76,8 @@ class LocaleMiddleware implements MiddlewareInterface
             $localeService->listenNavigatorBuildEventOnce(
                 $nav,
                 function (AfterRouteBuildEvent $event) use ($localeService) {
-                    $nav = $event->getNavigator();
-                    $route = $nav->findRoute($event->getRoute());
+                    $nav = $event->navigator;
+                    $route = $nav->findRoute($event->route);
                     $matched = $nav->getMatchedRoute();
 
                     if (!$matched || !$route) {
@@ -86,13 +86,11 @@ class LocaleMiddleware implements MiddlewareInterface
 
                     foreach ((array) $route->getExtraValue('middlewares') as $item) {
                         if ($this->isSame($item)) {
-                            $url = &$event->getUrl();
-
                             $lang = $localeService->getCurrentLanguage();
 
                             if ($lang) {
                                 $alias = $lang->getAlias();
-                                $url = $alias . '/' . $url;
+                                $event->url = $alias . '/' . $event->url;
                             }
                             return;
                         }

@@ -26,7 +26,7 @@ class AdminSessionSubscriber
     #[ListenTo(AfterRoutingEvent::class)]
     public function afterRouting(AfterRoutingEvent $event): void
     {
-        $matched = $event->getMatched();
+        $matched = $event->matched;
 
         $ns = $matched->getExtraValue('namespace');
 

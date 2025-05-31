@@ -32,7 +32,7 @@ class LanguageController
 
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($repository, $app, $fileUploadService) {
-                $data = $event->getData();
+                $data = $event->data;
 
                 $cover = $fileUploadService->handleFileIfUploaded(
                     $app->file('item')['meta']['cover'] ?? null,

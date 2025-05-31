@@ -44,15 +44,13 @@ class ArticleController
 
         $controller->prepareSave(
             function (PrepareSaveEvent $event) use ($app) {
-                $data = &$event->getData();
-
-                $data['type'] = $app->input('type') ?: 'article';
+                $event->data['type'] = $app->input('type') ?: 'article';
             }
         );
 
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($fileUploadService, $tagService, $repository, $app) {
-                $data = $event->getData();
+                $data = $event->data;
 
                 $data['image'] = $fileUploadService->handleFileIfUploaded(
                     $app->file('item')['image'] ?? null,
@@ -62,7 +60,7 @@ class ArticleController
                 $repository->save($data);
 
                 /** @var Article $entity */
-                $entity = $event->getEntity();
+                $entity = $event->entity;
 
                 $tagService->flushTagMapsFromInput(
                     'article',

@@ -55,7 +55,7 @@ class EntityDefaultValueSubscriber
     #[BeforeSaveEvent]
     public function beforeSave(BeforeSaveEvent $event): void
     {
-        $data = &$event->getData();
+        $data = &$event->data;
 
         $col = $this->getOption('slug_column');
         $titleCol = $this->getOption('title_column');

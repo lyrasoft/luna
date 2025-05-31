@@ -119,7 +119,7 @@ class User implements EntityInterface, UserEntityInterface
     #[BeforeSaveEvent]
     public static function beforeSave(BeforeSaveEvent $event): void
     {
-        $data = &$event->getData();
+        $data = &$event->data;
 
         if (isset($data['password']) && $data['password'] === '') {
             unset($data['password']);
@@ -130,9 +130,8 @@ class User implements EntityInterface, UserEntityInterface
     public static function afterDelete(AfterDeleteEvent $event): void
     {
         /** @var static $item */
-        $item = $event->getEntity();
-
-        $orm = $event->getORM();
+        $item = $event->entity;
+        $orm = $event->orm;
 
         $orm->deleteWhere(UserSocial::class, ['user_id' => $item->getId()]);
         $orm->deleteWhere(UserRoleMap::class, ['user_id' => $item->getId()]);

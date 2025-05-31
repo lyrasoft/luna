@@ -140,11 +140,14 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         ?ResultSet &$resultSet = null
     ): false|AuthResult {
         $event = $this->emit(
-            BeforeLoginEvent::class,
-            compact('credential', 'options')
+            new BeforeLoginEvent(
+                credential: $credential,
+                options: $options
+            )
         );
 
-        $result = $this->authenticate($event->getCredential(), $resultSet);
+        $result = $this->authenticate($event->credential, $resultSet);
+        $user = null;
 
         try {
             if ($result) {
@@ -153,14 +156,19 @@ class UserService implements UserHandlerInterface, EventAwareInterface
                 $user = $this->createUserEntity($credential);
 
                 $event = $this->emit(
-                    LoginAuthEvent::class,
-                    compact('credential', 'options', 'result', 'user', 'resultSet')
+                    new LoginAuthEvent(
+                        user: $user,
+                        result: $result,
+                        resultSet: $resultSet,
+                        credential: $credential,
+                        options: $options
+                    )
                 );
 
-                $result = $event->getResult();
+                $result = $event->result;
 
                 if ($result) {
-                    $user = $this->createUserEntity($event->getCredential());
+                    $user = $this->createUserEntity($event->credential);
                     $this->login($user, $options);
                 }
             }
@@ -171,12 +179,12 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
         if (!$result) {
             $this->emit(
-                LoginFailEvent::class,
-                compact(
-                    'credential',
-                    'options',
-                    'result',
-                    'resultSet',
+                new LoginFailEvent(
+                    user: $user,
+                    result: $result,
+                    resultSet: $resultSet,
+                    credential: $credential,
+                    options: $options
                 )
             );
 
@@ -184,13 +192,12 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         }
 
         $event = $this->emit(
-            AfterLoginEvent::class,
-            compact(
-                'credential',
-                'options',
-                'user',
-                'result',
-                'resultSet',
+            new AfterLoginEvent(
+                result: $result,
+                resultSet: $resultSet,
+                user: $user,
+                credential: $credential,
+                options: $options,
             )
         );
 

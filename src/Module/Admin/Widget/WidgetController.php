@@ -34,9 +34,7 @@ class WidgetController
     ): mixed {
         $controller->prepareSave(
             function (PrepareSaveEvent $event) use ($widgetService, $app) {
-                $data = &$event->getData();
-
-                $data['params'] = $app->input('item')['params'] ?? [];
+                $event->data['params'] = $app->input('item')['params'] ?? [];
             }
         );
 

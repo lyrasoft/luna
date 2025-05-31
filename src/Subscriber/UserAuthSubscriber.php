@@ -31,7 +31,7 @@ class UserAuthSubscriber
     public function loginAuth(LoginAuthEvent $event): void
     {
         /** @var User $user */
-        $user = $event->getUser();
+        $user = $event->user;
 
         if (method_exists($user, 'isVerified') && !$user->isVerified()) {
             $this->state->remember(ActivationService::RE_ACTIVATE_SESSION_KEY, $user->getEmail());

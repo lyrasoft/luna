@@ -9,4 +9,11 @@ namespace Lyrasoft\Luna\User\Event;
  */
 class BeforeLoginEvent extends AbstractLoginEvent
 {
+    public function __construct(
+        array $credential = [],
+        array $options = []
+    ) {
+        $this->credential = $credential;
+        $this->options = $options;
+    }
 }

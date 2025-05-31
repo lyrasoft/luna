@@ -23,7 +23,7 @@ class AutoOpenGraphSubscriber
     #[ListenTo(BeforeRenderEvent::class)]
     public function beforeRender(BeforeRenderEvent $event): void
     {
-        $htmlFrame = $event->getView()->getHtmlFrame();
+        $htmlFrame = $event->view->getHtmlFrame();
         $metadata = $htmlFrame->getMetadata();
         $ogTypes = array_keys($metadata->getOpenGraphs());
 

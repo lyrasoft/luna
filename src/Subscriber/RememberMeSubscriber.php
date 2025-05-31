@@ -24,7 +24,7 @@ class RememberMeSubscriber
     #[ListenTo(AfterLoginEvent::class)]
     public function afterLogin(AfterLoginEvent $event): void
     {
-        $options = $event->getOptions();
+        $options = $event->options;
 
         if ($options['remember'] ?? false) {
             /** @var Session $session */

@@ -52,7 +52,7 @@ class UserController
     ): mixed {
         $controller->beforeSave(
             function (BeforeSaveEvent $event) use ($srpService, $app) {
-                $data = &$event->getData();
+                $data = &$event->data;
 
                 if ($srpService->isEnabled()) {
                     $data = $srpService->handleRegister($app, $data);
@@ -62,9 +62,9 @@ class UserController
 
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($userService, $repository, $uploadService, $app) {
-                $data = $event->getData();
+                $data = $event->data;
                 /** @var User $user */
-                $user = $event->getEntity();
+                $user = $event->entity;
                 $files = $app->file('item');
 
                 $user->setId((int) $data['id']);
@@ -163,7 +163,7 @@ class UserController
     ): mixed {
         $controller->beforeDelete(function (BeforeDeleteEvent $event) use ($app) {
             /** @var User $entity */
-            $entity = $event->getEntity();
+            $entity = $event->entity;
 
             $userService = $app->service(UserService::class);
             $user = $userService->getCurrentUser();

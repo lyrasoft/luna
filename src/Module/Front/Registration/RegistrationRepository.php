@@ -108,7 +108,7 @@ class RegistrationRepository implements CrudRepositoryInterface
     {
         $saveAction->prepareSave(
             function (PrepareSaveEvent $event) {
-                $data = &$event->getData();
+                $data = &$event->data;
 
                 $data['enabled'] ??= 0;
                 $data['verified'] ??= 0;

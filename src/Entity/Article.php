@@ -114,9 +114,7 @@ class Article implements EntityInterface
     #[BeforeSaveEvent]
     public static function beforeSave(BeforeSaveEvent $event): void
     {
-        $data = &$event->getData();
-
-        $data['language'] = $data['language'] ?? null ?: '*';
+        $event->data['language'] = $event->data['language'] ?? null ?: '*';
     }
 
     /**

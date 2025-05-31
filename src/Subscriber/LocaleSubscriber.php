@@ -49,7 +49,7 @@ class LocaleSubscriber
         }
 
         $state = $app->getState();
-        $route = $event->getRoute();
+        $route = $event->route;
         $state->set('origin_route', $route);
 
         $app->getSystemUri();

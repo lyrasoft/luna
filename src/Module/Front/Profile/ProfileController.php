@@ -41,7 +41,7 @@ class ProfileController
     ): mixed {
         $controller->prepareSave(
             function (PrepareSaveEvent $event) use ($srpService, $userService, $repository, $app) {
-                $data = &$event->getData();
+                $data = &$event->data;
 
                 $user = $userService->getUser();
 
@@ -58,7 +58,7 @@ class ProfileController
 
         $controller->afterSave(
             function (AfterSaveEvent $event) use ($repository, $uploadService, $app) {
-                $data = $event->getData();
+                $data = $event->data;
                 $files = $app->file('item');
 
                 unset($data['password']);
