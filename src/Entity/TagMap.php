@@ -16,6 +16,8 @@ use function Windwalker\unwrap_enum;
 /**
  * The TagMap class.
  */
+// phpcs:disable
+// todo: remove this when phpcs supports 8.4
 #[Table('tag_maps', 'tag_map')]
 #[\AllowDynamicProperties]
 class TagMap implements EntityInterface
@@ -23,53 +25,21 @@ class TagMap implements EntityInterface
     use EntityTrait;
 
     #[Column('tag_id')]
-    protected int $tagId = 0;
+    public int $tagId = 0;
 
     #[Column('target_id')]
-    protected int $targetId = 0;
+    public mixed $targetId = null;
 
     #[Column('type')]
-    protected string $type = '';
+    public string $type = '' {
+        set(string|\BackedEnum $value) {
+            $this->type = unwrap_enum($value);
+        }
+    }
 
     #[EntitySetup]
     public static function setup(EntityMetadata $metadata): void
     {
         //
-    }
-
-    public function getTagId(): int
-    {
-        return $this->tagId;
-    }
-
-    public function setTagId(int $tagId): static
-    {
-        $this->tagId = $tagId;
-
-        return $this;
-    }
-
-    public function getTargetId(): int
-    {
-        return $this->targetId;
-    }
-
-    public function setTargetId(int $targetId): static
-    {
-        $this->targetId = $targetId;
-
-        return $this;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string|\BackedEnum $type): static
-    {
-        $this->type = (string) unwrap_enum($type);
-
-        return $this;
     }
 }

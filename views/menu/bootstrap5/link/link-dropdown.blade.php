@@ -27,6 +27,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Utilities\TypeCast;
 
 /**
@@ -47,7 +48,7 @@ $attrs['data-level'] = $level;
         $attrs['class'] .= ' dropdown';
     }
     ?>
-    <li {!! DOMElement::buildAttributes($attrs) !!}>
+    <li {!! HTMLElement::buildAttributes($attrs) !!}>
         <a @attr('href', $link)
         class="nav-link {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
@@ -70,7 +71,7 @@ $attrs['data-level'] = $level;
         $attrs['class'] .= ' dropdown-submenu';
     }
     ?>
-    <li {!! DOMElement::buildAttributes($attrs) !!}>
+    <li {!! HTMLElement::buildAttributes($attrs) !!}>
         <a @attr('href', $link)
         class="dropdown-item {{ $item->isActive(true) ? 'active' : '' }}"
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)

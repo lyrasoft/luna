@@ -4,27 +4,23 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
-use DateTimeInterface;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Lyrasoft\Luna\User\UserService;
-use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\DateTime\ServerTimeCast;
 use Windwalker\ORM\Attributes\AutoIncrement;
 use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
 use Windwalker\ORM\Attributes\Column;
-use Windwalker\ORM\Attributes\CreatedTime;
 use Windwalker\ORM\Attributes\CurrentTime;
 use Windwalker\ORM\Attributes\EntitySetup;
+use Windwalker\ORM\Attributes\JsonObject;
 use Windwalker\ORM\Attributes\PK;
 use Windwalker\ORM\Attributes\Table;
-use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
 use Windwalker\ORM\Event\AfterDeleteEvent;
-use Windwalker\ORM\Event\BeforeDeleteEvent;
 use Windwalker\ORM\Event\BeforeSaveEvent;
 use Windwalker\ORM\Event\EnergizeEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
@@ -32,6 +28,8 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The User class.
  */
+// phpcs:disable
+// todo: remove this when phpcs supports 8.4
 #[Table('users', 'user')]
 #[\AllowDynamicProperties]
 class User implements EntityInterface, UserEntityInterface
@@ -39,62 +37,77 @@ class User implements EntityInterface, UserEntityInterface
     use EntityTrait;
 
     #[Column('id'), PK, AutoIncrement]
-    protected ?int $id = null;
+    public ?int $id = null;
 
     #[Column('username')]
-    protected string $username = '';
+    public string $username = '';
 
     #[Column('email')]
-    protected string $email = '';
+    public string $email = '';
 
     #[Column('name')]
-    protected string $name = '';
+    public string $name = '';
 
     #[Column('avatar')]
-    protected string $avatar = '';
+    public string $avatar = '';
 
     #[Column('password')]
-    protected string $password = '';
+    public string $password = '';
 
     #[Column('enabled')]
-    #[Cast('bool')]
-    protected bool $enabled = true;
+    #[Cast('bool', 'int')]
+    public bool $enabled = false;
 
     #[Column('verified')]
-    #[Cast('bool')]
-    protected bool $verified = true;
+    #[Cast('bool', 'int')]
+    public bool $verified = false;
 
     #[Column('activation')]
-    protected string $activation = '';
+    public string $activation = '';
 
     #[Column('receive_mail')]
-    #[Cast('bool')]
-    protected bool $receiveMail = true;
+    #[Cast('bool', 'int')]
+    public bool $receiveMail = false;
 
     #[Column('reset_token')]
-    protected string $resetToken = '';
+    public string $resetToken = '';
 
     #[Column('last_reset')]
     #[CastNullable(ServerTimeCast::class)]
-    protected ?Chronos $lastReset = null;
+    public ?Chronos $lastReset = null {
+        set(\DateTimeInterface|string|null $value) {
+            $this->lastReset = Chronos::tryWrap($value);
+        }
+    }
 
     #[Column('last_login')]
     #[CastNullable(ServerTimeCast::class)]
-    protected ?Chronos $lastLogin = null;
+    public ?Chronos $lastLogin = null {
+        set(\DateTimeInterface|string|null $value) {
+            $this->lastLogin = Chronos::tryWrap($value);
+        }
+    }
 
     #[Column('registered')]
-    #[CreatedTime]
     #[CastNullable(ServerTimeCast::class)]
-    protected ?Chronos $registered = null;
+    public ?Chronos $registered = null {
+        set(\DateTimeInterface|string|null $value) {
+            $this->registered = Chronos::tryWrap($value);
+        }
+    }
 
     #[Column('modified')]
-    #[CurrentTime]
     #[CastNullable(ServerTimeCast::class)]
-    protected ?Chronos $modified = null;
+    #[CurrentTime]
+    public ?Chronos $modified = null {
+        set(\DateTimeInterface|string|null $value) {
+            $this->modified = Chronos::tryWrap($value);
+        }
+    }
 
     #[Column('params')]
-    #[Cast(JsonCast::class)]
-    protected array $params = [];
+    #[JsonObject]
+    public array $params = [];
 
     #[EntitySetup]
     public static function setup(EntityMetadata $metadata): void
@@ -153,48 +166,14 @@ class User implements EntityInterface, UserEntityInterface
         return $accessService->userInRoles($this, $roles);
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
+    public function isLogin(): bool
+    {
+        return $this->getId() !== null;
+    }
+
+    public function getId(): mixed
     {
         return $this->id;
-    }
-
-    /**
-     * @param  int|null  $id
-     *
-     * @return  static  Return self to support chaining.
-     */
-    public function setId(?int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     public function getName(): string
@@ -202,159 +181,13 @@ class User implements EntityInterface, UserEntityInterface
         return $this->name;
     }
 
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getAvatar(): string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(string $avatar): static
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
     public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function setEnabled(bool $enabled): static
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
     public function isVerified(): bool
     {
         return $this->verified;
-    }
-
-    public function setVerified(bool $verified): static
-    {
-        $this->verified = $verified;
-
-        return $this;
-    }
-
-    public function getActivation(): string
-    {
-        return $this->activation;
-    }
-
-    public function setActivation(string $activation): static
-    {
-        $this->activation = $activation;
-
-        return $this;
-    }
-
-    public function isReceiveMail(): bool
-    {
-        return $this->receiveMail;
-    }
-
-    public function setReceiveMail(bool $receiveMail): static
-    {
-        $this->receiveMail = $receiveMail;
-
-        return $this;
-    }
-
-    public function getResetToken(): string
-    {
-        return $this->resetToken;
-    }
-
-    public function setResetToken(string $resetToken): static
-    {
-        $this->resetToken = $resetToken;
-
-        return $this;
-    }
-
-    public function getLastReset(): ?Chronos
-    {
-        return $this->lastReset;
-    }
-
-    public function setLastReset(DateTimeInterface|string|null $lastReset): static
-    {
-        $this->lastReset = Chronos::wrapOrNull($lastReset);
-
-        return $this;
-    }
-
-    public function getLastLogin(): ?Chronos
-    {
-        return $this->lastLogin;
-    }
-
-    public function setLastLogin(DateTimeInterface|string|null $lastLogin): static
-    {
-        $this->lastLogin = Chronos::wrapOrNull($lastLogin);
-
-        return $this;
-    }
-
-    public function getRegistered(): ?Chronos
-    {
-        return $this->registered;
-    }
-
-    public function setRegistered(DateTimeInterface|string|null $registered): static
-    {
-        $this->registered = Chronos::wrapOrNull($registered);
-
-        return $this;
-    }
-
-    public function getModified(): ?Chronos
-    {
-        return $this->modified;
-    }
-
-    public function setModified(DateTimeInterface|string|null $modified): static
-    {
-        $this->modified = Chronos::wrapOrNull($modified);
-
-        return $this;
-    }
-
-    public function getParams(): array
-    {
-        return $this->params;
-    }
-
-    public function setParams(array $params): static
-    {
-        $this->params = $params;
-
-        return $this;
-    }
-
-    public function isLogin(): bool
-    {
-        return $this->getId() !== null;
     }
 }

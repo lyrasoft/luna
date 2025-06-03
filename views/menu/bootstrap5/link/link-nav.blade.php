@@ -27,6 +27,7 @@ use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 
 use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 use Windwalker\Utilities\TypeCast;
 
 use function Windwalker\uid;
@@ -48,8 +49,9 @@ $attrs['data-level'] = $level;
 ?>
 
 @if ($level === 1)
-    <?php $attrs['class'] .= ' nav-item'; ?>
-    <li {!! DOMElement::buildAttributes($attrs) !!}>
+    <?php
+    $attrs['class'] .= ' nav-item'; ?>
+    <li {!! HTMLElement::buildAttributes($attrs) !!}>
         <a class="nav-link {{ $item->isActive(true) ? 'active' : '' }} {{ $nolink ? 'nav-link--nolink' : '' }}"
             @attr('href', $link)
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)
@@ -76,7 +78,7 @@ $attrs['data-level'] = $level;
     }
     $attrs['class'] .= ' subnav-item';
     ?>
-    <li {!! DOMElement::buildAttributes($attrs) !!}>
+    <li {!! HTMLElement::buildAttributes($attrs) !!}>
         <a @attr('href', $link)
         class="subnav-link {{ $item->isActive(true) ? 'active' : '' }} {{ $nolink ? 'subnav-link--nolink' : '' }}"
             @attr('target', $link ? TypeCast::toString($item->getTarget()) : false)

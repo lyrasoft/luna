@@ -28,6 +28,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 
 /**
  * @var $item         MenuNode|DbMenuNode
@@ -42,7 +43,7 @@ $attrs['class'] .= ' dropdown-header';
 $attrs['data-level'] = $item->getDepth();
 ?>
 
-<h6 {!! DOMElement::buildAttributes($attrs) !!}>
+<h6 {!! HTMLElement::buildAttributes($attrs) !!}>
     @if ($item->getIcon())
         <span class="{{ $item->getIcon() }}"></span>
     @endif

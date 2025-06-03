@@ -24,7 +24,7 @@ $attrs['data-captcha-input'] = true;
     uni-captcha-gregwar
 >
     <div class="mt-3 mt-md-0 flex-grow-1 me-2">
-        <input {!! \Windwalker\DOM\DOMElement::buildAttributes($attrs) !!} />
+        <input {!! \Windwalker\DOM\HTMLElement::buildAttributes($attrs) !!} />
     </div>
     <img class="c-gregwar-captcha__image"
         src="{{ $route ?: $nav->to('_captcha_image', ['t' => time(), 'profile' => $options['profile']]) }}"

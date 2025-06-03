@@ -54,7 +54,7 @@ class PageController
         /** @var Page $page */
         $page = $repository->save([]);
 
-        return $nav->to('page_edit')->id($page->getId())->var('new', 1);
+        return $nav->to('page_edit')->id($page->id)->var('new', 1);
     }
 
     public function delete(
@@ -128,7 +128,7 @@ class PageController
 
         $item['image'] = $fileUploadService->handleFileIfUploaded(
             $app->file('item')['image'] ?? null,
-            'images/pages/' . md5((string) $entity->getId()) . '.{ext}'
+            'images/pages/' . md5((string) $entity->id) . '.{ext}'
         )?->getUri(true) ?? $item['image'];
 
         $entity = $repository->save($item);

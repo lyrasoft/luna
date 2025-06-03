@@ -83,7 +83,7 @@ class EditForm implements FieldDefinitionInterface
                 $form->add('meta/keywords', TextField::class)
                     ->label($this->trans('luna.language.field.meta.keywords'));
 
-                $form->add('meta/custom_code', TextareaField::class)
+                $form->add('meta/customCode', TextareaField::class)
                     ->label($this->trans('luna.language.field.meta.custom.code'))
                     ->rows(7);
             }

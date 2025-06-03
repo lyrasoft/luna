@@ -28,6 +28,8 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The Article class.
  */
+// phpcs:disable
+// todo: remove this when phpcs supports 8.4
 #[Table('articles', 'article')]
 #[\AllowDynamicProperties]
 class Article implements EntityInterface

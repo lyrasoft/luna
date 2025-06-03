@@ -25,6 +25,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 
 $options = $row->extract('options');
 
@@ -46,7 +47,7 @@ $classes = array_filter($classes, '\strlen');
 <section id="{{ $row->getDeep('options.html_id') }}" class="l-section l-bg-container {{ implode(' ', $classes) }}"
     uni-page-edit="row"
     data-path="{{ $path }}"
-    {!! DOMElement::buildAttributes($attrs) !!}>
+    {!! HTMLElement::buildAttributes($attrs) !!}>
     @if ($options->getDeep('background.type') === 'image' && $options->getDeep('background.overlay'))
         <div class="l-bg-overlay"></div>
     @endif
@@ -54,7 +55,8 @@ $classes = array_filter($classes, '\strlen');
         <div class="l-section__body">
             @if ($options->getDeep('title.text') !== '')
                 <div class="l-section__header c-box-header">
-                    <{{ $options->getDeep('title.element') ?: 'h3' }} class="l-section__title c-box-header__title">
+                    <{{ $options->getDeep('title.element') ?: 'h3' }} class
+                    ="l-section__title c-box-header__title">
                     {{ $options->getDeep('title.text') }}
                 </{{ $options->getDeep('title.element') ?: 'h3' }}>
                 <p class="l-section__subtitle c-box-header__subtitle">

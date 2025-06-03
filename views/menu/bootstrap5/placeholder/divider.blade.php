@@ -27,6 +27,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 
 /**
  * @var $item         MenuNode
@@ -38,4 +39,4 @@ $attrs['class'] ??= '';
 $attrs['class'] .= ' dropdown-divider';
 $attrs['data-level'] = $item->getDepth();
 ?>
-<div {!! DOMElement::buildAttributes($attrs) !!}></div>
+<div {!! HTMLElement::buildAttributes($attrs) !!}></div>

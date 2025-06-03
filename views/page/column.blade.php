@@ -24,6 +24,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 
 $options = $col->extract('options');
 
@@ -41,7 +42,7 @@ $classes = array_filter($classes, '\strlen');
     data-path="{{ $path }}"
 >
     <div id="{{ $options->getDeep('html_id') }}" class="l-column__body {{ implode(' ', $classes) }}"
-        {!! DOMElement::buildAttributes($attrs) !!}>
+        {!! HTMLElement::buildAttributes($attrs) !!}>
         @if ($options->getDeep('background.type') === 'image' && $options->getDeep('background.overlay'))
             <div class="l-bg-overlay"></div>
         @endif

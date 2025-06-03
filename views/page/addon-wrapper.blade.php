@@ -24,13 +24,14 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 use Windwalker\DOM\DOMElement;
+use Windwalker\DOM\HTMLElement;
 
 ?>
 <div id="{{ $options['html_id'] }}" class="c-addon c-addon--{{ $content['type'] }} {{ implode(' ', $classes) }}"
     uni-page-edit="addon"
     data-path="{{ $path }}"
     data-addon-type="{{ $content['type'] }}"
-    {!! DOMElement::buildAttributes($attrs) !!}>
+    {!! HTMLElement::buildAttributes($attrs) !!}>
     @if ($options->getDeep('background.type') === 'image' && $options->getDeep('background.overlay'))
         <div class="l-bg-overlay"></div>
     @endif

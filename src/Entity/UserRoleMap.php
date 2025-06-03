@@ -22,10 +22,10 @@ class UserRoleMap implements EntityInterface
     use EntityTrait;
 
     #[Column('user_id'), PK]
-    protected int $userId = 0;
+    public int $userId = 0;
 
     #[Column('role_id'), PK]
-    protected string|int $roleId = '';
+    public mixed $roleId = null;
 
     #[EntitySetup]
     public static function setup(EntityMetadata $metadata): void
@@ -33,32 +33,8 @@ class UserRoleMap implements EntityInterface
         //
     }
 
-    public function getUserId(): int
-    {
-        return $this->userId;
-    }
-
-    public function setUserId(int $userId): static
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    public function getRoleId(): string|int
-    {
-        return $this->roleId;
-    }
-
-    public function setRoleId(string|int $roleId): static
-    {
-        $this->roleId = $roleId;
-
-        return $this;
-    }
-
     public function isStatic(): bool
     {
-        return !is_numeric($this->roleId);
+        return is_string($this->roleId) && !is_numeric($this->roleId);
     }
 }
