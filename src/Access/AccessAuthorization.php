@@ -6,7 +6,10 @@ namespace Lyrasoft\Luna\Access;
 
 use Windwalker\Authorization\Authorization;
 use Windwalker\Authorization\AuthorizationInterface;
+use Windwalker\Authorization\PolicyInterface;
 use Windwalker\Authorization\PolicyProviderInterface;
+
+use function Windwalker\unwrap_enum;
 
 /**
  * The AccessAuthorization class.
@@ -17,39 +20,27 @@ class AccessAuthorization implements AuthorizationInterface
     {
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function authorize(string $policy, mixed $user, ...$args): bool
+    public function authorize(string|\UnitEnum $policy, mixed $user, ...$args): bool
     {
         if ($this->hasPolicy($policy)) {
-            return $this->authorization->getPolicy($policy)?->authorize($user, ...$args);
+            return $this->authorization->getPolicy($policy)?->authorize($user, ...$args) ?? false;
         }
 
         return $this->accessService->check($policy, $user, ...$args);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function addPolicy(string $name, callable $handler): static
+    public function addPolicy(string|\UnitEnum $name, callable|PolicyInterface $handler): static
     {
         $this->authorization->addPolicy($name, $handler);
 
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function hasPolicy(string $name): bool
+    public function hasPolicy(string|\UnitEnum $name): bool
     {
         return $this->authorization->hasPolicy($name);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function registerPolicyProvider(PolicyProviderInterface $policy): static
     {
         $this->authorization->registerPolicyProvider($policy);

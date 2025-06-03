@@ -25,6 +25,7 @@ use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
 
 use function Windwalker\collect;
+use function Windwalker\unwrap_enum;
 use function Windwalker\value;
 
 /**
@@ -34,11 +35,11 @@ class AccessService
 {
     use InstanceCacheTrait;
 
-    public const SUPERUSER_ACTION = 'super.user';
+    public const string SUPERUSER_ACTION = 'super.user';
 
-    public const ADMIN_ACCESS_ACTION = 'admin.access';
+    public const string ADMIN_ACCESS_ACTION = 'admin.access';
 
-    public const ROLE_MODIFY_ACTION = 'role.modify';
+    public const string ROLE_MODIFY_ACTION = 'role.modify';
 
     public function __construct(
         protected ApplicationInterface $app,
@@ -48,14 +49,16 @@ class AccessService
     ) {
     }
 
-    public function can(string $action, mixed $user = null, ...$args): bool
+    public function can(string|\UnitEnum $action, mixed $user = null, ...$args): bool
     {
         return $this->check($action, $user, ...$args);
     }
 
-    public function check(string $action, mixed $user = null, ...$args): bool
+    public function check(string|\UnitEnum $action, mixed $user = null, ...$args): bool
     {
         $currentUser = $this->getUser($user);
+
+        $action = (string) unwrap_enum($action);
 
         if (
             ($user === null || $user->getId() === $currentUser?->getId())
@@ -89,13 +92,11 @@ class AccessService
     }
 
     /**
-     * checkRolesAllowAction
-     *
-     * @param  string  $action
+     * @param  string|\UnitEnum  $action
      *
      * @return  array<UserRole>
      */
-    public function getRolesAllowAction(string $action): array
+    public function getRolesAllowAction(string|\UnitEnum $action): array
     {
         $roles = $this->getRoles();
 
@@ -111,21 +112,15 @@ class AccessService
         return $allowed;
     }
 
-    public function checkRolesAllowAction(array $roles, string $action): bool
+    public function checkRolesAllowAction(array $roles, string|\UnitEnum $action): bool
     {
         $rules = $this->getRules($action);
 
         // Check permissions
-        foreach ($roles as $role) {
-            if ($this->checkRoleAllowForRules($role, $rules) === true) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($roles, fn($role) => $this->checkRoleAllowForRules($role, $rules) === true);
     }
 
-    public function checkRoleAllowAction(UserRole $role, string $action): bool
+    public function checkRoleAllowAction(UserRole $role, string|\UnitEnum $action): bool
     {
         $rules = $this->getRules($action);
 
@@ -133,8 +128,6 @@ class AccessService
     }
 
     /**
-     * checkRoleAllow
-     *
      * @param  UserRole     $role
      * @param  array<Rule>  $rules
      *
@@ -146,8 +139,8 @@ class AccessService
 
         // Check rules access
         foreach ($rules as $rule) {
-            if ((string) $rule->getRoleId() === (string) $role->getId()) {
-                $allow = $rule->getAllow();
+            if ((string) $rule->roleId === (string) $role->id) {
+                $allow = $rule->allow;
 
                 if ($allow === false) {
                     return false;
@@ -155,7 +148,7 @@ class AccessService
             }
         }
 
-        $parent = $this->getRoleNodeById($role->getId())?->getParent()?->getValue();
+        $parent = $this->getRoleNodeById($role->id)?->getParent()?->getValue();
 
         if ($parent) {
             $parentAllow = $this->checkRoleAllowForRules($parent, $rules);
@@ -200,7 +193,7 @@ class AccessService
                     /** @var UserRole $role */
                     $role = $roleNode->getValue();
 
-                    if ($role && in_array($role->getId(), $roleIds)) {
+                    if ($role && in_array($role->id, $roleIds)) {
                         $matches[] = $role;
                     }
                 }
@@ -233,8 +226,8 @@ class AccessService
         foreach ($roleMaps as $roleMap) {
             if (!$roleMap instanceof UserRoleMap) {
                 $map = new UserRoleMap();
-                $map->setUserId($user->getId());
-                $map->setRoleId($roleMap);
+                $map->userId = $user->getId();
+                $map->roleId = $roleMap->roleId;
 
                 $roleMap = $map;
             }
@@ -281,8 +274,8 @@ class AccessService
             }
 
             $map = new UserRoleMap();
-            $map->setUserId($user->getId());
-            $map->setRoleId($roleId);
+            $map->userId = $user->getId();
+            $map->roleId = $roleId;
 
             if ($extra !== []) {
                 $map = $this->orm->hydrateEntity($extra, $map);
@@ -328,13 +321,7 @@ class AccessService
 
         $roles = $this->getUserRoles($user);
 
-        foreach ($roles as $userRole) {
-            if ((string) $userRole->getId() === (string) $roleId) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($roles, fn($userRole) => (string) $userRole->id === (string) $roleId);
     }
 
     public function userInRoles(mixed $user = null, mixed $roles = []): bool
@@ -345,13 +332,7 @@ class AccessService
             $roles = [$roles];
         }
 
-        foreach ($roles as $role) {
-            if ($this->userIsRole($user, $role)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($roles, fn($role) => $this->userIsRole($user, $role));
     }
 
     public function isSuperUser(mixed $user = null): bool
@@ -390,7 +371,7 @@ class AccessService
         $parents = [];
 
         foreach ($roles as $role) {
-            $roleNode = $this->getRoleNodeById($role->getId());
+            $roleNode = $this->getRoleNodeById($role->id);
 
             if (!$roleNode) {
                 return [];
@@ -406,7 +387,7 @@ class AccessService
             }
 
             if ($includeSelf) {
-                $parents[$role->getId()] = $role;
+                $parents[$role->id] = $role;
             }
         }
 
@@ -424,7 +405,7 @@ class AccessService
         }
 
         foreach ($this->getParentRoles($role) as $ancestor) {
-            if ($ancestor->getId() === $targetNode->getValue()->getId()) {
+            if ($ancestor->id === $targetNode->getValue()->id) {
                 return true;
             }
         }
@@ -444,7 +425,7 @@ class AccessService
         $descendants = [];
 
         foreach ($roles as $role) {
-            $roleNode = $this->getRoleNodeById($role->getId());
+            $roleNode = $this->getRoleNodeById($role->id);
 
             if (!$roleNode) {
                 return [];
@@ -461,7 +442,7 @@ class AccessService
 
                 $descendantRole = $descendant->getValue();
 
-                $descendants[$descendantRole->getId()] = $descendantRole;
+                $descendants[$descendantRole->id] = $descendantRole;
             }
         }
 
@@ -479,7 +460,7 @@ class AccessService
         }
 
         foreach ($this->getParentRoles($childRole) as $ancestor) {
-            if ($ancestor->getId() === $roleNode->getValue()->getId()) {
+            if ($ancestor->id === $roleNode->getValue()->id) {
                 return true;
             }
         }
@@ -497,13 +478,10 @@ class AccessService
             return false;
         }
 
-        foreach ($this->getDescendantRoles($role) as $descendantRole) {
-            if ($descendantRole->getId() === $targetNode->getValue()->getId()) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any(
+            $this->getDescendantRoles($role),
+            fn($descendantRole) => $descendantRole->getId() === $targetNode->getValue()->getId()
+        );
     }
 
     /**
@@ -521,13 +499,13 @@ class AccessService
         foreach ($userRoles as $userRole) {
             foreach ($roles as $role) {
                 if (
-                    !isset($allowed[$role->getId()])
+                    !isset($allowed[$role->id])
                     && (
                         $this->unwrapRole($userRole) === $this->unwrapRole($role)
                         || $this->isChildRole($userRole, $role)
                     )
                 ) {
-                    $allowed[$role->getId()] = $role;
+                    $allowed[$role->id] = $role;
                 }
             }
         }
@@ -571,13 +549,7 @@ class AccessService
         return $this->once(
             'roles',
             function () {
-                $roles = [];
-
-                foreach ($this->getRoleFlatNodes() as $id => $node) {
-                    $roles[$id] = $node->getValue();
-                }
-
-                return $roles;
+                return array_map(static fn($node) => $node->getValue(), $this->getRoleFlatNodes());
             }
         );
     }
@@ -651,8 +623,8 @@ class AccessService
 
                 return TreeBuilder::create(
                     $items,
-                    static fn(UserRole $role) => $role->getId(),
-                    static fn(UserRole $role) => $role->getParentId(),
+                    static fn(UserRole $role) => $role->id,
+                    static fn(UserRole $role) => $role->parentId,
                 );
             }
         );
@@ -663,10 +635,10 @@ class AccessService
      *
      * @return  array<Rule>
      */
-    public function getRules(string $action): array
+    public function getRules(string|\UnitEnum $action): array
     {
         return $this->once(
-            'rules:' . $action,
+            'rules:' . unwrap_enum($action),
             function () use ($action) {
                 [$ns, $act, $id] = static::extractAction($action);
                 $result = [];
@@ -685,9 +657,9 @@ class AccessService
                 if ($id) {
                     foreach ($rules as $rule) {
                         if (
-                            $rule->getType() === $ns
-                            && $rule->getAction() === $act
-                            && (string) $rule->getTargetId() === $id
+                            $rule->type === $ns
+                            && $rule->action === $act
+                            && (string) $rule->targetId === $id
                         ) {
                             $result[] = $rule;
                         }
@@ -697,7 +669,7 @@ class AccessService
                 if ($ns) {
                     foreach ($rules as $rule) {
                         // Get global access
-                        if ($rule->getType() === $ns && $rule->getAction() === $act && !$rule->getTargetId()) {
+                        if ($rule->type === $ns && $rule->action === $act && !$rule->targetId) {
                             $result[] = $rule;
                         }
                     }
@@ -705,7 +677,7 @@ class AccessService
 
                 foreach ($rules as $rule) {
                     // Get global access
-                    if (!$rule->getType() && $rule->getAction() === $act && !$rule->getTargetId()) {
+                    if (!$rule->type && $rule->action === $act && !$rule->targetId) {
                         $result[] = $rule;
                     }
                 }
@@ -721,13 +693,7 @@ class AccessService
             return $role;
         }
 
-        foreach ($this->getRoles() as $userRole) {
-            if ((string) $userRole->getId() === (string) $role) {
-                return $userRole;
-            }
-        }
-
-        return null;
+        return array_find($this->getRoles(), fn($userRole) => (string) $userRole->id === (string) $role);
     }
 
     public function unwrapRole(mixed $role): ?string
@@ -737,11 +703,11 @@ class AccessService
         }
 
         if ($role instanceof UserRole) {
-            return $role->getId();
+            return $role->id;
         }
 
         if ($role instanceof UserRoleMap) {
-            return (string) $role->getRoleId();
+            return (string) $role->roleId;
         }
 
         return (string) value($role);
@@ -765,12 +731,12 @@ class AccessService
                         [$ns, $action, $id] = static::extractAction($name);
 
                         $rule = new Rule();
-                        $rule->setRoleId($roleId);
-                        $rule->setType((string) $ns);
-                        $rule->setName($name);
-                        $rule->setTargetId($id ?? '');
-                        $rule->setAction($action ?? '');
-                        $rule->setAllow($allow);
+                        $rule->roleId = $roleId;
+                        $rule->type = (string) $ns;
+                        $rule->name = $name;
+                        $rule->targetId = $id ?? '';
+                        $rule->action = $action ?? '';
+                        $rule->allow = $allow;
 
                         $result[] = $rule;
                     }
@@ -781,8 +747,10 @@ class AccessService
         );
     }
 
-    public function loadDBRules(string $action): array
+    public function loadDBRules(string|\UnitEnum $action): array
     {
+        $action = unwrap_enum($action);
+
         return $this->once(
             'rules.db:' . $action,
             function () use ($action) {
@@ -836,7 +804,7 @@ class AccessService
 
             if ($child instanceof NodeInterface && ($role = $child->getValue()) instanceof UserRole) {
                 /** @var UserRole $role */
-                $role->setId($roleId);
+                $role->id = $roleId;
             }
         }
 
@@ -844,15 +812,13 @@ class AccessService
     }
 
     /**
-     * extractAction
-     *
-     * @param  string  $action
+     * @param  string|\UnitEnum  $action
      *
      * @return  array<?string>
      */
-    protected static function extractAction(string $action): array
+    protected static function extractAction(string|\UnitEnum $action): array
     {
-        $extracted = explode('::', $action, 3);
+        $extracted = explode('::', unwrap_enum($action), 3);
 
         return match (count($extracted)) {
             1 => [null, $extracted[0], null],

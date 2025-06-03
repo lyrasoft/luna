@@ -193,9 +193,9 @@ class UserService implements UserHandlerInterface, EventAwareInterface
 
         $event = $this->emit(
             new AfterLoginEvent(
+                user: $user,
                 result: $result,
                 resultSet: $resultSet,
-                user: $user,
                 credential: $credential,
                 options: $options,
             )
@@ -204,7 +204,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         return $result;
     }
 
-    public function can(string $action, mixed $user = null, ...$args): bool
+    public function can(string|\UnitEnum $action, mixed $user = null, ...$args): bool
     {
         if ($this->session && ($id = $this->session->get(UserSwitchService::USER_MASK_ID))) {
             $user = $this->getUser($id);
