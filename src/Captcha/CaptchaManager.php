@@ -16,6 +16,8 @@ use function Windwalker\DI\create;
  *
  * @method CaptchaDriverInterface create(?string $name = null, ...$args)
  * @method CaptchaDriverInterface get(?string $name = null, ...$args)
+ *
+ * @deprecated  Use container tags instead.
  */
 #[Isolation]
 class CaptchaManager extends AbstractManager

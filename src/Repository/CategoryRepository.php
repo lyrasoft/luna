@@ -17,7 +17,6 @@ use Unicorn\Repository\ListRepositoryTrait;
 use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\Nested\NestedManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
-use Unicorn\Upload\FileUploadManager;
 use Windwalker\Core\Http\AppRequest;
 use Windwalker\Query\Query;
 
@@ -34,7 +33,7 @@ class CategoryRepository implements ManageRepositoryInterface, ListRepositoryInt
     /**
      * CategoryRepository constructor.
      */
-    public function __construct(protected AppRequest $request, protected FileUploadManager $fileUploadManager)
+    public function __construct(protected AppRequest $request)
     {
     }
 
@@ -77,7 +76,7 @@ class CategoryRepository implements ManageRepositoryInterface, ListRepositoryInt
     {
         $action->setReorderGroupHandler(
             function (Query $query, Category $category) {
-                $query->where('type', $category->getType());
+                $query->where('type', $category->type);
             }
         );
     }

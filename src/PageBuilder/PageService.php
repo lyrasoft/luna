@@ -7,7 +7,6 @@ namespace Lyrasoft\Luna\PageBuilder;
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\ApplicationInterface;
-use Windwalker\Core\Crypt\PseudoCrypt;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\ORM;

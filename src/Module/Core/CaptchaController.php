@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Core;
 
 use InvalidArgumentException;
+use Lyrasoft\Luna\Captcha\CaptchaDriverInterface;
 use Lyrasoft\Luna\Captcha\CaptchaImageInterface;
 use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Psr\Http\Message\ResponseInterface;
@@ -20,10 +21,10 @@ use function Windwalker\response;
 #[Controller]
 class CaptchaController
 {
-    public function image(CaptchaManager $captchaManager, AppContext $app): ResponseInterface
+    public function image(AppContext $app): ResponseInterface
     {
         $profile = $app->input('profile');
-        $captcha = $captchaManager->get($profile);
+        $captcha = $app->retrieve(CaptchaDriverInterface::class, tag: $profile);
 
         if (!$captcha instanceof CaptchaImageInterface) {
             throw new InvalidArgumentException(

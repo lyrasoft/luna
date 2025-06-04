@@ -8,6 +8,7 @@ use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Auth\SRP\SRPService;
+use Lyrasoft\Luna\Captcha\CaptchaDriverInterface;
 use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
@@ -109,7 +110,6 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
     public function register(Container $container): void
     {
-        $container->prepareSharedObject(CaptchaManager::class);
         $container->prepareSharedObject(ConfigService::class);
         $container->prepareSharedObject(LunaScript::class);
         $container->prepareSharedObject(FontAwesomeScript::class);
@@ -121,6 +121,13 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(WidgetService::class);
         $container->prepareSharedObject(AssociationService::class);
         $container->prepareSharedObject(SRPService::class);
+
+        // Captcha
+        $container->prepareSharedObject(CaptchaManager::class);
+        $container->bindShared(
+            CaptchaDriverInterface::class,
+            fn(CaptchaManager $manager, ?string $tag = null) => $manager->get($tag)
+        );
 
         // Override package object for request
         $container->prepareSharedObject(LunaPackage::class);

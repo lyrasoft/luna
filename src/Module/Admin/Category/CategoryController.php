@@ -13,14 +13,13 @@ use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Controller\NestedSetController;
 use Unicorn\Repository\Event\PrepareSaveEvent;
-use Unicorn\Upload\FileUploadManager;
 use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Attributes\JsonApi;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
-use Windwalker\DI\Attributes\Service;
+use Windwalker\DI\Attributes\Inject;
 use Windwalker\ORM\Event\AfterSaveEvent;
 use Windwalker\ORM\ORM;
 use Windwalker\Query\Query;
@@ -37,7 +36,7 @@ class CategoryController
         #[Autowire] CategoryRepository $repository,
         CrudController $controller,
         Navigator $nav,
-        #[Service(FileUploadManager::class, 'image')]
+        #[Inject(tag: 'image')]
         FileUploadService $fileUploadService
     ): mixed {
         $form = $app->make(
