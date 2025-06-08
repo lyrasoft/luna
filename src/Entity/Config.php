@@ -43,9 +43,7 @@ class Config implements EntityInterface
     #[CastNullable(ServerTimeCast::class)]
     #[CurrentTime]
     public ?Chronos $modified = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->modified = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->modified = Chronos::tryWrap($value);
     }
 
     #[Column('modified_by')]

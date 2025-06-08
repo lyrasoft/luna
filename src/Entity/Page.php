@@ -66,21 +66,15 @@ class Page implements EntityInterface
     #[Column('meta')]
     #[Cast(MetaData::class)]
     public MetaData $meta {
-        get {
-            return $this->meta ??= new MetaData();
-        }
-        set(MetaData|array $value) {
-            $this->meta = MetaData::wrap($value);
-        }
+        get => $this->meta ??= new MetaData();
+        set(MetaData|array $value) => $this->meta = MetaData::wrap($value);
     }
 
     #[Column('state')]
     #[Cast('int')]
     #[Cast(BasicState::class)]
     public BasicState $state {
-        set(BasicState|int $value) {
-            $this->state = BasicState::wrap($value);
-        }
+        set(BasicState|int $value) => $this->state = BasicState::wrap($value);
     }
 
     #[Column('ordering')]
@@ -90,9 +84,7 @@ class Page implements EntityInterface
     #[CastNullable(ServerTimeCast::class)]
     #[CreatedTime]
     public ?Chronos $created = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->created = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->created = Chronos::tryWrap($value);
     }
 
     #[Column('created_by')]
@@ -103,9 +95,7 @@ class Page implements EntityInterface
     #[CastNullable(ServerTimeCast::class)]
     #[CurrentTime]
     public ?Chronos $modified = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->modified = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->modified = Chronos::tryWrap($value);
     }
 
     #[Column('modified_by')]

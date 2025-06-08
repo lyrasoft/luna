@@ -13,7 +13,6 @@ use Windwalker\ORM\Attributes\Column;
 use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\PK;
 use Windwalker\ORM\Attributes\Table;
-use Windwalker\ORM\Cast\JsonCast;
 use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
 use Windwalker\ORM\Metadata\EntityMetadata;
@@ -54,12 +53,8 @@ class Language implements EntityInterface
     #[Column('meta')]
     #[Cast(MetaData::class)]
     public MetaData $meta {
-        get {
-            return $this->meta ??= new MetaData();
-        }
-        set(MetaData|array $value) {
-            $this->meta = MetaData::wrap($value);
-        }
+        get => $this->meta ??= new MetaData();
+        set(MetaData|array $value) => $this->meta = MetaData::wrap($value);
     }
 
     #[Column('sitename')]
@@ -69,9 +64,7 @@ class Language implements EntityInterface
     #[Cast('int')]
     #[Cast(BasicState::class)]
     public BasicState $state {
-        set(int|BasicState $value) {
-            $this->state = BasicState::wrap($value);
-        }
+        set(int|BasicState $value) => $this->state = BasicState::wrap($value);
     }
 
     #[Column('ordering')]

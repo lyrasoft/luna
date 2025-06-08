@@ -75,34 +75,26 @@ class User implements EntityInterface, UserEntityInterface
     #[Column('last_reset')]
     #[CastNullable(ServerTimeCast::class)]
     public ?Chronos $lastReset = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->lastReset = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->lastReset = Chronos::tryWrap($value);
     }
 
     #[Column('last_login')]
     #[CastNullable(ServerTimeCast::class)]
     public ?Chronos $lastLogin = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->lastLogin = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->lastLogin = Chronos::tryWrap($value);
     }
 
     #[Column('registered')]
     #[CastNullable(ServerTimeCast::class)]
     public ?Chronos $registered = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->registered = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->registered = Chronos::tryWrap($value);
     }
 
     #[Column('modified')]
     #[CastNullable(ServerTimeCast::class)]
     #[CurrentTime]
     public ?Chronos $modified = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->modified = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->modified = Chronos::tryWrap($value);
     }
 
     #[Column('params')]

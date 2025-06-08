@@ -32,9 +32,7 @@ class TagMap implements EntityInterface
 
     #[Column('type')]
     public string $type = '' {
-        set(string|\BackedEnum $value) {
-            $this->type = unwrap_enum($value);
-        }
+        set(string|\BackedEnum $value) => $this->type = unwrap_enum($value);
     }
 
     #[EntitySetup]

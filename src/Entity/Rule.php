@@ -46,13 +46,7 @@ class Rule implements EntityInterface
     #[Column('allow')]
     #[CastNullable('bool', 'int')]
     public ?bool $allow = null {
-        set(bool|int|null $value) {
-            if (is_int($value)) {
-                $value = (bool) $value;
-            }
-
-            $this->allow = $value;
-        }
+        set(bool|int|null $value) => $this->allow = (bool) $value;
     }
 
     #[EntitySetup]

@@ -54,27 +54,21 @@ class Category implements NestedPathableInterface
     #[Cast('int')]
     #[Cast(BasicState::class)]
     public BasicState $state {
-        set(int|BasicState $value) {
-            $this->state = BasicState::wrap($value);
-        }
+        set(int|BasicState $value) => $this->state = BasicState::wrap($value);
     }
 
     #[Column('created')]
     #[CastNullable(ServerTimeCast::class)]
     #[CreatedTime]
     public ?Chronos $created = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->created = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->created = Chronos::tryWrap($value);
     }
 
     #[Column('modified')]
     #[CastNullable(ServerTimeCast::class)]
     #[CurrentTime]
     public ?Chronos $modified = null {
-        set(\DateTimeInterface|string|null $value) {
-            $this->modified = Chronos::tryWrap($value);
-        }
+        set(\DateTimeInterface|string|null $value) => $this->modified = Chronos::tryWrap($value);
     }
 
     #[Column('created_by')]
