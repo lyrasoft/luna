@@ -284,7 +284,7 @@ class MenuNode extends Node implements MenuNodeInterface
 
     public function getElement(): HTMLElement
     {
-        return $this->element ??= HTMLElement::create('div');
+        return $this->element ??= HTMLElement::new('div');
     }
 
     public function attr(string $name, string $value): static

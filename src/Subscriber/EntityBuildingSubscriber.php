@@ -7,6 +7,7 @@ namespace Lyrasoft\Luna\Subscriber;
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Lyrasoft\Luna\Attributes\Slugify;
+use PhpParser\Node\Stmt\Property;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Windwalker\Core\Generator\Event\BuildEntityPropertyEvent;
 use Windwalker\Event\Attributes\EventSubscriber;
@@ -73,17 +74,32 @@ class EntityBuildingSubscriber
         if ($column->columnName === $this->getOption('author_column')) {
             $builder->addUse(Author::class);
 
-            $prop->attrGroups[] = $builder->attributeGroup(
+            $attr = $builder->attributeGroup(
                 $builder->attribute('Author'),
             );
+
+            $uuidIndex = static::findUuidAttrIndex($prop);
+
+            if ($uuidIndex !== false) {
+                array_splice($prop->attrGroups, $uuidIndex, 0, [$attr]);
+            } else {
+                $prop->attrGroups[] = $attr;
+            }
         }
 
         if ($column->columnName === $this->getOption('modifier_column')) {
             $builder->addUse(Modifier::class);
-
-            $prop->attrGroups[] = $builder->attributeGroup(
+            $attr = $builder->attributeGroup(
                 $builder->attribute('Modifier'),
             );
+
+            $uuidIndex = static::findUuidAttrIndex($prop);
+            
+            if ($uuidIndex !== false) {
+                array_splice($prop->attrGroups, $uuidIndex, 0, [$attr]);
+            } else {
+                $prop->attrGroups[] = $attr;
+            }
         }
 
         if ($column->columnName === $this->getOption('created_column')) {
@@ -101,5 +117,18 @@ class EntityBuildingSubscriber
                 $builder->attribute('CurrentTime'),
             );
         }
+    }
+
+    public static function findUuidAttrIndex(Property $prop): int|false
+    {
+        foreach ($prop->attrGroups as $i => $attrGroup) {
+            foreach ($attrGroup->attrs as $attr) {
+                if (str_contains(strtolower((string) $attr->name), 'uuid')) {
+                    return $i;
+                }
+            }
+        }
+        
+        return false;
     }
 }
