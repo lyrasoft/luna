@@ -201,7 +201,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
             )
         );
 
-        return $result;
+        return $event->result;
     }
 
     public function can(string|\UnitEnum $action, mixed $user = null, ...$args): bool

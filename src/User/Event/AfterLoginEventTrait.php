@@ -13,7 +13,7 @@ use Windwalker\Authentication\ResultSet;
  */
 trait AfterLoginEventTrait
 {
-    public UserEntityInterface $user;
+    public ?UserEntityInterface $user = null;
 
     public AuthResult|false $result;
 

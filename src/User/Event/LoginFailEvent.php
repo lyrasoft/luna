@@ -16,7 +16,7 @@ class LoginFailEvent extends AbstractLoginEvent
     use AfterLoginEventTrait;
 
     public function __construct(
-        UserEntityInterface $user,
+        ?UserEntityInterface $user,
         AuthResult|false $result,
         ResultSet $resultSet,
         array $credential = [],

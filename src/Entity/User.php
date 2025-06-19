@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Entity;
 
 use Lyrasoft\Luna\Access\AccessService;
-use Lyrasoft\Luna\User\UserEntityInterface;
+use Lyrasoft\Luna\User\LunaUserEntityInterface;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\DateTime\ServerTimeCast;
@@ -32,7 +32,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 // todo: remove this when phpcs supports 8.4
 #[Table('users', 'user')]
 #[\AllowDynamicProperties]
-class User implements EntityInterface, UserEntityInterface
+class User implements EntityInterface, LunaUserEntityInterface
 {
     use EntityTrait;
 
