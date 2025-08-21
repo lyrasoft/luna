@@ -26,8 +26,9 @@ $mig->up(
                 $schema->varchar('action');
                 $schema->varchar('target_id');
                 $schema->varchar('title');
-                $schema->tinyint('allow')->length(1)->nullable(true);
+                $schema->bool('allow')->nullable(true);
 
+                $schema->addPrimaryKey(['role_id', 'name', 'target_id']);
                 $schema->addIndex('role_id');
                 $schema->addIndex('type');
                 $schema->addIndex('name');
