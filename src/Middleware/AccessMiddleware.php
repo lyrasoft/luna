@@ -42,6 +42,11 @@ class AccessMiddleware implements MiddlewareInterface
     public function __construct(
         protected ApplicationInterface $app,
         protected Closure|string|array $rules,
+        protected Closure|string $exception = UnauthorizedException::class,
+        protected int $errorCode = 403,
+        /**
+         * @deprecated  Use constructor arguments instead.
+         */
         array $options = []
     ) {
         $this->resolveOptions(
@@ -49,11 +54,11 @@ class AccessMiddleware implements MiddlewareInterface
             function (OptionsResolver $resolver) {
                 $resolver->define('exception')
                     ->allowedTypes('string', 'closure')
-                    ->default(UnauthorizedException::class);
+                    ->default($this->exception);
 
                 $resolver->define('error_code')
                     ->allowedTypes('int')
-                    ->default(403);
+                    ->default($this->errorCode);
             }
         );
     }
