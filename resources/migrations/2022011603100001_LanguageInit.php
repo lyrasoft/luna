@@ -10,6 +10,8 @@ use Windwalker\Core\Migration\MigrateDown;
 use Windwalker\Core\Migration\MigrateUp;
 use Windwalker\Database\Schema\Schema;
 
+use function Windwalker\fs;
+
 return new /** 2022011603100001_LanguageInit */ class extends AbstractMigration {
     #[MigrateUp]
     public function up(): void
@@ -30,8 +32,20 @@ return new /** 2022011603100001_LanguageInit */ class extends AbstractMigration 
                 $schema->integer('ordering')->comment('Ordering');
 
                 $schema->addIndex('code');
+                $schema->addIndex('alias');
+                $schema->addIndex('ordering');
+                $schema->addIndex('image');
             }
         );
+
+        $mapper = $this->orm->mapper(Language::class);
+        $languages = fs(__DIR__ . '/data/languages.json')->read()->jsonDecode();
+
+        foreach ($languages as $language) {
+            $mapper->createOne($language);
+
+            $this->printCounting();
+        }
     }
 
     #[MigrateDown]

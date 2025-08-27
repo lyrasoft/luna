@@ -22,6 +22,7 @@ use Unicorn\Repository\Event\PrepareSaveEvent;
 use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
+use Windwalker\Core\Http\Exception\ApiException;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Data\Collection;
@@ -160,6 +161,12 @@ class PageController
     ): array {
         $type = $app->input('type');
         $types = Arr::explodeAndClear(',', $type);
+
+        throw new ApiException(
+            'GGGHHGJ',
+            'custom_error',
+            401,
+        );
 
         $mapper = $orm->mapper(PageTemplate::class);
         $templates = $mapper->findList([], Collection::class)
