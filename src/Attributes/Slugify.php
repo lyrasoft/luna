@@ -6,24 +6,24 @@ namespace Lyrasoft\Luna\Attributes;
 
 use Attribute;
 use Unicorn\Utilities\SlugHelper;
-use Windwalker\ORM\Attributes\CastForSave;
+use Windwalker\ORM\Attributes\CastForSaveInterface;
 use Windwalker\ORM\ORM;
 
 /**
  * The Slugify class.
  */
 #[Attribute]
-class Slugify extends CastForSave
+class Slugify implements CastForSaveInterface
 {
     public function __construct(
         protected bool $utf8 = false,
         protected string $titleColumn = 'title',
         protected int $limit = 8
     ) {
-        parent::__construct(null);
+        //
     }
 
-    protected function getDefaultCaster(): callable
+    public function getCaster(): callable
     {
         return function (mixed $value, ORM $orm, object $entity) {
             $default = $value;

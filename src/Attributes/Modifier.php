@@ -6,18 +6,18 @@ namespace Lyrasoft\Luna\Attributes;
 
 use Attribute;
 use Lyrasoft\Luna\User\UserService;
-use Windwalker\ORM\Attributes\CastForSave;
+use Windwalker\ORM\Attributes\CastForSaveInterface;
 use Windwalker\ORM\ORM;
 
 /**
  * The Modifier class.
  */
 #[Attribute]
-class Modifier extends CastForSave
+class Modifier implements CastForSaveInterface
 {
-    protected function getDefaultCaster(): callable
+    public function getCaster(): \Closure
     {
-        return function (mixed $value, ORM $orm, object $entity, ?UserService $userService = null) {
+        return static function (mixed $value, ORM $orm, object $entity, ?UserService $userService = null) {
             if (!$userService) {
                 return $value;
             }
