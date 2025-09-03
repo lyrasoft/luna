@@ -7,7 +7,9 @@ namespace Lyrasoft\Luna\Module\Admin\Article;
 use Lyrasoft\Luna\Module\Admin\Article\Form\GridForm;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Windwalker\Core\Application\AppContext;
+use Windwalker\Core\Attributes\Request\Input;
 use Windwalker\Core\Attributes\ViewModel;
+use Windwalker\Core\Attributes\ViewPrepare;
 use Windwalker\Core\Form\FormFactory;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
@@ -26,7 +28,7 @@ use Windwalker\ORM\ORM;
     ],
     js: 'article-list.js'
 )]
-class ArticleListView implements ViewModelInterface
+class ArticleListView
 {
     use TranslatorTrait;
 
@@ -38,18 +40,12 @@ class ArticleListView implements ViewModelInterface
     ) {
     }
 
-    /**
-     * Prepare view data.
-     *
-     * @param  AppContext  $app   The request app context.
-     * @param  View        $view  The view object.
-     *
-     * @return  array
-     */
-    public function prepare(AppContext $app, View $view): array
-    {
-        $type = $app->input('type') ?: 'article';
-
+    #[ViewPrepare]
+    public function prepare(
+        AppContext $app,
+        View $view,
+        #[Input] ?string $type = 'article',
+    ): array {
         $state = $this->repository->getState();
 
         $this->repository->setType($type);

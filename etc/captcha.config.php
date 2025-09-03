@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Config;
 
-use Lyrasoft\Luna\Captcha\CaptchaManager;
+use Lyrasoft\Luna\Captcha\CaptchaFactory;
 use Lyrasoft\Luna\Captcha\NullCaptchaDriver;
 use Lyrasoft\Luna\LunaPackage;
 use Windwalker\Core\Attributes\ConfigModule;
@@ -22,13 +22,13 @@ static fn() => [
 
     'factories' => [
         'instances' => [
-            'google' => CaptchaManager::recaptcha(
+            'google' => static fn() => CaptchaFactory::recaptcha(
                 (string) env('RECAPTCHA_KEY'),
                 (string) env('RECAPTCHA_SECRET'),
                 (string) env('RECAPTCHA_TYPE', 'checkbox'),
             ),
-            'image' => CaptchaManager::gregwar(),
-            'none' => fn() => new NullCaptchaDriver(),
+            'image' => static fn() => CaptchaFactory::gregwar(),
+            'none' => static fn() => new NullCaptchaDriver(),
         ],
     ],
 ];

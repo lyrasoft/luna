@@ -86,8 +86,10 @@ class LunaErrorHandler implements ErrorHandlerInterface
 
         $res = $res->withStatus($code);
 
-        $output = new StreamOutput();
-        $output->respond($res);
+        $app->respond($res);
+
+        // $output = new StreamOutput();
+        // $output->respond($res);
     }
 
     public function getRouteName(): string
