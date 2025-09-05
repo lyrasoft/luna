@@ -10,11 +10,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Windwalker\Core\Application\AppContext;
-use Windwalker\Core\Http\Browser;
-use Windwalker\Core\Language\LangService;
+use Windwalker\Core\Http\BrowserNext;
 use Windwalker\Core\Middleware\RoutingExcludesTrait;
 use Windwalker\Core\Router\Event\AfterRouteBuildEvent;
-use Windwalker\Core\Router\Event\BeforeRouteBuildEvent;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Definition\DefinitionFactory;
 use Windwalker\DI\Definition\DefinitionInterface;
@@ -59,7 +57,7 @@ class LocaleMiddleware implements MiddlewareInterface
             $locale = $state->get($this->sessionKey);
         }
 
-        $browser = $this->app->retrieve(Browser::class);
+        $browser = $this->app->retrieve(BrowserNext::class);
 
         if (!$locale && $this->useBrowser && !$browser->isRobot()) {
             $locale = $localeService->getBrowserLanguage();
@@ -92,6 +90,7 @@ class LocaleMiddleware implements MiddlewareInterface
                                 $alias = $lang->getAlias();
                                 $event->url = $alias . '/' . $event->url;
                             }
+
                             return;
                         }
                     }
@@ -105,7 +104,7 @@ class LocaleMiddleware implements MiddlewareInterface
     /**
      * isSame
      *
-     * @param string|DefinitionInterface|object $middleware
+     * @param  string|DefinitionInterface|object  $middleware
      *
      * @return  bool
      *

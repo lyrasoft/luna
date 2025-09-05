@@ -14,7 +14,7 @@ use Lyrasoft\Luna\Services\AssociationService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Html\HtmlFrame;
-use Windwalker\Core\Http\Browser;
+use Windwalker\Core\Http\BrowserNext;
 use Windwalker\Core\Router\Exception\RouteNotFoundException;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\View\View;
@@ -103,7 +103,7 @@ class ArticleItemView implements ViewModelInterface
         }
 
         // Keep URL unique
-        if (($item->getAlias() !== $alias) && !$app->service(Browser::class)->isRobot()) {
+        if (($item->getAlias() !== $alias) && !$app->service(BrowserNext::class)->isRobot()) {
             return $this->nav->self()->alias($item->getAlias());
         }
 
