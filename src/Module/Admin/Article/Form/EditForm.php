@@ -84,7 +84,7 @@ class EditForm
     {
         $form->add('category_id', CategoryListField::class)
             ->label($this->trans('luna.article.field.category'))
-            ->categoryType($this->type);
+            ->categoryType((string) $this->type);
 
         $form->add('tags', TagListField::class)
             ->label($this->trans('luna.article.field.tags'))
