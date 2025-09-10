@@ -16,6 +16,8 @@ use Lyrasoft\Luna\User\Event\BeforeLoginSessionEvent;
 use Lyrasoft\Luna\User\Event\LoginAuthEvent;
 use Lyrasoft\Luna\User\Event\LoginFailEvent;
 use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
+use Lyrasoft\Luna\User\Handler\UserAuthenticationHandlerInterface;
+use Lyrasoft\Luna\User\Handler\UserAuthorizationHandlerInterface;
 use Lyrasoft\Luna\User\Handler\UserHandlerInterface;
 use Psr\Cache\InvalidArgumentException;
 use Windwalker\Authentication\AuthResult;
@@ -212,11 +214,30 @@ class UserService implements UserHandlerInterface, EventAwareInterface
             $user = $this->getUser($id);
         }
 
+        $handler = $this->getUserHandler();
+
+        if (
+            ($handler instanceof UserAuthorizationHandlerInterface)
+            && $handler->authorize($action, $user, ...$args)
+        ) {
+            return true;
+        }
+
         return $this->getAuthService()->authorize($action, $user, ...$args);
     }
 
     public function authenticate(array $credential, ?ResultSet &$resultSet = null): false|AuthResult
     {
+        $handler = $this->getUserHandler();
+
+        if ($handler instanceof UserAuthenticationHandlerInterface) {
+            $resultSet = $handler->authenticate($credential);
+
+            if ($resultSet->isSuccess()) {
+                return $resultSet->getMatchedResult();
+            }
+        }
+
         return $this->getAuthService()->authenticate($credential, $resultSet);
     }
 
