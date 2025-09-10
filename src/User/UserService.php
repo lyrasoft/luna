@@ -138,76 +138,6 @@ class UserService implements UserHandlerInterface, EventAwareInterface
             ?? throw new RouteNotFoundException('User not found.', 404);
     }
 
-    public function attemptToLogin(
-        array $credential,
-        array $options = [],
-        ?ResultSet &$resultSet = null
-    ): false|AuthResult {
-        $event = $this->emit(
-            new BeforeLoginEvent(
-                credential: $credential,
-                options: $options
-            )
-        );
-
-        $result = $this->authenticate($event->credential, $resultSet);
-        $user = null;
-
-        try {
-            if ($result) {
-                $credential = $result->getCredential();
-
-                $user = $this->createUserEntity($credential);
-
-                $event = $this->emit(
-                    new LoginAuthEvent(
-                        user: $user,
-                        result: $result,
-                        resultSet: $resultSet,
-                        credential: $credential,
-                        options: $options
-                    )
-                );
-
-                $result = $event->result;
-
-                if ($result) {
-                    $user = $this->createUserEntity($event->credential);
-                    $this->login($user, $options);
-                }
-            }
-        } catch (AuthenticateFailException $e) {
-            $result = false;
-            $resultSet?->addResult('authorize', AuthResult::authorizeFail([], $e));
-        }
-
-        if (!$result) {
-            $this->emit(
-                new LoginFailEvent(
-                    user: $user,
-                    result: $result,
-                    resultSet: $resultSet,
-                    credential: $credential,
-                    options: $options
-                )
-            );
-
-            return false;
-        }
-
-        $event = $this->emit(
-            new AfterLoginEvent(
-                user: $user,
-                result: $result,
-                resultSet: $resultSet,
-                credential: $credential,
-                options: $options,
-            )
-        );
-
-        return $event->result;
-    }
-
     public function can(string|\UnitEnum $action, mixed $user = null, ...$args): bool
     {
         if ($this->session && ($id = $this->session->get(UserSwitchService::USER_MASK_ID))) {
@@ -239,6 +169,106 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         }
 
         return $this->getAuthService()->authenticate($credential, $resultSet);
+    }
+
+    public function verifyLoginAccess(
+        array|UserEntityInterface $credential,
+        ?ResultSet &$resultSet = null,
+        array $options = []
+    ) {
+        $resultSet ??= new ResultSet();
+
+        if ($resultSet->isSuccess()) {
+            $result = $resultSet->getMatchedResult();
+        } else {
+            $result = new AuthResult(AuthResult::SUCCESS, $credential);
+        }
+
+        if (is_array($credential)) {
+            $user = $this->load($credential);
+        } else {
+            $user = $credential;
+            $credential = [];
+        }
+
+        try {
+            $event = $this->emit(
+                new LoginAuthEvent(
+                    user: $user,
+                    result: $result,
+                    resultSet: $resultSet,
+                    credential: $credential,
+                    options: $options
+                )
+            );
+
+            return $event->result;
+        } catch (AuthenticateFailException $e) {
+            $resultSet?->addResult('authorize', AuthResult::authorizeFail([], $e));
+
+            return false;
+        }
+    }
+
+    public function authenticateAndVerifyLoginAccess(
+        array $credential,
+        array $options = [],
+        ?ResultSet &$resultSet = null,
+    ): false|AuthResult {
+        $result = $this->authenticate($credential, $resultSet);
+
+        if (!$result) {
+            return false;
+        }
+
+        $user = $this->createUserEntity($result->getCredential());
+
+        return $this->verifyLoginAccess($user, $resultSet, $options);
+    }
+
+    public function attemptToLogin(
+        array $credential,
+        array $options = [],
+        ?ResultSet &$resultSet = null
+    ): false|AuthResult {
+        $event = $this->emit(
+            new BeforeLoginEvent(
+                credential: $credential,
+                options: $options
+            )
+        );
+
+        $result = $this->authenticateAndVerifyLoginAccess($event->credential, $options, $resultSet);
+        $user = null;
+
+        if (!$result) {
+            $this->emit(
+                new LoginFailEvent(
+                    user: $user,
+                    result: $result,
+                    resultSet: $resultSet,
+                    credential: $credential,
+                    options: $options
+                )
+            );
+
+            return false;
+        }
+
+        $user = $this->createUserEntity($event->credential);
+        $this->login($user, $options);
+
+        $event = $this->emit(
+            new AfterLoginEvent(
+                user: $user,
+                result: $result,
+                resultSet: $resultSet,
+                credential: $credential,
+                options: $options,
+            )
+        );
+
+        return $event->result;
     }
 
     /**
