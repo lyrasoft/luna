@@ -10,7 +10,9 @@ use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\Event\AfterLoginEvent;
+use Lyrasoft\Luna\User\Event\AfterLoginSessionEvent;
 use Lyrasoft\Luna\User\Event\BeforeLoginEvent;
+use Lyrasoft\Luna\User\Event\BeforeLoginSessionEvent;
 use Lyrasoft\Luna\User\Event\LoginAuthEvent;
 use Lyrasoft\Luna\User\Event\LoginFailEvent;
 use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
@@ -230,6 +232,13 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function login(mixed $user, array $options = []): bool
     {
+        $event = $this->emit(
+            new BeforeLoginSessionEvent(
+                user: $user,
+                options: $options
+            )
+        );
+
         if (is_scalar($user) || is_array($user)) {
             $user = $this->load($user);
         }
@@ -238,7 +247,19 @@ class UserService implements UserHandlerInterface, EventAwareInterface
             return false;
         }
 
-        return $this->getUserHandler()->login($user, $options);
+        $user = $event->user;
+
+        $result = $this->getUserHandler()->login($user, $event->options);
+
+        $event = $this->emit(
+            new AfterLoginSessionEvent(
+                user: $user,
+                result: $result,
+                options: $event->options
+            )
+        );
+
+        return $event->result;
     }
 
     /**
