@@ -120,7 +120,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->prepareSharedObject(LocaleService::class);
         $container->prepareSharedObject(WidgetService::class);
         $container->prepareSharedObject(AssociationService::class);
-        $container->prepareSharedObject(SRPService::class);
+        // $container->prepareSharedObject(SRPService::class);
 
         // Captcha
         $container->prepareSharedObject(CaptchaManager::class);
