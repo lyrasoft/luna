@@ -1,9 +1,14 @@
-import '@main';
-
-u.$ui.bootstrap.tooltip();
+import {
+  disableOnSubmit,
+  useCheckboxesMultiSelect,
+  useGridComponent,
+  useUIBootstrap5
+} from '@windwalker-io/unicorn-next';
 
 const form = '#admin-form';
+const { tooltip } = await useUIBootstrap5();
+await useGridComponent(form);
 
-u.grid(form).initComponent();
-u.$ui.disableOnSubmit(form);
-u.$ui.checkboxesMultiSelect(form);
+tooltip();
+disableOnSubmit(form);
+useCheckboxesMultiSelect(form);

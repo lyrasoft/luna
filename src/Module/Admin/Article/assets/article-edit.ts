@@ -1,24 +1,36 @@
-import '@main';
-
-u.$ui.bootstrap.tooltip();
+import {
+  disableIfStackNotEmpty,
+  disableOnSubmit,
+  keepAlive,
+  useFormComponent,
+  useFormValidation,
+  useTomSelect,
+  useUIBootstrap5
+} from '@windwalker-io/unicorn-next';
 
 const form = '#admin-form';
 
-u.formValidation()
-  .then(() => u.$ui.disableOnSubmit(form));
-u.form(form).initComponent();
+const { tooltip } = await useUIBootstrap5();
+
+tooltip();
+
+// Form Element
+useFormComponent(form);
+
+// Form Validation
+useFormValidation().then(() => disableOnSubmit(form));
 
 // Disable if uploading
-u.$ui.disableIfStackNotEmpty();
+disableIfStackNotEmpty();
 
 // KeepAlive
-u.$ui.keepAlive(location.href);
+keepAlive(location.href);
 
 // Select
-u.$ui.tomSelect('.js-tom-select');
+useTomSelect('.js-tom-select');
 
 // Tags
-u.$ui.tomSelect('#input-item-tags', {
+useTomSelect('#input-item-tags', {
   create: (input: string) => {
     return {
       value: `new#${input}`,
