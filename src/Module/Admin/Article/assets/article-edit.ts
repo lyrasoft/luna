@@ -2,17 +2,15 @@ import {
   disableIfStackNotEmpty,
   disableOnSubmit,
   keepAlive,
+  useBs5Tooltip,
   useFormComponent,
   useFormValidation,
-  useTomSelect,
-  useUIBootstrap5
+  useTomSelect
 } from '@windwalker-io/unicorn-next';
 
 const form = '#admin-form';
 
-const { tooltip } = await useUIBootstrap5();
-
-tooltip();
+useBs5Tooltip();
 
 // Form Element
 useFormComponent(form);
