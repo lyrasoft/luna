@@ -1,10 +1,7 @@
 import {
-  disableIfStackNotEmpty,
-  disableOnSubmit,
-  keepAlive,
-  useBs5Tooltip,
+  useBs5Tooltip, useDisableIfStackNotEmpty, useDisableOnSubmit,
   useFormComponent,
-  useFormValidation,
+  useFormValidation, useKeepAlive,
   useTomSelect
 } from '@windwalker-io/unicorn-next';
 
@@ -16,13 +13,13 @@ useBs5Tooltip();
 useFormComponent(form);
 
 // Form Validation
-useFormValidation().then(() => disableOnSubmit(form));
+useFormValidation().then(() => useDisableOnSubmit(form));
 
 // Disable if uploading
-disableIfStackNotEmpty();
+useDisableIfStackNotEmpty();
 
 // KeepAlive
-keepAlive(location.href);
+useKeepAlive(location.href);
 
 // Select
 useTomSelect('.js-tom-select');

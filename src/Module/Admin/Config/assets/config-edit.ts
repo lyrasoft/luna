@@ -1,19 +1,10 @@
-/**
- * Part of starter project.
- *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
- * @license        __LICENSE__
- */
+import { useBs5Tooltip, useDisableOnSubmit, useFormComponent, useFormValidation } from '@windwalker-io/unicorn-next';
 
-import '@main';
+const formSelector = '#admin-form';
 
-u.formValidation().then(() => {
-  u.$ui.disableOnSubmit();
-});
-u.form('#admin-form').initComponent();
+useFormValidation().then(() => useDisableOnSubmit(formSelector));
 
-u.$ui.bootstrap.tooltip();
-// u.$ui.listDependent();
-u.$ui.iframeModal();
+useFormComponent(formSelector);
 
-u.$ui.bootstrap.keepTab('#admin-form .nav-tabs');
+// Bootstrap
+useBs5Tooltip();
