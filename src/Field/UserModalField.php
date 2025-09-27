@@ -12,14 +12,11 @@ use Unicorn\Field\ModalField;
  */
 class UserModalField extends ModalField
 {
+    protected string $titleField = 'name';
+
     protected function configure(): void
     {
         $this->route('user_list');
         $this->table(User::class);
-    }
-
-    protected function getItemTitle(): ?string
-    {
-        return $this->getItem()['name'] ?? '';
     }
 }

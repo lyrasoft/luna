@@ -123,20 +123,20 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                             ?>
                         <tr>
                             <td>
-                                <x-row-checkbox :row="$i" :id="$entity->getId()"></x-row-checkbox>
+                                <x-row-checkbox :row="$i" :id="$entity->id"></x-row-checkbox>
                             </td>
                             <td>
                                 <x-state-dropdown color-on="text"
                                     style="width: 100%"
                                     use-states
                                     :workflow="$workflow"
-                                    :id="$entity->getId()"
+                                    :id="$entity->id"
                                     :value="$item->state"
                                 ></x-state-dropdown>
                             </td>
                             <td>
                                 <div class="mb-1">
-                                    <a href="{{ $nav->to('article_edit')->id($entity->getId()) }}">
+                                    <a href="{{ $nav->to('article_edit')->id($entity->id) }}">
                                         {{ $item->title }}
                                     </a>
                                 </div>
