@@ -16,26 +16,17 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * @var mixed
      */
-    protected mixed $value;
+    public protected(set) mixed $value;
 
     /**
-     * parent
-     *
-     * @var NodeInterface
+     * @var ?NodeInterface
      */
-    protected ?NodeInterface $parent = null;
+    public protected(set) ?NodeInterface $parent = null;
 
     /**
      * @var NodeInterface[]
      */
-    protected array $children = [];
-
-    /**
-     * Property key.
-     *
-     * @var  integer
-     */
-    protected int $key = 0;
+    public protected(set) array $children = [];
 
     /**
      * @param  mixed  $value

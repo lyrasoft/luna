@@ -54,9 +54,7 @@ use Windwalker\Form\Form;
     </x-state-dropdown>
     @if ($form?->countFields(null, 'batch'))
         <button type="button" class="btn btn-dark btn-sm"
-            @click="grid.validateChecked(null, function () {
-            (new bootstrap.Modal('#batch-modal')).show();
-        })"
+            @click="grid.validateChecked(null, () => bootstrap.Modal.getOrCreateInstance('#batch-modal').show())"
         >
             <i class="fa fa-sliders"></i>
             @lang('unicorn.toolbar.batch')
