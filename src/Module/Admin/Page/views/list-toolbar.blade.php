@@ -63,9 +63,3 @@ use Windwalker\Core\Router\SystemUri;
         @lang('unicorn.toolbar.delete')
     </button>
 </div>
-<script>
-import ButtonRadio from '../../../../../assets/src/vue/components/page-builder/form/ButtonRadio';
-export default {
-    components: { ButtonRadio }
-};
-</script>

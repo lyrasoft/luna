@@ -1,22 +1,35 @@
-import '@main';
+import {
+  useBs5Tooltip,
+  useDisableIfStackNotEmpty,
+  useDisableOnSubmit,
+  useFormComponent,
+  useFormValidation,
+  useFormValidationSync,
+  useKeepAlive
+} from '@windwalker-io/unicorn-next';
+import { Modal } from 'bootstrap';
 
-u.$ui.bootstrap.tooltip();
+const formSelector = '#admin-form';
 
-const form = '#admin-form';
+useBs5Tooltip();
 
-u.formValidation(form)
+useFormComponent(formSelector);
+
+useFormValidation()
   .then(validateOptionsModal)
-  .then(() => u.$ui.disableOnSubmit(form));
-u.form(form).initComponent();
-u.$ui.keepAlive(location.href);
+  .then(() => useDisableOnSubmit(formSelector));
+
+useDisableIfStackNotEmpty();
+
+useKeepAlive(location.href);
 
 // Auto open options
 const url = new URL(location.href);
-const titleInput = u.selectOne<HTMLInputElement>('#input-item-title')!;
-const aliasInput = u.selectOne<HTMLInputElement>('#input-item-alias')!;
+const titleInput = document.querySelector<HTMLInputElement>('#input-item-title')!;
+const aliasInput = document.querySelector<HTMLInputElement>('#input-item-alias')!;
 
 if (url.searchParams.get('new') === '1' || titleInput.value === '') {
-  const modal = u.$ui.bootstrap.modal('#options-modal');
+  const modal = Modal.getOrCreateInstance('#options-modal');
 
   aliasInput.value = '';
 
@@ -28,12 +41,14 @@ if (url.searchParams.get('new') === '1' || titleInput.value === '') {
 }
 
 // Validate options
-function validateOptionsModal(validation: Awaited<ReturnType<typeof u.formValidation>>) {
-  const modal = u.selectOne<HTMLDivElement>('#options-modal')!;
+function validateOptionsModal() {
+  const validation = useFormValidationSync(formSelector)!;
+
+  const modal = document.querySelector<HTMLDivElement>('#options-modal')!;
 
   modal.addEventListener('hide.bs.modal', (e) => {
-    const result = validation!.validateAll(
-      u.selectAll(modal.querySelectorAll<HTMLInputElement>('[uni-field-validate]'))
+    const result = validation.validateAll(
+      Array.from(modal.querySelectorAll<HTMLInputElement>('[uni-field-validate]'))
     );
 
     if (!result) {
