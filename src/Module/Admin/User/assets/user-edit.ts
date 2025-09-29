@@ -1,22 +1,31 @@
-import '@main';
+import {
+  useBs5Tooltip,
+  useDisableIfStackNotEmpty,
+  useDisableOnSubmit,
+  useFormComponent,
+  useFormValidation,
+  useKeepAlive, useTomSelect
+} from '@windwalker-io/unicorn-next';
 
-u.$ui.bootstrap.tooltip();
+const formSelector = '#admin-form';
 
-const formId = '#admin-form';
+useBs5Tooltip();
 
-u.formValidation()
-  .then(() => u.$ui.disableOnSubmit(formId));
+useFormComponent(formSelector);
 
-u.form(formId).initComponent();
+useFormValidation().then(() => useDisableOnSubmit(formSelector));
 
-u.$ui.keepAlive(location.href);
+useDisableIfStackNotEmpty();
 
-u.$ui.tomSelect('.has-tom-select');
+useKeepAlive(location.href);
 
-const form = u.selectOne<HTMLFormElement>(formId);
 
-const passwordInput = u.selectOne<HTMLInputElement>('[data-input-password]');
-const password2Input = u.selectOne<HTMLInputElement>('[data-validate=password-confirm]');
+useTomSelect('.has-tom-select');
+
+const form = document.querySelector<HTMLFormElement>(formSelector);
+
+const passwordInput = document.querySelector<HTMLInputElement>('[data-input-password]');
+const password2Input = document.querySelector<HTMLInputElement>('[data-validate=password-confirm]');
 
 passwordInput?.addEventListener('input', () => {
   if (passwordInput?.value) {
@@ -27,7 +36,7 @@ passwordInput?.addEventListener('input', () => {
 });
 
 if (form?.hasAttribute('uni-srp-registration')) {
-  const identityInput = u.selectOne<HTMLInputElement>('[data-input-identity]');
+  const identityInput = document.querySelector<HTMLInputElement>('[data-input-identity]');
   const oldIdentity = identityInput?.value;
 
   identityInput?.addEventListener('input', () => {

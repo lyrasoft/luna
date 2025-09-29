@@ -5,9 +5,12 @@ import {
   useGridComponent,
 } from '@windwalker-io/unicorn-next';
 
-const form = '#admin-form';
+const formSelector = '#admin-form';
 
 useBs5Tooltip();
-useGridComponent(form);
-useDisableOnSubmit(form);
-useCheckboxesMultiSelect(form);
+
+useGridComponent(formSelector);
+
+useDisableOnSubmit(formSelector);
+
+useCheckboxesMultiSelect(formSelector);

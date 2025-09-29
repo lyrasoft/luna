@@ -1,18 +1,25 @@
-/**
- * Part of starter project.
- *
- * @copyright    Copyright (C) 2021 __ORGANIZATION__.
- * @license        __LICENSE__
- */
+import {
+  useBs5Tooltip,
+  useDisableIfStackNotEmpty,
+  useDisableOnSubmit,
+  useFormComponent,
+  useFormValidation,
+  useKeepAlive,
+  useTomSelect
+} from '@windwalker-io/unicorn-next';
 
-import '@main';
+const formSelector = '#admin-form';
 
-u.formValidation().then(() => {
-  u.$ui.disableOnSubmit();
-});
-u.form('#admin-form').initComponent();
+useBs5Tooltip();
 
-u.$ui.bootstrap.tooltip();
-u.$ui.tomSelect('.js-tom-select');
+useFormComponent(formSelector);
+
+useFormValidation().then(() => useDisableOnSubmit(formSelector));
+
+useDisableIfStackNotEmpty();
+
+useKeepAlive(location.href);
+
+useTomSelect('.js-tom-select');
 
 

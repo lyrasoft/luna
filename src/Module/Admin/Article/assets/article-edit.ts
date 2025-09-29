@@ -1,30 +1,28 @@
 import {
-  useBs5Tooltip, useDisableIfStackNotEmpty, useDisableOnSubmit,
+  useBs5Tooltip,
+  useDisableIfStackNotEmpty,
+  useDisableOnSubmit,
   useFormComponent,
-  useFormValidation, useKeepAlive,
+  useFormValidation,
+  useKeepAlive,
   useTomSelect
 } from '@windwalker-io/unicorn-next';
 
-const form = '#admin-form';
+const formSelector = '#admin-form';
 
 useBs5Tooltip();
 
-// Form Element
-useFormComponent(form);
+useFormComponent(formSelector);
 
-// Form Validation
-useFormValidation().then(() => useDisableOnSubmit(form));
+useFormValidation().then(() => useDisableOnSubmit(formSelector));
 
-// Disable if uploading
 useDisableIfStackNotEmpty();
 
-// KeepAlive
 useKeepAlive(location.href);
 
-// Select
+// Tags
 useTomSelect('.js-tom-select');
 
-// Tags
 useTomSelect('#input-item-tags', {
   create: (input: string) => {
     return {

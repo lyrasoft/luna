@@ -34,7 +34,7 @@ class MenuController
             case 'switch_type':
                 $repository->getState()->remember('edit.data', $app->input('item'));
 
-                return $nav->back()->withVar('type', $app->input('type'));
+                return $nav->back()->var('type', $app->input('type'));
 
             case 'switch_view':
                 $repository->getState()->remember('edit.data', $app->input('item'));
