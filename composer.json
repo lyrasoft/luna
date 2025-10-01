@@ -5,7 +5,7 @@
     "license": "MIT",
     "minimum-stability": "beta",
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.4.6",
         "windwalker/core": "^4.1",
         "windwalker/unicorn": "^1.1",
         "windwalker/crypt": "^4.1",
