@@ -32,6 +32,10 @@ class CoreForm implements FieldDefinitionInterface
                     ->label('Google Analytics')
                     ->placeholder('UA-xxx-xxxx-xxxx');
 
+                $form->add('gtm', TextField::class)
+                    ->label('Google Tag Manager')
+                    ->placeholder('GTM-XXXXXXX');
+
                 $form->add('google_search_console', TextField::class)
                     ->label('Search Console');
             }
