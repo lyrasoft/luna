@@ -32,11 +32,11 @@ use Windwalker\Form\Form;
  * @var Page $item
  */
 
-$vueScript = $app->service(VueScript::class);
-$vueScript->vue();
+// $vueScript = $app->service(VueScript::class);
+// $vueScript->vue();
 
-$asset->js('@luna/dist/page-builder.js');
-$asset->css('@luna/dist/page-builder-admin.min.css');
+// $asset->module('@luna/dist/page-builder.js');
+$asset->css('@luna/dist/page-builder-admin.css');
 ?>
 
 @extends($app->config('luna.view_extends.admin.edit') ?? 'admin.global.body-edit')

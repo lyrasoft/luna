@@ -1,3 +1,0 @@
-/*! For license information please see chunk-vendor.532.js.LICENSE.txt */
-"use strict";(self.webpackChunksrc_vue_entries_page_builder_js=self.webpackChunksrc_vue_entries_page_builder_js||[]).push([[532],{3532:(e,s,t)=>{t.d(s,{CodeMirrorOptions:()=>a,default:()=>u});var i=t(5237),r=t.n(i);t(5779),t(8656),t(5218),t(5824);const a={tabSize:2,mode:"text/x-scss",styleActiveLine:!0,theme:"material",lineNumbers:!0,line:!0,height:"450px",autoCloseBrackets:!0},u=r()}}]);
-//# sourceMappingURL=../532.js.map
