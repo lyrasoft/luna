@@ -165,6 +165,11 @@ const filteredItems = computed(() => {
     return true;
   });
 });
+
+defineExpose({
+  open,
+  openSave
+})
 </script>
 
 <template>

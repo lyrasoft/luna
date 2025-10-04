@@ -1,14 +1,12 @@
 <script lang="ts" setup>
-import { AddonProps, useAddonModel } from '~luna/composables/useAddonModel';
-import { TitleOptions } from '~luna/types';
+import { type AddonProps, useAddonDefaults } from '~luna/composables/useAddonDefaults';
+import { AddonOptions } from '~luna/types';
 import ButtonRadio from '../../../components/page-builder/form/ButtonRadio.vue';
 import RwdGroup from '../../../components/page-builder/form/RwdGroup.vue';
 import SliderInput from '../../../components/page-builder/form/SliderInput.vue';
 import RwdTitleOptions from '../form/RwdTitleOptions.vue';
 
 export interface AddonTextOptions {
-  title: TitleOptions;
-  align: '' | 'left' | 'center' | 'right';
   content: string;
   content_font_size: {
     lg: string;
@@ -24,11 +22,9 @@ export interface AddonTextOptions {
 
 defineProps<AddonProps>();
 
-const options = useAddonModel({
-  title: {
-    text: '',
-  },
-  align: '',
+const options = defineModel<AddonOptions & AddonTextOptions>({ required: true });
+
+useAddonDefaults(options, {
   content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium, ' +
     'massa dictum hendrerit maximus, ex est semper est, quis sodales odio elit a urna. ' +
     'Pellentesque dapibus vel orci id lacinia. Curabitur dui purus, condimentum ' +

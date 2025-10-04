@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { AddonProps, useAddonModel } from '~luna/composables/useAddonModel';
-import { RwdOptions, RwdSteps } from '~luna/types';
+import { AddonProps, useAddonDefaults } from '~luna/composables/useAddonDefaults';
+import { AddonOptions, RwdOptions, RwdSteps } from '~luna/types';
 import BoxOffset from '../../../components/page-builder/form/BoxOffset.vue';
 import ButtonRadio from '../../../components/page-builder/form/ButtonRadio.vue';
 import ColorInput from '../../../components/page-builder/form/ColorInput.vue';
@@ -36,7 +36,9 @@ export interface AddonFeatureOptions {
 
 defineProps<AddonProps>();
 
-const options = useAddonModel<AddonFeatureOptions>({
+const options = defineModel<AddonOptions & AddonFeatureOptions>({ required: true });
+
+useAddonDefaults(options, {
   link: '',
   link_element: 'title',
   layout_type: 'icon',

@@ -86,6 +86,12 @@ export default defineConfig(({ mode }) => {
       vuePlugin({
         features: {
           prodDevtools: true,
+        },
+        template: {
+          compilerOptions: {
+            preserveWhitespace: false,
+            whitespace: 'preserve',
+          }
         }
       }),
       // dts({

@@ -915,6 +915,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vueform/slider@npm:^2.1.10":
+  version: 2.1.10
+  resolution: "@vueform/slider@npm:2.1.10"
+  checksum: 10c0/0bcc60075a66456abbc8919e9db05b25466525755d1a35e000c4900ab5c245f81b10729ab8eeac0a104021d211337f21b07393ea47d2a6f038b10dd570746aa1
+  languageName: node
+  linkType: hard
+
 "@vueuse/core@npm:^13.9.0":
   version: 13.9.0
   resolution: "@vueuse/core@npm:13.9.0"
@@ -1174,13 +1181,6 @@ __metadata:
   version: 0.2.2
   resolution: "confbox@npm:0.2.2"
   checksum: 10c0/7c246588d533d31e8cdf66cb4701dff6de60f9be77ab54c0d0338e7988750ac56863cc0aca1b3f2046f45ff223a765d3e5d4977a7674485afcd37b6edf3fd129
-  languageName: node
-  linkType: hard
-
-"core-js@npm:^3.6.5":
-  version: 3.45.1
-  resolution: "core-js@npm:3.45.1"
-  checksum: 10c0/c38e5fae5a05ee3a129c45e10056aafe61dbb15fd35d27e0c289f5490387541c89741185e0aeb61acb558559c6697e016c245cca738fa169a73f2b06cd30e6b6
   languageName: node
   linkType: hard
 
@@ -1705,6 +1705,7 @@ __metadata:
     "@types/lodash-es": "npm:^4.17.12"
     "@types/sortablejs": "npm:^1"
     "@vitejs/plugin-vue": "npm:^6.0.1"
+    "@vueform/slider": "npm:^2.1.10"
     "@vueuse/core": "npm:^13.9.0"
     "@windwalker-io/unicorn-next": "link:/Users/simon/www/earth/vendor/windwalker/unicorn/assets"
     bootstrap: "npm:^5.3.8"
@@ -1717,7 +1718,7 @@ __metadata:
     vue: "npm:^3.0"
     vue-component-type-helpers: "npm:^3.1.0"
     vue-slide-bar: "npm:^1.2.0"
-    vue-slider-component: "npm:^3.2.24"
+    vue-slider-component: "npm:^4.1.0-beta.7"
   languageName: unknown
   linkType: soft
 
@@ -2595,30 +2596,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-class-component@npm:^7.1.0":
-  version: 7.2.6
-  resolution: "vue-class-component@npm:7.2.6"
-  peerDependencies:
-    vue: ^2.0.0
-  checksum: 10c0/2c187815e3569b4836929dc45ace5715398c4037312ef5fc27da9cb12fbbc21cabbdfc5fb678451ad45321ffabacbd184907e33db2539c13963c00883a6645c1
-  languageName: node
-  linkType: hard
-
 "vue-component-type-helpers@npm:^3.1.0":
   version: 3.1.0
   resolution: "vue-component-type-helpers@npm:3.1.0"
   checksum: 10c0/22a6559fbfbeabe6e51f5ae512905273fa2b86dc40cddf02f09f52879d80b655ae4c44235d81fcb5c8dd936e126b3aa85585cdaf6292588be605d2e64f16035b
-  languageName: node
-  linkType: hard
-
-"vue-property-decorator@npm:^8.0.0":
-  version: 8.5.1
-  resolution: "vue-property-decorator@npm:8.5.1"
-  dependencies:
-    vue-class-component: "npm:^7.1.0"
-  peerDependencies:
-    vue: "*"
-  checksum: 10c0/947da307fb3a60e8fa7fd5c7026d1f1a6185713549f96e2b0d1846d487dbb242283bd29d24e4bf960e6240985838bf4a0a72b79d5c6793e15099e16215b0fdf3
   languageName: node
   linkType: hard
 
@@ -2631,13 +2612,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-slider-component@npm:^3.2.24":
-  version: 3.2.24
-  resolution: "vue-slider-component@npm:3.2.24"
-  dependencies:
-    core-js: "npm:^3.6.5"
-    vue-property-decorator: "npm:^8.0.0"
-  checksum: 10c0/546505fb2aff56d35014b36d4600c002ecf579d32d22ebb126664bee67e27eb7bc2b1681b42623954119c6a2cbaeb980b33a6fc9e39b25efe24bd2a2a2a96d4c
+"vue-slider-component@npm:^4.1.0-beta.7":
+  version: 4.1.0-beta.7
+  resolution: "vue-slider-component@npm:4.1.0-beta.7"
+  checksum: 10c0/1362d7ee5ab955f4d25809a84eacc35551e7f90170a2cf1159a340b47ecda90cf110fb6063cd5824f35ef4394701e1a779979a760d65f60150ae60f814ec813d
   languageName: node
   linkType: hard
 

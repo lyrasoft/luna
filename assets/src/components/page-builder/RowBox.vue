@@ -4,6 +4,7 @@ import { defaultsDeep } from 'lodash-es';
 import swal from 'sweetalert';
 import { computed, ref, watch } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus';
+import ColumnBox from '~luna/components/page-builder/ColumnBox.vue';
 import { usePageBuilderUtilities } from '~luna/services/page-builder/usePageBuilderUtilities';
 import type { Addon, Column, Row, RowEditEvent, TemplateOpenEvent } from '~luna/types';
 
@@ -297,14 +298,14 @@ watch(() => columns, () => {
         item-key="id"
       >
         <template v-for="(column, i) of columns" :key="column.id">
-          <Column class="page-row__column column mb-2"
+          <ColumnBox class="page-row__column column mb-2"
             style="animation-duration: .3s"
             @delete="deleteColumn(i)"
             @duplicate="duplicateColumn($event || column, i)"
             :index="i"
             :value="column"
             :child="child">
-          </Column>
+          </ColumnBox>
         </template>
 
         <a class="page-row__body-placeholder text-center p-4 border text-secondary col-12"

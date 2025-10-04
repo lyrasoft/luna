@@ -1,18 +1,19 @@
-import { defineComponent, resolveDirective, createElementBlock, openBlock, createElementVNode, createBlock, createCommentVNode, createVNode, withDirectives, vModelText, createSlots, withCtx, renderList } from "vue";
-import { u as useAddonModel } from "./useAddonModel.js";
+import { defineComponent, mergeModels, useModel, resolveDirective, createElementBlock, openBlock, createElementVNode, createTextVNode, createBlock, createCommentVNode, createVNode, withDirectives, vModelText, createSlots, withCtx, renderList } from "vue";
+import { u as useAddonDefaults } from "./useAddonDefaults.js";
 import { R as RwdTitleOptions, S as SliderInput, a as RwdGroup, B as ButtonRadio, _ as _export_sfc } from "./page-builder.js";
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "addon-text",
-  props: {
+  props: /* @__PURE__ */ mergeModels({
     addonId: {}
-  },
+  }, {
+    "modelValue": { required: true },
+    "modelModifiers": {}
+  }),
+  emits: ["update:modelValue"],
   setup(__props, { expose: __expose }) {
     __expose();
-    const options = useAddonModel({
-      title: {
-        text: ""
-      },
-      align: "",
+    const options = useModel(__props, "modelValue");
+    useAddonDefaults(options, {
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium, massa dictum hendrerit maximus, ex est semper est, quis sodales odio elit a urna. Pellentesque dapibus vel orci id lacinia. Curabitur dui purus, condimentum vitae dapibus ut, rhoncus vitae sem. Donec dignissim, dui ut sollicitudin consectetur, est lacus elementum mi, sit amet imperdiet nisl metus at nunc.",
       content_font_size: {
         lg: "",
@@ -39,6 +40,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
     createElementVNode("div", _hoisted_1, [
       _cache[4] || (_cache[4] = createElementVNode("label", { for: "input-addon-edit-title-text" }, "Title", -1)),
+      _cache[5] || (_cache[5] = createTextVNode()),
       withDirectives(createElementVNode("textarea", {
         id: "input-addon-edit-title-text",
         "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.options.title.text = $event),
@@ -46,17 +48,22 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 512), [
         [vModelText, $setup.options.title.text]
       ]),
-      _cache[5] || (_cache[5] = createElementVNode("small", { class: "form-text text-muted" }, "The main title of this section, keep empty to hide it.", -1))
+      _cache[6] || (_cache[6] = createTextVNode()),
+      _cache[7] || (_cache[7] = createElementVNode("small", { class: "form-text text-muted" }, "The main title of this section, keep empty to hide it.", -1))
     ]),
+    _cache[16] || (_cache[16] = createTextVNode()),
     $setup.options.title.text !== "" ? (openBlock(), createBlock($setup["RwdTitleOptions"], {
       key: 0,
       id: "input-addon-edit",
       modelValue: $setup.options.title,
       "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.options.title = $event)
     }, null, 8, ["modelValue"])) : createCommentVNode("", true),
-    _cache[10] || (_cache[10] = createElementVNode("hr", null, null, -1)),
+    _cache[17] || (_cache[17] = createTextVNode()),
+    _cache[18] || (_cache[18] = createElementVNode("hr", null, null, -1)),
+    _cache[19] || (_cache[19] = createTextVNode()),
     createElementVNode("div", _hoisted_2, [
-      _cache[6] || (_cache[6] = createElementVNode("label", { for: "addon-edit-content" }, "Content", -1)),
+      _cache[8] || (_cache[8] = createElementVNode("label", { for: "addon-edit-content" }, "Content", -1)),
+      _cache[9] || (_cache[9] = createTextVNode()),
       withDirectives(createElementVNode("textarea", {
         id: "addon-edit-content",
         "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.options.content = $event),
@@ -66,8 +73,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         [_directive_tinymce]
       ])
     ]),
+    _cache[20] || (_cache[20] = createTextVNode()),
     createElementVNode("div", _hoisted_3, [
-      _cache[7] || (_cache[7] = createElementVNode("label", { for: "input-addon-edit-title-align" }, "Content Alignment", -1)),
+      _cache[10] || (_cache[10] = createElementVNode("label", { for: "input-addon-edit-title-align" }, "Content Alignment", -1)),
+      _cache[11] || (_cache[11] = createTextVNode()),
       createElementVNode("div", _hoisted_4, [
         createVNode($setup["ButtonRadio"], {
           color: "primary",
@@ -84,9 +93,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         }, null, 8, ["modelValue"])
       ])
     ]),
+    _cache[21] || (_cache[21] = createTextVNode()),
     createVNode($setup["RwdGroup"], { "class-name": "c-content-font-size" }, createSlots({
       label: withCtx(() => [
-        _cache[8] || (_cache[8] = createElementVNode("label", null, " Content Font Size ", -1))
+        _cache[12] || (_cache[12] = createElementVNode("label", null, "\n          Content Font Size\n        ", -1))
       ]),
       _: 2
     }, [
@@ -103,9 +113,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         };
       })
     ]), 1024),
+    _cache[22] || (_cache[22] = createTextVNode()),
     createVNode($setup["RwdGroup"], { "class-name": "c-content-line-height" }, createSlots({
       label: withCtx(() => [
-        _cache[9] || (_cache[9] = createElementVNode("label", null, " Content Line Height ", -1))
+        _cache[14] || (_cache[14] = createElementVNode("label", null, "\n          Content Line Height\n        ", -1))
       ]),
       _: 2
     }, [

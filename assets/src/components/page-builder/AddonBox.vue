@@ -67,7 +67,7 @@ watch(() => props.content, () => {
           {{ addonProp('name', content.type) }}
         </h6>
         <small class="text-muted">
-          {{ state.options.label || state.options.title?.text }}
+          {{ options.label || options.title?.text }}
         </small>
         <code v-if="$debug" class="small">{{ content.id }}</code>
       </div>

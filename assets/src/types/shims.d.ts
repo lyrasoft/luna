@@ -2,6 +2,7 @@ import '@windwalker-io/unicorn/src/types';
 import { UnicornApp } from '@windwalker-io/unicorn-next';
 import AlpineGlobal from 'alpinejs';
 import SRP from '@windwalker-io/srp';
+import { AddonDefine } from '~luna/types/page-builder';
 
 declare global {
   var grecaptcha: any;
@@ -36,5 +37,6 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     $trigger: typeof UnicornApp.prototype.trigger;
     $debug: boolean;
+    addonProp: (prop: keyof AddonDefine, type: string) => any;
   }
 }

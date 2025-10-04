@@ -1,17 +1,17 @@
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2021 __ORGANIZATION__.
- * @license    __LICENSE__
- */
+import { data, route, useSystemUri } from '@windwalker-io/unicorn-next';
+import { useTinymce } from '@windwalker-io/unicorn-next/src/composable/useTinymce';
 import { defaultsDeep } from 'lodash-es';
+import { ObjectDirective } from 'vue';
 
-export default {
-  mounted(el) {
+const uri = useSystemUri();
+
+export default <ObjectDirective> {
+  async mounted(el) {
     const options = defaultsDeep(
       {},
-      u.data('tinymce_options') || {},
+      data('tinymce_options') || {},
       {
+        license_key: 'gpl',
         target: el,
         height: 500,
         plugins: [
@@ -19,7 +19,7 @@ export default {
           'preview', 'anchor', 'pagebreak', 'searchreplace', 'wordcount',
           'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
           'media', 'nonbreaking', 'save', 'table', 'directionality',
-          'emoticons', 'template',
+          'emoticons',
         ],
         toolbar:
           'bold italic strikethrough forecolor backcolor blockquote removeformat | ' +
@@ -29,8 +29,8 @@ export default {
         toolbar_mode: 'sliding',
         font_size_formats: '13px 14px 15px 16px 18px 20px 22px 28px 36px 48px',
         menubar: false,
-        content_css: u.data('tinymce_content_css'),
-        document_base_url: u.uri('root'),
+        content_css: data('tinymce_content_css'),
+        document_base_url: uri.root(),
         paste_data_images: true,
         remove_script_host: true,
         relative_urls: true,
@@ -44,14 +44,14 @@ export default {
           { title: 'BS Striped Bordered', value: 'table table-striped table-bordered' },
           { title: 'None', value: '' },
         ],
-        images_upload_url: u.route('@file_upload'),
-        setup: function (editor) {
-          editor.on('change undo redo', (e) => {
+        images_upload_url: route('@file_upload'),
+        setup: function (editor: any) {
+          editor.on('change undo redo', (e: any) => {
             el.value = editor.getContent();
             el.dispatchEvent(new Event('change', { bubbles: true }));
             el.dispatchEvent(new Event('input', { bubbles: true }));
           });
-          editor.on('input', (e) => {
+          editor.on('input', (e: any) => {
             el.value = editor.getContent();
             el.dispatchEvent(new Event('input', { bubbles: true }));
           });
@@ -59,15 +59,18 @@ export default {
       }
     );
 
-    u.$ui.tinymce.loadTinymce().then(() => {
-      tinymce.remove();
-      u.$ui.tinymce.create(el, options);
-    });
+    const { create } = await useTinymce();
+    create(el, options);
+
+    // u.$ui.tinymce.loadTinymce().then(() => {
+    //   tinymce.remove();
+    //   u.$ui.tinymce.create(el, options);
+    // });
   }
 };
 
 document.addEventListener('focusin', (e) => {
-  if (e.target.closest('.mce-window, .tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root') !== null) {
+  if ((e.target as HTMLElement).closest('.mce-window, .tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root') !== null) {
     e.stopImmediatePropagation();
   }
 });

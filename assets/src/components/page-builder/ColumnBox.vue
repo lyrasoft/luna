@@ -2,6 +2,7 @@
 import { simpleAlert, simpleConfirm, useUnicorn } from '@windwalker-io/unicorn-next';
 import { defaultsDeep, range, values } from 'lodash-es';
 import { computed, ref, watch } from 'vue';
+import { VueDraggable } from 'vue-draggable-plus';
 import { usePageBuilderUtilities } from '~luna/services/page-builder/usePageBuilderUtilities';
 import { Addon, Column, ColumnEditEvent, Row, TemplateOpenEvent } from '~luna/types';
 import AddonBox from './AddonBox.vue';
@@ -330,14 +331,14 @@ watch(() => props.value, () => {
           </div>
         </div>
 
-        <draggable v-model="content.addons" @start="drag = true" @end="drag = false"
+        <VueDraggable v-model="content.addons" @start="drag = true" @end="drag = false"
           @add.stop
           v-bind="{handle: '.move-handle', group: 'addon', animation: 300}"
           style="min-height: 50px;"
           class="column__draggable"
           item-key="id"
         >
-          <template #item="{ element: addon, index: i }">
+          <template v-for="(addon, i) in content.addons" :key="addon.id">
             <div class="column__addon mb-2"
               style="animation-duration: .3s">
               <AddonBox v-if="addon.type !== 'row'"
@@ -367,7 +368,7 @@ watch(() => props.value, () => {
               <span class="fa fa-plus-circle fa-3x d-inline-block"></span>
             </a>
           </template>
-        </draggable>
+        </VueDraggable>
       </div>
     </div>
   </div>

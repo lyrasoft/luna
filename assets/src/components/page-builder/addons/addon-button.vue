@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { uid as getUid } from '@windwalker-io/unicorn-next';
 import { ref } from 'vue';
-import { AddonProps, useAddonModel } from '~luna/composables/useAddonModel';
+import { AddonProps, useAddonDefaults } from '~luna/composables/useAddonDefaults';
+import { AddonOptions } from '~luna/types';
 import ButtonRadio from '../../../components/page-builder/form/ButtonRadio.vue';
 import SliderInput from '../../../components/page-builder/form/SliderInput.vue';
 import UnicornSwitcher from '../../form/UnicornSwitcher.vue';
@@ -20,7 +21,9 @@ export interface AddonButtonOptions {
 
 defineProps<AddonProps>();
 
-const options = useAddonModel<AddonButtonOptions>({
+const options = defineModel<AddonOptions & AddonButtonOptions>({ required: true });
+
+useAddonDefaults(options, {
   text: '',
   link: '',
   link_target: '',

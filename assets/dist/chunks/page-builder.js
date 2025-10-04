@@ -1,7 +1,7 @@
-import { uid, injectCssToDocument, route, useSystemUri, useHttpClient, simpleAlert as simpleAlert$1, useUnicorn, deleteConfirm, data, selectAll, useCssImport, isDebug, useImport, domready } from "@windwalker-io/unicorn-next";
-import require$$0, { defineComponent, useSlots, ref, watch, onMounted, createBlock, openBlock, Teleport, createElementVNode, mergeProps, normalizeClass, createElementBlock, createCommentVNode, Fragment, renderSlot, toDisplayString, mergeModels, useModel, withDirectives, renderList, vModelSelect, vModelText, reactive, createSlots, withCtx, vModelRadio, onBeforeUnmount, createVNode, normalizeStyle, computed, resolveComponent, resolveDirective, customRef, getCurrentInstance, onUpdated, createTextVNode, withModifiers, nextTick, resolveDynamicComponent, Transition, useTemplateRef, TransitionGroup, inject, createApp, defineAsyncComponent } from "vue";
+import { uid, injectCssToDocument, route, useSystemUri, useHttpClient, simpleAlert as simpleAlert$1, useUnicorn, deleteConfirm, simpleConfirm, data, selectAll, useCssImport, isDebug, useImport, domready } from "@windwalker-io/unicorn-next";
+import { defineComponent, useSlots, ref, watch, onMounted, createBlock, openBlock, Teleport, createElementVNode, mergeProps, normalizeClass, createElementBlock, createCommentVNode, createTextVNode, Fragment, renderSlot, toDisplayString, mergeModels, useModel, withDirectives, renderList, vModelSelect, vModelText, reactive, createSlots, withCtx, vModelRadio, onBeforeUnmount, toRefs, computed, onUnmounted, createVNode, normalizeStyle, resolveComponent, resolveDirective, customRef, getCurrentInstance, onUpdated, withModifiers, nextTick, resolveDynamicComponent, Transition, useTemplateRef, TransitionGroup, inject, createApp, defineAsyncComponent } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
-import { Modal } from "bootstrap";
+import { Modal, Tooltip } from "bootstrap";
 function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
@@ -164,20 +164,20 @@ function requireVueSlideBar_min() {
       i.__file = "index.vue";
       return (function(t2, e2, i2, n2, s2, r2, a2, o, l, u2) {
         "function" == typeof a2 && (o = a2, a2 = false);
-        const d = "function" == typeof i2 ? i2.options : i2;
-        let h;
-        if (t2 && t2.render && (d.render = t2.render, d.staticRenderFns = t2.staticRenderFns, d._compiled = true, s2), d._scopeId = n2, e2 && (h = a2 ? function() {
+        const d2 = "function" == typeof i2 ? i2.options : i2;
+        let h2;
+        if (t2 && t2.render && (d2.render = t2.render, d2.staticRenderFns = t2.staticRenderFns, d2._compiled = true, s2), d2._scopeId = n2, e2 && (h2 = a2 ? function() {
           e2.call(this, u2(this.$root.$options.shadowRoot));
         } : function(t3) {
           e2.call(this, o(t3));
-        }), h) if (d.functional) {
-          const t3 = d.render;
-          d.render = function(e3, i3) {
-            return h.call(i3), t3(e3, i3);
+        }), h2) if (d2.functional) {
+          const t3 = d2.render;
+          d2.render = function(e3, i3) {
+            return h2.call(i3), t3(e3, i3);
           };
         } else {
-          const t3 = d.beforeCreate;
-          d.beforeCreate = t3 ? [].concat(t3, h) : [h];
+          const t3 = d2.beforeCreate;
+          d2.beforeCreate = t3 ? [].concat(t3, h2) : [h2];
         }
         return i2;
       })({ render: function() {
@@ -805,12 +805,12 @@ ListCache.prototype["delete"] = listCacheDelete;
 ListCache.prototype.get = listCacheGet;
 ListCache.prototype.has = listCacheHas;
 ListCache.prototype.set = listCacheSet;
-var Map = getNative(root, "Map");
+var Map$1 = getNative(root, "Map");
 function mapCacheClear() {
   this.size = 0;
   this.__data__ = {
     "hash": new Hash(),
-    "map": new (Map || ListCache)(),
+    "map": new (Map$1 || ListCache)(),
     "string": new Hash()
   };
 }
@@ -903,7 +903,7 @@ function stackSet(key, value) {
   var data2 = this.__data__;
   if (data2 instanceof ListCache) {
     var pairs = data2.__data__;
-    if (!Map || pairs.length < LARGE_ARRAY_SIZE - 1) {
+    if (!Map$1 || pairs.length < LARGE_ARRAY_SIZE - 1) {
       pairs.push([key, value]);
       this.size = ++data2.size;
       return this;
@@ -933,10 +933,10 @@ function cloneBuffer(buffer, isDeep) {
     return buffer.slice();
   }
 }
-var Uint8Array = root.Uint8Array;
+var Uint8Array$1 = root.Uint8Array;
 function cloneArrayBuffer(arrayBuffer) {
   var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
-  new Uint8Array(result).set(new Uint8Array(arrayBuffer));
+  new Uint8Array$1(result).set(new Uint8Array$1(arrayBuffer));
   return result;
 }
 function cloneTypedArray(typedArray, isDeep) {
@@ -1082,6 +1082,14 @@ function forEach(collection, iteratee) {
   var func = isArray(collection) ? arrayEach : baseEach;
   return func(collection, castFunction(iteratee));
 }
+function baseValues(object, props) {
+  return arrayMap(props, function(key) {
+    return object[key];
+  });
+}
+function values(object) {
+  return object == null ? [] : baseValues(object, keys(object));
+}
 var nativeCeil = Math.ceil, nativeMax = Math.max;
 function baseRange(start, end, step, fromRight) {
   var index = -1, length = nativeMax(nativeCeil((end - start) / (step || 1)), 0), result = Array(length);
@@ -1114,7 +1122,7 @@ function startsWith(string, target, position) {
   target = baseToString(target);
   return string.slice(position, position + target.length) == target;
 }
-const _sfc_main$h = /* @__PURE__ */ defineComponent({
+const _sfc_main$j = /* @__PURE__ */ defineComponent({
   __name: "BsModal",
   props: {
     id: {},
@@ -1181,22 +1189,22 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$h = ["id", "aria-labelledby", "aria-hidden", "data-bs-backdrop"];
-const _hoisted_2$f = { class: "modal-content" };
-const _hoisted_3$d = {
+const _hoisted_1$j = ["id", "aria-labelledby", "aria-hidden", "data-bs-backdrop"];
+const _hoisted_2$h = { class: "modal-content" };
+const _hoisted_3$f = {
   key: 1,
   class: "modal-header"
 };
-const _hoisted_4$b = ["id"];
-const _hoisted_5$b = {
+const _hoisted_4$d = ["id"];
+const _hoisted_5$d = {
   key: 1,
   class: "modal-body"
 };
-const _hoisted_6$b = {
+const _hoisted_6$d = {
   key: 2,
   class: "modal-footer"
 };
-function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(Teleport, { to: "body" }, [
     createElementVNode("div", mergeProps({
       ref: "modal",
@@ -1213,18 +1221,19 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
         class: normalizeClass(["modal-dialog", $props.size ? "modal-" + $props.size : null]),
         role: "document"
       }, [
-        createElementVNode("div", _hoisted_2$f, [
+        createElementVNode("div", _hoisted_2$h, [
           $setup.visible ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-            $setup.hasSlots("header-element") ? renderSlot(_ctx.$slots, "header-element", { key: 0 }) : (openBlock(), createElementBlock("div", _hoisted_3$d, [
+            $setup.hasSlots("header-element") ? renderSlot(_ctx.$slots, "header-element", { key: 0 }) : (openBlock(), createElementBlock("div", _hoisted_3$f, [
               renderSlot(_ctx.$slots, "header", {}, () => [
                 createElementVNode("div", {
                   class: "modal-title",
                   id: $setup.idName + "-label"
                 }, [
                   createElementVNode("h4", null, toDisplayString($props.title), 1)
-                ], 8, _hoisted_4$b)
+                ], 8, _hoisted_4$d)
               ]),
-              _cache[0] || (_cache[0] = createElementVNode("button", {
+              _cache[0] || (_cache[0] = createTextVNode()),
+              _cache[1] || (_cache[1] = createElementVNode("button", {
                 type: "button",
                 class: "close btn-close",
                 "data-bs-dismiss": "modal",
@@ -1238,18 +1247,20 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
               ], -1))
             ]))
           ], 64)) : createCommentVNode("", true),
-          $setup.visible ? (openBlock(), createElementBlock("div", _hoisted_5$b, [
+          _cache[2] || (_cache[2] = createTextVNode()),
+          $setup.visible ? (openBlock(), createElementBlock("div", _hoisted_5$d, [
             renderSlot(_ctx.$slots, "default")
           ])) : createCommentVNode("", true),
-          $setup.visible && $setup.hasSlots("footer") ? (openBlock(), createElementBlock("div", _hoisted_6$b, [
+          _cache[3] || (_cache[3] = createTextVNode()),
+          $setup.visible && $setup.hasSlots("footer") ? (openBlock(), createElementBlock("div", _hoisted_6$d, [
             renderSlot(_ctx.$slots, "footer")
           ])) : createCommentVNode("", true)
         ])
       ], 2)
-    ], 16, _hoisted_1$h)
+    ], 16, _hoisted_1$j)
   ]);
 }
-const BsModal = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h], ["__file", "BsModal.vue"]]);
+const BsModal = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j], ["__file", "BsModal.vue"]]);
 var codemirror$1 = { exports: {} };
 var codemirror = codemirror$1.exports;
 var hasRequiredCodemirror;
@@ -1428,10 +1439,10 @@ function requireCodemirror() {
       function win(cm) {
         return doc(cm).defaultView;
       }
-      function bind2(f) {
+      function bind2(f2) {
         var args = Array.prototype.slice.call(arguments, 1);
         return function() {
-          return f.apply(null, args);
+          return f2.apply(null, args);
         };
       }
       function copyObj(obj, target, overwrite) {
@@ -1476,8 +1487,8 @@ function requireCodemirror() {
           setTimeout(self2.handler, self2.time - +/* @__PURE__ */ new Date());
         }
       };
-      Delayed.prototype.set = function(ms, f) {
-        this.f = f;
+      Delayed.prototype.set = function(ms, f2) {
+        this.f = f2;
         var time = +/* @__PURE__ */ new Date() + ms;
         if (!this.id || time < this.time) {
           clearTimeout(this.id);
@@ -1526,10 +1537,10 @@ function requireCodemirror() {
       function lst(arr) {
         return arr[arr.length - 1];
       }
-      function map(array, f) {
+      function map(array, f2) {
         var out = [];
         for (var i2 = 0; i2 < array.length; i2++) {
-          out[i2] = f(array[i2], i2);
+          out[i2] = f2(array[i2], i2);
         }
         return out;
       }
@@ -1603,20 +1614,20 @@ function requireCodemirror() {
           }
         }
       }
-      function iterateBidiSections(order, from, to, f) {
+      function iterateBidiSections(order, from, to, f2) {
         if (!order) {
-          return f(from, to, "ltr", 0);
+          return f2(from, to, "ltr", 0);
         }
         var found = false;
         for (var i2 = 0; i2 < order.length; ++i2) {
           var part = order[i2];
           if (part.from < to && part.to > from || from == to && part.to == from) {
-            f(Math.max(part.from, from), Math.min(part.to, to), part.level == 1 ? "rtl" : "ltr", i2);
+            f2(Math.max(part.from, from), Math.min(part.to, to), part.level == 1 ? "rtl" : "ltr", i2);
             found = true;
           }
         }
         if (!found) {
-          f(from, to, "ltr");
+          f2(from, to, "ltr");
         }
       }
       var bidiOther = null;
@@ -1746,7 +1757,7 @@ function requireCodemirror() {
               i$6 = end$1 - 1;
             }
           }
-          var order = [], m;
+          var order = [], m2;
           for (var i$7 = 0; i$7 < len; ) {
             if (countsAsLeft.test(types[i$7])) {
               var start = i$7;
@@ -1779,13 +1790,13 @@ function requireCodemirror() {
             }
           }
           if (direction == "ltr") {
-            if (order[0].level == 1 && (m = str.match(/^\s+/))) {
-              order[0].from = m[0].length;
-              order.unshift(new BidiSpan(0, 0, m[0].length));
+            if (order[0].level == 1 && (m2 = str.match(/^\s+/))) {
+              order[0].from = m2[0].length;
+              order.unshift(new BidiSpan(0, 0, m2[0].length));
             }
-            if (lst(order).level == 1 && (m = str.match(/\s+$/))) {
-              lst(order).to -= m[0].length;
-              order.push(new BidiSpan(0, len - m[0].length, len));
+            if (lst(order).level == 1 && (m2 = str.match(/\s+$/))) {
+              lst(order).to -= m2[0].length;
+              order.push(new BidiSpan(0, len - m2[0].length, len));
             }
           }
           return direction == "rtl" ? order.reverse() : order;
@@ -1799,28 +1810,28 @@ function requireCodemirror() {
         return order;
       }
       var noHandlers = [];
-      var on = function(emitter, type, f) {
+      var on = function(emitter, type, f2) {
         if (emitter.addEventListener) {
-          emitter.addEventListener(type, f, false);
+          emitter.addEventListener(type, f2, false);
         } else if (emitter.attachEvent) {
-          emitter.attachEvent("on" + type, f);
+          emitter.attachEvent("on" + type, f2);
         } else {
           var map2 = emitter._handlers || (emitter._handlers = {});
-          map2[type] = (map2[type] || noHandlers).concat(f);
+          map2[type] = (map2[type] || noHandlers).concat(f2);
         }
       };
       function getHandlers(emitter, type) {
         return emitter._handlers && emitter._handlers[type] || noHandlers;
       }
-      function off(emitter, type, f) {
+      function off(emitter, type, f2) {
         if (emitter.removeEventListener) {
-          emitter.removeEventListener(type, f, false);
+          emitter.removeEventListener(type, f2, false);
         } else if (emitter.detachEvent) {
-          emitter.detachEvent("on" + type, f);
+          emitter.detachEvent("on" + type, f2);
         } else {
           var map2 = emitter._handlers, arr = map2 && map2[type];
           if (arr) {
-            var index = indexOf(arr, f);
+            var index = indexOf(arr, f2);
             if (index > -1) {
               map2[type] = arr.slice(0, index).concat(arr.slice(index + 1));
             }
@@ -1862,11 +1873,11 @@ function requireCodemirror() {
         return getHandlers(emitter, type).length > 0;
       }
       function eventMixin(ctor) {
-        ctor.prototype.on = function(type, f) {
-          on(this, type, f);
+        ctor.prototype.on = function(type, f2) {
+          on(this, type, f2);
         };
-        ctor.prototype.off = function(type, f) {
-          off(this, type, f);
+        ctor.prototype.off = function(type, f2) {
+          off(this, type, f2);
         };
       }
       function e_preventDefault(e) {
@@ -2273,16 +2284,16 @@ function requireCodemirror() {
         }
         return no + cur.first;
       }
-      function lineAtHeight(chunk, h) {
+      function lineAtHeight(chunk, h2) {
         var n = chunk.first;
         outer: do {
           for (var i$12 = 0; i$12 < chunk.children.length; ++i$12) {
             var child = chunk.children[i$12], ch = child.height;
-            if (h < ch) {
+            if (h2 < ch) {
               chunk = child;
               continue outer;
             }
-            h -= ch;
+            h2 -= ch;
             n += child.chunkSize();
           }
           return n;
@@ -2290,10 +2301,10 @@ function requireCodemirror() {
         var i2 = 0;
         for (; i2 < chunk.lines.length; ++i2) {
           var line = chunk.lines[i2], lh = line.height;
-          if (h < lh) {
+          if (h2 < lh) {
             break;
           }
-          h -= lh;
+          h2 -= lh;
         }
         return n + i2;
       }
@@ -2572,7 +2583,7 @@ function requireCodemirror() {
         }
         return type;
       }
-      function runMode(cm, text, mode, context, f, lineClasses, forceToEnd) {
+      function runMode(cm, text, mode, context, f2, lineClasses, forceToEnd) {
         var flattenSpans = mode.flattenSpans;
         if (flattenSpans == null) {
           flattenSpans = cm.options.flattenSpans;
@@ -2603,7 +2614,7 @@ function requireCodemirror() {
           if (!flattenSpans || curStyle != style) {
             while (curStart < stream.start) {
               curStart = Math.min(stream.start, curStart + 5e3);
-              f(curStart, curStyle);
+              f2(curStart, curStyle);
             }
             curStyle = style;
           }
@@ -2611,7 +2622,7 @@ function requireCodemirror() {
         }
         while (curStart < stream.pos) {
           var pos = Math.min(stream.pos, curStart + 5e3);
-          f(pos, curStyle);
+          f2(pos, curStyle);
           curStart = pos;
         }
       }
@@ -2824,18 +2835,18 @@ function requireCodemirror() {
         }
         var parts = [{ from, to }];
         for (var i2 = 0; i2 < markers.length; ++i2) {
-          var mk = markers[i2], m = mk.find(0);
+          var mk = markers[i2], m2 = mk.find(0);
           for (var j = 0; j < parts.length; ++j) {
-            var p = parts[j];
-            if (cmp(p.to, m.from) < 0 || cmp(p.from, m.to) > 0) {
+            var p2 = parts[j];
+            if (cmp(p2.to, m2.from) < 0 || cmp(p2.from, m2.to) > 0) {
               continue;
             }
-            var newParts = [j, 1], dfrom = cmp(p.from, m.from), dto = cmp(p.to, m.to);
+            var newParts = [j, 1], dfrom = cmp(p2.from, m2.from), dto = cmp(p2.to, m2.to);
             if (dfrom < 0 || !mk.inclusiveLeft && !dfrom) {
-              newParts.push({ from: p.from, to: m.from });
+              newParts.push({ from: p2.from, to: m2.from });
             }
             if (dto > 0 || !mk.inclusiveRight && !dto) {
-              newParts.push({ from: m.to, to: p.to });
+              newParts.push({ from: m2.to, to: p2.to });
             }
             parts.splice.apply(parts, newParts);
             j += newParts.length - 3;
@@ -3014,26 +3025,26 @@ function requireCodemirror() {
       }
       function heightAtLine(lineObj) {
         lineObj = visualLine(lineObj);
-        var h = 0, chunk = lineObj.parent;
+        var h2 = 0, chunk = lineObj.parent;
         for (var i2 = 0; i2 < chunk.lines.length; ++i2) {
           var line = chunk.lines[i2];
           if (line == lineObj) {
             break;
           } else {
-            h += line.height;
+            h2 += line.height;
           }
         }
-        for (var p = chunk.parent; p; chunk = p, p = chunk.parent) {
-          for (var i$12 = 0; i$12 < p.children.length; ++i$12) {
-            var cur = p.children[i$12];
+        for (var p2 = chunk.parent; p2; chunk = p2, p2 = chunk.parent) {
+          for (var i$12 = 0; i$12 < p2.children.length; ++i$12) {
+            var cur = p2.children[i$12];
             if (cur == chunk) {
               break;
             } else {
-              h += cur.height;
+              h2 += cur.height;
             }
           }
         }
-        return h;
+        return h2;
       }
       function lineLength(line) {
         if (line.height == 0) {
@@ -3055,15 +3066,15 @@ function requireCodemirror() {
         return len;
       }
       function findMaxLine(cm) {
-        var d = cm.display, doc2 = cm.doc;
-        d.maxLine = getLine(doc2, doc2.first);
-        d.maxLineLength = lineLength(d.maxLine);
-        d.maxLineChanged = true;
+        var d2 = cm.display, doc2 = cm.doc;
+        d2.maxLine = getLine(doc2, doc2.first);
+        d2.maxLineLength = lineLength(d2.maxLine);
+        d2.maxLineChanged = true;
         doc2.iter(function(line) {
           var len = lineLength(line);
-          if (len > d.maxLineLength) {
-            d.maxLineLength = len;
-            d.maxLine = line;
+          if (len > d2.maxLineLength) {
+            d2.maxLineLength = len;
+            d2.maxLine = line;
           }
         });
       }
@@ -3185,8 +3196,8 @@ function requireCodemirror() {
           var pos = 0;
           while (true) {
             special.lastIndex = pos;
-            var m = special.exec(text);
-            var skipped = m ? m.index - pos : text.length - pos;
+            var m2 = special.exec(text);
+            var skipped = m2 ? m2.index - pos : text.length - pos;
             if (skipped) {
               var txt = document.createTextNode(displayText.slice(pos, pos + skipped));
               if (ie && ie_version < 9) {
@@ -3198,24 +3209,24 @@ function requireCodemirror() {
               builder.col += skipped;
               builder.pos += skipped;
             }
-            if (!m) {
+            if (!m2) {
               break;
             }
             pos += skipped + 1;
             var txt$1 = void 0;
-            if (m[0] == "	") {
+            if (m2[0] == "	") {
               var tabSize = builder.cm.options.tabSize, tabWidth = tabSize - builder.col % tabSize;
               txt$1 = content.appendChild(elt("span", spaceStr(tabWidth), "cm-tab"));
               txt$1.setAttribute("role", "presentation");
               txt$1.setAttribute("cm-text", "	");
               builder.col += tabWidth;
-            } else if (m[0] == "\r" || m[0] == "\n") {
-              txt$1 = content.appendChild(elt("span", m[0] == "\r" ? "␍" : "␤", "cm-invalidchar"));
-              txt$1.setAttribute("cm-text", m[0]);
+            } else if (m2[0] == "\r" || m2[0] == "\n") {
+              txt$1 = content.appendChild(elt("span", m2[0] == "\r" ? "␍" : "␤", "cm-invalidchar"));
+              txt$1.setAttribute("cm-text", m2[0]);
               builder.col += 1;
             } else {
-              txt$1 = builder.cm.options.specialCharPlaceholder(m[0]);
-              txt$1.setAttribute("cm-text", m[0]);
+              txt$1 = builder.cm.options.specialCharPlaceholder(m2[0]);
+              txt$1.setAttribute("cm-text", m2[0]);
               if (ie && ie_version < 9) {
                 content.appendChild(elt("span", [txt$1]));
               } else {
@@ -3321,35 +3332,35 @@ function requireCodemirror() {
             nextChange = Infinity;
             var foundBookmarks = [], endStyles = void 0;
             for (var j = 0; j < spans.length; ++j) {
-              var sp = spans[j], m = sp.marker;
-              if (m.type == "bookmark" && sp.from == pos && m.widgetNode) {
-                foundBookmarks.push(m);
-              } else if (sp.from <= pos && (sp.to == null || sp.to > pos || m.collapsed && sp.to == pos && sp.from == pos)) {
+              var sp = spans[j], m2 = sp.marker;
+              if (m2.type == "bookmark" && sp.from == pos && m2.widgetNode) {
+                foundBookmarks.push(m2);
+              } else if (sp.from <= pos && (sp.to == null || sp.to > pos || m2.collapsed && sp.to == pos && sp.from == pos)) {
                 if (sp.to != null && sp.to != pos && nextChange > sp.to) {
                   nextChange = sp.to;
                   spanEndStyle = "";
                 }
-                if (m.className) {
-                  spanStyle += " " + m.className;
+                if (m2.className) {
+                  spanStyle += " " + m2.className;
                 }
-                if (m.css) {
-                  css2 = (css2 ? css2 + ";" : "") + m.css;
+                if (m2.css) {
+                  css2 = (css2 ? css2 + ";" : "") + m2.css;
                 }
-                if (m.startStyle && sp.from == pos) {
-                  spanStartStyle += " " + m.startStyle;
+                if (m2.startStyle && sp.from == pos) {
+                  spanStartStyle += " " + m2.startStyle;
                 }
-                if (m.endStyle && sp.to == nextChange) {
-                  (endStyles || (endStyles = [])).push(m.endStyle, sp.to);
+                if (m2.endStyle && sp.to == nextChange) {
+                  (endStyles || (endStyles = [])).push(m2.endStyle, sp.to);
                 }
-                if (m.title) {
-                  (attributes || (attributes = {})).title = m.title;
+                if (m2.title) {
+                  (attributes || (attributes = {})).title = m2.title;
                 }
-                if (m.attributes) {
-                  for (var attr in m.attributes) {
-                    (attributes || (attributes = {}))[attr] = m.attributes[attr];
+                if (m2.attributes) {
+                  for (var attr in m2.attributes) {
+                    (attributes || (attributes = {}))[attr] = m2.attributes[attr];
                   }
                 }
-                if (m.collapsed && (!collapsed || compareCollapsedMarkers(collapsed.marker, m) < 0)) {
+                if (m2.collapsed && (!collapsed || compareCollapsedMarkers(collapsed.marker, m2) < 0)) {
                   collapsed = sp;
                 }
               } else if (sp.from > pos && nextChange > sp.from) {
@@ -4122,13 +4133,13 @@ function requireCodemirror() {
           preparedMeasure = prepareMeasureForLine(cm, lineObj);
         }
         function get(ch2, right) {
-          var m = measureCharPrepared(cm, preparedMeasure, ch2, right ? "right" : "left", varHeight);
+          var m2 = measureCharPrepared(cm, preparedMeasure, ch2, right ? "right" : "left", varHeight);
           if (right) {
-            m.left = m.right;
+            m2.left = m2.right;
           } else {
-            m.right = m.left;
+            m2.right = m2.left;
           }
-          return intoCoordSystem(cm, lineObj, m, context);
+          return intoCoordSystem(cm, lineObj, m2, context);
         }
         var order = getOrder(lineObj, cm.doc.direction), ch = pos.ch, sticky = pos.sticky;
         if (ch >= lineObj.text.length) {
@@ -4299,15 +4310,15 @@ function requireCodemirror() {
         }
         var part = null, closestDist = null;
         for (var i2 = 0; i2 < order.length; i2++) {
-          var p = order[i2];
-          if (p.from >= end || p.to <= begin) {
+          var p2 = order[i2];
+          if (p2.from >= end || p2.to <= begin) {
             continue;
           }
-          var ltr = p.level != 1;
-          var endX = measureCharPrepared(cm, preparedMeasure, ltr ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right;
+          var ltr = p2.level != 1;
+          var endX = measureCharPrepared(cm, preparedMeasure, ltr ? Math.min(end, p2.to) - 1 : Math.max(begin, p2.from)).right;
           var dist = endX < x ? x - endX + 1e9 : endX - x;
           if (!part || closestDist > dist) {
-            part = p;
+            part = p2;
             closestDist = dist;
           }
         }
@@ -4357,19 +4368,19 @@ function requireCodemirror() {
         return width || 10;
       }
       function getDimensions(cm) {
-        var d = cm.display, left = {}, width = {};
-        var gutterLeft = d.gutters.clientLeft;
-        for (var n = d.gutters.firstChild, i2 = 0; n; n = n.nextSibling, ++i2) {
+        var d2 = cm.display, left = {}, width = {};
+        var gutterLeft = d2.gutters.clientLeft;
+        for (var n = d2.gutters.firstChild, i2 = 0; n; n = n.nextSibling, ++i2) {
           var id = cm.display.gutterSpecs[i2].className;
           left[id] = n.offsetLeft + n.clientLeft + gutterLeft;
           width[id] = n.clientWidth;
         }
         return {
-          fixedPos: compensateForHScroll(d),
-          gutterTotalWidth: d.gutters.offsetWidth,
+          fixedPos: compensateForHScroll(d2),
+          gutterTotalWidth: d2.gutters.offsetWidth,
           gutterLeft: left,
           gutterWidth: width,
-          wrapperWidth: d.wrapper.clientWidth
+          wrapperWidth: d2.wrapper.clientWidth
         };
       }
       function compensateForHScroll(display) {
@@ -5079,18 +5090,18 @@ function requireCodemirror() {
         cm.display.scrollbars.setScrollLeft(val);
       }
       function measureForScrollbars(cm) {
-        var d = cm.display, gutterW = d.gutters.offsetWidth;
+        var d2 = cm.display, gutterW = d2.gutters.offsetWidth;
         var docH = Math.round(cm.doc.height + paddingVert(cm.display));
         return {
-          clientHeight: d.scroller.clientHeight,
-          viewHeight: d.wrapper.clientHeight,
-          scrollWidth: d.scroller.scrollWidth,
-          clientWidth: d.scroller.clientWidth,
-          viewWidth: d.wrapper.clientWidth,
+          clientHeight: d2.scroller.clientHeight,
+          viewHeight: d2.wrapper.clientHeight,
+          scrollWidth: d2.scroller.scrollWidth,
+          clientWidth: d2.scroller.clientWidth,
+          viewWidth: d2.wrapper.clientWidth,
           barLeft: cm.options.fixedGutter ? gutterW : 0,
           docHeight: docH,
-          scrollHeight: docH + scrollGap(cm) + d.barHeight,
-          nativeBarWidth: d.nativeBarWidth,
+          scrollHeight: docH + scrollGap(cm) + d2.barHeight,
+          nativeBarWidth: d2.nativeBarWidth,
           gutterWidth: gutterW
         };
       }
@@ -5216,24 +5227,24 @@ function requireCodemirror() {
         }
       }
       function updateScrollbarsInner(cm, measure) {
-        var d = cm.display;
-        var sizes = d.scrollbars.update(measure);
-        d.sizer.style.paddingRight = (d.barWidth = sizes.right) + "px";
-        d.sizer.style.paddingBottom = (d.barHeight = sizes.bottom) + "px";
-        d.heightForcer.style.borderBottom = sizes.bottom + "px solid transparent";
+        var d2 = cm.display;
+        var sizes = d2.scrollbars.update(measure);
+        d2.sizer.style.paddingRight = (d2.barWidth = sizes.right) + "px";
+        d2.sizer.style.paddingBottom = (d2.barHeight = sizes.bottom) + "px";
+        d2.heightForcer.style.borderBottom = sizes.bottom + "px solid transparent";
         if (sizes.right && sizes.bottom) {
-          d.scrollbarFiller.style.display = "block";
-          d.scrollbarFiller.style.height = sizes.bottom + "px";
-          d.scrollbarFiller.style.width = sizes.right + "px";
+          d2.scrollbarFiller.style.display = "block";
+          d2.scrollbarFiller.style.height = sizes.bottom + "px";
+          d2.scrollbarFiller.style.width = sizes.right + "px";
         } else {
-          d.scrollbarFiller.style.display = "";
+          d2.scrollbarFiller.style.display = "";
         }
         if (sizes.bottom && cm.options.coverGutterNextToScrollbar && cm.options.fixedGutter) {
-          d.gutterFiller.style.display = "block";
-          d.gutterFiller.style.height = sizes.bottom + "px";
-          d.gutterFiller.style.width = measure.gutterWidth + "px";
+          d2.gutterFiller.style.display = "block";
+          d2.gutterFiller.style.height = sizes.bottom + "px";
+          d2.gutterFiller.style.width = measure.gutterWidth + "px";
         } else {
-          d.gutterFiller.style.display = "";
+          d2.gutterFiller.style.display = "";
         }
       }
       var scrollbarModel = { "native": NativeScrollbars, "null": NullScrollbars };
@@ -5436,52 +5447,52 @@ function requireCodemirror() {
           op.update.finish();
         }
       }
-      function runInOp(cm, f) {
+      function runInOp(cm, f2) {
         if (cm.curOp) {
-          return f();
+          return f2();
         }
         startOperation(cm);
         try {
-          return f();
+          return f2();
         } finally {
           endOperation(cm);
         }
       }
-      function operation(cm, f) {
+      function operation(cm, f2) {
         return function() {
           if (cm.curOp) {
-            return f.apply(cm, arguments);
+            return f2.apply(cm, arguments);
           }
           startOperation(cm);
           try {
-            return f.apply(cm, arguments);
+            return f2.apply(cm, arguments);
           } finally {
             endOperation(cm);
           }
         };
       }
-      function methodOp(f) {
+      function methodOp(f2) {
         return function() {
           if (this.curOp) {
-            return f.apply(this, arguments);
+            return f2.apply(this, arguments);
           }
           startOperation(this);
           try {
-            return f.apply(this, arguments);
+            return f2.apply(this, arguments);
           } finally {
             endOperation(this);
           }
         };
       }
-      function docMethodOp(f) {
+      function docMethodOp(f2) {
         return function() {
           var cm = this.cm;
           if (!cm || cm.curOp) {
-            return f.apply(this, arguments);
+            return f2.apply(this, arguments);
           }
           startOperation(cm);
           try {
-            return f.apply(this, arguments);
+            return f2.apply(this, arguments);
           } finally {
             endOperation(cm);
           }
@@ -5862,74 +5873,74 @@ function requireCodemirror() {
         alignHorizontally(cm);
       }
       function Display(place, doc2, input, options) {
-        var d = this;
+        var d2 = this;
         this.input = input;
-        d.scrollbarFiller = elt("div", null, "CodeMirror-scrollbar-filler");
-        d.scrollbarFiller.setAttribute("cm-not-content", "true");
-        d.gutterFiller = elt("div", null, "CodeMirror-gutter-filler");
-        d.gutterFiller.setAttribute("cm-not-content", "true");
-        d.lineDiv = eltP("div", null, "CodeMirror-code");
-        d.selectionDiv = elt("div", null, null, "position: relative; z-index: 1");
-        d.cursorDiv = elt("div", null, "CodeMirror-cursors");
-        d.measure = elt("div", null, "CodeMirror-measure");
-        d.lineMeasure = elt("div", null, "CodeMirror-measure");
-        d.lineSpace = eltP(
+        d2.scrollbarFiller = elt("div", null, "CodeMirror-scrollbar-filler");
+        d2.scrollbarFiller.setAttribute("cm-not-content", "true");
+        d2.gutterFiller = elt("div", null, "CodeMirror-gutter-filler");
+        d2.gutterFiller.setAttribute("cm-not-content", "true");
+        d2.lineDiv = eltP("div", null, "CodeMirror-code");
+        d2.selectionDiv = elt("div", null, null, "position: relative; z-index: 1");
+        d2.cursorDiv = elt("div", null, "CodeMirror-cursors");
+        d2.measure = elt("div", null, "CodeMirror-measure");
+        d2.lineMeasure = elt("div", null, "CodeMirror-measure");
+        d2.lineSpace = eltP(
           "div",
-          [d.measure, d.lineMeasure, d.selectionDiv, d.cursorDiv, d.lineDiv],
+          [d2.measure, d2.lineMeasure, d2.selectionDiv, d2.cursorDiv, d2.lineDiv],
           null,
           "position: relative; outline: none"
         );
-        var lines = eltP("div", [d.lineSpace], "CodeMirror-lines");
-        d.mover = elt("div", [lines], null, "position: relative");
-        d.sizer = elt("div", [d.mover], "CodeMirror-sizer");
-        d.sizerWidth = null;
-        d.heightForcer = elt("div", null, null, "position: absolute; height: " + scrollerGap + "px; width: 1px;");
-        d.gutters = elt("div", null, "CodeMirror-gutters");
-        d.lineGutter = null;
-        d.scroller = elt("div", [d.sizer, d.heightForcer, d.gutters], "CodeMirror-scroll");
-        d.scroller.setAttribute("tabIndex", "-1");
-        d.wrapper = elt("div", [d.scrollbarFiller, d.gutterFiller, d.scroller], "CodeMirror");
+        var lines = eltP("div", [d2.lineSpace], "CodeMirror-lines");
+        d2.mover = elt("div", [lines], null, "position: relative");
+        d2.sizer = elt("div", [d2.mover], "CodeMirror-sizer");
+        d2.sizerWidth = null;
+        d2.heightForcer = elt("div", null, null, "position: absolute; height: " + scrollerGap + "px; width: 1px;");
+        d2.gutters = elt("div", null, "CodeMirror-gutters");
+        d2.lineGutter = null;
+        d2.scroller = elt("div", [d2.sizer, d2.heightForcer, d2.gutters], "CodeMirror-scroll");
+        d2.scroller.setAttribute("tabIndex", "-1");
+        d2.wrapper = elt("div", [d2.scrollbarFiller, d2.gutterFiller, d2.scroller], "CodeMirror");
         if (chrome && chrome_version === 105) {
-          d.wrapper.style.clipPath = "inset(0px)";
+          d2.wrapper.style.clipPath = "inset(0px)";
         }
-        d.wrapper.setAttribute("translate", "no");
+        d2.wrapper.setAttribute("translate", "no");
         if (ie && ie_version < 8) {
-          d.gutters.style.zIndex = -1;
-          d.scroller.style.paddingRight = 0;
+          d2.gutters.style.zIndex = -1;
+          d2.scroller.style.paddingRight = 0;
         }
         if (!webkit && !(gecko && mobile)) {
-          d.scroller.draggable = true;
+          d2.scroller.draggable = true;
         }
         if (place) {
           if (place.appendChild) {
-            place.appendChild(d.wrapper);
+            place.appendChild(d2.wrapper);
           } else {
-            place(d.wrapper);
+            place(d2.wrapper);
           }
         }
-        d.viewFrom = d.viewTo = doc2.first;
-        d.reportedViewFrom = d.reportedViewTo = doc2.first;
-        d.view = [];
-        d.renderedView = null;
-        d.externalMeasured = null;
-        d.viewOffset = 0;
-        d.lastWrapHeight = d.lastWrapWidth = 0;
-        d.updateLineNumbers = null;
-        d.nativeBarWidth = d.barHeight = d.barWidth = 0;
-        d.scrollbarsClipped = false;
-        d.lineNumWidth = d.lineNumInnerWidth = d.lineNumChars = null;
-        d.alignWidgets = false;
-        d.cachedCharWidth = d.cachedTextHeight = d.cachedPaddingH = null;
-        d.maxLine = null;
-        d.maxLineLength = 0;
-        d.maxLineChanged = false;
-        d.wheelDX = d.wheelDY = d.wheelStartX = d.wheelStartY = null;
-        d.shift = false;
-        d.selForContextMenu = null;
-        d.activeTouch = null;
-        d.gutterSpecs = getGutters(options.gutters, options.lineNumbers);
-        renderGutters(d);
-        input.init(d);
+        d2.viewFrom = d2.viewTo = doc2.first;
+        d2.reportedViewFrom = d2.reportedViewTo = doc2.first;
+        d2.view = [];
+        d2.renderedView = null;
+        d2.externalMeasured = null;
+        d2.viewOffset = 0;
+        d2.lastWrapHeight = d2.lastWrapWidth = 0;
+        d2.updateLineNumbers = null;
+        d2.nativeBarWidth = d2.barHeight = d2.barWidth = 0;
+        d2.scrollbarsClipped = false;
+        d2.lineNumWidth = d2.lineNumInnerWidth = d2.lineNumChars = null;
+        d2.alignWidgets = false;
+        d2.cachedCharWidth = d2.cachedTextHeight = d2.cachedPaddingH = null;
+        d2.maxLine = null;
+        d2.maxLineLength = 0;
+        d2.maxLineChanged = false;
+        d2.wheelDX = d2.wheelDY = d2.wheelStartX = d2.wheelStartY = null;
+        d2.shift = false;
+        d2.selForContextMenu = null;
+        d2.activeTouch = null;
+        d2.gutterSpecs = getGutters(options.gutters, options.lineNumbers);
+        renderGutters(d2);
+        input.init(d2);
       }
       var wheelSamples = 0, wheelPixelsPerUnit = null;
       if (ie) {
@@ -6261,7 +6272,7 @@ function requireCodemirror() {
         }
         signalLater(doc2, "change", doc2, change);
       }
-      function linkedDocs(doc2, f, sharedHistOnly) {
+      function linkedDocs(doc2, f2, sharedHistOnly) {
         function propagate(doc3, skip, sharedHist) {
           if (doc3.linked) {
             for (var i2 = 0; i2 < doc3.linked.length; ++i2) {
@@ -6273,7 +6284,7 @@ function requireCodemirror() {
               if (sharedHistOnly && !shared) {
                 continue;
               }
-              f(rel.doc, shared);
+              f2(rel.doc, shared);
               propagate(rel.doc, doc3, shared);
             }
           }
@@ -6479,12 +6490,12 @@ function requireCodemirror() {
           var changes = event.changes, newChanges = [];
           copy.push({ changes: newChanges });
           for (var j = 0; j < changes.length; ++j) {
-            var change = changes[j], m = void 0;
+            var change = changes[j], m2 = void 0;
             newChanges.push({ from: change.from, to: change.to, text: change.text });
             if (newGroup) {
               for (var prop2 in change) {
-                if (m = prop2.match(/^spans_(\d+)$/)) {
-                  if (indexOf(newGroup, Number(m[1])) > -1) {
+                if (m2 = prop2.match(/^spans_(\d+)$/)) {
+                  if (indexOf(newGroup, Number(m2[1])) > -1) {
                     lst(newChanges)[prop2] = change[prop2];
                     delete change[prop2];
                   }
@@ -6617,13 +6628,13 @@ function requireCodemirror() {
         var line = getLine(doc2, pos.line);
         if (line.markedSpans) {
           for (var i2 = 0; i2 < line.markedSpans.length; ++i2) {
-            var sp = line.markedSpans[i2], m = sp.marker;
-            var preventCursorLeft = "selectLeft" in m ? !m.selectLeft : m.inclusiveLeft;
-            var preventCursorRight = "selectRight" in m ? !m.selectRight : m.inclusiveRight;
+            var sp = line.markedSpans[i2], m2 = sp.marker;
+            var preventCursorLeft = "selectLeft" in m2 ? !m2.selectLeft : m2.inclusiveLeft;
+            var preventCursorRight = "selectRight" in m2 ? !m2.selectRight : m2.inclusiveRight;
             if ((sp.from == null || (preventCursorLeft ? sp.from <= pos.ch : sp.from < pos.ch)) && (sp.to == null || (preventCursorRight ? sp.to >= pos.ch : sp.to > pos.ch))) {
               if (mayClear) {
-                signal(m, "beforeCursorEnter");
-                if (m.explicitlyCleared) {
+                signal(m2, "beforeCursorEnter");
+                if (m2.explicitlyCleared) {
                   if (!line.markedSpans) {
                     break;
                   } else {
@@ -6632,11 +6643,11 @@ function requireCodemirror() {
                   }
                 }
               }
-              if (!m.atomic) {
+              if (!m2.atomic) {
                 continue;
               }
               if (oldPos) {
-                var near = m.find(dir < 0 ? 1 : -1), diff = void 0;
+                var near = m2.find(dir < 0 ? 1 : -1), diff = void 0;
                 if (dir < 0 ? preventCursorRight : preventCursorLeft) {
                   near = movePos(doc2, near, -dir, near && near.line == pos.line ? line : null);
                 }
@@ -6644,7 +6655,7 @@ function requireCodemirror() {
                   return skipAtomicInner(doc2, near, pos, dir, mayClear);
                 }
               }
-              var far = m.find(dir < 0 ? -1 : 1);
+              var far = m2.find(dir < 0 ? -1 : 1);
               if (dir < 0 ? preventCursorLeft : preventCursorRight) {
                 far = movePos(doc2, far, dir, far.line == pos.line ? line : null);
               }
@@ -6841,7 +6852,7 @@ function requireCodemirror() {
         }), doc2.sel.primIndex);
         if (doc2.cm) {
           regChange(doc2.cm, doc2.first, doc2.first - distance, distance);
-          for (var d = doc2.cm.display, l = d.viewFrom; l < d.viewTo; l++) {
+          for (var d2 = doc2.cm.display, l = d2.viewFrom; l < d2.viewTo; l++) {
             regLineChange(doc2.cm, l, "gutter");
           }
         }
@@ -7532,8 +7543,8 @@ function requireCodemirror() {
         return new SharedTextMarker(markers, primary);
       }
       function findSharedMarkers(doc2) {
-        return doc2.findMarks(Pos(doc2.first, 0), doc2.clipPos(Pos(doc2.lastLine())), function(m) {
-          return m.parent;
+        return doc2.findMarks(Pos(doc2.first, 0), doc2.clipPos(Pos(doc2.lastLine())), function(m2) {
+          return m2.parent;
         });
       }
       function copySharedMarkers(doc2, markers) {
@@ -7550,8 +7561,8 @@ function requireCodemirror() {
       function detachSharedMarkers(markers) {
         var loop = function(i3) {
           var marker = markers[i3], linked = [marker.primary.doc];
-          linkedDocs(marker.primary.doc, function(d) {
-            return linked.push(d);
+          linkedDocs(marker.primary.doc, function(d2) {
+            return linked.push(d2);
           });
           for (var j = 0; j < marker.markers.length; j++) {
             var subMarker = marker.markers[j];
@@ -7714,8 +7725,8 @@ function requireCodemirror() {
         extendSelections: docMethodOp(function(heads, options) {
           extendSelections(this, clipPosArray(this, heads), options);
         }),
-        extendSelectionsBy: docMethodOp(function(f, options) {
-          var heads = map(this.sel.ranges, f);
+        extendSelectionsBy: docMethodOp(function(f2, options) {
+          var heads = map(this.sel.ranges, f2);
           extendSelections(this, clipPosArray(this, heads), options);
         }),
         setSelections: docMethodOp(function(ranges, primary, options) {
@@ -8085,8 +8096,8 @@ function requireCodemirror() {
             other.history.undone = copyHistoryArray(this.history.undone, splitIds);
           }
         },
-        iterLinkedDocs: function(f) {
-          linkedDocs(this, f);
+        iterLinkedDocs: function(f2) {
+          linkedDocs(this, f2);
         },
         getMode: function() {
           return this.mode;
@@ -8250,7 +8261,7 @@ function requireCodemirror() {
           cm.display.dragCursor = null;
         }
       }
-      function forEachCodeMirror(f) {
+      function forEachCodeMirror(f2) {
         if (!document.getElementsByClassName) {
           return;
         }
@@ -8264,7 +8275,7 @@ function requireCodemirror() {
         if (editors.length) {
           editors[0].operation(function() {
             for (var i3 = 0; i3 < editors.length; i3++) {
-              f(editors[i3]);
+              f2(editors[i3]);
             }
           });
         }
@@ -8292,9 +8303,9 @@ function requireCodemirror() {
         });
       }
       function onResize(cm) {
-        var d = cm.display;
-        d.cachedCharWidth = d.cachedTextHeight = d.cachedPaddingH = null;
-        d.scrollbarsClipped = false;
+        var d2 = cm.display;
+        d2.cachedCharWidth = d2.cachedTextHeight = d2.cachedPaddingH = null;
+        d2.scrollbarsClipped = false;
         cm.setSize();
       }
       var keyNames = {
@@ -9906,10 +9917,10 @@ function requireCodemirror() {
       CodeMirror2.defaults = defaults;
       CodeMirror2.optionHandlers = optionHandlers;
       function registerEventHandlers(cm) {
-        var d = cm.display;
-        on(d.scroller, "mousedown", operation(cm, onMouseDown));
+        var d2 = cm.display;
+        on(d2.scroller, "mousedown", operation(cm, onMouseDown));
         if (ie && ie_version < 11) {
-          on(d.scroller, "dblclick", operation(cm, function(e) {
+          on(d2.scroller, "dblclick", operation(cm, function(e) {
             if (signalDOMEvent(cm, e)) {
               return;
             }
@@ -9922,25 +9933,25 @@ function requireCodemirror() {
             extendSelection(cm.doc, word.anchor, word.head);
           }));
         } else {
-          on(d.scroller, "dblclick", function(e) {
+          on(d2.scroller, "dblclick", function(e) {
             return signalDOMEvent(cm, e) || e_preventDefault(e);
           });
         }
-        on(d.scroller, "contextmenu", function(e) {
+        on(d2.scroller, "contextmenu", function(e) {
           return onContextMenu(cm, e);
         });
-        on(d.input.getField(), "contextmenu", function(e) {
-          if (!d.scroller.contains(e.target)) {
+        on(d2.input.getField(), "contextmenu", function(e) {
+          if (!d2.scroller.contains(e.target)) {
             onContextMenu(cm, e);
           }
         });
         var touchFinished, prevTouch = { end: 0 };
         function finishTouch() {
-          if (d.activeTouch) {
+          if (d2.activeTouch) {
             touchFinished = setTimeout(function() {
-              return d.activeTouch = null;
+              return d2.activeTouch = null;
             }, 1e3);
-            prevTouch = d.activeTouch;
+            prevTouch = d2.activeTouch;
             prevTouch.end = +/* @__PURE__ */ new Date();
           }
         }
@@ -9958,31 +9969,31 @@ function requireCodemirror() {
           var dx = other.left - touch.left, dy = other.top - touch.top;
           return dx * dx + dy * dy > 20 * 20;
         }
-        on(d.scroller, "touchstart", function(e) {
+        on(d2.scroller, "touchstart", function(e) {
           if (!signalDOMEvent(cm, e) && !isMouseLikeTouchEvent(e) && !clickInGutter(cm, e)) {
-            d.input.ensurePolled();
+            d2.input.ensurePolled();
             clearTimeout(touchFinished);
             var now = +/* @__PURE__ */ new Date();
-            d.activeTouch = {
+            d2.activeTouch = {
               start: now,
               moved: false,
               prev: now - prevTouch.end <= 300 ? prevTouch : null
             };
             if (e.touches.length == 1) {
-              d.activeTouch.left = e.touches[0].pageX;
-              d.activeTouch.top = e.touches[0].pageY;
+              d2.activeTouch.left = e.touches[0].pageX;
+              d2.activeTouch.top = e.touches[0].pageY;
             }
           }
         });
-        on(d.scroller, "touchmove", function() {
-          if (d.activeTouch) {
-            d.activeTouch.moved = true;
+        on(d2.scroller, "touchmove", function() {
+          if (d2.activeTouch) {
+            d2.activeTouch.moved = true;
           }
         });
-        on(d.scroller, "touchend", function(e) {
-          var touch = d.activeTouch;
-          if (touch && !eventInWidget(d, e) && touch.left != null && !touch.moved && /* @__PURE__ */ new Date() - touch.start < 300) {
-            var pos = cm.coordsChar(d.activeTouch, "page"), range3;
+        on(d2.scroller, "touchend", function(e) {
+          var touch = d2.activeTouch;
+          if (touch && !eventInWidget(d2, e) && touch.left != null && !touch.moved && /* @__PURE__ */ new Date() - touch.start < 300) {
+            var pos = cm.coordsChar(d2.activeTouch, "page"), range3;
             if (!touch.prev || farAway(touch, touch.prev)) {
               range3 = new Range(pos, pos);
             } else if (!touch.prev.prev || farAway(touch, touch.prev.prev)) {
@@ -9996,24 +10007,24 @@ function requireCodemirror() {
           }
           finishTouch();
         });
-        on(d.scroller, "touchcancel", finishTouch);
-        on(d.scroller, "scroll", function() {
-          if (d.scroller.clientHeight) {
-            updateScrollTop(cm, d.scroller.scrollTop);
-            setScrollLeft(cm, d.scroller.scrollLeft, true);
+        on(d2.scroller, "touchcancel", finishTouch);
+        on(d2.scroller, "scroll", function() {
+          if (d2.scroller.clientHeight) {
+            updateScrollTop(cm, d2.scroller.scrollTop);
+            setScrollLeft(cm, d2.scroller.scrollLeft, true);
             signal(cm, "scroll", cm);
           }
         });
-        on(d.scroller, "mousewheel", function(e) {
+        on(d2.scroller, "mousewheel", function(e) {
           return onScrollWheel(cm, e);
         });
-        on(d.scroller, "DOMMouseScroll", function(e) {
+        on(d2.scroller, "DOMMouseScroll", function(e) {
           return onScrollWheel(cm, e);
         });
-        on(d.wrapper, "scroll", function() {
-          return d.wrapper.scrollTop = d.wrapper.scrollLeft = 0;
+        on(d2.wrapper, "scroll", function() {
+          return d2.wrapper.scrollTop = d2.wrapper.scrollLeft = 0;
         });
-        d.dragFunctions = {
+        d2.dragFunctions = {
           enter: function(e) {
             if (!signalDOMEvent(cm, e)) {
               e_stop(e);
@@ -10035,7 +10046,7 @@ function requireCodemirror() {
             }
           }
         };
-        var inp = d.input.getField();
+        var inp = d2.input.getField();
         on(inp, "keyup", function(e) {
           return onKeyUp.call(cm, e);
         });
@@ -10049,8 +10060,8 @@ function requireCodemirror() {
         });
       }
       var initHooks = [];
-      CodeMirror2.defineInitHook = function(f) {
-        return initHooks.push(f);
+      CodeMirror2.defineInitHook = function(f2) {
+        return initHooks.push(f2);
       };
       function indentLine(cm, n, how, aggressive) {
         var doc2 = cm.doc, state;
@@ -10719,8 +10730,8 @@ function requireCodemirror() {
             this.curOp.forceUpdate = true;
             signal(this, "refresh", this);
           }),
-          operation: function(f) {
-            return runInOp(this, f);
+          operation: function(f2) {
+            return runInOp(this, f2);
           },
           startOperation: function() {
             return startOperation(this);
@@ -11680,17 +11691,17 @@ function requireCodemirror() {
       TextareaInput.prototype.fastPoll = function() {
         var missed = false, input = this;
         input.pollingFast = true;
-        function p() {
+        function p2() {
           var changed = input.poll();
           if (!changed && !missed) {
             missed = true;
-            input.polling.set(60, p);
+            input.polling.set(60, p2);
           } else {
             input.pollingFast = false;
             input.slowPoll();
           }
         }
-        input.polling.set(20, p);
+        input.polling.set(20, p2);
       };
       TextareaInput.prototype.poll = function() {
         var this$1$1 = this;
@@ -13987,7 +13998,7 @@ const CodeMirrorOptions = {
   autoCloseBrackets: true
 };
 injectCssToDocument(css$1, materialCss);
-const _sfc_main$g = /* @__PURE__ */ defineComponent({
+const _sfc_main$i = /* @__PURE__ */ defineComponent({
   __name: "CssEditor",
   props: /* @__PURE__ */ mergeModels({
     modelValue: {},
@@ -14044,15 +14055,15 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$g = { ref: "wrapper" };
-const _hoisted_2$e = { ref: "editor" };
-function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$g, [
-    createElementVNode("div", _hoisted_2$e, null, 512)
+const _hoisted_1$i = { ref: "wrapper" };
+const _hoisted_2$g = { ref: "editor" };
+function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$i, [
+    createElementVNode("div", _hoisted_2$g, null, 512)
   ], 512);
 }
-const CssEditor = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g], ["__file", "CssEditor.vue"]]);
-const _sfc_main$f = /* @__PURE__ */ defineComponent({
+const CssEditor = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i], ["__file", "CssEditor.vue"]]);
+const _sfc_main$h = /* @__PURE__ */ defineComponent({
   __name: "Animations",
   props: /* @__PURE__ */ mergeModels({
     id: {}
@@ -14103,70 +14114,78 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$f = { class: "cation-selector" };
-const _hoisted_2$d = { class: "form-group mb-3" };
-const _hoisted_3$c = ["for"];
-const _hoisted_4$a = ["id"];
-const _hoisted_5$a = ["value"];
-const _hoisted_6$a = { class: "form-group mb-3" };
-const _hoisted_7$a = ["for"];
-const _hoisted_8$a = ["id"];
-const _hoisted_9$a = { class: "form-group mb-3" };
-const _hoisted_10$a = ["for"];
-const _hoisted_11$9 = ["id"];
-function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$f, [
-    createElementVNode("div", _hoisted_2$d, [
+const _hoisted_1$h = { class: "cation-selector" };
+const _hoisted_2$f = { class: "form-group mb-3" };
+const _hoisted_3$e = ["for"];
+const _hoisted_4$c = ["id"];
+const _hoisted_5$c = ["value"];
+const _hoisted_6$c = { class: "form-group mb-3" };
+const _hoisted_7$c = ["for"];
+const _hoisted_8$c = ["id"];
+const _hoisted_9$c = { class: "form-group mb-3" };
+const _hoisted_10$c = ["for"];
+const _hoisted_11$a = ["id"];
+function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$h, [
+    createElementVNode("div", _hoisted_2$f, [
       createElementVNode("label", {
         for: $setup.props.id + "-name"
-      }, "Animation Name", 8, _hoisted_3$c),
+      }, "Animation Name", 8, _hoisted_3$e),
+      _cache[5] || (_cache[5] = createTextVNode()),
       withDirectives(createElementVNode("select", {
         id: $setup.props.id + "-name",
         class: "form-select custom-select",
         "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.animation.name = $event)
       }, [
         _cache[3] || (_cache[3] = createElementVNode("option", { value: "" }, "None", -1)),
+        _cache[4] || (_cache[4] = createTextVNode()),
         (openBlock(true), createElementBlock(Fragment, null, renderList($setup.getAnimations(), (anim) => {
-          return openBlock(), createElementBlock("option", { value: anim }, toDisplayString(anim), 9, _hoisted_5$a);
+          return openBlock(), createElementBlock("option", { value: anim }, toDisplayString(anim), 9, _hoisted_5$c);
         }), 256))
-      ], 8, _hoisted_4$a), [
+      ], 8, _hoisted_4$c), [
         [vModelSelect, $setup.animation.name]
       ])
     ]),
-    createElementVNode("div", _hoisted_6$a, [
+    _cache[12] || (_cache[12] = createTextVNode()),
+    createElementVNode("div", _hoisted_6$c, [
       createElementVNode("label", {
         for: $setup.props.id + "-duration"
-      }, "Animation Duration", 8, _hoisted_7$a),
+      }, "Animation Duration", 8, _hoisted_7$c),
+      _cache[6] || (_cache[6] = createTextVNode()),
       withDirectives(createElementVNode("input", {
         type: "number",
         id: $setup.props.id + "-duration",
         class: "form-control",
         "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.animation.duration = $event),
         min: "0"
-      }, null, 8, _hoisted_8$a), [
+      }, null, 8, _hoisted_8$c), [
         [vModelText, $setup.animation.duration]
       ]),
-      _cache[4] || (_cache[4] = createElementVNode("small", { class: "form-text text-muted" }, ' The duration of this animation. The unit is "ms" (1/1000 seconds) ', -1))
+      _cache[7] || (_cache[7] = createTextVNode()),
+      _cache[8] || (_cache[8] = createElementVNode("small", { class: "form-text text-muted" }, '\n        The duration of this animation. The unit is "ms" (1/1000 seconds)\n      ', -1))
     ]),
-    createElementVNode("div", _hoisted_9$a, [
+    _cache[13] || (_cache[13] = createTextVNode()),
+    createElementVNode("div", _hoisted_9$c, [
       createElementVNode("label", {
         for: $setup.props.id + "-delay"
-      }, "Delay Time", 8, _hoisted_10$a),
+      }, "Delay Time", 8, _hoisted_10$c),
+      _cache[9] || (_cache[9] = createTextVNode()),
       withDirectives(createElementVNode("input", {
         type: "number",
         id: $setup.props.id + "-delay",
         class: "form-control",
         "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.animation.delay = $event),
         min: "0"
-      }, null, 8, _hoisted_11$9), [
+      }, null, 8, _hoisted_11$a), [
         [vModelText, $setup.animation.delay]
       ]),
-      _cache[5] || (_cache[5] = createElementVNode("small", { class: "form-text text-muted" }, ' Delay a while to start animation. The unit is "ms" (1/1000 seconds) ', -1))
+      _cache[10] || (_cache[10] = createTextVNode()),
+      _cache[11] || (_cache[11] = createElementVNode("small", { class: "form-text text-muted" }, '\n        Delay a while to start animation. The unit is "ms" (1/1000 seconds)\n      ', -1))
     ])
   ]);
 }
-const Animations = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f], ["__file", "Animations.vue"]]);
-const _sfc_main$e = /* @__PURE__ */ defineComponent({
+const Animations = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h], ["__file", "Animations.vue"]]);
+const _sfc_main$g = /* @__PURE__ */ defineComponent({
   __name: "RwdGroup",
   props: {
     name: {},
@@ -14189,17 +14208,18 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$e = { class: "" };
-function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$g = { class: "" };
+function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(["form-group mb-3", $setup.getClassName()])
   }, [
     createElementVNode("div", {
       class: normalizeClass(["d-flex", $setup.getClassName("__title")])
     }, [
-      createElementVNode("div", _hoisted_1$e, [
+      createElementVNode("div", _hoisted_1$g, [
         renderSlot(_ctx.$slots, "label")
       ]),
+      _cache[8] || (_cache[8] = createTextVNode()),
       createElementVNode("div", {
         class: normalizeClass(["ml-auto ms-auto", $setup.getClassName("__rwd-control")])
       }, [
@@ -14210,6 +14230,7 @@ function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
         }, [..._cache[3] || (_cache[3] = [
           createElementVNode("span", { class: "fa fa-fw fa-desktop" }, null, -1)
         ])], 2),
+        _cache[6] || (_cache[6] = createTextVNode()),
         createElementVNode("a", {
           href: "javascript://",
           class: normalizeClass([$setup.currentSize === "md" ? "active" : "text-dark"]),
@@ -14217,6 +14238,7 @@ function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
         }, [..._cache[4] || (_cache[4] = [
           createElementVNode("span", { class: "fa fa-fw fa-tablet-screen-button" }, null, -1)
         ])], 2),
+        _cache[7] || (_cache[7] = createTextVNode()),
         createElementVNode("a", {
           href: "javascript://",
           class: normalizeClass([$setup.currentSize === "xs" ? "active" : "text-dark"]),
@@ -14226,18 +14248,22 @@ function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
         ])], 2)
       ], 2)
     ], 2),
+    _cache[11] || (_cache[11] = createTextVNode()),
     createElementVNode("div", {
       class: normalizeClass($setup.getClassName("__inputs"))
     }, [
       $setup.currentSize === "lg" ? renderSlot(_ctx.$slots, "lg", { key: 0 }) : createCommentVNode("", true),
+      _cache[9] || (_cache[9] = createTextVNode()),
       $setup.currentSize === "md" ? renderSlot(_ctx.$slots, "md", { key: 1 }) : createCommentVNode("", true),
+      _cache[10] || (_cache[10] = createTextVNode()),
       $setup.currentSize === "xs" ? renderSlot(_ctx.$slots, "xs", { key: 2 }) : createCommentVNode("", true)
     ], 2),
+    _cache[12] || (_cache[12] = createTextVNode()),
     renderSlot(_ctx.$slots, "description")
   ], 2);
 }
-const RwdGroup = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__file", "RwdGroup.vue"]]);
-const _sfc_main$d = /* @__PURE__ */ defineComponent({
+const RwdGroup = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g], ["__file", "RwdGroup.vue"]]);
+const _sfc_main$f = /* @__PURE__ */ defineComponent({
   __name: "BoxOffset",
   props: {
     modelValue: {}
@@ -14255,11 +14281,11 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
     const lock = ref(false);
     const currentSize = ref("desktop");
     function getAllValues() {
-      const values = {};
+      const values2 = {};
       forEach(offsets, (offset, size) => {
-        values[size] = `${offset.top},${offset.right},${offset.bottom},${offset.left}`;
+        values2[size] = `${offset.top},${offset.right},${offset.bottom},${offset.left}`;
       });
-      return values;
+      return values2;
     }
     function extractValue(value) {
       forEach(value, (offset, size) => {
@@ -14296,21 +14322,22 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$d = { class: "mb-2" };
-const _hoisted_2$c = { class: "form-row row" };
-const _hoisted_3$b = { class: "col-3" };
-const _hoisted_4$9 = ["onUpdate:modelValue"];
-const _hoisted_5$9 = { class: "col-3" };
-const _hoisted_6$9 = ["onUpdate:modelValue"];
-const _hoisted_7$9 = { class: "col-3" };
-const _hoisted_8$9 = ["onUpdate:modelValue"];
-const _hoisted_9$9 = { class: "col-3" };
-const _hoisted_10$9 = ["onUpdate:modelValue"];
-function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$f = { class: "mb-2" };
+const _hoisted_2$e = { class: "form-row row" };
+const _hoisted_3$d = { class: "col-3" };
+const _hoisted_4$b = ["onUpdate:modelValue"];
+const _hoisted_5$b = { class: "col-3" };
+const _hoisted_6$b = ["onUpdate:modelValue"];
+const _hoisted_7$b = { class: "col-3" };
+const _hoisted_8$b = ["onUpdate:modelValue"];
+const _hoisted_9$b = { class: "col-3" };
+const _hoisted_10$b = ["onUpdate:modelValue"];
+function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["RwdGroup"], { "class-name": "c-box-offset" }, createSlots({
     label: withCtx(() => [
-      createElementVNode("div", _hoisted_1$d, [
+      createElementVNode("div", _hoisted_1$f, [
         renderSlot(_ctx.$slots, "label"),
+        _cache[1] || (_cache[1] = createTextVNode()),
         createElementVNode("a", {
           href: "javascript://",
           onClick: _cache[0] || (_cache[0] = ($event) => $setup.lock = !$setup.lock)
@@ -14327,44 +14354,47 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         name: size,
         fn: withCtx(() => [
-          createElementVNode("div", _hoisted_2$c, [
-            createElementVNode("div", _hoisted_3$b, [
+          createElementVNode("div", _hoisted_2$e, [
+            createElementVNode("div", _hoisted_3$d, [
               withDirectives(createElementVNode("input", {
                 type: "text",
                 class: "form-control",
                 placeholder: "Top",
                 "onUpdate:modelValue": ($event) => $setup.offsets[size].top = $event
-              }, null, 8, _hoisted_4$9), [
+              }, null, 8, _hoisted_4$b), [
                 [vModelText, $setup.offsets[size].top]
               ])
             ]),
-            createElementVNode("div", _hoisted_5$9, [
+            _cache[2] || (_cache[2] = createTextVNode()),
+            createElementVNode("div", _hoisted_5$b, [
               withDirectives(createElementVNode("input", {
                 type: "text",
                 class: "form-control",
                 placeholder: "Right",
                 "onUpdate:modelValue": ($event) => $setup.offsets[size].right = $event
-              }, null, 8, _hoisted_6$9), [
+              }, null, 8, _hoisted_6$b), [
                 [vModelText, $setup.offsets[size].right]
               ])
             ]),
-            createElementVNode("div", _hoisted_7$9, [
+            _cache[3] || (_cache[3] = createTextVNode()),
+            createElementVNode("div", _hoisted_7$b, [
               withDirectives(createElementVNode("input", {
                 type: "text",
                 class: "form-control",
                 placeholder: "Bottom",
                 "onUpdate:modelValue": ($event) => $setup.offsets[size].bottom = $event
-              }, null, 8, _hoisted_8$9), [
+              }, null, 8, _hoisted_8$b), [
                 [vModelText, $setup.offsets[size].bottom]
               ])
             ]),
-            createElementVNode("div", _hoisted_9$9, [
+            _cache[4] || (_cache[4] = createTextVNode()),
+            createElementVNode("div", _hoisted_9$b, [
               withDirectives(createElementVNode("input", {
                 type: "text",
                 class: "form-control",
                 placeholder: "Left",
                 "onUpdate:modelValue": ($event) => $setup.offsets[size].left = $event
-              }, null, 8, _hoisted_10$9), [
+              }, null, 8, _hoisted_10$b), [
                 [vModelText, $setup.offsets[size].left]
               ])
             ])
@@ -14374,8 +14404,8 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ]), 1024);
 }
-const BoxOffset = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__file", "BoxOffset.vue"]]);
-const _sfc_main$c = /* @__PURE__ */ defineComponent({
+const BoxOffset = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f], ["__file", "BoxOffset.vue"]]);
+const _sfc_main$e = /* @__PURE__ */ defineComponent({
   __name: "ButtonRadio",
   props: /* @__PURE__ */ mergeModels({
     color: { default: "secondary" },
@@ -14408,11 +14438,11 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$c = { class: "btn-group" };
-const _hoisted_2$b = ["id", "name", "value", "checked"];
-const _hoisted_3$a = ["for", "onChange"];
-function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$c, [
+const _hoisted_1$e = { class: "btn-group" };
+const _hoisted_2$d = ["id", "name", "value", "checked"];
+const _hoisted_3$c = ["for", "onChange"];
+function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$e, [
     (openBlock(true), createElementBlock(Fragment, null, renderList($setup.props.options, (option) => {
       return openBlock(), createElementBlock(Fragment, {
         key: option.value
@@ -14426,19 +14456,20 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
           checked: option.value === $setup.value,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.value = $event),
           autocomplete: "off"
-        }, null, 8, _hoisted_2$b), [
+        }, null, 8, _hoisted_2$d), [
           [vModelRadio, $setup.value]
         ]),
+        _cache[1] || (_cache[1] = createTextVNode()),
         createElementVNode("label", {
           class: normalizeClass(["btn", [$setup.buttonColor(option), `btn-${$setup.props.size}`]]),
           for: $setup.id + "__" + option.value,
           onChange: ($event) => $setup.updateValue(option)
-        }, toDisplayString(option.text || option.value), 43, _hoisted_3$a)
+        }, toDisplayString(option.text || option.value), 43, _hoisted_3$c)
       ], 64);
     }), 128))
   ]);
 }
-const ButtonRadio = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__file", "ButtonRadio.vue"]]);
+const ButtonRadio = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__file", "ButtonRadio.vue"]]);
 const trimLeft = /^\s+/;
 const trimRight = /\s+$/;
 function tinycolor(color, opts) {
@@ -14506,8 +14537,8 @@ tinycolor.prototype = {
   },
   toHsvString: function() {
     var hsv = rgbToHsv(this._r, this._g, this._b);
-    var h = Math.round(hsv.h * 360), s = Math.round(hsv.s * 100), v = Math.round(hsv.v * 100);
-    return this._a == 1 ? "hsv(" + h + ", " + s + "%, " + v + "%)" : "hsva(" + h + ", " + s + "%, " + v + "%, " + this._roundA + ")";
+    var h2 = Math.round(hsv.h * 360), s = Math.round(hsv.s * 100), v = Math.round(hsv.v * 100);
+    return this._a == 1 ? "hsv(" + h2 + ", " + s + "%, " + v + "%)" : "hsva(" + h2 + ", " + s + "%, " + v + "%, " + this._roundA + ")";
   },
   toHsl: function() {
     var hsl = rgbToHsl(this._r, this._g, this._b);
@@ -14515,8 +14546,8 @@ tinycolor.prototype = {
   },
   toHslString: function() {
     var hsl = rgbToHsl(this._r, this._g, this._b);
-    var h = Math.round(hsl.h * 360), s = Math.round(hsl.s * 100), l = Math.round(hsl.l * 100);
-    return this._a == 1 ? "hsl(" + h + ", " + s + "%, " + l + "%)" : "hsla(" + h + ", " + s + "%, " + l + "%, " + this._roundA + ")";
+    var h2 = Math.round(hsl.h * 360), s = Math.round(hsl.s * 100), l = Math.round(hsl.l * 100);
+    return this._a == 1 ? "hsl(" + h2 + ", " + s + "%, " + l + "%)" : "hsla(" + h2 + ", " + s + "%, " + l + "%, " + this._roundA + ")";
   },
   toHex: function(allow3Char) {
     return rgbToHex(this._r, this._g, this._b, allow3Char);
@@ -14741,48 +14772,48 @@ function rgbToHsl(r, g, b) {
   g = bound01(g, 255);
   b = bound01(b, 255);
   var max = Math.max(r, g, b), min = Math.min(r, g, b);
-  var h, s, l = (max + min) / 2;
+  var h2, s, l = (max + min) / 2;
   if (max == min) {
-    h = s = 0;
+    h2 = s = 0;
   } else {
-    var d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    var d2 = max - min;
+    s = l > 0.5 ? d2 / (2 - max - min) : d2 / (max + min);
     switch (max) {
       case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
+        h2 = (g - b) / d2 + (g < b ? 6 : 0);
         break;
       case g:
-        h = (b - r) / d + 2;
+        h2 = (b - r) / d2 + 2;
         break;
       case b:
-        h = (r - g) / d + 4;
+        h2 = (r - g) / d2 + 4;
         break;
     }
-    h /= 6;
+    h2 /= 6;
   }
-  return { h, s, l };
+  return { h: h2, s, l };
 }
-function hslToRgb(h, s, l) {
+function hslToRgb(h2, s, l) {
   var r, g, b;
-  h = bound01(h, 360);
+  h2 = bound01(h2, 360);
   s = bound01(s, 100);
   l = bound01(l, 100);
-  function hue2rgb(p2, q2, t) {
+  function hue2rgb(p3, q2, t) {
     if (t < 0) t += 1;
     if (t > 1) t -= 1;
-    if (t < 1 / 6) return p2 + (q2 - p2) * 6 * t;
+    if (t < 1 / 6) return p3 + (q2 - p3) * 6 * t;
     if (t < 1 / 2) return q2;
-    if (t < 2 / 3) return p2 + (q2 - p2) * (2 / 3 - t) * 6;
-    return p2;
+    if (t < 2 / 3) return p3 + (q2 - p3) * (2 / 3 - t) * 6;
+    return p3;
   }
   if (s === 0) {
     r = g = b = l;
   } else {
     var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    var p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1 / 3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1 / 3);
+    var p2 = 2 * l - q;
+    r = hue2rgb(p2, q, h2 + 1 / 3);
+    g = hue2rgb(p2, q, h2);
+    b = hue2rgb(p2, q, h2 - 1 / 3);
   }
   return { r: r * 255, g: g * 255, b: b * 255 };
 }
@@ -14791,32 +14822,32 @@ function rgbToHsv(r, g, b) {
   g = bound01(g, 255);
   b = bound01(b, 255);
   var max = Math.max(r, g, b), min = Math.min(r, g, b);
-  var h, s, v = max;
-  var d = max - min;
-  s = max === 0 ? 0 : d / max;
+  var h2, s, v = max;
+  var d2 = max - min;
+  s = max === 0 ? 0 : d2 / max;
   if (max == min) {
-    h = 0;
+    h2 = 0;
   } else {
     switch (max) {
       case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
+        h2 = (g - b) / d2 + (g < b ? 6 : 0);
         break;
       case g:
-        h = (b - r) / d + 2;
+        h2 = (b - r) / d2 + 2;
         break;
       case b:
-        h = (r - g) / d + 4;
+        h2 = (r - g) / d2 + 4;
         break;
     }
-    h /= 6;
+    h2 /= 6;
   }
-  return { h, s, v };
+  return { h: h2, s, v };
 }
-function hsvToRgb(h, s, v) {
-  h = bound01(h, 360) * 6;
+function hsvToRgb(h2, s, v) {
+  h2 = bound01(h2, 360) * 6;
   s = bound01(s, 100);
   v = bound01(v, 100);
-  var i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), mod = i % 6, r = [v, q, p, p, t, v][mod], g = [t, v, v, q, p, p][mod], b = [p, p, t, v, v, q][mod];
+  var i = Math.floor(h2), f2 = h2 - i, p2 = v * (1 - s), q = v * (1 - f2 * s), t = v * (1 - (1 - f2) * s), mod = i % 6, r = [v, q, p2, p2, t, v][mod], g = [t, v, v, q, p2, p2][mod], b = [p2, p2, t, v, v, q][mod];
   return { r: r * 255, g: g * 255, b: b * 255 };
 }
 function rgbToHex(r, g, b, allow3Char) {
@@ -14926,11 +14957,11 @@ function polyad(color, number) {
 }
 function splitcomplement(color) {
   var hsl = tinycolor(color).toHsl();
-  var h = hsl.h;
+  var h2 = hsl.h;
   return [
     tinycolor(color),
-    tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l }),
-    tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l })
+    tinycolor({ h: (h2 + 72) % 360, s: hsl.s, l: hsl.l }),
+    tinycolor({ h: (h2 + 216) % 360, s: hsl.s, l: hsl.l })
   ];
 }
 function analogous(color, results, slices) {
@@ -14948,11 +14979,11 @@ function analogous(color, results, slices) {
 function monochromatic(color, results) {
   results = results || 6;
   var hsv = tinycolor(color).toHsv();
-  var h = hsv.h, s = hsv.s, v = hsv.v;
+  var h2 = hsv.h, s = hsv.s, v = hsv.v;
   var ret = [];
   var modification = 1 / results;
   while (results--) {
-    ret.push(tinycolor({ h, s, v }));
+    ret.push(tinycolor({ h: h2, s, v }));
     v = (v + modification) % 1;
   }
   return ret;
@@ -14961,12 +14992,12 @@ tinycolor.mix = function(color1, color2, amount) {
   amount = amount === 0 ? 0 : amount || 50;
   var rgb1 = tinycolor(color1).toRgb();
   var rgb2 = tinycolor(color2).toRgb();
-  var p = amount / 100;
+  var p2 = amount / 100;
   var rgba = {
-    r: (rgb2.r - rgb1.r) * p + rgb1.r,
-    g: (rgb2.g - rgb1.g) * p + rgb1.g,
-    b: (rgb2.b - rgb1.b) * p + rgb1.b,
-    a: (rgb2.a - rgb1.a) * p + rgb1.a
+    r: (rgb2.r - rgb1.r) * p2 + rgb1.r,
+    g: (rgb2.g - rgb1.g) * p2 + rgb1.g,
+    b: (rgb2.b - rgb1.b) * p2 + rgb1.b,
+    a: (rgb2.a - rgb1.a) * p2 + rgb1.a
   };
   return tinycolor(rgba);
 };
@@ -15212,8 +15243,8 @@ function isOnePointZero(n) {
 function isPercentage(n) {
   return typeof n === "string" && n.indexOf("%") != -1;
 }
-function pad2(c) {
-  return c.length == 1 ? "0" + c : "" + c;
+function pad2(c2) {
+  return c2.length == 1 ? "0" + c2 : "" + c2;
 }
 function convertToPercentage(n) {
   if (n <= 1) {
@@ -15221,11 +15252,11 @@ function convertToPercentage(n) {
   }
   return n;
 }
-function convertDecimalToHex(d) {
-  return Math.round(parseFloat(d) * 255).toString(16);
+function convertDecimalToHex(d2) {
+  return Math.round(parseFloat(d2) * 255).toString(16);
 }
-function convertHexToDecimal(h) {
-  return parseIntFromHex(h) / 255;
+function convertHexToDecimal(h2) {
+  return parseIntFromHex(h2) / 255;
 }
 var matchers = (function() {
   var CSS_INTEGER = "[-\\+]?\\d+%?";
@@ -15362,14 +15393,14 @@ function throttle(func, wait, debounce = void 0) {
   };
 }
 function addClass(ele, className) {
-  const classes = className.split(" ").filter((c) => c !== "");
+  const classes = className.split(" ").filter((c2) => c2 !== "");
   if (className !== "" && classes.length) {
     ele.classList.add(...classes);
   }
   return ele;
 }
 function removeClass(ele, className) {
-  const classes = className.split(" ").filter((c) => c !== "");
+  const classes = className.split(" ").filter((c2) => c2 !== "");
   if (className !== "" && classes.length) {
     ele.classList.remove(...classes);
   }
@@ -15554,17 +15585,17 @@ const defaultOpts = {
     "</div>"
   ].join("");
 })();
-function paletteTemplate(p, color, className, opts) {
+function paletteTemplate(p2, color, className, opts) {
   const html2 = [];
-  for (let i = 0; i < p.length; i++) {
-    const current = p[i];
+  for (let i = 0; i < p2.length; i++) {
+    const current = p2[i];
     if (current) {
       const tiny = tinycolor(current);
-      let c = tiny.toHsl().l < 0.5 ? "sp-thumb-el sp-thumb-dark" : "sp-thumb-el sp-thumb-light";
-      c += tinycolor.equals(color, current) ? " sp-thumb-active" : "";
+      let c2 = tiny.toHsl().l < 0.5 ? "sp-thumb-el sp-thumb-dark" : "sp-thumb-el sp-thumb-light";
+      c2 += tinycolor.equals(color, current) ? " sp-thumb-active" : "";
       const formattedString = tiny.toString(opts.preferredFormat || "rgb");
       const swatchStyle = "background-color:" + tiny.toRgbString();
-      html2.push('<span title="' + formattedString + '" data-color="' + tiny.toRgbString() + '" class="' + c + '"><span class="sp-thumb-inner" style="' + swatchStyle + ';"></span></span>');
+      html2.push('<span title="' + formattedString + '" data-color="' + tiny.toRgbString() + '" class="' + c2 + '"><span class="sp-thumb-inner" style="' + swatchStyle + ';"></span></span>');
     } else {
       html2.push('<span class="sp-thumb-el sp-clear-display" ><span class="sp-clear-palette-only" style="background-color: transparent;"></span></span>');
     }
@@ -15583,7 +15614,7 @@ function instanceOptions(options, element) {
   options.locale = options.locale || window.navigator.language;
   if (typeof options.locale === "string") {
     if (options.locale) {
-      let parts = options.locale.split("-").map((p) => p.toLowerCase());
+      let parts = options.locale.split("-").map((p2) => p2.toLowerCase());
       if (parts[0] === parts[1]) {
         parts = [parts[0]];
       }
@@ -15877,8 +15908,8 @@ function spectrum(element, options) {
         const oldPalette = localStorage[localStorageKey].split(",#");
         if (oldPalette.length > 1) {
           delete localStorage[localStorageKey];
-          for (const c of oldPalette) {
-            addColorToSelectionPalette(c);
+          for (const c2 of oldPalette) {
+            addColorToSelectionPalette(c2);
           }
         }
       } catch (e) {
@@ -16251,8 +16282,8 @@ function spectrum(element, options) {
     enable,
     disable,
     offset: setOffset,
-    set: function(c) {
-      set(c);
+    set: function(c2) {
+      set(c2);
       updateOriginalInput();
     },
     get,
@@ -16608,7 +16639,7 @@ function registerJQueryPlugin($) {
     }
   };
 }
-const _sfc_main$b = /* @__PURE__ */ defineComponent({
+const _sfc_main$d = /* @__PURE__ */ defineComponent({
   __name: "ColorInput",
   props: /* @__PURE__ */ mergeModels({
     id: {},
@@ -16640,15 +16671,15 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$b = ["id"];
-function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$d = ["id"];
+function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
   return withDirectives((openBlock(), createElementBlock("input", {
     ref: "input",
     type: "text",
     id: $props.id,
     class: normalizeClass(["form-control flex-grow-1", $props.inputClass]),
     "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.value = $event)
-  }, null, 10, _hoisted_1$b)), [
+  }, null, 10, _hoisted_1$d)), [
     [
       vModelText,
       $setup.value,
@@ -16657,1403 +16688,909 @@ function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     ]
   ]);
 }
-const ColorInput = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b], ["__file", "ColorInput.vue"]]);
-const css = '/* component style */\n.vue-slider-disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n/* rail style */\n.vue-slider-rail {\n  background-color: #ccc;\n  border-radius: 15px;\n}\n\n/* process style */\n.vue-slider-process {\n  background-color: #3498db;\n  border-radius: 15px;\n}\n\n/* mark style */\n.vue-slider-mark {\n  z-index: 4;\n}\n.vue-slider-mark:first-child .vue-slider-mark-step, .vue-slider-mark:last-child .vue-slider-mark-step {\n  display: none;\n}\n.vue-slider-mark-step {\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  background-color: rgba(0, 0, 0, 0.16);\n}\n.vue-slider-mark-label {\n  font-size: 14px;\n  white-space: nowrap;\n}\n/* dot style */\n.vue-slider-dot-handle {\n  cursor: pointer;\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  background-color: #fff;\n  box-sizing: border-box;\n  box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32);\n}\n.vue-slider-dot-handle-focus {\n  box-shadow: 0px 0px 1px 2px rgba(52, 152, 219, 0.36);\n}\n\n.vue-slider-dot-handle-disabled {\n  cursor: not-allowed;\n  background-color: #ccc;\n}\n\n.vue-slider-dot-tooltip-inner {\n  font-size: 14px;\n  white-space: nowrap;\n  padding: 2px 5px;\n  min-width: 20px;\n  text-align: center;\n  color: #fff;\n  border-radius: 5px;\n  border-color: #3498db;\n  background-color: #3498db;\n  box-sizing: content-box;\n}\n.vue-slider-dot-tooltip-inner::after {\n  content: "";\n  position: absolute;\n}\n.vue-slider-dot-tooltip-inner-top::after {\n  top: 100%;\n  left: 50%;\n  transform: translate(-50%, 0);\n  height: 0;\n  width: 0;\n  border-color: transparent;\n  border-style: solid;\n  border-width: 5px;\n  border-top-color: inherit;\n}\n.vue-slider-dot-tooltip-inner-bottom::after {\n  bottom: 100%;\n  left: 50%;\n  transform: translate(-50%, 0);\n  height: 0;\n  width: 0;\n  border-color: transparent;\n  border-style: solid;\n  border-width: 5px;\n  border-bottom-color: inherit;\n}\n.vue-slider-dot-tooltip-inner-left::after {\n  left: 100%;\n  top: 50%;\n  transform: translate(0, -50%);\n  height: 0;\n  width: 0;\n  border-color: transparent;\n  border-style: solid;\n  border-width: 5px;\n  border-left-color: inherit;\n}\n.vue-slider-dot-tooltip-inner-right::after {\n  right: 100%;\n  top: 50%;\n  transform: translate(0, -50%);\n  height: 0;\n  width: 0;\n  border-color: transparent;\n  border-style: solid;\n  border-width: 5px;\n  border-right-color: inherit;\n}\n\n.vue-slider-dot-tooltip-wrapper {\n  opacity: 0;\n  transition: all 0.3s;\n}\n.vue-slider-dot-tooltip-wrapper-show {\n  opacity: 1;\n}\n\n/*# sourceMappingURL=default.css.map */\n';
-var vueSliderComponent_umd_min$1 = { exports: {} };
-var vueSliderComponent_umd_min = vueSliderComponent_umd_min$1.exports;
-var hasRequiredVueSliderComponent_umd_min;
-function requireVueSliderComponent_umd_min() {
-  if (hasRequiredVueSliderComponent_umd_min) return vueSliderComponent_umd_min$1.exports;
-  hasRequiredVueSliderComponent_umd_min = 1;
-  (function(module2, exports2) {
-    (function(t, e) {
-      module2.exports = e(require$$0);
-    })("undefined" !== typeof self ? self : vueSliderComponent_umd_min, (function(t) {
-      return (function(t2) {
-        var e = {};
-        function r(n) {
-          if (e[n]) return e[n].exports;
-          var o = e[n] = { i: n, l: false, exports: {} };
-          return t2[n].call(o.exports, o, o.exports, r), o.l = true, o.exports;
-        }
-        return r.m = t2, r.c = e, r.d = function(t3, e2, n) {
-          r.o(t3, e2) || Object.defineProperty(t3, e2, { enumerable: true, get: n });
-        }, r.r = function(t3) {
-          "undefined" !== typeof Symbol && Symbol.toStringTag && Object.defineProperty(t3, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(t3, "__esModule", { value: true });
-        }, r.t = function(t3, e2) {
-          if (1 & e2 && (t3 = r(t3)), 8 & e2) return t3;
-          if (4 & e2 && "object" === typeof t3 && t3 && t3.__esModule) return t3;
-          var n = /* @__PURE__ */ Object.create(null);
-          if (r.r(n), Object.defineProperty(n, "default", { enumerable: true, value: t3 }), 2 & e2 && "string" != typeof t3) for (var o in t3) r.d(n, o, (function(e3) {
-            return t3[e3];
-          }).bind(null, o));
-          return n;
-        }, r.n = function(t3) {
-          var e2 = t3 && t3.__esModule ? function() {
-            return t3["default"];
-          } : function() {
-            return t3;
-          };
-          return r.d(e2, "a", e2), e2;
-        }, r.o = function(t3, e2) {
-          return Object.prototype.hasOwnProperty.call(t3, e2);
-        }, r.p = "", r(r.s = "fb15");
-      })({ "091b": function(t2, e, r) {
-        var n = r("24fb");
-        e = n(false), e.push([t2.i, ".vue-slider-dot{position:absolute;-webkit-transition:all 0s;transition:all 0s;z-index:5}.vue-slider-dot:focus{outline:none}.vue-slider-dot-tooltip{position:absolute;visibility:hidden}.vue-slider-dot-hover:hover .vue-slider-dot-tooltip,.vue-slider-dot-tooltip-show{visibility:visible}.vue-slider-dot-tooltip-top{top:-10px;left:50%;-webkit-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.vue-slider-dot-tooltip-bottom{bottom:-10px;left:50%;-webkit-transform:translate(-50%,100%);transform:translate(-50%,100%)}.vue-slider-dot-tooltip-left{left:-10px;top:50%;-webkit-transform:translate(-100%,-50%);transform:translate(-100%,-50%)}.vue-slider-dot-tooltip-right{right:-10px;top:50%;-webkit-transform:translate(100%,-50%);transform:translate(100%,-50%)}", ""]), t2.exports = e;
-      }, "24fb": function(t2, e, r) {
-        function n(t3, e2) {
-          var r2 = t3[1] || "", n2 = t3[3];
-          if (!n2) return r2;
-          if (e2 && "function" === typeof btoa) {
-            var i = o(n2), a = n2.sources.map((function(t4) {
-              return "/*# sourceURL=".concat(n2.sourceRoot || "").concat(t4, " */");
-            }));
-            return [r2].concat(a).concat([i]).join("\n");
-          }
-          return [r2].join("\n");
-        }
-        function o(t3) {
-          var e2 = btoa(unescape(encodeURIComponent(JSON.stringify(t3)))), r2 = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(e2);
-          return "/*# ".concat(r2, " */");
-        }
-        t2.exports = function(t3) {
-          var e2 = [];
-          return e2.toString = function() {
-            return this.map((function(e3) {
-              var r2 = n(e3, t3);
-              return e3[2] ? "@media ".concat(e3[2], " {").concat(r2, "}") : r2;
-            })).join("");
-          }, e2.i = function(t4, r2, n2) {
-            "string" === typeof t4 && (t4 = [[null, t4, ""]]);
-            var o2 = {};
-            if (n2) for (var i = 0; i < this.length; i++) {
-              var a = this[i][0];
-              null != a && (o2[a] = true);
-            }
-            for (var s = 0; s < t4.length; s++) {
-              var u2 = [].concat(t4[s]);
-              n2 && o2[u2[0]] || (r2 && (u2[2] ? u2[2] = "".concat(r2, " and ").concat(u2[2]) : u2[2] = r2), e2.push(u2));
-            }
-          }, e2;
-        };
-      }, 2638: function(t2, e, r) {
-        function n() {
-          return n = Object.assign || function(t3) {
-            for (var e2, r2 = 1; r2 < arguments.length; r2++) for (var n2 in e2 = arguments[r2], e2) Object.prototype.hasOwnProperty.call(e2, n2) && (t3[n2] = e2[n2]);
-            return t3;
-          }, n.apply(this, arguments);
-        }
-        var o = ["attrs", "props", "domProps"], i = ["class", "style", "directives"], a = ["on", "nativeOn"], s = function(t3) {
-          return t3.reduce((function(t4, e2) {
-            for (var r2 in e2) if (t4[r2]) if (-1 !== o.indexOf(r2)) t4[r2] = n({}, t4[r2], e2[r2]);
-            else if (-1 !== i.indexOf(r2)) {
-              var s2 = t4[r2] instanceof Array ? t4[r2] : [t4[r2]], l = e2[r2] instanceof Array ? e2[r2] : [e2[r2]];
-              t4[r2] = s2.concat(l);
-            } else if (-1 !== a.indexOf(r2)) for (var c in e2[r2]) if (t4[r2][c]) {
-              var d = t4[r2][c] instanceof Array ? t4[r2][c] : [t4[r2][c]], f = e2[r2][c] instanceof Array ? e2[r2][c] : [e2[r2][c]];
-              t4[r2][c] = d.concat(f);
-            } else t4[r2][c] = e2[r2][c];
-            else if ("hook" == r2) for (var h in e2[r2]) t4[r2][h] = t4[r2][h] ? u2(t4[r2][h], e2[r2][h]) : e2[r2][h];
-            else t4[r2] = e2[r2];
-            else t4[r2] = e2[r2];
-            return t4;
-          }), {});
-        }, u2 = function(t3, e2) {
-          return function() {
-            t3 && t3.apply(this, arguments), e2 && e2.apply(this, arguments);
-          };
-        };
-        t2.exports = s;
-      }, "499e": function(t2, e, r) {
-        function n(t3, e2) {
-          for (var r2 = [], n2 = {}, o2 = 0; o2 < e2.length; o2++) {
-            var i2 = e2[o2], a2 = i2[0], s2 = i2[1], u3 = i2[2], l2 = i2[3], c2 = { id: t3 + ":" + o2, css: s2, media: u3, sourceMap: l2 };
-            n2[a2] ? n2[a2].parts.push(c2) : r2.push(n2[a2] = { id: a2, parts: [c2] });
-          }
-          return r2;
-        }
-        r.r(e), r.d(e, "default", (function() {
-          return p;
-        }));
-        var o = "undefined" !== typeof document;
-        if ("undefined" !== typeof DEBUG && DEBUG && !o) throw new Error("vue-style-loader cannot be used in a non-browser environment. Use { target: 'node' } in your Webpack config to indicate a server-rendering environment.");
-        var i = {}, a = o && (document.head || document.getElementsByTagName("head")[0]), s = null, u2 = 0, l = false, c = function() {
-        }, d = null, f = "data-vue-ssr-id", h = "undefined" !== typeof navigator && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase());
-        function p(t3, e2, r2, o2) {
-          l = r2, d = o2 || {};
-          var a2 = n(t3, e2);
-          return y(a2), function(e3) {
-            for (var r3 = [], o3 = 0; o3 < a2.length; o3++) {
-              var s2 = a2[o3], u3 = i[s2.id];
-              u3.refs--, r3.push(u3);
-            }
-            e3 ? (a2 = n(t3, e3), y(a2)) : a2 = [];
-            for (o3 = 0; o3 < r3.length; o3++) {
-              u3 = r3[o3];
-              if (0 === u3.refs) {
-                for (var l2 = 0; l2 < u3.parts.length; l2++) u3.parts[l2]();
-                delete i[u3.id];
-              }
-            }
-          };
-        }
-        function y(t3) {
-          for (var e2 = 0; e2 < t3.length; e2++) {
-            var r2 = t3[e2], n2 = i[r2.id];
-            if (n2) {
-              n2.refs++;
-              for (var o2 = 0; o2 < n2.parts.length; o2++) n2.parts[o2](r2.parts[o2]);
-              for (; o2 < r2.parts.length; o2++) n2.parts.push(m(r2.parts[o2]));
-              n2.parts.length > r2.parts.length && (n2.parts.length = r2.parts.length);
-            } else {
-              var a2 = [];
-              for (o2 = 0; o2 < r2.parts.length; o2++) a2.push(m(r2.parts[o2]));
-              i[r2.id] = { id: r2.id, refs: 1, parts: a2 };
-            }
-          }
-        }
-        function v() {
-          var t3 = document.createElement("style");
-          return t3.type = "text/css", a.appendChild(t3), t3;
-        }
-        function m(t3) {
-          var e2, r2, n2 = document.querySelector("style[" + f + '~="' + t3.id + '"]');
-          if (n2) {
-            if (l) return c;
-            n2.parentNode.removeChild(n2);
-          }
-          if (h) {
-            var o2 = u2++;
-            n2 = s || (s = v()), e2 = g.bind(null, n2, o2, false), r2 = g.bind(null, n2, o2, true);
-          } else n2 = v(), e2 = k.bind(null, n2), r2 = function() {
-            n2.parentNode.removeChild(n2);
-          };
-          return e2(t3), function(n3) {
-            if (n3) {
-              if (n3.css === t3.css && n3.media === t3.media && n3.sourceMap === t3.sourceMap) return;
-              e2(t3 = n3);
-            } else r2();
-          };
-        }
-        var b = /* @__PURE__ */ (function() {
-          var t3 = [];
-          return function(e2, r2) {
-            return t3[e2] = r2, t3.filter(Boolean).join("\n");
-          };
-        })();
-        function g(t3, e2, r2, n2) {
-          var o2 = r2 ? "" : n2.css;
-          if (t3.styleSheet) t3.styleSheet.cssText = b(e2, o2);
-          else {
-            var i2 = document.createTextNode(o2), a2 = t3.childNodes;
-            a2[e2] && t3.removeChild(a2[e2]), a2.length ? t3.insertBefore(i2, a2[e2]) : t3.appendChild(i2);
-          }
-        }
-        function k(t3, e2) {
-          var r2 = e2.css, n2 = e2.media, o2 = e2.sourceMap;
-          if (n2 && t3.setAttribute("media", n2), d.ssrId && t3.setAttribute(f, e2.id), o2 && (r2 += "\n/*# sourceURL=" + o2.sources[0] + " */", r2 += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(o2)))) + " */"), t3.styleSheet) t3.styleSheet.cssText = r2;
-          else {
-            while (t3.firstChild) t3.removeChild(t3.firstChild);
-            t3.appendChild(document.createTextNode(r2));
-          }
-        }
-      }, "4abb": function(t2, e, r) {
-        var n = r("7a57");
-        "string" === typeof n && (n = [[t2.i, n, ""]]), n.locals && (t2.exports = n.locals);
-        var o = r("499e").default;
-        o("b2af7572", n, true, { sourceMap: false, shadowMode: false });
-      }, "4ed8": function(t2, e, r) {
-        var n = r("091b");
-        "string" === typeof n && (n = [[t2.i, n, ""]]), n.locals && (t2.exports = n.locals);
-        var o = r("499e").default;
-        o("2f6bee1a", n, true, { sourceMap: false, shadowMode: false });
-      }, "556c": function(t2, e, r) {
-        var n = r("eef2");
-        "string" === typeof n && (n = [[t2.i, n, ""]]), n.locals && (t2.exports = n.locals);
-        var o = r("499e").default;
-        o("1209fd47", n, true, { sourceMap: false, shadowMode: false });
-      }, "65d9": function(t2, e, r) {
-        /**
-        * vue-class-component v7.0.1
-        * (c) 2015-present Evan You
-        * @license MIT
-        */
-        function n(t3) {
-          return t3 && "object" === typeof t3 && "default" in t3 ? t3["default"] : t3;
-        }
-        Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(r("8bbf")), i = "undefined" !== typeof Reflect && Reflect.defineMetadata && Reflect.getOwnMetadataKeys;
-        function a(t3, e2) {
-          s(t3, e2), Object.getOwnPropertyNames(e2.prototype).forEach((function(r2) {
-            s(t3.prototype, e2.prototype, r2);
-          })), Object.getOwnPropertyNames(e2).forEach((function(r2) {
-            s(t3, e2, r2);
-          }));
-        }
-        function s(t3, e2, r2) {
-          var n2 = r2 ? Reflect.getOwnMetadataKeys(e2, r2) : Reflect.getOwnMetadataKeys(e2);
-          n2.forEach((function(n3) {
-            var o2 = r2 ? Reflect.getOwnMetadata(n3, e2, r2) : Reflect.getOwnMetadata(n3, e2);
-            r2 ? Reflect.defineMetadata(n3, o2, t3, r2) : Reflect.defineMetadata(n3, o2, t3);
-          }));
-        }
-        var u2 = { __proto__: [] }, l = u2 instanceof Array;
-        function c(t3) {
-          return function(e2, r2, n2) {
-            var o2 = "function" === typeof e2 ? e2 : e2.constructor;
-            o2.__decorators__ || (o2.__decorators__ = []), "number" !== typeof n2 && (n2 = void 0), o2.__decorators__.push((function(e3) {
-              return t3(e3, r2, n2);
-            }));
-          };
-        }
-        function d() {
-          for (var t3 = [], e2 = 0; e2 < arguments.length; e2++) t3[e2] = arguments[e2];
-          return o.extend({ mixins: t3 });
-        }
-        function f(t3) {
-          var e2 = typeof t3;
-          return null == t3 || "object" !== e2 && "function" !== e2;
-        }
-        function h(t3, e2) {
-          var r2 = e2.prototype._init;
-          e2.prototype._init = function() {
-            var e3 = this, r3 = Object.getOwnPropertyNames(t3);
-            if (t3.$options.props) for (var n3 in t3.$options.props) t3.hasOwnProperty(n3) || r3.push(n3);
-            r3.forEach((function(r4) {
-              "_" !== r4.charAt(0) && Object.defineProperty(e3, r4, { get: function() {
-                return t3[r4];
-              }, set: function(e4) {
-                t3[r4] = e4;
-              }, configurable: true });
-            }));
-          };
-          var n2 = new e2();
-          e2.prototype._init = r2;
-          var o2 = {};
-          return Object.keys(n2).forEach((function(t4) {
-            void 0 !== n2[t4] && (o2[t4] = n2[t4]);
-          })), o2;
-        }
-        var p = ["data", "beforeCreate", "created", "beforeMount", "mounted", "beforeDestroy", "destroyed", "beforeUpdate", "updated", "activated", "deactivated", "render", "errorCaptured", "serverPrefetch"];
-        function y(t3, e2) {
-          void 0 === e2 && (e2 = {}), e2.name = e2.name || t3._componentTag || t3.name;
-          var r2 = t3.prototype;
-          Object.getOwnPropertyNames(r2).forEach((function(t4) {
-            if ("constructor" !== t4) if (p.indexOf(t4) > -1) e2[t4] = r2[t4];
-            else {
-              var n3 = Object.getOwnPropertyDescriptor(r2, t4);
-              void 0 !== n3.value ? "function" === typeof n3.value ? (e2.methods || (e2.methods = {}))[t4] = n3.value : (e2.mixins || (e2.mixins = [])).push({ data: function() {
-                var e3;
-                return e3 = {}, e3[t4] = n3.value, e3;
-              } }) : (n3.get || n3.set) && ((e2.computed || (e2.computed = {}))[t4] = { get: n3.get, set: n3.set });
-            }
-          })), (e2.mixins || (e2.mixins = [])).push({ data: function() {
-            return h(this, t3);
-          } });
-          var n2 = t3.__decorators__;
-          n2 && (n2.forEach((function(t4) {
-            return t4(e2);
-          })), delete t3.__decorators__);
-          var s2 = Object.getPrototypeOf(t3.prototype), u3 = s2 instanceof o ? s2.constructor : o, l2 = u3.extend(e2);
-          return v(l2, t3, u3), i && a(l2, t3), l2;
-        }
-        function v(t3, e2, r2) {
-          Object.getOwnPropertyNames(e2).forEach((function(n2) {
-            if ("prototype" !== n2) {
-              var o2 = Object.getOwnPropertyDescriptor(t3, n2);
-              if (!o2 || o2.configurable) {
-                var i2 = Object.getOwnPropertyDescriptor(e2, n2);
-                if (!l) {
-                  if ("cid" === n2) return;
-                  var a2 = Object.getOwnPropertyDescriptor(r2, n2);
-                  if (!f(i2.value) && a2 && a2.value === i2.value) return;
-                }
-                Object.defineProperty(t3, n2, i2);
-              }
-            }
-          }));
-        }
-        function m(t3) {
-          return "function" === typeof t3 ? y(t3) : function(e2) {
-            return y(e2, t3);
-          };
-        }
-        m.registerHooks = function(t3) {
-          p.push.apply(p, t3);
-        }, e.default = m, e.createDecorator = c, e.mixins = d;
-      }, "7a57": function(t2, e, r) {
-        var n = r("24fb");
-        e = n(false), e.push([t2.i, ".vue-slider{position:relative;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:block;-webkit-tap-highlight-color:rgba(0,0,0,0)}.vue-slider-rail{position:relative;width:100%;height:100%;-webkit-transition-property:width,height,left,right,top,bottom;transition-property:width,height,left,right,top,bottom}.vue-slider-process{position:absolute;z-index:1}", ""]), t2.exports = e;
-      }, 8875: function(t2, e, r) {
-        var n, o, i;
-        (function(r2, a) {
-          o = [], n = a, i = "function" === typeof n ? n.apply(e, o) : n, void 0 === i || (t2.exports = i);
-        })("undefined" !== typeof self && self, (function() {
-          function t3() {
-            var e2 = Object.getOwnPropertyDescriptor(document, "currentScript");
-            if (!e2 && "currentScript" in document && document.currentScript) return document.currentScript;
-            if (e2 && e2.get !== t3 && document.currentScript) return document.currentScript;
-            try {
-              throw new Error();
-            } catch (h) {
-              var r2, n2, o2, i2 = /.*at [^(]*\((.*):(.+):(.+)\)$/gi, a = /@([^@]*):(\d+):(\d+)\s*$/gi, s = i2.exec(h.stack) || a.exec(h.stack), u2 = s && s[1] || false, l = s && s[2] || false, c = document.location.href.replace(document.location.hash, ""), d = document.getElementsByTagName("script");
-              u2 === c && (r2 = document.documentElement.outerHTML, n2 = new RegExp("(?:[^\\n]+?\\n){0," + (l - 2) + "}[^<]*<script>([\\d\\D]*?)<\\/script>[\\d\\D]*", "i"), o2 = r2.replace(n2, "$1").trim());
-              for (var f = 0; f < d.length; f++) {
-                if ("interactive" === d[f].readyState) return d[f];
-                if (d[f].src === u2) return d[f];
-                if (u2 === c && d[f].innerHTML && d[f].innerHTML.trim() === o2) return d[f];
-              }
-              return null;
-            }
-          }
-          return t3;
-        }));
-      }, "8bbf": function(e, r) {
-        e.exports = t;
-      }, eef2: function(t2, e, r) {
-        var n = r("24fb");
-        e = n(false), e.push([t2.i, ".vue-slider-marks{position:relative;width:100%;height:100%}.vue-slider-mark{position:absolute;z-index:1}.vue-slider-ltr .vue-slider-mark,.vue-slider-rtl .vue-slider-mark{width:0;height:100%;top:50%}.vue-slider-ltr .vue-slider-mark-step,.vue-slider-rtl .vue-slider-mark-step{top:0}.vue-slider-ltr .vue-slider-mark-label,.vue-slider-rtl .vue-slider-mark-label{top:100%;margin-top:10px}.vue-slider-ltr .vue-slider-mark{-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.vue-slider-ltr .vue-slider-mark-step{left:0}.vue-slider-ltr .vue-slider-mark-label{left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.vue-slider-rtl .vue-slider-mark{-webkit-transform:translate(50%,-50%);transform:translate(50%,-50%)}.vue-slider-rtl .vue-slider-mark-step{right:0}.vue-slider-rtl .vue-slider-mark-label{right:50%;-webkit-transform:translateX(50%);transform:translateX(50%)}.vue-slider-btt .vue-slider-mark,.vue-slider-ttb .vue-slider-mark{width:100%;height:0;left:50%}.vue-slider-btt .vue-slider-mark-step,.vue-slider-ttb .vue-slider-mark-step{left:0}.vue-slider-btt .vue-slider-mark-label,.vue-slider-ttb .vue-slider-mark-label{left:100%;margin-left:10px}.vue-slider-btt .vue-slider-mark{-webkit-transform:translate(-50%,50%);transform:translate(-50%,50%)}.vue-slider-btt .vue-slider-mark-step{top:0}.vue-slider-btt .vue-slider-mark-label{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.vue-slider-ttb .vue-slider-mark{-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.vue-slider-ttb .vue-slider-mark-step{bottom:0}.vue-slider-ttb .vue-slider-mark-label{bottom:50%;-webkit-transform:translateY(50%);transform:translateY(50%)}.vue-slider-mark-label,.vue-slider-mark-step{position:absolute}", ""]), t2.exports = e;
-      }, fb15: function(t2, e, r) {
-        if (r.r(e), r.d(e, "ERROR_TYPE", (function() {
-          return J;
-        })), r.d(e, "VueSliderMark", (function() {
-          return U;
-        })), r.d(e, "VueSliderDot", (function() {
-          return j;
-        })), "undefined" !== typeof window) {
-          var n = window.document.currentScript, o = r("8875");
-          n = o(), "currentScript" in document || Object.defineProperty(document, "currentScript", { get: o });
-          var i = n && n.src.match(/(.+\/)[^/]+\.js(\?.*)?$/);
-          i && (r.p = i[1]);
-        }
-        var a = r("2638"), s = r.n(a);
-        function u2(t3, e2, r2, n2) {
-          var o2, i2 = arguments.length, a2 = i2 < 3 ? e2 : null === n2 ? n2 = Object.getOwnPropertyDescriptor(e2, r2) : n2;
-          if ("object" === typeof Reflect && "function" === typeof Reflect.decorate) a2 = Reflect.decorate(t3, e2, r2, n2);
-          else for (var s2 = t3.length - 1; s2 >= 0; s2--) (o2 = t3[s2]) && (a2 = (i2 < 3 ? o2(a2) : i2 > 3 ? o2(e2, r2, a2) : o2(e2, r2)) || a2);
-          return i2 > 3 && a2 && Object.defineProperty(e2, r2, a2), a2;
-        }
-        var l = r("8bbf"), c = r.n(l), d = r("65d9"), f = r.n(d);
-        function h(t3, e2) {
-          return void 0 === e2 && (e2 = {}), Object(d["createDecorator"])((function(r2, n2) {
-            (r2.props || (r2.props = {}))[n2] = e2, r2.model = { prop: n2, event: t3 };
-          }));
-        }
-        function p(t3) {
-          return void 0 === t3 && (t3 = {}), Object(d["createDecorator"])((function(e2, r2) {
-            (e2.props || (e2.props = {}))[r2] = t3;
-          }));
-        }
-        function y(t3, e2) {
-          void 0 === e2 && (e2 = {});
-          var r2 = e2.deep, n2 = void 0 !== r2 && r2, o2 = e2.immediate, i2 = void 0 !== o2 && o2;
-          return Object(d["createDecorator"])((function(e3, r3) {
-            "object" !== typeof e3.watch && (e3.watch = /* @__PURE__ */ Object.create(null));
-            var o3 = e3.watch;
-            "object" !== typeof o3[t3] || Array.isArray(o3[t3]) ? "undefined" === typeof o3[t3] && (o3[t3] = []) : o3[t3] = [o3[t3]], o3[t3].push({ handler: r3, deep: n2, immediate: i2 });
-          }));
-        }
-        r("4ed8");
-        function v(t3) {
-          return v = "function" === typeof Symbol && "symbol" === typeof Symbol.iterator ? function(t4) {
-            return typeof t4;
-          } : function(t4) {
-            return t4 && "function" === typeof Symbol && t4.constructor === Symbol && t4 !== Symbol.prototype ? "symbol" : typeof t4;
-          }, v(t3);
-        }
-        function m(t3, e2) {
-          if (!(t3 instanceof e2)) throw new TypeError("Cannot call a class as a function");
-        }
-        function b(t3, e2) {
-          for (var r2 = 0; r2 < e2.length; r2++) {
-            var n2 = e2[r2];
-            n2.enumerable = n2.enumerable || false, n2.configurable = true, "value" in n2 && (n2.writable = true), Object.defineProperty(t3, n2.key, n2);
-          }
-        }
-        function g(t3, e2, r2) {
-          return e2 && b(t3.prototype, e2), t3;
-        }
-        function k(t3, e2) {
-          if ("function" !== typeof e2 && null !== e2) throw new TypeError("Super expression must either be null or a function");
-          t3.prototype = Object.create(e2 && e2.prototype, { constructor: { value: t3, writable: true, configurable: true } }), e2 && O(t3, e2);
-        }
-        function O(t3, e2) {
-          return O = Object.setPrototypeOf || function(t4, e3) {
-            return t4.__proto__ = e3, t4;
-          }, O(t3, e2);
-        }
-        function x(t3) {
-          var e2 = P();
-          return function() {
-            var r2, n2 = D(t3);
-            if (e2) {
-              var o2 = D(this).constructor;
-              r2 = Reflect.construct(n2, arguments, o2);
-            } else r2 = n2.apply(this, arguments);
-            return w(this, r2);
-          };
-        }
-        function w(t3, e2) {
-          return !e2 || "object" !== v(e2) && "function" !== typeof e2 ? S(t3) : e2;
-        }
-        function S(t3) {
-          if (void 0 === t3) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-          return t3;
-        }
-        function P() {
-          if ("undefined" === typeof Reflect || !Reflect.construct) return false;
-          if (Reflect.construct.sham) return false;
-          if ("function" === typeof Proxy) return true;
-          try {
-            return Date.prototype.toString.call(Reflect.construct(Date, [], (function() {
-            }))), true;
-          } catch (t3) {
-            return false;
-          }
-        }
-        function D(t3) {
-          return D = Object.setPrototypeOf ? Object.getPrototypeOf : function(t4) {
-            return t4.__proto__ || Object.getPrototypeOf(t4);
-          }, D(t3);
-        }
-        var R = (function() {
-          var t3 = (function(t4) {
-            k(r2, t4);
-            var e2 = x(r2);
-            function r2() {
-              return m(this, r2), e2.apply(this, arguments);
-            }
-            return g(r2, [{ key: "dragStart", value: function(t5) {
-              if (this.disabled) return false;
-              this.$emit("drag-start");
-            } }, { key: "render", value: function() {
-              var t5 = arguments[0];
-              return t5("div", { ref: "dot", class: this.dotClasses, attrs: { "aria-valuetext": "number" === typeof this.tooltipValue ? this.tooltipValue.toString() : this.tooltipValue }, on: { mousedown: this.dragStart, touchstart: this.dragStart } }, [this.$slots.dot || t5("div", { class: this.handleClasses, style: this.dotStyle }), "none" !== this.tooltip ? t5("div", { class: this.tooltipClasses }, [this.$slots.tooltip || t5("div", { class: this.tooltipInnerClasses, style: this.tooltipStyle }, [t5("span", { class: "vue-slider-dot-tooltip-text" }, [this.tooltipValue])])]) : null]);
-            } }, { key: "dotClasses", get: function() {
-              return ["vue-slider-dot", { "vue-slider-dot-hover": "hover" === this.tooltip || "active" === this.tooltip, "vue-slider-dot-disabled": this.disabled, "vue-slider-dot-focus": this.focus }];
-            } }, { key: "handleClasses", get: function() {
-              return ["vue-slider-dot-handle", { "vue-slider-dot-handle-disabled": this.disabled, "vue-slider-dot-handle-focus": this.focus }];
-            } }, { key: "tooltipClasses", get: function() {
-              return ["vue-slider-dot-tooltip", ["vue-slider-dot-tooltip-".concat(this.tooltipPlacement)], { "vue-slider-dot-tooltip-show": this.showTooltip }];
-            } }, { key: "tooltipInnerClasses", get: function() {
-              return ["vue-slider-dot-tooltip-inner", ["vue-slider-dot-tooltip-inner-".concat(this.tooltipPlacement)], { "vue-slider-dot-tooltip-inner-disabled": this.disabled, "vue-slider-dot-tooltip-inner-focus": this.focus }];
-            } }, { key: "showTooltip", get: function() {
-              switch (this.tooltip) {
-                case "always":
-                  return true;
-                case "none":
-                  return false;
-                case "focus":
-                case "active":
-                  return !!this.focus;
-                default:
-                  return false;
-              }
-            } }, { key: "tooltipValue", get: function() {
-              return this.tooltipFormatter ? "string" === typeof this.tooltipFormatter ? this.tooltipFormatter.replace(/\{value\}/, String(this.value)) : this.tooltipFormatter(this.value) : this.value;
-            } }]), r2;
-          })(c.a);
-          return u2([p({ default: 0 })], t3.prototype, "value", void 0), u2([p()], t3.prototype, "tooltip", void 0), u2([p()], t3.prototype, "dotStyle", void 0), u2([p()], t3.prototype, "tooltipStyle", void 0), u2([p({ type: String, validator: function(t4) {
-            return ["top", "right", "bottom", "left"].indexOf(t4) > -1;
-          }, required: true })], t3.prototype, "tooltipPlacement", void 0), u2([p({ type: [String, Function] })], t3.prototype, "tooltipFormatter", void 0), u2([p({ type: Boolean, default: false })], t3.prototype, "focus", void 0), u2([p({ default: false })], t3.prototype, "disabled", void 0), t3 = u2([f()({ name: "VueSliderDot" })], t3), t3;
-        })(), j = R;
-        r("556c");
-        function E(t3) {
-          return E = "function" === typeof Symbol && "symbol" === typeof Symbol.iterator ? function(t4) {
-            return typeof t4;
-          } : function(t4) {
-            return t4 && "function" === typeof Symbol && t4.constructor === Symbol && t4 !== Symbol.prototype ? "symbol" : typeof t4;
-          }, E(t3);
-        }
-        function A(t3, e2) {
-          if (!(t3 instanceof e2)) throw new TypeError("Cannot call a class as a function");
-        }
-        function V(t3, e2) {
-          for (var r2 = 0; r2 < e2.length; r2++) {
-            var n2 = e2[r2];
-            n2.enumerable = n2.enumerable || false, n2.configurable = true, "value" in n2 && (n2.writable = true), Object.defineProperty(t3, n2.key, n2);
-          }
-        }
-        function M(t3, e2, r2) {
-          return e2 && V(t3.prototype, e2), t3;
-        }
-        function _(t3, e2) {
-          if ("function" !== typeof e2 && null !== e2) throw new TypeError("Super expression must either be null or a function");
-          t3.prototype = Object.create(e2 && e2.prototype, { constructor: { value: t3, writable: true, configurable: true } }), e2 && C(t3, e2);
-        }
-        function C(t3, e2) {
-          return C = Object.setPrototypeOf || function(t4, e3) {
-            return t4.__proto__ = e3, t4;
-          }, C(t3, e2);
-        }
-        function I(t3) {
-          var e2 = B();
-          return function() {
-            var r2, n2 = N(t3);
-            if (e2) {
-              var o2 = N(this).constructor;
-              r2 = Reflect.construct(n2, arguments, o2);
-            } else r2 = n2.apply(this, arguments);
-            return L(this, r2);
-          };
-        }
-        function L(t3, e2) {
-          return !e2 || "object" !== E(e2) && "function" !== typeof e2 ? T(t3) : e2;
-        }
-        function T(t3) {
-          if (void 0 === t3) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-          return t3;
-        }
-        function B() {
-          if ("undefined" === typeof Reflect || !Reflect.construct) return false;
-          if (Reflect.construct.sham) return false;
-          if ("function" === typeof Proxy) return true;
-          try {
-            return Date.prototype.toString.call(Reflect.construct(Date, [], (function() {
-            }))), true;
-          } catch (t3) {
-            return false;
-          }
-        }
-        function N(t3) {
-          return N = Object.setPrototypeOf ? Object.getPrototypeOf : function(t4) {
-            return t4.__proto__ || Object.getPrototypeOf(t4);
-          }, N(t3);
-        }
-        var z, H = (function() {
-          var t3 = (function(t4) {
-            _(r2, t4);
-            var e2 = I(r2);
-            function r2() {
-              return A(this, r2), e2.apply(this, arguments);
-            }
-            return M(r2, [{ key: "labelClickHandle", value: function(t5) {
-              t5.stopPropagation(), this.$emit("pressLabel", this.mark.pos);
-            } }, { key: "render", value: function() {
-              var t5 = arguments[0], e3 = this.mark;
-              return t5("div", { class: this.marksClasses }, [this.$slots.step || t5("div", { class: this.stepClasses, style: [this.stepStyle || {}, e3.style || {}, e3.active && this.stepActiveStyle || {}, e3.active && e3.activeStyle || {}] }), this.hideLabel ? null : this.$slots.label || t5("div", { class: this.labelClasses, style: [this.labelStyle || {}, e3.labelStyle || {}, e3.active && this.labelActiveStyle || {}, e3.active && e3.labelActiveStyle || {}], on: { click: this.labelClickHandle } }, [e3.label])]);
-            } }, { key: "marksClasses", get: function() {
-              return ["vue-slider-mark", { "vue-slider-mark-active": this.mark.active }];
-            } }, { key: "stepClasses", get: function() {
-              return ["vue-slider-mark-step", { "vue-slider-mark-step-active": this.mark.active }];
-            } }, { key: "labelClasses", get: function() {
-              return ["vue-slider-mark-label", { "vue-slider-mark-label-active": this.mark.active }];
-            } }]), r2;
-          })(c.a);
-          return u2([p({ required: true })], t3.prototype, "mark", void 0), u2([p(Boolean)], t3.prototype, "hideLabel", void 0), u2([p()], t3.prototype, "stepStyle", void 0), u2([p()], t3.prototype, "stepActiveStyle", void 0), u2([p()], t3.prototype, "labelStyle", void 0), u2([p()], t3.prototype, "labelActiveStyle", void 0), t3 = u2([f()({ name: "VueSlideMark" })], t3), t3;
-        })(), U = H, F = function(t3) {
-          return "number" === typeof t3 ? "".concat(t3, "px") : t3;
-        }, $ = function(t3) {
-          var e2 = document.documentElement, r2 = document.body, n2 = t3.getBoundingClientRect(), o2 = { y: n2.top + (window.pageYOffset || e2.scrollTop) - (e2.clientTop || r2.clientTop || 0), x: n2.left + (window.pageXOffset || e2.scrollLeft) - (e2.clientLeft || r2.clientLeft || 0) };
-          return o2;
-        }, W = function(t3, e2, r2) {
-          var n2 = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 1, o2 = "targetTouches" in t3 ? t3.targetTouches[0] : t3, i2 = $(e2), a2 = { x: o2.pageX - i2.x, y: o2.pageY - i2.y };
-          return { x: r2 ? e2.offsetWidth * n2 - a2.x : a2.x, y: r2 ? e2.offsetHeight * n2 - a2.y : a2.y };
-        };
-        (function(t3) {
-          t3[t3["PAGE_UP"] = 33] = "PAGE_UP", t3[t3["PAGE_DOWN"] = 34] = "PAGE_DOWN", t3[t3["END"] = 35] = "END", t3[t3["HOME"] = 36] = "HOME", t3[t3["LEFT"] = 37] = "LEFT", t3[t3["UP"] = 38] = "UP", t3[t3["RIGHT"] = 39] = "RIGHT", t3[t3["DOWN"] = 40] = "DOWN";
-        })(z || (z = {}));
-        var G = function(t3, e2) {
-          if (e2.hook) {
-            var r2 = e2.hook(t3);
-            if ("function" === typeof r2) return r2;
-            if (!r2) return null;
-          }
-          switch (t3.keyCode) {
-            case z.UP:
-              return function(t4) {
-                return "ttb" === e2.direction ? t4 - 1 : t4 + 1;
-              };
-            case z.RIGHT:
-              return function(t4) {
-                return "rtl" === e2.direction ? t4 - 1 : t4 + 1;
-              };
-            case z.DOWN:
-              return function(t4) {
-                return "ttb" === e2.direction ? t4 + 1 : t4 - 1;
-              };
-            case z.LEFT:
-              return function(t4) {
-                return "rtl" === e2.direction ? t4 + 1 : t4 - 1;
-              };
-            case z.END:
-              return function() {
-                return e2.max;
-              };
-            case z.HOME:
-              return function() {
-                return e2.min;
-              };
-            case z.PAGE_UP:
-              return function(t4) {
-                return t4 + 10;
-              };
-            case z.PAGE_DOWN:
-              return function(t4) {
-                return t4 - 10;
-              };
-            default:
-              return null;
-          }
-        };
-        function X(t3, e2) {
-          if (!(t3 instanceof e2)) throw new TypeError("Cannot call a class as a function");
-        }
-        function q(t3, e2) {
-          for (var r2 = 0; r2 < e2.length; r2++) {
-            var n2 = e2[r2];
-            n2.enumerable = n2.enumerable || false, n2.configurable = true, "value" in n2 && (n2.writable = true), Object.defineProperty(t3, n2.key, n2);
-          }
-        }
-        function K(t3, e2, r2) {
-          return e2 && q(t3.prototype, e2), t3;
-        }
-        var Y, J, Q = (function() {
-          function t3(e2) {
-            X(this, t3), this.num = e2;
-          }
-          return K(t3, [{ key: "decimal", value: function(t4, e2) {
-            var r2 = this.num, n2 = this.getDecimalLen(r2), o2 = this.getDecimalLen(t4), i2 = 0;
-            switch (e2) {
-              case "+":
-                i2 = this.getExponent(n2, o2), this.num = (this.safeRoundUp(r2, i2) + this.safeRoundUp(t4, i2)) / i2;
-                break;
-              case "-":
-                i2 = this.getExponent(n2, o2), this.num = (this.safeRoundUp(r2, i2) - this.safeRoundUp(t4, i2)) / i2;
-                break;
-              case "*":
-                this.num = this.safeRoundUp(this.safeRoundUp(r2, this.getExponent(n2)), this.safeRoundUp(t4, this.getExponent(o2))) / this.getExponent(n2 + o2);
-                break;
-              case "/":
-                i2 = this.getExponent(n2, o2), this.num = this.safeRoundUp(r2, i2) / this.safeRoundUp(t4, i2);
-                break;
-              case "%":
-                i2 = this.getExponent(n2, o2), this.num = this.safeRoundUp(r2, i2) % this.safeRoundUp(t4, i2) / i2;
-                break;
-            }
-            return this;
-          } }, { key: "plus", value: function(t4) {
-            return this.decimal(t4, "+");
-          } }, { key: "minus", value: function(t4) {
-            return this.decimal(t4, "-");
-          } }, { key: "multiply", value: function(t4) {
-            return this.decimal(t4, "*");
-          } }, { key: "divide", value: function(t4) {
-            return this.decimal(t4, "/");
-          } }, { key: "remainder", value: function(t4) {
-            return this.decimal(t4, "%");
-          } }, { key: "toNumber", value: function() {
-            return this.num;
-          } }, { key: "getDecimalLen", value: function(t4) {
-            var e2 = "".concat(t4).split("e");
-            return ("".concat(e2[0]).split(".")[1] || "").length - (e2[1] ? +e2[1] : 0);
-          } }, { key: "getExponent", value: function(t4, e2) {
-            return Math.pow(10, void 0 !== e2 ? Math.max(t4, e2) : t4);
-          } }, { key: "safeRoundUp", value: function(t4, e2) {
-            return Math.round(t4 * e2);
-          } }]), t3;
-        })();
-        function Z(t3, e2) {
-          var r2 = Object.keys(t3);
-          if (Object.getOwnPropertySymbols) {
-            var n2 = Object.getOwnPropertySymbols(t3);
-            e2 && (n2 = n2.filter((function(e3) {
-              return Object.getOwnPropertyDescriptor(t3, e3).enumerable;
-            }))), r2.push.apply(r2, n2);
-          }
-          return r2;
-        }
-        function tt(t3) {
-          for (var e2 = 1; e2 < arguments.length; e2++) {
-            var r2 = null != arguments[e2] ? arguments[e2] : {};
-            e2 % 2 ? Z(Object(r2), true).forEach((function(e3) {
-              pt(t3, e3, r2[e3]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t3, Object.getOwnPropertyDescriptors(r2)) : Z(Object(r2)).forEach((function(e3) {
-              Object.defineProperty(t3, e3, Object.getOwnPropertyDescriptor(r2, e3));
-            }));
-          }
-          return t3;
-        }
-        function et(t3, e2) {
-          return ot(t3) || nt(t3, e2) || st(t3, e2) || rt();
-        }
-        function rt() {
-          throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-        }
-        function nt(t3, e2) {
-          if ("undefined" !== typeof Symbol && Symbol.iterator in Object(t3)) {
-            var r2 = [], n2 = true, o2 = false, i2 = void 0;
-            try {
-              for (var a2, s2 = t3[Symbol.iterator](); !(n2 = (a2 = s2.next()).done); n2 = true) if (r2.push(a2.value), e2 && r2.length === e2) break;
-            } catch (u3) {
-              o2 = true, i2 = u3;
-            } finally {
-              try {
-                n2 || null == s2["return"] || s2["return"]();
-              } finally {
-                if (o2) throw i2;
-              }
-            }
-            return r2;
-          }
-        }
-        function ot(t3) {
-          if (Array.isArray(t3)) return t3;
-        }
-        function it(t3) {
-          return lt(t3) || ut(t3) || st(t3) || at();
-        }
-        function at() {
-          throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-        }
-        function st(t3, e2) {
-          if (t3) {
-            if ("string" === typeof t3) return ct(t3, e2);
-            var r2 = Object.prototype.toString.call(t3).slice(8, -1);
-            return "Object" === r2 && t3.constructor && (r2 = t3.constructor.name), "Map" === r2 || "Set" === r2 ? Array.from(t3) : "Arguments" === r2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r2) ? ct(t3, e2) : void 0;
-          }
-        }
-        function ut(t3) {
-          if ("undefined" !== typeof Symbol && Symbol.iterator in Object(t3)) return Array.from(t3);
-        }
-        function lt(t3) {
-          if (Array.isArray(t3)) return ct(t3);
-        }
-        function ct(t3, e2) {
-          (null == e2 || e2 > t3.length) && (e2 = t3.length);
-          for (var r2 = 0, n2 = new Array(e2); r2 < e2; r2++) n2[r2] = t3[r2];
-          return n2;
-        }
-        function dt(t3, e2) {
-          if (!(t3 instanceof e2)) throw new TypeError("Cannot call a class as a function");
-        }
-        function ft(t3, e2) {
-          for (var r2 = 0; r2 < e2.length; r2++) {
-            var n2 = e2[r2];
-            n2.enumerable = n2.enumerable || false, n2.configurable = true, "value" in n2 && (n2.writable = true), Object.defineProperty(t3, n2.key, n2);
-          }
-        }
-        function ht(t3, e2, r2) {
-          return e2 && ft(t3.prototype, e2), t3;
-        }
-        function pt(t3, e2, r2) {
-          return e2 in t3 ? Object.defineProperty(t3, e2, { value: r2, enumerable: true, configurable: true, writable: true }) : t3[e2] = r2, t3;
-        }
-        (function(t3) {
-          t3[t3["VALUE"] = 1] = "VALUE", t3[t3["INTERVAL"] = 2] = "INTERVAL", t3[t3["MIN"] = 3] = "MIN", t3[t3["MAX"] = 4] = "MAX", t3[t3["ORDER"] = 5] = "ORDER";
-        })(J || (J = {}));
-        var yt = (Y = {}, pt(Y, J.VALUE, 'The type of the "value" is illegal'), pt(Y, J.INTERVAL, 'The prop "interval" is invalid, "(max - min)" must be divisible by "interval"'), pt(Y, J.MIN, 'The "value" must be greater than or equal to the "min".'), pt(Y, J.MAX, 'The "value" must be less than or equal to the "max".'), pt(Y, J.ORDER, 'When "order" is false, the parameters "minRange", "maxRange", "fixed", "enabled" are invalid.'), Y), vt = (function() {
-          function t3(e2) {
-            dt(this, t3), this.dotsPos = [], this.dotsValue = [], this.cacheRangeDir = {}, this.data = e2.data, this.max = e2.max, this.min = e2.min, this.interval = e2.interval, this.order = e2.order, this.marks = e2.marks, this.included = e2.included, this.process = e2.process, this.adsorb = e2.adsorb, this.dotOptions = e2.dotOptions, this.onError = e2.onError, this.order ? (this.minRange = e2.minRange || 0, this.maxRange = e2.maxRange || 0, this.enableCross = e2.enableCross, this.fixed = e2.fixed) : ((e2.minRange || e2.maxRange || !e2.enableCross || e2.fixed) && this.emitError(J.ORDER), this.minRange = 0, this.maxRange = 0, this.enableCross = true, this.fixed = false), this.setValue(e2.value);
-          }
-          return ht(t3, [{ key: "setValue", value: function(t4) {
-            var e2 = this;
-            this.setDotsValue(Array.isArray(t4) ? this.order ? it(t4).sort((function(t5, r2) {
-              return e2.getIndexByValue(t5) - e2.getIndexByValue(r2);
-            })) : it(t4) : [t4], true);
-          } }, { key: "setDotsValue", value: function(t4, e2) {
-            this.dotsValue = t4, e2 && this.syncDotsPos();
-          } }, { key: "setDotsPos", value: function(t4) {
-            var e2 = this, r2 = this.order ? it(t4).sort((function(t5, e3) {
-              return t5 - e3;
-            })) : t4;
-            this.dotsPos = r2, this.setDotsValue(r2.map((function(t5) {
-              return e2.getValueByPos(t5);
-            })), this.adsorb);
-          } }, { key: "getValueByPos", value: function(t4) {
-            var e2 = this.parsePos(t4);
-            if (this.included) {
-              var r2 = 100;
-              this.markList.forEach((function(n2) {
-                var o2 = Math.abs(n2.pos - t4);
-                o2 < r2 && (r2 = o2, e2 = n2.value);
-              }));
-            }
-            return e2;
-          } }, { key: "syncDotsPos", value: function() {
-            var t4 = this;
-            this.dotsPos = this.dotsValue.map((function(e2) {
-              return t4.parseValue(e2);
-            }));
-          } }, { key: "getRecentDot", value: function(t4) {
-            var e2 = this, r2 = this.dotsPos.filter((function(t5, r3) {
-              return !(e2.getDotOption(r3) && e2.getDotOption(r3).disabled);
-            })).map((function(e3) {
-              return Math.abs(e3 - t4);
-            }));
-            return r2.indexOf(Math.min.apply(Math, it(r2)));
-          } }, { key: "getIndexByValue", value: function(t4) {
-            return this.data ? this.data.indexOf(t4) : new Q(+t4).minus(this.min).divide(this.interval).toNumber();
-          } }, { key: "getValueByIndex", value: function(t4) {
-            return t4 < 0 ? t4 = 0 : t4 > this.total && (t4 = this.total), this.data ? this.data[t4] : new Q(t4).multiply(this.interval).plus(this.min).toNumber();
-          } }, { key: "setDotPos", value: function(t4, e2) {
-            t4 = this.getValidPos(t4, e2).pos;
-            var r2 = t4 - this.dotsPos[e2];
-            if (r2) {
-              var n2 = new Array(this.dotsPos.length);
-              this.fixed ? n2 = this.getFixedChangePosArr(r2, e2) : this.minRange || this.maxRange ? n2 = this.getLimitRangeChangePosArr(t4, r2, e2) : n2[e2] = r2, this.setDotsPos(this.dotsPos.map((function(t5, e3) {
-                return t5 + (n2[e3] || 0);
-              })));
-            }
-          } }, { key: "getFixedChangePosArr", value: function(t4, e2) {
-            var r2 = this;
-            return this.dotsPos.forEach((function(n2, o2) {
-              if (o2 !== e2) {
-                var i2 = r2.getValidPos(n2 + t4, o2), a2 = i2.pos, s2 = i2.inRange;
-                s2 || (t4 = Math.min(Math.abs(a2 - n2), Math.abs(t4)) * (t4 < 0 ? -1 : 1));
-              }
-            })), this.dotsPos.map((function(e3) {
-              return t4;
-            }));
-          } }, { key: "getLimitRangeChangePosArr", value: function(t4, e2, r2) {
-            var n2 = this, o2 = [{ index: r2, changePos: e2 }], i2 = e2;
-            return [this.minRange, this.maxRange].forEach((function(a2, s2) {
-              if (!a2) return false;
-              var u3 = 0 === s2, l2 = e2 > 0, c2 = 0;
-              c2 = u3 ? l2 ? 1 : -1 : l2 ? -1 : 1;
-              var d2 = function(t5, e3) {
-                var r3 = Math.abs(t5 - e3);
-                return u3 ? r3 < n2.minRangeDir : r3 > n2.maxRangeDir;
-              }, f2 = r2 + c2, h2 = n2.dotsPos[f2], p2 = t4;
-              while (n2.isPos(h2) && d2(h2, p2)) {
-                var y2 = n2.getValidPos(h2 + i2, f2), v2 = y2.pos;
-                o2.push({ index: f2, changePos: v2 - h2 }), f2 += c2, p2 = v2, h2 = n2.dotsPos[f2];
-              }
-            })), this.dotsPos.map((function(t5, e3) {
-              var r3 = o2.filter((function(t6) {
-                return t6.index === e3;
-              }));
-              return r3.length ? r3[0].changePos : 0;
-            }));
-          } }, { key: "isPos", value: function(t4) {
-            return "number" === typeof t4;
-          } }, { key: "getValidPos", value: function(t4, e2) {
-            var r2 = this.valuePosRange[e2], n2 = true;
-            return t4 < r2[0] ? (t4 = r2[0], n2 = false) : t4 > r2[1] && (t4 = r2[1], n2 = false), { pos: t4, inRange: n2 };
-          } }, { key: "parseValue", value: function(t4) {
-            if (this.data) t4 = this.data.indexOf(t4);
-            else if ("number" === typeof t4 || "string" === typeof t4) {
-              if (t4 = +t4, t4 < this.min) return this.emitError(J.MIN), 0;
-              if (t4 > this.max) return this.emitError(J.MAX), 0;
-              if ("number" !== typeof t4 || t4 !== t4) return this.emitError(J.VALUE), 0;
-              t4 = new Q(t4).minus(this.min).divide(this.interval).toNumber();
-            }
-            var e2 = new Q(t4).multiply(this.gap).toNumber();
-            return e2 < 0 ? 0 : e2 > 100 ? 100 : e2;
-          } }, { key: "parsePos", value: function(t4) {
-            var e2 = Math.round(t4 / this.gap);
-            return this.getValueByIndex(e2);
-          } }, { key: "isActiveByPos", value: function(t4) {
-            return this.processArray.some((function(e2) {
-              var r2 = et(e2, 2), n2 = r2[0], o2 = r2[1];
-              return t4 >= n2 && t4 <= o2;
-            }));
-          } }, { key: "getValues", value: function() {
-            if (this.data) return this.data;
-            for (var t4 = [], e2 = 0; e2 <= this.total; e2++) t4.push(new Q(e2).multiply(this.interval).plus(this.min).toNumber());
-            return t4;
-          } }, { key: "getRangeDir", value: function(t4) {
-            return t4 ? new Q(t4).divide(new Q(this.data ? this.data.length - 1 : this.max).minus(this.data ? 0 : this.min).toNumber()).multiply(100).toNumber() : 100;
-          } }, { key: "emitError", value: function(t4) {
-            this.onError && this.onError(t4, yt[t4]);
-          } }, { key: "getDotOption", value: function(t4) {
-            return Array.isArray(this.dotOptions) ? this.dotOptions[t4] : this.dotOptions;
-          } }, { key: "getDotRange", value: function(t4, e2, r2) {
-            if (!this.dotOptions) return r2;
-            var n2 = this.getDotOption(t4);
-            return n2 && void 0 !== n2[e2] ? this.parseValue(n2[e2]) : r2;
-          } }, { key: "markList", get: function() {
-            var t4 = this;
-            if (!this.marks) return [];
-            var e2 = function(e3, r2) {
-              var n2 = t4.parseValue(e3);
-              return tt({ pos: n2, value: e3, label: e3, active: t4.isActiveByPos(n2) }, r2);
-            };
-            return true === this.marks ? this.getValues().map((function(t5) {
-              return e2(t5);
-            })) : "[object Object]" === Object.prototype.toString.call(this.marks) ? Object.keys(this.marks).sort((function(t5, e3) {
-              return +t5 - +e3;
-            })).map((function(r2) {
-              var n2 = t4.marks[r2];
-              return e2(r2, "string" !== typeof n2 ? n2 : { label: n2 });
-            })) : Array.isArray(this.marks) ? this.marks.map((function(t5) {
-              return e2(t5);
-            })) : "function" === typeof this.marks ? this.getValues().map((function(e3) {
-              return { value: e3, result: t4.marks(e3) };
-            })).filter((function(t5) {
-              var e3 = t5.result;
-              return !!e3;
-            })).map((function(t5) {
-              var r2 = t5.value, n2 = t5.result;
-              return e2(r2, n2);
-            })) : [];
-          } }, { key: "processArray", get: function() {
-            if (this.process) {
-              if ("function" === typeof this.process) return this.process(this.dotsPos);
-              if (1 === this.dotsPos.length) return [[0, this.dotsPos[0]]];
-              if (this.dotsPos.length > 1) return [[Math.min.apply(Math, it(this.dotsPos)), Math.max.apply(Math, it(this.dotsPos))]];
-            }
-            return [];
-          } }, { key: "total", get: function() {
-            var t4 = 0;
-            return t4 = this.data ? this.data.length - 1 : new Q(this.max).minus(this.min).divide(this.interval).toNumber(), t4 - Math.floor(t4) !== 0 ? (this.emitError(J.INTERVAL), 0) : t4;
-          } }, { key: "gap", get: function() {
-            return 100 / this.total;
-          } }, { key: "minRangeDir", get: function() {
-            return this.cacheRangeDir[this.minRange] ? this.cacheRangeDir[this.minRange] : this.cacheRangeDir[this.minRange] = this.getRangeDir(this.minRange);
-          } }, { key: "maxRangeDir", get: function() {
-            return this.cacheRangeDir[this.maxRange] ? this.cacheRangeDir[this.maxRange] : this.cacheRangeDir[this.maxRange] = this.getRangeDir(this.maxRange);
-          } }, { key: "valuePosRange", get: function() {
-            var t4 = this, e2 = this.dotsPos, r2 = [];
-            return e2.forEach((function(n2, o2) {
-              r2.push([Math.max(t4.minRange ? t4.minRangeDir * o2 : 0, t4.enableCross ? 0 : e2[o2 - 1] || 0, t4.getDotRange(o2, "min", 0)), Math.min(t4.minRange ? 100 - t4.minRangeDir * (e2.length - 1 - o2) : 100, t4.enableCross ? 100 : e2[o2 + 1] || 100, t4.getDotRange(o2, "max", 100))]);
-            })), r2;
-          } }, { key: "dotsIndex", get: function() {
-            var t4 = this;
-            return this.dotsValue.map((function(e2) {
-              return t4.getIndexByValue(e2);
-            }));
-          } }]), t3;
-        })();
-        function mt(t3, e2) {
-          if (!(t3 instanceof e2)) throw new TypeError("Cannot call a class as a function");
-        }
-        function bt(t3, e2) {
-          for (var r2 = 0; r2 < e2.length; r2++) {
-            var n2 = e2[r2];
-            n2.enumerable = n2.enumerable || false, n2.configurable = true, "value" in n2 && (n2.writable = true), Object.defineProperty(t3, n2.key, n2);
-          }
-        }
-        function gt(t3, e2, r2) {
-          return e2 && bt(t3.prototype, e2), t3;
-        }
-        var kt = (function() {
-          function t3(e2) {
-            mt(this, t3), this.states = 0, this.map = e2;
-          }
-          return gt(t3, [{ key: "add", value: function(t4) {
-            this.states |= t4;
-          } }, { key: "delete", value: function(t4) {
-            this.states &= ~t4;
-          } }, { key: "toggle", value: function(t4) {
-            this.has(t4) ? this.delete(t4) : this.add(t4);
-          } }, { key: "has", value: function(t4) {
-            return !!(this.states & t4);
-          } }]), t3;
-        })();
-        r("4abb");
-        function Ot(t3, e2) {
-          return St(t3) || wt(t3, e2) || At(t3, e2) || xt();
-        }
-        function xt() {
-          throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-        }
-        function wt(t3, e2) {
-          if ("undefined" !== typeof Symbol && Symbol.iterator in Object(t3)) {
-            var r2 = [], n2 = true, o2 = false, i2 = void 0;
-            try {
-              for (var a2, s2 = t3[Symbol.iterator](); !(n2 = (a2 = s2.next()).done); n2 = true) if (r2.push(a2.value), e2 && r2.length === e2) break;
-            } catch (u3) {
-              o2 = true, i2 = u3;
-            } finally {
-              try {
-                n2 || null == s2["return"] || s2["return"]();
-              } finally {
-                if (o2) throw i2;
-              }
-            }
-            return r2;
-          }
-        }
-        function St(t3) {
-          if (Array.isArray(t3)) return t3;
-        }
-        function Pt(t3, e2) {
-          var r2 = Object.keys(t3);
-          if (Object.getOwnPropertySymbols) {
-            var n2 = Object.getOwnPropertySymbols(t3);
-            e2 && (n2 = n2.filter((function(e3) {
-              return Object.getOwnPropertyDescriptor(t3, e3).enumerable;
-            }))), r2.push.apply(r2, n2);
-          }
-          return r2;
-        }
-        function Dt(t3) {
-          for (var e2 = 1; e2 < arguments.length; e2++) {
-            var r2 = null != arguments[e2] ? arguments[e2] : {};
-            e2 % 2 ? Pt(Object(r2), true).forEach((function(e3) {
-              Rt(t3, e3, r2[e3]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t3, Object.getOwnPropertyDescriptors(r2)) : Pt(Object(r2)).forEach((function(e3) {
-              Object.defineProperty(t3, e3, Object.getOwnPropertyDescriptor(r2, e3));
-            }));
-          }
-          return t3;
-        }
-        function Rt(t3, e2, r2) {
-          return e2 in t3 ? Object.defineProperty(t3, e2, { value: r2, enumerable: true, configurable: true, writable: true }) : t3[e2] = r2, t3;
-        }
-        function jt(t3) {
-          return Mt(t3) || Vt(t3) || At(t3) || Et();
-        }
-        function Et() {
-          throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-        }
-        function At(t3, e2) {
-          if (t3) {
-            if ("string" === typeof t3) return _t(t3, e2);
-            var r2 = Object.prototype.toString.call(t3).slice(8, -1);
-            return "Object" === r2 && t3.constructor && (r2 = t3.constructor.name), "Map" === r2 || "Set" === r2 ? Array.from(t3) : "Arguments" === r2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r2) ? _t(t3, e2) : void 0;
-          }
-        }
-        function Vt(t3) {
-          if ("undefined" !== typeof Symbol && Symbol.iterator in Object(t3)) return Array.from(t3);
-        }
-        function Mt(t3) {
-          if (Array.isArray(t3)) return _t(t3);
-        }
-        function _t(t3, e2) {
-          (null == e2 || e2 > t3.length) && (e2 = t3.length);
-          for (var r2 = 0, n2 = new Array(e2); r2 < e2; r2++) n2[r2] = t3[r2];
-          return n2;
-        }
-        function Ct(t3) {
-          return Ct = "function" === typeof Symbol && "symbol" === typeof Symbol.iterator ? function(t4) {
-            return typeof t4;
-          } : function(t4) {
-            return t4 && "function" === typeof Symbol && t4.constructor === Symbol && t4 !== Symbol.prototype ? "symbol" : typeof t4;
-          }, Ct(t3);
-        }
-        function It(t3, e2) {
-          if (!(t3 instanceof e2)) throw new TypeError("Cannot call a class as a function");
-        }
-        function Lt(t3, e2) {
-          for (var r2 = 0; r2 < e2.length; r2++) {
-            var n2 = e2[r2];
-            n2.enumerable = n2.enumerable || false, n2.configurable = true, "value" in n2 && (n2.writable = true), Object.defineProperty(t3, n2.key, n2);
-          }
-        }
-        function Tt(t3, e2, r2) {
-          return e2 && Lt(t3.prototype, e2), t3;
-        }
-        function Bt(t3, e2) {
-          if ("function" !== typeof e2 && null !== e2) throw new TypeError("Super expression must either be null or a function");
-          t3.prototype = Object.create(e2 && e2.prototype, { constructor: { value: t3, writable: true, configurable: true } }), e2 && Nt(t3, e2);
-        }
-        function Nt(t3, e2) {
-          return Nt = Object.setPrototypeOf || function(t4, e3) {
-            return t4.__proto__ = e3, t4;
-          }, Nt(t3, e2);
-        }
-        function zt(t3) {
-          var e2 = Ft();
-          return function() {
-            var r2, n2 = $t(t3);
-            if (e2) {
-              var o2 = $t(this).constructor;
-              r2 = Reflect.construct(n2, arguments, o2);
-            } else r2 = n2.apply(this, arguments);
-            return Ht(this, r2);
-          };
-        }
-        function Ht(t3, e2) {
-          return !e2 || "object" !== Ct(e2) && "function" !== typeof e2 ? Ut(t3) : e2;
-        }
-        function Ut(t3) {
-          if (void 0 === t3) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-          return t3;
-        }
-        function Ft() {
-          if ("undefined" === typeof Reflect || !Reflect.construct) return false;
-          if (Reflect.construct.sham) return false;
-          if ("function" === typeof Proxy) return true;
-          try {
-            return Date.prototype.toString.call(Reflect.construct(Date, [], (function() {
-            }))), true;
-          } catch (t3) {
-            return false;
-          }
-        }
-        function $t(t3) {
-          return $t = Object.setPrototypeOf ? Object.getPrototypeOf : function(t4) {
-            return t4.__proto__ || Object.getPrototypeOf(t4);
-          }, $t(t3);
-        }
-        var Wt = { None: 0, Drag: 2, Focus: 4 }, Gt = 4, Xt = (function() {
-          var t3 = (function(t4) {
-            Bt(r2, t4);
-            var e2 = zt(r2);
-            function r2() {
-              var t5;
-              return It(this, r2), t5 = e2.apply(this, arguments), t5.states = new kt(Wt), t5.scale = 1, t5.focusDotIndex = 0, t5;
-            }
-            return Tt(r2, [{ key: "isObjectData", value: function(t5) {
-              return !!t5 && "[object Object]" === Object.prototype.toString.call(t5);
-            } }, { key: "isObjectArrayData", value: function(t5) {
-              return !!t5 && Array.isArray(t5) && t5.length > 0 && "object" === Ct(t5[0]);
-            } }, { key: "onValueChanged", value: function() {
-              this.control && !this.states.has(Wt.Drag) && this.isNotSync && (this.control.setValue(this.value), this.syncValueByPos());
-            } }, { key: "created", value: function() {
-              this.initControl();
-            } }, { key: "mounted", value: function() {
-              this.bindEvent();
-            } }, { key: "beforeDestroy", value: function() {
-              this.unbindEvent();
-            } }, { key: "bindEvent", value: function() {
-              document.addEventListener("touchmove", this.dragMove, { passive: false }), document.addEventListener("touchend", this.dragEnd, { passive: false }), document.addEventListener("mousedown", this.blurHandle), document.addEventListener("mousemove", this.dragMove, { passive: false }), document.addEventListener("mouseup", this.dragEnd), document.addEventListener("mouseleave", this.dragEnd), document.addEventListener("keydown", this.keydownHandle);
-            } }, { key: "unbindEvent", value: function() {
-              document.removeEventListener("touchmove", this.dragMove), document.removeEventListener("touchend", this.dragEnd), document.removeEventListener("mousedown", this.blurHandle), document.removeEventListener("mousemove", this.dragMove), document.removeEventListener("mouseup", this.dragEnd), document.removeEventListener("mouseleave", this.dragEnd), document.removeEventListener("keydown", this.keydownHandle);
-            } }, { key: "setScale", value: function() {
-              var t5 = new Q(Math.floor(this.isHorizontal ? this.$refs.rail.offsetWidth : this.$refs.rail.offsetHeight));
-              void 0 !== this.zoom && t5.multiply(this.zoom), t5.divide(100), this.scale = t5.toNumber();
-            } }, { key: "initControl", value: function() {
-              var t5 = this;
-              this.control = new vt({ value: this.value, data: this.sliderData, enableCross: this.enableCross, fixed: this.fixed, max: this.max, min: this.min, interval: this.interval, minRange: this.minRange, maxRange: this.maxRange, order: this.order, marks: this.sliderMarks, included: this.included, process: this.process, adsorb: this.adsorb, dotOptions: this.dotOptions, onError: this.emitError }), this.syncValueByPos(), ["data", "enableCross", "fixed", "max", "min", "interval", "minRange", "maxRange", "order", "marks", "process", "adsorb", "included", "dotOptions"].forEach((function(e3) {
-                t5.$watch(e3, (function(r3) {
-                  if ("data" === e3 && Array.isArray(t5.control.data) && Array.isArray(r3) && t5.control.data.length === r3.length && r3.every((function(e4, r4) {
-                    return e4 === t5.control.data[r4];
-                  }))) return false;
-                  switch (e3) {
-                    case "data":
-                    case "dataLabel":
-                    case "dataValue":
-                      t5.control.data = t5.sliderData;
-                      break;
-                    case "mark":
-                      t5.control.marks = t5.sliderMarks;
-                      break;
-                    default:
-                      t5.control[e3] = r3;
-                  }
-                  ["data", "max", "min", "interval"].indexOf(e3) > -1 && t5.control.syncDotsPos();
-                }));
-              }));
-            } }, { key: "syncValueByPos", value: function() {
-              var t5 = this.control.dotsValue;
-              this.isDiff(t5, Array.isArray(this.value) ? this.value : [this.value]) && this.$emit("change", 1 === t5.length ? t5[0] : jt(t5), this.focusDotIndex);
-            } }, { key: "isDiff", value: function(t5, e3) {
-              return t5.length !== e3.length || t5.some((function(t6, r3) {
-                return t6 !== e3[r3];
-              }));
-            } }, { key: "emitError", value: function(t5, e3) {
-              this.silent || console.error("[VueSlider error]: ".concat(e3)), this.$emit("error", t5, e3);
-            } }, { key: "dragStartOnProcess", value: function(t5) {
-              if (this.dragOnClick) {
-                this.setScale();
-                var e3 = this.getPosByEvent(t5), r3 = this.control.getRecentDot(e3);
-                if (this.dots[r3].disabled) return;
-                this.dragStart(r3), this.control.setDotPos(e3, this.focusDotIndex), this.lazy || this.syncValueByPos();
-              }
-            } }, { key: "dragStart", value: function(t5) {
-              this.focusDotIndex = t5, this.setScale(), this.states.add(Wt.Drag), this.states.add(Wt.Focus), this.$emit("drag-start", this.focusDotIndex);
-            } }, { key: "dragMove", value: function(t5) {
-              if (!this.states.has(Wt.Drag)) return false;
-              t5.preventDefault();
-              var e3 = this.getPosByEvent(t5);
-              this.isCrossDot(e3), this.control.setDotPos(e3, this.focusDotIndex), this.lazy || this.syncValueByPos();
-              var r3 = this.control.dotsValue;
-              this.$emit("dragging", 1 === r3.length ? r3[0] : jt(r3), this.focusDotIndex);
-            } }, { key: "isCrossDot", value: function(t5) {
-              if (this.canSort) {
-                var e3 = this.focusDotIndex, r3 = t5;
-                if (r3 > this.dragRange[1] ? (r3 = this.dragRange[1], this.focusDotIndex++) : r3 < this.dragRange[0] && (r3 = this.dragRange[0], this.focusDotIndex--), e3 !== this.focusDotIndex) {
-                  var n2 = this.$refs["dot-".concat(this.focusDotIndex)];
-                  n2 && n2.$el && n2.$el.focus(), this.control.setDotPos(r3, e3);
-                }
-              }
-            } }, { key: "dragEnd", value: function(t5) {
-              var e3 = this;
-              if (!this.states.has(Wt.Drag)) return false;
-              setTimeout((function() {
-                e3.lazy && e3.syncValueByPos(), e3.included && e3.isNotSync ? e3.control.setValue(e3.value) : e3.control.syncDotsPos(), e3.states.delete(Wt.Drag), e3.useKeyboard && !("targetTouches" in t5) || e3.states.delete(Wt.Focus), e3.$emit("drag-end", e3.focusDotIndex);
-              }));
-            } }, { key: "blurHandle", value: function(t5) {
-              if (!this.states.has(Wt.Focus) || !this.$refs.container || this.$refs.container.contains(t5.target)) return false;
-              this.states.delete(Wt.Focus);
-            } }, { key: "clickHandle", value: function(t5) {
-              if (!this.clickable || this.disabled) return false;
-              if (!this.states.has(Wt.Drag)) {
-                this.setScale();
-                var e3 = this.getPosByEvent(t5);
-                this.setValueByPos(e3);
-              }
-            } }, { key: "focus", value: function() {
-              var t5 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 0;
-              this.states.add(Wt.Focus), this.focusDotIndex = t5;
-            } }, { key: "blur", value: function() {
-              this.states.delete(Wt.Focus);
-            } }, { key: "getValue", value: function() {
-              var t5 = this.control.dotsValue;
-              return 1 === t5.length ? t5[0] : t5;
-            } }, { key: "getIndex", value: function() {
-              var t5 = this.control.dotsIndex;
-              return 1 === t5.length ? t5[0] : t5;
-            } }, { key: "setValue", value: function(t5) {
-              this.control.setValue(Array.isArray(t5) ? jt(t5) : [t5]), this.syncValueByPos();
-            } }, { key: "setIndex", value: function(t5) {
-              var e3 = this, r3 = Array.isArray(t5) ? t5.map((function(t6) {
-                return e3.control.getValueByIndex(t6);
-              })) : this.control.getValueByIndex(t5);
-              this.setValue(r3);
-            } }, { key: "setValueByPos", value: function(t5) {
-              var e3 = this, r3 = this.control.getRecentDot(t5);
-              if (this.disabled || this.dots[r3].disabled) return false;
-              this.focusDotIndex = r3, this.control.setDotPos(t5, r3), this.syncValueByPos(), this.useKeyboard && this.states.add(Wt.Focus), setTimeout((function() {
-                e3.included && e3.isNotSync ? e3.control.setValue(e3.value) : e3.control.syncDotsPos();
-              }));
-            } }, { key: "keydownHandle", value: function(t5) {
-              var e3 = this;
-              if (!this.useKeyboard || !this.states.has(Wt.Focus)) return false;
-              var r3 = this.included && this.marks, n2 = G(t5, { direction: this.direction, max: r3 ? this.control.markList.length - 1 : this.control.total, min: 0, hook: this.keydownHook });
-              if (n2) {
-                t5.preventDefault();
-                var o2 = -1, i2 = 0;
-                r3 ? (this.control.markList.some((function(t6, r4) {
-                  return t6.value === e3.control.dotsValue[e3.focusDotIndex] && (o2 = n2(r4), true);
-                })), o2 < 0 ? o2 = 0 : o2 > this.control.markList.length - 1 && (o2 = this.control.markList.length - 1), i2 = this.control.markList[o2].pos) : (o2 = n2(this.control.getIndexByValue(this.control.dotsValue[this.focusDotIndex])), i2 = this.control.parseValue(this.control.getValueByIndex(o2))), this.isCrossDot(i2), this.control.setDotPos(i2, this.focusDotIndex), this.syncValueByPos();
-              }
-            } }, { key: "getPosByEvent", value: function(t5) {
-              return W(t5, this.$refs.rail, this.isReverse, this.zoom)[this.isHorizontal ? "x" : "y"] / this.scale;
-            } }, { key: "renderSlot", value: function(t5, e3, r3, n2) {
-              var o2 = this.$createElement, i2 = this.$scopedSlots[t5];
-              return i2 ? n2 ? i2(e3) : o2("template", { slot: t5 }, [i2(e3)]) : r3;
-            } }, { key: "render", value: function() {
-              var t5 = this, e3 = arguments[0];
-              return e3("div", s()([{ ref: "container", class: this.containerClasses, style: this.containerStyles, on: { click: this.clickHandle, touchstart: this.dragStartOnProcess, mousedown: this.dragStartOnProcess } }, this.$attrs]), [e3("div", { ref: "rail", class: "vue-slider-rail", style: this.railStyle }, [this.processArray.map((function(r3, n2) {
-                return t5.renderSlot("process", r3, e3("div", { class: "vue-slider-process", key: "process-".concat(n2), style: r3.style }), true);
-              })), this.sliderMarks ? e3("div", { class: "vue-slider-marks" }, [this.control.markList.map((function(r3, n2) {
-                var o2;
-                return t5.renderSlot("mark", r3, e3("vue-slider-mark", { key: "mark-".concat(n2), attrs: { mark: r3, hideLabel: t5.hideLabel, stepStyle: t5.stepStyle, stepActiveStyle: t5.stepActiveStyle, labelStyle: t5.labelStyle, labelActiveStyle: t5.labelActiveStyle }, style: (o2 = {}, Rt(o2, t5.isHorizontal ? "height" : "width", "100%"), Rt(o2, t5.isHorizontal ? "width" : "height", t5.tailSize), Rt(o2, t5.mainDirection, "".concat(r3.pos, "%")), o2), on: { pressLabel: function(e4) {
-                  return t5.clickable && t5.setValueByPos(e4);
-                } } }, [t5.renderSlot("step", r3, null), t5.renderSlot("label", r3, null)]), true);
-              }))]) : null, this.dots.map((function(r3, n2) {
-                var o2;
-                return e3("vue-slider-dot", { ref: "dot-".concat(n2), key: "dot-".concat(n2), attrs: Dt({ value: r3.value, disabled: r3.disabled, focus: r3.focus, "dot-style": [r3.style, r3.disabled ? r3.disabledStyle : null, r3.focus ? r3.focusStyle : null], tooltip: r3.tooltip || t5.tooltip, "tooltip-style": [t5.tooltipStyle, r3.tooltipStyle, r3.disabled ? r3.tooltipDisabledStyle : null, r3.focus ? r3.tooltipFocusStyle : null], "tooltip-formatter": Array.isArray(t5.sliderTooltipFormatter) ? t5.sliderTooltipFormatter[n2] : t5.sliderTooltipFormatter, "tooltip-placement": t5.tooltipDirections[n2], role: "slider", "aria-valuenow": r3.value, "aria-valuemin": t5.min, "aria-valuemax": t5.max, "aria-orientation": t5.isHorizontal ? "horizontal" : "vertical", tabindex: "0" }, t5.dotAttrs), style: [t5.dotBaseStyle, (o2 = {}, Rt(o2, t5.mainDirection, "".concat(r3.pos, "%")), Rt(o2, "transition", "".concat(t5.mainDirection, " ").concat(t5.animateTime, "s")), o2)], on: { "drag-start": function() {
-                  return t5.dragStart(n2);
-                } }, nativeOn: { focus: function() {
-                  return !r3.disabled && t5.focus(n2);
-                }, blur: function() {
-                  return t5.blur();
-                } } }, [t5.renderSlot("dot", r3, null), t5.renderSlot("tooltip", r3, null)]);
-              })), this.renderSlot("default", { value: this.getValue() }, null, true)])]);
-            } }, { key: "tailSize", get: function() {
-              return F((this.isHorizontal ? this.height : this.width) || Gt);
-            } }, { key: "containerClasses", get: function() {
-              return ["vue-slider", ["vue-slider-".concat(this.direction)], { "vue-slider-disabled": this.disabled }];
-            } }, { key: "containerStyles", get: function() {
-              var t5 = Array.isArray(this.dotSize) ? this.dotSize : [this.dotSize, this.dotSize], e3 = Ot(t5, 2), r3 = e3[0], n2 = e3[1], o2 = this.width ? F(this.width) : this.isHorizontal ? "auto" : F(Gt), i2 = this.height ? F(this.height) : this.isHorizontal ? F(Gt) : "auto";
-              return { padding: this.contained ? "".concat(n2 / 2, "px ").concat(r3 / 2, "px") : this.isHorizontal ? "".concat(n2 / 2, "px 0") : "0 ".concat(r3 / 2, "px"), width: o2, height: i2 };
-            } }, { key: "processArray", get: function() {
-              var t5 = this;
-              return this.control.processArray.map((function(e3, r3) {
-                var n2, o2 = Ot(e3, 3), i2 = o2[0], a2 = o2[1], s2 = o2[2];
-                if (i2 > a2) {
-                  var u3 = [a2, i2];
-                  i2 = u3[0], a2 = u3[1];
-                }
-                var l2 = t5.isHorizontal ? "width" : "height";
-                return { start: i2, end: a2, index: r3, style: Dt(Dt((n2 = {}, Rt(n2, t5.isHorizontal ? "height" : "width", "100%"), Rt(n2, t5.isHorizontal ? "top" : "left", 0), Rt(n2, t5.mainDirection, "".concat(i2, "%")), Rt(n2, l2, "".concat(a2 - i2, "%")), Rt(n2, "transitionProperty", "".concat(l2, ",").concat(t5.mainDirection)), Rt(n2, "transitionDuration", "".concat(t5.animateTime, "s")), n2), t5.processStyle), s2) };
-              }));
-            } }, { key: "dotBaseStyle", get: function() {
-              var t5, e3 = Array.isArray(this.dotSize) ? this.dotSize : [this.dotSize, this.dotSize], r3 = Ot(e3, 2), n2 = r3[0], o2 = r3[1];
-              return t5 = this.isHorizontal ? Rt({ transform: "translate(".concat(this.isReverse ? "50%" : "-50%", ", -50%)"), "-WebkitTransform": "translate(".concat(this.isReverse ? "50%" : "-50%", ", -50%)"), top: "50%" }, "ltr" === this.direction ? "left" : "right", "0") : Rt({ transform: "translate(-50%, ".concat(this.isReverse ? "50%" : "-50%", ")"), "-WebkitTransform": "translate(-50%, ".concat(this.isReverse ? "50%" : "-50%", ")"), left: "50%" }, "btt" === this.direction ? "bottom" : "top", "0"), Dt({ width: "".concat(n2, "px"), height: "".concat(o2, "px") }, t5);
-            } }, { key: "mainDirection", get: function() {
-              switch (this.direction) {
-                case "ltr":
-                  return "left";
-                case "rtl":
-                  return "right";
-                case "btt":
-                  return "bottom";
-                case "ttb":
-                  return "top";
-              }
-            } }, { key: "isHorizontal", get: function() {
-              return "ltr" === this.direction || "rtl" === this.direction;
-            } }, { key: "isReverse", get: function() {
-              return "rtl" === this.direction || "btt" === this.direction;
-            } }, { key: "tooltipDirections", get: function() {
-              var t5 = this.tooltipPlacement || (this.isHorizontal ? "top" : "left");
-              return Array.isArray(t5) ? t5 : this.dots.map((function() {
-                return t5;
-              }));
-            } }, { key: "dots", get: function() {
-              var t5 = this;
-              return this.control.dotsPos.map((function(e3, r3) {
-                return Dt({ pos: e3, index: r3, value: t5.control.dotsValue[r3], focus: t5.states.has(Wt.Focus) && t5.focusDotIndex === r3, disabled: t5.disabled, style: t5.dotStyle }, (Array.isArray(t5.dotOptions) ? t5.dotOptions[r3] : t5.dotOptions) || {});
-              }));
-            } }, { key: "animateTime", get: function() {
-              return this.states.has(Wt.Drag) ? 0 : this.duration;
-            } }, { key: "canSort", get: function() {
-              return this.order && !this.minRange && !this.maxRange && !this.fixed && this.enableCross;
-            } }, { key: "sliderData", get: function() {
-              var t5 = this;
-              return this.isObjectArrayData(this.data) ? this.data.map((function(e3) {
-                return e3[t5.dataValue];
-              })) : this.isObjectData(this.data) ? Object.keys(this.data) : this.data;
-            } }, { key: "sliderMarks", get: function() {
-              var t5 = this;
-              return this.marks ? this.marks : this.isObjectArrayData(this.data) ? function(e3) {
-                var r3 = { label: e3 };
-                return t5.data.some((function(n2) {
-                  return n2[t5.dataValue] === e3 && (r3.label = n2[t5.dataLabel], true);
-                })), r3;
-              } : this.isObjectData(this.data) ? this.data : void 0;
-            } }, { key: "sliderTooltipFormatter", get: function() {
-              var t5 = this;
-              if (this.tooltipFormatter) return this.tooltipFormatter;
-              if (this.isObjectArrayData(this.data)) return function(e4) {
-                var r3 = "" + e4;
-                return t5.data.some((function(n2) {
-                  return n2[t5.dataValue] === e4 && (r3 = n2[t5.dataLabel], true);
-                })), r3;
-              };
-              if (this.isObjectData(this.data)) {
-                var e3 = this.data;
-                return function(t6) {
-                  return e3[t6];
-                };
-              }
-            } }, { key: "isNotSync", get: function() {
-              var t5 = this.control.dotsValue;
-              return Array.isArray(this.value) ? this.value.length !== t5.length || this.value.some((function(e3, r3) {
-                return e3 !== t5[r3];
-              })) : this.value !== t5[0];
-            } }, { key: "dragRange", get: function() {
-              var t5 = this.dots[this.focusDotIndex - 1], e3 = this.dots[this.focusDotIndex + 1];
-              return [t5 ? t5.pos : -1 / 0, e3 ? e3.pos : 1 / 0];
-            } }]), r2;
-          })(c.a);
-          return u2([h("change", { default: 0 })], t3.prototype, "value", void 0), u2([p({ type: Boolean, default: false })], t3.prototype, "silent", void 0), u2([p({ default: "ltr", validator: function(t4) {
-            return ["ltr", "rtl", "ttb", "btt"].indexOf(t4) > -1;
-          } })], t3.prototype, "direction", void 0), u2([p({ type: [Number, String] })], t3.prototype, "width", void 0), u2([p({ type: [Number, String] })], t3.prototype, "height", void 0), u2([p({ default: 14 })], t3.prototype, "dotSize", void 0), u2([p({ default: false })], t3.prototype, "contained", void 0), u2([p({ type: Number, default: 0 })], t3.prototype, "min", void 0), u2([p({ type: Number, default: 100 })], t3.prototype, "max", void 0), u2([p({ type: Number, default: 1 })], t3.prototype, "interval", void 0), u2([p({ type: Boolean, default: false })], t3.prototype, "disabled", void 0), u2([p({ type: Boolean, default: true })], t3.prototype, "clickable", void 0), u2([p({ type: Boolean, default: false })], t3.prototype, "dragOnClick", void 0), u2([p({ type: Number, default: 0.5 })], t3.prototype, "duration", void 0), u2([p({ type: [Object, Array] })], t3.prototype, "data", void 0), u2([p({ type: String, default: "value" })], t3.prototype, "dataValue", void 0), u2([p({ type: String, default: "label" })], t3.prototype, "dataLabel", void 0), u2([p({ type: Boolean, default: false })], t3.prototype, "lazy", void 0), u2([p({ type: String, validator: function(t4) {
-            return ["none", "always", "focus", "hover", "active"].indexOf(t4) > -1;
-          }, default: "active" })], t3.prototype, "tooltip", void 0), u2([p({ type: [String, Array], validator: function(t4) {
-            return (Array.isArray(t4) ? t4 : [t4]).every((function(t5) {
-              return ["top", "right", "bottom", "left"].indexOf(t5) > -1;
-            }));
-          } })], t3.prototype, "tooltipPlacement", void 0), u2([p({ type: [String, Array, Function] })], t3.prototype, "tooltipFormatter", void 0), u2([p({ type: Boolean, default: true })], t3.prototype, "useKeyboard", void 0), u2([p(Function)], t3.prototype, "keydownHook", void 0), u2([p({ type: Boolean, default: true })], t3.prototype, "enableCross", void 0), u2([p({ type: Boolean, default: false })], t3.prototype, "fixed", void 0), u2([p({ type: Boolean, default: true })], t3.prototype, "order", void 0), u2([p(Number)], t3.prototype, "minRange", void 0), u2([p(Number)], t3.prototype, "maxRange", void 0), u2([p({ type: [Boolean, Object, Array, Function], default: false })], t3.prototype, "marks", void 0), u2([p({ type: [Boolean, Function], default: true })], t3.prototype, "process", void 0), u2([p({ type: [Number] })], t3.prototype, "zoom", void 0), u2([p(Boolean)], t3.prototype, "included", void 0), u2([p(Boolean)], t3.prototype, "adsorb", void 0), u2([p(Boolean)], t3.prototype, "hideLabel", void 0), u2([p()], t3.prototype, "dotOptions", void 0), u2([p()], t3.prototype, "dotAttrs", void 0), u2([p()], t3.prototype, "railStyle", void 0), u2([p()], t3.prototype, "processStyle", void 0), u2([p()], t3.prototype, "dotStyle", void 0), u2([p()], t3.prototype, "tooltipStyle", void 0), u2([p()], t3.prototype, "stepStyle", void 0), u2([p()], t3.prototype, "stepActiveStyle", void 0), u2([p()], t3.prototype, "labelStyle", void 0), u2([p()], t3.prototype, "labelActiveStyle", void 0), u2([y("value")], t3.prototype, "onValueChanged", null), t3 = u2([f()({ name: "VueSlider", data: function() {
-            return { control: null };
-          }, components: { VueSliderDot: j, VueSliderMark: U } })], t3), t3;
-        })(), qt = Xt;
-        qt.VueSliderMark = U, qt.VueSliderDot = j;
-        var Kt = qt;
-        e["default"] = Kt;
-      } })["default"];
-    }));
-  })(vueSliderComponent_umd_min$1);
-  return vueSliderComponent_umd_min$1.exports;
+const ColorInput = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__file", "ColorInput.vue"]]);
+const css = '.slider-target,.slider-target *{-webkit-touch-callout:none;-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing:border-box;touch-action:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.slider-target{position:relative}.slider-base,.slider-connects{height:100%;position:relative;width:100%;z-index:1}.slider-connects{overflow:hidden;z-index:0}.slider-connect,.slider-origin{height:100%;position:absolute;right:0;top:0;-ms-transform-origin:0 0;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform-style:preserve-3d;transform-style:flat;width:100%;will-change:transform;z-index:1}.slider-txt-dir-rtl.slider-horizontal .slider-origin{left:0;right:auto}.slider-vertical .slider-origin{top:-100%;width:0}.slider-horizontal .slider-origin{height:0}.slider-handle{-webkit-backface-visibility:hidden;backface-visibility:hidden;position:absolute}.slider-touch-area{height:100%;width:100%}.slider-state-tap .slider-connect,.slider-state-tap .slider-origin{transition:transform .3s}.slider-state-drag *{cursor:inherit!important}.slider-tooltip-drag .slider-tooltip,.slider-tooltip-focus .slider-tooltip{display:none!important}.slider-tooltip-drag .slider-active .slider-tooltip,.slider-tooltip-drag.slider-state-drag .slider-tooltip:not(.slider-tooltip-hidden),.slider-tooltip-focus.slider-focused .slider-tooltip:not(.slider-tooltip-hidden){display:block!important}.slider-horizontal{height:var(--slider-height,6px)}.slider-horizontal .slider-handle{height:var(--slider-handle-height,16px);right:calc(var(--slider-handle-width, 16px)/2*-1);top:calc((var(--slider-handle-height, 16px) - var(--slider-height, 6px))/2*-1 + -1px);width:var(--slider-handle-width,16px)}.slider-vertical{height:var(--slider-vertical-height,300px);width:var(--slider-height,6px)}.slider-vertical .slider-handle{bottom:calc(var(--slider-handle-width, 16px)/2*-1);height:var(--slider-handle-width,16px);right:calc((var(--slider-handle-height, 16px) - var(--slider-height, 6px))/2*-1 + -1px);width:var(--slider-handle-height,16px)}.slider-txt-dir-rtl.slider-horizontal .slider-handle{left:calc(var(--slider-handle-width, 16px)/2*-1);right:auto}.slider-base{background-color:var(--slider-bg,#d1d5db)}.slider-base,.slider-connects{border-radius:var(--slider-radius,9999px)}.slider-connect{background:var(--slider-connect-bg,#10b981);cursor:pointer}.slider-draggable{cursor:ew-resize}.slider-vertical .slider-draggable{cursor:ns-resize}.slider-handle{background:var(--slider-handle-bg,#fff);border:var(--slider-handle-border,0);border-radius:var(--slider-handle-radius,9999px);box-shadow:var(--slider-handle-shadow,.5px .5px 2px 1px rgba(0,0,0,.32));cursor:-webkit-grab;cursor:grab;height:var(--slider-handle-height,16px);width:var(--slider-handle-width,16px)}.slider-handle:focus{box-shadow:0 0 0 var(--slider-handle-ring-width,3px) var(--slider-handle-ring-color,rgba(16,185,129,.188)),var(--slider-handle-shadow,.5px .5px 2px 1px rgba(0,0,0,.32));outline:none}.slider-active{box-shadow:var(--slider-handle-shadow-active,.5px .5px 2px 1px rgba(0,0,0,.42));cursor:-webkit-grabbing;cursor:grabbing}[disabled] .slider-connect{background:var(--slider-connect-bg-disabled,#9ca3af)}[disabled] .slider-handle,[disabled].slider-handle,[disabled].slider-target{cursor:not-allowed}[disabled] .slider-tooltip{background:var(--slider-tooltip-bg-disabled,#9ca3af);border-color:var(--slider-tooltip-bg-disabled,#9ca3af)}.slider-tooltip{background:var(--slider-tooltip-bg,#10b981);border:1px solid var(--slider-tooltip-bg,#10b981);border-radius:var(--slider-tooltip-radius,5px);color:var(--slider-tooltip-color,#fff);display:block;font-size:var(--slider-tooltip-font-size,.875rem);font-weight:var(--slider-tooltip-font-weight,600);line-height:var(--slider-tooltip-line-height,1.25rem);min-width:var(--slider-tooltip-min-width,20px);padding:var(--slider-tooltip-py,2px) var(--slider-tooltip-px,6px);position:absolute;text-align:center;white-space:nowrap}.slider-horizontal .slider-tooltip-top{bottom:calc(var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) + var(--slider-tooltip-distance, 3px));left:50%;transform:translate(-50%)}.slider-horizontal .slider-tooltip-top:before{border:var(--slider-tooltip-arrow-size,5px) solid transparent;border-top-color:inherit;bottom:calc(var(--slider-tooltip-arrow-size, 5px)*-2);content:"";height:0;left:50%;position:absolute;transform:translate(-50%);width:0}.slider-horizontal .slider-tooltip-bottom{left:50%;top:calc(var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) + var(--slider-tooltip-distance, 3px));transform:translate(-50%)}.slider-horizontal .slider-tooltip-bottom:before{border:var(--slider-tooltip-arrow-size,5px) solid transparent;border-bottom-color:inherit;content:"";height:0;left:50%;position:absolute;top:calc(var(--slider-tooltip-arrow-size, 5px)*-2);transform:translate(-50%);width:0}.slider-vertical .slider-tooltip-left{right:calc(var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) + var(--slider-tooltip-distance, 3px));top:50%;transform:translateY(-50%)}.slider-vertical .slider-tooltip-left:before{border:var(--slider-tooltip-arrow-size,5px) solid transparent;border-left-color:inherit;content:"";height:0;position:absolute;right:calc(var(--slider-tooltip-arrow-size, 5px)*-2);top:50%;transform:translateY(-50%);width:0}.slider-vertical .slider-tooltip-right{left:calc(var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) + var(--slider-tooltip-distance, 3px));top:50%;transform:translateY(-50%)}.slider-vertical .slider-tooltip-right:before{border:var(--slider-tooltip-arrow-size,5px) solid transparent;border-right-color:inherit;content:"";height:0;left:calc(var(--slider-tooltip-arrow-size, 5px)*-2);position:absolute;top:50%;transform:translateY(-50%);width:0}.slider-horizontal .slider-origin>.slider-tooltip{left:auto;transform:translate(50%)}.slider-horizontal .slider-origin>.slider-tooltip-top{bottom:calc(var(--slider-tooltip-arrow-size, 5px) + (var(--slider-handle-height, 16px) - var(--slider-height, 6px))/2 + var(--slider-tooltip-distance, 3px) + 1px)}.slider-horizontal .slider-origin>.slider-tooltip-bottom{top:calc(var(--slider-tooltip-arrow-size, 5px) + (var(--slider-handle-height, 16px) - var(--slider-height, 6px))/2 + var(--slider-tooltip-distance, 3px) + var(--slider-height, 6px) - 1px)}.slider-vertical .slider-origin>.slider-tooltip{top:auto;transform:translateY(calc((var(--slider-tooltip-line-height, 1.25rem) - var(--slider-tooltip-py, 2px))*-1 + 1px))}.slider-vertical .slider-origin>.slider-tooltip-left{right:calc(var(--slider-tooltip-arrow-size, 5px) + var(--slider-height, 6px) + (var(--slider-handle-height, 16px) - var(--slider-height, 6px))/2 + var(--slider-tooltip-distance, 3px) - 1px)}.slider-vertical .slider-origin>.slider-tooltip-right{left:calc(var(--slider-tooltip-arrow-size, 5px) + var(--slider-height, 6px) + (var(--slider-handle-height, 16px) - var(--slider-height, 6px))/2 + var(--slider-tooltip-distance, 3px) - var(--slider-height, 6px) + 1px)}';
+function u$2(e) {
+  return -1 !== [null, void 0, false].indexOf(e);
 }
-var vueSliderComponent_umd_minExports = requireVueSliderComponent_umd_min();
-const VueSlider = /* @__PURE__ */ getDefaultExportFromCjs(vueSliderComponent_umd_minExports);
-const _sfc_main$a = /* @__PURE__ */ defineComponent({
+function c(e) {
+  return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
+}
+function p(e) {
+  var t = { exports: {} };
+  return e(t, t.exports), t.exports;
+}
+var d = p((function(e, t) {
+  e.exports = /* @__PURE__ */ (function() {
+    var e2 = ["decimals", "thousand", "mark", "prefix", "suffix", "encoder", "decoder", "negativeBefore", "negative", "edit", "undo"];
+    function t2(e3) {
+      return e3.split("").reverse().join("");
+    }
+    function r(e3, t3) {
+      return e3.substring(0, t3.length) === t3;
+    }
+    function i(e3, t3) {
+      return e3.slice(-1 * t3.length) === t3;
+    }
+    function n(e3, t3, r2) {
+      if ((e3[t3] || e3[r2]) && e3[t3] === e3[r2]) throw new Error(t3);
+    }
+    function o(e3) {
+      return "number" == typeof e3 && isFinite(e3);
+    }
+    function a(e3, t3) {
+      return e3 = e3.toString().split("e"), (+((e3 = (e3 = Math.round(+(e3[0] + "e" + (e3[1] ? +e3[1] + t3 : t3)))).toString().split("e"))[0] + "e" + (e3[1] ? +e3[1] - t3 : -t3))).toFixed(t3);
+    }
+    function s(e3, r2, i2, n2, s2, l2, u3, c3, p3, d2, f2, h2) {
+      var m2, v, g, b = h2, y = "", S = "";
+      return l2 && (h2 = l2(h2)), !!o(h2) && (false !== e3 && 0 === parseFloat(h2.toFixed(e3)) && (h2 = 0), h2 < 0 && (m2 = true, h2 = Math.abs(h2)), false !== e3 && (h2 = a(h2, e3)), -1 !== (h2 = h2.toString()).indexOf(".") ? (g = (v = h2.split("."))[0], i2 && (y = i2 + v[1])) : g = h2, r2 && (g = t2(g).match(/.{1,3}/g), g = t2(g.join(t2(r2)))), m2 && c3 && (S += c3), n2 && (S += n2), m2 && p3 && (S += p3), S += g, S += y, s2 && (S += s2), d2 && (S = d2(S, b)), S);
+    }
+    function l(e3, t3, n2, a2, s2, l2, u3, c3, p3, d2, f2, h2) {
+      var m2, v = "";
+      return f2 && (h2 = f2(h2)), !(!h2 || "string" != typeof h2) && (c3 && r(h2, c3) && (h2 = h2.replace(c3, ""), m2 = true), a2 && r(h2, a2) && (h2 = h2.replace(a2, "")), p3 && r(h2, p3) && (h2 = h2.replace(p3, ""), m2 = true), s2 && i(h2, s2) && (h2 = h2.slice(0, -1 * s2.length)), t3 && (h2 = h2.split(t3).join("")), n2 && (h2 = h2.replace(n2, ".")), m2 && (v += "-"), "" !== (v = (v += h2).replace(/[^0-9\.\-.]/g, "")) && (v = Number(v), u3 && (v = u3(v)), !!o(v) && v));
+    }
+    function u2(t3) {
+      var r2, i2, o2, a2 = {};
+      for (void 0 === t3.suffix && (t3.suffix = t3.postfix), r2 = 0; r2 < e2.length; r2 += 1) if (void 0 === (o2 = t3[i2 = e2[r2]])) "negative" !== i2 || a2.negativeBefore ? "mark" === i2 && "." !== a2.thousand ? a2[i2] = "." : a2[i2] = false : a2[i2] = "-";
+      else if ("decimals" === i2) {
+        if (!(o2 >= 0 && o2 < 8)) throw new Error(i2);
+        a2[i2] = o2;
+      } else if ("encoder" === i2 || "decoder" === i2 || "edit" === i2 || "undo" === i2) {
+        if ("function" != typeof o2) throw new Error(i2);
+        a2[i2] = o2;
+      } else {
+        if ("string" != typeof o2) throw new Error(i2);
+        a2[i2] = o2;
+      }
+      return n(a2, "mark", "thousand"), n(a2, "prefix", "negative"), n(a2, "prefix", "negativeBefore"), a2;
+    }
+    function c2(t3, r2, i2) {
+      var n2, o2 = [];
+      for (n2 = 0; n2 < e2.length; n2 += 1) o2.push(t3[e2[n2]]);
+      return o2.push(i2), r2.apply("", o2);
+    }
+    function p2(e3) {
+      if (!(this instanceof p2)) return new p2(e3);
+      "object" == typeof e3 && (e3 = u2(e3), this.to = function(t3) {
+        return c2(e3, s, t3);
+      }, this.from = function(t3) {
+        return c2(e3, l, t3);
+      });
+    }
+    return p2;
+  })();
+}));
+var f = c(p((function(e, t) {
+  !(function(e2) {
+    function t2(e3) {
+      return r(e3) && "function" == typeof e3.from;
+    }
+    function r(e3) {
+      return "object" == typeof e3 && "function" == typeof e3.to;
+    }
+    function i(e3) {
+      e3.parentElement.removeChild(e3);
+    }
+    function n(e3) {
+      return null != e3;
+    }
+    function o(e3) {
+      e3.preventDefault();
+    }
+    function a(e3) {
+      return e3.filter((function(e4) {
+        return !this[e4] && (this[e4] = true);
+      }), {});
+    }
+    function s(e3, t3) {
+      return Math.round(e3 / t3) * t3;
+    }
+    function l(e3, t3) {
+      var r2 = e3.getBoundingClientRect(), i2 = e3.ownerDocument, n2 = i2.documentElement, o2 = g(i2);
+      return /webkit.*Chrome.*Mobile/i.test(navigator.userAgent) && (o2.x = 0), t3 ? r2.top + o2.y - n2.clientTop : r2.left + o2.x - n2.clientLeft;
+    }
+    function u2(e3) {
+      return "number" == typeof e3 && !isNaN(e3) && isFinite(e3);
+    }
+    function c2(e3, t3, r2) {
+      r2 > 0 && (h2(e3, t3), setTimeout((function() {
+        m2(e3, t3);
+      }), r2));
+    }
+    function p2(e3) {
+      return Math.max(Math.min(e3, 100), 0);
+    }
+    function d2(e3) {
+      return Array.isArray(e3) ? e3 : [e3];
+    }
+    function f2(e3) {
+      var t3 = (e3 = String(e3)).split(".");
+      return t3.length > 1 ? t3[1].length : 0;
+    }
+    function h2(e3, t3) {
+      e3.classList && !/\s/.test(t3) ? e3.classList.add(t3) : e3.className += " " + t3;
+    }
+    function m2(e3, t3) {
+      e3.classList && !/\s/.test(t3) ? e3.classList.remove(t3) : e3.className = e3.className.replace(new RegExp("(^|\\b)" + t3.split(" ").join("|") + "(\\b|$)", "gi"), " ");
+    }
+    function v(e3, t3) {
+      return e3.classList ? e3.classList.contains(t3) : new RegExp("\\b" + t3 + "\\b").test(e3.className);
+    }
+    function g(e3) {
+      var t3 = void 0 !== window.pageXOffset, r2 = "CSS1Compat" === (e3.compatMode || "");
+      return { x: t3 ? window.pageXOffset : r2 ? e3.documentElement.scrollLeft : e3.body.scrollLeft, y: t3 ? window.pageYOffset : r2 ? e3.documentElement.scrollTop : e3.body.scrollTop };
+    }
+    function b() {
+      return window.navigator.pointerEnabled ? { start: "pointerdown", move: "pointermove", end: "pointerup" } : window.navigator.msPointerEnabled ? { start: "MSPointerDown", move: "MSPointerMove", end: "MSPointerUp" } : { start: "mousedown touchstart", move: "mousemove touchmove", end: "mouseup touchend" };
+    }
+    function y() {
+      var e3 = false;
+      try {
+        var t3 = Object.defineProperty({}, "passive", { get: function() {
+          e3 = true;
+        } });
+        window.addEventListener("test", null, t3);
+      } catch (e4) {
+      }
+      return e3;
+    }
+    function S() {
+      return window.CSS && CSS.supports && CSS.supports("touch-action", "none");
+    }
+    function x(e3, t3) {
+      return 100 / (t3 - e3);
+    }
+    function w(e3, t3, r2) {
+      return 100 * t3 / (e3[r2 + 1] - e3[r2]);
+    }
+    function E(e3, t3) {
+      return w(e3, e3[0] < 0 ? t3 + Math.abs(e3[0]) : t3 - e3[0], 0);
+    }
+    function P(e3, t3) {
+      return t3 * (e3[1] - e3[0]) / 100 + e3[0];
+    }
+    function N(e3, t3) {
+      for (var r2 = 1; e3 >= t3[r2]; ) r2 += 1;
+      return r2;
+    }
+    function C(e3, t3, r2) {
+      if (r2 >= e3.slice(-1)[0]) return 100;
+      var i2 = N(r2, e3), n2 = e3[i2 - 1], o2 = e3[i2], a2 = t3[i2 - 1], s2 = t3[i2];
+      return a2 + E([n2, o2], r2) / x(a2, s2);
+    }
+    function k(e3, t3, r2) {
+      if (r2 >= 100) return e3.slice(-1)[0];
+      var i2 = N(r2, t3), n2 = e3[i2 - 1], o2 = e3[i2], a2 = t3[i2 - 1];
+      return P([n2, o2], (r2 - a2) * x(a2, t3[i2]));
+    }
+    function V(e3, t3, r2, i2) {
+      if (100 === i2) return i2;
+      var n2 = N(i2, e3), o2 = e3[n2 - 1], a2 = e3[n2];
+      return r2 ? i2 - o2 > (a2 - o2) / 2 ? a2 : o2 : t3[n2 - 1] ? e3[n2 - 1] + s(i2 - e3[n2 - 1], t3[n2 - 1]) : i2;
+    }
+    var A, M;
+    e2.PipsMode = void 0, (M = e2.PipsMode || (e2.PipsMode = {})).Range = "range", M.Steps = "steps", M.Positions = "positions", M.Count = "count", M.Values = "values", e2.PipsType = void 0, (A = e2.PipsType || (e2.PipsType = {}))[A.None = -1] = "None", A[A.NoValue = 0] = "NoValue", A[A.LargeValue = 1] = "LargeValue", A[A.SmallValue = 2] = "SmallValue";
+    var L = (function() {
+      function e3(e4, t3, r2) {
+        var i2;
+        this.xPct = [], this.xVal = [], this.xSteps = [], this.xNumSteps = [], this.xHighestCompleteStep = [], this.xSteps = [r2 || false], this.xNumSteps = [false], this.snap = t3;
+        var n2 = [];
+        for (Object.keys(e4).forEach((function(t4) {
+          n2.push([d2(e4[t4]), t4]);
+        })), n2.sort((function(e5, t4) {
+          return e5[0][0] - t4[0][0];
+        })), i2 = 0; i2 < n2.length; i2++) this.handleEntryPoint(n2[i2][1], n2[i2][0]);
+        for (this.xNumSteps = this.xSteps.slice(0), i2 = 0; i2 < this.xNumSteps.length; i2++) this.handleStepPoint(i2, this.xNumSteps[i2]);
+      }
+      return e3.prototype.getDistance = function(e4) {
+        for (var t3 = [], r2 = 0; r2 < this.xNumSteps.length - 1; r2++) t3[r2] = w(this.xVal, e4, r2);
+        return t3;
+      }, e3.prototype.getAbsoluteDistance = function(e4, t3, r2) {
+        var i2, n2 = 0;
+        if (e4 < this.xPct[this.xPct.length - 1]) for (; e4 > this.xPct[n2 + 1]; ) n2++;
+        else e4 === this.xPct[this.xPct.length - 1] && (n2 = this.xPct.length - 2);
+        r2 || e4 !== this.xPct[n2 + 1] || n2++, null === t3 && (t3 = []);
+        var o2 = 1, a2 = t3[n2], s2 = 0, l2 = 0, u3 = 0, c3 = 0;
+        for (i2 = r2 ? (e4 - this.xPct[n2]) / (this.xPct[n2 + 1] - this.xPct[n2]) : (this.xPct[n2 + 1] - e4) / (this.xPct[n2 + 1] - this.xPct[n2]); a2 > 0; ) s2 = this.xPct[n2 + 1 + c3] - this.xPct[n2 + c3], t3[n2 + c3] * o2 + 100 - 100 * i2 > 100 ? (l2 = s2 * i2, o2 = (a2 - 100 * i2) / t3[n2 + c3], i2 = 1) : (l2 = t3[n2 + c3] * s2 / 100 * o2, o2 = 0), r2 ? (u3 -= l2, this.xPct.length + c3 >= 1 && c3--) : (u3 += l2, this.xPct.length - c3 >= 1 && c3++), a2 = t3[n2 + c3] * o2;
+        return e4 + u3;
+      }, e3.prototype.toStepping = function(e4) {
+        return e4 = C(this.xVal, this.xPct, e4);
+      }, e3.prototype.fromStepping = function(e4) {
+        return k(this.xVal, this.xPct, e4);
+      }, e3.prototype.getStep = function(e4) {
+        return e4 = V(this.xPct, this.xSteps, this.snap, e4);
+      }, e3.prototype.getDefaultStep = function(e4, t3, r2) {
+        var i2 = N(e4, this.xPct);
+        return (100 === e4 || t3 && e4 === this.xPct[i2 - 1]) && (i2 = Math.max(i2 - 1, 1)), (this.xVal[i2] - this.xVal[i2 - 1]) / r2;
+      }, e3.prototype.getNearbySteps = function(e4) {
+        var t3 = N(e4, this.xPct);
+        return { stepBefore: { startValue: this.xVal[t3 - 2], step: this.xNumSteps[t3 - 2], highestStep: this.xHighestCompleteStep[t3 - 2] }, thisStep: { startValue: this.xVal[t3 - 1], step: this.xNumSteps[t3 - 1], highestStep: this.xHighestCompleteStep[t3 - 1] }, stepAfter: { startValue: this.xVal[t3], step: this.xNumSteps[t3], highestStep: this.xHighestCompleteStep[t3] } };
+      }, e3.prototype.countStepDecimals = function() {
+        var e4 = this.xNumSteps.map(f2);
+        return Math.max.apply(null, e4);
+      }, e3.prototype.hasNoSize = function() {
+        return this.xVal[0] === this.xVal[this.xVal.length - 1];
+      }, e3.prototype.convert = function(e4) {
+        return this.getStep(this.toStepping(e4));
+      }, e3.prototype.handleEntryPoint = function(e4, t3) {
+        var r2;
+        if (!u2(r2 = "min" === e4 ? 0 : "max" === e4 ? 100 : parseFloat(e4)) || !u2(t3[0])) throw new Error("noUiSlider: 'range' value isn't numeric.");
+        this.xPct.push(r2), this.xVal.push(t3[0]);
+        var i2 = Number(t3[1]);
+        r2 ? this.xSteps.push(!isNaN(i2) && i2) : isNaN(i2) || (this.xSteps[0] = i2), this.xHighestCompleteStep.push(0);
+      }, e3.prototype.handleStepPoint = function(e4, t3) {
+        if (t3) if (this.xVal[e4] !== this.xVal[e4 + 1]) {
+          this.xSteps[e4] = w([this.xVal[e4], this.xVal[e4 + 1]], t3, 0) / x(this.xPct[e4], this.xPct[e4 + 1]);
+          var r2 = (this.xVal[e4 + 1] - this.xVal[e4]) / this.xNumSteps[e4], i2 = Math.ceil(Number(r2.toFixed(3)) - 1), n2 = this.xVal[e4] + this.xNumSteps[e4] * i2;
+          this.xHighestCompleteStep[e4] = n2;
+        } else this.xSteps[e4] = this.xHighestCompleteStep[e4] = this.xVal[e4];
+      }, e3;
+    })(), U = { to: function(e3) {
+      return void 0 === e3 ? "" : e3.toFixed(2);
+    }, from: Number }, O = { target: "target", base: "base", origin: "origin", handle: "handle", handleLower: "handle-lower", handleUpper: "handle-upper", touchArea: "touch-area", horizontal: "horizontal", vertical: "vertical", background: "background", connect: "connect", connects: "connects", ltr: "ltr", rtl: "rtl", textDirectionLtr: "txt-dir-ltr", textDirectionRtl: "txt-dir-rtl", draggable: "draggable", drag: "state-drag", tap: "state-tap", active: "active", tooltip: "tooltip", pips: "pips", pipsHorizontal: "pips-horizontal", pipsVertical: "pips-vertical", marker: "marker", markerHorizontal: "marker-horizontal", markerVertical: "marker-vertical", markerNormal: "marker-normal", markerLarge: "marker-large", markerSub: "marker-sub", value: "value", valueHorizontal: "value-horizontal", valueVertical: "value-vertical", valueNormal: "value-normal", valueLarge: "value-large", valueSub: "value-sub" }, D = { tooltips: ".__tooltips", aria: ".__aria" };
+    function j(e3, t3) {
+      if (!u2(t3)) throw new Error("noUiSlider: 'step' is not numeric.");
+      e3.singleStep = t3;
+    }
+    function F(e3, t3) {
+      if (!u2(t3)) throw new Error("noUiSlider: 'keyboardPageMultiplier' is not numeric.");
+      e3.keyboardPageMultiplier = t3;
+    }
+    function T(e3, t3) {
+      if (!u2(t3)) throw new Error("noUiSlider: 'keyboardMultiplier' is not numeric.");
+      e3.keyboardMultiplier = t3;
+    }
+    function z(e3, t3) {
+      if (!u2(t3)) throw new Error("noUiSlider: 'keyboardDefaultStep' is not numeric.");
+      e3.keyboardDefaultStep = t3;
+    }
+    function H(e3, t3) {
+      if ("object" != typeof t3 || Array.isArray(t3)) throw new Error("noUiSlider: 'range' is not an object.");
+      if (void 0 === t3.min || void 0 === t3.max) throw new Error("noUiSlider: Missing 'min' or 'max' in 'range'.");
+      e3.spectrum = new L(t3, e3.snap || false, e3.singleStep);
+    }
+    function q(e3, t3) {
+      if (t3 = d2(t3), !Array.isArray(t3) || !t3.length) throw new Error("noUiSlider: 'start' option is incorrect.");
+      e3.handles = t3.length, e3.start = t3;
+    }
+    function R(e3, t3) {
+      if ("boolean" != typeof t3) throw new Error("noUiSlider: 'snap' option must be a boolean.");
+      e3.snap = t3;
+    }
+    function B(e3, t3) {
+      if ("boolean" != typeof t3) throw new Error("noUiSlider: 'animate' option must be a boolean.");
+      e3.animate = t3;
+    }
+    function _(e3, t3) {
+      if ("number" != typeof t3) throw new Error("noUiSlider: 'animationDuration' option must be a number.");
+      e3.animationDuration = t3;
+    }
+    function $(e3, t3) {
+      var r2, i2 = [false];
+      if ("lower" === t3 ? t3 = [true, false] : "upper" === t3 && (t3 = [false, true]), true === t3 || false === t3) {
+        for (r2 = 1; r2 < e3.handles; r2++) i2.push(t3);
+        i2.push(false);
+      } else {
+        if (!Array.isArray(t3) || !t3.length || t3.length !== e3.handles + 1) throw new Error("noUiSlider: 'connect' option doesn't match handle count.");
+        i2 = t3;
+      }
+      e3.connect = i2;
+    }
+    function X(e3, t3) {
+      switch (t3) {
+        case "horizontal":
+          e3.ort = 0;
+          break;
+        case "vertical":
+          e3.ort = 1;
+          break;
+        default:
+          throw new Error("noUiSlider: 'orientation' option is invalid.");
+      }
+    }
+    function Y(e3, t3) {
+      if (!u2(t3)) throw new Error("noUiSlider: 'margin' option must be numeric.");
+      0 !== t3 && (e3.margin = e3.spectrum.getDistance(t3));
+    }
+    function I(e3, t3) {
+      if (!u2(t3)) throw new Error("noUiSlider: 'limit' option must be numeric.");
+      if (e3.limit = e3.spectrum.getDistance(t3), !e3.limit || e3.handles < 2) throw new Error("noUiSlider: 'limit' option is only supported on linear sliders with 2 or more handles.");
+    }
+    function W(e3, t3) {
+      var r2;
+      if (!u2(t3) && !Array.isArray(t3)) throw new Error("noUiSlider: 'padding' option must be numeric or array of exactly 2 numbers.");
+      if (Array.isArray(t3) && 2 !== t3.length && !u2(t3[0]) && !u2(t3[1])) throw new Error("noUiSlider: 'padding' option must be numeric or array of exactly 2 numbers.");
+      if (0 !== t3) {
+        for (Array.isArray(t3) || (t3 = [t3, t3]), e3.padding = [e3.spectrum.getDistance(t3[0]), e3.spectrum.getDistance(t3[1])], r2 = 0; r2 < e3.spectrum.xNumSteps.length - 1; r2++) if (e3.padding[0][r2] < 0 || e3.padding[1][r2] < 0) throw new Error("noUiSlider: 'padding' option must be a positive number(s).");
+        var i2 = t3[0] + t3[1], n2 = e3.spectrum.xVal[0];
+        if (i2 / (e3.spectrum.xVal[e3.spectrum.xVal.length - 1] - n2) > 1) throw new Error("noUiSlider: 'padding' option must not exceed 100% of the range.");
+      }
+    }
+    function G(e3, t3) {
+      switch (t3) {
+        case "ltr":
+          e3.dir = 0;
+          break;
+        case "rtl":
+          e3.dir = 1;
+          break;
+        default:
+          throw new Error("noUiSlider: 'direction' option was not recognized.");
+      }
+    }
+    function J(e3, t3) {
+      if ("string" != typeof t3) throw new Error("noUiSlider: 'behaviour' must be a string containing options.");
+      var r2 = t3.indexOf("tap") >= 0, i2 = t3.indexOf("drag") >= 0, n2 = t3.indexOf("fixed") >= 0, o2 = t3.indexOf("snap") >= 0, a2 = t3.indexOf("hover") >= 0, s2 = t3.indexOf("unconstrained") >= 0, l2 = t3.indexOf("drag-all") >= 0, u3 = t3.indexOf("smooth-steps") >= 0;
+      if (n2) {
+        if (2 !== e3.handles) throw new Error("noUiSlider: 'fixed' behaviour must be used with 2 handles");
+        Y(e3, e3.start[1] - e3.start[0]);
+      }
+      if (s2 && (e3.margin || e3.limit)) throw new Error("noUiSlider: 'unconstrained' behaviour cannot be used with margin or limit");
+      e3.events = { tap: r2 || o2, drag: i2, dragAll: l2, smoothSteps: u3, fixed: n2, snap: o2, hover: a2, unconstrained: s2 };
+    }
+    function K(e3, t3) {
+      if (false !== t3) if (true === t3 || r(t3)) {
+        e3.tooltips = [];
+        for (var i2 = 0; i2 < e3.handles; i2++) e3.tooltips.push(t3);
+      } else {
+        if ((t3 = d2(t3)).length !== e3.handles) throw new Error("noUiSlider: must pass a formatter for all handles.");
+        t3.forEach((function(e4) {
+          if ("boolean" != typeof e4 && !r(e4)) throw new Error("noUiSlider: 'tooltips' must be passed a formatter or 'false'.");
+        })), e3.tooltips = t3;
+      }
+    }
+    function Q(e3, t3) {
+      if (t3.length !== e3.handles) throw new Error("noUiSlider: must pass a attributes for all handles.");
+      e3.handleAttributes = t3;
+    }
+    function Z(e3, t3) {
+      if (!r(t3)) throw new Error("noUiSlider: 'ariaFormat' requires 'to' method.");
+      e3.ariaFormat = t3;
+    }
+    function ee(e3, r2) {
+      if (!t2(r2)) throw new Error("noUiSlider: 'format' requires 'to' and 'from' methods.");
+      e3.format = r2;
+    }
+    function te(e3, t3) {
+      if ("boolean" != typeof t3) throw new Error("noUiSlider: 'keyboardSupport' option must be a boolean.");
+      e3.keyboardSupport = t3;
+    }
+    function re(e3, t3) {
+      e3.documentElement = t3;
+    }
+    function ie(e3, t3) {
+      if ("string" != typeof t3 && false !== t3) throw new Error("noUiSlider: 'cssPrefix' must be a string or `false`.");
+      e3.cssPrefix = t3;
+    }
+    function ne(e3, t3) {
+      if ("object" != typeof t3) throw new Error("noUiSlider: 'cssClasses' must be an object.");
+      "string" == typeof e3.cssPrefix ? (e3.cssClasses = {}, Object.keys(t3).forEach((function(r2) {
+        e3.cssClasses[r2] = e3.cssPrefix + t3[r2];
+      }))) : e3.cssClasses = t3;
+    }
+    function oe(e3) {
+      var t3 = { margin: null, limit: null, padding: null, animate: true, animationDuration: 300, ariaFormat: U, format: U }, r2 = { step: { r: false, t: j }, keyboardPageMultiplier: { r: false, t: F }, keyboardMultiplier: { r: false, t: T }, keyboardDefaultStep: { r: false, t: z }, start: { r: true, t: q }, connect: { r: true, t: $ }, direction: { r: true, t: G }, snap: { r: false, t: R }, animate: { r: false, t: B }, animationDuration: { r: false, t: _ }, range: { r: true, t: H }, orientation: { r: false, t: X }, margin: { r: false, t: Y }, limit: { r: false, t: I }, padding: { r: false, t: W }, behaviour: { r: true, t: J }, ariaFormat: { r: false, t: Z }, format: { r: false, t: ee }, tooltips: { r: false, t: K }, keyboardSupport: { r: true, t: te }, documentElement: { r: false, t: re }, cssPrefix: { r: true, t: ie }, cssClasses: { r: true, t: ne }, handleAttributes: { r: false, t: Q } }, i2 = { connect: false, direction: "ltr", behaviour: "tap", orientation: "horizontal", keyboardSupport: true, cssPrefix: "noUi-", cssClasses: O, keyboardPageMultiplier: 5, keyboardMultiplier: 1, keyboardDefaultStep: 10 };
+      e3.format && !e3.ariaFormat && (e3.ariaFormat = e3.format), Object.keys(r2).forEach((function(o3) {
+        if (n(e3[o3]) || void 0 !== i2[o3]) r2[o3].t(t3, n(e3[o3]) ? e3[o3] : i2[o3]);
+        else if (r2[o3].r) throw new Error("noUiSlider: '" + o3 + "' is required.");
+      })), t3.pips = e3.pips;
+      var o2 = document.createElement("div"), a2 = void 0 !== o2.style.msTransform, s2 = void 0 !== o2.style.transform;
+      t3.transformRule = s2 ? "transform" : a2 ? "msTransform" : "webkitTransform";
+      var l2 = [["left", "top"], ["right", "bottom"]];
+      return t3.style = l2[t3.dir][t3.ort], t3;
+    }
+    function ae(t3, r2, s2) {
+      var u3, f3, x2, w2, E2, P2 = b(), N2 = S() && y(), C2 = t3, k2 = r2.spectrum, V2 = [], A2 = [], M2 = [], L2 = 0, U2 = {}, O2 = t3.ownerDocument, j2 = r2.documentElement || O2.documentElement, F2 = O2.body, T2 = "rtl" === O2.dir || 1 === r2.ort ? 0 : 100;
+      function z2(e3, t4) {
+        var r3 = O2.createElement("div");
+        return t4 && h2(r3, t4), e3.appendChild(r3), r3;
+      }
+      function H2(e3, t4) {
+        var i2 = z2(e3, r2.cssClasses.origin), n2 = z2(i2, r2.cssClasses.handle);
+        if (z2(n2, r2.cssClasses.touchArea), n2.setAttribute("data-handle", String(t4)), r2.keyboardSupport && (n2.setAttribute("tabindex", "0"), n2.addEventListener("keydown", (function(e4) {
+          return fe(e4, t4);
+        }))), void 0 !== r2.handleAttributes) {
+          var o2 = r2.handleAttributes[t4];
+          Object.keys(o2).forEach((function(e4) {
+            n2.setAttribute(e4, o2[e4]);
+          }));
+        }
+        return n2.setAttribute("role", "slider"), n2.setAttribute("aria-orientation", r2.ort ? "vertical" : "horizontal"), 0 === t4 ? h2(n2, r2.cssClasses.handleLower) : t4 === r2.handles - 1 && h2(n2, r2.cssClasses.handleUpper), i2;
+      }
+      function q2(e3, t4) {
+        return !!t4 && z2(e3, r2.cssClasses.connect);
+      }
+      function R2(e3, t4) {
+        var i2 = z2(t4, r2.cssClasses.connects);
+        f3 = [], (x2 = []).push(q2(i2, e3[0]));
+        for (var n2 = 0; n2 < r2.handles; n2++) f3.push(H2(t4, n2)), M2[n2] = n2, x2.push(q2(i2, e3[n2 + 1]));
+      }
+      function B2(e3) {
+        return h2(e3, r2.cssClasses.target), 0 === r2.dir ? h2(e3, r2.cssClasses.ltr) : h2(e3, r2.cssClasses.rtl), 0 === r2.ort ? h2(e3, r2.cssClasses.horizontal) : h2(e3, r2.cssClasses.vertical), h2(e3, "rtl" === getComputedStyle(e3).direction ? r2.cssClasses.textDirectionRtl : r2.cssClasses.textDirectionLtr), z2(e3, r2.cssClasses.base);
+      }
+      function _2(e3, t4) {
+        return !(!r2.tooltips || !r2.tooltips[t4]) && z2(e3.firstChild, r2.cssClasses.tooltip);
+      }
+      function $2() {
+        return C2.hasAttribute("disabled");
+      }
+      function X2(e3) {
+        return f3[e3].hasAttribute("disabled");
+      }
+      function Y2() {
+        E2 && (ge("update" + D.tooltips), E2.forEach((function(e3) {
+          e3 && i(e3);
+        })), E2 = null);
+      }
+      function I2() {
+        Y2(), E2 = f3.map(_2), me("update" + D.tooltips, (function(e3, t4, i2) {
+          if (E2 && r2.tooltips && false !== E2[t4]) {
+            var n2 = e3[t4];
+            true !== r2.tooltips[t4] && (n2 = r2.tooltips[t4].to(i2[t4])), E2[t4].innerHTML = n2;
+          }
+        }));
+      }
+      function W2() {
+        ge("update" + D.aria), me("update" + D.aria, (function(e3, t4, i2, n2, o2) {
+          M2.forEach((function(e4) {
+            var t5 = f3[e4], n3 = ye(A2, e4, 0, true, true, true), a2 = ye(A2, e4, 100, true, true, true), s3 = o2[e4], l2 = String(r2.ariaFormat.to(i2[e4]));
+            n3 = k2.fromStepping(n3).toFixed(1), a2 = k2.fromStepping(a2).toFixed(1), s3 = k2.fromStepping(s3).toFixed(1), t5.children[0].setAttribute("aria-valuemin", n3), t5.children[0].setAttribute("aria-valuemax", a2), t5.children[0].setAttribute("aria-valuenow", s3), t5.children[0].setAttribute("aria-valuetext", l2);
+          }));
+        }));
+      }
+      function G2(t4) {
+        if (t4.mode === e2.PipsMode.Range || t4.mode === e2.PipsMode.Steps) return k2.xVal;
+        if (t4.mode === e2.PipsMode.Count) {
+          if (t4.values < 2) throw new Error("noUiSlider: 'values' (>= 2) required for mode 'count'.");
+          for (var r3 = t4.values - 1, i2 = 100 / r3, n2 = []; r3--; ) n2[r3] = r3 * i2;
+          return n2.push(100), J2(n2, t4.stepped);
+        }
+        return t4.mode === e2.PipsMode.Positions ? J2(t4.values, t4.stepped) : t4.mode === e2.PipsMode.Values ? t4.stepped ? t4.values.map((function(e3) {
+          return k2.fromStepping(k2.getStep(k2.toStepping(e3)));
+        })) : t4.values : [];
+      }
+      function J2(e3, t4) {
+        return e3.map((function(e4) {
+          return k2.fromStepping(t4 ? k2.getStep(e4) : e4);
+        }));
+      }
+      function K2(t4) {
+        function r3(e3, t5) {
+          return Number((e3 + t5).toFixed(7));
+        }
+        var i2 = G2(t4), n2 = {}, o2 = k2.xVal[0], s3 = k2.xVal[k2.xVal.length - 1], l2 = false, u4 = false, c3 = 0;
+        return (i2 = a(i2.slice().sort((function(e3, t5) {
+          return e3 - t5;
+        }))))[0] !== o2 && (i2.unshift(o2), l2 = true), i2[i2.length - 1] !== s3 && (i2.push(s3), u4 = true), i2.forEach((function(o3, a2) {
+          var s4, p3, d3, f4, h3, m3, v2, g2, b2, y2, S2 = o3, x3 = i2[a2 + 1], w3 = t4.mode === e2.PipsMode.Steps;
+          for (w3 && (s4 = k2.xNumSteps[a2]), s4 || (s4 = x3 - S2), void 0 === x3 && (x3 = S2), s4 = Math.max(s4, 1e-7), p3 = S2; p3 <= x3; p3 = r3(p3, s4)) {
+            for (g2 = (h3 = (f4 = k2.toStepping(p3)) - c3) / (t4.density || 1), y2 = h3 / (b2 = Math.round(g2)), d3 = 1; d3 <= b2; d3 += 1) n2[(m3 = c3 + d3 * y2).toFixed(5)] = [k2.fromStepping(m3), 0];
+            v2 = i2.indexOf(p3) > -1 ? e2.PipsType.LargeValue : w3 ? e2.PipsType.SmallValue : e2.PipsType.NoValue, !a2 && l2 && p3 !== x3 && (v2 = 0), p3 === x3 && u4 || (n2[f4.toFixed(5)] = [p3, v2]), c3 = f4;
+          }
+        })), n2;
+      }
+      function Q2(t4, i2, n2) {
+        var o2, a2, s3 = O2.createElement("div"), l2 = ((o2 = {})[e2.PipsType.None] = "", o2[e2.PipsType.NoValue] = r2.cssClasses.valueNormal, o2[e2.PipsType.LargeValue] = r2.cssClasses.valueLarge, o2[e2.PipsType.SmallValue] = r2.cssClasses.valueSub, o2), u4 = ((a2 = {})[e2.PipsType.None] = "", a2[e2.PipsType.NoValue] = r2.cssClasses.markerNormal, a2[e2.PipsType.LargeValue] = r2.cssClasses.markerLarge, a2[e2.PipsType.SmallValue] = r2.cssClasses.markerSub, a2), c3 = [r2.cssClasses.valueHorizontal, r2.cssClasses.valueVertical], p3 = [r2.cssClasses.markerHorizontal, r2.cssClasses.markerVertical];
+        function d3(e3, t5) {
+          var i3 = t5 === r2.cssClasses.value, n3 = i3 ? l2 : u4;
+          return t5 + " " + (i3 ? c3 : p3)[r2.ort] + " " + n3[e3];
+        }
+        function f4(t5, o3, a3) {
+          if ((a3 = i2 ? i2(o3, a3) : a3) !== e2.PipsType.None) {
+            var l3 = z2(s3, false);
+            l3.className = d3(a3, r2.cssClasses.marker), l3.style[r2.style] = t5 + "%", a3 > e2.PipsType.NoValue && ((l3 = z2(s3, false)).className = d3(a3, r2.cssClasses.value), l3.setAttribute("data-value", String(o3)), l3.style[r2.style] = t5 + "%", l3.innerHTML = String(n2.to(o3)));
+          }
+        }
+        return h2(s3, r2.cssClasses.pips), h2(s3, 0 === r2.ort ? r2.cssClasses.pipsHorizontal : r2.cssClasses.pipsVertical), Object.keys(t4).forEach((function(e3) {
+          f4(e3, t4[e3][0], t4[e3][1]);
+        })), s3;
+      }
+      function Z2() {
+        w2 && (i(w2), w2 = null);
+      }
+      function ee2(e3) {
+        Z2();
+        var t4 = K2(e3), r3 = e3.filter, i2 = e3.format || { to: function(e4) {
+          return String(Math.round(e4));
+        } };
+        return w2 = C2.appendChild(Q2(t4, r3, i2));
+      }
+      function te2() {
+        var e3 = u3.getBoundingClientRect(), t4 = "offset" + ["Width", "Height"][r2.ort];
+        return 0 === r2.ort ? e3.width || u3[t4] : e3.height || u3[t4];
+      }
+      function re2(e3, t4, i2, n2) {
+        var o2 = function(o3) {
+          var a3 = ie2(o3, n2.pageOffset, n2.target || t4);
+          return !!a3 && !($2() && !n2.doNotReject) && !(v(C2, r2.cssClasses.tap) && !n2.doNotReject) && !(e3 === P2.start && void 0 !== a3.buttons && a3.buttons > 1) && (!n2.hover || !a3.buttons) && (N2 || a3.preventDefault(), a3.calcPoint = a3.points[r2.ort], void i2(a3, n2));
+        }, a2 = [];
+        return e3.split(" ").forEach((function(e4) {
+          t4.addEventListener(e4, o2, !!N2 && { passive: true }), a2.push([e4, o2]);
+        })), a2;
+      }
+      function ie2(e3, t4, r3) {
+        var i2 = 0 === e3.type.indexOf("touch"), n2 = 0 === e3.type.indexOf("mouse"), o2 = 0 === e3.type.indexOf("pointer"), a2 = 0, s3 = 0;
+        if (0 === e3.type.indexOf("MSPointer") && (o2 = true), "mousedown" === e3.type && !e3.buttons && !e3.touches) return false;
+        if (i2) {
+          var l2 = function(t5) {
+            var i3 = t5.target;
+            return i3 === r3 || r3.contains(i3) || e3.composed && e3.composedPath().shift() === r3;
+          };
+          if ("touchstart" === e3.type) {
+            var u4 = Array.prototype.filter.call(e3.touches, l2);
+            if (u4.length > 1) return false;
+            a2 = u4[0].pageX, s3 = u4[0].pageY;
+          } else {
+            var c3 = Array.prototype.find.call(e3.changedTouches, l2);
+            if (!c3) return false;
+            a2 = c3.pageX, s3 = c3.pageY;
+          }
+        }
+        return t4 = t4 || g(O2), (n2 || o2) && (a2 = e3.clientX + t4.x, s3 = e3.clientY + t4.y), e3.pageOffset = t4, e3.points = [a2, s3], e3.cursor = n2 || o2, e3;
+      }
+      function ne2(e3) {
+        var t4 = 100 * (e3 - l(u3, r2.ort)) / te2();
+        return t4 = p2(t4), r2.dir ? 100 - t4 : t4;
+      }
+      function ae2(e3) {
+        var t4 = 100, r3 = false;
+        return f3.forEach((function(i2, n2) {
+          if (!X2(n2)) {
+            var o2 = A2[n2], a2 = Math.abs(o2 - e3);
+            (a2 < t4 || a2 <= t4 && e3 > o2 || 100 === a2 && 100 === t4) && (r3 = n2, t4 = a2);
+          }
+        })), r3;
+      }
+      function se2(e3, t4) {
+        "mouseout" === e3.type && "HTML" === e3.target.nodeName && null === e3.relatedTarget && ue(e3, t4);
+      }
+      function le2(e3, t4) {
+        if (-1 === navigator.appVersion.indexOf("MSIE 9") && 0 === e3.buttons && 0 !== t4.buttonsProperty) return ue(e3, t4);
+        var i2 = (r2.dir ? -1 : 1) * (e3.calcPoint - t4.startCalcPoint);
+        xe(i2 > 0, 100 * i2 / t4.baseSize, t4.locations, t4.handleNumbers, t4.connect);
+      }
+      function ue(e3, t4) {
+        t4.handle && (m2(t4.handle, r2.cssClasses.active), L2 -= 1), t4.listeners.forEach((function(e4) {
+          j2.removeEventListener(e4[0], e4[1]);
+        })), 0 === L2 && (m2(C2, r2.cssClasses.drag), Pe(), e3.cursor && (F2.style.cursor = "", F2.removeEventListener("selectstart", o))), r2.events.smoothSteps && (t4.handleNumbers.forEach((function(e4) {
+          Ne(e4, A2[e4], true, true, false, false);
+        })), t4.handleNumbers.forEach((function(e4) {
+          be("update", e4);
+        }))), t4.handleNumbers.forEach((function(e4) {
+          be("change", e4), be("set", e4), be("end", e4);
+        }));
+      }
+      function ce(e3, t4) {
+        if (!t4.handleNumbers.some(X2)) {
+          var i2;
+          1 === t4.handleNumbers.length && (i2 = f3[t4.handleNumbers[0]].children[0], L2 += 1, h2(i2, r2.cssClasses.active)), e3.stopPropagation();
+          var n2 = [], a2 = re2(P2.move, j2, le2, { target: e3.target, handle: i2, connect: t4.connect, listeners: n2, startCalcPoint: e3.calcPoint, baseSize: te2(), pageOffset: e3.pageOffset, handleNumbers: t4.handleNumbers, buttonsProperty: e3.buttons, locations: A2.slice() }), s3 = re2(P2.end, j2, ue, { target: e3.target, handle: i2, listeners: n2, doNotReject: true, handleNumbers: t4.handleNumbers }), l2 = re2("mouseout", j2, se2, { target: e3.target, handle: i2, listeners: n2, doNotReject: true, handleNumbers: t4.handleNumbers });
+          n2.push.apply(n2, a2.concat(s3, l2)), e3.cursor && (F2.style.cursor = getComputedStyle(e3.target).cursor, f3.length > 1 && h2(C2, r2.cssClasses.drag), F2.addEventListener("selectstart", o, false)), t4.handleNumbers.forEach((function(e4) {
+            be("start", e4);
+          }));
+        }
+      }
+      function pe(e3) {
+        e3.stopPropagation();
+        var t4 = ne2(e3.calcPoint), i2 = ae2(t4);
+        false !== i2 && (r2.events.snap || c2(C2, r2.cssClasses.tap, r2.animationDuration), Ne(i2, t4, true, true), Pe(), be("slide", i2, true), be("update", i2, true), r2.events.snap ? ce(e3, { handleNumbers: [i2] }) : (be("change", i2, true), be("set", i2, true)));
+      }
+      function de(e3) {
+        var t4 = ne2(e3.calcPoint), r3 = k2.getStep(t4), i2 = k2.fromStepping(r3);
+        Object.keys(U2).forEach((function(e4) {
+          "hover" === e4.split(".")[0] && U2[e4].forEach((function(e5) {
+            e5.call(Te, i2);
+          }));
+        }));
+      }
+      function fe(e3, t4) {
+        if ($2() || X2(t4)) return false;
+        var i2 = ["Left", "Right"], n2 = ["Down", "Up"], o2 = ["PageDown", "PageUp"], a2 = ["Home", "End"];
+        r2.dir && !r2.ort ? i2.reverse() : r2.ort && !r2.dir && (n2.reverse(), o2.reverse());
+        var s3, l2 = e3.key.replace("Arrow", ""), u4 = l2 === o2[0], c3 = l2 === o2[1], p3 = l2 === n2[0] || l2 === i2[0] || u4, d3 = l2 === n2[1] || l2 === i2[1] || c3, f4 = l2 === a2[0], h3 = l2 === a2[1];
+        if (!(p3 || d3 || f4 || h3)) return true;
+        if (e3.preventDefault(), d3 || p3) {
+          var m3 = p3 ? 0 : 1, v2 = Oe(t4)[m3];
+          if (null === v2) return false;
+          false === v2 && (v2 = k2.getDefaultStep(A2[t4], p3, r2.keyboardDefaultStep)), v2 *= c3 || u4 ? r2.keyboardPageMultiplier : r2.keyboardMultiplier, v2 = Math.max(v2, 1e-7), v2 *= p3 ? -1 : 1, s3 = V2[t4] + v2;
+        } else s3 = h3 ? r2.spectrum.xVal[r2.spectrum.xVal.length - 1] : r2.spectrum.xVal[0];
+        return Ne(t4, k2.toStepping(s3), true, true), be("slide", t4), be("update", t4), be("change", t4), be("set", t4), false;
+      }
+      function he(e3) {
+        e3.fixed || f3.forEach((function(e4, t4) {
+          re2(P2.start, e4.children[0], ce, { handleNumbers: [t4] });
+        })), e3.tap && re2(P2.start, u3, pe, {}), e3.hover && re2(P2.move, u3, de, { hover: true }), e3.drag && x2.forEach((function(t4, i2) {
+          if (false !== t4 && 0 !== i2 && i2 !== x2.length - 1) {
+            var n2 = f3[i2 - 1], o2 = f3[i2], a2 = [t4], s3 = [n2, o2], l2 = [i2 - 1, i2];
+            h2(t4, r2.cssClasses.draggable), e3.fixed && (a2.push(n2.children[0]), a2.push(o2.children[0])), e3.dragAll && (s3 = f3, l2 = M2), a2.forEach((function(e4) {
+              re2(P2.start, e4, ce, { handles: s3, handleNumbers: l2, connect: t4 });
+            }));
+          }
+        }));
+      }
+      function me(e3, t4) {
+        U2[e3] = U2[e3] || [], U2[e3].push(t4), "update" === e3.split(".")[0] && f3.forEach((function(e4, t5) {
+          be("update", t5);
+        }));
+      }
+      function ve(e3) {
+        return e3 === D.aria || e3 === D.tooltips;
+      }
+      function ge(e3) {
+        var t4 = e3 && e3.split(".")[0], r3 = t4 ? e3.substring(t4.length) : e3;
+        Object.keys(U2).forEach((function(e4) {
+          var i2 = e4.split(".")[0], n2 = e4.substring(i2.length);
+          t4 && t4 !== i2 || r3 && r3 !== n2 || ve(n2) && r3 !== n2 || delete U2[e4];
+        }));
+      }
+      function be(e3, t4, i2) {
+        Object.keys(U2).forEach((function(n2) {
+          var o2 = n2.split(".")[0];
+          e3 === o2 && U2[n2].forEach((function(e4) {
+            e4.call(Te, V2.map(r2.format.to), t4, V2.slice(), i2 || false, A2.slice(), Te);
+          }));
+        }));
+      }
+      function ye(e3, t4, i2, n2, o2, a2, s3) {
+        var l2;
+        return f3.length > 1 && !r2.events.unconstrained && (n2 && t4 > 0 && (l2 = k2.getAbsoluteDistance(e3[t4 - 1], r2.margin, false), i2 = Math.max(i2, l2)), o2 && t4 < f3.length - 1 && (l2 = k2.getAbsoluteDistance(e3[t4 + 1], r2.margin, true), i2 = Math.min(i2, l2))), f3.length > 1 && r2.limit && (n2 && t4 > 0 && (l2 = k2.getAbsoluteDistance(e3[t4 - 1], r2.limit, false), i2 = Math.min(i2, l2)), o2 && t4 < f3.length - 1 && (l2 = k2.getAbsoluteDistance(e3[t4 + 1], r2.limit, true), i2 = Math.max(i2, l2))), r2.padding && (0 === t4 && (l2 = k2.getAbsoluteDistance(0, r2.padding[0], false), i2 = Math.max(i2, l2)), t4 === f3.length - 1 && (l2 = k2.getAbsoluteDistance(100, r2.padding[1], true), i2 = Math.min(i2, l2))), s3 || (i2 = k2.getStep(i2)), !((i2 = p2(i2)) === e3[t4] && !a2) && i2;
+      }
+      function Se(e3, t4) {
+        var i2 = r2.ort;
+        return (i2 ? t4 : e3) + ", " + (i2 ? e3 : t4);
+      }
+      function xe(e3, t4, i2, n2, o2) {
+        var a2 = i2.slice(), s3 = n2[0], l2 = r2.events.smoothSteps, u4 = [!e3, e3], c3 = [e3, !e3];
+        n2 = n2.slice(), e3 && n2.reverse(), n2.length > 1 ? n2.forEach((function(e4, r3) {
+          var i3 = ye(a2, e4, a2[e4] + t4, u4[r3], c3[r3], false, l2);
+          false === i3 ? t4 = 0 : (t4 = i3 - a2[e4], a2[e4] = i3);
+        })) : u4 = c3 = [true];
+        var p3 = false;
+        n2.forEach((function(e4, r3) {
+          p3 = Ne(e4, i2[e4] + t4, u4[r3], c3[r3], false, l2) || p3;
+        })), p3 && (n2.forEach((function(e4) {
+          be("update", e4), be("slide", e4);
+        })), null != o2 && be("drag", s3));
+      }
+      function we(e3, t4) {
+        return r2.dir ? 100 - e3 - t4 : e3;
+      }
+      function Ee(e3, t4) {
+        A2[e3] = t4, V2[e3] = k2.fromStepping(t4);
+        var i2 = "translate(" + Se(we(t4, 0) - T2 + "%", "0") + ")";
+        f3[e3].style[r2.transformRule] = i2, Ce(e3), Ce(e3 + 1);
+      }
+      function Pe() {
+        M2.forEach((function(e3) {
+          var t4 = A2[e3] > 50 ? -1 : 1, r3 = 3 + (f3.length + t4 * e3);
+          f3[e3].style.zIndex = String(r3);
+        }));
+      }
+      function Ne(e3, t4, r3, i2, n2, o2) {
+        return n2 || (t4 = ye(A2, e3, t4, r3, i2, false, o2)), false !== t4 && (Ee(e3, t4), true);
+      }
+      function Ce(e3) {
+        if (x2[e3]) {
+          var t4 = 0, i2 = 100;
+          0 !== e3 && (t4 = A2[e3 - 1]), e3 !== x2.length - 1 && (i2 = A2[e3]);
+          var n2 = i2 - t4, o2 = "translate(" + Se(we(t4, n2) + "%", "0") + ")", a2 = "scale(" + Se(n2 / 100, "1") + ")";
+          x2[e3].style[r2.transformRule] = o2 + " " + a2;
+        }
+      }
+      function ke(e3, t4) {
+        return null === e3 || false === e3 || void 0 === e3 ? A2[t4] : ("number" == typeof e3 && (e3 = String(e3)), false !== (e3 = r2.format.from(e3)) && (e3 = k2.toStepping(e3)), false === e3 || isNaN(e3) ? A2[t4] : e3);
+      }
+      function Ve(e3, t4, i2) {
+        var n2 = d2(e3), o2 = void 0 === A2[0];
+        t4 = void 0 === t4 || t4, r2.animate && !o2 && c2(C2, r2.cssClasses.tap, r2.animationDuration), M2.forEach((function(e4) {
+          Ne(e4, ke(n2[e4], e4), true, false, i2);
+        }));
+        var a2 = 1 === M2.length ? 0 : 1;
+        if (o2 && k2.hasNoSize() && (i2 = true, A2[0] = 0, M2.length > 1)) {
+          var s3 = 100 / (M2.length - 1);
+          M2.forEach((function(e4) {
+            A2[e4] = e4 * s3;
+          }));
+        }
+        for (; a2 < M2.length; ++a2) M2.forEach((function(e4) {
+          Ne(e4, A2[e4], true, true, i2);
+        }));
+        Pe(), M2.forEach((function(e4) {
+          be("update", e4), null !== n2[e4] && t4 && be("set", e4);
+        }));
+      }
+      function Ae(e3) {
+        Ve(r2.start, e3);
+      }
+      function Me(e3, t4, r3, i2) {
+        if (!((e3 = Number(e3)) >= 0 && e3 < M2.length)) throw new Error("noUiSlider: invalid handle number, got: " + e3);
+        Ne(e3, ke(t4, e3), true, true, i2), be("update", e3), r3 && be("set", e3);
+      }
+      function Le(e3) {
+        if (void 0 === e3 && (e3 = false), e3) return 1 === V2.length ? V2[0] : V2.slice(0);
+        var t4 = V2.map(r2.format.to);
+        return 1 === t4.length ? t4[0] : t4;
+      }
+      function Ue() {
+        for (ge(D.aria), ge(D.tooltips), Object.keys(r2.cssClasses).forEach((function(e3) {
+          m2(C2, r2.cssClasses[e3]);
+        })); C2.firstChild; ) C2.removeChild(C2.firstChild);
+        delete C2.noUiSlider;
+      }
+      function Oe(e3) {
+        var t4 = A2[e3], i2 = k2.getNearbySteps(t4), n2 = V2[e3], o2 = i2.thisStep.step, a2 = null;
+        if (r2.snap) return [n2 - i2.stepBefore.startValue || null, i2.stepAfter.startValue - n2 || null];
+        false !== o2 && n2 + o2 > i2.stepAfter.startValue && (o2 = i2.stepAfter.startValue - n2), a2 = n2 > i2.thisStep.startValue ? i2.thisStep.step : false !== i2.stepBefore.step && n2 - i2.stepBefore.highestStep, 100 === t4 ? o2 = null : 0 === t4 && (a2 = null);
+        var s3 = k2.countStepDecimals();
+        return null !== o2 && false !== o2 && (o2 = Number(o2.toFixed(s3))), null !== a2 && false !== a2 && (a2 = Number(a2.toFixed(s3))), [a2, o2];
+      }
+      function De() {
+        return M2.map(Oe);
+      }
+      function je(e3, t4) {
+        var i2 = Le(), o2 = ["margin", "limit", "padding", "range", "animate", "snap", "step", "format", "pips", "tooltips"];
+        o2.forEach((function(t5) {
+          void 0 !== e3[t5] && (s2[t5] = e3[t5]);
+        }));
+        var a2 = oe(s2);
+        o2.forEach((function(t5) {
+          void 0 !== e3[t5] && (r2[t5] = a2[t5]);
+        })), k2 = a2.spectrum, r2.margin = a2.margin, r2.limit = a2.limit, r2.padding = a2.padding, r2.pips ? ee2(r2.pips) : Z2(), r2.tooltips ? I2() : Y2(), A2 = [], Ve(n(e3.start) ? e3.start : i2, t4);
+      }
+      function Fe() {
+        u3 = B2(C2), R2(r2.connect, u3), he(r2.events), Ve(r2.start), r2.pips && ee2(r2.pips), r2.tooltips && I2(), W2();
+      }
+      Fe();
+      var Te = { destroy: Ue, steps: De, on: me, off: ge, get: Le, set: Ve, setHandle: Me, reset: Ae, __moveHandles: function(e3, t4, r3) {
+        xe(e3, t4, A2, r3);
+      }, options: s2, updateOptions: je, target: C2, removePips: Z2, removeTooltips: Y2, getPositions: function() {
+        return A2.slice();
+      }, getTooltips: function() {
+        return E2;
+      }, getOrigins: function() {
+        return f3;
+      }, pips: ee2 };
+      return Te;
+    }
+    function se(e3, t3) {
+      if (!e3 || !e3.nodeName) throw new Error("noUiSlider: create requires a single element, got: " + e3);
+      if (e3.noUiSlider) throw new Error("noUiSlider: Slider was already initialized.");
+      var r2 = ae(e3, oe(t3), t3);
+      return e3.noUiSlider = r2, r2;
+    }
+    var le = { __spectrum: L, cssClasses: O, create: se };
+    e2.create = se, e2.cssClasses = O, e2.default = le, Object.defineProperty(e2, "__esModule", { value: true });
+  })(t);
+})));
+function h(e, t) {
+  if (!Array.isArray(e) || !Array.isArray(t)) return false;
+  const r = t.slice().sort();
+  return e.length === t.length && e.slice().sort().every((function(e2, t2) {
+    return e2 === r[t2];
+  }));
+}
+var m = { name: "Slider", emits: ["input", "update:modelValue", "start", "slide", "drag", "update", "change", "set", "end"], props: { ...{ value: { validator: function(e) {
+  return (e2) => "number" == typeof e2 || e2 instanceof Array || null == e2 || false === e2;
+}, required: false }, modelValue: { validator: function(e) {
+  return (e2) => "number" == typeof e2 || e2 instanceof Array || null == e2 || false === e2;
+}, required: false } }, id: { type: [String, Number], required: false }, disabled: { type: Boolean, required: false, default: false }, min: { type: Number, required: false, default: 0 }, max: { type: Number, required: false, default: 100 }, step: { type: Number, required: false, default: 1 }, orientation: { type: String, required: false, default: "horizontal" }, direction: { type: String, required: false, default: "ltr" }, tooltips: { type: Boolean, required: false, default: true }, options: { type: Object, required: false, default: () => ({}) }, merge: { type: Number, required: false, default: -1 }, format: { type: [Object, Function, Boolean], required: false, default: null }, classes: { type: Object, required: false, default: () => ({}) }, showTooltip: { type: String, required: false, default: "always" }, tooltipPosition: { type: String, required: false, default: null }, lazy: { type: Boolean, required: false, default: true }, ariaLabelledby: { type: String, required: false, default: void 0 }, aria: { required: false, type: Object, default: () => ({}) } }, setup(a, s) {
+  const l = (function(r, i, n) {
+    const { value: o, modelValue: a2, min: s2 } = toRefs(r);
+    let l2 = a2 && void 0 !== a2.value ? a2 : o;
+    const c3 = ref(l2.value);
+    if (u$2(l2.value) && (l2 = ref(s2.value)), Array.isArray(l2.value) && 0 == l2.value.length) throw new Error("Slider v-model must not be an empty array");
+    return { value: l2, initialValue: c3 };
+  })(a), c2 = (function(t, i, n) {
+    const { classes: o, showTooltip: a2, tooltipPosition: s2, orientation: l2 } = toRefs(t), u2 = computed((() => ({ target: "slider-target", focused: "slider-focused", tooltipFocus: "slider-tooltip-focus", tooltipDrag: "slider-tooltip-drag", ltr: "slider-ltr", rtl: "slider-rtl", horizontal: "slider-horizontal", vertical: "slider-vertical", textDirectionRtl: "slider-txt-dir-rtl", textDirectionLtr: "slider-txt-dir-ltr", base: "slider-base", connects: "slider-connects", connect: "slider-connect", origin: "slider-origin", handle: "slider-handle", handleLower: "slider-handle-lower", handleUpper: "slider-handle-upper", touchArea: "slider-touch-area", tooltip: "slider-tooltip", tooltipTop: "slider-tooltip-top", tooltipBottom: "slider-tooltip-bottom", tooltipLeft: "slider-tooltip-left", tooltipRight: "slider-tooltip-right", tooltipHidden: "slider-tooltip-hidden", active: "slider-active", draggable: "slider-draggable", tap: "slider-state-tap", drag: "slider-state-drag", pips: "slider-pips", pipsHorizontal: "slider-pips-horizontal", pipsVertical: "slider-pips-vertical", marker: "slider-marker", markerHorizontal: "slider-marker-horizontal", markerVertical: "slider-marker-vertical", markerNormal: "slider-marker-normal", markerLarge: "slider-marker-large", markerSub: "slider-marker-sub", value: "slider-value", valueHorizontal: "slider-value-horizontal", valueVertical: "slider-value-vertical", valueNormal: "slider-value-normal", valueLarge: "slider-value-large", valueSub: "slider-value-sub", ...o.value })));
+    return { classList: computed((() => {
+      const e = { ...u2.value };
+      return Object.keys(e).forEach(((t2) => {
+        e[t2] = Array.isArray(e[t2]) ? e[t2].filter(((e2) => null !== e2)).join(" ") : e[t2];
+      })), "always" !== a2.value && (e.target += ` ${"drag" === a2.value ? e.tooltipDrag : e.tooltipFocus}`), "horizontal" === l2.value && (e.tooltip += "bottom" === s2.value ? ` ${e.tooltipBottom}` : ` ${e.tooltipTop}`), "vertical" === l2.value && (e.tooltip += "right" === s2.value ? ` ${e.tooltipRight}` : ` ${e.tooltipLeft}`), e;
+    })) };
+  })(a), p2 = (function(t, i, n) {
+    const { format: o, step: a2 } = toRefs(t), s2 = n.value, l2 = n.classList, u2 = computed((() => o && o.value ? "function" == typeof o.value ? { to: o.value } : d({ ...o.value }) : d({ decimals: a2.value >= 0 ? 0 : 2 }))), c3 = computed((() => Array.isArray(s2.value) ? s2.value.map(((e) => u2.value)) : u2.value));
+    return { tooltipFormat: u2, tooltipsFormat: c3, tooltipsMerge: (e, t2, r) => {
+      var i2 = "rtl" === getComputedStyle(e).direction, n2 = "rtl" === e.noUiSlider.options.direction, o2 = "vertical" === e.noUiSlider.options.orientation, a3 = e.noUiSlider.getTooltips(), s3 = e.noUiSlider.getOrigins();
+      a3.forEach((function(e2, t3) {
+        e2 && s3[t3].appendChild(e2);
+      })), e.noUiSlider.on("update", (function(e2, s4, c4, p3, d2) {
+        var f2 = [[]], h2 = [[]], m3 = [[]], v = 0;
+        a3[0] && (f2[0][0] = 0, h2[0][0] = d2[0], m3[0][0] = u2.value.to(parseFloat(e2[0])));
+        for (var g = 1; g < e2.length; g++) (!a3[g] || e2[g] - e2[g - 1] > t2) && (f2[++v] = [], m3[v] = [], h2[v] = []), a3[g] && (f2[v].push(g), m3[v].push(u2.value.to(parseFloat(e2[g]))), h2[v].push(d2[g]));
+        f2.forEach((function(e3, t3) {
+          for (var s5 = e3.length, u3 = 0; u3 < s5; u3++) {
+            var c5 = e3[u3];
+            if (u3 === s5 - 1) {
+              var p4 = 0;
+              h2[t3].forEach((function(e4) {
+                p4 += 1e3 - e4;
+              }));
+              var d3 = o2 ? "bottom" : "right", f3 = n2 ? 0 : s5 - 1, v2 = 1e3 - h2[t3][f3];
+              p4 = (i2 && !o2 ? 100 : 0) + p4 / s5 - v2, a3[c5].innerHTML = m3[t3].join(r), a3[c5].style.display = "block", a3[c5].style[d3] = p4 + "%", l2.value.tooltipHidden.split(" ").forEach(((e4) => {
+                a3[c5].classList.contains(e4) && a3[c5].classList.remove(e4);
+              }));
+            } else a3[c5].style.display = "none", l2.value.tooltipHidden.split(" ").forEach(((e4) => {
+              a3[c5].classList.add(e4);
+            }));
+          }
+        }));
+      }));
+    } };
+  })(a, 0, { value: l.value, classList: c2.classList }), m2 = (function(a2, s2, l2) {
+    const { orientation: c3, direction: p3, tooltips: d2, step: m3, min: v, max: g, merge: b, id: y, disabled: S, options: x, classes: w, format: E, lazy: P, ariaLabelledby: N, aria: C } = toRefs(a2), k = l2.value, V = l2.initialValue, A = l2.tooltipsFormat, M = l2.tooltipsMerge, L = l2.tooltipFormat, U = l2.classList, O = ref(null), D = ref(null), j = ref(false), F = computed((() => {
+      let e = { cssPrefix: "", cssClasses: U.value, orientation: c3.value, direction: p3.value, tooltips: !!d2.value && A.value, connect: "lower", start: u$2(k.value) ? v.value : k.value, range: { min: v.value, max: g.value } };
+      if (m3.value > 0 && (e.step = m3.value), Array.isArray(k.value) && (e.connect = true), N && N.value || C && Object.keys(C.value).length) {
+        let t = Array.isArray(k.value) ? k.value : [k.value];
+        e.handleAttributes = t.map(((e2) => Object.assign({}, C.value, N && N.value ? { "aria-labelledby": N.value } : {})));
+      }
+      return E.value && (e.ariaFormat = L.value), e;
+    })), T = computed((() => {
+      let e = { id: y && y.value ? y.value : void 0 };
+      return S.value && (e.disabled = true), e;
+    })), z = computed((() => Array.isArray(k.value))), H = () => {
+      let e = D.value.get();
+      return Array.isArray(e) ? e.map(((e2) => parseFloat(e2))) : parseFloat(e);
+    }, q = function(e) {
+      let t = !(arguments.length > 1 && void 0 !== arguments[1]) || arguments[1];
+      D.value.set(e, t);
+    }, R = (e) => {
+      s2.emit("input", e), s2.emit("update:modelValue", e), s2.emit("update", e);
+    }, B = () => {
+      D.value = f.create(O.value, Object.assign({}, F.value, x.value)), d2.value && z.value && b.value >= 0 && M(O.value, b.value, " - "), D.value.on("set", (() => {
+        const e = H();
+        s2.emit("change", e), s2.emit("set", e), P.value && R(e);
+      })), D.value.on("update", (() => {
+        if (!j.value) return;
+        const e = H();
+        z.value && h(k.value, e) || !z.value && k.value == e ? s2.emit("update", e) : P.value || R(e);
+      })), D.value.on("start", (() => {
+        s2.emit("start", H());
+      })), D.value.on("end", (() => {
+        s2.emit("end", H());
+      })), D.value.on("slide", (() => {
+        s2.emit("slide", H());
+      })), D.value.on("drag", (() => {
+        s2.emit("drag", H());
+      })), O.value.querySelectorAll("[data-handle]").forEach(((e) => {
+        e.onblur = () => {
+          O.value && U.value.focused.split(" ").forEach(((e2) => {
+            O.value.classList.remove(e2);
+          }));
+        }, e.onfocus = () => {
+          U.value.focused.split(" ").forEach(((e2) => {
+            O.value.classList.add(e2);
+          }));
+        };
+      })), j.value = true;
+    }, _ = () => {
+      D.value.off(), D.value.destroy(), D.value = null;
+    }, $ = (e, t) => {
+      j.value = false, _(), B();
+    };
+    return onMounted(B), onUnmounted(_), watch(z, $, { immediate: false }), watch(v, $, { immediate: false }), watch(g, $, { immediate: false }), watch(m3, $, { immediate: false }), watch(c3, $, { immediate: false }), watch(p3, $, { immediate: false }), watch(d2, $, { immediate: false }), watch(b, $, { immediate: false }), watch(E, $, { immediate: false, deep: true }), watch(x, $, { immediate: false, deep: true }), watch(w, $, { immediate: false, deep: true }), watch(k, ((e, t) => {
+      t && ("object" == typeof t && "object" == typeof e && e && Object.keys(t) > Object.keys(e) || "object" == typeof t && "object" != typeof e || u$2(e)) && $();
+    }), { immediate: false }), watch(k, ((e) => {
+      if (u$2(e)) return void q(v.value, false);
+      let t = H();
+      z.value && !Array.isArray(t) && (t = [t]), (z.value && !h(e, t) || !z.value && e != t) && q(e, false);
+    }), { deep: true }), { slider: O, slider$: D, isRange: z, sliderProps: T, init: B, destroy: _, refresh: $, update: q, reset: () => {
+      R(V.value);
+    } };
+  })(a, s, { value: l.value, initialValue: l.initialValue, tooltipFormat: p2.tooltipFormat, tooltipsFormat: p2.tooltipsFormat, tooltipsMerge: p2.tooltipsMerge, classList: c2.classList });
+  return { ...c2, ...p2, ...m2 };
+} };
+m.render = function(e, t, r, i, n, o) {
+  return openBlock(), createElementBlock("div", mergeProps(e.sliderProps, { ref: "slider" }), null, 16);
+}, m.__file = "src/Slider.vue";
+const _sfc_main$c = /* @__PURE__ */ defineComponent({
   __name: "SliderInput",
   props: /* @__PURE__ */ mergeModels({
     id: {},
     data: {},
     min: {},
     max: {},
-    interval: {},
+    step: {},
     inputWidth: { default: "5rem" }
   }, {
     "modelValue": {
@@ -18068,16 +17605,16 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
     const props = __props;
     const value = useModel(__props, "modelValue");
     const __returned__ = { props, value, get VueSlider() {
-      return VueSlider;
+      return m;
     } };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
 });
-const _hoisted_1$a = { class: "d-flex align-items-center" };
-const _hoisted_2$a = ["id", "step"];
-function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$a, [
+const _hoisted_1$c = { class: "d-flex align-items-center" };
+const _hoisted_2$c = ["id", "step"];
+function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$c, [
     createVNode($setup["VueSlider"], {
       modelValue: $setup.value,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.value = $event),
@@ -18085,22 +17622,24 @@ function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
       max: $props.max,
       min: $props.min,
       "v-data": $props.data,
-      interval: $props.interval
-    }, null, 8, ["modelValue", "max", "min", "v-data", "interval"]),
+      step: $props.step,
+      showTooltip: "drag"
+    }, null, 8, ["modelValue", "max", "min", "v-data", "step"]),
+    _cache[2] || (_cache[2] = createTextVNode()),
     withDirectives(createElementVNode("input", {
       type: "number",
       id: $props.id,
       class: "form-control ms-2",
       style: normalizeStyle({ width: $props.inputWidth }),
       "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.value = $event),
-      step: $props.interval
-    }, null, 12, _hoisted_2$a), [
+      step: $props.step
+    }, null, 12, _hoisted_2$c), [
       [vModelText, $setup.value]
     ])
   ]);
 }
-const SliderInput = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a], ["__file", "SliderInput.vue"]]);
-const _sfc_main$9 = /* @__PURE__ */ defineComponent({
+const SliderInput = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__file", "SliderInput.vue"]]);
+const _sfc_main$b = /* @__PURE__ */ defineComponent({
   __name: "Gradient",
   props: /* @__PURE__ */ mergeModels({
     id: {}
@@ -18128,45 +17667,47 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$9 = { class: "c-box-offset" };
-const _hoisted_2$9 = { class: "form-row row" };
-const _hoisted_3$9 = { class: "col-6" };
-const _hoisted_4$8 = { class: "form-group mb-3" };
-const _hoisted_5$8 = ["for"];
-const _hoisted_6$8 = ["id"];
-const _hoisted_7$8 = { class: "form-group mb-3" };
-const _hoisted_8$8 = ["for"];
-const _hoisted_9$8 = { class: "col-6" };
-const _hoisted_10$8 = { class: "form-group mb-3" };
-const _hoisted_11$8 = ["for"];
-const _hoisted_12$7 = ["id"];
-const _hoisted_13$7 = { class: "form-group mb-3" };
-const _hoisted_14$7 = ["for"];
-const _hoisted_15$7 = { class: "form-group mb-3" };
-const _hoisted_16$7 = ["for"];
-const _hoisted_17$6 = ["id"];
-const _hoisted_18$4 = { class: "form-group mb-3" };
-const _hoisted_19$4 = ["for"];
-function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$b = { class: "c-box-offset" };
+const _hoisted_2$b = { class: "form-row row" };
+const _hoisted_3$b = { class: "col-6" };
+const _hoisted_4$a = { class: "form-group mb-3" };
+const _hoisted_5$a = ["for"];
+const _hoisted_6$a = ["id"];
+const _hoisted_7$a = { class: "form-group mb-3" };
+const _hoisted_8$a = ["for"];
+const _hoisted_9$a = { class: "col-6" };
+const _hoisted_10$a = { class: "form-group mb-3" };
+const _hoisted_11$9 = ["for"];
+const _hoisted_12$8 = ["id"];
+const _hoisted_13$8 = { class: "form-group mb-3" };
+const _hoisted_14$8 = ["for"];
+const _hoisted_15$8 = { class: "form-group mb-3" };
+const _hoisted_16$8 = ["for"];
+const _hoisted_17$7 = ["id"];
+const _hoisted_18$5 = { class: "form-group mb-3" };
+const _hoisted_19$5 = ["for"];
+function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_vue_slide_bar = resolveComponent("vue-slide-bar");
   const _directive_color = resolveDirective("color");
-  return openBlock(), createElementBlock("div", _hoisted_1$9, [
+  return openBlock(), createElementBlock("div", _hoisted_1$b, [
     createElementVNode("div", {
       class: "c-gradient-preview mb-3",
       style: normalizeStyle([{ "height": "100px", "border": "1px solid rgba(0, 0, 0, .2)" }, { "background-image": $setup.backgroundImage }])
     }, null, 4),
-    createElementVNode("div", _hoisted_2$9, [
-      createElementVNode("div", _hoisted_3$9, [
-        createElementVNode("div", _hoisted_4$8, [
+    _cache[16] || (_cache[16] = createTextVNode()),
+    createElementVNode("div", _hoisted_2$b, [
+      createElementVNode("div", _hoisted_3$b, [
+        createElementVNode("div", _hoisted_4$a, [
           createElementVNode("label", {
             for: $props.id + "-color1"
-          }, "Color 1", 8, _hoisted_5$8),
+          }, "Color 1", 8, _hoisted_5$a),
+          _cache[6] || (_cache[6] = createTextVNode()),
           withDirectives(createElementVNode("input", {
             type: "text",
             id: $props.id + "-color1",
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.gradient.start_color = $event),
             class: "form-control"
-          }, null, 8, _hoisted_6$8), [
+          }, null, 8, _hoisted_6$a), [
             [
               vModelText,
               $setup.gradient.start_color,
@@ -18176,27 +17717,31 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
             [_directive_color]
           ])
         ]),
-        createElementVNode("div", _hoisted_7$8, [
+        _cache[8] || (_cache[8] = createTextVNode()),
+        createElementVNode("div", _hoisted_7$a, [
           createElementVNode("label", {
             for: $props.id + "-color1-pos"
-          }, "Color 1 Position", 8, _hoisted_8$8),
+          }, "Color 1 Position", 8, _hoisted_8$a),
+          _cache[7] || (_cache[7] = createTextVNode()),
           createVNode(_component_vue_slide_bar, {
             modelValue: $setup.gradient.start_pos,
             "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.gradient.start_pos = $event)
           }, null, 8, ["modelValue"])
         ])
       ]),
-      createElementVNode("div", _hoisted_9$8, [
-        createElementVNode("div", _hoisted_10$8, [
+      _cache[12] || (_cache[12] = createTextVNode()),
+      createElementVNode("div", _hoisted_9$a, [
+        createElementVNode("div", _hoisted_10$a, [
           createElementVNode("label", {
             for: $props.id + "-color2"
-          }, "Color 2", 8, _hoisted_11$8),
+          }, "Color 2", 8, _hoisted_11$9),
+          _cache[9] || (_cache[9] = createTextVNode()),
           withDirectives(createElementVNode("input", {
             type: "text",
             id: $props.id + "-color2",
             "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.gradient.end_color = $event),
             class: "form-control"
-          }, null, 8, _hoisted_12$7), [
+          }, null, 8, _hoisted_12$8), [
             [
               vModelText,
               $setup.gradient.end_color,
@@ -18206,10 +17751,12 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
             [_directive_color]
           ])
         ]),
-        createElementVNode("div", _hoisted_13$7, [
+        _cache[11] || (_cache[11] = createTextVNode()),
+        createElementVNode("div", _hoisted_13$8, [
           createElementVNode("label", {
             for: $props.id + "-color2-pos"
-          }, "Color 2 Position", 8, _hoisted_14$7),
+          }, "Color 2 Position", 8, _hoisted_14$8),
+          _cache[10] || (_cache[10] = createTextVNode()),
           createVNode(_component_vue_slide_bar, {
             modelValue: $setup.gradient.end_pos,
             "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.gradient.end_pos = $event)
@@ -18217,18 +17764,21 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ])
     ]),
-    createElementVNode("div", _hoisted_15$7, [
+    _cache[17] || (_cache[17] = createTextVNode()),
+    createElementVNode("div", _hoisted_15$8, [
       createElementVNode("label", {
         for: $props.id + "-type"
-      }, "Gradient Type", 8, _hoisted_16$7),
+      }, "Gradient Type", 8, _hoisted_16$8),
+      _cache[14] || (_cache[14] = createTextVNode()),
       withDirectives(createElementVNode("select", {
         id: $props.id + "-type",
         "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.gradient.type = $event),
         class: "form-select custom-select"
-      }, [..._cache[6] || (_cache[6] = [
+      }, [..._cache[13] || (_cache[13] = [
         createElementVNode("option", { value: "linear" }, "Linear", -1),
+        createTextVNode(),
         createElementVNode("option", { value: "radial" }, "Radial", -1)
-      ])], 8, _hoisted_17$6), [
+      ])], 8, _hoisted_17$7), [
         [
           vModelSelect,
           $setup.gradient.type,
@@ -18237,10 +17787,12 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
         ]
       ])
     ]),
-    createElementVNode("div", _hoisted_18$4, [
+    _cache[18] || (_cache[18] = createTextVNode()),
+    createElementVNode("div", _hoisted_18$5, [
       createElementVNode("label", {
         for: $props.id + "-angle"
-      }, "Angle", 8, _hoisted_19$4),
+      }, "Angle", 8, _hoisted_19$5),
+      _cache[15] || (_cache[15] = createTextVNode()),
       createVNode($setup["SliderInput"], {
         id: $props.id + "-angle",
         modelValue: $setup.gradient.angle,
@@ -18250,7 +17802,7 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ]);
 }
-const Gradient = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__file", "Gradient.vue"]]);
+const Gradient = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b], ["__file", "Gradient.vue"]]);
 function computedWithControl(source, fn, options = {}) {
   let v = void 0;
   let track;
@@ -18294,7 +17846,7 @@ function useCurrentElement(rootComponent) {
   onMounted(currentElement.trigger);
   return currentElement;
 }
-const _sfc_main$8 = /* @__PURE__ */ defineComponent({
+const _sfc_main$a = /* @__PURE__ */ defineComponent({
   __name: "SingleImage",
   props: /* @__PURE__ */ mergeModels({
     id: {},
@@ -18323,7 +17875,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     const uploading = ref(false);
     const el = useCurrentElement();
     const accepted = computed(() => props.accepted);
-    const uri = useSystemUri();
+    const uri2 = useSystemUri();
     onMounted(() => {
       if (!el.value) {
         return;
@@ -18395,8 +17947,8 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       try {
         let res = await post("@file_upload", formData);
         let fileUrl = res.data.data.url;
-        if (fileUrl.includes(uri.root())) {
-          fileUrl = fileUrl.substring(uri.root().length);
+        if (fileUrl.includes(uri2.root())) {
+          fileUrl = fileUrl.substring(uri2.root().length);
         }
         url.value = fileUrl;
       } catch (e) {
@@ -18424,58 +17976,61 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
         return fileUrl;
       }
       if (fileUrl.indexOf("http") !== 0 && fileUrl.indexOf("/") !== 0) {
-        return uri.root(fileUrl);
+        return uri2.root(fileUrl);
       }
       return fileUrl;
     });
-    const __returned__ = { props, url, loadingImage, uploading, el, accepted, uri, chooseFile, pasteFromButton, pasteFile, uploadFile, checkFile, clearUrl, previewUrl };
+    const __returned__ = { props, url, loadingImage, uploading, el, accepted, uri: uri2, chooseFile, pasteFromButton, pasteFile, uploadFile, checkFile, clearUrl, previewUrl };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
 });
-const _hoisted_1$8 = {
+const _hoisted_1$a = {
   ref: "el",
   class: "c-single-image-uploader"
 };
-const _hoisted_2$8 = {
+const _hoisted_2$a = {
   key: 0,
   class: "form-group mb-3 c-single-image-preview text-center"
 };
-const _hoisted_3$8 = ["src"];
-const _hoisted_4$7 = {
+const _hoisted_3$a = ["src"];
+const _hoisted_4$9 = {
   key: 1,
   class: "c-single-image-placeholder text-center p-4 mb-3 border rounded"
 };
-const _hoisted_5$7 = {
+const _hoisted_5$9 = {
   key: 2,
   class: "form-group mb-3 d-flex align-items-center justify-content-center",
   style: { "min-height": "450px" }
 };
-const _hoisted_6$7 = { class: "form-group mb-3" };
-const _hoisted_7$7 = { class: "input-group" };
-const _hoisted_8$7 = ["id", "disabled"];
-const _hoisted_9$7 = ["disabled"];
-const _hoisted_10$7 = ["disabled"];
-const _hoisted_11$7 = ["disabled"];
-function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_6$9 = { class: "form-group mb-3" };
+const _hoisted_7$9 = { class: "input-group" };
+const _hoisted_8$9 = ["id", "disabled"];
+const _hoisted_9$9 = ["disabled"];
+const _hoisted_10$9 = ["disabled"];
+const _hoisted_11$8 = ["disabled"];
+function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_tooltip = resolveDirective("tooltip");
-  return openBlock(), createElementBlock("div", _hoisted_1$8, [
-    $setup.url !== "" && !$setup.uploading ? (openBlock(), createElementBlock("div", _hoisted_2$8, [
+  return openBlock(), createElementBlock("div", _hoisted_1$a, [
+    $setup.url !== "" && !$setup.uploading ? (openBlock(), createElementBlock("div", _hoisted_2$a, [
       createElementVNode("img", {
         src: $setup.previewUrl,
         alt: "Image",
         class: "img-fluid rounded",
         style: { "max-height": "450px" }
-      }, null, 8, _hoisted_3$8)
+      }, null, 8, _hoisted_3$a)
     ])) : createCommentVNode("", true),
-    $setup.url === "" && !$setup.uploading ? (openBlock(), createElementBlock("div", _hoisted_4$7, [..._cache[2] || (_cache[2] = [
+    _cache[12] || (_cache[12] = createTextVNode()),
+    $setup.url === "" && !$setup.uploading ? (openBlock(), createElementBlock("div", _hoisted_4$9, [..._cache[2] || (_cache[2] = [
       createElementVNode("small", { class: "text-muted" }, "Drag Image Here", -1)
     ])])) : createCommentVNode("", true),
-    $setup.uploading ? (openBlock(), createElementBlock("div", _hoisted_5$7, [..._cache[3] || (_cache[3] = [
+    _cache[13] || (_cache[13] = createTextVNode()),
+    $setup.uploading ? (openBlock(), createElementBlock("div", _hoisted_5$9, [..._cache[3] || (_cache[3] = [
       createElementVNode("div", { class: "spinner-border" }, null, -1)
     ])])) : createCommentVNode("", true),
-    createElementVNode("div", _hoisted_6$7, [
-      createElementVNode("div", _hoisted_7$7, [
+    _cache[14] || (_cache[14] = createTextVNode()),
+    createElementVNode("div", _hoisted_6$9, [
+      createElementVNode("div", _hoisted_7$9, [
         withDirectives(createElementVNode("input", {
           id: $props.id,
           type: "text",
@@ -18483,9 +18038,10 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
           class: "form-control",
           disabled: $setup.uploading,
           onPaste: $setup.pasteFile
-        }, null, 40, _hoisted_8$7), [
+        }, null, 40, _hoisted_8$9), [
           [vModelText, $setup.url]
         ]),
+        _cache[7] || (_cache[7] = createTextVNode()),
         createElementVNode("button", {
           type: "button",
           class: "btn btn-primary",
@@ -18493,8 +18049,9 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
           disabled: $setup.uploading
         }, [..._cache[4] || (_cache[4] = [
           createElementVNode("i", { class: "fa fa-upload" }, null, -1),
-          createTextVNode(" Upload ", -1)
-        ])], 8, _hoisted_9$7),
+          createTextVNode("\n          Upload\n        ", -1)
+        ])], 8, _hoisted_9$9),
+        _cache[8] || (_cache[8] = createTextVNode()),
         withDirectives((openBlock(), createElementBlock("button", {
           type: "button",
           class: "btn btn-primary",
@@ -18503,9 +18060,10 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
           title: "Paste"
         }, [..._cache[5] || (_cache[5] = [
           createElementVNode("span", { class: "fa fa-paste" }, null, -1)
-        ])], 8, _hoisted_10$7)), [
+        ])], 8, _hoisted_10$9)), [
           [_directive_tooltip]
         ]),
+        _cache[9] || (_cache[9] = createTextVNode()),
         $setup.url !== "" ? (openBlock(), createElementBlock("button", {
           key: 0,
           type: "button",
@@ -18514,13 +18072,14 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
           disabled: $setup.uploading
         }, [..._cache[6] || (_cache[6] = [
           createElementVNode("span", { class: "fa fa-times" }, null, -1)
-        ])], 8, _hoisted_11$7)) : createCommentVNode("", true)
+        ])], 8, _hoisted_11$8)) : createCommentVNode("", true)
       ]),
-      _cache[7] || (_cache[7] = createElementVNode("small", { class: "form-text text-muted" }, " Paste image url/file or drag and upload image here. ", -1))
+      _cache[10] || (_cache[10] = createTextVNode()),
+      _cache[11] || (_cache[11] = createElementVNode("small", { class: "form-text text-muted" }, "\n        Paste image url/file or drag and upload image here.\n      ", -1))
     ])
   ], 512);
 }
-const SingleImage = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8], ["__file", "SingleImage.vue"]]);
+const SingleImage = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a], ["__file", "SingleImage.vue"]]);
 function usePageBuilderUtilities() {
   return {
     bindSaveButton,
@@ -18939,7 +18498,7 @@ function addonBasicOptions() {
     }
   };
 }
-const _sfc_main$7 = /* @__PURE__ */ defineComponent({
+const _sfc_main$9 = /* @__PURE__ */ defineComponent({
   __name: "UnicornSwitcher",
   props: /* @__PURE__ */ mergeModels({
     id: {},
@@ -18986,10 +18545,10 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$7 = ["for"];
-const _hoisted_2$7 = ["id", "name", "value", "disabled"];
-const _hoisted_3$7 = ["name", "id", "true-value", "false-value", "disabled", "value", "checked"];
-function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$9 = ["for"];
+const _hoisted_2$9 = ["id", "name", "value", "disabled"];
+const _hoisted_3$9 = ["name", "id", "true-value", "false-value", "disabled", "value", "checked"];
+function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("label", {
     class: normalizeClass(["unicorn-switch", [$props.size ? "switch-" + $props.size : ""]]),
     for: $setup.idName
@@ -19000,7 +18559,8 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
       type: "hidden",
       value: $props.falseValue,
       disabled: $props.disabled
-    }, null, 8, _hoisted_2$7),
+    }, null, 8, _hoisted_2$9),
+    _cache[0] || (_cache[0] = createTextVNode()),
     createElementVNode("input", {
       type: "checkbox",
       name: $props.name,
@@ -19013,14 +18573,15 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
       checked: $setup.currentValue == $props.trueValue,
       onChange: $setup.changed,
       onClick: $setup.click
-    }, null, 42, _hoisted_3$7),
+    }, null, 42, _hoisted_3$9),
+    _cache[1] || (_cache[1] = createTextVNode()),
     createElementVNode("span", {
       class: normalizeClass(["switch-slider", ["slider-" + $props.shape, $props.color ? "btn-" + $props.color : "btn-default"]])
     }, null, 2)
-  ], 10, _hoisted_1$7);
+  ], 10, _hoisted_1$9);
 }
-const UnicornSwitcher = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7], ["__file", "UnicornSwitcher.vue"]]);
-const _sfc_main$6 = /* @__PURE__ */ defineComponent({
+const UnicornSwitcher = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__file", "UnicornSwitcher.vue"]]);
+const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   __name: "AddonEdit",
   setup(__props, { expose: __expose }) {
     const { addonBasicOptions: addonBasicOptions2, savePage: doSavePage } = usePageBuilderUtilities();
@@ -19090,56 +18651,56 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$6 = { class: "modal-header bg-white sticky-top" };
-const _hoisted_2$6 = {
+const _hoisted_1$8 = { class: "modal-header bg-white sticky-top" };
+const _hoisted_2$8 = {
   ref: "tab",
   class: "nav nav-pills border-0"
 };
-const _hoisted_3$6 = { class: "nav-item" };
-const _hoisted_4$6 = {
+const _hoisted_3$8 = { class: "nav-item" };
+const _hoisted_4$8 = {
   ref: "generalTab",
   class: "nav-link active",
   "data-toggle": "tab",
   "data-bs-toggle": "tab",
   href: "#addon-edit-general"
 };
-const _hoisted_5$6 = { class: "ml-auto ms-auto" };
-const _hoisted_6$6 = ["disabled"];
-const _hoisted_7$6 = {
+const _hoisted_5$8 = { class: "ml-auto ms-auto" };
+const _hoisted_6$8 = ["disabled"];
+const _hoisted_7$8 = {
   key: 0,
   class: "tab-content",
   id: "addon-edit-tab-content"
 };
-const _hoisted_8$6 = {
+const _hoisted_8$8 = {
   class: "tab-pane fade show active",
   id: "addon-edit-general",
   role: "tabpanel",
   "aria-labelledby": "addon-edit-general-tab"
 };
-const _hoisted_9$6 = { class: "form-group mb-3" };
-const _hoisted_10$6 = { class: "form-group mb-3" };
-const _hoisted_11$6 = {
+const _hoisted_9$8 = { class: "form-group mb-3" };
+const _hoisted_10$8 = { class: "form-group mb-3" };
+const _hoisted_11$7 = {
   class: "tab-pane fade",
   id: "addon-edit-layout",
   role: "tabpanel",
   "aria-labelledby": "addon-edit-layout-tab"
 };
-const _hoisted_12$6 = { class: "form-group mb-3" };
-const _hoisted_13$6 = { class: "form-group mb-3" };
-const _hoisted_14$6 = { class: "mt-2" };
-const _hoisted_15$6 = {
+const _hoisted_12$7 = { class: "form-group mb-3" };
+const _hoisted_13$7 = { class: "form-group mb-3" };
+const _hoisted_14$7 = { class: "mt-2" };
+const _hoisted_15$7 = {
   key: 0,
   class: "form-group mb-3"
 };
-const _hoisted_16$6 = {
+const _hoisted_16$7 = {
   key: 0,
   style: { "animation-duration": ".3s" }
 };
-const _hoisted_17$5 = { class: "form-group mb-3" };
-const _hoisted_18$3 = { class: "form-row row" };
-const _hoisted_19$3 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_20$3 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_21$2 = { class: "form-row row" };
+const _hoisted_17$6 = { class: "form-group mb-3" };
+const _hoisted_18$4 = { class: "form-row row" };
+const _hoisted_19$4 = { class: "form-group mb-3 col-md-6" };
+const _hoisted_20$4 = { class: "form-group mb-3 col-md-6" };
+const _hoisted_21$3 = { class: "form-row row" };
 const _hoisted_22$2 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_23$2 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_24$2 = {
@@ -19165,47 +18726,51 @@ const _hoisted_35$2 = {
   role: "tabpanel",
   "aria-labelledby": "addon-edit-animation-tab"
 };
-function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
     createVNode($setup["BsModal"], {
       open: $setup.modalShow,
       size: "lg",
-      onHidden: _cache[26] || (_cache[26] = ($event) => $setup.modalShow = false),
+      onHidden: _cache[27] || (_cache[27] = ($event) => $setup.modalShow = false),
       backdrop: "static",
       class: "c-modal-addon-edit"
     }, {
       "header-element": withCtx(() => [
-        createElementVNode("div", _hoisted_1$6, [
-          createElementVNode("ul", _hoisted_2$6, [
-            createElementVNode("li", _hoisted_3$6, [
-              createElementVNode("a", _hoisted_4$6, " General ", 512)
+        createElementVNode("div", _hoisted_1$8, [
+          createElementVNode("ul", _hoisted_2$8, [
+            createElementVNode("li", _hoisted_3$8, [
+              createElementVNode("a", _hoisted_4$8, "\n                General\n              ", 512)
             ]),
-            _cache[27] || (_cache[27] = createElementVNode("li", { class: "nav-item" }, [
+            _cache[28] || (_cache[28] = createTextVNode()),
+            _cache[29] || (_cache[29] = createElementVNode("li", { class: "nav-item" }, [
               createElementVNode("a", {
                 class: "nav-link",
                 "data-toggle": "tab",
                 "data-bs-toggle": "tab",
                 href: "#addon-edit-layout"
-              }, " Layout ")
+              }, "\n                Layout\n              ")
             ], -1)),
-            _cache[28] || (_cache[28] = createElementVNode("li", { class: "nav-item" }, [
+            _cache[30] || (_cache[30] = createTextVNode()),
+            _cache[31] || (_cache[31] = createElementVNode("li", { class: "nav-item" }, [
               createElementVNode("a", {
                 class: "nav-link",
                 "data-toggle": "tab",
                 "data-bs-toggle": "tab",
                 href: "#addon-edit-animation"
-              }, " Animation ")
+              }, "\n                Animation\n              ")
             ], -1))
           ], 512),
-          createElementVNode("div", _hoisted_5$6, [
+          _cache[37] || (_cache[37] = createTextVNode()),
+          createElementVNode("div", _hoisted_5$8, [
             createElementVNode("button", {
               type: "button",
               class: "btn btn-primary",
               onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
-            }, [..._cache[29] || (_cache[29] = [
+            }, [..._cache[32] || (_cache[32] = [
               createElementVNode("span", { class: "fa fa-check" }, null, -1),
-              createTextVNode(" Done ", -1)
+              createTextVNode("\n              Done\n            ", -1)
             ])]),
+            _cache[35] || (_cache[35] = createTextVNode()),
             createElementVNode("button", {
               type: "button",
               class: "btn btn-success",
@@ -19215,13 +18780,14 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               createElementVNode("span", {
                 class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
               }, null, 2),
-              _cache[30] || (_cache[30] = createTextVNode(" Save Page ", -1))
-            ], 8, _hoisted_6$6),
+              _cache[33] || (_cache[33] = createTextVNode("\n              Save Page\n            ", -1))
+            ], 8, _hoisted_6$8),
+            _cache[36] || (_cache[36] = createTextVNode()),
             createElementVNode("button", {
               type: "button",
               class: "btn btn-secondary",
               onClick: _cache[2] || (_cache[2] = ($event) => $setup.close())
-            }, [..._cache[31] || (_cache[31] = [
+            }, [..._cache[34] || (_cache[34] = [
               createElementVNode("span", { class: "fa fa-times" }, null, -1)
             ])])
           ])
@@ -19231,25 +18797,28 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
         createElementVNode("button", {
           type: "button",
           class: "btn btn-success",
-          onClick: _cache[24] || (_cache[24] = ($event) => $setup.saveClose())
-        }, [..._cache[60] || (_cache[60] = [
+          onClick: _cache[25] || (_cache[25] = ($event) => $setup.saveClose())
+        }, [..._cache[109] || (_cache[109] = [
           createElementVNode("span", { class: "fa fa-save" }, null, -1),
-          createTextVNode(" Save ", -1)
+          createTextVNode("\n          Save\n        ", -1)
         ])]),
+        _cache[111] || (_cache[111] = createTextVNode()),
         createElementVNode("button", {
           type: "button",
           class: "btn btn-secondary",
-          onClick: _cache[25] || (_cache[25] = ($event) => $setup.close())
-        }, [..._cache[61] || (_cache[61] = [
+          onClick: _cache[26] || (_cache[26] = ($event) => $setup.close())
+        }, [..._cache[110] || (_cache[110] = [
           createElementVNode("span", { class: "fa fa-times" }, null, -1),
-          createTextVNode(" Cancel ", -1)
+          createTextVNode("\n          Cancel\n        ", -1)
         ])])
       ]),
       default: withCtx(() => [
-        $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_7$6, [
-          createElementVNode("div", _hoisted_8$6, [
-            createElementVNode("div", _hoisted_9$6, [
-              _cache[32] || (_cache[32] = createElementVNode("label", { for: "input-addon-edit-label" }, "Label", -1)),
+        _cache[112] || (_cache[112] = createTextVNode()),
+        $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_7$8, [
+          createElementVNode("div", _hoisted_8$8, [
+            createElementVNode("div", _hoisted_9$8, [
+              _cache[38] || (_cache[38] = createElementVNode("label", { for: "input-addon-edit-label" }, "Label", -1)),
+              _cache[39] || (_cache[39] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-addon-edit-label",
                 type: "text",
@@ -19258,16 +18827,20 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 512), [
                 [vModelText, $setup.options.label]
               ]),
-              _cache[33] || (_cache[33] = createElementVNode("small", { class: "form-text text-muted" }, "Only show when editing page.", -1))
+              _cache[40] || (_cache[40] = createTextVNode()),
+              _cache[41] || (_cache[41] = createElementVNode("small", { class: "form-text text-muted" }, "Only show when editing page.", -1))
             ]),
+            _cache[44] || (_cache[44] = createTextVNode()),
             $setup.content.componentName ? (openBlock(), createBlock(resolveDynamicComponent($setup.content.componentName), {
               key: 0,
               modelValue: $setup.content.options,
               "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.content.options = $event),
               "addon-id": $setup.content.id
             }, null, 8, ["modelValue", "addon-id"])) : createCommentVNode("", true),
-            createElementVNode("div", _hoisted_10$6, [
-              _cache[34] || (_cache[34] = createElementVNode("label", { for: "input-addon-edit-html-class" }, "CSS Class", -1)),
+            _cache[45] || (_cache[45] = createTextVNode()),
+            createElementVNode("div", _hoisted_10$8, [
+              _cache[42] || (_cache[42] = createElementVNode("label", { for: "input-addon-edit-html-class" }, "CSS Class", -1)),
+              _cache[43] || (_cache[43] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-addon-edit-html-class",
                 type: "text",
@@ -19278,27 +18851,31 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ])
           ]),
-          createElementVNode("div", _hoisted_11$6, [
+          _cache[107] || (_cache[107] = createTextVNode()),
+          createElementVNode("div", _hoisted_11$7, [
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.padding,
               "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.options.padding = $event)
             }, {
-              label: withCtx(() => [..._cache[35] || (_cache[35] = [
+              label: withCtx(() => [..._cache[46] || (_cache[46] = [
                 createElementVNode("label", null, "Padding", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
+            _cache[91] || (_cache[91] = createTextVNode()),
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.margin,
               "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.options.margin = $event)
             }, {
-              label: withCtx(() => [..._cache[36] || (_cache[36] = [
+              label: withCtx(() => [..._cache[47] || (_cache[47] = [
                 createElementVNode("label", null, "Margin", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
-            createElementVNode("div", _hoisted_12$6, [
-              _cache[37] || (_cache[37] = createElementVNode("label", { for: "input-addon-edit-text-color" }, "Text Color", -1)),
+            _cache[92] || (_cache[92] = createTextVNode()),
+            createElementVNode("div", _hoisted_12$7, [
+              _cache[48] || (_cache[48] = createElementVNode("label", { for: "input-addon-edit-text-color" }, "Text Color", -1)),
+              _cache[49] || (_cache[49] = createTextVNode()),
               createVNode($setup["ColorInput"], {
                 id: "input-addon-edit-text-color",
                 modelValue: $setup.options.text_color,
@@ -19306,9 +18883,11 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 modelModifiers: { lazy: true }
               }, null, 8, ["modelValue"])
             ]),
-            createElementVNode("div", _hoisted_13$6, [
-              _cache[38] || (_cache[38] = createElementVNode("label", { for: "input-addon-edit-background" }, "Background Type", -1)),
-              createElementVNode("div", _hoisted_14$6, [
+            _cache[93] || (_cache[93] = createTextVNode()),
+            createElementVNode("div", _hoisted_13$7, [
+              _cache[50] || (_cache[50] = createElementVNode("label", { for: "input-addon-edit-background" }, "Background Type", -1)),
+              _cache[51] || (_cache[51] = createTextVNode()),
+              createElementVNode("div", _hoisted_14$7, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
                   variant: "outline",
@@ -19325,10 +18904,12 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[94] || (_cache[94] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
-                ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_15$6, [
-                  _cache[39] || (_cache[39] = createElementVNode("label", { for: "input-addon-edit-bg-color" }, "Background Color", -1)),
+                ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_15$7, [
+                  _cache[52] || (_cache[52] = createElementVNode("label", { for: "input-addon-edit-bg-color" }, "Background Color", -1)),
+                  _cache[53] || (_cache[53] = createTextVNode()),
                   createVNode($setup["ColorInput"], {
                     id: "input-addon-edit-bg-color",
                     modelValue: $setup.options.background.color,
@@ -19339,23 +18920,27 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
+            _cache[95] || (_cache[95] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
             }, {
               default: withCtx(() => [
-                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_16$6, [
-                  createElementVNode("div", _hoisted_17$5, [
-                    _cache[40] || (_cache[40] = createElementVNode("label", { for: "input-addon-edit-bg-image" }, "Background Image", -1)),
+                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_16$7, [
+                  createElementVNode("div", _hoisted_17$6, [
+                    _cache[54] || (_cache[54] = createElementVNode("label", { for: "input-addon-edit-bg-image" }, "Background Image", -1)),
+                    _cache[55] || (_cache[55] = createTextVNode()),
                     createVNode($setup["SingleImage"], {
                       modelValue: $setup.options.background.image.url,
                       "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => $setup.options.background.image.url = $event),
                       id: "input-addon-edit-bg-image"
                     }, null, 8, ["modelValue"])
                   ]),
-                  createElementVNode("div", _hoisted_18$3, [
-                    createElementVNode("div", _hoisted_19$3, [
-                      _cache[41] || (_cache[41] = createElementVNode("label", { for: "input-addon-edit-bg-overlay" }, "Background Overlay", -1)),
+                  _cache[69] || (_cache[69] = createTextVNode()),
+                  createElementVNode("div", _hoisted_18$4, [
+                    createElementVNode("div", _hoisted_19$4, [
+                      _cache[56] || (_cache[56] = createElementVNode("label", { for: "input-addon-edit-bg-overlay" }, "Background Overlay", -1)),
+                      _cache[57] || (_cache[57] = createTextVNode()),
                       createVNode($setup["ColorInput"], {
                         id: "input-addon-edit-bg-overlay",
                         modelValue: $setup.options.background.overlay,
@@ -19363,17 +18948,23 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                         modelModifiers: { lazy: true }
                       }, null, 8, ["modelValue"])
                     ]),
-                    createElementVNode("div", _hoisted_20$3, [
-                      _cache[43] || (_cache[43] = createElementVNode("label", { for: "input-addon-edit-bg-repeat" }, "Background Repeat", -1)),
+                    _cache[61] || (_cache[61] = createTextVNode()),
+                    createElementVNode("div", _hoisted_20$4, [
+                      _cache[59] || (_cache[59] = createElementVNode("label", { for: "input-addon-edit-bg-repeat" }, "Background Repeat", -1)),
+                      _cache[60] || (_cache[60] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-addon-edit-bg-repeat",
                         "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => $setup.options.background.image.repeat = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[42] || (_cache[42] = [
+                      }, [..._cache[58] || (_cache[58] = [
                         createElementVNode("option", { value: "no-repeat" }, "No Repeat", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "" }, "Repeat All", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "repeat-x" }, "Repeat X", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "repeat-y" }, "Repeat Y", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "inherit" }, "Inherit", -1)
                       ])], 512), [
                         [
@@ -19385,16 +18976,20 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                       ])
                     ])
                   ]),
-                  createElementVNode("div", _hoisted_21$2, [
+                  _cache[70] || (_cache[70] = createTextVNode()),
+                  createElementVNode("div", _hoisted_21$3, [
                     createElementVNode("div", _hoisted_22$2, [
-                      _cache[45] || (_cache[45] = createElementVNode("label", { for: "input-addon-edit-bg-attachment" }, "Background Attachment", -1)),
+                      _cache[63] || (_cache[63] = createElementVNode("label", { for: "input-addon-edit-bg-attachment" }, "Background Attachment", -1)),
+                      _cache[64] || (_cache[64] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-addon-edit-bg-attachment",
                         "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => $setup.options.background.image.attachment = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[44] || (_cache[44] = [
+                      }, [..._cache[62] || (_cache[62] = [
                         createElementVNode("option", { value: "fixed" }, "Fixed", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "scroll" }, "Scroll", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "inherit" }, "Inherit", -1)
                       ])], 512), [
                         [
@@ -19405,21 +19000,31 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                         ]
                       ])
                     ]),
+                    _cache[68] || (_cache[68] = createTextVNode()),
                     createElementVNode("div", _hoisted_23$2, [
-                      _cache[47] || (_cache[47] = createElementVNode("label", { for: "input-addon-edit-bg-position" }, "Background Position", -1)),
+                      _cache[66] || (_cache[66] = createElementVNode("label", { for: "input-addon-edit-bg-position" }, "Background Position", -1)),
+                      _cache[67] || (_cache[67] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-addon-edit-bg-position",
                         "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => $setup.options.background.image.position = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[46] || (_cache[46] = [
+                      }, [..._cache[65] || (_cache[65] = [
                         createElementVNode("option", { value: "left top" }, "Left Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "left center" }, "Left Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "left bottom" }, "Left Bottom", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center top" }, "Center Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center center" }, "Center Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center bottom" }, "Center Bottom", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right top" }, "Right Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right center" }, "Right Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right bottom" }, "Right Bottom", -1)
                       ])], 512), [
                         [
@@ -19435,6 +19040,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
+            _cache[96] || (_cache[96] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
@@ -19450,6 +19056,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
+            _cache[97] || (_cache[97] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
@@ -19457,7 +19064,8 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               default: withCtx(() => [
                 ["video"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_24$2, [
                   createElementVNode("div", _hoisted_25$2, [
-                    _cache[48] || (_cache[48] = createElementVNode("label", { for: "input-addon-edit-bg-video-url" }, "Video URL", -1)),
+                    _cache[71] || (_cache[71] = createElementVNode("label", { for: "input-addon-edit-bg-video-url" }, "Video URL", -1)),
+                    _cache[72] || (_cache[72] = createTextVNode()),
                     withDirectives(createElementVNode("input", {
                       id: "input-addon-edit-bg-video-url",
                       type: "text",
@@ -19466,12 +19074,14 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                     }, null, 512), [
                       [vModelText, $setup.options.background.video.url]
                     ]),
-                    _cache[49] || (_cache[49] = createElementVNode("small", { class: "form-text text-muted" }, " Paste mp4 video URL or Youtube / Vimeo link. ", -1))
+                    _cache[73] || (_cache[73] = createTextVNode()),
+                    _cache[74] || (_cache[74] = createElementVNode("small", { class: "form-text text-muted" }, "\n                  Paste mp4 video URL or Youtube / Vimeo link.\n                ", -1))
                   ])
                 ])) : createCommentVNode("", true)
               ]),
               _: 1
             }),
+            _cache[98] || (_cache[98] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
@@ -19479,7 +19089,8 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               default: withCtx(() => [
                 ["video", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_26$2, [
                   createElementVNode("div", _hoisted_27$2, [
-                    _cache[50] || (_cache[50] = createElementVNode("label", { for: "input-addon-edit-bg-overlay" }, "Background Overlay", -1)),
+                    _cache[75] || (_cache[75] = createElementVNode("label", { for: "input-addon-edit-bg-overlay" }, "Background Overlay", -1)),
+                    _cache[76] || (_cache[76] = createTextVNode()),
                     createVNode($setup["ColorInput"], {
                       id: "input-addon-edit-bg-overlay",
                       modelValue: $setup.options.background.overlay,
@@ -19487,8 +19098,10 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                       modelModifiers: { lazy: true }
                     }, null, 8, ["modelValue"])
                   ]),
+                  _cache[79] || (_cache[79] = createTextVNode()),
                   createElementVNode("div", _hoisted_28$2, [
-                    _cache[51] || (_cache[51] = createElementVNode("label", { for: "input-addon-edit-hidden-mobile" }, "Parallel Scroll", -1)),
+                    _cache[77] || (_cache[77] = createElementVNode("label", { for: "input-addon-edit-hidden-mobile" }, "Parallel Scroll", -1)),
+                    _cache[78] || (_cache[78] = createTextVNode()),
                     createElementVNode("div", null, [
                       createVNode($setup["UnicornSwitcher"], {
                         name: "addon-edit-bg-parallax",
@@ -19506,9 +19119,12 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[58] || (_cache[58] = createElementVNode("hr", null, null, -1)),
+            _cache[99] || (_cache[99] = createTextVNode()),
+            _cache[100] || (_cache[100] = createElementVNode("hr", null, null, -1)),
+            _cache[101] || (_cache[101] = createTextVNode()),
             createElementVNode("div", _hoisted_29$2, [
-              _cache[52] || (_cache[52] = createElementVNode("label", { for: "input-addon-edit-hidden-mobile" }, "Hide in Mobile", -1)),
+              _cache[80] || (_cache[80] = createElementVNode("label", { for: "input-addon-edit-hidden-mobile" }, "Hide in Mobile", -1)),
+              _cache[81] || (_cache[81] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "addon-edit-hidden-mobile",
@@ -19522,8 +19138,10 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[102] || (_cache[102] = createTextVNode()),
             createElementVNode("div", _hoisted_30$2, [
-              _cache[53] || (_cache[53] = createElementVNode("label", { for: "input-addon-edit-hidden-tablet" }, "Hide in Tablet", -1)),
+              _cache[82] || (_cache[82] = createElementVNode("label", { for: "input-addon-edit-hidden-tablet" }, "Hide in Tablet", -1)),
+              _cache[83] || (_cache[83] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "addon-edit-hidden-tablet",
@@ -19537,8 +19155,10 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[103] || (_cache[103] = createTextVNode()),
             createElementVNode("div", _hoisted_31$2, [
-              _cache[54] || (_cache[54] = createElementVNode("label", { for: "input-addon-edit-hidden-desktop" }, "Hide in Desktop", -1)),
+              _cache[84] || (_cache[84] = createElementVNode("label", { for: "input-addon-edit-hidden-desktop" }, "Hide in Desktop", -1)),
+              _cache[85] || (_cache[85] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "addon-edit-hidden-desktop",
@@ -19552,14 +19172,18 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[59] || (_cache[59] = createElementVNode("hr", null, null, -1)),
+            _cache[104] || (_cache[104] = createTextVNode()),
+            _cache[105] || (_cache[105] = createElementVNode("hr", null, null, -1)),
+            _cache[106] || (_cache[106] = createTextVNode()),
             createElementVNode("div", _hoisted_32$2, [
-              _cache[57] || (_cache[57] = createElementVNode("label", { for: "input-addon-edit-css" }, "Custom CSS (SCSS)", -1)),
+              _cache[88] || (_cache[88] = createElementVNode("label", { for: "input-addon-edit-css" }, "Custom CSS (SCSS)", -1)),
+              _cache[89] || (_cache[89] = createTextVNode()),
               createElementVNode("div", _hoisted_33$2, [
-                _cache[55] || (_cache[55] = createTextVNode(" Will auto prefix with: ", -1)),
+                _cache[86] || (_cache[86] = createTextVNode("\n              Will auto prefix with: ", -1)),
                 createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
-                _cache[56] || (_cache[56] = createTextVNode(", and only affected in this scope. ", -1))
+                _cache[87] || (_cache[87] = createTextVNode(", and only affected in this scope.\n            ", -1))
               ]),
+              _cache[90] || (_cache[90] = createTextVNode()),
               $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_34$2, [
                 createVNode($setup["CssEditor"], {
                   ref: "css-editor",
@@ -19570,20 +19194,23 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               ])) : createCommentVNode("", true)
             ])
           ]),
+          _cache[108] || (_cache[108] = createTextVNode()),
           createElementVNode("div", _hoisted_35$2, [
             createVNode($setup["Animations"], {
               id: "addon-edit-anim",
-              value: $setup.options.animation
-            }, null, 8, ["value"])
+              modelValue: $setup.options.animation,
+              "onUpdate:modelValue": _cache[24] || (_cache[24] = ($event) => $setup.options.animation = $event)
+            }, null, 8, ["modelValue"])
           ])
-        ])) : createCommentVNode("", true)
+        ])) : createCommentVNode("", true),
+        _cache[113] || (_cache[113] = createTextVNode())
       ]),
       _: 1
     }, 8, ["open"])
   ]);
 }
-const AddonEdit = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__file", "AddonEdit.vue"]]);
-const _sfc_main$5 = /* @__PURE__ */ defineComponent({
+const AddonEdit = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8], ["__file", "AddonEdit.vue"]]);
+const _sfc_main$7 = /* @__PURE__ */ defineComponent({
   __name: "ColumnEdit",
   setup(__props, { expose: __expose }) {
     const u2 = useUnicorn();
@@ -19646,52 +19273,52 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$5 = { class: "modal-header bg-white sticky-top" };
-const _hoisted_2$5 = {
+const _hoisted_1$7 = { class: "modal-header bg-white sticky-top" };
+const _hoisted_2$7 = {
   ref: "tab",
   class: "nav nav-pills border-0"
 };
-const _hoisted_3$5 = { class: "nav-item" };
-const _hoisted_4$5 = {
+const _hoisted_3$7 = { class: "nav-item" };
+const _hoisted_4$7 = {
   ref: "generalTab",
   class: "nav-link active",
   "data-toggle": "tab",
   "data-bs-toggle": "tab",
   href: "#column-edit-general"
 };
-const _hoisted_5$5 = { class: "ml-auto ms-auto" };
-const _hoisted_6$5 = ["disabled"];
-const _hoisted_7$5 = {
+const _hoisted_5$7 = { class: "ml-auto ms-auto" };
+const _hoisted_6$7 = ["disabled"];
+const _hoisted_7$7 = {
   key: 0,
   class: "tab-content",
   id: "column-edit-tab-content"
 };
-const _hoisted_8$5 = {
+const _hoisted_8$7 = {
   class: "tab-pane fade show active",
   id: "column-edit-general",
   role: "tabpanel",
   "aria-labelledby": "column-edit-general-tab"
 };
-const _hoisted_9$5 = { class: "form-group mb-3" };
-const _hoisted_10$5 = { class: "form-group mb-3" };
-const _hoisted_11$5 = { class: "" };
-const _hoisted_12$5 = {
+const _hoisted_9$7 = { class: "form-group mb-3" };
+const _hoisted_10$7 = { class: "form-group mb-3" };
+const _hoisted_11$6 = { class: "" };
+const _hoisted_12$6 = {
   key: 0,
   class: "form-group mb-3",
   style: { "animation-duration": ".3s" }
 };
-const _hoisted_13$5 = {
+const _hoisted_13$6 = {
   key: 0,
   style: { "animation-duration": ".3s" }
 };
-const _hoisted_14$5 = { class: "form-group mb-3" };
-const _hoisted_15$5 = { class: "form-row row" };
-const _hoisted_16$5 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_17$4 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_18$2 = { class: "form-row row" };
-const _hoisted_19$2 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_20$2 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_21$1 = { class: "form-group mb-3" };
+const _hoisted_14$6 = { class: "form-group mb-3" };
+const _hoisted_15$6 = { class: "form-row row" };
+const _hoisted_16$6 = { class: "form-group mb-3 col-md-6" };
+const _hoisted_17$5 = { class: "form-group mb-3 col-md-6" };
+const _hoisted_18$3 = { class: "form-row row" };
+const _hoisted_19$3 = { class: "form-group mb-3 col-md-6" };
+const _hoisted_20$3 = { class: "form-group mb-3 col-md-6" };
+const _hoisted_21$2 = { class: "form-group mb-3" };
 const _hoisted_22$1 = { class: "" };
 const _hoisted_23$1 = { class: "form-group mb-3" };
 const _hoisted_24$1 = { class: "form-group mb-3" };
@@ -19736,7 +19363,7 @@ const _hoisted_55 = {
   role: "tabpanel",
   "aria-labelledby": "column-edit-animation-tab"
 };
-function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
     createVNode($setup["BsModal"], {
       open: $setup.modalShow,
@@ -19746,37 +19373,41 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
       class: "c-modal-column-edit"
     }, {
       "header-element": withCtx(() => [
-        createElementVNode("div", _hoisted_1$5, [
-          createElementVNode("ul", _hoisted_2$5, [
-            createElementVNode("li", _hoisted_3$5, [
-              createElementVNode("a", _hoisted_4$5, " General ", 512)
+        createElementVNode("div", _hoisted_1$7, [
+          createElementVNode("ul", _hoisted_2$7, [
+            createElementVNode("li", _hoisted_3$7, [
+              createElementVNode("a", _hoisted_4$7, "\n                General\n              ", 512)
             ]),
-            _cache[36] || (_cache[36] = createElementVNode("li", { class: "nav-item" }, [
-              createElementVNode("a", {
-                class: "nav-link",
-                "data-toggle": "tab",
-                "data-bs-toggle": "tab",
-                href: "#column-edit-layout"
-              }, " Layout ")
-            ], -1)),
+            _cache[36] || (_cache[36] = createTextVNode()),
             _cache[37] || (_cache[37] = createElementVNode("li", { class: "nav-item" }, [
               createElementVNode("a", {
                 class: "nav-link",
                 "data-toggle": "tab",
                 "data-bs-toggle": "tab",
+                href: "#column-edit-layout"
+              }, "\n                Layout\n              ")
+            ], -1)),
+            _cache[38] || (_cache[38] = createTextVNode()),
+            _cache[39] || (_cache[39] = createElementVNode("li", { class: "nav-item" }, [
+              createElementVNode("a", {
+                class: "nav-link",
+                "data-toggle": "tab",
+                "data-bs-toggle": "tab",
                 href: "#column-edit-animation"
-              }, " Animation ")
+              }, "\n                Animation\n              ")
             ], -1))
           ], 512),
-          createElementVNode("div", _hoisted_5$5, [
+          _cache[45] || (_cache[45] = createTextVNode()),
+          createElementVNode("div", _hoisted_5$7, [
             createElementVNode("button", {
               type: "button",
               class: "btn btn-primary",
               onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
-            }, [..._cache[38] || (_cache[38] = [
+            }, [..._cache[40] || (_cache[40] = [
               createElementVNode("span", { class: "fa fa-check" }, null, -1),
-              createTextVNode(" Done ", -1)
+              createTextVNode("\n              Done\n            ", -1)
             ])]),
+            _cache[43] || (_cache[43] = createTextVNode()),
             createElementVNode("button", {
               type: "button",
               class: "btn btn-success",
@@ -19786,13 +19417,14 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
               createElementVNode("span", {
                 class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
               }, null, 2),
-              _cache[39] || (_cache[39] = createTextVNode(" Save Page ", -1))
-            ], 8, _hoisted_6$5),
+              _cache[41] || (_cache[41] = createTextVNode("\n              Save Page\n            ", -1))
+            ], 8, _hoisted_6$7),
+            _cache[44] || (_cache[44] = createTextVNode()),
             createElementVNode("button", {
               type: "button",
               class: "btn btn-secondary",
               onClick: _cache[2] || (_cache[2] = ($event) => $setup.close())
-            }, [..._cache[40] || (_cache[40] = [
+            }, [..._cache[42] || (_cache[42] = [
               createElementVNode("span", { class: "fa fa-times" }, null, -1)
             ])])
           ])
@@ -19803,23 +19435,26 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
           type: "button",
           class: "btn btn-success",
           onClick: _cache[33] || (_cache[33] = ($event) => $setup.saveClose())
-        }, [..._cache[86] || (_cache[86] = [
+        }, [..._cache[161] || (_cache[161] = [
           createElementVNode("span", { class: "fa fa-save" }, null, -1),
-          createTextVNode(" Save ", -1)
+          createTextVNode("\n          Save\n        ", -1)
         ])]),
+        _cache[163] || (_cache[163] = createTextVNode()),
         createElementVNode("button", {
           type: "button",
           class: "btn btn-secondary",
           onClick: _cache[34] || (_cache[34] = ($event) => $setup.close())
-        }, [..._cache[87] || (_cache[87] = [
+        }, [..._cache[162] || (_cache[162] = [
           createElementVNode("span", { class: "fa fa-times" }, null, -1)
         ])])
       ]),
       default: withCtx(() => [
-        $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_7$5, [
-          createElementVNode("div", _hoisted_8$5, [
-            createElementVNode("div", _hoisted_9$5, [
-              _cache[41] || (_cache[41] = createElementVNode("label", { for: "input-column-edit-text-color" }, "Text Color", -1)),
+        _cache[164] || (_cache[164] = createTextVNode()),
+        $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_7$7, [
+          createElementVNode("div", _hoisted_8$7, [
+            createElementVNode("div", _hoisted_9$7, [
+              _cache[46] || (_cache[46] = createElementVNode("label", { for: "input-column-edit-text-color" }, "Text Color", -1)),
+              _cache[47] || (_cache[47] = createTextVNode()),
               createVNode($setup["ColorInput"], {
                 id: "input-column-edit-text-color",
                 modelValue: $setup.options.text_color,
@@ -19827,9 +19462,11 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 modelModifiers: { lazy: true }
               }, null, 8, ["modelValue"])
             ]),
-            createElementVNode("div", _hoisted_10$5, [
-              _cache[42] || (_cache[42] = createElementVNode("label", { for: "input-column-edit-background" }, "Background Style", -1)),
-              createElementVNode("div", _hoisted_11$5, [
+            _cache[106] || (_cache[106] = createTextVNode()),
+            createElementVNode("div", _hoisted_10$7, [
+              _cache[48] || (_cache[48] = createElementVNode("label", { for: "input-column-edit-background" }, "Background Style", -1)),
+              _cache[49] || (_cache[49] = createTextVNode()),
+              createElementVNode("div", _hoisted_11$6, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
                   variant: "outline",
@@ -19845,13 +19482,15 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[107] || (_cache[107] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
             }, {
               default: withCtx(() => [
-                ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_12$5, [
-                  _cache[43] || (_cache[43] = createElementVNode("label", { for: "input-column-edit-bg-color" }, "Background Color", -1)),
+                ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_12$6, [
+                  _cache[50] || (_cache[50] = createElementVNode("label", { for: "input-column-edit-bg-color" }, "Background Color", -1)),
+                  _cache[51] || (_cache[51] = createTextVNode()),
                   createVNode($setup["ColorInput"], {
                     id: "input-column-edit-bg-color",
                     modelValue: $setup.options.background.color,
@@ -19862,23 +19501,27 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
+            _cache[108] || (_cache[108] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
             }, {
               default: withCtx(() => [
-                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_13$5, [
-                  createElementVNode("div", _hoisted_14$5, [
-                    _cache[44] || (_cache[44] = createElementVNode("label", { for: "input-column-edit-bg-image" }, "Background Image", -1)),
+                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_13$6, [
+                  createElementVNode("div", _hoisted_14$6, [
+                    _cache[52] || (_cache[52] = createElementVNode("label", { for: "input-column-edit-bg-image" }, "Background Image", -1)),
+                    _cache[53] || (_cache[53] = createTextVNode()),
                     createVNode($setup["SingleImage"], {
                       modelValue: $setup.options.background.image.url,
                       "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.options.background.image.url = $event),
                       id: "input-column-edit-bg-image"
                     }, null, 8, ["modelValue"])
                   ]),
-                  createElementVNode("div", _hoisted_15$5, [
-                    createElementVNode("div", _hoisted_16$5, [
-                      _cache[45] || (_cache[45] = createElementVNode("label", { for: "input-column-edit-bg-overlay" }, "Background Overlay", -1)),
+                  _cache[67] || (_cache[67] = createTextVNode()),
+                  createElementVNode("div", _hoisted_15$6, [
+                    createElementVNode("div", _hoisted_16$6, [
+                      _cache[54] || (_cache[54] = createElementVNode("label", { for: "input-column-edit-bg-overlay" }, "Background Overlay", -1)),
+                      _cache[55] || (_cache[55] = createTextVNode()),
                       createVNode($setup["ColorInput"], {
                         id: "input-column-edit-bg-overlay",
                         modelValue: $setup.options.background.overlay,
@@ -19886,17 +19529,23 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                         modelModifiers: { lazy: true }
                       }, null, 8, ["modelValue"])
                     ]),
-                    createElementVNode("div", _hoisted_17$4, [
-                      _cache[47] || (_cache[47] = createElementVNode("label", { for: "input-column-edit-bg-repeat" }, "Background Repeat", -1)),
+                    _cache[59] || (_cache[59] = createTextVNode()),
+                    createElementVNode("div", _hoisted_17$5, [
+                      _cache[57] || (_cache[57] = createElementVNode("label", { for: "input-column-edit-bg-repeat" }, "Background Repeat", -1)),
+                      _cache[58] || (_cache[58] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-column-edit-bg-repeat",
                         "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.options.background.image.repeat = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[46] || (_cache[46] = [
+                      }, [..._cache[56] || (_cache[56] = [
                         createElementVNode("option", { value: "no-repeat" }, "No Repeat", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "" }, "Repeat All", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "repeat-x" }, "Repeat X", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "repeat-y" }, "Repeat Y", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "inherit" }, "Inherit", -1)
                       ])], 512), [
                         [
@@ -19908,16 +19557,20 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                       ])
                     ])
                   ]),
-                  createElementVNode("div", _hoisted_18$2, [
-                    createElementVNode("div", _hoisted_19$2, [
-                      _cache[49] || (_cache[49] = createElementVNode("label", { for: "input-column-edit-bg-attachment" }, "Background Attachment", -1)),
+                  _cache[68] || (_cache[68] = createTextVNode()),
+                  createElementVNode("div", _hoisted_18$3, [
+                    createElementVNode("div", _hoisted_19$3, [
+                      _cache[61] || (_cache[61] = createElementVNode("label", { for: "input-column-edit-bg-attachment" }, "Background Attachment", -1)),
+                      _cache[62] || (_cache[62] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-column-edit-bg-attachment",
                         "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.options.background.image.attachment = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[48] || (_cache[48] = [
+                      }, [..._cache[60] || (_cache[60] = [
                         createElementVNode("option", { value: "fixed" }, "Fixed", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "scroll" }, "Scroll", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "inherit" }, "Inherit", -1)
                       ])], 512), [
                         [
@@ -19928,21 +19581,31 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                         ]
                       ])
                     ]),
-                    createElementVNode("div", _hoisted_20$2, [
-                      _cache[51] || (_cache[51] = createElementVNode("label", { for: "input-column-edit-bg-position" }, "Background Position", -1)),
+                    _cache[66] || (_cache[66] = createTextVNode()),
+                    createElementVNode("div", _hoisted_20$3, [
+                      _cache[64] || (_cache[64] = createElementVNode("label", { for: "input-column-edit-bg-position" }, "Background Position", -1)),
+                      _cache[65] || (_cache[65] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-column-edit-bg-position",
                         "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.options.background.image.position = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[50] || (_cache[50] = [
+                      }, [..._cache[63] || (_cache[63] = [
                         createElementVNode("option", { value: "left top" }, "Left Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "left center" }, "Left Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "left bottom" }, "Left Bottom", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center top" }, "Center Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center center" }, "Center Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center bottom" }, "Center Bottom", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right top" }, "Right Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right center" }, "Right Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right bottom" }, "Right Bottom", -1)
                       ])], 512), [
                         [
@@ -19958,6 +19621,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
+            _cache[109] || (_cache[109] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
@@ -19973,8 +19637,10 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            createElementVNode("div", _hoisted_21$1, [
-              _cache[52] || (_cache[52] = createElementVNode("label", { for: "input-addon-edit-text-align" }, "Text Alignment", -1)),
+            _cache[110] || (_cache[110] = createTextVNode()),
+            createElementVNode("div", _hoisted_21$2, [
+              _cache[69] || (_cache[69] = createElementVNode("label", { for: "input-addon-edit-text-align" }, "Text Alignment", -1)),
+              _cache[70] || (_cache[70] = createTextVNode()),
               createElementVNode("div", _hoisted_22$1, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
@@ -19991,8 +19657,10 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[111] || (_cache[111] = createTextVNode()),
             createElementVNode("div", _hoisted_23$1, [
-              _cache[53] || (_cache[53] = createElementVNode("label", { for: "input-column-edit-valign" }, "Vertical Align Middle", -1)),
+              _cache[71] || (_cache[71] = createElementVNode("label", { for: "input-column-edit-valign" }, "Vertical Align Middle", -1)),
+              _cache[72] || (_cache[72] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-align-middle",
@@ -20006,28 +19674,34 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[69] || (_cache[69] = createElementVNode("hr", null, null, -1)),
+            _cache[112] || (_cache[112] = createTextVNode()),
+            _cache[113] || (_cache[113] = createElementVNode("hr", null, null, -1)),
+            _cache[114] || (_cache[114] = createTextVNode()),
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.padding,
               "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => $setup.options.padding = $event)
             }, {
-              label: withCtx(() => [..._cache[54] || (_cache[54] = [
+              label: withCtx(() => [..._cache[73] || (_cache[73] = [
                 createElementVNode("label", null, "Padding", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
+            _cache[115] || (_cache[115] = createTextVNode()),
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.margin,
               "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => $setup.options.margin = $event)
             }, {
-              label: withCtx(() => [..._cache[55] || (_cache[55] = [
+              label: withCtx(() => [..._cache[74] || (_cache[74] = [
                 createElementVNode("label", null, "Margin", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
-            _cache[70] || (_cache[70] = createElementVNode("hr", null, null, -1)),
+            _cache[116] || (_cache[116] = createTextVNode()),
+            _cache[117] || (_cache[117] = createElementVNode("hr", null, null, -1)),
+            _cache[118] || (_cache[118] = createTextVNode()),
             createElementVNode("div", _hoisted_24$1, [
-              _cache[56] || (_cache[56] = createElementVNode("label", { for: "input-column-edit-border-enabled" }, "Border", -1)),
+              _cache[75] || (_cache[75] = createElementVNode("label", { for: "input-column-edit-border-enabled" }, "Border", -1)),
+              _cache[76] || (_cache[76] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-border-enabled",
@@ -20039,10 +19713,11 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[119] || (_cache[119] = createTextVNode()),
             $setup.options.border.enabled == 1 ? (openBlock(), createElementBlock("div", _hoisted_25$1, [
               createVNode($setup["RwdGroup"], { "class-name": "c-border-width" }, createSlots({
                 label: withCtx(() => [
-                  _cache[57] || (_cache[57] = createElementVNode("label", null, " Border Width ", -1))
+                  _cache[77] || (_cache[77] = createElementVNode("label", null, "\n                  Border Width\n                ", -1))
                 ]),
                 _: 2
               }, [
@@ -20058,8 +19733,10 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                   };
                 })
               ]), 1024),
+              _cache[84] || (_cache[84] = createTextVNode()),
               createElementVNode("div", _hoisted_26$1, [
-                _cache[58] || (_cache[58] = createElementVNode("label", { for: "input-column-edit-border-color" }, "Border Color", -1)),
+                _cache[79] || (_cache[79] = createElementVNode("label", { for: "input-column-edit-border-color" }, "Border Color", -1)),
+                _cache[80] || (_cache[80] = createTextVNode()),
                 createVNode($setup["ColorInput"], {
                   id: "input-column-edit-border-color",
                   modelValue: $setup.options.border.color,
@@ -20067,28 +19744,37 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                   modelModifiers: { lazy: true }
                 }, null, 8, ["modelValue"])
               ]),
+              _cache[85] || (_cache[85] = createTextVNode()),
               createElementVNode("div", _hoisted_27$1, [
-                _cache[60] || (_cache[60] = createElementVNode("label", { for: "input-column-edit-border-style" }, "Border Style", -1)),
+                _cache[82] || (_cache[82] = createElementVNode("label", { for: "input-column-edit-border-style" }, "Border Style", -1)),
+                _cache[83] || (_cache[83] = createTextVNode()),
                 withDirectives(createElementVNode("select", {
                   id: "input-column-edit-border-style",
                   "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => $setup.options.border.style = $event),
                   class: "form-select custom-select"
-                }, [..._cache[59] || (_cache[59] = [
+                }, [..._cache[81] || (_cache[81] = [
                   createElementVNode("option", { value: "" }, "None", -1),
+                  createTextVNode(),
                   createElementVNode("option", { value: "solid" }, "Solid", -1),
+                  createTextVNode(),
                   createElementVNode("option", { value: "dotted" }, "Dotted", -1),
+                  createTextVNode(),
                   createElementVNode("option", { value: "dashed" }, "Dashed", -1),
+                  createTextVNode(),
                   createElementVNode("option", { value: "double" }, "Double", -1),
+                  createTextVNode(),
                   createElementVNode("option", { value: "groove" }, "Groove", -1),
+                  createTextVNode(),
                   createElementVNode("option", { value: "ridge" }, "Ridge", -1)
                 ])], 512), [
                   [vModelSelect, $setup.options.border.style]
                 ])
               ])
             ])) : createCommentVNode("", true),
+            _cache[120] || (_cache[120] = createTextVNode()),
             createVNode($setup["RwdGroup"], { "class-name": "c-border-radius" }, createSlots({
               label: withCtx(() => [
-                _cache[61] || (_cache[61] = createElementVNode("label", null, " Border Radius ", -1))
+                _cache[86] || (_cache[86] = createElementVNode("label", null, "\n                Border Radius\n              ", -1))
               ]),
               _: 2
             }, [
@@ -20105,9 +19791,12 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 };
               })
             ]), 1024),
-            _cache[71] || (_cache[71] = createElementVNode("hr", null, null, -1)),
+            _cache[121] || (_cache[121] = createTextVNode()),
+            _cache[122] || (_cache[122] = createElementVNode("hr", null, null, -1)),
+            _cache[123] || (_cache[123] = createTextVNode()),
             createElementVNode("div", _hoisted_28$1, [
-              _cache[62] || (_cache[62] = createElementVNode("label", { for: "input-column-edit-box_shadow-enabled" }, "Box Shadow", -1)),
+              _cache[88] || (_cache[88] = createElementVNode("label", { for: "input-column-edit-box_shadow-enabled" }, "Box Shadow", -1)),
+              _cache[89] || (_cache[89] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-box_shadow-enabled",
@@ -20119,9 +19808,11 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[124] || (_cache[124] = createTextVNode()),
             $setup.options.box_shadow.enabled == 1 ? (openBlock(), createElementBlock("div", _hoisted_29$1, [
               createElementVNode("div", _hoisted_30$1, [
-                _cache[63] || (_cache[63] = createElementVNode("label", { for: "input-column-edit-box-shadow-color" }, "Shadow Color", -1)),
+                _cache[90] || (_cache[90] = createElementVNode("label", { for: "input-column-edit-box-shadow-color" }, "Shadow Color", -1)),
+                _cache[91] || (_cache[91] = createTextVNode()),
                 createVNode($setup["ColorInput"], {
                   id: "input-column-edit-box-shadow-color",
                   modelValue: $setup.options.box_shadow.color,
@@ -20129,19 +19820,23 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                   modelModifiers: { lazy: true }
                 }, null, 8, ["modelValue"])
               ]),
+              _cache[102] || (_cache[102] = createTextVNode()),
               createElementVNode("div", _hoisted_31$1, [
                 createElementVNode("div", _hoisted_32$1, [
                   createElementVNode("div", _hoisted_33$1, [
-                    _cache[64] || (_cache[64] = createElementVNode("label", null, " Shadow X Offset ", -1)),
+                    _cache[92] || (_cache[92] = createElementVNode("label", null, "\n                    Shadow X Offset\n                  ", -1)),
+                    _cache[93] || (_cache[93] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.hoffset,
                       "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => $setup.options.box_shadow.hoffset = $event)
                     }, null, 8, ["modelValue"])
                   ])
                 ]),
+                _cache[96] || (_cache[96] = createTextVNode()),
                 createElementVNode("div", _hoisted_34$1, [
                   createElementVNode("div", _hoisted_35$1, [
-                    _cache[65] || (_cache[65] = createElementVNode("label", null, " Shadow Y Offset ", -1)),
+                    _cache[94] || (_cache[94] = createElementVNode("label", null, "\n                    Shadow Y Offset\n                  ", -1)),
+                    _cache[95] || (_cache[95] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.voffset,
                       "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => $setup.options.box_shadow.voffset = $event)
@@ -20149,19 +19844,23 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                   ])
                 ])
               ]),
+              _cache[103] || (_cache[103] = createTextVNode()),
               createElementVNode("div", _hoisted_36$1, [
                 createElementVNode("div", _hoisted_37$1, [
                   createElementVNode("div", _hoisted_38$1, [
-                    _cache[66] || (_cache[66] = createElementVNode("label", null, " Shadow Blur ", -1)),
+                    _cache[97] || (_cache[97] = createElementVNode("label", null, "\n                    Shadow Blur\n                  ", -1)),
+                    _cache[98] || (_cache[98] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.blur,
                       "onUpdate:modelValue": _cache[23] || (_cache[23] = ($event) => $setup.options.box_shadow.blur = $event)
                     }, null, 8, ["modelValue"])
                   ])
                 ]),
+                _cache[101] || (_cache[101] = createTextVNode()),
                 createElementVNode("div", _hoisted_39$1, [
                   createElementVNode("div", _hoisted_40$1, [
-                    _cache[67] || (_cache[67] = createElementVNode("label", null, " Shadow Spread ", -1)),
+                    _cache[99] || (_cache[99] = createElementVNode("label", null, "\n                    Shadow Spread\n                  ", -1)),
+                    _cache[100] || (_cache[100] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.spread,
                       "onUpdate:modelValue": _cache[24] || (_cache[24] = ($event) => $setup.options.box_shadow.spread = $event)
@@ -20170,9 +19869,12 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 ])
               ])
             ])) : createCommentVNode("", true),
-            _cache[72] || (_cache[72] = createElementVNode("hr", null, null, -1)),
+            _cache[125] || (_cache[125] = createTextVNode()),
+            _cache[126] || (_cache[126] = createElementVNode("hr", null, null, -1)),
+            _cache[127] || (_cache[127] = createTextVNode()),
             createElementVNode("div", _hoisted_41, [
-              _cache[68] || (_cache[68] = createElementVNode("label", { for: "input-column-edit-html-class" }, "CSS Class", -1)),
+              _cache[104] || (_cache[104] = createElementVNode("label", { for: "input-column-edit-html-class" }, "CSS Class", -1)),
+              _cache[105] || (_cache[105] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-column-edit-html-class",
                 type: "text",
@@ -20183,9 +19885,11 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ])
           ]),
+          _cache[159] || (_cache[159] = createTextVNode()),
           createElementVNode("div", _hoisted_42, [
             createElementVNode("div", _hoisted_43, [
-              _cache[73] || (_cache[73] = createElementVNode("label", { for: "input-column-edit-width-desktop" }, "Desktop Width", -1)),
+              _cache[128] || (_cache[128] = createElementVNode("label", { for: "input-column-edit-width-desktop" }, "Desktop Width", -1)),
+              _cache[129] || (_cache[129] = createTextVNode()),
               withDirectives(createElementVNode("select", {
                 id: "input-column-edit-width-desktop",
                 "onUpdate:modelValue": _cache[26] || (_cache[26] = ($event) => $setup.options.width.lg = $event),
@@ -20194,49 +19898,58 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-lg-" + w
-                  }, " col-lg-" + toDisplayString(w), 9, _hoisted_44);
+                  }, "\n                col-lg-" + toDisplayString(w), 9, _hoisted_44);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.lg]
               ])
             ]),
+            _cache[149] || (_cache[149] = createTextVNode()),
             createElementVNode("div", _hoisted_45, [
-              _cache[75] || (_cache[75] = createElementVNode("label", { for: "input-column-edit-width-tablet" }, "Tablet Width", -1)),
+              _cache[132] || (_cache[132] = createElementVNode("label", { for: "input-column-edit-width-tablet" }, "Tablet Width", -1)),
+              _cache[133] || (_cache[133] = createTextVNode()),
               withDirectives(createElementVNode("select", {
                 id: "input-column-edit-width-tablet",
                 "onUpdate:modelValue": _cache[27] || (_cache[27] = ($event) => $setup.options.width.md = $event),
                 class: "form-select custom-select"
               }, [
-                _cache[74] || (_cache[74] = createElementVNode("option", { value: "" }, "- None -", -1)),
+                _cache[130] || (_cache[130] = createElementVNode("option", { value: "" }, "- None -", -1)),
+                _cache[131] || (_cache[131] = createTextVNode()),
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-md-" + w
-                  }, " col-md-" + toDisplayString(w), 9, _hoisted_46);
+                  }, "\n                col-md-" + toDisplayString(w), 9, _hoisted_46);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.md]
               ])
             ]),
+            _cache[150] || (_cache[150] = createTextVNode()),
             createElementVNode("div", _hoisted_47, [
-              _cache[77] || (_cache[77] = createElementVNode("label", { for: "input-column-edit-width-mobile" }, "Mobile Width", -1)),
+              _cache[136] || (_cache[136] = createElementVNode("label", { for: "input-column-edit-width-mobile" }, "Mobile Width", -1)),
+              _cache[137] || (_cache[137] = createTextVNode()),
               withDirectives(createElementVNode("select", {
                 id: "input-column-edit-width-mobile",
                 "onUpdate:modelValue": _cache[28] || (_cache[28] = ($event) => $setup.options.width.xs = $event),
                 class: "form-select custom-select"
               }, [
-                _cache[76] || (_cache[76] = createElementVNode("option", { value: "" }, "- None -", -1)),
+                _cache[134] || (_cache[134] = createElementVNode("option", { value: "" }, "- None -", -1)),
+                _cache[135] || (_cache[135] = createTextVNode()),
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-" + w
-                  }, " col-" + toDisplayString(w), 9, _hoisted_48);
+                  }, "\n                col-" + toDisplayString(w), 9, _hoisted_48);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.xs]
               ])
             ]),
-            _cache[84] || (_cache[84] = createElementVNode("hr", null, null, -1)),
+            _cache[151] || (_cache[151] = createTextVNode()),
+            _cache[152] || (_cache[152] = createElementVNode("hr", null, null, -1)),
+            _cache[153] || (_cache[153] = createTextVNode()),
             createElementVNode("div", _hoisted_49, [
-              _cache[78] || (_cache[78] = createElementVNode("label", { for: "input-column-edit-hidden-mobile" }, "Hide in Mobile", -1)),
+              _cache[138] || (_cache[138] = createElementVNode("label", { for: "input-column-edit-hidden-mobile" }, "Hide in Mobile", -1)),
+              _cache[139] || (_cache[139] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-hidden-mobile",
@@ -20250,8 +19963,10 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[154] || (_cache[154] = createTextVNode()),
             createElementVNode("div", _hoisted_50, [
-              _cache[79] || (_cache[79] = createElementVNode("label", { for: "input-column-edit-hidden-tablet" }, "Hide in Tablet", -1)),
+              _cache[140] || (_cache[140] = createElementVNode("label", { for: "input-column-edit-hidden-tablet" }, "Hide in Tablet", -1)),
+              _cache[141] || (_cache[141] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-hidden-tablet",
@@ -20265,8 +19980,10 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[155] || (_cache[155] = createTextVNode()),
             createElementVNode("div", _hoisted_51, [
-              _cache[80] || (_cache[80] = createElementVNode("label", { for: "input-column-edit-hidden-desktop" }, "Hide in Desktop", -1)),
+              _cache[142] || (_cache[142] = createElementVNode("label", { for: "input-column-edit-hidden-desktop" }, "Hide in Desktop", -1)),
+              _cache[143] || (_cache[143] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-hidden-desktop",
@@ -20280,14 +19997,18 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[85] || (_cache[85] = createElementVNode("hr", null, null, -1)),
+            _cache[156] || (_cache[156] = createTextVNode()),
+            _cache[157] || (_cache[157] = createElementVNode("hr", null, null, -1)),
+            _cache[158] || (_cache[158] = createTextVNode()),
             createElementVNode("div", _hoisted_52, [
-              _cache[83] || (_cache[83] = createElementVNode("label", { for: "input-column-edit-css" }, "Custom CSS (SCSS)", -1)),
+              _cache[146] || (_cache[146] = createElementVNode("label", { for: "input-column-edit-css" }, "Custom CSS (SCSS)", -1)),
+              _cache[147] || (_cache[147] = createTextVNode()),
               createElementVNode("div", _hoisted_53, [
-                _cache[81] || (_cache[81] = createTextVNode(" Will auto prefix with: ", -1)),
+                _cache[144] || (_cache[144] = createTextVNode("\n              Will auto prefix with: ", -1)),
                 createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
-                _cache[82] || (_cache[82] = createTextVNode(", and only affected in this scope. ", -1))
+                _cache[145] || (_cache[145] = createTextVNode(", and only affected in this scope.\n            ", -1))
               ]),
+              _cache[148] || (_cache[148] = createTextVNode()),
               $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_54, [
                 createVNode($setup["CssEditor"], {
                   ref: "cssEditor",
@@ -20298,29 +20019,31 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
               ])) : createCommentVNode("", true)
             ])
           ]),
+          _cache[160] || (_cache[160] = createTextVNode()),
           createElementVNode("div", _hoisted_55, [
             createVNode($setup["Animations"], {
               id: "column-edit-anim",
               value: $setup.options.animation
             }, null, 8, ["value"])
           ])
-        ])) : createCommentVNode("", true)
+        ])) : createCommentVNode("", true),
+        _cache[165] || (_cache[165] = createTextVNode())
       ]),
       _: 1
     }, 8, ["open"])
   ]);
 }
-const ColumnEdit = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__file", "ColumnEdit.vue"]]);
-var sweetalert_min$2 = { exports: {} };
-var sweetalert_min$1 = sweetalert_min$2.exports;
+const ColumnEdit = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7], ["__file", "ColumnEdit.vue"]]);
+var sweetalert_min$1 = { exports: {} };
+var sweetalert_min = sweetalert_min$1.exports;
 var hasRequiredSweetalert_min;
 function requireSweetalert_min() {
-  if (hasRequiredSweetalert_min) return sweetalert_min$2.exports;
+  if (hasRequiredSweetalert_min) return sweetalert_min$1.exports;
   hasRequiredSweetalert_min = 1;
   (function(module2, exports2) {
     !(function(t, e) {
       module2.exports = e();
-    })(sweetalert_min$1, function() {
+    })(sweetalert_min, function() {
       return (function(t) {
         function e(o) {
           if (n[o]) return n[o].exports;
@@ -20373,8 +20096,8 @@ function requireSweetalert_min() {
         Object.defineProperty(e, "__esModule", { value: true }), o(n(25));
         var r = n(26);
         e.overlayMarkup = r.default, o(n(27)), o(n(28)), o(n(29));
-        var i = n(0), a = i.default.MODAL_TITLE, s = i.default.MODAL_TEXT, c = i.default.ICON, l = i.default.FOOTER;
-        e.iconMarkup = '\n  <div class="' + c + '"></div>', e.titleMarkup = '\n  <div class="' + a + '"></div>\n', e.textMarkup = '\n  <div class="' + s + '"></div>', e.footerMarkup = '\n  <div class="' + l + '"></div>\n';
+        var i = n(0), a = i.default.MODAL_TITLE, s = i.default.MODAL_TEXT, c2 = i.default.ICON, l = i.default.FOOTER;
+        e.iconMarkup = '\n  <div class="' + c2 + '"></div>', e.titleMarkup = '\n  <div class="' + a + '"></div>\n', e.textMarkup = '\n  <div class="' + s + '"></div>', e.footerMarkup = '\n  <div class="' + l + '"></div>\n';
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
         var o = n(1);
@@ -20391,12 +20114,12 @@ function requireSweetalert_min() {
               var n2 = t2.charAt(0).toUpperCase() + t2.slice(1);
               return Object.assign({}, r, { text: n2, value: t2 });
           }
-        }, c = function(t2, e2) {
+        }, c2 = function(t2, e2) {
           var n2 = s(t2);
           return true === e2 ? Object.assign({}, n2, { visible: true }) : "string" == typeof e2 ? Object.assign({}, n2, { visible: true, text: e2 }) : o.isPlainObject(e2) ? Object.assign({ visible: true }, n2, e2) : Object.assign({}, n2, { visible: false });
         }, l = function(t2) {
           for (var e2 = {}, n2 = 0, o2 = Object.keys(t2); n2 < o2.length; n2++) {
-            var r2 = o2[n2], a2 = t2[r2], s2 = c(r2, a2);
+            var r2 = o2[n2], a2 = t2[r2], s2 = c2(r2, a2);
             e2[r2] = s2;
           }
           return e2.cancel || (e2.cancel = i), e2;
@@ -20407,7 +20130,7 @@ function requireSweetalert_min() {
               n2[e.CANCEL_KEY] = Object.assign({}, i, { visible: false });
               break;
             case 2:
-              n2[e.CANCEL_KEY] = c(e.CANCEL_KEY, t2[0]), n2[e.CONFIRM_KEY] = c(e.CONFIRM_KEY, t2[1]);
+              n2[e.CANCEL_KEY] = c2(e.CANCEL_KEY, t2[0]), n2[e.CONFIRM_KEY] = c2(e.CONFIRM_KEY, t2[1]);
               break;
             default:
               o.throwErr("Invalid number of 'buttons' in array (" + t2.length + ").\n      If you want more than 2 buttons, you need to use an object!");
@@ -20416,31 +20139,31 @@ function requireSweetalert_min() {
         };
         e.getButtonListOpts = function(t2) {
           var n2 = e.defaultButtonList;
-          return "string" == typeof t2 ? n2[e.CONFIRM_KEY] = c(e.CONFIRM_KEY, t2) : Array.isArray(t2) ? n2 = u2(t2) : o.isPlainObject(t2) ? n2 = l(t2) : true === t2 ? n2 = u2([true, true]) : false === t2 ? n2 = u2([false, false]) : void 0 === t2 && (n2 = e.defaultButtonList), n2;
+          return "string" == typeof t2 ? n2[e.CONFIRM_KEY] = c2(e.CONFIRM_KEY, t2) : Array.isArray(t2) ? n2 = u2(t2) : o.isPlainObject(t2) ? n2 = l(t2) : true === t2 ? n2 = u2([true, true]) : false === t2 ? n2 = u2([false, false]) : void 0 === t2 && (n2 = e.defaultButtonList), n2;
         };
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(1), r = n(2), i = n(0), a = i.default.MODAL, s = i.default.OVERLAY, c = n(30), l = n(31), u2 = n(32), f = n(33);
+        var o = n(1), r = n(2), i = n(0), a = i.default.MODAL, s = i.default.OVERLAY, c2 = n(30), l = n(31), u2 = n(32), f2 = n(33);
         e.injectElIntoModal = function(t2) {
           var e2 = o.getNode(a), n2 = o.stringToNode(t2);
           return e2.appendChild(n2), n2;
         };
-        var d = function(t2) {
+        var d2 = function(t2) {
           t2.className = a, t2.textContent = "";
-        }, p = function(t2, e2) {
-          d(t2);
+        }, p2 = function(t2, e2) {
+          d2(t2);
           var n2 = e2.className;
           n2 && t2.classList.add(n2);
         };
         e.initModalContent = function(t2) {
           var e2 = o.getNode(a);
-          p(e2, t2), c.default(t2.icon), l.initTitle(t2.title), l.initText(t2.text), f.default(t2.content), u2.default(t2.buttons, t2.dangerMode);
+          p2(e2, t2), c2.default(t2.icon), l.initTitle(t2.title), l.initText(t2.text), f2.default(t2.content), u2.default(t2.buttons, t2.dangerMode);
         };
-        var m = function() {
+        var m2 = function() {
           var t2 = o.getNode(s), e2 = o.stringToNode(r.modalMarkup);
           t2.appendChild(e2);
         };
-        e.default = m;
+        e.default = m2;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
         var o = n(3), r = { isOpen: false, promise: null, actions: {}, timer: null }, i = Object.assign({}, r);
@@ -20459,26 +20182,26 @@ function requireSweetalert_min() {
         }, e.default = i;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(1), r = n(3), i = n(0), a = i.default.OVERLAY, s = i.default.SHOW_MODAL, c = i.default.BUTTON, l = i.default.BUTTON_LOADING, u2 = n(5);
+        var o = n(1), r = n(3), i = n(0), a = i.default.OVERLAY, s = i.default.SHOW_MODAL, c2 = i.default.BUTTON, l = i.default.BUTTON_LOADING, u2 = n(5);
         e.openModal = function() {
           o.getNode(a).classList.add(s), u2.default.isOpen = true;
         };
-        var f = function() {
+        var f2 = function() {
           o.getNode(a).classList.remove(s), u2.default.isOpen = false;
         };
         e.onAction = function(t2) {
           void 0 === t2 && (t2 = r.CANCEL_KEY);
           var e2 = u2.default.actions[t2], n2 = e2.value;
           if (false === e2.closeModal) {
-            var i2 = c + "--" + t2;
+            var i2 = c2 + "--" + t2;
             o.getNode(i2).classList.add(l);
-          } else f();
+          } else f2();
           u2.default.promise.resolve(n2);
         }, e.getState = function() {
           var t2 = Object.assign({}, u2.default);
           return delete t2.promise, delete t2.timer, t2;
         }, e.stopLoading = function() {
-          for (var t2 = document.querySelectorAll("." + c), e2 = 0; e2 < t2.length; e2++) {
+          for (var t2 = document.querySelectorAll("." + c2), e2 = 0; e2 < t2.length; e2++) {
             t2[e2].classList.remove(l);
           }
         };
@@ -20551,20 +20274,20 @@ function requireSweetalert_min() {
       }, function(t, e, n) {
         function o(t2, e2) {
           for (var n2 = 0; n2 < t2.length; n2++) {
-            var o2 = t2[n2], r2 = m[o2.id];
+            var o2 = t2[n2], r2 = m2[o2.id];
             if (r2) {
               r2.refs++;
               for (var i2 = 0; i2 < r2.parts.length; i2++) r2.parts[i2](o2.parts[i2]);
               for (; i2 < o2.parts.length; i2++) r2.parts.push(u2(o2.parts[i2], e2));
             } else {
               for (var a2 = [], i2 = 0; i2 < o2.parts.length; i2++) a2.push(u2(o2.parts[i2], e2));
-              m[o2.id] = { id: o2.id, refs: 1, parts: a2 };
+              m2[o2.id] = { id: o2.id, refs: 1, parts: a2 };
             }
           }
         }
         function r(t2, e2) {
           for (var n2 = [], o2 = {}, r2 = 0; r2 < t2.length; r2++) {
-            var i2 = t2[r2], a2 = e2.base ? i2[0] + e2.base : i2[0], s2 = i2[1], c2 = i2[2], l2 = i2[3], u3 = { css: s2, media: c2, sourceMap: l2 };
+            var i2 = t2[r2], a2 = e2.base ? i2[0] + e2.base : i2[0], s2 = i2[1], c3 = i2[2], l2 = i2[3], u3 = { css: s2, media: c3, sourceMap: l2 };
             o2[a2] ? o2[a2].parts.push(u3) : n2.push(o2[a2] = { id: a2, parts: [u3] });
           }
           return n2;
@@ -20589,7 +20312,7 @@ function requireSweetalert_min() {
           var e2 = document.createElement("style");
           return t2.attrs.type = "text/css", l(e2, t2.attrs), i(t2, e2), e2;
         }
-        function c(t2) {
+        function c2(t2) {
           var e2 = document.createElement("link");
           return t2.attrs.type = "text/css", t2.attrs.rel = "stylesheet", l(e2, t2.attrs), i(t2, e2), e2;
         }
@@ -20606,11 +20329,11 @@ function requireSweetalert_min() {
             t2.css = i2;
           }
           if (e2.singleton) {
-            var l2 = h++;
-            n2 = g || (g = s(e2)), o2 = f.bind(null, n2, l2, false), r2 = f.bind(null, n2, l2, true);
-          } else t2.sourceMap && "function" == typeof URL && "function" == typeof URL.createObjectURL && "function" == typeof URL.revokeObjectURL && "function" == typeof Blob && "function" == typeof btoa ? (n2 = c(e2), o2 = p.bind(null, n2, e2), r2 = function() {
+            var l2 = h2++;
+            n2 = g || (g = s(e2)), o2 = f2.bind(null, n2, l2, false), r2 = f2.bind(null, n2, l2, true);
+          } else t2.sourceMap && "function" == typeof URL && "function" == typeof URL.createObjectURL && "function" == typeof URL.revokeObjectURL && "function" == typeof Blob && "function" == typeof btoa ? (n2 = c2(e2), o2 = p2.bind(null, n2, e2), r2 = function() {
             a(n2), n2.href && URL.revokeObjectURL(n2.href);
-          }) : (n2 = s(e2), o2 = d.bind(null, n2), r2 = function() {
+          }) : (n2 = s(e2), o2 = d2.bind(null, n2), r2 = function() {
             a(n2);
           });
           return o2(t2), function(e3) {
@@ -20620,7 +20343,7 @@ function requireSweetalert_min() {
             } else r2();
           };
         }
-        function f(t2, e2, n2, o2) {
+        function f2(t2, e2, n2, o2) {
           var r2 = n2 ? "" : o2.css;
           if (t2.styleSheet) t2.styleSheet.cssText = x(e2, r2);
           else {
@@ -20628,7 +20351,7 @@ function requireSweetalert_min() {
             a2[e2] && t2.removeChild(a2[e2]), a2.length ? t2.insertBefore(i2, a2[e2]) : t2.appendChild(i2);
           }
         }
-        function d(t2, e2) {
+        function d2(t2, e2) {
           var n2 = e2.css, o2 = e2.media;
           if (o2 && t2.setAttribute("media", o2), t2.styleSheet) t2.styleSheet.cssText = n2;
           else {
@@ -20636,13 +20359,13 @@ function requireSweetalert_min() {
             t2.appendChild(document.createTextNode(n2));
           }
         }
-        function p(t2, e2, n2) {
+        function p2(t2, e2, n2) {
           var o2 = n2.css, r2 = n2.sourceMap, i2 = void 0 === e2.convertToAbsoluteUrls && r2;
           (e2.convertToAbsoluteUrls || i2) && (o2 = y(o2)), r2 && (o2 += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(r2)))) + " */");
           var a2 = new Blob([o2], { type: "text/css" }), s2 = t2.href;
           t2.href = URL.createObjectURL(a2), s2 && URL.revokeObjectURL(s2);
         }
-        var m = {}, b = /* @__PURE__ */ (function(t2) {
+        var m2 = {}, b = /* @__PURE__ */ (function(t2) {
           var e2;
           return function() {
             return void 0 === e2 && (e2 = t2.apply(this, arguments)), e2;
@@ -20656,24 +20379,24 @@ function requireSweetalert_min() {
           };
         })(function(t2) {
           return document.querySelector(t2);
-        }), g = null, h = 0, w = [], y = n(15);
+        }), g = null, h2 = 0, w = [], y = n(15);
         t.exports = function(t2, e2) {
           if ("undefined" != typeof DEBUG && DEBUG && "object" != typeof document) throw new Error("The style-loader cannot be used in a non-browser environment");
           e2 = e2 || {}, e2.attrs = "object" == typeof e2.attrs ? e2.attrs : {}, e2.singleton || (e2.singleton = b()), e2.insertInto || (e2.insertInto = "head"), e2.insertAt || (e2.insertAt = "bottom");
           var n2 = r(t2, e2);
           return o(n2, e2), function(t3) {
             for (var i2 = [], a2 = 0; a2 < n2.length; a2++) {
-              var s2 = n2[a2], c2 = m[s2.id];
-              c2.refs--, i2.push(c2);
+              var s2 = n2[a2], c3 = m2[s2.id];
+              c3.refs--, i2.push(c3);
             }
             if (t3) {
               o(r(t3, e2), e2);
             }
             for (var a2 = 0; a2 < i2.length; a2++) {
-              var c2 = i2[a2];
-              if (0 === c2.refs) {
-                for (var l2 = 0; l2 < c2.parts.length; l2++) c2.parts[l2]();
-                delete m[c2.id];
+              var c3 = i2[a2];
+              if (0 === c3.refs) {
+                for (var l2 = 0; l2 < c3.parts.length; l2++) c3.parts[l2]();
+                delete m2[c3.id];
               }
             }
           };
@@ -20736,19 +20459,19 @@ function requireSweetalert_min() {
             function i(t2) {
               if ("object" != typeof this) throw new TypeError("Promises must be constructed via new");
               if ("function" != typeof t2) throw new TypeError("not a function");
-              this._state = 0, this._handled = false, this._value = void 0, this._deferreds = [], f(t2, this);
+              this._state = 0, this._handled = false, this._value = void 0, this._deferreds = [], f2(t2, this);
             }
             function a(t2, e3) {
               for (; 3 === t2._state; ) t2 = t2._value;
               if (0 === t2._state) return void t2._deferreds.push(e3);
               t2._handled = true, i._immediateFn(function() {
                 var n3 = 1 === t2._state ? e3.onFulfilled : e3.onRejected;
-                if (null === n3) return void (1 === t2._state ? s : c)(e3.promise, t2._value);
+                if (null === n3) return void (1 === t2._state ? s : c2)(e3.promise, t2._value);
                 var o2;
                 try {
                   o2 = n3(t2._value);
                 } catch (t3) {
-                  return void c(e3.promise, t3);
+                  return void c2(e3.promise, t3);
                 }
                 s(e3.promise, o2);
               });
@@ -20759,14 +20482,14 @@ function requireSweetalert_min() {
                 if (e3 && ("object" == typeof e3 || "function" == typeof e3)) {
                   var n3 = e3.then;
                   if (e3 instanceof i) return t2._state = 3, t2._value = e3, void l(t2);
-                  if ("function" == typeof n3) return void f(r(n3, e3), t2);
+                  if ("function" == typeof n3) return void f2(r(n3, e3), t2);
                 }
                 t2._state = 1, t2._value = e3, l(t2);
               } catch (e4) {
-                c(t2, e4);
+                c2(t2, e4);
               }
             }
-            function c(t2, e3) {
+            function c2(t2, e3) {
               t2._state = 2, t2._value = e3, l(t2);
             }
             function l(t2) {
@@ -20779,20 +20502,20 @@ function requireSweetalert_min() {
             function u2(t2, e3, n3) {
               this.onFulfilled = "function" == typeof t2 ? t2 : null, this.onRejected = "function" == typeof e3 ? e3 : null, this.promise = n3;
             }
-            function f(t2, e3) {
+            function f2(t2, e3) {
               var n3 = false;
               try {
                 t2(function(t3) {
                   n3 || (n3 = true, s(e3, t3));
                 }, function(t3) {
-                  n3 || (n3 = true, c(e3, t3));
+                  n3 || (n3 = true, c2(e3, t3));
                 });
               } catch (t3) {
                 if (n3) return;
-                n3 = true, c(e3, t3);
+                n3 = true, c2(e3, t3);
               }
             }
-            var d = setTimeout;
+            var d2 = setTimeout;
             i.prototype.catch = function(t2) {
               return this.then(null, t2);
             }, i.prototype.then = function(t2, e3) {
@@ -20832,7 +20555,7 @@ function requireSweetalert_min() {
             }, i._immediateFn = "function" == typeof e2 && function(t2) {
               e2(t2);
             } || function(t2) {
-              d(t2, 0);
+              d2(t2, 0);
             }, i._unhandledRejectionFn = function(t2) {
               "undefined" != typeof console && console && console.warn("Possible Unhandled Promise Rejection:", t2);
             }, i._setImmediateFn = function(t2) {
@@ -20874,7 +20597,7 @@ function requireSweetalert_min() {
               "function" != typeof t4 && (t4 = new Function("" + t4));
               for (var e3 = new Array(arguments.length - 1), n3 = 0; n3 < e3.length; n3++) e3[n3] = arguments[n3 + 1];
               var o2 = { callback: t4, args: e3 };
-              return l[c] = o2, s(c), c++;
+              return l[c2] = o2, s(c2), c2++;
             }
             function r(t4) {
               delete l[t4];
@@ -20913,8 +20636,8 @@ function requireSweetalert_min() {
               }
             }
             if (!t3.setImmediate) {
-              var s, c = 1, l = {}, u2 = false, f = t3.document, d = Object.getPrototypeOf && Object.getPrototypeOf(t3);
-              d = d && d.setTimeout ? d : t3, "[object process]" === {}.toString.call(t3.process) ? (function() {
+              var s, c2 = 1, l = {}, u2 = false, f2 = t3.document, d2 = Object.getPrototypeOf && Object.getPrototypeOf(t3);
+              d2 = d2 && d2.setTimeout ? d2 : t3, "[object process]" === {}.toString.call(t3.process) ? (function() {
                 s = function(t4) {
                   e2.nextTick(function() {
                     a(t4);
@@ -20941,10 +20664,10 @@ function requireSweetalert_min() {
                 }, s = function(e3) {
                   t4.port2.postMessage(e3);
                 };
-              })() : f && "onreadystatechange" in f.createElement("script") ? (function() {
-                var t4 = f.documentElement;
+              })() : f2 && "onreadystatechange" in f2.createElement("script") ? (function() {
+                var t4 = f2.documentElement;
                 s = function(e3) {
-                  var n3 = f.createElement("script");
+                  var n3 = f2.createElement("script");
                   n3.onreadystatechange = function() {
                     a(e3), n3.onreadystatechange = null, t4.removeChild(n3), n3 = null;
                   }, t4.appendChild(n3);
@@ -20953,7 +20676,7 @@ function requireSweetalert_min() {
                 s = function(t4) {
                   setTimeout(a, 0, t4);
                 };
-              })(), d.setImmediate = o, d.clearImmediate = r;
+              })(), d2.setImmediate = o, d2.clearImmediate = r;
             }
           })("undefined" == typeof self ? void 0 === t2 ? this : t2 : self);
         }).call(e, n(7), n(20));
@@ -20978,38 +20701,38 @@ function requireSweetalert_min() {
           }
         }
         function i(t2) {
-          if (f === clearTimeout) return clearTimeout(t2);
-          if ((f === o || !f) && clearTimeout) return f = clearTimeout, clearTimeout(t2);
+          if (f2 === clearTimeout) return clearTimeout(t2);
+          if ((f2 === o || !f2) && clearTimeout) return f2 = clearTimeout, clearTimeout(t2);
           try {
-            return f(t2);
+            return f2(t2);
           } catch (e2) {
             try {
-              return f.call(null, t2);
+              return f2.call(null, t2);
             } catch (e3) {
-              return f.call(this, t2);
+              return f2.call(this, t2);
             }
           }
         }
         function a() {
-          b && p && (b = false, p.length ? m = p.concat(m) : v = -1, m.length && s());
+          b && p2 && (b = false, p2.length ? m2 = p2.concat(m2) : v = -1, m2.length && s());
         }
         function s() {
           if (!b) {
             var t2 = r(a);
             b = true;
-            for (var e2 = m.length; e2; ) {
-              for (p = m, m = []; ++v < e2; ) p && p[v].run();
-              v = -1, e2 = m.length;
+            for (var e2 = m2.length; e2; ) {
+              for (p2 = m2, m2 = []; ++v < e2; ) p2 && p2[v].run();
+              v = -1, e2 = m2.length;
             }
-            p = null, b = false, i(t2);
+            p2 = null, b = false, i(t2);
           }
         }
-        function c(t2, e2) {
+        function c2(t2, e2) {
           this.fun = t2, this.array = e2;
         }
         function l() {
         }
-        var u2, f, d = t.exports = {};
+        var u2, f2, d2 = t.exports = {};
         !(function() {
           try {
             u2 = "function" == typeof setTimeout ? setTimeout : n;
@@ -21017,27 +20740,27 @@ function requireSweetalert_min() {
             u2 = n;
           }
           try {
-            f = "function" == typeof clearTimeout ? clearTimeout : o;
+            f2 = "function" == typeof clearTimeout ? clearTimeout : o;
           } catch (t2) {
-            f = o;
+            f2 = o;
           }
         })();
-        var p, m = [], b = false, v = -1;
-        d.nextTick = function(t2) {
+        var p2, m2 = [], b = false, v = -1;
+        d2.nextTick = function(t2) {
           var e2 = new Array(arguments.length - 1);
           if (arguments.length > 1) for (var n2 = 1; n2 < arguments.length; n2++) e2[n2 - 1] = arguments[n2];
-          m.push(new c(t2, e2)), 1 !== m.length || b || r(s);
-        }, c.prototype.run = function() {
+          m2.push(new c2(t2, e2)), 1 !== m2.length || b || r(s);
+        }, c2.prototype.run = function() {
           this.fun.apply(null, this.array);
-        }, d.title = "browser", d.browser = true, d.env = {}, d.argv = [], d.version = "", d.versions = {}, d.on = l, d.addListener = l, d.once = l, d.off = l, d.removeListener = l, d.removeAllListeners = l, d.emit = l, d.prependListener = l, d.prependOnceListener = l, d.listeners = function(t2) {
+        }, d2.title = "browser", d2.browser = true, d2.env = {}, d2.argv = [], d2.version = "", d2.versions = {}, d2.on = l, d2.addListener = l, d2.once = l, d2.off = l, d2.removeListener = l, d2.removeAllListeners = l, d2.emit = l, d2.prependListener = l, d2.prependOnceListener = l, d2.listeners = function(t2) {
           return [];
-        }, d.binding = function(t2) {
+        }, d2.binding = function(t2) {
           throw new Error("process.binding is not supported");
-        }, d.cwd = function() {
+        }, d2.cwd = function() {
           return "/";
-        }, d.chdir = function(t2) {
+        }, d2.chdir = function(t2) {
           throw new Error("process.chdir is not supported");
-        }, d.umask = function() {
+        }, d2.umask = function() {
           return 0;
         };
       }, function(t, e, n) {
@@ -21048,8 +20771,8 @@ function requireSweetalert_min() {
           for (var n2 = Object(t2), o2 = 1; o2 < arguments.length; o2++) {
             var r2 = arguments[o2];
             if (void 0 !== r2 && null !== r2) for (var i = Object.keys(Object(r2)), a = 0, s = i.length; a < s; a++) {
-              var c = i[a], l = Object.getOwnPropertyDescriptor(r2, c);
-              void 0 !== l && l.enumerable && (n2[c] = r2[c]);
+              var c2 = i[a], l = Object.getOwnPropertyDescriptor(r2, c2);
+              void 0 !== l && l.enumerable && (n2[c2] = r2[c2]);
             }
           }
           return n2;
@@ -21074,9 +20797,9 @@ function requireSweetalert_min() {
         s.close = r.onAction, s.getState = r.getState, s.setActionValue = i.setActionValue, s.stopLoading = r.stopLoading, s.setDefaults = a.setDefaults, e.default = s;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(1), r = n(0), i = r.default.MODAL, a = n(4), s = n(34), c = n(35), l = n(1);
+        var o = n(1), r = n(0), i = r.default.MODAL, a = n(4), s = n(34), c2 = n(35), l = n(1);
         e.init = function(t2) {
-          o.getNode(i) || (document.body || l.throwErr("You can only use SweetAlert AFTER the DOM has loaded!"), s.default(), a.default()), a.initModalContent(t2), c.default(t2);
+          o.getNode(i) || (document.body || l.throwErr("You can only use SweetAlert AFTER the DOM has loaded!"), s.default(), a.default()), a.initModalContent(t2), c2.default(t2);
         }, e.default = e.init;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
@@ -21109,22 +20832,22 @@ function requireSweetalert_min() {
         e.buttonMarkup = '\n  <div class="' + r + '">\n\n    <button\n      class="' + i + '"\n    ></button>\n\n    <div class="' + a + '">\n      <div></div>\n      <div></div>\n      <div></div>\n    </div>\n\n  </div>\n';
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(4), r = n(2), i = n(0), a = i.default.ICON, s = i.default.ICON_CUSTOM, c = ["error", "warning", "success", "info"], l = { error: r.errorIconMarkup(), warning: r.warningIconMarkup(), success: r.successIconMarkup() }, u2 = function(t2, e2) {
+        var o = n(4), r = n(2), i = n(0), a = i.default.ICON, s = i.default.ICON_CUSTOM, c2 = ["error", "warning", "success", "info"], l = { error: r.errorIconMarkup(), warning: r.warningIconMarkup(), success: r.successIconMarkup() }, u2 = function(t2, e2) {
           var n2 = a + "--" + t2;
           e2.classList.add(n2);
           var o2 = l[t2];
           o2 && (e2.innerHTML = o2);
-        }, f = function(t2, e2) {
+        }, f2 = function(t2, e2) {
           e2.classList.add(s);
           var n2 = document.createElement("img");
           n2.src = t2, e2.appendChild(n2);
-        }, d = function(t2) {
+        }, d2 = function(t2) {
           if (t2) {
             var e2 = o.injectElIntoModal(r.iconMarkup);
-            c.includes(t2) ? u2(t2, e2) : f(t2, e2);
+            c2.includes(t2) ? u2(t2, e2) : f2(t2, e2);
           }
         };
-        e.default = d;
+        e.default = d2;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
         var o = n(2), r = n(4), i = function(t2) {
@@ -21147,32 +20870,32 @@ function requireSweetalert_min() {
         };
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(1), r = n(4), i = n(0), a = i.default.BUTTON, s = i.default.DANGER_BUTTON, c = n(3), l = n(2), u2 = n(6), f = n(5), d = function(t2, e2, n2) {
-          var r2 = e2.text, i2 = e2.value, d2 = e2.className, p2 = e2.closeModal, m = o.stringToNode(l.buttonMarkup), b = m.querySelector("." + a), v = a + "--" + t2;
-          if (b.classList.add(v), d2) {
-            (Array.isArray(d2) ? d2 : d2.split(" ")).filter(function(t3) {
+        var o = n(1), r = n(4), i = n(0), a = i.default.BUTTON, s = i.default.DANGER_BUTTON, c2 = n(3), l = n(2), u2 = n(6), f2 = n(5), d2 = function(t2, e2, n2) {
+          var r2 = e2.text, i2 = e2.value, d3 = e2.className, p3 = e2.closeModal, m2 = o.stringToNode(l.buttonMarkup), b = m2.querySelector("." + a), v = a + "--" + t2;
+          if (b.classList.add(v), d3) {
+            (Array.isArray(d3) ? d3 : d3.split(" ")).filter(function(t3) {
               return t3.length > 0;
             }).forEach(function(t3) {
               b.classList.add(t3);
             });
           }
-          n2 && t2 === c.CONFIRM_KEY && b.classList.add(s), b.textContent = r2;
+          n2 && t2 === c2.CONFIRM_KEY && b.classList.add(s), b.textContent = r2;
           var g = {};
-          return g[t2] = i2, f.setActionValue(g), f.setActionOptionsFor(t2, { closeModal: p2 }), b.addEventListener("click", function() {
+          return g[t2] = i2, f2.setActionValue(g), f2.setActionOptionsFor(t2, { closeModal: p3 }), b.addEventListener("click", function() {
             return u2.onAction(t2);
-          }), m;
-        }, p = function(t2, e2) {
+          }), m2;
+        }, p2 = function(t2, e2) {
           var n2 = r.injectElIntoModal(l.footerMarkup);
           for (var o2 in t2) {
-            var i2 = t2[o2], a2 = d(o2, i2, e2);
+            var i2 = t2[o2], a2 = d2(o2, i2, e2);
             i2.visible && n2.appendChild(a2);
           }
           0 === n2.children.length && n2.remove();
         };
-        e.default = p;
+        e.default = p2;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(3), r = n(4), i = n(2), a = n(5), s = n(6), c = n(0), l = c.default.CONTENT, u2 = function(t2) {
+        var o = n(3), r = n(4), i = n(2), a = n(5), s = n(6), c2 = n(0), l = c2.default.CONTENT, u2 = function(t2) {
           t2.addEventListener("input", function(t3) {
             var e2 = t3.target, n2 = e2.value;
             a.setActionValue(n2);
@@ -21181,7 +20904,7 @@ function requireSweetalert_min() {
           }), setTimeout(function() {
             t2.focus(), a.setActionValue("");
           }, 0);
-        }, f = function(t2, e2, n2) {
+        }, f2 = function(t2, e2, n2) {
           var o2 = document.createElement(e2), r2 = l + "__" + e2;
           o2.classList.add(r2);
           for (var i2 in n2) {
@@ -21189,13 +20912,13 @@ function requireSweetalert_min() {
             o2[i2] = a2;
           }
           "input" === e2 && u2(o2), t2.appendChild(o2);
-        }, d = function(t2) {
+        }, d2 = function(t2) {
           if (t2) {
             var e2 = r.injectElIntoModal(i.contentMarkup), n2 = t2.element, o2 = t2.attributes;
-            "string" == typeof n2 ? f(e2, n2, o2) : e2.appendChild(n2);
+            "string" == typeof n2 ? f2(e2, n2, o2) : e2.appendChild(n2);
           }
         };
-        e.default = d;
+        e.default = d2;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
         var o = n(1), r = n(2), i = function() {
@@ -21205,35 +20928,35 @@ function requireSweetalert_min() {
         e.default = i;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(5), r = n(6), i = n(1), a = n(3), s = n(0), c = s.default.MODAL, l = s.default.BUTTON, u2 = s.default.OVERLAY, f = function(t2) {
+        var o = n(5), r = n(6), i = n(1), a = n(3), s = n(0), c2 = s.default.MODAL, l = s.default.BUTTON, u2 = s.default.OVERLAY, f2 = function(t2) {
           t2.preventDefault(), v();
-        }, d = function(t2) {
+        }, d2 = function(t2) {
           t2.preventDefault(), g();
-        }, p = function(t2) {
+        }, p2 = function(t2) {
           if (o.default.isOpen) switch (t2.key) {
             case "Escape":
               return r.onAction(a.CANCEL_KEY);
           }
-        }, m = function(t2) {
+        }, m2 = function(t2) {
           if (o.default.isOpen) switch (t2.key) {
             case "Tab":
-              return f(t2);
+              return f2(t2);
           }
         }, b = function(t2) {
-          if (o.default.isOpen) return "Tab" === t2.key && t2.shiftKey ? d(t2) : void 0;
+          if (o.default.isOpen) return "Tab" === t2.key && t2.shiftKey ? d2(t2) : void 0;
         }, v = function() {
           var t2 = i.getNode(l);
           t2 && (t2.tabIndex = 0, t2.focus());
         }, g = function() {
-          var t2 = i.getNode(c), e2 = t2.querySelectorAll("." + l), n2 = e2.length - 1, o2 = e2[n2];
+          var t2 = i.getNode(c2), e2 = t2.querySelectorAll("." + l), n2 = e2.length - 1, o2 = e2[n2];
           o2 && o2.focus();
-        }, h = function(t2) {
-          t2[t2.length - 1].addEventListener("keydown", m);
+        }, h2 = function(t2) {
+          t2[t2.length - 1].addEventListener("keydown", m2);
         }, w = function(t2) {
           t2[0].addEventListener("keydown", b);
         }, y = function() {
-          var t2 = i.getNode(c), e2 = t2.querySelectorAll("." + l);
-          e2.length && (h(e2), w(e2));
+          var t2 = i.getNode(c2), e2 = t2.querySelectorAll("." + l);
+          e2.length && (h2(e2), w(e2));
         }, x = function(t2) {
           if (i.getNode(u2) === t2.target) return r.onAction(a.CANCEL_KEY);
         }, _ = function(t2) {
@@ -21244,51 +20967,51 @@ function requireSweetalert_min() {
             return r.onAction(a.CANCEL_KEY);
           }, t2));
         }, O = function(t2) {
-          t2.closeOnEsc ? document.addEventListener("keyup", p) : document.removeEventListener("keyup", p), t2.dangerMode ? v() : g(), y(), _(t2.closeOnClickOutside), k(t2.timer);
+          t2.closeOnEsc ? document.addEventListener("keyup", p2) : document.removeEventListener("keyup", p2), t2.dangerMode ? v() : g(), y(), _(t2.closeOnClickOutside), k(t2.timer);
         };
         e.default = O;
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true });
-        var o = n(1), r = n(3), i = n(37), a = n(38), s = { title: null, text: null, icon: null, buttons: r.defaultButtonList, content: null, className: null, closeOnClickOutside: true, closeOnEsc: true, dangerMode: false, timer: null }, c = Object.assign({}, s);
+        var o = n(1), r = n(3), i = n(37), a = n(38), s = { title: null, text: null, icon: null, buttons: r.defaultButtonList, content: null, className: null, closeOnClickOutside: true, closeOnEsc: true, dangerMode: false, timer: null }, c2 = Object.assign({}, s);
         e.setDefaults = function(t2) {
-          c = Object.assign({}, s, t2);
+          c2 = Object.assign({}, s, t2);
         };
         var l = function(t2) {
           var e2 = t2 && t2.button, n2 = t2 && t2.buttons;
           return void 0 !== e2 && void 0 !== n2 && o.throwErr("Cannot set both 'button' and 'buttons' options!"), void 0 !== e2 ? { confirm: e2 } : n2;
         }, u2 = function(t2) {
           return o.ordinalSuffixOf(t2 + 1);
-        }, f = function(t2, e2) {
+        }, f2 = function(t2, e2) {
           o.throwErr(u2(e2) + " argument ('" + t2 + "') is invalid");
-        }, d = function(t2, e2) {
+        }, d2 = function(t2, e2) {
           var n2 = t2 + 1, r2 = e2[n2];
           o.isPlainObject(r2) || void 0 === r2 || o.throwErr("Expected " + u2(n2) + " argument ('" + r2 + "') to be a plain object");
-        }, p = function(t2, e2) {
+        }, p2 = function(t2, e2) {
           var n2 = t2 + 1, r2 = e2[n2];
           void 0 !== r2 && o.throwErr("Unexpected " + u2(n2) + " argument (" + r2 + ")");
-        }, m = function(t2, e2, n2, r2) {
+        }, m2 = function(t2, e2, n2, r2) {
           var i2 = typeof e2, a2 = "string" === i2, s2 = e2 instanceof Element;
           if (a2) {
             if (0 === n2) return { text: e2 };
             if (1 === n2) return { text: e2, title: r2[0] };
-            if (2 === n2) return d(n2, r2), { icon: e2 };
-            f(e2, n2);
+            if (2 === n2) return d2(n2, r2), { icon: e2 };
+            f2(e2, n2);
           } else {
-            if (s2 && 0 === n2) return d(n2, r2), { content: e2 };
-            if (o.isPlainObject(e2)) return p(n2, r2), e2;
-            f(e2, n2);
+            if (s2 && 0 === n2) return d2(n2, r2), { content: e2 };
+            if (o.isPlainObject(e2)) return p2(n2, r2), e2;
+            f2(e2, n2);
           }
         };
         e.getOpts = function() {
           for (var t2 = [], e2 = 0; e2 < arguments.length; e2++) t2[e2] = arguments[e2];
           var n2 = {};
           t2.forEach(function(e3, o3) {
-            var r2 = m(0, e3, o3, t2);
+            var r2 = m2(0, e3, o3, t2);
             Object.assign(n2, r2);
           });
           var o2 = l(n2);
           n2.buttons = r.getButtonListOpts(o2), delete n2.button, n2.content = i.getContentOpts(n2.content);
-          var u3 = Object.assign({}, s, c, n2);
+          var u3 = Object.assign({}, s, c2, n2);
           return Object.keys(u3).forEach(function(t3) {
             a.DEPRECATED_OPTS[t3] && a.logDeprecation(t3);
           }), u3;
@@ -21302,24 +21025,659 @@ function requireSweetalert_min() {
         };
       }, function(t, e, n) {
         Object.defineProperty(e, "__esModule", { value: true }), e.logDeprecation = function(t2) {
-          var n2 = e.DEPRECATED_OPTS[t2], o = n2.onlyRename, r = n2.replacement, i = n2.subOption, a = n2.link, s = o ? "renamed" : "deprecated", c = 'SweetAlert warning: "' + t2 + '" option has been ' + s + ".";
+          var n2 = e.DEPRECATED_OPTS[t2], o = n2.onlyRename, r = n2.replacement, i = n2.subOption, a = n2.link, s = o ? "renamed" : "deprecated", c2 = 'SweetAlert warning: "' + t2 + '" option has been ' + s + ".";
           if (r) {
-            c += " Please use" + (i ? ' "' + i + '" in ' : " ") + '"' + r + '" instead.';
+            c2 += " Please use" + (i ? ' "' + i + '" in ' : " ") + '"' + r + '" instead.';
           }
           var l = "https://sweetalert.js.org";
-          c += a ? " More details: " + l + a : " More details: " + l + "/guides/#upgrading-from-1x", console.warn(c);
+          c2 += a ? " More details: " + l + a : " More details: " + l + "/guides/#upgrading-from-1x", console.warn(c2);
         }, e.DEPRECATED_OPTS = { type: { replacement: "icon", link: "/docs/#icon" }, imageUrl: { replacement: "icon", link: "/docs/#icon" }, customClass: { replacement: "className", onlyRename: true, link: "/docs/#classname" }, imageSize: {}, showCancelButton: { replacement: "buttons", link: "/docs/#buttons" }, showConfirmButton: { replacement: "button", link: "/docs/#button" }, confirmButtonText: { replacement: "button", link: "/docs/#button" }, confirmButtonColor: {}, cancelButtonText: { replacement: "buttons", link: "/docs/#buttons" }, closeOnConfirm: { replacement: "button", subOption: "closeModal", link: "/docs/#button" }, closeOnCancel: { replacement: "buttons", subOption: "closeModal", link: "/docs/#buttons" }, showLoaderOnConfirm: { replacement: "buttons" }, animation: {}, inputType: { replacement: "content", link: "/docs/#content" }, inputValue: { replacement: "content", link: "/docs/#content" }, inputPlaceholder: { replacement: "content", link: "/docs/#content" }, html: { replacement: "content", link: "/docs/#content" }, allowEscapeKey: { replacement: "closeOnEsc", onlyRename: true, link: "/docs/#closeonesc" }, allowClickOutside: { replacement: "closeOnClickOutside", onlyRename: true, link: "/docs/#closeonclickoutside" } };
       }]);
     });
-  })(sweetalert_min$2);
-  return sweetalert_min$2.exports;
+  })(sweetalert_min$1);
+  return sweetalert_min$1.exports;
 }
 var sweetalert_minExports = requireSweetalert_min();
-const swal = /* @__PURE__ */ getDefaultExportFromCjs(sweetalert_minExports);
-const sweetalert_min = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: swal
-}, Symbol.toStringTag, { value: "Module" }));
+const swal$1 = /* @__PURE__ */ getDefaultExportFromCjs(sweetalert_minExports);
+const _sfc_main$6 = /* @__PURE__ */ defineComponent({
+  __name: "AddonBox",
+  props: {
+    content: {},
+    column: {},
+    index: {}
+  },
+  emits: ["duplicate", "delete"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const { addTextToClipboard: addTextToClipboard2 } = usePageBuilderUtilities();
+    const props = __props;
+    const emits = __emit;
+    const u2 = useUnicorn();
+    const options = ref(props.content.options);
+    function edit() {
+      u2.trigger("addon:edit", props.content, props.column);
+    }
+    function toggleDisabled(e) {
+      const button = e.currentTarget;
+      const tt = Tooltip.getOrCreateInstance(button);
+      tt.hide();
+      button.blur();
+      props.content.disabled = !props.content.disabled;
+    }
+    function copy() {
+      addTextToClipboard2(props.content);
+    }
+    function duplicate() {
+      emits("duplicate");
+    }
+    async function remove() {
+      const v = await deleteConfirm("Are you sure you want to delete??");
+      if (v) {
+        emits("delete");
+      }
+      return v;
+    }
+    watch(() => props.content, () => {
+      options.value = props.content.options;
+    }, { deep: true });
+    const __returned__ = { addTextToClipboard: addTextToClipboard2, props, emits, u: u2, options, edit, toggleDisabled, copy, duplicate, remove };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$6 = ["disabled"];
+const _hoisted_2$6 = { class: "card-body d-flex" };
+const _hoisted_3$6 = { class: "c-addon-instance__icon" };
+const _hoisted_4$6 = { class: "c-addon-instance__title ms-2" };
+const _hoisted_5$6 = { class: "m-0" };
+const _hoisted_6$6 = { class: "text-muted" };
+const _hoisted_7$6 = {
+  key: 0,
+  class: "small"
+};
+const _hoisted_8$6 = { class: "c-addon-instance__toolbar" };
+const _hoisted_9$6 = { class: "dropdown d-inline-block" };
+const _hoisted_10$6 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
+function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  const _directive_tooltip = resolveDirective("tooltip");
+  return openBlock(), createElementBlock("div", {
+    class: "card c-addon-instance border-2 move-handle",
+    style: { "cursor": "move" },
+    disabled: $props.content.disabled ? true : null
+  }, [
+    createElementVNode("div", _hoisted_2$6, [
+      createElementVNode("div", _hoisted_3$6, [
+        createElementVNode("span", {
+          class: normalizeClass($props.content.icon)
+        }, null, 2)
+      ]),
+      _cache[17] || (_cache[17] = createTextVNode()),
+      createElementVNode("div", _hoisted_4$6, [
+        createElementVNode("h6", _hoisted_5$6, toDisplayString(_ctx.addonProp("name", $props.content.type)), 1),
+        _cache[1] || (_cache[1] = createTextVNode()),
+        createElementVNode("small", _hoisted_6$6, toDisplayString($setup.options.label || $setup.options.title?.text), 1),
+        _cache[2] || (_cache[2] = createTextVNode()),
+        _ctx.$debug ? (openBlock(), createElementBlock("code", _hoisted_7$6, toDisplayString($props.content.id), 1)) : createCommentVNode("", true)
+      ]),
+      _cache[18] || (_cache[18] = createTextVNode()),
+      createElementVNode("div", _hoisted_8$6, [
+        !$props.content.disabled ? withDirectives((openBlock(), createElementBlock("a", {
+          key: 0,
+          href: "#",
+          class: "text-dark",
+          title: "Edit",
+          onClick: withModifiers($setup.edit, ["prevent"])
+        }, [..._cache[3] || (_cache[3] = [
+          createElementVNode("span", { class: "fa fa-fw fa-edit" }, null, -1)
+        ])])), [
+          [_directive_tooltip]
+        ]) : createCommentVNode("", true),
+        _cache[13] || (_cache[13] = createTextVNode()),
+        !$props.content.disabled ? withDirectives((openBlock(), createElementBlock("a", {
+          key: 1,
+          href: "#",
+          class: "text-dark",
+          title: "Duplicate",
+          onClick: withModifiers($setup.duplicate, ["prevent"])
+        }, [..._cache[4] || (_cache[4] = [
+          createElementVNode("span", { class: "fa fa-fw fa-clone" }, null, -1)
+        ])])), [
+          [_directive_tooltip]
+        ]) : createCommentVNode("", true),
+        _cache[14] || (_cache[14] = createTextVNode()),
+        !$props.content.disabled ? withDirectives((openBlock(), createElementBlock("a", {
+          key: 2,
+          href: "#",
+          class: "text-dark",
+          title: "Copy",
+          onClick: withModifiers($setup.copy, ["prevent"])
+        }, [..._cache[5] || (_cache[5] = [
+          createElementVNode("span", { class: "fa fa-fw fa-copy" }, null, -1)
+        ])])), [
+          [_directive_tooltip]
+        ]) : createCommentVNode("", true),
+        _cache[15] || (_cache[15] = createTextVNode()),
+        $props.content.disabled ? withDirectives((openBlock(), createElementBlock("a", {
+          key: 3,
+          href: "#",
+          class: "text-dark",
+          title: "Enable",
+          onClick: withModifiers($setup.toggleDisabled, ["prevent"])
+        }, [..._cache[6] || (_cache[6] = [
+          createElementVNode("span", { class: "fa fa-fw fa-eye-slash" }, null, -1)
+        ])])), [
+          [_directive_tooltip]
+        ]) : withDirectives((openBlock(), createElementBlock("a", {
+          key: 4,
+          href: "#",
+          class: "text-dark",
+          title: "Disable",
+          onClick: withModifiers($setup.toggleDisabled, ["prevent"])
+        }, [..._cache[7] || (_cache[7] = [
+          createElementVNode("span", { class: "fa fa-fw fa-eye" }, null, -1)
+        ])])), [
+          [_directive_tooltip]
+        ]),
+        _cache[16] || (_cache[16] = createTextVNode()),
+        createElementVNode("div", _hoisted_9$6, [
+          _cache[11] || (_cache[11] = createElementVNode("button", {
+            type: "button",
+            class: "btn btn-link btn-mini p-0 d-inline-block",
+            "data-toggle": "dropdown",
+            "data-bs-toggle": "dropdown"
+          }, [
+            createElementVNode("span", { class: "fa fa-fw fa-gear text-dark" })
+          ], -1)),
+          _cache[12] || (_cache[12] = createTextVNode()),
+          createElementVNode("div", _hoisted_10$6, [
+            createElementVNode("button", {
+              type: "button",
+              class: "dropdown-item",
+              onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$trigger("tmpl.save", $props.content, "addon"))
+            }, [..._cache[8] || (_cache[8] = [
+              createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
+              createTextVNode("\n              Save as Template\n            ", -1)
+            ])]),
+            _cache[10] || (_cache[10] = createTextVNode()),
+            createElementVNode("button", {
+              type: "button",
+              class: "dropdown-item",
+              onClick: $setup.remove
+            }, [..._cache[9] || (_cache[9] = [
+              createElementVNode("span", { class: "fa fa-fw fa-trash" }, null, -1),
+              createTextVNode("\n              Delete\n            ", -1)
+            ])])
+          ])
+        ])
+      ])
+    ])
+  ], 8, _hoisted_1$6);
+}
+const AddonBox = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__scopeId", "data-v-a01730a8"], ["__file", "AddonBox.vue"]]);
+const _sfc_main$5 = /* @__PURE__ */ defineComponent({
+  __name: "ColumnBox",
+  props: {
+    value: {},
+    index: {},
+    child: { type: Boolean, default: false }
+  },
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const {
+      addTextToClipboard: addTextToClipboard2,
+      duplicateAddon: duplicateAddon2,
+      duplicateAny: duplicateAny2,
+      emptyColumn: emptyColumn2,
+      emptyRow: emptyRow2,
+      readClipboard: readClipboard2,
+      isAddon: isAddon2,
+      isRow: isRow2,
+      isColumn: isColumn2
+    } = usePageBuilderUtilities();
+    const emit2 = __emit;
+    const u2 = useUnicorn();
+    const content = ref(props.value);
+    const drag = ref(false);
+    const widthMenuOpen = ref(false);
+    content.value = defaultsDeep(content.value, emptyColumn2());
+    function edit() {
+      u2.trigger("column:edit", content.value);
+    }
+    async function paste() {
+      const text = await readClipboard2();
+      pasteData(text);
+    }
+    function closeWidthMenu() {
+      widthMenuOpen.value = false;
+    }
+    async function pasteData(text) {
+      try {
+        const data2 = JSON.parse(text);
+        if (!data2.id) {
+          throw new Error("Invalid format");
+        }
+        if (isAddon2(data2) || isRow2(data2)) {
+          duplicateThisAddon(data2, content.value.addons.length - 1);
+          return;
+        }
+        if (isColumn2(data2)) {
+          let v = await swal({
+            title: "You are pasting a column to another column...",
+            text: "Please choose an action.",
+            buttons: {
+              add: {
+                text: "Merge",
+                value: "add",
+                className: "btn-info"
+              },
+              replace: {
+                text: "Replace",
+                value: "replace",
+                className: "btn-warning"
+              },
+              append: {
+                text: "After",
+                value: "append",
+                className: "btn-dark"
+              }
+            }
+          });
+          switch (v) {
+            case "replace":
+              content.value.addons = [];
+            case "add":
+              data2.addons.forEach((addon) => {
+                duplicateThisAddon(addon, addons2.value.length - 1);
+              });
+              break;
+            case "append":
+              duplicate(content.value);
+          }
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+        simpleAlert$1("Invalid format.");
+      }
+    }
+    function duplicate(data2) {
+      emit2("duplicate", data2);
+    }
+    function copy() {
+      addTextToClipboard2(content.value);
+    }
+    function toggleDisabled() {
+      content.value.disabled = !content.value.disabled;
+    }
+    async function remove() {
+      const v = await simpleConfirm("Are you sure you want to delete??");
+      if (v) {
+        emit2("delete");
+      }
+      return v;
+    }
+    function duplicateThisAddon(item, i) {
+      const newItem = duplicateAny2(item, props.child);
+      if (newItem) {
+        addons2.value.splice(i + 1, 0, newItem);
+      }
+    }
+    function addAddon() {
+      u2.trigger("addon:add", content.value);
+    }
+    function addNewRow() {
+      const row = emptyRow2();
+      row.type = "row";
+      content.value.addons.push(row);
+    }
+    function deleteAddon(i) {
+      addons2.value.splice(i, 1);
+    }
+    function widthRange() {
+      return range(1, 13);
+    }
+    function getEmptyColumn() {
+      return emptyColumn2(props.child);
+    }
+    function openTemplates() {
+      u2.trigger("tmpl.open", (item, type, i) => {
+        pasteData(item.content);
+      }, "column,addon", addons2.value.length);
+    }
+    const addons2 = computed(() => {
+      return content.value.addons;
+    });
+    const options = computed(() => {
+      return content.value.options;
+    });
+    const width = computed(() => {
+      return values(options.value.width).join(" ");
+    });
+    watch(() => props.value, () => {
+      content.value = props.value;
+    }, { deep: true });
+    const __returned__ = { props, addTextToClipboard: addTextToClipboard2, duplicateAddon: duplicateAddon2, duplicateAny: duplicateAny2, emptyColumn: emptyColumn2, emptyRow: emptyRow2, readClipboard: readClipboard2, isAddon: isAddon2, isRow: isRow2, isColumn: isColumn2, emit: emit2, u: u2, content, drag, widthMenuOpen, edit, paste, closeWidthMenu, pasteData, duplicate, copy, toggleDisabled, remove, duplicateThisAddon, addAddon, addNewRow, deleteAddon, widthRange, getEmptyColumn, openTemplates, addons: addons2, options, width, get VueDraggable() {
+      return VueDraggable;
+    }, AddonBox, RowBox };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$5 = ["disabled"];
+const _hoisted_2$5 = { class: "card bg-light column__body" };
+const _hoisted_3$5 = { class: "card-body p-2" };
+const _hoisted_4$5 = { class: "column__title mb-2 d-flex align-items-center" };
+const _hoisted_5$5 = { key: 0 };
+const _hoisted_6$5 = { class: "column__actions ml-auto ms-auto text-nowrap" };
+const _hoisted_7$5 = { class: "dropdown d-inline-block" };
+const _hoisted_8$5 = { class: "form-group mb-3" };
+const _hoisted_9$5 = ["for"];
+const _hoisted_10$5 = ["id"];
+const _hoisted_11$5 = ["value"];
+const _hoisted_12$5 = { class: "form-group mb-3" };
+const _hoisted_13$5 = ["for"];
+const _hoisted_14$5 = ["id"];
+const _hoisted_15$5 = ["value"];
+const _hoisted_16$5 = { class: "form-group mb-3" };
+const _hoisted_17$4 = ["for"];
+const _hoisted_18$2 = ["id"];
+const _hoisted_19$2 = ["value"];
+const _hoisted_20$2 = { class: "d-inline-block dropdown" };
+const _hoisted_21$1 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  const _directive_tooltip = resolveDirective("tooltip");
+  return openBlock(), createElementBlock("div", {
+    class: normalizeClass(["", $setup.width]),
+    disabled: $setup.content.disabled ? true : null
+  }, [
+    createElementVNode("div", _hoisted_2$5, [
+      createElementVNode("div", _hoisted_3$5, [
+        createElementVNode("div", {
+          class: normalizeClass(["column__top-bar d-flex mb-2", { "p-2": $props.child }])
+        }, [
+          createElementVNode("div", _hoisted_4$5, [
+            _cache[20] || (_cache[20] = createElementVNode("div", { class: "column__move" }, [
+              createElementVNode("div", {
+                class: "badge bg-secondary column-move-handle me-2",
+                style: { "cursor": "move" }
+              }, [
+                createElementVNode("span", { class: "fa fa-fw fa-arrows-alt" })
+              ])
+            ], -1)),
+            _cache[21] || (_cache[21] = createTextVNode()),
+            _cache[22] || (_cache[22] = createElementVNode("h6", { class: "m-0" }, "COL", -1)),
+            _cache[23] || (_cache[23] = createTextVNode()),
+            _ctx.$debug ? (openBlock(), createElementBlock("code", _hoisted_5$5, toDisplayString($setup.content.id), 1)) : createCommentVNode("", true)
+          ]),
+          _cache[56] || (_cache[56] = createTextVNode()),
+          createElementVNode("div", _hoisted_6$5, [
+            !$setup.content.disabled ? withDirectives((openBlock(), createElementBlock("button", {
+              key: 0,
+              type: "button",
+              class: "btn btn-sm px-2 py-0 btn-primary",
+              title: "New Addon",
+              onClick: _cache[0] || (_cache[0] = ($event) => $setup.addAddon())
+            }, [..._cache[24] || (_cache[24] = [
+              createElementVNode("span", { class: "fa fa-plus" }, null, -1)
+            ])])), [
+              [_directive_tooltip]
+            ]) : createCommentVNode("", true),
+            _cache[53] || (_cache[53] = createTextVNode()),
+            !$setup.content.disabled ? withDirectives((openBlock(), createElementBlock("button", {
+              key: 1,
+              type: "button",
+              class: "btn btn-sm px-2 py-0 btn-outline-secondary",
+              onClick: _cache[1] || (_cache[1] = ($event) => $setup.edit()),
+              title: "Edit Column"
+            }, [..._cache[25] || (_cache[25] = [
+              createElementVNode("span", { class: "fa fa-edit" }, null, -1)
+            ])])), [
+              [_directive_tooltip]
+            ]) : createCommentVNode("", true),
+            _cache[54] || (_cache[54] = createTextVNode()),
+            createElementVNode("div", _hoisted_7$5, [
+              _cache[35] || (_cache[35] = createElementVNode("button", {
+                type: "button",
+                href: "#",
+                class: "btn btn-sm px-2 py-0 btn-outline-secondary",
+                "data-toggle": "dropdown",
+                "data-bs-toggle": "dropdown"
+              }, [
+                createElementVNode("span", { class: "fa fa-arrows-alt-h" })
+              ], -1)),
+              _cache[36] || (_cache[36] = createTextVNode()),
+              createElementVNode("div", {
+                class: normalizeClass(["dropdown-menu dropdown-menu-right dropdown-menu-end px-3", $setup.widthMenuOpen])
+              }, [
+                createElementVNode("div", _hoisted_8$5, [
+                  createElementVNode("label", {
+                    for: `input-column-edit-width-desktop--${$setup.content.id}`,
+                    class: "d-block"
+                  }, "\n                    Desktop Width\n                  ", 8, _hoisted_9$5),
+                  _cache[26] || (_cache[26] = createTextVNode()),
+                  withDirectives(createElementVNode("select", {
+                    id: `input-column-edit-width-desktop--${$setup.content.id}`,
+                    onClick: _cache[2] || (_cache[2] = withModifiers(() => {
+                    }, ["stop"])),
+                    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.content.options.width.lg = $event),
+                    class: "form-select custom-select"
+                  }, [
+                    (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
+                      return openBlock(), createElementBlock("option", {
+                        value: "col-lg-" + w
+                      }, "\n                      col-lg-" + toDisplayString(w), 9, _hoisted_11$5);
+                    }), 256))
+                  ], 8, _hoisted_10$5), [
+                    [vModelSelect, $setup.content.options.width.lg]
+                  ])
+                ]),
+                _cache[33] || (_cache[33] = createTextVNode()),
+                createElementVNode("div", _hoisted_12$5, [
+                  createElementVNode("label", {
+                    for: `input-column-edit-width-tablet--${$setup.content.id}`,
+                    class: "d-block"
+                  }, "\n                    Tablet Width\n                  ", 8, _hoisted_13$5),
+                  _cache[29] || (_cache[29] = createTextVNode()),
+                  withDirectives(createElementVNode("select", {
+                    id: `input-column-edit-width-tablet--${$setup.content.id}`,
+                    onClick: _cache[4] || (_cache[4] = withModifiers(() => {
+                    }, ["stop"])),
+                    "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.content.options.width.md = $event),
+                    class: "form-select custom-select"
+                  }, [
+                    _cache[27] || (_cache[27] = createElementVNode("option", { value: "" }, "- None -", -1)),
+                    _cache[28] || (_cache[28] = createTextVNode()),
+                    (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
+                      return openBlock(), createElementBlock("option", {
+                        value: "col-md-" + w
+                      }, "\n                      col-md-" + toDisplayString(w), 9, _hoisted_15$5);
+                    }), 256))
+                  ], 8, _hoisted_14$5), [
+                    [vModelSelect, $setup.content.options.width.md]
+                  ])
+                ]),
+                _cache[34] || (_cache[34] = createTextVNode()),
+                createElementVNode("div", _hoisted_16$5, [
+                  createElementVNode("label", {
+                    for: `input-column-edit-width-mobile--${$setup.content.id}`,
+                    class: "d-block"
+                  }, "\n                    Mobile Width\n                  ", 8, _hoisted_17$4),
+                  _cache[32] || (_cache[32] = createTextVNode()),
+                  withDirectives(createElementVNode("select", {
+                    id: `input-column-edit-width-mobile--${$setup.content.id}`,
+                    onClick: _cache[6] || (_cache[6] = withModifiers(() => {
+                    }, ["stop"])),
+                    "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.content.options.width.xs = $event),
+                    class: "form-select custom-select"
+                  }, [
+                    _cache[30] || (_cache[30] = createElementVNode("option", { value: "" }, "- None -", -1)),
+                    _cache[31] || (_cache[31] = createTextVNode()),
+                    (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
+                      return openBlock(), createElementBlock("option", {
+                        value: "col-" + w
+                      }, "\n                      col-" + toDisplayString(w), 9, _hoisted_19$2);
+                    }), 256))
+                  ], 8, _hoisted_18$2), [
+                    [vModelSelect, $setup.content.options.width.xs]
+                  ])
+                ])
+              ], 2)
+            ]),
+            _cache[55] || (_cache[55] = createTextVNode()),
+            createElementVNode("div", _hoisted_20$2, [
+              _cache[51] || (_cache[51] = createElementVNode("button", {
+                type: "button",
+                class: "btn btn-outline-secondary btn-sm px-2 py-0",
+                "data-toggle": "dropdown",
+                "data-bs-toggle": "dropdown"
+              }, [
+                createElementVNode("span", { class: "fa fa-cog" })
+              ], -1)),
+              _cache[52] || (_cache[52] = createTextVNode()),
+              createElementVNode("div", _hoisted_21$1, [
+                !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
+                  key: 0,
+                  type: "button",
+                  class: "dropdown-item",
+                  onClick: _cache[8] || (_cache[8] = ($event) => $setup.duplicate())
+                }, [..._cache[37] || (_cache[37] = [
+                  createElementVNode("span", { class: "fa fa-fw fa-clone" }, null, -1),
+                  createTextVNode("\n                  Duplicate\n                ", -1)
+                ])])) : createCommentVNode("", true),
+                _cache[44] || (_cache[44] = createTextVNode()),
+                !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
+                  key: 1,
+                  type: "button",
+                  class: "dropdown-item",
+                  onClick: _cache[9] || (_cache[9] = ($event) => $setup.copy())
+                }, [..._cache[38] || (_cache[38] = [
+                  createElementVNode("span", { class: "fa fa-fw fa-copy" }, null, -1),
+                  createTextVNode("\n                  Copy\n                ", -1)
+                ])])) : createCommentVNode("", true),
+                _cache[45] || (_cache[45] = createTextVNode()),
+                !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
+                  key: 2,
+                  type: "button",
+                  class: "dropdown-item",
+                  onClick: _cache[10] || (_cache[10] = ($event) => $setup.paste())
+                }, [..._cache[39] || (_cache[39] = [
+                  createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
+                  createTextVNode("\n                  Paste\n                ", -1)
+                ])])) : createCommentVNode("", true),
+                _cache[46] || (_cache[46] = createTextVNode()),
+                createElementVNode("button", {
+                  type: "button",
+                  class: "dropdown-item",
+                  onClick: _cache[11] || (_cache[11] = ($event) => $setup.toggleDisabled())
+                }, [
+                  createElementVNode("span", {
+                    class: normalizeClass(["fa fa-fw", [$setup.content.disabled ? "fa-eye" : "fa-eye-slash"]])
+                  }, null, 2),
+                  createTextVNode(" " + toDisplayString($setup.content.disabled ? "Enabled" : "Disabled"), 1)
+                ]),
+                _cache[47] || (_cache[47] = createTextVNode()),
+                !$setup.content.disabled && !$props.child ? (openBlock(), createElementBlock("button", {
+                  key: 3,
+                  type: "button",
+                  class: "dropdown-item",
+                  onClick: _cache[12] || (_cache[12] = ($event) => $setup.addNewRow())
+                }, [..._cache[40] || (_cache[40] = [
+                  createElementVNode("span", { class: "fa fa-fw fa-plus" }, null, -1),
+                  createTextVNode("\n                  New Row\n                ", -1)
+                ])])) : createCommentVNode("", true),
+                _cache[48] || (_cache[48] = createTextVNode()),
+                !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
+                  key: 4,
+                  type: "button",
+                  class: "dropdown-item",
+                  onClick: $setup.openTemplates
+                }, [..._cache[41] || (_cache[41] = [
+                  createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
+                  createTextVNode("\n                  Insert Template\n                ", -1)
+                ])])) : createCommentVNode("", true),
+                _cache[49] || (_cache[49] = createTextVNode()),
+                createElementVNode("button", {
+                  type: "button",
+                  class: "dropdown-item",
+                  onClick: _cache[13] || (_cache[13] = ($event) => _ctx.$trigger("tmpl.save", $setup.content, "column"))
+                }, [..._cache[42] || (_cache[42] = [
+                  createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
+                  createTextVNode("\n                  Save as Template\n                ", -1)
+                ])]),
+                _cache[50] || (_cache[50] = createTextVNode()),
+                createElementVNode("button", {
+                  type: "button",
+                  class: "dropdown-item",
+                  onClick: _cache[14] || (_cache[14] = ($event) => $setup.remove())
+                }, [..._cache[43] || (_cache[43] = [
+                  createElementVNode("span", { class: "fa fa-fw fa-trash" }, null, -1),
+                  createTextVNode("\n                  Delete\n                ", -1)
+                ])])
+              ])
+            ])
+          ])
+        ], 2),
+        _cache[59] || (_cache[59] = createTextVNode()),
+        createVNode($setup["VueDraggable"], mergeProps({
+          modelValue: $setup.content.addons,
+          "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => $setup.content.addons = $event),
+          onStart: _cache[17] || (_cache[17] = ($event) => $setup.drag = true),
+          onEnd: _cache[18] || (_cache[18] = ($event) => $setup.drag = false),
+          onAdd: _cache[19] || (_cache[19] = withModifiers(() => {
+          }, ["stop"]))
+        }, { handle: ".move-handle", group: "addon", animation: 300 }, {
+          style: { "min-height": "50px" },
+          class: "column__draggable",
+          "item-key": "id"
+        }), {
+          footer: withCtx(() => [
+            $setup.addons.length === 0 ? (openBlock(), createElementBlock("a", {
+              key: 0,
+              class: "column__addon-placeholder text-center p-3 border text-secondary bg-white d-block",
+              style: { "text-decoration": "none" },
+              href: "#",
+              onClick: _cache[15] || (_cache[15] = withModifiers(($event) => $setup.addAddon(), ["prevent"]))
+            }, [..._cache[57] || (_cache[57] = [
+              createElementVNode("span", { class: "fa fa-plus-circle fa-3x d-inline-block" }, null, -1)
+            ])])) : createCommentVNode("", true)
+          ]),
+          default: withCtx(() => [
+            (openBlock(true), createElementBlock(Fragment, null, renderList($setup.content.addons, (addon, i) => {
+              return openBlock(), createElementBlock("div", {
+                key: addon.id,
+                class: "column__addon mb-2",
+                style: { "animation-duration": ".3s" }
+              }, [
+                addon.type !== "row" ? (openBlock(), createBlock($setup["AddonBox"], {
+                  key: 0,
+                  onDelete: ($event) => $setup.deleteAddon(i),
+                  onDuplicate: ($event) => $setup.duplicateThisAddon(addon, i),
+                  index: i,
+                  content: addon,
+                  column: $setup.content
+                }, null, 8, ["onDelete", "onDuplicate", "index", "content", "column"])) : (openBlock(), createBlock($setup["RowBox"], {
+                  key: 1,
+                  index: i,
+                  value: addon,
+                  child: true,
+                  onDuplicate: ($event) => $setup.duplicateThisAddon(addon, i),
+                  "move-handle": "move-handle",
+                  "comment-columns-change": "columnsChange(addon, $event)",
+                  onDelete: ($event) => $setup.deleteAddon(i),
+                  onAddNew: $setup.addNewRow
+                }, null, 8, ["index", "value", "onDuplicate", "onDelete"]))
+              ]);
+            }), 128)),
+            _cache[58] || (_cache[58] = createTextVNode())
+          ]),
+          _: 1
+        }, 16, ["modelValue"])
+      ])
+    ])
+  ], 10, _hoisted_1$5);
+}
+const ColumnBox = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__file", "ColumnBox.vue"]]);
 const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   __name: "RowBox",
   props: {
@@ -21377,7 +21735,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
             duplicate(data2);
             return;
           }
-          const v = await swal({
+          const v = await swal$1({
             title: "You are pasting a row to a another row.",
             text: "Please choose an action.",
             buttons: {
@@ -21475,7 +21833,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     }, { deep: true });
     const __returned__ = { addTextToClipboard: addTextToClipboard2, duplicateAddon: duplicateAddon2, duplicateAny: duplicateAny2, emptyColumn: emptyColumn2, emptyRow: emptyRow2, readClipboard: readClipboard2, isRow: isRow2, isColumn: isColumn2, isAddon: isAddon2, props, emits, u: u2, content, drag, addNewColumn, copy, paste, pasteData, duplicate, duplicateColumn: duplicateColumn2, handleDuplicateAddons, edit, toggleDisabled, remove, getEmptyRow, deleteColumn, openTemplates, columns, options, get VueDraggable() {
       return VueDraggable;
-    } };
+    }, ColumnBox };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -21504,7 +21862,6 @@ const _hoisted_15$4 = { class: "page-builder__bottom-toolbar text-center" };
 const _hoisted_16$4 = { class: "btn-group" };
 const _hoisted_17$3 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
 function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_Column = resolveComponent("Column");
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(["bg-light", { "p-2": $props.child, "rounded": $props.child }]),
     disabled: $setup.content.disabled ? true : null
@@ -21518,11 +21875,14 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
             }, null, 2)
           ])
         ]),
+        _cache[13] || (_cache[13] = createTextVNode()),
         createElementVNode("div", {
           is: $props.child ? "strong" : "h5"
         }, toDisplayString($setup.options.label === "" ? "ROW" : $setup.options.label), 9, _hoisted_6$4),
+        _cache[14] || (_cache[14] = createTextVNode()),
         _ctx.$debug ? (openBlock(), createElementBlock("small", _hoisted_7$4, toDisplayString($setup.content.id), 1)) : createCommentVNode("", true)
       ]),
+      _cache[35] || (_cache[35] = createTextVNode()),
       createElementVNode("div", _hoisted_8$4, [
         !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
           key: 0,
@@ -21530,20 +21890,24 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
           class: "btn btn-sm btn-primary",
           onClick: _cache[0] || (_cache[0] = ($event) => $setup.addNewColumn())
         }, [
-          _cache[13] || (_cache[13] = createElementVNode("span", { class: "fa fa-plus" }, null, -1)),
-          !$props.child ? (openBlock(), createElementBlock("span", _hoisted_9$4, " New Column ")) : createCommentVNode("", true)
+          _cache[15] || (_cache[15] = createElementVNode("span", { class: "fa fa-plus" }, null, -1)),
+          _cache[16] || (_cache[16] = createTextVNode()),
+          !$props.child ? (openBlock(), createElementBlock("span", _hoisted_9$4, "\n            New Column\n          ")) : createCommentVNode("", true)
         ])) : createCommentVNode("", true),
+        _cache[33] || (_cache[33] = createTextVNode()),
         !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
           key: 1,
           type: "button",
           class: "btn btn-sm btn-outline-primary",
           onClick: $setup.edit
         }, [
-          _cache[14] || (_cache[14] = createElementVNode("span", { class: "fa fa-edit" }, null, -1)),
-          !$props.child ? (openBlock(), createElementBlock("span", _hoisted_10$4, " Edit ")) : createCommentVNode("", true)
+          _cache[17] || (_cache[17] = createElementVNode("span", { class: "fa fa-edit" }, null, -1)),
+          _cache[18] || (_cache[18] = createTextVNode()),
+          !$props.child ? (openBlock(), createElementBlock("span", _hoisted_10$4, "\n            Edit\n          ")) : createCommentVNode("", true)
         ])) : createCommentVNode("", true),
+        _cache[34] || (_cache[34] = createTextVNode()),
         createElementVNode("div", _hoisted_11$4, [
-          _cache[21] || (_cache[21] = createElementVNode("button", {
+          _cache[31] || (_cache[31] = createElementVNode("button", {
             href: "#",
             class: "btn btn-sm btn-outline-primary",
             "data-toggle": "dropdown",
@@ -21551,6 +21915,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
           }, [
             createElementVNode("span", { class: "fa fa-cog" })
           ], -1)),
+          _cache[32] || (_cache[32] = createTextVNode()),
           createElementVNode("div", _hoisted_12$4, [
             createElementVNode("a", {
               class: "dropdown-item",
@@ -21562,62 +21927,69 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 2),
               createTextVNode(" " + toDisplayString($setup.content.disabled ? "Enabled" : "Disabled"), 1)
             ]),
+            _cache[25] || (_cache[25] = createTextVNode()),
             !$setup.content.disabled ? (openBlock(), createElementBlock("a", {
               key: 0,
               class: "dropdown-item",
               href: "#",
               onClick: _cache[2] || (_cache[2] = withModifiers(($event) => $setup.duplicate(), ["prevent"]))
-            }, [..._cache[15] || (_cache[15] = [
+            }, [..._cache[19] || (_cache[19] = [
               createElementVNode("span", { class: "fa fa-fw fa-clone" }, null, -1),
-              createTextVNode(" Duplicate ", -1)
+              createTextVNode("\n                    Duplicate\n                ", -1)
             ])])) : createCommentVNode("", true),
+            _cache[26] || (_cache[26] = createTextVNode()),
             !$setup.content.disabled ? (openBlock(), createElementBlock("a", {
               key: 1,
               class: "dropdown-item",
               href: "#",
               onClick: withModifiers($setup.copy, ["prevent"])
-            }, [..._cache[16] || (_cache[16] = [
+            }, [..._cache[20] || (_cache[20] = [
               createElementVNode("span", { class: "fa fa-fw fa-copy" }, null, -1),
-              createTextVNode(" Copy ", -1)
+              createTextVNode("\n                    Copy\n                ", -1)
             ])])) : createCommentVNode("", true),
+            _cache[27] || (_cache[27] = createTextVNode()),
             !$setup.content.disabled ? (openBlock(), createElementBlock("a", {
               key: 2,
               class: "dropdown-item",
               href: "#",
               onClick: withModifiers($setup.paste, ["prevent"])
-            }, [..._cache[17] || (_cache[17] = [
+            }, [..._cache[21] || (_cache[21] = [
               createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
-              createTextVNode(" Paste ", -1)
+              createTextVNode("\n                    Paste\n                ", -1)
             ])])) : createCommentVNode("", true),
+            _cache[28] || (_cache[28] = createTextVNode()),
             !$setup.content.disabled ? (openBlock(), createElementBlock("a", {
               key: 3,
               class: "dropdown-item",
               href: "#",
               onClick: withModifiers($setup.openTemplates, ["prevent"])
-            }, [..._cache[18] || (_cache[18] = [
+            }, [..._cache[22] || (_cache[22] = [
               createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
-              createTextVNode(" Insert Template ", -1)
+              createTextVNode("\n                    Insert Template\n                ", -1)
             ])])) : createCommentVNode("", true),
+            _cache[29] || (_cache[29] = createTextVNode()),
             createElementVNode("a", {
               class: "dropdown-item",
               href: "#",
               onClick: _cache[3] || (_cache[3] = withModifiers(($event) => _ctx.$trigger("tmpl.save", $setup.content, "row"), ["prevent"]))
-            }, [..._cache[19] || (_cache[19] = [
+            }, [..._cache[23] || (_cache[23] = [
               createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
-              createTextVNode(" Save as Template ", -1)
+              createTextVNode("\n                  Save as Template\n                ", -1)
             ])]),
+            _cache[30] || (_cache[30] = createTextVNode()),
             createElementVNode("a", {
               class: "dropdown-item",
               href: "#",
               onClick: _cache[4] || (_cache[4] = withModifiers(($event) => $setup.remove(), ["prevent"]))
-            }, [..._cache[20] || (_cache[20] = [
+            }, [..._cache[24] || (_cache[24] = [
               createElementVNode("span", { class: "fa fa-fw fa-trash" }, null, -1),
-              createTextVNode(" Delete ", -1)
+              createTextVNode("\n                    Delete\n                ", -1)
             ])])
           ])
         ])
       ])
     ]),
+    _cache[44] || (_cache[44] = createTextVNode()),
     createElementVNode("div", _hoisted_13$4, [
       createVNode($setup["VueDraggable"], mergeProps({
         class: ["card-body page-row__body row", [{ "p-2": $props.child }, `justify-content-${$setup.options.justify_content}`]],
@@ -21633,7 +22005,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
       }), {
         default: withCtx(() => [
           (openBlock(true), createElementBlock(Fragment, null, renderList($setup.columns, (column, i) => {
-            return openBlock(), createBlock(_component_Column, {
+            return openBlock(), createBlock($setup["ColumnBox"], {
               key: column.id,
               class: "page-row__column column mb-2",
               style: { "animation-duration": ".3s" },
@@ -21644,18 +22016,20 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
               child: $props.child
             }, null, 8, ["onDelete", "onDuplicate", "index", "value", "child"]);
           }), 128)),
+          _cache[37] || (_cache[37] = createTextVNode()),
           createElementVNode("a", {
             class: "page-row__body-placeholder text-center p-4 border text-secondary col-12",
             "commented-v-if": "addons.length === 0 && !drag",
             href: "#",
             onClick: _cache[5] || (_cache[5] = withModifiers(($event) => $setup.addNewColumn(), ["prevent"]))
-          }, [..._cache[22] || (_cache[22] = [
+          }, [..._cache[36] || (_cache[36] = [
             createElementVNode("span", { class: "fa fa-plus-square fa-3x" }, null, -1)
           ])])
         ]),
         _: 1
       }, 16, ["class", "modelValue"])
     ]),
+    _cache[45] || (_cache[45] = createTextVNode()),
     createElementVNode("div", _hoisted_14$4, [
       createElementVNode("div", _hoisted_15$4, [
         createElementVNode("div", _hoisted_16$4, [
@@ -21663,8 +22037,9 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
             type: "button",
             onClick: _cache[10] || (_cache[10] = ($event) => _ctx.$emit("add-new")),
             class: "btn btn-sm btn-outline-secondary"
-          }, " Add New Row "),
-          _cache[25] || (_cache[25] = createElementVNode("button", {
+          }, "\n            Add New Row\n          "),
+          _cache[41] || (_cache[41] = createTextVNode()),
+          _cache[42] || (_cache[42] = createElementVNode("button", {
             type: "button",
             class: "btn btn-outline-secondary btn-sm dropdown-toggle dropdown-toggle-split",
             "data-toggle": "dropdown",
@@ -21672,23 +22047,25 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
           }, [
             createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
           ], -1)),
+          _cache[43] || (_cache[43] = createTextVNode()),
           createElementVNode("div", _hoisted_17$3, [
             createElementVNode("button", {
               type: "button",
               class: "dropdown-item",
               onClick: _cache[11] || (_cache[11] = ($event) => $setup.paste(true))
-            }, [..._cache[23] || (_cache[23] = [
+            }, [..._cache[38] || (_cache[38] = [
               createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
-              createTextVNode(" Paste ", -1)
+              createTextVNode("\n              Paste\n            ", -1)
             ])]),
+            _cache[40] || (_cache[40] = createTextVNode()),
             !$props.child ? (openBlock(), createElementBlock("button", {
               key: 0,
               type: "button",
               class: "dropdown-item",
               onClick: _cache[12] || (_cache[12] = ($event) => _ctx.$emit("open-templates"))
-            }, [..._cache[24] || (_cache[24] = [
+            }, [..._cache[39] || (_cache[39] = [
               createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
-              createTextVNode(" Insert Template ", -1)
+              createTextVNode("\n              Insert Template\n            ", -1)
             ])])) : createCommentVNode("", true)
           ])
         ])
@@ -21753,7 +22130,8 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
         createElementVNode("div", _hoisted_4$3, [
           createElementVNode("label", {
             for: $props.id + "title-element"
-          }, " Title Element ", 8, _hoisted_5$3),
+          }, "\n            Title Element\n          ", 8, _hoisted_5$3),
+          _cache[3] || (_cache[3] = createTextVNode()),
           withDirectives(createElementVNode("select", {
             id: $props.id + "title-element",
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.options.element = $event),
@@ -21762,18 +22140,20 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
             (openBlock(), createElementBlock(Fragment, null, renderList([1, 2, 3, 4, 5, 6], (i) => {
               return createElementVNode("option", {
                 value: "h" + i
-              }, " h" + toDisplayString(i), 9, _hoisted_7$3);
+              }, "\n              h" + toDisplayString(i), 9, _hoisted_7$3);
             }), 64))
           ], 8, _hoisted_6$3), [
             [vModelSelect, $setup.options.element]
           ])
         ])
       ]),
+      _cache[5] || (_cache[5] = createTextVNode()),
       createElementVNode("div", _hoisted_8$3, [
         createElementVNode("div", _hoisted_9$3, [
           createElementVNode("label", {
             for: $props.id + "title-color"
           }, "Title Color", 8, _hoisted_10$3),
+          _cache[4] || (_cache[4] = createTextVNode()),
           createVNode($setup["ColorInput"], {
             id: $props.id + "title-color",
             modelValue: $setup.options.color,
@@ -21783,11 +22163,12 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ])
     ]),
+    _cache[16] || (_cache[16] = createTextVNode()),
     createElementVNode("div", _hoisted_11$3, [
       createElementVNode("div", _hoisted_12$3, [
         createVNode($setup["RwdGroup"], { "class-name": "c-title-font-size" }, createSlots({
           label: withCtx(() => [
-            _cache[3] || (_cache[3] = createElementVNode("label", null, " Title Font Size ", -1))
+            _cache[6] || (_cache[6] = createElementVNode("label", null, "\n              Title Font Size\n            ", -1))
           ]),
           _: 2
         }, [
@@ -21805,9 +22186,11 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
           })
         ]), 1024)
       ]),
+      _cache[10] || (_cache[10] = createTextVNode()),
       createElementVNode("div", _hoisted_13$3, [
         createElementVNode("div", _hoisted_14$3, [
-          _cache[4] || (_cache[4] = createElementVNode("label", null, " Title Font Weight ", -1)),
+          _cache[8] || (_cache[8] = createElementVNode("label", null, "\n            Title Font Weight\n          ", -1)),
+          _cache[9] || (_cache[9] = createTextVNode()),
           $setup.prepared ? (openBlock(), createElementBlock("div", _hoisted_15$3, [
             createVNode($setup["SliderInput"], {
               modelValue: $setup.options.font_weight,
@@ -21819,11 +22202,12 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ])
     ]),
+    _cache[17] || (_cache[17] = createTextVNode()),
     createElementVNode("div", _hoisted_16$3, [
       createElementVNode("div", _hoisted_17$2, [
         createVNode($setup["RwdGroup"], { "class-name": "c-title-margin_top" }, createSlots({
           label: withCtx(() => [
-            _cache[5] || (_cache[5] = createElementVNode("label", null, " Title Margin Top ", -1))
+            _cache[11] || (_cache[11] = createElementVNode("label", null, "\n              Title Margin Top\n            ", -1))
           ]),
           _: 2
         }, [
@@ -21843,10 +22227,11 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
           })
         ]), 1024)
       ]),
+      _cache[15] || (_cache[15] = createTextVNode()),
       createElementVNode("div", _hoisted_19$1, [
         createVNode($setup["RwdGroup"], { "class-name": "c-title-margin_bottom" }, createSlots({
           label: withCtx(() => [
-            _cache[6] || (_cache[6] = createElementVNode("label", null, " Title Margin Bottom ", -1))
+            _cache[13] || (_cache[13] = createElementVNode("label", null, "\n              Title Margin Bottom\n            ", -1))
           ]),
           _: 2
         }, [
@@ -22018,25 +22403,28 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 "data-toggle": "tab",
                 "data-bs-toggle": "tab",
                 href: "#row-edit-general"
-              }, " General ")
+              }, "\n                General\n              ")
             ], -1),
+            createTextVNode(),
             createElementVNode("li", { class: "nav-item" }, [
               createElementVNode("a", {
                 class: "nav-link",
                 "data-toggle": "tab",
                 "data-bs-toggle": "tab",
                 href: "#row-edit-layout"
-              }, " Layout ")
+              }, "\n                Layout\n              ")
             ], -1),
+            createTextVNode(),
             createElementVNode("li", { class: "nav-item" }, [
               createElementVNode("a", {
                 class: "nav-link",
                 "data-toggle": "tab",
                 "data-bs-toggle": "tab",
                 href: "#row-edit-animation"
-              }, " Animation ")
+              }, "\n                Animation\n              ")
             ], -1)
           ])], 512),
+          _cache[40] || (_cache[40] = createTextVNode()),
           createElementVNode("div", _hoisted_2$2, [
             createElementVNode("button", {
               type: "button",
@@ -22044,8 +22432,9 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
             }, [..._cache[35] || (_cache[35] = [
               createElementVNode("span", { class: "fa fa-check" }, null, -1),
-              createTextVNode(" Done ", -1)
+              createTextVNode("\n              Done\n            ", -1)
             ])]),
+            _cache[38] || (_cache[38] = createTextVNode()),
             createElementVNode("button", {
               type: "button",
               class: "btn btn-success btn--save-page",
@@ -22055,8 +22444,9 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               createElementVNode("span", {
                 class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
               }, null, 2),
-              _cache[36] || (_cache[36] = createTextVNode(" Save Page ", -1))
+              _cache[36] || (_cache[36] = createTextVNode("\n              Save Page\n            ", -1))
             ], 8, _hoisted_3$2),
+            _cache[39] || (_cache[39] = createTextVNode()),
             createElementVNode("button", {
               type: "button",
               class: "btn btn-secondary btn--close",
@@ -22072,24 +22462,27 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
           type: "button",
           class: "btn btn-success",
           onClick: _cache[31] || (_cache[31] = ($event) => $setup.saveClose())
-        }, [..._cache[81] || (_cache[81] = [
+        }, [..._cache[150] || (_cache[150] = [
           createElementVNode("span", { class: "fa fa-save" }, null, -1),
-          createTextVNode(" Save ", -1)
+          createTextVNode("\n          Save\n        ", -1)
         ])]),
+        _cache[152] || (_cache[152] = createTextVNode()),
         createElementVNode("button", {
           type: "button",
           class: "btn btn-secondary",
           onClick: _cache[32] || (_cache[32] = ($event) => $setup.close())
-        }, [..._cache[82] || (_cache[82] = [
+        }, [..._cache[151] || (_cache[151] = [
           createElementVNode("span", { class: "fa fa-times" }, null, -1),
-          createTextVNode(" Cancel ", -1)
+          createTextVNode("\n          Cancel\n        ", -1)
         ])])
       ]),
       default: withCtx(() => [
+        _cache[153] || (_cache[153] = createTextVNode()),
         $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_4$2, [
           createElementVNode("div", _hoisted_5$2, [
             createElementVNode("div", _hoisted_6$2, [
-              _cache[38] || (_cache[38] = createElementVNode("label", { for: "input-row-edit-label" }, "Label", -1)),
+              _cache[41] || (_cache[41] = createElementVNode("label", { for: "input-row-edit-label" }, "Label", -1)),
+              _cache[42] || (_cache[42] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-row-edit-label",
                 type: "text",
@@ -22098,11 +22491,15 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 512), [
                 [vModelText, $setup.options.label]
               ]),
-              _cache[39] || (_cache[39] = createElementVNode("small", { class: "form-text text-muted" }, "This label only show in edit page.", -1))
+              _cache[43] || (_cache[43] = createTextVNode()),
+              _cache[44] || (_cache[44] = createElementVNode("small", { class: "form-text text-muted" }, "This label only show in edit page.", -1))
             ]),
-            _cache[49] || (_cache[49] = createElementVNode("hr", null, null, -1)),
+            _cache[63] || (_cache[63] = createTextVNode()),
+            _cache[64] || (_cache[64] = createElementVNode("hr", null, null, -1)),
+            _cache[65] || (_cache[65] = createTextVNode()),
             createElementVNode("div", _hoisted_7$2, [
-              _cache[40] || (_cache[40] = createElementVNode("label", { for: "input-row-edit-title-text" }, "Main Title", -1)),
+              _cache[45] || (_cache[45] = createElementVNode("label", { for: "input-row-edit-title-text" }, "Main Title", -1)),
+              _cache[46] || (_cache[46] = createTextVNode()),
               withDirectives(createElementVNode("textarea", {
                 id: "input-row-edit-title-text",
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.options.title.text = $event),
@@ -22110,17 +22507,22 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 512), [
                 [vModelText, $setup.options.title.text]
               ]),
-              _cache[41] || (_cache[41] = createElementVNode("small", { class: "form-text text-muted" }, "Title of this section, keep empty to hide it.", -1))
+              _cache[47] || (_cache[47] = createTextVNode()),
+              _cache[48] || (_cache[48] = createElementVNode("small", { class: "form-text text-muted" }, "Title of this section, keep empty to hide it.", -1))
             ]),
+            _cache[66] || (_cache[66] = createTextVNode()),
             $setup.options.title.text !== "" ? (openBlock(), createBlock($setup["RwdTitleOptions"], {
               key: 0,
               id: "input-row-edit",
               modelValue: $setup.content.options.title,
               "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.content.options.title = $event)
             }, null, 8, ["modelValue"])) : createCommentVNode("", true),
-            _cache[50] || (_cache[50] = createElementVNode("hr", null, null, -1)),
+            _cache[67] || (_cache[67] = createTextVNode()),
+            _cache[68] || (_cache[68] = createElementVNode("hr", null, null, -1)),
+            _cache[69] || (_cache[69] = createTextVNode()),
             createElementVNode("div", _hoisted_8$2, [
-              _cache[42] || (_cache[42] = createElementVNode("label", { for: "input-row-edit-subtitle-text" }, "Subtitle", -1)),
+              _cache[49] || (_cache[49] = createElementVNode("label", { for: "input-row-edit-subtitle-text" }, "Subtitle", -1)),
+              _cache[50] || (_cache[50] = createTextVNode()),
               withDirectives(createElementVNode("textarea", {
                 id: "input-row-edit-subtitle-text",
                 "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.options.subtitle.text = $event),
@@ -22128,12 +22530,14 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 512), [
                 [vModelText, $setup.options.subtitle.text]
               ]),
-              _cache[43] || (_cache[43] = createElementVNode("small", { class: "form-text text-muted" }, "Subtitle of this section, keep empty to hide it.", -1))
+              _cache[51] || (_cache[51] = createTextVNode()),
+              _cache[52] || (_cache[52] = createElementVNode("small", { class: "form-text text-muted" }, "Subtitle of this section, keep empty to hide it.", -1))
             ]),
+            _cache[70] || (_cache[70] = createTextVNode()),
             $setup.options.subtitle.text !== "" ? (openBlock(), createElementBlock("div", _hoisted_9$2, [
               createVNode($setup["RwdGroup"], { "class-name": "c-title-font-size" }, createSlots({
                 label: withCtx(() => [
-                  _cache[44] || (_cache[44] = createElementVNode("label", null, " Subtitle Font Size ", -1))
+                  _cache[53] || (_cache[53] = createElementVNode("label", null, "\n                  Subtitle Font Size\n                ", -1))
                 ]),
                 _: 2
               }, [
@@ -22151,8 +22555,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 })
               ]), 1024)
             ])) : createCommentVNode("", true),
+            _cache[71] || (_cache[71] = createTextVNode()),
             createElementVNode("div", _hoisted_10$2, [
-              _cache[45] || (_cache[45] = createElementVNode("label", { for: "input-row-edit-title-align" }, "Title/Subtitle Text Alignment", -1)),
+              _cache[55] || (_cache[55] = createElementVNode("label", { for: "input-row-edit-title-align" }, "Title/Subtitle Text Alignment", -1)),
+              _cache[56] || (_cache[56] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
@@ -22168,8 +22574,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[72] || (_cache[72] = createTextVNode()),
             createElementVNode("div", _hoisted_11$2, [
-              _cache[46] || (_cache[46] = createElementVNode("label", { for: "input-row-edit-text-color" }, "Text Color", -1)),
+              _cache[57] || (_cache[57] = createElementVNode("label", { for: "input-row-edit-text-color" }, "Text Color", -1)),
+              _cache[58] || (_cache[58] = createTextVNode()),
               createVNode($setup["ColorInput"], {
                 id: "input-row-edit-text-color",
                 modelValue: $setup.options.text_color,
@@ -22177,8 +22585,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 modelModifiers: { lazy: true }
               }, null, 8, ["modelValue"])
             ]),
+            _cache[73] || (_cache[73] = createTextVNode()),
             createElementVNode("div", _hoisted_12$2, [
-              _cache[47] || (_cache[47] = createElementVNode("label", { for: "input-row-edit-html-id" }, "CSS ID", -1)),
+              _cache[59] || (_cache[59] = createElementVNode("label", { for: "input-row-edit-html-id" }, "CSS ID", -1)),
+              _cache[60] || (_cache[60] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-row-edit-html-id",
                 type: "text",
@@ -22188,8 +22598,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 [vModelText, $setup.options.html_id]
               ])
             ]),
+            _cache[74] || (_cache[74] = createTextVNode()),
             createElementVNode("div", _hoisted_13$2, [
-              _cache[48] || (_cache[48] = createElementVNode("label", { for: "input-row-edit-html-class" }, "CSS Class", -1)),
+              _cache[61] || (_cache[61] = createElementVNode("label", { for: "input-row-edit-html-class" }, "CSS Class", -1)),
+              _cache[62] || (_cache[62] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-row-edit-html-class",
                 type: "text",
@@ -22200,27 +22612,31 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ])
           ]),
+          _cache[148] || (_cache[148] = createTextVNode()),
           createElementVNode("div", _hoisted_14$2, [
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.padding,
               "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.options.padding = $event)
             }, {
-              label: withCtx(() => [..._cache[51] || (_cache[51] = [
+              label: withCtx(() => [..._cache[75] || (_cache[75] = [
                 createTextVNode("Padding", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
+            _cache[127] || (_cache[127] = createTextVNode()),
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.margin,
               "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => $setup.options.margin = $event)
             }, {
-              label: withCtx(() => [..._cache[52] || (_cache[52] = [
+              label: withCtx(() => [..._cache[76] || (_cache[76] = [
                 createTextVNode("Margin", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
+            _cache[128] || (_cache[128] = createTextVNode()),
             createElementVNode("div", _hoisted_15$2, [
-              _cache[53] || (_cache[53] = createElementVNode("label", { for: "input-row-edit-background" }, "Background Type", -1)),
+              _cache[77] || (_cache[77] = createElementVNode("label", { for: "input-row-edit-background" }, "Background Type", -1)),
+              _cache[78] || (_cache[78] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
@@ -22238,10 +22654,12 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[129] || (_cache[129] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_16$2, [
-                  _cache[54] || (_cache[54] = createElementVNode("label", { for: "input-row-edit-bg-color" }, "Background Color", -1)),
+                  _cache[79] || (_cache[79] = createElementVNode("label", { for: "input-row-edit-bg-color" }, "Background Color", -1)),
+                  _cache[80] || (_cache[80] = createTextVNode()),
                   createVNode($setup["ColorInput"], {
                     id: "input-row-edit-bg-color",
                     modelValue: $setup.options.background.color,
@@ -22252,28 +22670,35 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
+            _cache[130] || (_cache[130] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_17$1, [
                   createElementVNode("div", _hoisted_18, [
-                    _cache[55] || (_cache[55] = createElementVNode("label", { for: "input-row-edit-bg-image" }, "Background Image", -1)),
+                    _cache[81] || (_cache[81] = createElementVNode("label", { for: "input-row-edit-bg-image" }, "Background Image", -1)),
+                    _cache[82] || (_cache[82] = createTextVNode()),
                     createVNode($setup["SingleImage"], {
                       modelValue: $setup.options.background.image.url,
                       "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => $setup.options.background.image.url = $event),
                       id: "input-row-edit-bg-image"
                     }, null, 8, ["modelValue"])
                   ]),
+                  _cache[97] || (_cache[97] = createTextVNode()),
                   createElementVNode("div", _hoisted_19, [
                     createElementVNode("div", _hoisted_20, [
-                      _cache[57] || (_cache[57] = createElementVNode("label", { for: "input-row-edit-bg-size" }, "Background Size", -1)),
+                      _cache[84] || (_cache[84] = createElementVNode("label", { for: "input-row-edit-bg-size" }, "Background Size", -1)),
+                      _cache[85] || (_cache[85] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-row-edit-bg-size",
                         "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => $setup.options.background.image.size = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[56] || (_cache[56] = [
+                      }, [..._cache[83] || (_cache[83] = [
                         createElementVNode("option", { value: "" }, "Default", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "cover" }, "Cover", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "contain" }, "Contain", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "auto" }, "Auto", -1)
                       ])], 512), [
                         [
@@ -22284,17 +22709,23 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                         ]
                       ])
                     ]),
+                    _cache[89] || (_cache[89] = createTextVNode()),
                     createElementVNode("div", _hoisted_21, [
-                      _cache[59] || (_cache[59] = createElementVNode("label", { for: "input-row-edit-bg-repeat" }, "Background Repeat", -1)),
+                      _cache[87] || (_cache[87] = createElementVNode("label", { for: "input-row-edit-bg-repeat" }, "Background Repeat", -1)),
+                      _cache[88] || (_cache[88] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-row-edit-bg-repeat",
                         "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => $setup.options.background.image.repeat = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[58] || (_cache[58] = [
+                      }, [..._cache[86] || (_cache[86] = [
                         createElementVNode("option", { value: "no-repeat" }, "No Repeat", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "" }, "Repeat All", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "repeat-x" }, "Repeat X", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "repeat-y" }, "Repeat Y", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "inherit" }, "Inherit", -1)
                       ])], 512), [
                         [
@@ -22306,16 +22737,20 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                       ])
                     ])
                   ]),
+                  _cache[98] || (_cache[98] = createTextVNode()),
                   createElementVNode("div", _hoisted_22, [
                     createElementVNode("div", _hoisted_23, [
-                      _cache[61] || (_cache[61] = createElementVNode("label", { for: "input-row-edit-bg-attachment" }, "Background Attachment", -1)),
+                      _cache[91] || (_cache[91] = createElementVNode("label", { for: "input-row-edit-bg-attachment" }, "Background Attachment", -1)),
+                      _cache[92] || (_cache[92] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-row-edit-bg-attachment",
                         "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => $setup.options.background.image.attachment = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[60] || (_cache[60] = [
+                      }, [..._cache[90] || (_cache[90] = [
                         createElementVNode("option", { value: "fixed" }, "Fixed", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "scroll" }, "Scroll", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "inherit" }, "Inherit", -1)
                       ])], 512), [
                         [
@@ -22326,21 +22761,31 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                         ]
                       ])
                     ]),
+                    _cache[96] || (_cache[96] = createTextVNode()),
                     createElementVNode("div", _hoisted_24, [
-                      _cache[63] || (_cache[63] = createElementVNode("label", { for: "input-row-edit-bg-position" }, "Background Position", -1)),
+                      _cache[94] || (_cache[94] = createElementVNode("label", { for: "input-row-edit-bg-position" }, "Background Position", -1)),
+                      _cache[95] || (_cache[95] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-row-edit-bg-position",
                         "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => $setup.options.background.image.position = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[62] || (_cache[62] = [
+                      }, [..._cache[93] || (_cache[93] = [
                         createElementVNode("option", { value: "left top" }, "Left Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "left center" }, "Left Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "left bottom" }, "Left Bottom", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center top" }, "Center Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center center" }, "Center Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "center bottom" }, "Center Bottom", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right top" }, "Right Top", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right center" }, "Right Center", -1),
+                        createTextVNode(),
                         createElementVNode("option", { value: "right bottom" }, "Right Bottom", -1)
                       ])], 512), [
                         [
@@ -22356,6 +22801,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
+            _cache[131] || (_cache[131] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 $setup.options.background.type === "gradient" ? (openBlock(), createBlock($setup["Gradient"], {
@@ -22366,11 +22812,13 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
+            _cache[132] || (_cache[132] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 ["video"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_25, [
                   createElementVNode("div", _hoisted_26, [
-                    _cache[64] || (_cache[64] = createElementVNode("label", { for: "input-row-edit-bg-video-url" }, "Video URL", -1)),
+                    _cache[99] || (_cache[99] = createElementVNode("label", { for: "input-row-edit-bg-video-url" }, "Video URL", -1)),
+                    _cache[100] || (_cache[100] = createTextVNode()),
                     withDirectives(createElementVNode("input", {
                       id: "input-row-edit-bg-video-url",
                       type: "text",
@@ -22379,17 +22827,20 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                     }, null, 512), [
                       [vModelText, $setup.options.background.video.url]
                     ]),
-                    _cache[65] || (_cache[65] = createElementVNode("small", { class: "form-text text-muted" }, " Paste mp4 video URL, or Youtube / Vimeo URL. ", -1))
+                    _cache[101] || (_cache[101] = createTextVNode()),
+                    _cache[102] || (_cache[102] = createElementVNode("small", { class: "form-text text-muted" }, "\n                  Paste mp4 video URL, or Youtube / Vimeo URL.\n                ", -1))
                   ])
                 ])) : createCommentVNode("", true)
               ]),
               _: 1
             }),
+            _cache[133] || (_cache[133] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 ["video", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_27, [
                   createElementVNode("div", _hoisted_28, [
-                    _cache[66] || (_cache[66] = createElementVNode("label", { for: "input-row-edit-bg-overlay" }, "Color Overlay", -1)),
+                    _cache[103] || (_cache[103] = createElementVNode("label", { for: "input-row-edit-bg-overlay" }, "Color Overlay", -1)),
+                    _cache[104] || (_cache[104] = createTextVNode()),
                     createVNode($setup["ColorInput"], {
                       id: "input-row-edit-bg-overlay",
                       modelValue: $setup.options.background.overlay,
@@ -22397,8 +22848,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                       modelModifiers: { lazy: true }
                     }, null, 8, ["modelValue"])
                   ]),
+                  _cache[107] || (_cache[107] = createTextVNode()),
                   createElementVNode("div", _hoisted_29, [
-                    _cache[67] || (_cache[67] = createElementVNode("label", { for: "input-row-edit-hidden-mobile" }, "Parallax Background", -1)),
+                    _cache[105] || (_cache[105] = createElementVNode("label", { for: "input-row-edit-hidden-mobile" }, "Parallax Background", -1)),
+                    _cache[106] || (_cache[106] = createTextVNode()),
                     createElementVNode("div", null, [
                       createVNode($setup["UnicornSwitcher"], {
                         name: "row-edit-bg-parallax",
@@ -22416,9 +22869,12 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[78] || (_cache[78] = createElementVNode("hr", null, null, -1)),
+            _cache[134] || (_cache[134] = createTextVNode()),
+            _cache[135] || (_cache[135] = createElementVNode("hr", null, null, -1)),
+            _cache[136] || (_cache[136] = createTextVNode()),
             createElementVNode("div", _hoisted_30, [
-              _cache[68] || (_cache[68] = createElementVNode("label", { for: "input-row-edit-justify-content" }, "Content Justify", -1)),
+              _cache[108] || (_cache[108] = createElementVNode("label", { for: "input-row-edit-justify-content" }, "Content Justify", -1)),
+              _cache[109] || (_cache[109] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
@@ -22436,8 +22892,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[137] || (_cache[137] = createTextVNode()),
             createElementVNode("div", _hoisted_31, [
-              _cache[69] || (_cache[69] = createElementVNode("label", { for: "input-row-edit-valign" }, "Vertical Align Middle", -1)),
+              _cache[110] || (_cache[110] = createElementVNode("label", { for: "input-row-edit-valign" }, "Vertical Align Middle", -1)),
+              _cache[111] || (_cache[111] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-valign",
@@ -22451,8 +22909,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[138] || (_cache[138] = createTextVNode()),
             createElementVNode("div", _hoisted_32, [
-              _cache[70] || (_cache[70] = createElementVNode("label", { for: "input-row-edit-fluid_row" }, "Fluid Row", -1)),
+              _cache[112] || (_cache[112] = createElementVNode("label", { for: "input-row-edit-fluid_row" }, "Fluid Row", -1)),
+              _cache[113] || (_cache[113] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-fluid_row",
@@ -22466,8 +22926,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[139] || (_cache[139] = createTextVNode()),
             createElementVNode("div", _hoisted_33, [
-              _cache[71] || (_cache[71] = createElementVNode("label", { for: "input-row-edit-no_gutter" }, "No Gutters", -1)),
+              _cache[114] || (_cache[114] = createElementVNode("label", { for: "input-row-edit-no_gutter" }, "No Gutters", -1)),
+              _cache[115] || (_cache[115] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-no_gutter",
@@ -22481,9 +22943,12 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[79] || (_cache[79] = createElementVNode("hr", null, null, -1)),
+            _cache[140] || (_cache[140] = createTextVNode()),
+            _cache[141] || (_cache[141] = createElementVNode("hr", null, null, -1)),
+            _cache[142] || (_cache[142] = createTextVNode()),
             createElementVNode("div", _hoisted_34, [
-              _cache[72] || (_cache[72] = createElementVNode("label", { for: "input-row-edit-hidden-mobile" }, "Hide in Mobile", -1)),
+              _cache[116] || (_cache[116] = createElementVNode("label", { for: "input-row-edit-hidden-mobile" }, "Hide in Mobile", -1)),
+              _cache[117] || (_cache[117] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-hidden-mobile",
@@ -22497,8 +22962,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[143] || (_cache[143] = createTextVNode()),
             createElementVNode("div", _hoisted_35, [
-              _cache[73] || (_cache[73] = createElementVNode("label", { for: "input-row-edit-hidden-tablet" }, "Hide in Tablet", -1)),
+              _cache[118] || (_cache[118] = createElementVNode("label", { for: "input-row-edit-hidden-tablet" }, "Hide in Tablet", -1)),
+              _cache[119] || (_cache[119] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-hidden-tablet",
@@ -22512,8 +22979,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
+            _cache[144] || (_cache[144] = createTextVNode()),
             createElementVNode("div", _hoisted_36, [
-              _cache[74] || (_cache[74] = createElementVNode("label", { for: "input-row-edit-hidden-desktop" }, "Hide in Desktop", -1)),
+              _cache[120] || (_cache[120] = createElementVNode("label", { for: "input-row-edit-hidden-desktop" }, "Hide in Desktop", -1)),
+              _cache[121] || (_cache[121] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-hidden-desktop",
@@ -22527,14 +22996,18 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[80] || (_cache[80] = createElementVNode("hr", null, null, -1)),
+            _cache[145] || (_cache[145] = createTextVNode()),
+            _cache[146] || (_cache[146] = createElementVNode("hr", null, null, -1)),
+            _cache[147] || (_cache[147] = createTextVNode()),
             createElementVNode("div", _hoisted_37, [
-              _cache[77] || (_cache[77] = createElementVNode("label", { for: "input-row-edit-css" }, "Custom CSS (SCSS)", -1)),
+              _cache[124] || (_cache[124] = createElementVNode("label", { for: "input-row-edit-css" }, "Custom CSS (SCSS)", -1)),
+              _cache[125] || (_cache[125] = createTextVNode()),
               createElementVNode("div", _hoisted_38, [
-                _cache[75] || (_cache[75] = createTextVNode(" Will auto prefix by ", -1)),
+                _cache[122] || (_cache[122] = createTextVNode("\n              Will auto prefix by ", -1)),
                 createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
-                _cache[76] || (_cache[76] = createTextVNode(", only works for this scope. ", -1))
+                _cache[123] || (_cache[123] = createTextVNode(", only works for this scope.\n            ", -1))
               ]),
+              _cache[126] || (_cache[126] = createTextVNode()),
               $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_39, [
                 createVNode($setup["CssEditor"], {
                   ref: "cssEditor",
@@ -22545,13 +23018,15 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ])) : createCommentVNode("", true)
             ])
           ]),
+          _cache[149] || (_cache[149] = createTextVNode()),
           createElementVNode("div", _hoisted_40, [
             createVNode($setup["Animations"], {
               id: "row-edit-anim",
               value: $setup.options.animation
             }, null, 8, ["value"])
           ])
-        ])) : createCommentVNode("", true)
+        ])) : createCommentVNode("", true),
+        _cache[154] || (_cache[154] = createTextVNode())
       ]),
       _: 1
     }, 8, ["open"])
@@ -22602,7 +23077,6 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "TemplateManager",
   emits: ["selected"],
   setup(__props, { expose: __expose, emit: __emit }) {
-    __expose();
     const { toFormData: toFormData2 } = usePageBuilderUtilities();
     const emits = __emit;
     const q = ref("");
@@ -22734,6 +23208,10 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
         return true;
       });
     });
+    __expose({
+      open,
+      openSave
+    });
     const __returned__ = { toFormData: toFormData2, emits, q, filterType, items, callback, type, i, saveData, loading, wrap: wrap2, saving, wrapSave, tmplModalShow, saveModalShow, open, loadItems, selected, remove, badgeColor, saveContent, openSave, resetSaveData, filterButtons, filteredItems, BsModal, SingleImage, ButtonRadio };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
@@ -22769,7 +23247,8 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, {
       default: withCtx(() => [
         createElementVNode("div", _hoisted_1$1, [
-          _cache[8] || (_cache[8] = createElementVNode("span", { class: "me-2" }, " Filter: ", -1)),
+          _cache[8] || (_cache[8] = createElementVNode("span", { class: "me-2" }, "\n            Filter:\n          ", -1)),
+          _cache[9] || (_cache[9] = createTextVNode()),
           createVNode($setup["ButtonRadio"], {
             id: "input-filter",
             color: "primary",
@@ -22780,6 +23259,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.filterType = $event),
             options: $setup.filterButtons
           }, null, 8, ["modelValue", "options"]),
+          _cache[10] || (_cache[10] = createTextVNode()),
           createElementVNode("div", null, [
             withDirectives(createElementVNode("input", {
               type: "search",
@@ -22791,6 +23271,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           ])
         ]),
+        _cache[17] || (_cache[17] = createTextVNode()),
         createElementVNode("div", _hoisted_2$1, [
           createVNode(TransitionGroup, { name: "fade" }, {
             default: withCtx(() => [
@@ -22810,26 +23291,30 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                       class: "c-template-item__preview card-img-top",
                       style: normalizeStyle({ "background-image": `url(${item.image})` })
                     }, null, 4),
+                    _cache[15] || (_cache[15] = createTextVNode()),
                     createElementVNode("div", _hoisted_5$1, [
                       createElementVNode("div", _hoisted_6$1, [
                         createElementVNode("h5", _hoisted_7$1, toDisplayString(item.title || "No title"), 1),
+                        _cache[12] || (_cache[12] = createTextVNode()),
                         createElementVNode("div", null, [
                           createElementVNode("div", {
                             class: normalizeClass(["badge", `bg-${$setup.badgeColor(item.type)}`])
                           }, toDisplayString(item.type), 3)
                         ]),
+                        _cache[13] || (_cache[13] = createTextVNode()),
                         createElementVNode("div", _hoisted_8$1, [
                           item.can_delete === true ? (openBlock(), createElementBlock("a", {
                             key: 0,
                             href: "#",
                             class: "text-dark",
                             onClick: withModifiers(($event) => $setup.remove(item, idx), ["prevent", "stop"])
-                          }, [..._cache[9] || (_cache[9] = [
+                          }, [..._cache[11] || (_cache[11] = [
                             createElementVNode("span", { class: "fa fa-trash" }, null, -1),
-                            createTextVNode(" Delete ", -1)
+                            createTextVNode("\n                      Delete\n                    ", -1)
                           ])], 8, _hoisted_9$1)) : createCommentVNode("", true)
                         ])
                       ]),
+                      _cache[14] || (_cache[14] = createTextVNode()),
                       createElementVNode("div", _hoisted_10$1, toDisplayString(item.description || "No description"), 1)
                     ])
                   ], 8, _hoisted_4$1)
@@ -22839,12 +23324,14 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1
           })
         ]),
-        $setup.items.length === 0 && $setup.loading ? (openBlock(), createElementBlock("div", _hoisted_11$1, [..._cache[10] || (_cache[10] = [
+        _cache[18] || (_cache[18] = createTextVNode()),
+        $setup.items.length === 0 && $setup.loading ? (openBlock(), createElementBlock("div", _hoisted_11$1, [..._cache[16] || (_cache[16] = [
           createElementVNode("span", { class: "spinner spinner-border" }, null, -1)
         ])])) : createCommentVNode("", true)
       ]),
       _: 1
     }, 8, ["open"]),
+    _cache[31] || (_cache[31] = createTextVNode()),
     createVNode($setup["BsModal"], {
       open: $setup.saveModalShow,
       onHidden: _cache[7] || (_cache[7] = ($event) => $setup.saveModalShow = false),
@@ -22852,13 +23339,15 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, {
       default: withCtx(() => [
         createElementVNode("div", null, [
-          _cache[11] || (_cache[11] = createTextVNode(" Save as: ", -1)),
+          _cache[19] || (_cache[19] = createTextVNode("\n        Save as: ", -1)),
           createElementVNode("div", {
             class: normalizeClass(["badge", `bg-${$setup.badgeColor($setup.saveData.type)}`])
           }, toDisplayString($setup.saveData.type), 3)
         ]),
+        _cache[28] || (_cache[28] = createTextVNode()),
         createElementVNode("div", _hoisted_12$1, [
-          _cache[12] || (_cache[12] = createElementVNode("label", { for: "input-tmpl-title" }, "Title", -1)),
+          _cache[20] || (_cache[20] = createElementVNode("label", { for: "input-tmpl-title" }, "Title", -1)),
+          _cache[21] || (_cache[21] = createTextVNode()),
           createElementVNode("div", null, [
             withDirectives(createElementVNode("input", {
               id: "input-tmpl-title",
@@ -22870,8 +23359,10 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           ])
         ]),
+        _cache[29] || (_cache[29] = createTextVNode()),
         createElementVNode("div", _hoisted_13$1, [
-          _cache[13] || (_cache[13] = createElementVNode("label", { for: "input-tmpl-description" }, "Description", -1)),
+          _cache[22] || (_cache[22] = createElementVNode("label", { for: "input-tmpl-description" }, "Description", -1)),
+          _cache[23] || (_cache[23] = createTextVNode()),
           createElementVNode("div", null, [
             withDirectives(createElementVNode("textarea", {
               id: "input-tmpl-description",
@@ -22884,8 +23375,10 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           ])
         ]),
+        _cache[30] || (_cache[30] = createTextVNode()),
         createElementVNode("div", _hoisted_14$1, [
-          _cache[15] || (_cache[15] = createElementVNode("label", { for: "input-tmpl-image" }, "Cover", -1)),
+          _cache[25] || (_cache[25] = createElementVNode("label", { for: "input-tmpl-image" }, "Cover", -1)),
+          _cache[26] || (_cache[26] = createTextVNode()),
           createElementVNode("div", null, [
             createVNode($setup["SingleImage"], {
               modelValue: $setup.saveData.image,
@@ -22893,6 +23386,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
               id: "input-tmpl-image"
             }, null, 8, ["modelValue"])
           ]),
+          _cache[27] || (_cache[27] = createTextVNode()),
           createElementVNode("div", _hoisted_15$1, [
             createElementVNode("button", {
               type: "button",
@@ -22903,7 +23397,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
               createElementVNode("span", {
                 class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
               }, null, 2),
-              _cache[14] || (_cache[14] = createTextVNode(" Save ", -1))
+              _cache[24] || (_cache[24] = createTextVNode("\n            Save\n          ", -1))
             ], 8, _hoisted_16$1)
           ])
         ])
@@ -22912,7 +23406,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["open"])
   ]);
 }
-const TemplateManager = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-01a0500f"], ["__file", "TemplateManager.vue"]]);
+const TemplateManager = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-00cc8009"], ["__file", "TemplateManager.vue"]]);
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "PageBuilderApp",
   setup(__props, { expose: __expose }) {
@@ -23131,8 +23625,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           style: { "min-width": "150px" }
         }, [..._cache[11] || (_cache[11] = [
           createElementVNode("span", { class: "fab fa-css3" }, null, -1),
-          createTextVNode(" Edit CSS ", -1)
+          createTextVNode("\n          Edit CSS\n        ", -1)
         ])]),
+        _cache[18] || (_cache[18] = createTextVNode()),
         createElementVNode("div", _hoisted_4, [
           createElementVNode("div", _hoisted_5, [
             createElementVNode("button", {
@@ -23142,38 +23637,42 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             }, [..._cache[12] || (_cache[12] = [
               createElementVNode("div", { style: { "display": "inline-block", "min-width": "120px" } }, [
                 createElementVNode("span", { class: "fa fa-file-code" }),
-                createTextVNode(" Insert Template ")
+                createTextVNode("\n                Insert Template\n              ")
               ], -1)
             ])]),
-            _cache[14] || (_cache[14] = createElementVNode("button", {
+            _cache[14] || (_cache[14] = createTextVNode()),
+            _cache[15] || (_cache[15] = createElementVNode("button", {
               class: "btn btn-outline-secondary btn-sm dropdown-toggle dropdown-toggle-split",
               "data-toggle": "dropdown",
               "data-bs-toggle": "dropdown"
             }, [
               createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
             ], -1)),
+            _cache[16] || (_cache[16] = createTextVNode()),
             createElementVNode("div", _hoisted_6, [
               createElementVNode("button", {
                 class: "dropdown-item",
                 onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$trigger("tmpl.save", $setup.content, "page"))
               }, [..._cache[13] || (_cache[13] = [
                 createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
-                createTextVNode(" Save as Template ", -1)
+                createTextVNode("\n                Save as Template\n              ", -1)
               ])])
             ])
           ])
         ]),
+        _cache[19] || (_cache[19] = createTextVNode()),
         createElementVNode("button", {
           type: "button",
           class: "btn btn-outline-secondary btn-sm",
           onClick: $setup.copy,
           style: { "min-width": "150px" }
-        }, [..._cache[15] || (_cache[15] = [
+        }, [..._cache[17] || (_cache[17] = [
           createElementVNode("span", { class: "fa fa-clone" }, null, -1),
-          createTextVNode(" Copy page content ", -1)
+          createTextVNode("\n          Copy page content\n        ", -1)
         ])])
       ])
     ]),
+    _cache[38] || (_cache[38] = createTextVNode()),
     createElementVNode("div", _hoisted_7, [
       createElementVNode("div", _hoisted_8, [
         createVNode($setup["VueDraggable"], mergeProps({
@@ -23205,37 +23704,45 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           _: 1
         }, 16, ["modelValue"])
       ]),
+      _cache[31] || (_cache[31] = createTextVNode()),
       $setup.content.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_9, [
         createElementVNode("div", _hoisted_10, [
           createElementVNode("button", {
             type: "button",
             class: "btn btn-outline-secondary btn-sm",
             onClick: _cache[6] || (_cache[6] = ($event) => $setup.addNewRow())
-          }, " Add New Row "),
-          _cache[18] || (_cache[18] = createElementVNode("button", { class: "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" }, [
+          }, "\n            Add New Row\n          "),
+          _cache[23] || (_cache[23] = createTextVNode()),
+          _cache[24] || (_cache[24] = createElementVNode("button", { class: "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" }, [
             createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
           ], -1)),
+          _cache[25] || (_cache[25] = createTextVNode()),
           createElementVNode("div", { class: "dropdown-menu dropdown-menu dropdown-menu-right" }, [
             createElementVNode("div", {
               class: "dropdown-item",
               onClick: $setup.paste
-            }, [..._cache[16] || (_cache[16] = [
+            }, [..._cache[20] || (_cache[20] = [
               createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
-              createTextVNode(" Paste ", -1)
+              createTextVNode("\n              Paste\n            ", -1)
             ])]),
+            _cache[22] || (_cache[22] = createTextVNode()),
             createElementVNode("div", {
               class: "dropdown-item",
               onClick: $setup.paste
-            }, [..._cache[17] || (_cache[17] = [
+            }, [..._cache[21] || (_cache[21] = [
               createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
-              createTextVNode(" Insert Template ", -1)
+              createTextVNode("\n              Insert Template\n            ", -1)
             ])])
           ])
         ])
       ])) : createCommentVNode("", true),
+      _cache[32] || (_cache[32] = createTextVNode()),
       createVNode($setup["RowEdit"], { ref: "rowEditor" }, null, 512),
+      _cache[33] || (_cache[33] = createTextVNode()),
       createVNode($setup["ColumnEdit"], { ref: "columnEditor" }, null, 512),
+      _cache[34] || (_cache[34] = createTextVNode()),
       createVNode($setup["AddonEdit"], { ref: "addonEditor" }, null, 512),
+      _cache[35] || (_cache[35] = createTextVNode()),
       createVNode($setup["BsModal"], {
         open: $setup.addonListShow,
         onHidden: _cache[7] || (_cache[7] = ($event) => $setup.addonListShow = false),
@@ -23258,6 +23765,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                       class: normalizeClass(["fa-3x", addon.icon])
                     }, null, 2)
                   ]),
+                  _cache[26] || (_cache[26] = createTextVNode()),
                   createElementVNode("h5", _hoisted_15, toDisplayString(addon.name), 1)
                 ], 8, _hoisted_13)), [
                   [_directive_tooltip]
@@ -23268,7 +23776,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         _: 1
       }, 8, ["open"]),
+      _cache[36] || (_cache[36] = createTextVNode()),
       createVNode($setup["TemplateManager"], { ref: "tmplManager" }, null, 512),
+      _cache[37] || (_cache[37] = createTextVNode()),
       createVNode($setup["BsModal"], {
         title: "CSS Edit (Support SCSS)",
         size: "xl",
@@ -23284,10 +23794,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               class: "btn btn-outline-dark",
               style: { "min-width": "150px" },
               onClick: _cache[9] || (_cache[9] = ($event) => $setup.cssModalShow = false)
-            }, [..._cache[19] || (_cache[19] = [
+            }, [..._cache[27] || (_cache[27] = [
               createElementVNode("i", { class: "fa fa-times" }, null, -1),
-              createTextVNode(" Close ", -1)
+              createTextVNode("\n              Close\n            ", -1)
             ])]),
+            _cache[29] || (_cache[29] = createTextVNode()),
             createElementVNode("button", {
               type: "button",
               class: "btn btn-primary",
@@ -23298,7 +23809,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               createElementVNode("span", {
                 class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
               }, null, 2),
-              _cache[20] || (_cache[20] = createTextVNode(" Save ", -1))
+              _cache[28] || (_cache[28] = createTextVNode("\n              Save\n            ", -1))
             ], 8, _hoisted_17)
           ])
         ]),
@@ -23307,7 +23818,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             modelValue: $setup.css,
             "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.css = $event),
             "auto-focus": true
-          }, null, 8, ["modelValue"])
+          }, null, 8, ["modelValue"]),
+          _cache[30] || (_cache[30] = createTextVNode())
         ]),
         _: 1
       }, 8, ["open"])
@@ -23315,24 +23827,122 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   ]);
 }
 const PageBuilderApp = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "PageBuilderApp.vue"]]);
+async function useTinymce(selector, options = {}) {
+  const module2 = await import("./tinymce.js");
+  return module2;
+}
+const uri = useSystemUri();
+const Tinymce = {
+  async mounted(el) {
+    const options = defaultsDeep(
+      {},
+      data("tinymce_options") || {},
+      {
+        license_key: "gpl",
+        target: el,
+        height: 500,
+        plugins: [
+          "advlist",
+          "autolink",
+          "lists",
+          "link",
+          "image",
+          "charmap",
+          "preview",
+          "anchor",
+          "pagebreak",
+          "searchreplace",
+          "wordcount",
+          "visualblocks",
+          "visualchars",
+          "code",
+          "fullscreen",
+          "insertdatetime",
+          "media",
+          "nonbreaking",
+          "save",
+          "table",
+          "directionality",
+          "emoticons"
+        ],
+        toolbar: "bold italic strikethrough forecolor backcolor blockquote removeformat | styles fontsize | alignleft aligncenter alignright alignjustify bullist numlist outdent indent | link image media table code | fullscreen",
+        toolbar_mode: "sliding",
+        font_size_formats: "13px 14px 15px 16px 18px 20px 22px 28px 36px 48px",
+        menubar: false,
+        content_css: data("tinymce_content_css"),
+        document_base_url: uri.root(),
+        paste_data_images: true,
+        remove_script_host: true,
+        relative_urls: true,
+        convert_urls: true,
+        entity_encoding: "raw",
+        table_header_type: "sectionCells",
+        table_class_list: [
+          { title: "BS Simple", value: "table" },
+          { title: "BS Striped", value: "table table-striped" },
+          { title: "BS Bordered", value: "table table-bordered" },
+          { title: "BS Striped Bordered", value: "table table-striped table-bordered" },
+          { title: "None", value: "" }
+        ],
+        images_upload_url: route("@file_upload"),
+        setup: function(editor) {
+          editor.on("change undo redo", (e) => {
+            el.value = editor.getContent();
+            el.dispatchEvent(new Event("change", { bubbles: true }));
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          });
+          editor.on("input", (e) => {
+            el.value = editor.getContent();
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          });
+        }
+      }
+    );
+    const { create } = await useTinymce();
+    create(el, options);
+  }
+};
+document.addEventListener("focusin", (e) => {
+  if (e.target.closest(".mce-window, .tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
+    e.stopImmediatePropagation();
+  }
+});
+class BsTooltip {
+  static install(app2) {
+    app2.directive("tooltip", {
+      mounted(el, { value }) {
+        Tooltip.getOrCreateInstance(el, value || {});
+      },
+      updated(el, { value }) {
+        const inc = Tooltip.getOrCreateInstance(el, value || {});
+        inc.update();
+      },
+      beforeUnmount(el) {
+        const inc = Tooltip.getOrCreateInstance(el);
+        inc.dispose();
+      }
+    });
+  }
+}
 useCssImport("@vue-animate");
 const u$1 = useUnicorn();
-Promise.resolve().then(() => sweetalert_min);
+const addons = data("addons") || [];
 const app = createApp(PageBuilderApp, {
   name: "PageBuilder"
 });
 app.config.globalProperties.$debug = isDebug();
 app.config.globalProperties.$trigger = useUnicorn().trigger;
 app.config.globalProperties.addonProp = (prop, type) => {
-  return data("addons")[type][prop];
+  return addons[type][prop];
 };
+app.directive("tinymce", Tinymce);
+app.use(BsTooltip);
 app.component("VueSlideBar", VueSlideBar);
 app.component("addon-text", defineAsyncComponent(() => import("./addon-text.js")));
 app.component("addon-image", defineAsyncComponent(() => import("./addon-image.js")));
 app.component("addon-feature", defineAsyncComponent(() => import("./addon-feature.js")));
 app.component("addon-emptyspace", defineAsyncComponent(() => import("./addon-emptyspace.js")));
 app.component("addon-button", defineAsyncComponent(() => import("./addon-button.js")));
-const addons = data("addons") || [];
 for (const k in addons.value) {
   const addon = addons.value[k];
   if (addon.componentModuleUrl) {

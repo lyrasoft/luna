@@ -406,7 +406,7 @@ const options = computed<AddonOptions | undefined>(() => content.value?.options)
 
         <!-- Tab Animation -->
         <div class="tab-pane fade" id="addon-edit-animation" role="tabpanel" aria-labelledby="addon-edit-animation-tab">
-          <Animations id="addon-edit-anim" :value="options.animation"></Animations>
+          <Animations id="addon-edit-anim" v-model="options.animation"></Animations>
         </div>
       </div>
 

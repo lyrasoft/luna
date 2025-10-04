@@ -57,7 +57,7 @@ const rowEditor = useTemplateRef<ComponentExposed<typeof RowEdit>>('rowEditor');
 const columnEditor = useTemplateRef<ComponentExposed<typeof ColumnEdit>>('columnEditor');
 const addonEditor = useTemplateRef<ComponentExposed<typeof AddonEdit>>('addonEditor');
 const addonListShow = ref(false);
-const tmplManager = useTemplateRef<typeof TemplateManager>('tmplManager');
+const tmplManager = useTemplateRef<ComponentExposed<typeof TemplateManager>>('tmplManager');
 
 onMounted(() => {
   if (location.hash === '#css') {

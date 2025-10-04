@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { injectCssToDocument } from '@windwalker-io/unicorn-next';
-import css from 'vue-slider-component/theme/default.css?inline';
-import VueSlider from 'vue-slider-component';
+import { defineAsyncComponent } from 'vue';
+import css from '@vueform/slider/themes/default.css?inline';
+import VueSlider from '@vueform/slider';
 
 injectCssToDocument(css);
 
@@ -10,7 +11,7 @@ const props = withDefaults(defineProps<{
   data?: any[];
   min?: number;
   max?: number;
-  interval?: number;
+  step?: number;
   inputWidth?: string;
 }>(), {
   inputWidth: '5rem'
@@ -27,14 +28,15 @@ const value = defineModel<number | string>({
       :max="max"
       :min="min"
       :v-data="data"
-      :interval="interval"
+      :step="step"
+      showTooltip="drag"
     ></VueSlider>
     <input type="number"
       :id="id"
       class="form-control ms-2"
       :style="{ width: inputWidth }"
       v-model="value"
-      :step="interval"
+      :step="step"
     />
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { AddonProps, useAddonModel } from '~luna/composables/useAddonModel';
+import { AddonProps, useAddonDefaults } from '~luna/composables/useAddonDefaults';
+import { AddonOptions } from '~luna/types';
 import ButtonRadio from '../../../components/page-builder/form/ButtonRadio.vue';
 import SingleImage from "../../../components/page-builder/form/SingleImage.vue";
 import SliderInput from '../../../components/page-builder/form/SliderInput.vue';
@@ -17,7 +18,9 @@ export interface AddonImageOptions {
 
 defineProps<AddonProps>();
 
-const options = useAddonModel<AddonImageOptions>({
+const options = defineModel<AddonOptions & AddonImageOptions>({ required: true });
+
+useAddonDefaults(options, {
   image: '',
   border_radius: '',
   alt: '',

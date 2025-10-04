@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { AddonProps, useAddonModel } from '~luna/composables/useAddonModel';
-import { RwdOptions } from '~luna/types';
+import { AddonProps, useAddonDefaults } from '~luna/composables/useAddonDefaults';
+import { AddonOptions, RwdOptions } from '~luna/types';
 import RwdGroup from '../../../components/page-builder/form/RwdGroup.vue';
 import SliderInput from '../../../components/page-builder/form/SliderInput.vue';
 import UnicornSwitcher from '../../form/UnicornSwitcher.vue';
@@ -13,7 +13,9 @@ export interface AddonEmptySpaceOptions {
 
 defineProps<AddonProps>();
 
-const options = useAddonModel<AddonEmptySpaceOptions>({
+const options = defineModel<AddonOptions & AddonEmptySpaceOptions>({ required: true });
+
+useAddonDefaults(options, {
   height: {
     lg: '',
     md: '',

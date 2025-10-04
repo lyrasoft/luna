@@ -1,14 +1,19 @@
-import { defineComponent, createElementBlock, openBlock, createVNode, createElementVNode, createCommentVNode, createSlots, withCtx, renderList, withDirectives, vModelText } from "vue";
-import { u as useAddonModel } from "./useAddonModel.js";
+import { defineComponent, mergeModels, useModel, createElementBlock, openBlock, createVNode, createTextVNode, createElementVNode, createCommentVNode, createSlots, withCtx, renderList, withDirectives, vModelText } from "vue";
+import { u as useAddonDefaults } from "./useAddonDefaults.js";
 import { U as UnicornSwitcher, S as SliderInput, a as RwdGroup, _ as _export_sfc } from "./page-builder.js";
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "addon-emptyspace",
-  props: {
+  props: /* @__PURE__ */ mergeModels({
     addonId: {}
-  },
+  }, {
+    "modelValue": { required: true },
+    "modelModifiers": {}
+  }),
+  emits: ["update:modelValue"],
   setup(__props, { expose: __expose }) {
     __expose();
-    const options = useAddonModel({
+    const options = useModel(__props, "modelValue");
+    useAddonDefaults(options, {
       height: {
         lg: "",
         md: "",
@@ -31,7 +36,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
     createVNode($setup["RwdGroup"], { "class-name": "c-empty-height" }, createSlots({
       label: withCtx(() => [
-        _cache[2] || (_cache[2] = createElementVNode("label", null, " Height ", -1))
+        _cache[2] || (_cache[2] = createElementVNode("label", null, "\n          Height\n        ", -1))
       ]),
       _: 2
     }, [
@@ -48,8 +53,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         };
       })
     ]), 1024),
+    _cache[8] || (_cache[8] = createTextVNode()),
     createElementVNode("div", _hoisted_1, [
-      _cache[3] || (_cache[3] = createElementVNode("label", { for: "input-addon-edit-link" }, "Link", -1)),
+      _cache[4] || (_cache[4] = createElementVNode("label", { for: "input-addon-edit-link" }, "Link", -1)),
+      _cache[5] || (_cache[5] = createTextVNode()),
       withDirectives(createElementVNode("input", {
         id: "input-addon-edit-link",
         type: "url",
@@ -59,8 +66,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         [vModelText, $setup.options.link]
       ])
     ]),
+    _cache[9] || (_cache[9] = createTextVNode()),
     $setup.options.link !== "" ? (openBlock(), createElementBlock("div", _hoisted_2, [
-      _cache[4] || (_cache[4] = createElementVNode("label", { for: "input-addon-edit-link-target" }, "Open in New Window", -1)),
+      _cache[6] || (_cache[6] = createElementVNode("label", { for: "input-addon-edit-link-target" }, "Open in New Window", -1)),
+      _cache[7] || (_cache[7] = createTextVNode()),
       createElementVNode("div", null, [
         createVNode($setup["UnicornSwitcher"], {
           name: "addon-edit-link-target",

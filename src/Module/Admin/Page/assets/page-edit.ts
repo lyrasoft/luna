@@ -8,7 +8,7 @@ import {
   useKeepAlive
 } from '@windwalker-io/unicorn-next';
 import { Modal } from 'bootstrap';
-import '~vendor/lyrasoft/luna/src/module/admin/page/assets/page-builder';
+import '~vendor/lyrasoft/luna/dist/page-builder';
 
 const formSelector = '#admin-form';
 

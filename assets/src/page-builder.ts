@@ -4,18 +4,19 @@ import { createApp, defineAsyncComponent } from 'vue';
 // Todo: Use new slide component
 // @ts-ignore
 import VueSlideBar from 'vue-slide-bar';
+import { AddonDefine, Dictionary } from '~luna/types';
 import PageBuilderApp from './app/PageBuilderApp.vue';
 
 // import '@/services/page-builder/addon-mixin.js';
 
-// import Tinymce from './directives/tinymce';
-// import BsTooltip from './directives/tooltip';
+// import('sweetalert');
+import Tinymce from './directives/tinymce';
+import BsTooltip from './directives/tooltip';
 
 useCssImport('@vue-animate');
-
 const u = useUnicorn();
 
-import('sweetalert');
+const addons: Dictionary<AddonDefine> = data('addons') || [];
 
 const app = createApp(PageBuilderApp, {
   name: 'PageBuilder',
@@ -23,8 +24,8 @@ const app = createApp(PageBuilderApp, {
 
 app.config.globalProperties.$debug = isDebug();
 app.config.globalProperties.$trigger = useUnicorn().trigger;
-app.config.globalProperties.addonProp = (prop: string, type: string) => {
-  return data('addons')[type][prop];
+app.config.globalProperties.addonProp = (prop: keyof AddonDefine, type: string) => {
+  return addons[type][prop];
 };
 
 // We pre-register libraries from browser because page may have some other widgets re-use them
@@ -35,6 +36,10 @@ app.config.globalProperties.addonProp = (prop: string, type: string) => {
 // app.component('Row', Row);
 // app.component('Column', Column);
 
+// Todo: Rewrite and import in components
+app.directive('tinymce', Tinymce);
+app.use(BsTooltip);
+
 app.component('VueSlideBar', VueSlideBar);
 
 // Register these components because they are addons, not core.
@@ -43,8 +48,6 @@ app.component('addon-image', defineAsyncComponent(() => import('./components/pag
 app.component('addon-feature', defineAsyncComponent(() => import('./components/page-builder/addons/addon-feature.vue')));
 app.component('addon-emptyspace', defineAsyncComponent(() => import('./components/page-builder/addons/addon-emptyspace.vue')));
 app.component('addon-button', defineAsyncComponent(() => import('./components/page-builder/addons/addon-button.vue')));
-
-const addons = data('addons') || [];
 
 for (const k in addons.value) {
   const addon = addons.value[k];

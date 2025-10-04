@@ -1,7 +1,7 @@
 {
     "name": "luna",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite build --mode development --watch",
         "build": "vite build --mode development",
         "build:prod": "vite build",
         "watch": "vite build --watch --mode development",
@@ -15,6 +15,7 @@
         "@types/lodash-es": "^4.17.12",
         "@types/sortablejs": "^1",
         "@vitejs/plugin-vue": "^6.0.1",
+        "@vueform/slider": "^2.1.10",
         "@vueuse/core": "^13.9.0",
         "@windwalker-io/unicorn-next": "link:/Users/simon/www/earth/vendor/windwalker/unicorn/assets",
         "bootstrap": "^5.3.8",
@@ -27,6 +28,6 @@
         "vue": "^3.0",
         "vue-component-type-helpers": "^3.1.0",
         "vue-slide-bar": "^1.2.0",
-        "vue-slider-component": "^3.2.24"
+        "vue-slider-component": "^4.1.0-beta.7"
     }
 }
