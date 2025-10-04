@@ -1,26 +1,22 @@
 {
-    "extends": [
-        "@windwalker-io/unicorn/tsconfig.js.json",
-        // "@vue/tsconfig/tsconfig.dom.json"
-    ],
-    "include": [
-        "src/**/*.ts",
-        "../../../windwalker/unicorn/assets/src/types/**/*.ts"
-    ],
-    "exclude": [
-        "node_modules/**/*"
-    ],
-    "types": ["reflect-metadata"],
-    "compilerOptions": {
-        "allowJs": true,
-        "module": "system",
-        "moduleResolution": "node",
-        "target": "es2020",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "paths": {
-            "@/*": ["./src/vue/*"],
-//            "@vue/*": ["./resources/assets/vue/*"]
-        }
-    }
+  "extends": [
+    "@windwalker-io/unicorn-next/tsconfig.js.json"
+  ],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.vue",
+    "./src/**/*.js",
+  ],
+  "exclude": [
+    "node_modules/**/*"
+  ],
+  "types": [
+    "reflect-metadata"
+  ],
+  "compilerOptions": {
+      "allowJs": true,
+      "paths": {
+          "~luna/*": ["./src/*"]
+      }
+  }
 }
