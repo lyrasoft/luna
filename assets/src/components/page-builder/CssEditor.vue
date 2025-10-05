@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Editor } from 'codemirror';
 import { onMounted, ref, watch } from 'vue';
 import { useCodeMirror } from '~luna/composables';
 
@@ -17,7 +18,7 @@ const value = defineModel<string>();
 
 const wrapper = ref<HTMLElement | null>(null);
 const editor = ref<HTMLElement | null>(null);
-let cm: typeof CodeMirror;
+let cm: Editor;
 const css = ref('');
 const show = ref(false);
 const options = ref<any>({});
@@ -31,6 +32,7 @@ onMounted(async () => {
   setTimeout(() => {
     // show.value = true;
     cm = CodeMirror(editor.value, options.value);
+
     cm.setValue(css.value);
     cm.on('change', (cm: any, co: any) => {
       css.value = cm.getValue();
@@ -38,7 +40,7 @@ onMounted(async () => {
     if (props.autoFocus) {
       setTimeout(() => cm.focus(), 500);
     }
-  }, 300);
+  }, 100);
 });
 
 watch(value, (v) => {

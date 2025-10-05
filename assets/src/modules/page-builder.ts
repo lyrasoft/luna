@@ -1,8 +1,19 @@
-import { data, domready, isDebug, useCssImport, useImport, useUnicorn } from '@windwalker-io/unicorn-next';
+import {
+  data,
+  domready,
+  injectCssToDocument,
+  isDebug,
+  useCssImport,
+  useImport,
+  useUnicorn
+} from '@windwalker-io/unicorn-next';
 import { createApp, defineAsyncComponent } from 'vue';
 import { AddonDefine, Dictionary } from '~luna/types';
 import PageBuilderApp from '../app/PageBuilderApp.vue';
 import '../mixin/addon-mixin';
+import css from '../../scss/page-builder-admin.scss?inline';
+
+injectCssToDocument(css);
 
 import Tinymce from '../directives/tinymce';
 import BsTooltip from '../directives/tooltip';

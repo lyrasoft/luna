@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
   const src = resolve('./src').replace(/\\/g, '/');
 
   return {
+    base: './',
     resolve: {
       alias: {
         '~luna': resolve('./src'),
@@ -15,17 +16,17 @@ export default defineConfig(({ mode }) => {
       dedupe: ['vue']
     },
     build: {
-      // lib: {
-      //   entry: 'src/luna.ts',
-      //   name: 'Luna',
-      //   formats: ['es'],
-      // },
+      lib: {
+        entry: 'src/luna.ts',
+        name: 'Luna',
+        formats: ['es'],
+      },
       rollupOptions: {
         // preserveEntrySignatures: 'strict',
-        input: {
-          'page-builder': 'src/modules/page-builder.ts',
-          // luna: 'src/luna.ts',
-        },
+        // input: {
+        //   'page-builder': 'src/modules/page-builder.ts',
+        //   luna: 'src/luna.ts',
+        // },
         output: {
           format: 'es',
           entryFileNames: '[name].js',
@@ -68,7 +69,7 @@ export default defineConfig(({ mode }) => {
         external: [
           '@windwalker-io/unicorn-next',
           '@lyrasoft/ts-toolkit',
-          // /^@lyrasoft\/ts-toolkit/,
+          /^@lyrasoft\/ts-toolkit/,
           'node:crypto',
           '@unicorn/*',
           'bootstrap',
@@ -82,9 +83,9 @@ export default defineConfig(({ mode }) => {
       },
       outDir: 'dist',
       emptyOutDir: false,
-      sourcemap: 'inline',
+      sourcemap: 'external',
       minify: false,
-      cssCodeSplit: false
+      cssCodeSplit: false,
     },
     plugins: [
       vuePlugin({
@@ -98,19 +99,22 @@ export default defineConfig(({ mode }) => {
           }
         }
       }),
-      // dts({
-      //   // entryRoot: './src/luna.ts',
-      //   insertTypesEntry: true,
-      //   outDir: 'dist',
-      //   tsconfigPath: resolve('./tsconfig.json'),
-      //   // bundleTypes: true,
-      //   // rollupTypes: true
-      // }),
+      // libInjectCss(),
+      dts({
+        // entryRoot: './src/luna.ts',
+        insertTypesEntry: true,
+        outDir: 'dist',
+        tsconfigPath: resolve('./tsconfig.json'),
+        // bundleTypes: true,
+        // rollupTypes: true
+      }),
       {
         name: 'clear-files',
         generateBundle() {
-          rimraf.sync('./dist/chunks/**/*', { glob: true });
-          rimraf.sync('./dist/page-builder.*', { glob: true });
+          rimraf.sync('./dist/**/*.js', { glob: true });
+          rimraf.sync('./dist/**/*.ts', { glob: true });
+          rimraf.sync('./dist/**/*.map', { glob: true });
+          rimraf.sync('./dist/luna-admin.css', { glob: true });
         }
       }
     ]

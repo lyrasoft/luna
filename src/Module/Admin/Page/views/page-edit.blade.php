@@ -33,12 +33,6 @@ use Windwalker\Form\Form;
  * @var Page $item
  */
 
-// $vueScript = $app->service(VueScript::class);
-// $vueScript->vue();
-
-// $asset->module('@luna/dist/page-builder.js');
-$asset->css('@luna/dist/page-builder-admin.css');
-
 $uni = $app->retrieve(UnicornScript::class);
 $uni->data(
     'tinymce_content_css',

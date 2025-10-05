@@ -4,15 +4,9 @@ import { startsWith } from 'lodash-es';
 import { watch } from 'vue';
 import { Addon, AddonOptions, Column, MaybeArray, Row } from '~luna/types';
 
-// const { loading: saving, wrap } = useLoading();
-const saving = false;
-
-function wrap(a) {
-  return a;
-}
+const { loading: saving, wrap } = useLoading();
 
 export function usePageBuilderUtilities() {
-  const { loading: saving, wrap } = useLoading();
   return {
     saving,
     bindSaveButton,

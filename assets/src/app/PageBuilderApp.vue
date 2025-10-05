@@ -432,7 +432,7 @@ function registerUnicornEvents() {
         @hidden="cssModalShow = false"
         backdrop="static"
       >
-        <CssEditor v-model="css" :auto-focus="true"></CssEditor>
+        <CssEditor v-if="cssModalShow" v-model="css" :auto-focus="true"></CssEditor>
 
         <template #footer>
           <div class="ml-auto ms-auto">
@@ -460,12 +460,5 @@ function registerUnicornEvents() {
 </style>
 
 <style lang="scss">
-.CodeMirror {
-  height: 450px !important;
-  font-size: 15px;
-}
 
-.form-group label:not(.btn) {
-  margin-bottom: .5rem;
-}
 </style>

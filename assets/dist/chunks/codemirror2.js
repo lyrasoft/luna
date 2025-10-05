@@ -2,4 +2,4 @@ const codemirror = "/* BASICS */\n\n.CodeMirror {\n  /* Set height, width, borde
 export {
   codemirror as default
 };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29kZW1pcnJvcjIuanMiLCJzb3VyY2VzIjpbXSwic291cmNlc0NvbnRlbnQiOltdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOyJ9
+//# sourceMappingURL=codemirror2.js.map

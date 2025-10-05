@@ -17,12 +17,13 @@ const CodeMirrorOptions = {
 };
 
 export async function useCodeMirror() {
-  const { CodeMirror } = await import('codemirror/lib/codemirror.js');
+  const { default: CodeMirror } = await import('codemirror/lib/codemirror.js');
+
   await Promise.all([
     import('codemirror/mode/css/css.js'),
     import('codemirror/addon/edit/closebrackets.js'),
-    import('codemirror/lib/codemirror.css?inline').then(injectCssToDocument),
-    import('codemirror/theme/material.css?inline').then(injectCssToDocument),
+    import('codemirror/lib/codemirror.css?inline').then((m) => injectCssToDocument(m.default)),
+    import('codemirror/theme/material.css?inline').then((m) => injectCssToDocument(m.default)),
   ]);
 
   return { CodeMirror, CodeMirrorOptions };

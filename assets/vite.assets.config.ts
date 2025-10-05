@@ -15,9 +15,9 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         // preserveEntrySignatures: 'strict',
         input: {
-          switcher: 'scss/switcher.scss',
-          editor: 'scss/editor.scss',
-          menu: 'scss/bootstrap/multi-level-menu.scss'
+          'flag-icon': 'scss/flag-icon.scss',
+          page: 'scss/page.scss',
+          // 'page-builder-admin': 'scss/page-builder-admin.scss'
         },
         output: {
           format: 'es',
@@ -26,8 +26,8 @@ export default defineConfig(({ mode }) => {
             return '[name].js';
           },
           assetFileNames: (assetInfo) => {
-            if (assetInfo.originalFileName) {
-              return basename(assetInfo.originalFileName, '.scss') + '[extname]';
+            if (assetInfo.name.endsWith('.css')) {
+              return '[name][extname]';
             }
 
             return 'assets/[name][extname]';
@@ -51,8 +51,9 @@ export default defineConfig(({ mode }) => {
       {
         name: 'clear-files',
         generateBundle() {
-          rimraf.sync('./dist/**/*.css', { glob: true });
-          rimraf.sync('./dist/**/*.scss', { glob: true });
+          rimraf.sync('./dist/assets/**/*', { glob: true });
+          rimraf.sync('./dist/page.css', { glob: true });
+          rimraf.sync('./dist/flag-icon.css', { glob: true });
         }
       }
     ]

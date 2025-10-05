@@ -1,4 +1,5 @@
 import {
+  injectCssToDocument,
   useBs5Tooltip,
   useDisableIfStackNotEmpty,
   useDisableOnSubmit,
@@ -8,7 +9,11 @@ import {
   useKeepAlive
 } from '@windwalker-io/unicorn-next';
 import { Modal } from 'bootstrap';
-import '~vendor/lyrasoft/luna/dist/page-builder';
+import { usePageBuilder } from '~vendor/lyrasoft/luna/dist/luna';
+import css from '~vendor/lyrasoft/luna/dist/luna-admin.css?inline';
+
+injectCssToDocument(css);
+usePageBuilder();
 
 const formSelector = '#admin-form';
 

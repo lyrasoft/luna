@@ -1,4 +1,4 @@
-import { f as defaultsDeep } from "./SliderInput.js";
+import { d as defaultsDeep } from "./SliderInput.js";
 function useAddonDefaults(value, defaultOptions) {
   value.value = defaultsDeep(value.value, defaultOptions);
   return value;
@@ -6,4 +6,4 @@ function useAddonDefaults(value, defaultOptions) {
 export {
   useAddonDefaults as u
 };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXNlQWRkb25EZWZhdWx0cy5qcyIsInNvdXJjZXMiOlsiLi4vLi4vc3JjL2NvbXBvc2FibGVzL3VzZUFkZG9uRGVmYXVsdHMudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgZGVmYXVsdHNEZWVwIH0gZnJvbSAnbG9kYXNoLWVzJztcbmltcG9ydCB7IE1vZGVsUmVmLCBSZWYgfSBmcm9tICd2dWUnO1xuXG5leHBvcnQgZnVuY3Rpb24gdXNlQWRkb25EZWZhdWx0czxUPih2YWx1ZTogTW9kZWxSZWY8VD4sIGRlZmF1bHRPcHRpb25zOiBSZWNvcmQ8c3RyaW5nLCBhbnk+KTogTW9kZWxSZWY8VD4ge1xuICB2YWx1ZS52YWx1ZSA9IGRlZmF1bHRzRGVlcCh2YWx1ZS52YWx1ZSwgZGVmYXVsdE9wdGlvbnMpO1xuXG4gIHJldHVybiB2YWx1ZTtcbn1cblxuZXhwb3J0IHR5cGUgQWRkb25Qcm9wcyA9IHtcbiAgYWRkb25JZDogc3RyaW5nO1xufVxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFHTyxTQUFTLGlCQUFvQixPQUFvQixnQkFBa0Q7QUFDeEcsUUFBTSxRQUFRLGFBQWEsTUFBTSxPQUFPLGNBQWM7QUFFdEQsU0FBTztBQUNUOyJ9
+//# sourceMappingURL=useAddonDefaults.js.map
