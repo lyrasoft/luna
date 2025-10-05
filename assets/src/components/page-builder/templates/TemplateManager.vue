@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { simpleAlert, uid, useHttpClient } from '@windwalker-io/unicorn-next';
+import { deleteConfirm, simpleAlert, uid, useHttpClient } from '@windwalker-io/unicorn-next';
 import { BModal } from 'bootstrap-vue-next';
 import { TemplateCallback, TemplateItem } from '~luna/types';
 import SingleImage from '~luna/components/page-builder/form/SingleImage.vue';
@@ -56,7 +56,8 @@ const loadItems = wrap(async () => {
   const { get } = await useHttpClient();
 
   try {
-    let res = await get(`@page_ajax/getTemplate?type=${type.value}`);
+    let res = await get(`@page_ajax/getTemplates?type=${type.value}`);
+
     items.value = res.data.data.map((item: TemplateItem) => {
       item.key = uid();
       return item;
@@ -81,6 +82,12 @@ function selected(item: TemplateItem) {
 }
 
 async function remove(item: any, idx: number) {
+  const v = await deleteConfirm('Are you sure you want to delete?', 'This action cannot be undone.');
+
+  if (!v) {
+    return;
+  }
+
   const { post, isAxiosError } = await useHttpClient();
 
   try {
@@ -156,10 +163,17 @@ const filterButtons = computed(() => {
 
 const filteredItems = computed(() => {
   return items.value.filter((item: any) => {
-    if (filterType.value && item.type !== filterType.value) return false;
+    if (filterType.value && item.type !== filterType.value) {
+      return false;
+    }
+
     if (q.value !== '') {
-      if (item.title?.toUpperCase().indexOf(q.value.toUpperCase()) !== -1) return true;
-      if (item.description && item.description.toUpperCase().indexOf(q.value.toUpperCase()) !== -1) return true;
+      if (item.title?.toUpperCase().indexOf(q.value.toUpperCase()) !== -1) {
+        return true;
+      }
+      if (item.description && item.description.toUpperCase().indexOf(q.value.toUpperCase()) !== -1) {
+        return true;
+      }
       return false;
     }
     return true;
@@ -241,35 +255,38 @@ defineExpose({
       title="Save as Template"
       no-footer
     >
-      <div>
-        Save as: <div class="badge" :class="`bg-${badgeColor(saveData.type!)}`">{{ saveData.type }}</div>
-      </div>
-      <div class="form-group mb-3">
-        <label for="input-tmpl-title">Title</label>
+      <div class="d-flex flex-column gap-4">
         <div>
-          <input id="input-tmpl-title" type="text" class="form-control" v-model="saveData.title" />
+          Save as: <div class="badge" :class="`bg-${badgeColor(saveData.type!)}`">{{ saveData.type }}</div>
         </div>
-      </div>
+        <div class="form-group">
+          <label for="input-tmpl-title">Title</label>
+          <div>
+            <input id="input-tmpl-title" type="text" class="form-control" v-model="saveData.title" />
+          </div>
+        </div>
 
-      <div class="form-group mb-3">
-        <label for="input-tmpl-description">Description</label>
-        <div>
+        <div class="form-group">
+          <label for="input-tmpl-description">Description</label>
+          <div>
             <textarea id="input-tmpl-description" type="text"
               class="form-control"
               v-model="saveData.description"
               rows="3"
             />
-        </div>
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="input-tmpl-image">Cover</label>
-        <div>
-          <SingleImage v-model="saveData.image" id="input-tmpl-image"></SingleImage>
+          </div>
         </div>
 
-        <div class="form-group mb-3">
+        <div class="form-group">
+          <label for="input-tmpl-image">Cover</label>
+          <div>
+            <SingleImage v-model="saveData.image" id="input-tmpl-image"></SingleImage>
+          </div>
+        </div>
+
+        <div class="form-group text-center">
           <button type="button" class="btn btn-primary btn-block"
+            style="width: 150px"
             :disabled="saving"
             @click="saveContent">
             <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>

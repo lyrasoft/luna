@@ -13,8 +13,12 @@ const props = withDefaults(defineProps<{
   max?: number;
   step?: number;
   inputWidth?: string;
+  lazy?: boolean;
+  disabled?: boolean;
 }>(), {
-  inputWidth: '5rem'
+  inputWidth: '5rem',
+  lazy: false,
+  disabled: false,
 });
 
 const value = defineModel<number | string>({
@@ -30,6 +34,8 @@ const value = defineModel<number | string>({
       :v-data="data"
       :step="step"
       showTooltip="drag"
+      :lazy
+      :disabled
     ></VueSlider>
     <input type="number"
       :id="id"
@@ -37,6 +43,7 @@ const value = defineModel<number | string>({
       :style="{ width: inputWidth }"
       v-model="value"
       :step="step"
+      :disabled
     />
   </div>
 </template>

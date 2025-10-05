@@ -2,10 +2,11 @@ import { data, route, useSystemUri } from '@windwalker-io/unicorn-next';
 import { useTinymce } from '@windwalker-io/unicorn-next/src/composable/useTinymce';
 import { defaultsDeep } from 'lodash-es';
 import { ObjectDirective } from 'vue';
+import type { Editor } from 'tinymce';
 
 const uri = useSystemUri();
 
-export default <ObjectDirective> {
+export default <ObjectDirective<HTMLTextAreaElement>> {
   async mounted(el) {
     const options = defaultsDeep(
       {},
@@ -45,7 +46,7 @@ export default <ObjectDirective> {
           { title: 'None', value: '' },
         ],
         images_upload_url: route('@file_upload'),
-        setup: function (editor: any) {
+        setup: function (editor: Editor) {
           editor.on('change undo redo', (e: any) => {
             el.value = editor.getContent();
             el.dispatchEvent(new Event('change', { bubbles: true }));
@@ -55,6 +56,23 @@ export default <ObjectDirective> {
             el.value = editor.getContent();
             el.dispatchEvent(new Event('input', { bubbles: true }));
           });
+          editor.on('keydown', (event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              el.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                  bubbles: true,
+                  metaKey: event.metaKey,
+                  ctrlKey: event.ctrlKey,
+                  key: 's',
+                  code: 'KeyS',
+                })
+              );
+            }
+          })
+          // editor.shortcuts.remove('meta+s');
+          // editor.shortcuts.remove('ctrl+s');
         }
       }
     );

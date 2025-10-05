@@ -360,14 +360,12 @@ watch(() => props.value, () => {
             </div>
           </template>
 
-          <template #footer>
-            <a v-if="addons.length === 0"
-              class="column__addon-placeholder text-center p-3 border text-secondary bg-white d-block"
-              style="text-decoration: none;"
-              href="#" @click.prevent="addAddon()">
-              <span class="fa fa-plus-circle fa-3x d-inline-block"></span>
-            </a>
-          </template>
+          <a v-if="addons.length === 0"
+            class="column__addon-placeholder text-center p-3 border text-secondary bg-white d-block"
+            style="text-decoration: none;"
+            href="#" @click.prevent="addAddon()">
+            <span class="fa fa-plus-circle fa-3x d-inline-block"></span>
+          </a>
         </VueDraggable>
       </div>
     </div>

@@ -1,212 +1,7 @@
 import { injectCssToDocument, uid, route, useSystemUri, useHttpClient, simpleAlert as simpleAlert$1, useUnicorn, deleteConfirm, simpleConfirm, sleep, data, selectAll, useCssImport, isDebug, useImport, domready } from "@windwalker-io/unicorn-next";
-import { watch, getCurrentScope, onScopeDispose, customRef, computed, toValue, getCurrentInstance as getCurrentInstance$1, onUpdated, onMounted, unref, effectScope, isRef, toRef as toRef$1, readonly, ref, shallowRef, inject, provide, defineComponent, h as h$1, Teleport, useId as useId$1, onUnmounted, watchEffect, useSlots, createBlock, openBlock, resolveDynamicComponent, normalizeClass, withCtx, createElementBlock, createCommentVNode, renderSlot, createTextVNode, toDisplayString, useAttrs, mergeProps, mergeModels, useTemplateRef, useModel, Fragment, createVNode, nextTick, onBeforeUnmount, Transition, withDirectives, createElementVNode, withModifiers, normalizeProps, guardReactiveProps, vShow, normalizeStyle, renderList, TransitionGroup, createSlots, vModelSelect, vModelText, reactive, vModelRadio, toRefs, resolveComponent, resolveDirective, createApp, defineAsyncComponent } from "vue";
+import { watch, getCurrentScope, onScopeDispose, customRef, computed, toValue, getCurrentInstance as getCurrentInstance$1, onUpdated, onMounted, unref, effectScope, isRef, toRef as toRef$1, readonly, ref, shallowRef, inject, provide, defineComponent, h as h$1, Teleport, useId as useId$1, onUnmounted, watchEffect, useSlots, createBlock, openBlock, resolveDynamicComponent, normalizeClass, withCtx, createElementBlock, createCommentVNode, renderSlot, createTextVNode, toDisplayString, useAttrs, mergeProps, mergeModels, useTemplateRef, useModel, Fragment, createVNode, nextTick, onBeforeUnmount, Transition, withDirectives, createElementVNode, withModifiers, normalizeProps, guardReactiveProps, vShow, normalizeStyle, renderList, TransitionGroup, createSlots, vModelSelect, vModelText, reactive, vModelRadio, toRefs, resolveDirective, createApp, defineAsyncComponent } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import { Tooltip } from "bootstrap";
-function getDefaultExportFromCjs(x) {
-  return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
-}
-var vueSlideBar_min$1 = { exports: {} };
-/*!
- * vue-slide-bar v1.2.0
- * (c) 2018-present biig_pongsatorn <biig_pongsatorn@hotmail.com>
- * Released under the MIT License.
- */
-var vueSlideBar_min = vueSlideBar_min$1.exports;
-var hasRequiredVueSlideBar_min;
-function requireVueSlideBar_min() {
-  if (hasRequiredVueSlideBar_min) return vueSlideBar_min$1.exports;
-  hasRequiredVueSlideBar_min = 1;
-  (function(module2, exports2) {
-    !(function(t, e) {
-      module2.exports = e();
-    })(vueSlideBar_min, function() {
-      function t(t2, e2, i2) {
-        return e2 in t2 ? Object.defineProperty(t2, e2, { value: i2, enumerable: true, configurable: true, writable: true }) : t2[e2] = i2, t2;
-      }
-      function e(e2) {
-        for (var i2 = 1; i2 < arguments.length; i2++) {
-          var n2 = null != arguments[i2] ? arguments[i2] : {}, s2 = Object.keys(n2);
-          "function" == typeof Object.getOwnPropertySymbols && (s2 = s2.concat(Object.getOwnPropertySymbols(n2).filter(function(t2) {
-            return Object.getOwnPropertyDescriptor(n2, t2).enumerable;
-          }))), s2.forEach(function(i3) {
-            t(e2, i3, n2[i3]);
-          });
-        }
-        return e2;
-      }
-      var i = { name: "vue-slide-bar", data: function() {
-        return { flag: false, size: 0, currentValue: 0, currentSlider: 0, isComponentExists: true, interval: 1, lazy: false, realTime: false, dataLabelStyles: e({ color: "#4a4a4a", "font-family": "Arial, sans-serif", "font-size": "12px" }, this.$props.labelStyles) };
-      }, props: { data: { type: Array, default: null }, id: { type: String, default: "wrap" }, range: { type: Array, default: null }, speed: { type: Number, default: 0.5 }, lineHeight: { type: Number, default: 5 }, iconWidth: { type: Number, default: 20 }, value: { type: [String, Number], default: 0 }, min: { type: Number, default: 0 }, max: { type: Number, default: 100 }, showTooltip: { type: Boolean, default: true }, isDisabled: { type: Boolean, default: false }, draggable: { type: Boolean, default: true }, paddingless: { type: Boolean, default: false }, tooltipStyles: Object, labelStyles: Object, processStyle: Object }, computed: { slider: function() {
-        return this.$refs.tooltip;
-      }, val: { get: function() {
-        return this.data ? this.data[this.currentValue] : this.currentValue;
-      }, set: function(t2) {
-        if (this.data) {
-          var e2 = this.data.indexOf(t2);
-          e2 > -1 && (this.currentValue = e2);
-        } else this.currentValue = t2;
-      } }, currentIndex: function() {
-        return (this.currentValue - this.minimum) / this.spacing;
-      }, indexRange: function() {
-        return [0, this.currentIndex];
-      }, minimum: function() {
-        return this.data ? 0 : this.min;
-      }, maximum: function() {
-        return this.data ? this.data.length - 1 : this.max;
-      }, multiple: function() {
-        var t2 = "".concat(this.interval).split(".")[1];
-        return t2 ? Math.pow(10, t2.length) : 1;
-      }, spacing: function() {
-        return this.data ? 1 : this.interval;
-      }, total: function() {
-        return this.data ? this.data.length - 1 : (Math.floor((this.maximum - this.minimum) * this.multiple) % (this.interval * this.multiple) != 0 && this.printError("[VueSlideBar error]: Prop[interval] is illegal, Please make sure that the interval can be divisible"), (this.maximum - this.minimum) / this.interval);
-      }, gap: function() {
-        return this.size / this.total;
-      }, position: function() {
-        return (this.currentValue - this.minimum) / this.spacing * this.gap;
-      }, limit: function() {
-        return [0, this.size];
-      }, valueLimit: function() {
-        return [this.minimum, this.maximum];
-      }, calculateHeight: function() {
-        return this.paddingless ? {} : { "padding-top": "40px", "min-height": this.range ? "100px" : null };
-      } }, watch: { value: function(t2) {
-        this.flag ? this.setValue(t2) : this.setValue(t2, this.speed);
-      }, max: function(t2) {
-        if (t2 < this.min) return this.printError("[VueSlideBar error]: The maximum value can not be less than the minimum value.");
-        var e2 = this.limitValue(this.val);
-        this.setValue(e2), this.refresh();
-      }, min: function(t2) {
-        if (t2 > this.max) return this.printError("[VueSlideBar error]: The minimum value can not be greater than the maximum value.");
-        var e2 = this.limitValue(this.val);
-        this.setValue(e2), this.refresh();
-      } }, methods: { bindEvents: function() {
-        document.addEventListener("touchmove", this.moving, { passive: false }), document.addEventListener("touchend", this.moveEnd, { passive: false }), document.addEventListener("mousemove", this.moving), document.addEventListener("mouseup", this.moveEnd), document.addEventListener("mouseleave", this.moveEnd), window.addEventListener("resize", this.refresh);
-      }, unbindEvents: function() {
-        window.removeEventListener("resize", this.refresh), document.removeEventListener("touchmove", this.moving), document.removeEventListener("touchend", this.moveEnd), document.removeEventListener("mousemove", this.moving), document.removeEventListener("mouseup", this.moveEnd), document.removeEventListener("mouseleave", this.moveEnd);
-      }, getPos: function(t2) {
-        return this.realTime && this.getStaticData(), t2.clientX - this.offset;
-      }, wrapClick: function(t2) {
-        if (this.isDisabled || !this.draggable && t2.target.id === this.id) return false;
-        var e2 = this.getPos(t2);
-        this.setValueOnPos(e2);
-      }, moveStart: function(t2, e2) {
-        if (!this.draggable) return false;
-        this.flag = true, this.$emit("dragStart", this);
-      }, moving: function(t2) {
-        if (!this.flag || !this.draggable) return false;
-        t2.preventDefault(), t2.targetTouches && t2.targetTouches[0] && (t2 = t2.targetTouches[0]), this.setValueOnPos(this.getPos(t2), true);
-      }, moveEnd: function(t2) {
-        if (!this.flag || !this.draggable) return false;
-        this.$emit("dragEnd", this), this.lazy && this.isDiff(this.val, this.value) && this.syncValue(), this.flag = false, this.setPosition();
-      }, setValueOnPos: function(t2, e2) {
-        var i2 = this.limit, n2 = this.valueLimit;
-        if (t2 >= i2[0] && t2 <= i2[1]) {
-          this.setTransform(t2);
-          var s2 = (Math.round(t2 / this.gap) * (this.spacing * this.multiple) + this.minimum * this.multiple) / this.multiple;
-          this.setCurrentValue(s2, e2);
-        } else t2 < i2[0] ? (this.setTransform(i2[0]), this.setCurrentValue(n2[0]), 1 === this.currentSlider && (this.currentSlider = 0)) : (this.setTransform(i2[1]), this.setCurrentValue(n2[1]), 0 === this.currentSlider && (this.currentSlider = 1));
-      }, isDiff: function(t2, e2) {
-        return Object.prototype.toString.call(t2) !== Object.prototype.toString.call(e2) || (Array.isArray(t2) && t2.length === e2.length ? t2.some(function(t3, i2) {
-          return t3 !== e2[i2];
-        }) : t2 !== e2);
-      }, setCurrentValue: function(t2, e2) {
-        if (t2 < this.minimum || t2 > this.maximum) return false;
-        this.isDiff(this.currentValue, t2) && (this.currentValue = t2, this.lazy && this.flag || this.syncValue()), e2 || this.setPosition();
-      }, setIndex: function(t2) {
-        t2 = this.spacing * t2 + this.minimum, this.setCurrentValue(t2);
-      }, setValue: function(t2, e2) {
-        var i2 = this;
-        if (this.isDiff(this.val, t2)) {
-          var n2 = this.limitValue(t2);
-          this.val = n2, this.syncValue();
-        }
-        this.$nextTick(function() {
-          return i2.setPosition(e2);
-        });
-      }, setPosition: function(t2) {
-        this.flag ? this.setTransitionTime(0) : this.setTransitionTime(void 0 === t2 ? this.speed : t2), this.setTransform(this.position);
-      }, setTransform: function(t2) {
-        var e2 = t2 - (this.$refs.tooltip.scrollWidth - 2) / 2, i2 = "translateX(".concat(e2, "px)");
-        this.slider.style.transform = i2, this.slider.style.WebkitTransform = i2, this.slider.style.msTransform = i2, this.$refs.process.style.width = "".concat(t2, "px"), this.$refs.process.style.left = 0;
-      }, setTransitionTime: function(t2) {
-        this.slider.style.transitionDuration = "".concat(t2, "s"), this.slider.style.WebkitTransitionDuration = "".concat(t2, "s"), this.$refs.process.style.transitionDuration = "".concat(t2, "s"), this.$refs.process.style.WebkitTransitionDuration = "".concat(t2, "s");
-      }, limitValue: function(t2) {
-        var e2 = this;
-        if (this.data) return t2;
-        var i2;
-        return (i2 = t2) < e2.min ? (e2.printError("[VueSlideBar warn]: The value of the slider is ".concat(t2, ", the minimum value is ").concat(e2.min, ", the value of this slider can not be less than the minimum value")), e2.min) : i2 > e2.max ? (e2.printError("[VueSlideBar warn]: The value of the slider is ".concat(t2, ", the maximum value is ").concat(e2.max, ", the value of this slider can not be greater than the maximum value")), e2.max) : i2;
-      }, syncValue: function() {
-        var t2 = this.val;
-        this.range && this.$emit("callbackRange", this.range[this.currentIndex]), this.$emit("input", t2);
-      }, getValue: function() {
-        return this.val;
-      }, getIndex: function() {
-        return this.currentIndex;
-      }, getStaticData: function() {
-        this.$refs.elem && (this.size = this.$refs.elem.offsetWidth, this.offset = this.$refs.elem.getBoundingClientRect().left);
-      }, refresh: function() {
-        this.$refs.elem && (this.getStaticData(), this.setPosition());
-      }, printError: function(t2) {
-        console.error(t2);
-      } }, mounted: function() {
-        var t2 = this;
-        if (this.isComponentExists = true, "undefined" == typeof window || "undefined" == typeof document) return this.printError("[VueSlideBar error]: window or document is undefined, can not be initialization.");
-        this.$nextTick(function() {
-          t2.isComponentExists && (t2.getStaticData(), t2.setValue(t2.limitValue(t2.value), 0), t2.bindEvents());
-        });
-      }, beforeDestroy: function() {
-        this.isComponentExists = false, this.unbindEvents();
-      } };
-      const n = "undefined" != typeof navigator && /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
-      const s = document.head || document.getElementsByTagName("head")[0], r = {};
-      const a = i;
-      i.__file = "index.vue";
-      return (function(t2, e2, i2, n2, s2, r2, a2, o, l, u2) {
-        "function" == typeof a2 && (o = a2, a2 = false);
-        const d2 = "function" == typeof i2 ? i2.options : i2;
-        let h2;
-        if (t2 && t2.render && (d2.render = t2.render, d2.staticRenderFns = t2.staticRenderFns, d2._compiled = true, s2), d2._scopeId = n2, e2 && (h2 = a2 ? function() {
-          e2.call(this, u2(this.$root.$options.shadowRoot));
-        } : function(t3) {
-          e2.call(this, o(t3));
-        }), h2) if (d2.functional) {
-          const t3 = d2.render;
-          d2.render = function(e3, i3) {
-            return h2.call(i3), t3(e3, i3);
-          };
-        } else {
-          const t3 = d2.beforeCreate;
-          d2.beforeCreate = t3 ? [].concat(t3, h2) : [h2];
-        }
-        return i2;
-      })({ render: function() {
-        var t2 = this, e2 = t2.$createElement, i2 = t2._self._c || e2;
-        return i2("div", { ref: "wrap", staticClass: "vue-slide-bar-component vue-slide-bar-horizontal", style: t2.calculateHeight, attrs: { id: t2.id }, on: { click: t2.wrapClick } }, [i2("div", { ref: "elem", staticClass: "vue-slide-bar", style: { height: t2.lineHeight + "px" } }, [[i2("div", { ref: "tooltip", staticClass: "vue-slide-bar-always vue-slide-bar-tooltip-container", style: { width: t2.iconWidth + "px" }, on: { mousedown: t2.moveStart, touchstart: t2.moveStart } }, [t2.showTooltip ? i2("span", { staticClass: "vue-slide-bar-tooltip-top vue-slide-bar-tooltip-wrap" }, [t2._t("tooltip", [i2("span", { staticClass: "vue-slide-bar-tooltip", style: t2.tooltipStyles }, [t2._v("\n              " + t2._s(t2.val) + "\n            ")])])], 2) : t2._e()])], t2._v(" "), i2("div", { ref: "process", staticClass: "vue-slide-bar-process", style: t2.processStyle })], 2), t2._v(" "), t2.range ? i2("div", { staticClass: "vue-slide-bar-range" }, t2._l(t2.range, function(e3, n2) {
-          return i2("div", { key: n2, staticClass: "vue-slide-bar-separate", style: t2.dataLabelStyles }, [e3.isHide ? t2._e() : i2("span", { staticClass: "vue-slide-bar-separate-text" }, [t2._v("\n        " + t2._s(e3.label) + "\n      ")])]);
-        }), 0) : t2._e()]);
-      }, staticRenderFns: [] }, function(t2) {
-        t2 && t2("data-v-d3e7b39a_0", { source: ".vue-slide-bar-component[data-v-d3e7b39a]{position:relative;box-sizing:border-box;user-select:none}.vue-slide-bar[data-v-d3e7b39a]{position:relative;display:block;border-radius:15px;background-color:#d8d8d8;cursor:pointer}.vue-slide-bar[data-v-d3e7b39a]::after{content:'';position:absolute;left:0;top:0;width:100%;height:100%;z-index:2}.vue-slide-bar-process[data-v-d3e7b39a]{position:absolute;border-radius:15px;background-color:#1066fd;transition:all 0s;z-index:1;width:0;height:100%;top:0;left:0;will-change:width}.vue-slide-bar-tooltip-container[data-v-d3e7b39a]{position:absolute;transition:all 0s;will-change:transform;cursor:pointer;z-index:3;left:0;top:-16px}.vue-slide-bar-tooltip-wrap[data-v-d3e7b39a]{position:absolute;z-index:9;width:100%;height:100%;display:block!important}.vue-slide-bar-tooltip-top[data-v-d3e7b39a]{top:-12px;left:40%;transform:translate(-50%,-100%)}.vue-slide-bar-tooltip[data-v-d3e7b39a]{position:relative;font-size:14px;white-space:nowrap;padding:2px 5px;min-width:20px;text-align:center;color:#fff;border-radius:5px;border:1px solid #1066fd;background-color:#1066fd}.vue-slide-bar-tooltip[data-v-d3e7b39a]::before{content:'';position:absolute;bottom:-10px;left:50%;width:0;height:0;border:5px solid transparent;border-top-color:inherit;transform:translate(-50%,0)}.vue-slide-bar-range[data-v-d3e7b39a]{display:flex;padding:5px 0;justify-content:space-between}.vue-slide-bar-separate[data-v-d3e7b39a]{position:relative;width:2px;background-color:#9e9e9e;height:5px;cursor:pointer}.vue-slide-bar-separate-text[data-v-d3e7b39a]{text-align:center;position:absolute;white-space:nowrap;transform:translate(-50%,0);top:6px}", map: void 0, media: void 0 });
-      }, a, "data-v-d3e7b39a", false, void 0, function(t2) {
-        return (t3, e2) => (function(t4, e3) {
-          const i2 = n ? e3.media || "default" : t4, a2 = r[i2] || (r[i2] = { ids: /* @__PURE__ */ new Set(), styles: [] });
-          if (!a2.ids.has(t4)) {
-            a2.ids.add(t4);
-            let i3 = e3.source;
-            if (e3.map && (i3 += "\n/*# sourceURL=" + e3.map.sources[0] + " */", i3 += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(e3.map)))) + " */"), a2.element || (a2.element = document.createElement("style"), a2.element.type = "text/css", e3.media && a2.element.setAttribute("media", e3.media), s.appendChild(a2.element)), "styleSheet" in a2.element) a2.styles.push(i3), a2.element.styleSheet.cssText = a2.styles.filter(Boolean).join("\n");
-            else {
-              const t5 = a2.ids.size - 1, e4 = document.createTextNode(i3), n2 = a2.element.childNodes;
-              n2[t5] && a2.element.removeChild(n2[t5]), n2.length ? a2.element.insertBefore(e4, n2[t5]) : a2.element.appendChild(e4);
-            }
-          }
-        })(t3, e2);
-      }, void 0);
-    });
-  })(vueSlideBar_min$1);
-  return vueSlideBar_min$1.exports;
-}
-var vueSlideBar_minExports = requireVueSlideBar_min();
-const VueSlideBar = /* @__PURE__ */ getDefaultExportFromCjs(vueSlideBar_minExports);
 function computedWithControl(source, fn, options = {}) {
   let v = void 0;
   let track;
@@ -5141,6 +4936,9 @@ function startsWith(string, target, position) {
   position = position == null ? 0 : baseClamp(toInteger(position), 0, string.length);
   target = baseToString(target);
   return string.slice(position, position + target.length) == target;
+}
+function getDefaultExportFromCjs(x) {
+  return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
 var codemirror$1 = { exports: {} };
 var codemirror = codemirror$1.exports;
@@ -21479,7 +21277,9 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     min: {},
     max: {},
     step: {},
-    inputWidth: { default: "5rem" }
+    inputWidth: { default: "5rem" },
+    lazy: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false }
   }, {
     "modelValue": {
       required: true
@@ -21500,7 +21300,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$c = { class: "d-flex align-items-center" };
-const _hoisted_2$c = ["id", "step"];
+const _hoisted_2$c = ["id", "step", "disabled"];
 function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$c, [
     createVNode($setup["VueSlider"], {
@@ -21511,8 +21311,10 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
       min: $props.min,
       "v-data": $props.data,
       step: $props.step,
-      showTooltip: "drag"
-    }, null, 8, ["modelValue", "max", "min", "v-data", "step"]),
+      showTooltip: "drag",
+      lazy: $props.lazy,
+      disabled: $props.disabled
+    }, null, 8, ["modelValue", "max", "min", "v-data", "step", "lazy", "disabled"]),
     _cache[2] || (_cache[2] = createTextVNode()),
     withDirectives(createElementVNode("input", {
       type: "number",
@@ -21520,7 +21322,8 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
       class: "form-control ms-2",
       style: normalizeStyle({ width: $props.inputWidth }),
       "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.value = $event),
-      step: $props.step
+      step: $props.step,
+      disabled: $props.disabled
     }, null, 12, _hoisted_2$c), [
       [vModelText, $setup.value]
     ])
@@ -21546,11 +21349,11 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
     const backgroundImage = computed(() => {
       const { type, angle, start_color, start_pos, end_color, end_pos } = gradient.value;
       if (type === "linear") {
-        return `${type}-gradient(${angle}deg, ${start_color} ${start_pos}%, ${end_color} ${end_pos}%)`;
+        return `${type}-gradient(${angle || 0}deg, ${start_color} ${start_pos}%, ${end_color} ${end_pos}%)`;
       }
       return `${type}-gradient(${start_color} ${start_pos}%, ${end_color} ${end_pos}%)`;
     });
-    const __returned__ = { props, emit: emit2, gradient, backgroundImage, SliderInput };
+    const __returned__ = { props, emit: emit2, gradient, backgroundImage, ColorInput, SliderInput };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -21560,29 +21363,28 @@ const _hoisted_2$b = { class: "form-row row" };
 const _hoisted_3$b = { class: "col-6" };
 const _hoisted_4$a = { class: "form-group mb-3" };
 const _hoisted_5$a = ["for"];
-const _hoisted_6$a = ["id"];
-const _hoisted_7$a = { class: "form-group mb-3" };
-const _hoisted_8$a = ["for"];
-const _hoisted_9$a = { class: "col-6" };
-const _hoisted_10$a = { class: "form-group mb-3" };
-const _hoisted_11$9 = ["for"];
-const _hoisted_12$8 = ["id"];
-const _hoisted_13$8 = { class: "form-group mb-3" };
-const _hoisted_14$8 = ["for"];
+const _hoisted_6$a = { class: "form-group mb-3" };
+const _hoisted_7$a = ["for"];
+const _hoisted_8$a = { class: "col-6" };
+const _hoisted_9$a = { class: "form-group mb-3" };
+const _hoisted_10$a = ["for"];
+const _hoisted_11$9 = { class: "form-group mb-3" };
+const _hoisted_12$8 = ["for"];
+const _hoisted_13$8 = { class: "row" };
+const _hoisted_14$8 = { class: "col-6" };
 const _hoisted_15$8 = { class: "form-group mb-3" };
 const _hoisted_16$8 = ["for"];
-const _hoisted_17$6 = ["id"];
-const _hoisted_18$5 = { class: "form-group mb-3" };
-const _hoisted_19$5 = ["for"];
+const _hoisted_17$7 = ["id"];
+const _hoisted_18$5 = { class: "col-6" };
+const _hoisted_19$5 = { class: "form-group mb-3" };
+const _hoisted_20$5 = ["for"];
 function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_vue_slide_bar = resolveComponent("vue-slide-bar");
-  const _directive_color = resolveDirective("color");
   return openBlock(), createElementBlock("div", _hoisted_1$b, [
     createElementVNode("div", {
       class: "c-gradient-preview mb-3",
       style: normalizeStyle([{ "height": "100px", "border": "1px solid rgba(0, 0, 0, .2)" }, { "background-image": $setup.backgroundImage }])
     }, null, 4),
-    _cache[16] || (_cache[16] = createTextVNode()),
+    _cache[17] || (_cache[17] = createTextVNode()),
     createElementVNode("div", _hoisted_2$b, [
       createElementVNode("div", _hoisted_3$b, [
         createElementVNode("div", _hoisted_4$a, [
@@ -21590,103 +21392,96 @@ function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
             for: $props.id + "-color1"
           }, "Color 1", 8, _hoisted_5$a),
           _cache[6] || (_cache[6] = createTextVNode()),
-          withDirectives(createElementVNode("input", {
-            type: "text",
+          createVNode($setup["ColorInput"], {
             id: $props.id + "-color1",
+            modelValue: $setup.gradient.start_color,
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.gradient.start_color = $event),
+            modelModifiers: { lazy: true },
             class: "form-control"
-          }, null, 8, _hoisted_6$a), [
-            [
-              vModelText,
-              $setup.gradient.start_color,
-              void 0,
-              { lazy: true }
-            ],
-            [_directive_color]
-          ])
+          }, null, 8, ["id", "modelValue"])
         ]),
         _cache[8] || (_cache[8] = createTextVNode()),
-        createElementVNode("div", _hoisted_7$a, [
+        createElementVNode("div", _hoisted_6$a, [
           createElementVNode("label", {
             for: $props.id + "-color1-pos"
-          }, "Color 1 Position", 8, _hoisted_8$a),
+          }, "Color 1 Position", 8, _hoisted_7$a),
           _cache[7] || (_cache[7] = createTextVNode()),
-          createVNode(_component_vue_slide_bar, {
+          createVNode($setup["SliderInput"], {
             modelValue: $setup.gradient.start_pos,
             "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.gradient.start_pos = $event)
           }, null, 8, ["modelValue"])
         ])
       ]),
       _cache[12] || (_cache[12] = createTextVNode()),
-      createElementVNode("div", _hoisted_9$a, [
-        createElementVNode("div", _hoisted_10$a, [
+      createElementVNode("div", _hoisted_8$a, [
+        createElementVNode("div", _hoisted_9$a, [
           createElementVNode("label", {
             for: $props.id + "-color2"
-          }, "Color 2", 8, _hoisted_11$9),
+          }, "Color 2", 8, _hoisted_10$a),
           _cache[9] || (_cache[9] = createTextVNode()),
-          withDirectives(createElementVNode("input", {
-            type: "text",
+          createVNode($setup["ColorInput"], {
             id: $props.id + "-color2",
+            modelValue: $setup.gradient.end_color,
             "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.gradient.end_color = $event),
+            modelModifiers: { lazy: true },
             class: "form-control"
-          }, null, 8, _hoisted_12$8), [
-            [
-              vModelText,
-              $setup.gradient.end_color,
-              void 0,
-              { lazy: true }
-            ],
-            [_directive_color]
-          ])
+          }, null, 8, ["id", "modelValue"])
         ]),
         _cache[11] || (_cache[11] = createTextVNode()),
-        createElementVNode("div", _hoisted_13$8, [
+        createElementVNode("div", _hoisted_11$9, [
           createElementVNode("label", {
             for: $props.id + "-color2-pos"
-          }, "Color 2 Position", 8, _hoisted_14$8),
+          }, "Color 2 Position", 8, _hoisted_12$8),
           _cache[10] || (_cache[10] = createTextVNode()),
-          createVNode(_component_vue_slide_bar, {
+          createVNode($setup["SliderInput"], {
             modelValue: $setup.gradient.end_pos,
             "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.gradient.end_pos = $event)
           }, null, 8, ["modelValue"])
         ])
       ])
     ]),
-    _cache[17] || (_cache[17] = createTextVNode()),
-    createElementVNode("div", _hoisted_15$8, [
-      createElementVNode("label", {
-        for: $props.id + "-type"
-      }, "Gradient Type", 8, _hoisted_16$8),
-      _cache[14] || (_cache[14] = createTextVNode()),
-      withDirectives(createElementVNode("select", {
-        id: $props.id + "-type",
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.gradient.type = $event),
-        class: "form-select custom-select"
-      }, [..._cache[13] || (_cache[13] = [
-        createElementVNode("option", { value: "linear" }, "Linear", -1),
-        createTextVNode(),
-        createElementVNode("option", { value: "radial" }, "Radial", -1)
-      ])], 8, _hoisted_17$6), [
-        [
-          vModelSelect,
-          $setup.gradient.type,
-          void 0,
-          { lazy: true }
-        ]
-      ])
-    ]),
     _cache[18] || (_cache[18] = createTextVNode()),
-    createElementVNode("div", _hoisted_18$5, [
-      createElementVNode("label", {
-        for: $props.id + "-angle"
-      }, "Angle", 8, _hoisted_19$5),
-      _cache[15] || (_cache[15] = createTextVNode()),
-      createVNode($setup["SliderInput"], {
-        id: $props.id + "-angle",
-        modelValue: $setup.gradient.angle,
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.gradient.angle = $event),
-        max: 360
-      }, null, 8, ["id", "modelValue"])
+    createElementVNode("div", _hoisted_13$8, [
+      createElementVNode("div", _hoisted_14$8, [
+        createElementVNode("div", _hoisted_15$8, [
+          createElementVNode("label", {
+            for: $props.id + "-type"
+          }, "Gradient Type", 8, _hoisted_16$8),
+          _cache[14] || (_cache[14] = createTextVNode()),
+          withDirectives(createElementVNode("select", {
+            id: $props.id + "-type",
+            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.gradient.type = $event),
+            class: "form-select custom-select"
+          }, [..._cache[13] || (_cache[13] = [
+            createElementVNode("option", { value: "linear" }, "Linear", -1),
+            createTextVNode(),
+            createElementVNode("option", { value: "radial" }, "Radial", -1)
+          ])], 8, _hoisted_17$7), [
+            [
+              vModelSelect,
+              $setup.gradient.type,
+              void 0,
+              { lazy: true }
+            ]
+          ])
+        ])
+      ]),
+      _cache[16] || (_cache[16] = createTextVNode()),
+      createElementVNode("div", _hoisted_18$5, [
+        createElementVNode("div", _hoisted_19$5, [
+          createElementVNode("label", {
+            for: $props.id + "-angle"
+          }, "Angle", 8, _hoisted_20$5),
+          _cache[15] || (_cache[15] = createTextVNode()),
+          createVNode($setup["SliderInput"], {
+            id: $props.id + "-angle",
+            modelValue: $setup.gradient.angle,
+            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.gradient.angle = $event),
+            max: 360,
+            disabled: $setup.gradient.type !== "linear"
+          }, null, 8, ["id", "modelValue", "disabled"])
+        ])
+      ])
     ])
   ]);
 }
@@ -22178,12 +21973,12 @@ function emptyRow() {
           size: "cover"
         },
         gradient: {
-          type: "liner",
+          type: "linear",
           angle: "",
-          start_color: "",
-          start_pos: "",
-          end_color: "",
-          end_pos: ""
+          start_color: "#fff",
+          start_pos: "0",
+          end_color: "#000",
+          end_pos: "100"
         },
         video: {
           url: "",
@@ -22268,12 +22063,12 @@ function emptyColumn(child = false) {
           overlay: ""
         },
         gradient: {
-          type: "liner",
+          type: "linear",
           angle: "",
-          start_color: "",
-          start_pos: "",
-          end_color: "",
-          end_pos: ""
+          start_color: "#fff",
+          start_pos: "0",
+          end_color: "#000",
+          end_pos: "100"
         },
         video: {
           url: "",
@@ -22369,12 +22164,12 @@ function addonBasicOptions() {
         overlay: ""
       },
       gradient: {
-        type: "liner",
+        type: "linear",
         angle: "",
-        start_color: "",
-        start_pos: "",
-        end_color: "",
-        end_pos: ""
+        start_color: "#fff",
+        start_pos: "0",
+        end_color: "#000",
+        end_pos: "100"
       },
       video: {
         url: "",
@@ -22589,7 +22384,7 @@ const _hoisted_15$7 = {
   style: { "animation-duration": ".3s" }
 };
 const _hoisted_16$7 = { class: "form-group mb-3" };
-const _hoisted_17$5 = { class: "form-row row" };
+const _hoisted_17$6 = { class: "form-row row" };
 const _hoisted_18$4 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_19$4 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_20$4 = { class: "form-row row" };
@@ -22828,7 +22623,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
                     }, null, 8, ["modelValue"])
                   ]),
                   _cache[69] || (_cache[69] = createTextVNode()),
-                  createElementVNode("div", _hoisted_17$5, [
+                  createElementVNode("div", _hoisted_17$6, [
                     createElementVNode("div", _hoisted_18$4, [
                       _cache[56] || (_cache[56] = createElementVNode("label", { for: "input-addon-edit-bg-overlay" }, "Background Overlay", -1)),
                       _cache[57] || (_cache[57] = createTextVNode()),
@@ -23208,7 +23003,7 @@ const _hoisted_13$6 = { class: "form-group mb-3" };
 const _hoisted_14$6 = { class: "form-row row" };
 const _hoisted_15$6 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_16$6 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_17$4 = { class: "form-row row" };
+const _hoisted_17$5 = { class: "form-row row" };
 const _hoisted_18$3 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_19$3 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_20$3 = { class: "form-group mb-3" };
@@ -23450,7 +23245,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                     ])
                   ]),
                   _cache[69] || (_cache[69] = createTextVNode()),
-                  createElementVNode("div", _hoisted_17$4, [
+                  createElementVNode("div", _hoisted_17$5, [
                     createElementVNode("div", _hoisted_18$3, [
                       _cache[62] || (_cache[62] = createElementVNode("label", { for: "input-column-edit-bg-attachment" }, "Background Attachment", -1)),
                       _cache[63] || (_cache[63] = createTextVNode()),
@@ -25273,7 +25068,7 @@ const _hoisted_13$5 = ["for"];
 const _hoisted_14$5 = ["id"];
 const _hoisted_15$5 = ["value"];
 const _hoisted_16$5 = { class: "form-group mb-3" };
-const _hoisted_17$3 = ["for"];
+const _hoisted_17$4 = ["for"];
 const _hoisted_18$2 = ["id"];
 const _hoisted_19$2 = ["value"];
 const _hoisted_20$2 = { class: "d-inline-block dropdown" };
@@ -25395,7 +25190,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                   createElementVNode("label", {
                     for: `input-column-edit-width-mobile--${$setup.content.id}`,
                     class: "d-block"
-                  }, "\n                    Mobile Width\n                  ", 8, _hoisted_17$3),
+                  }, "\n                    Mobile Width\n                  ", 8, _hoisted_17$4),
                   _cache[32] || (_cache[32] = createTextVNode()),
                   withDirectives(createElementVNode("select", {
                     id: `input-column-edit-width-mobile--${$setup.content.id}`,
@@ -25524,17 +25319,6 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
           class: "column__draggable",
           "item-key": "id"
         }), {
-          footer: withCtx(() => [
-            $setup.addons.length === 0 ? (openBlock(), createElementBlock("a", {
-              key: 0,
-              class: "column__addon-placeholder text-center p-3 border text-secondary bg-white d-block",
-              style: { "text-decoration": "none" },
-              href: "#",
-              onClick: _cache[15] || (_cache[15] = withModifiers(($event) => $setup.addAddon(), ["prevent"]))
-            }, [..._cache[57] || (_cache[57] = [
-              createElementVNode("span", { class: "fa fa-plus-circle fa-3x d-inline-block" }, null, -1)
-            ])])) : createCommentVNode("", true)
-          ]),
           default: withCtx(() => [
             (openBlock(true), createElementBlock(Fragment, null, renderList($setup.content.addons, (addon, i) => {
               return openBlock(), createElementBlock("div", {
@@ -25562,7 +25346,16 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["index", "value", "onDuplicate", "onDelete"]))
               ]);
             }), 128)),
-            _cache[58] || (_cache[58] = createTextVNode())
+            _cache[58] || (_cache[58] = createTextVNode()),
+            $setup.addons.length === 0 ? (openBlock(), createElementBlock("a", {
+              key: 0,
+              class: "column__addon-placeholder text-center p-3 border text-secondary bg-white d-block",
+              style: { "text-decoration": "none" },
+              href: "#",
+              onClick: _cache[15] || (_cache[15] = withModifiers(($event) => $setup.addAddon(), ["prevent"]))
+            }, [..._cache[57] || (_cache[57] = [
+              createElementVNode("span", { class: "fa fa-plus-circle fa-3x d-inline-block" }, null, -1)
+            ])])) : createCommentVNode("", true)
           ]),
           _: 1
         }, 16, ["modelValue"])
@@ -25753,10 +25546,10 @@ const _hoisted_13$4 = { class: "card" };
 const _hoisted_14$4 = { class: "page-row__bottom-toolbar mt-3 text-center" };
 const _hoisted_15$4 = { class: "page-builder__bottom-toolbar text-center" };
 const _hoisted_16$4 = { class: "btn-group" };
-const _hoisted_17$2 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
+const _hoisted_17$3 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
 function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
-    class: normalizeClass(["bg-light", { "p-2": $props.child, "rounded": $props.child }]),
+    class: normalizeClass(["bg-light p-2", { "rounded": $props.child }]),
     disabled: $setup.content.disabled ? true : null
   }, [
     createElementVNode("div", _hoisted_2$4, [
@@ -25942,7 +25735,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
             createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
           ], -1)),
           _cache[43] || (_cache[43] = createTextVNode()),
-          createElementVNode("div", _hoisted_17$2, [
+          createElementVNode("div", _hoisted_17$3, [
             createElementVNode("button", {
               type: "button",
               class: "dropdown-item",
@@ -26013,7 +25806,7 @@ const _hoisted_15$3 = {
   class: ""
 };
 const _hoisted_16$3 = { class: "form-row row" };
-const _hoisted_17$1 = { class: "col-6" };
+const _hoisted_17$2 = { class: "col-6" };
 const _hoisted_18$1 = ["onUpdate:modelValue"];
 const _hoisted_19$1 = { class: "col-6" };
 const _hoisted_20$1 = ["onUpdate:modelValue"];
@@ -26098,7 +25891,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     ]),
     _cache[17] || (_cache[17] = createTextVNode()),
     createElementVNode("div", _hoisted_16$3, [
-      createElementVNode("div", _hoisted_17$1, [
+      createElementVNode("div", _hoisted_17$2, [
         createVNode($setup["RwdGroup"], { "class-name": "c-title-margin_top" }, createSlots({
           label: withCtx(() => [
             _cache[11] || (_cache[11] = createElementVNode("label", null, "\n              Title Margin Top\n            ", -1))
@@ -26249,7 +26042,7 @@ const _hoisted_16$2 = {
   key: 0,
   class: "form-group mb-3"
 };
-const _hoisted_17 = { key: 0 };
+const _hoisted_17$1 = { key: 0 };
 const _hoisted_18 = { class: "form-group mb-3" };
 const _hoisted_19 = { class: "form-row row" };
 const _hoisted_20 = { class: "form-group mb-3 col-md-6" };
@@ -26565,7 +26358,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             _cache[131] || (_cache[131] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
-                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_17, [
+                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_17$1, [
                   createElementVNode("div", _hoisted_18, [
                     _cache[82] || (_cache[82] = createElementVNode("label", { for: "input-row-edit-bg-image" }, "Background Image", -1)),
                     _cache[83] || (_cache[83] = createTextVNode()),
@@ -26962,7 +26755,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       items.value = [];
       const { get } = await useHttpClient();
       try {
-        let res = await get(`@page_ajax/getTemplate?type=${type.value}`);
+        let res = await get(`@page_ajax/getTemplates?type=${type.value}`);
         items.value = res.data.data.map((item) => {
           item.key = uid();
           return item;
@@ -26982,6 +26775,10 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       i.value = 0;
     }
     async function remove(item, idx) {
+      const v = await deleteConfirm("Are you sure you want to delete?", "This action cannot be undone.");
+      if (!v) {
+        return;
+      }
       const { post, isAxiosError } = await useHttpClient();
       try {
         await post(
@@ -27052,10 +26849,16 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     });
     const filteredItems = computed(() => {
       return items.value.filter((item) => {
-        if (filterType.value && item.type !== filterType.value) return false;
+        if (filterType.value && item.type !== filterType.value) {
+          return false;
+        }
         if (q.value !== "") {
-          if (item.title?.toUpperCase().indexOf(q.value.toUpperCase()) !== -1) return true;
-          if (item.description && item.description.toUpperCase().indexOf(q.value.toUpperCase()) !== -1) return true;
+          if (item.title?.toUpperCase().indexOf(q.value.toUpperCase()) !== -1) {
+            return true;
+          }
+          if (item.description && item.description.toUpperCase().indexOf(q.value.toUpperCase()) !== -1) {
+            return true;
+          }
           return false;
         }
         return true;
@@ -27086,11 +26889,12 @@ const _hoisted_11$1 = {
   key: 0,
   class: "d-flex justify-content-center py-5 my-5"
 };
-const _hoisted_12$1 = { class: "form-group mb-3" };
-const _hoisted_13$1 = { class: "form-group mb-3" };
-const _hoisted_14$1 = { class: "form-group mb-3" };
-const _hoisted_15$1 = { class: "form-group mb-3" };
-const _hoisted_16$1 = ["disabled"];
+const _hoisted_12$1 = { class: "d-flex flex-column gap-4" };
+const _hoisted_13$1 = { class: "form-group" };
+const _hoisted_14$1 = { class: "form-group" };
+const _hoisted_15$1 = { class: "form-group" };
+const _hoisted_16$1 = { class: "form-group text-center" };
+const _hoisted_17 = ["disabled"];
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
     createVNode($setup["BModal"], {
@@ -27195,67 +26999,70 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
       "no-footer": ""
     }, {
       default: withCtx(() => [
-        createElementVNode("div", null, [
-          _cache[19] || (_cache[19] = createTextVNode("\n        Save as: ", -1)),
-          createElementVNode("div", {
-            class: normalizeClass(["badge", `bg-${$setup.badgeColor($setup.saveData.type)}`])
-          }, toDisplayString($setup.saveData.type), 3)
-        ]),
-        _cache[28] || (_cache[28] = createTextVNode()),
         createElementVNode("div", _hoisted_12$1, [
-          _cache[20] || (_cache[20] = createElementVNode("label", { for: "input-tmpl-title" }, "Title", -1)),
-          _cache[21] || (_cache[21] = createTextVNode()),
           createElementVNode("div", null, [
-            withDirectives(createElementVNode("input", {
-              id: "input-tmpl-title",
-              type: "text",
-              class: "form-control",
-              "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.saveData.title = $event)
-            }, null, 512), [
-              [vModelText, $setup.saveData.title]
-            ])
-          ])
-        ]),
-        _cache[29] || (_cache[29] = createTextVNode()),
-        createElementVNode("div", _hoisted_13$1, [
-          _cache[22] || (_cache[22] = createElementVNode("label", { for: "input-tmpl-description" }, "Description", -1)),
-          _cache[23] || (_cache[23] = createTextVNode()),
-          createElementVNode("div", null, [
-            withDirectives(createElementVNode("textarea", {
-              id: "input-tmpl-description",
-              type: "text",
-              class: "form-control",
-              "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.saveData.description = $event),
-              rows: "3"
-            }, null, 512), [
-              [vModelText, $setup.saveData.description]
-            ])
-          ])
-        ]),
-        _cache[30] || (_cache[30] = createTextVNode()),
-        createElementVNode("div", _hoisted_14$1, [
-          _cache[25] || (_cache[25] = createElementVNode("label", { for: "input-tmpl-image" }, "Cover", -1)),
-          _cache[26] || (_cache[26] = createTextVNode()),
-          createElementVNode("div", null, [
-            createVNode($setup["SingleImage"], {
-              modelValue: $setup.saveData.image,
-              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.saveData.image = $event),
-              id: "input-tmpl-image"
-            }, null, 8, ["modelValue"])
+            _cache[19] || (_cache[19] = createTextVNode("\n          Save as: ", -1)),
+            createElementVNode("div", {
+              class: normalizeClass(["badge", `bg-${$setup.badgeColor($setup.saveData.type)}`])
+            }, toDisplayString($setup.saveData.type), 3)
           ]),
           _cache[27] || (_cache[27] = createTextVNode()),
+          createElementVNode("div", _hoisted_13$1, [
+            _cache[20] || (_cache[20] = createElementVNode("label", { for: "input-tmpl-title" }, "Title", -1)),
+            _cache[21] || (_cache[21] = createTextVNode()),
+            createElementVNode("div", null, [
+              withDirectives(createElementVNode("input", {
+                id: "input-tmpl-title",
+                type: "text",
+                class: "form-control",
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.saveData.title = $event)
+              }, null, 512), [
+                [vModelText, $setup.saveData.title]
+              ])
+            ])
+          ]),
+          _cache[28] || (_cache[28] = createTextVNode()),
+          createElementVNode("div", _hoisted_14$1, [
+            _cache[22] || (_cache[22] = createElementVNode("label", { for: "input-tmpl-description" }, "Description", -1)),
+            _cache[23] || (_cache[23] = createTextVNode()),
+            createElementVNode("div", null, [
+              withDirectives(createElementVNode("textarea", {
+                id: "input-tmpl-description",
+                type: "text",
+                class: "form-control",
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.saveData.description = $event),
+                rows: "3"
+              }, null, 512), [
+                [vModelText, $setup.saveData.description]
+              ])
+            ])
+          ]),
+          _cache[29] || (_cache[29] = createTextVNode()),
           createElementVNode("div", _hoisted_15$1, [
+            _cache[24] || (_cache[24] = createElementVNode("label", { for: "input-tmpl-image" }, "Cover", -1)),
+            _cache[25] || (_cache[25] = createTextVNode()),
+            createElementVNode("div", null, [
+              createVNode($setup["SingleImage"], {
+                modelValue: $setup.saveData.image,
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.saveData.image = $event),
+                id: "input-tmpl-image"
+              }, null, 8, ["modelValue"])
+            ])
+          ]),
+          _cache[30] || (_cache[30] = createTextVNode()),
+          createElementVNode("div", _hoisted_16$1, [
             createElementVNode("button", {
               type: "button",
               class: "btn btn-primary btn-block",
+              style: { "width": "150px" },
               disabled: $setup.saving,
               onClick: _cache[6] || (_cache[6] = (...args) => $setup.saveContent && $setup.saveContent(...args))
             }, [
               createElementVNode("span", {
                 class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
               }, null, 2),
-              _cache[24] || (_cache[24] = createTextVNode("\n            Save\n          ", -1))
-            ], 8, _hoisted_16$1)
+              _cache[26] || (_cache[26] = createTextVNode("\n            Save\n          ", -1))
+            ], 8, _hoisted_17)
           ])
         ])
       ]),
@@ -27263,7 +27070,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["model-value"])
   ]);
 }
-const TemplateManager = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-b47b2093"], ["__file", "TemplateManager.vue"]]);
+const TemplateManager = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-f274420e"], ["__file", "TemplateManager.vue"]]);
 const bvCss = '.b-avatar{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex-shrink:0;width:2.5rem;height:2.5rem;font-size:inherit;font-weight:400;line-height:1;max-width:100%;max-height:auto;text-align:center;overflow:visible;position:relative;transition:color .15s ease-in-out,background-color .15s ease-in-out,box-shadow .15s ease-in-out}.b-avatar:focus{outline:0}.b-avatar.btn,.b-avatar[href]{padding:0;border:0}.b-avatar.btn .b-avatar-img img,.b-avatar[href] .b-avatar-img img{transition:transform .15s ease-in-out}.b-avatar.btn:not(:disabled):not(.disabled),.b-avatar[href]:not(:disabled):not(.disabled){cursor:pointer}.b-avatar.btn:not(:disabled):not(.disabled):hover .b-avatar-img img,.b-avatar[href]:not(:disabled):not(.disabled):hover .b-avatar-img img{transform:scale(1.15)}.b-avatar.disabled,.b-avatar:disabled,.b-avatar[disabled]{opacity:.65;pointer-events:none}.b-avatar .b-avatar-custom,.b-avatar .b-avatar-text,.b-avatar .b-avatar-img{border-radius:inherit;width:100%;height:100%;overflow:hidden;display:flex;justify-content:center;align-items:center;-webkit-mask-image:radial-gradient(#fff,#000);mask-image:radial-gradient(#fff,#000)}.b-avatar .b-avatar-text{text-transform:uppercase;white-space:nowrap}.b-avatar[href]{text-decoration:none}.b-avatar>.bootstrap-icon{width:60%;height:auto;max-width:100%}.b-avatar .b-avatar-img img{width:100%;height:100%;max-height:auto;border-radius:inherit;object-fit:cover}.b-avatar .b-avatar-badge{position:absolute;min-height:1.5em;min-width:1.5em;padding:.25em;line-height:1;border-radius:10em;font-size:70%;font-weight:700;z-index:1}.b-avatar-sm{width:1.5rem;height:1.5rem}.b-avatar-sm .b-avatar-text{font-size:.6rem}.b-avatar-sm .b-avatar-badge{font-size:.42rem}.b-avatar-lg{width:3.5rem;height:3.5rem}.b-avatar-lg .b-avatar-text{font-size:1.4rem}.b-avatar-lg .b-avatar-badge{font-size:.98rem}.b-avatar-group .b-avatar-group-inner{display:flex;flex-wrap:wrap}.b-avatar-group .b-avatar{border:1px solid #dee2e6}.b-avatar-group a.b-avatar:hover:not(.disabled):not(disabled),.b-avatar-group .btn.b-avatar:hover:not(.disabled):not(disabled){z-index:1}.card-deck{gap:1.5rem}@media (min-width: 576px){.card-deck{display:flex;flex-flow:row wrap}}.card-deck>.card{flex:1 0 0%;margin-bottom:0}.card-columns .card{margin-bottom:.75rem}@media (min-width: 576px){.card-columns{column-count:3;column-gap:1.25rem;orphans:1;widows:1}.card-columns .card{display:inline-block;width:100%}}.b-form-rating{display:flex;justify-content:space-between;padding:.375rem .75rem;margin:.5rem;border-radius:.375rem;border:1px solid var(--bs-secondary-border-subtle, #dee2e6);background-color:var(--bs-body-bg);gap:.25rem}.b-form-rating.no-border{border:none}.b-form-rating.is-disabled{color:var(--bs-secondary);background-color:var(--bs-secondary-bg)}.b-form-rating .clear-icon{width:1em;height:1em;transition:transform var(--bs-transition-duration) ease;color:var(--bs-body-color);fill:currentColor}.b-form-rating:not(.is-readonly):not(.is-disabled) .clear-icon:hover{transform:scale(1.5)}.star{cursor:pointer;-webkit-user-select:none;user-select:none;padding:0 .25em}.is-readonly .star,.is-disabled .star{cursor:default}.clear-button-spacing{cursor:pointer;margin-left:.5rem}.star-spacing{margin:0 .5rem}.rating-value-text{color:var(--bs-body-color);margin:0 .6}.b-form-rating-star svg{transition:transform .2s ease}.b-form-rating:not(.is-readonly):not(.is-disabled) .star:hover .b-form-rating-star svg{transform:scale(1.5)}.b-form-tags.focus{background-color:var(--bs-body-bg);border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem #0d6efd40}.b-form-tags.disabled{background-color:var(--bs-secondary-bg)}.b-form-tag.disabled{opacity:.75}.b-form-tags.focus.is-valid{border-color:#198754;box-shadow:0 0 0 .25rem #19875440}.b-form-tags.focus.is-invalid{border-color:#dc3545;box-shadow:0 0 0 .25rem #dc354540}.b-form-tags .b-form-tags-list{margin-top:-.25rem}.b-form-tags .b-form-tags-list .b-form-tag,.b-form-tags .b-form-tags-list .b-from-tags-field{margin-top:.25rem}.b-form-tags .b-form-tags-list .b-form-tag{padding:.25em .65em}.b-form-tag{font-size:75%!important;font-weight:400!important;line-height:1.5!important;margin-right:.25rem}.b-form-tags .b-form-tag+.b-form-tag{margin-left:0}.b-form-tag>button.b-form-tag-remove{color:inherit;font-size:75%;line-height:1;float:none;margin-left:.25rem}.input-group .btn-group:not(:last-child)>:not(:first-child){border-start-end-radius:0px;border-end-end-radius:0px}.input-group .btn-group:not(:last-child)>:not(:last-child){border-start-start-radius:0px;border-end-start-radius:0px}.input-group .btn-group:not(:first-child)>:not(:last-child){border-end-start-radius:0px;border-start-start-radius:0px}.b-pagination-pills .page-item .page-link{border-radius:50rem!important;margin-left:.25rem!important;line-height:1}.b-pagination-pills .page-item:first-child .page-link{margin-left:0!important}.b-table-stacked-label{display:none;font-weight:700}.table.b-table.b-table-stacked{display:block;width:100%}.table.b-table.b-table-stacked>tfoot,.table.b-table.b-table-stacked>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked>thead,.table.b-table.b-table-stacked>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked>caption,.table.b-table.b-table-stacked>tbody,.table.b-table.b-table-stacked>tbody>tr,.table.b-table.b-table-stacked>tbody>tr>td,.table.b-table.b-table-stacked>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked>tbody>tr>th{display:block}.table.b-table.b-table-stacked>tbody>tr>:first-child,.table.b-table.b-table-stacked>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}@media (max-width: 575.98px){.table.b-table.b-table-stacked-sm{display:block;width:100%}.table.b-table.b-table-stacked-sm>tfoot,.table.b-table.b-table-stacked-sm>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-sm>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-sm>thead,.table.b-table.b-table-stacked-sm>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-sm>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-sm>caption,.table.b-table.b-table-stacked-sm>tbody,.table.b-table.b-table-stacked-sm>tbody>tr,.table.b-table.b-table-stacked-sm>tbody>tr>td,.table.b-table.b-table-stacked-sm>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-sm>tbody>tr>th{display:block}.table.b-table.b-table-stacked-sm>tbody>tr>:first-child,.table.b-table.b-table-stacked-sm>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-sm>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 767.98px){.table.b-table.b-table-stacked-md{display:block;width:100%}.table.b-table.b-table-stacked-md>tfoot,.table.b-table.b-table-stacked-md>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-md>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-md>thead,.table.b-table.b-table-stacked-md>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-md>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-md>caption,.table.b-table.b-table-stacked-md>tbody,.table.b-table.b-table-stacked-md>tbody>tr,.table.b-table.b-table-stacked-md>tbody>tr>td,.table.b-table.b-table-stacked-md>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-md>tbody>tr>th{display:block}.table.b-table.b-table-stacked-md>tbody>tr>:first-child,.table.b-table.b-table-stacked-md>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-md>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 991.98px){.table.b-table.b-table-stacked-lg{display:block;width:100%}.table.b-table.b-table-stacked-lg>tfoot,.table.b-table.b-table-stacked-lg>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-lg>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-lg>thead,.table.b-table.b-table-stacked-lg>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-lg>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-lg>caption,.table.b-table.b-table-stacked-lg>tbody,.table.b-table.b-table-stacked-lg>tbody>tr,.table.b-table.b-table-stacked-lg>tbody>tr>td,.table.b-table.b-table-stacked-lg>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-lg>tbody>tr>th{display:block}.table.b-table.b-table-stacked-lg>tbody>tr>:first-child,.table.b-table.b-table-stacked-lg>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-lg>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 1199.98px){.table.b-table.b-table-stacked-xl{display:block;width:100%}.table.b-table.b-table-stacked-xl>tfoot,.table.b-table.b-table-stacked-xl>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xl>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-xl>thead,.table.b-table.b-table-stacked-xl>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xl>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-xl>caption,.table.b-table.b-table-stacked-xl>tbody,.table.b-table.b-table-stacked-xl>tbody>tr,.table.b-table.b-table-stacked-xl>tbody>tr>td,.table.b-table.b-table-stacked-xl>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-xl>tbody>tr>th{display:block}.table.b-table.b-table-stacked-xl>tbody>tr>:first-child,.table.b-table.b-table-stacked-xl>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-xl>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 1399.98px){.table.b-table.b-table-stacked-xxl{display:block;width:100%}.table.b-table.b-table-stacked-xxl>tfoot,.table.b-table.b-table-stacked-xxl>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xxl>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-xxl>thead,.table.b-table.b-table-stacked-xxl>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xxl>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-xxl>caption,.table.b-table.b-table-stacked-xxl>tbody,.table.b-table.b-table-stacked-xxl>tbody>tr,.table.b-table.b-table-stacked-xxl>tbody>tr>td,.table.b-table.b-table-stacked-xxl>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-xxl>tbody>tr>th{display:block}.table.b-table.b-table-stacked-xxl>tbody>tr>:first-child,.table.b-table.b-table-stacked-xxl>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-xxl>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}.b-table-sticky-header,.table-responsive,[class*=table-responsive-]{margin-bottom:1rem}.b-table-sticky-header>.table,.table-responsive>.table,[class*=table-responsive-]>.table{margin-bottom:0}.b-table-sticky-header{overflow-y:auto}@media print{.b-table-sticky-header{overflow-y:visible!important;max-height:none!important}}.table.b-table[aria-busy=true]{opacity:.55}@supports (position: sticky){.b-table-sticky-header>.table.b-table>thead>tr>th{position:sticky;top:0;z-index:2}.b-table-sticky-header>.table.b-table>thead>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tbody>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tfoot>tr>.b-table-sticky-column,.table-responsive>.table.b-table>thead>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tbody>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tfoot>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>thead>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tbody>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tfoot>tr>.b-table-sticky-column{position:sticky;left:0}.b-table-sticky-header>.table.b-table>thead>tr>.b-table-sticky-column,.table-responsive>.table.b-table>thead>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>thead>tr>.b-table-sticky-column{z-index:5}.b-table-sticky-header>.table.b-table>tbody>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tfoot>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tbody>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tfoot>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tbody>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tfoot>tr>.b-table-sticky-column{z-index:2}}.table.b-table>tbody>tr>.table-b-table-default,.table.b-table>tfoot>tr>.table-b-table-default,.table.b-table>thead>tr>.table-b-table-default{color:#212529;background-color:#fff}.table th.b-table-sortable-column,.b-table.b-table-selectable td{cursor:pointer}.b-table.b-table-busy .b-table-busy-slot>td{border:none;padding:0}.b-table.b-table-fixed{table-layout:fixed}.b-table.b-table-no-border-collapse{border-collapse:separate;border-spacing:0}input[type=range].is-valid::-webkit-slider-thumb{background-color:#198754}input[type=range].is-valid::-moz-range-thumb{background-color:#198754}input[type=range].is-valid::-ms-thumb{background-color:#198754}input[type=range].is-invalid::-webkit-slider-thumb{background-color:#dc3545}input[type=range].is-invalid::-moz-range-thumb{background-color:#dc3545}input[type=range].is-invalid::-ms-thumb{background-color:#dc3545}input[type=range].is-valid::-webkit-slider-runnable-track{background-color:#84e8ba}input[type=range].is-valid::-moz-range-track{background-color:#84e8ba}input[type=range].is-valid::-ms-track{background-color:#84e8ba}input[type=range].is-invalid::-webkit-slider-runnable-track{background-color:#fae3e5}input[type=range].is-invalid::-moz-range-track{background-color:#fae3e5}input[type=range].is-invalid::-ms-track{background-color:#fae3e5}input[type=file].form-control-input-file-hide-button::-webkit-file-upload-button{display:none}input[type=file].form-control-input-file-hide-button::file-selector-button{display:none}.b-form-spinbutton{text-align:center;overflow:hidden;background-image:none;padding:0}[dir=rtl] .b-form-spinbutton:not(.flex-column),.b-form-spinbutton[dir=rtl]:not(.flex-column){flex-direction:row-reverse}.b-form-spinbutton output{font-size:inherit;outline:0;border:0;background-color:transparent;width:auto;margin:0;padding:0 .25rem}.b-form-spinbutton output>div,.b-form-spinbutton output>bdi{display:block;min-width:2.25em;height:1.5em}.b-form-spinbutton.flex-column{height:auto;width:auto}.b-form-spinbutton.flex-column output{margin:0 .25rem;padding:.25rem 0}.b-form-spinbutton:not(.d-inline-flex):not(.flex-column){output-width:100%}.b-form-spinbutton.d-inline-flex:not(.flex-column){width:auto}.b-form-spinbutton .btn{line-height:1;box-shadow:none!important}.b-form-spinbutton .btn:disabled{pointer-events:none}.b-form-spinbutton .btn:hover:not(:disabled)>div>.b-icon{transform:scale(1.25)}.b-form-spinbutton.disabled,.b-form-spinbutton.readonly{background-color:var(--bs-secondary-bg)}.b-form-spinbutton.disabled{pointer-events:none}.b-form-spinbutton:not(.form-control-sm):not(.form-control-lg):not(.flex-column){height:calc(1.5em + .5rem + var(--bs-border-width) * 2)}.alert .progress .progress-bar{--bs-progress-bar-transition: none}.alert .btn-close-custom{margin-bottom:auto;position:relative}.bs-popover-auto[data-popper-placement^=bottom] .popover-arrow:has(+div>.popover-header):after,.bs-popover-bottom .popover-arrow:has(+div>.popover-header):after{--bs-popover-bg: var(--bs-popover-header-bg)}.toast .progress .progress-bar{--bs-progress-bar-transition: none}.toast:not(.show){opacity:unset}.toast.fade:not(.show){opacity:0}.toast .btn-close-custom{margin:var(--bs-toast-padding-x) var(--bs-toast-padding-x) auto}.b-list-move,.b-list-enter-active,.b-list-leave-active{transition:all .5s cubic-bezier(.55,0,.1,1)}.b-list-enter-from,.b-list-leave-to{opacity:0}.b-list-leave-active{position:fixed}.container,.container-fluid{display:block}.input-group>.form-floating:not(:first-child)>:not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback){margin-left:0;border-top-left-radius:0;border-bottom-left-radius:0}.input-group:not(.has-validation)>.form-floating:not(:last-child)>:not(.dropdown-toggle):not(.dropdown-menu){border-top-right-radius:0;border-bottom-right-radius:0}.dropdown-toggle.dropdown-toggle-no-caret:before,.dropdown-toggle.dropdown-toggle-no-caret:after{display:none!important}.dropdown-menu.fade.showing{display:block!important}.bv-no-focus-ring:focus{outline:none}@media (max-width: 575.98px){.bv-d-sm-down-none{display:none!important}}@media (max-width: 767.98px){.bv-d-md-down-none{display:none!important}}@media (max-width: 991.98px){.bv-d-lg-down-none{display:none!important}}@media (max-width: 1199.98px){.bv-d-xl-down-none{display:none!important}}@media (max-width: 1399.98px){.bv-d-xxl-down-none{display:none!important}}.fade-enter-active,.fade-leave-active{transition:opacity .25s linear}.fade-enter-from,.fade-leave-to{opacity:0}.no-transition{transition:none!important}:root{--bs-modal-zindex: 1055;--bs-toast-max-width: 350px}\n';
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "PageBuilderApp",
@@ -27765,6 +27572,21 @@ const Tinymce = {
             el.value = editor.getContent();
             el.dispatchEvent(new Event("input", { bubbles: true }));
           });
+          editor.on("keydown", (event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              el.dispatchEvent(
+                new KeyboardEvent("keydown", {
+                  bubbles: true,
+                  metaKey: event.metaKey,
+                  ctrlKey: event.ctrlKey,
+                  key: "s",
+                  code: "KeyS"
+                })
+              );
+            }
+          });
         }
       }
     );
@@ -27801,20 +27623,19 @@ const app = createApp(PageBuilderApp, {
   name: "PageBuilder"
 });
 app.config.globalProperties.$debug = isDebug();
-app.config.globalProperties.$trigger = useUnicorn().trigger;
+app.config.globalProperties.$trigger = u$1.trigger.bind(u$1);
 app.config.globalProperties.addonProp = (prop, type) => {
   return addons[type][prop];
 };
 app.directive("tinymce", Tinymce);
 app.use(BsTooltip);
-app.component("VueSlideBar", VueSlideBar);
 app.component("addon-text", defineAsyncComponent(() => import("./addon-text.js")));
 app.component("addon-image", defineAsyncComponent(() => import("./addon-image.js")));
 app.component("addon-feature", defineAsyncComponent(() => import("./addon-feature.js")));
 app.component("addon-emptyspace", defineAsyncComponent(() => import("./addon-emptyspace.js")));
 app.component("addon-button", defineAsyncComponent(() => import("./addon-button.js")));
-for (const k in addons.value) {
-  const addon = addons.value[k];
+for (const k in addons) {
+  const addon = addons[k];
   if (addon.componentModuleUrl) {
     useImport(addon.componentModuleUrl).then((module2) => {
       app.component(addon.componentName, module2.default(app));

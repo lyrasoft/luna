@@ -269,12 +269,12 @@ export function emptyRow(): Row {
           size: 'cover'
         },
         gradient: {
-          type: 'liner',
+          type: 'linear',
           angle: '',
-          start_color: '',
-          start_pos: '',
-          end_color: '',
-          end_pos: ''
+          start_color: '#fff',
+          start_pos: '0',
+          end_color: '#000',
+          end_pos: '100'
         },
         video: {
           url: '',
@@ -360,12 +360,12 @@ export function emptyColumn(child = false): Column {
           overlay: '',
         },
         gradient: {
-          type: 'liner',
+          type: 'linear',
           angle: '',
-          start_color: '',
-          start_pos: '',
-          end_color: '',
-          end_pos: ''
+          start_color: '#fff',
+          start_pos: '0',
+          end_color: '#000',
+          end_pos: '100'
         },
         video: {
           url: '',
@@ -462,12 +462,12 @@ export function addonBasicOptions(): AddonOptions {
         overlay: '',
       },
       gradient: {
-        type: 'liner',
+        type: 'linear',
         angle: '',
-        start_color: '',
-        start_pos: '',
-        end_color: '',
-        end_pos: ''
+        start_color: '#fff',
+        start_pos: '0',
+        end_color: '#000',
+        end_pos: '100'
       },
       video: {
         url: '',

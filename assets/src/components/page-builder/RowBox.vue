@@ -210,7 +210,7 @@ watch(() => columns, () => {
 </script>
 
 <template>
-  <div class="bg-light" :class="{'p-2': child, 'rounded': child}" :disabled="content.disabled ? true : null">
+  <div class="bg-light p-2" :class="{ 'rounded': child}" :disabled="content.disabled ? true : null">
     <div class="page-row__title-bar d-flex mb-2">
       <div class="page-row__title d-flex">
         <div class="page-row__move-cursor">

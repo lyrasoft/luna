@@ -30,6 +30,5 @@ $router->group('page')
             ->controller(PageController::class, 'create');
 
         $router->any('page_ajax', '/page/ajax[/{task}]')
-            ->controller(PageController::class, 'ajax')
-            ->middleware(JsonApiMiddleware::class);
+            ->controller(PageController::class, 'ajax');
     });

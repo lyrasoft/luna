@@ -18,6 +18,7 @@ namespace App\View;
 
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\Module\Admin\Page\PageEditView;
+use Unicorn\Script\UnicornScript;
 use Unicorn\Script\VueScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -37,6 +38,14 @@ use Windwalker\Form\Form;
 
 // $asset->module('@luna/dist/page-builder.js');
 $asset->css('@luna/dist/page-builder-admin.css');
+
+$uni = $app->retrieve(UnicornScript::class);
+$uni->data(
+    'tinymce_content_css',
+    $asset->appendVersion(
+        $asset->handleUri('@unicorn/editor.css')
+    )
+);
 ?>
 
 @extends($app->config('luna.view_extends.admin.edit') ?? 'admin.global.body-edit')

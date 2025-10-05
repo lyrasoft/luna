@@ -14,6 +14,8 @@ use Lyrasoft\Luna\Services\ConfigService;
 use Psr\Cache\InvalidArgumentException;
 use ReflectionException;
 use RuntimeException;
+use Unicorn\Attributes\Ajax;
+use Unicorn\Controller\AjaxControllerTrait;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Image\ImagePlaceholder;
@@ -39,6 +41,8 @@ use Windwalker\Utilities\Arr;
 #[Controller()]
 class PageController
 {
+    use AjaxControllerTrait;
+
     #[LangAssoc]
     public function save(Navigator $nav): RouteUri
     {
@@ -97,23 +101,7 @@ class PageController
         return $app->call([$controller, 'copy'], compact('repository'));
     }
 
-    public function ajax(AppContext $app): mixed
-    {
-        return $app->call([$this, $app->input('task')]);
-    }
-
-    /**
-     * savePage
-     *
-     * @param  AppContext         $app
-     * @param  PageRepository     $repository
-     * @param  FileUploadService  $fileUploadService
-     *
-     * @return array
-     *
-     * @throws Exception
-     * @since  1.8.8
-     */
+    #[Ajax]
     public function savePage(
         AppContext $app,
         #[Autowire]
@@ -142,18 +130,7 @@ class PageController
         ];
     }
 
-    /**
-     * getTemplates
-     *
-     * @param  AppContext        $app
-     * @param  ORM               $orm
-     * @param  ImagePlaceholder  $imagePlaceholder
-     *
-     * @return  array
-     *
-     * @throws ReflectionException
-     * @since  1.8
-     */
+    #[Ajax]
     public function getTemplates(
         AppContext $app,
         ORM $orm,
@@ -161,12 +138,6 @@ class PageController
     ): array {
         $type = $app->input('type');
         $types = Arr::explodeAndClear(',', $type);
-
-        throw new ApiException(
-            'GGGHHGJ',
-            'custom_error',
-            401,
-        );
 
         $mapper = $orm->mapper(PageTemplate::class);
         $templates = $mapper->findList([], Collection::class)
@@ -210,17 +181,7 @@ class PageController
         return $found;
     }
 
-    /**
-     * saveTemplate
-     *
-     * @param  AppContext  $app
-     * @param  ORM         $orm
-     *
-     * @return object
-     *
-     * @throws ReflectionException
-     * @since  1.8
-     */
+    #[Ajax]
     public function saveTemplate(AppContext $app, ORM $orm): object
     {
         $id = (int) $app->input('id');
@@ -249,16 +210,7 @@ class PageController
         return $mapper->saveOne($item);
     }
 
-    /**
-     * removeTemplate
-     *
-     * @param  AppContext  $app
-     * @param  ORM         $orm
-     *
-     * @return PageTemplate|null
-     *
-     * @since  1.8
-     */
+    #[Ajax]
     public function removeTemplate(AppContext $app, ORM $orm): ?PageTemplate
     {
         $id = $app->input('id');
@@ -274,17 +226,6 @@ class PageController
         return $item;
     }
 
-    /**
-     * value
-     *
-     * @param  mixed       $value
-     * @param  AppContext  $app
-     *
-     * @return  mixed
-     *
-     * @throws ReflectionException
-     * @since  1.8
-     */
     protected function value(mixed $value, AppContext $app): mixed
     {
         if (is_callable($value)) {

@@ -21,17 +21,41 @@ function mergeDeep(target, ...sources) {
 }
 const _AlertAdapter = class _AlertAdapter {
 };
-_AlertAdapter.alert = async (title) => window.alert(title);
-_AlertAdapter.confirm = async (title) => {
+_AlertAdapter.alert = async (title, text) => {
+  if (text) {
+    title += " | " + text;
+  }
+  return window.alert(title);
+};
+_AlertAdapter.confirm = async (title, text) => {
   return new Promise((resolve) => {
+    if (text) {
+      title += " | " + text;
+    }
     const v = confirm(title);
     resolve(v);
   });
 };
-_AlertAdapter.deleteConfirm = async (title) => _AlertAdapter.confirm(title);
-_AlertAdapter.confirmText = () => "確認";
-_AlertAdapter.cancelText = () => "取消";
-_AlertAdapter.deleteText = () => "刪除";
+_AlertAdapter.deleteConfirm = async (title, text) => _AlertAdapter.confirm(title, text);
+_AlertAdapter.notify = async (title, text, type = "log") => {
+  if (text) {
+    title += " | " + text;
+  }
+  if (type === "error") {
+    console.error(title);
+  } else if (type === "warn") {
+    console.warn(title);
+  } else {
+    console.log(title);
+  }
+  return async () => {
+  };
+};
+_AlertAdapter.clearNotifies = async () => {
+};
+_AlertAdapter.confirmText = () => "OK";
+_AlertAdapter.cancelText = () => "Cancel";
+_AlertAdapter.deleteText = () => "Delete";
 let AlertAdapter = _AlertAdapter;
 class Stack {
   constructor(store = []) {

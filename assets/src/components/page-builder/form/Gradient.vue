@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
+import ColorInput from '~luna/components/page-builder/form/ColorInput.vue';
 import { BackgroundGradientOptions } from '~luna/types';
 import SliderInput from './SliderInput.vue';
 
@@ -15,7 +16,7 @@ const backgroundImage = computed(() => {
   const { type, angle, start_color, start_pos, end_color, end_pos } = gradient.value;
 
   if (type === 'linear') {
-    return `${type}-gradient(${angle}deg, ${start_color} ${start_pos}%, ${end_color} ${end_pos}%)`;
+    return `${type}-gradient(${angle || 0}deg, ${start_color} ${start_pos}%, ${end_color} ${end_pos}%)`;
   }
 
   return `${type}-gradient(${start_color} ${start_pos}%, ${end_color} ${end_pos}%)`;
@@ -32,40 +33,46 @@ const backgroundImage = computed(() => {
       <div class="col-6">
         <div class="form-group mb-3">
           <label :for="id + '-color1'">Color 1</label>
-          <input type="text" :id="id + '-color1'" v-model.lazy="gradient.start_color" v-color class="form-control" />
+          <ColorInput :id="id + '-color1'" v-model.lazy="gradient.start_color" class="form-control" />
         </div>
         <div class="form-group mb-3">
           <label :for="id + '-color1-pos'">Color 1 Position</label>
-          <vue-slide-bar v-model="gradient.start_pos"></vue-slide-bar>
+          <SliderInput v-model="gradient.start_pos" />
         </div>
       </div>
       <div class="col-6">
         <div class="form-group mb-3">
           <label :for="id + '-color2'">Color 2</label>
-          <input type="text" :id="id + '-color2'" v-model.lazy="gradient.end_color" v-color class="form-control" />
+          <ColorInput :id="id + '-color2'" v-model.lazy="gradient.end_color" class="form-control" />
         </div>
         <div class="form-group mb-3">
           <label :for="id + '-color2-pos'">Color 2 Position</label>
-          <vue-slide-bar v-model="gradient.end_pos"></vue-slide-bar>
+          <SliderInput v-model="gradient.end_pos" />
         </div>
       </div>
     </div>
 
-    <div class="form-group mb-3">
-      <label :for="id + '-type'">Gradient Type</label>
-      <select :id="id + '-type'" v-model.lazy="gradient.type" class="form-select custom-select">
-        <option value="linear">Linear</option>
-        <option value="radial">Radial</option>
-      </select>
-    </div>
-
-    <div class="form-group mb-3">
-      <label :for="id + '-angle'">Angle</label>
-      <SliderInput
-        :id="id + '-angle'"
-        v-model="gradient.angle"
-        :max="360"
-      />
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group mb-3">
+          <label :for="id + '-type'">Gradient Type</label>
+          <select :id="id + '-type'" v-model.lazy="gradient.type" class="form-select custom-select">
+            <option value="linear">Linear</option>
+            <option value="radial">Radial</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group mb-3">
+          <label :for="id + '-angle'">Angle</label>
+          <SliderInput
+            :id="id + '-angle'"
+            v-model="gradient.angle"
+            :max="360"
+            :disabled="gradient.type !== 'linear'"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
