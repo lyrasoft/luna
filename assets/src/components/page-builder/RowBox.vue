@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 import { computed, ref, watch } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus';
 import ColumnBox from '~luna/components/page-builder/ColumnBox.vue';
-import { usePageBuilderUtilities } from '~luna/services/page-builder/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
 import type { Addon, Column, Row, RowEditEvent, TemplateOpenEvent } from '~luna/types';
 
 const {
@@ -308,7 +308,7 @@ watch(() => columns, () => {
           </ColumnBox>
         </template>
 
-        <a class="page-row__body-placeholder text-center p-4 border text-secondary col-12"
+        <a v-if="columns.length === 0" class="page-row__body-placeholder text-center p-4 border text-secondary col-12"
           commented-v-if="addons.length === 0 && !drag"
           href="#"
           @click.prevent="addNewColumn()">

@@ -1,7 +1,7 @@
-import { uid, injectCssToDocument, route, useSystemUri, useHttpClient, simpleAlert as simpleAlert$1, useUnicorn, deleteConfirm, simpleConfirm, data, selectAll, useCssImport, isDebug, useImport, domready } from "@windwalker-io/unicorn-next";
-import { defineComponent, useSlots, ref, watch, onMounted, createBlock, openBlock, Teleport, createElementVNode, mergeProps, normalizeClass, createElementBlock, createCommentVNode, createTextVNode, Fragment, renderSlot, toDisplayString, mergeModels, useModel, withDirectives, renderList, vModelSelect, vModelText, reactive, createSlots, withCtx, vModelRadio, onBeforeUnmount, toRefs, computed, onUnmounted, createVNode, normalizeStyle, resolveComponent, resolveDirective, customRef, getCurrentInstance, onUpdated, withModifiers, nextTick, resolveDynamicComponent, Transition, useTemplateRef, TransitionGroup, inject, createApp, defineAsyncComponent } from "vue";
+import { injectCssToDocument, uid, route, useSystemUri, useHttpClient, simpleAlert as simpleAlert$1, useUnicorn, deleteConfirm, simpleConfirm, sleep, data, selectAll, useCssImport, isDebug, useImport, domready } from "@windwalker-io/unicorn-next";
+import { watch, getCurrentScope, onScopeDispose, customRef, computed, toValue, getCurrentInstance as getCurrentInstance$1, onUpdated, onMounted, unref, effectScope, isRef, toRef as toRef$1, readonly, ref, shallowRef, inject, provide, defineComponent, h as h$1, Teleport, useId as useId$1, onUnmounted, watchEffect, useSlots, createBlock, openBlock, resolveDynamicComponent, normalizeClass, withCtx, createElementBlock, createCommentVNode, renderSlot, createTextVNode, toDisplayString, useAttrs, mergeProps, mergeModels, useTemplateRef, useModel, Fragment, createVNode, nextTick, onBeforeUnmount, Transition, withDirectives, createElementVNode, withModifiers, normalizeProps, guardReactiveProps, vShow, normalizeStyle, renderList, TransitionGroup, createSlots, vModelSelect, vModelText, reactive, vModelRadio, toRefs, resolveComponent, resolveDirective, createApp, defineAsyncComponent } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
-import { Modal, Tooltip } from "bootstrap";
+import { Tooltip } from "bootstrap";
 function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
@@ -207,6 +207,4026 @@ function requireVueSlideBar_min() {
 }
 var vueSlideBar_minExports = requireVueSlideBar_min();
 const VueSlideBar = /* @__PURE__ */ getDefaultExportFromCjs(vueSlideBar_minExports);
+function computedWithControl(source, fn, options = {}) {
+  let v = void 0;
+  let track;
+  let trigger;
+  let dirty = true;
+  const update = () => {
+    dirty = true;
+    trigger();
+  };
+  watch(source, update, { flush: "sync", ...options });
+  const get = typeof fn === "function" ? fn : fn.get;
+  const set = typeof fn === "function" ? void 0 : fn.set;
+  const result = customRef((_track, _trigger) => {
+    track = _track;
+    trigger = _trigger;
+    return {
+      get() {
+        if (dirty) {
+          v = get(v);
+          dirty = false;
+        }
+        track();
+        return v;
+      },
+      set(v2) {
+        set == null ? void 0 : set(v2);
+      }
+    };
+  });
+  result.trigger = update;
+  return result;
+}
+function tryOnScopeDispose$1(fn) {
+  if (getCurrentScope()) {
+    onScopeDispose(fn);
+    return true;
+  }
+  return false;
+}
+const isClient$1 = typeof window !== "undefined" && typeof document !== "undefined";
+typeof WorkerGlobalScope !== "undefined" && globalThis instanceof WorkerGlobalScope;
+const toString$2 = Object.prototype.toString;
+const isObject$3 = (val) => toString$2.call(val) === "[object Object]";
+function toArray$1(value) {
+  return Array.isArray(value) ? value : [value];
+}
+function watchImmediate$1(source, cb, options) {
+  return watch(
+    source,
+    cb,
+    {
+      ...options,
+      immediate: true
+    }
+  );
+}
+const defaultWindow$1 = isClient$1 ? window : void 0;
+function unrefElement$1(elRef) {
+  var _a;
+  const plain = toValue(elRef);
+  return (_a = plain == null ? void 0 : plain.$el) != null ? _a : plain;
+}
+function useEventListener$1(...args) {
+  const cleanups = [];
+  const cleanup = () => {
+    cleanups.forEach((fn) => fn());
+    cleanups.length = 0;
+  };
+  const register = (el, event, listener, options) => {
+    el.addEventListener(event, listener, options);
+    return () => el.removeEventListener(event, listener, options);
+  };
+  const firstParamTargets = computed(() => {
+    const test = toArray$1(toValue(args[0])).filter((e) => e != null);
+    return test.every((e) => typeof e !== "string") ? test : void 0;
+  });
+  const stopWatch = watchImmediate$1(
+    () => {
+      var _a, _b;
+      return [
+        (_b = (_a = firstParamTargets.value) == null ? void 0 : _a.map((e) => unrefElement$1(e))) != null ? _b : [defaultWindow$1].filter((e) => e != null),
+        toArray$1(toValue(firstParamTargets.value ? args[1] : args[0])),
+        toArray$1(unref(firstParamTargets.value ? args[2] : args[1])),
+        // @ts-expect-error - TypeScript gets the correct types, but somehow still complains
+        toValue(firstParamTargets.value ? args[3] : args[2])
+      ];
+    },
+    ([raw_targets, raw_events, raw_listeners, raw_options]) => {
+      cleanup();
+      if (!(raw_targets == null ? void 0 : raw_targets.length) || !(raw_events == null ? void 0 : raw_events.length) || !(raw_listeners == null ? void 0 : raw_listeners.length))
+        return;
+      const optionsClone = isObject$3(raw_options) ? { ...raw_options } : raw_options;
+      cleanups.push(
+        ...raw_targets.flatMap(
+          (el) => raw_events.flatMap(
+            (event) => raw_listeners.map((listener) => register(el, event, listener, optionsClone))
+          )
+        )
+      );
+    },
+    { flush: "post" }
+  );
+  const stop = () => {
+    stopWatch();
+    cleanup();
+  };
+  tryOnScopeDispose$1(cleanup);
+  return stop;
+}
+function useCurrentElement(rootComponent) {
+  const vm = getCurrentInstance$1();
+  const currentElement = computedWithControl(
+    () => null,
+    () => vm.proxy.$el
+  );
+  onUpdated(currentElement.trigger);
+  onMounted(currentElement.trigger);
+  return currentElement;
+}
+const genericBvnPrefix = "BootstrapVueNext__";
+const withBvnPrefix = (value, suffix = "") => {
+  const suffixWithTrail = `${suffix}___`;
+  return `${genericBvnPrefix}ID__${value}__${suffix ? suffixWithTrail : ""}`;
+};
+const createBvnInjectionKey = (name) => withBvnPrefix(name);
+const createBvnRegistryInjectionKey = (name) => withBvnPrefix(`${name}__registry`);
+const collapseInjectionKey = createBvnInjectionKey("collapse");
+const showHideRegistryKey = createBvnRegistryInjectionKey("showHide");
+const navbarInjectionKey = createBvnInjectionKey("navbar");
+const rtlRegistryKey = createBvnRegistryInjectionKey("rtl");
+const breadcrumbGlobalIndexKey = `${genericBvnPrefix}global_breadcrumb`;
+const breadcrumbRegistryKey = createBvnRegistryInjectionKey("breadcrumb");
+const modalManagerKey = createBvnRegistryInjectionKey("modalManager");
+const defaultsKey = createBvnRegistryInjectionKey("defaults");
+const orchestratorRegistryKey = createBvnRegistryInjectionKey("orchestrator");
+function tryOnScopeDispose(fn) {
+  if (getCurrentScope()) {
+    onScopeDispose(fn);
+    return true;
+  }
+  return false;
+}
+// @__NO_SIDE_EFFECTS__
+function createSharedComposable(composable) {
+  let subscribers = 0;
+  let state;
+  let scope;
+  const dispose = () => {
+    subscribers -= 1;
+    if (scope && subscribers <= 0) {
+      scope.stop();
+      state = void 0;
+      scope = void 0;
+    }
+  };
+  return (...args) => {
+    subscribers += 1;
+    if (!scope) {
+      scope = effectScope(true);
+      state = scope.run(() => composable(...args));
+    }
+    tryOnScopeDispose(dispose);
+    return state;
+  };
+}
+const isClient = typeof window !== "undefined" && typeof document !== "undefined";
+typeof WorkerGlobalScope !== "undefined" && globalThis instanceof WorkerGlobalScope;
+const notNullish = (val) => val != null;
+const toString$1 = Object.prototype.toString;
+const isObject$2 = (val) => toString$1.call(val) === "[object Object]";
+const noop$1 = () => {
+};
+const isIOS = /* @__PURE__ */ getIsIOS();
+function getIsIOS() {
+  var _a, _b;
+  return isClient && ((_a = window == null ? void 0 : window.navigator) == null ? void 0 : _a.userAgent) && (/iP(?:ad|hone|od)/.test(window.navigator.userAgent) || ((_b = window == null ? void 0 : window.navigator) == null ? void 0 : _b.maxTouchPoints) > 2 && /iPad|Macintosh/.test(window == null ? void 0 : window.navigator.userAgent));
+}
+function toRef(...args) {
+  if (args.length !== 1)
+    return toRef$1(...args);
+  const r = args[0];
+  return typeof r === "function" ? readonly(customRef(() => ({ get: r, set: noop$1 }))) : ref(r);
+}
+function createFilterWrapper(filter, fn) {
+  function wrapper(...args) {
+    return new Promise((resolve, reject) => {
+      Promise.resolve(filter(() => fn.apply(this, args), { fn, thisArg: this, args })).then(resolve).catch(reject);
+    });
+  }
+  return wrapper;
+}
+function throttleFilter(...args) {
+  let lastExec = 0;
+  let timer;
+  let isLeading = true;
+  let lastRejector = noop$1;
+  let lastValue;
+  let ms;
+  let trailing;
+  let leading;
+  let rejectOnCancel;
+  if (!isRef(args[0]) && typeof args[0] === "object")
+    ({ delay: ms, trailing = true, leading = true, rejectOnCancel = false } = args[0]);
+  else
+    [ms, trailing = true, leading = true, rejectOnCancel = false] = args;
+  const clear = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = void 0;
+      lastRejector();
+      lastRejector = noop$1;
+    }
+  };
+  const filter = (_invoke) => {
+    const duration = toValue(ms);
+    const elapsed = Date.now() - lastExec;
+    const invoke = () => {
+      return lastValue = _invoke();
+    };
+    clear();
+    if (duration <= 0) {
+      lastExec = Date.now();
+      return invoke();
+    }
+    if (elapsed > duration && (leading || !isLeading)) {
+      lastExec = Date.now();
+      invoke();
+    } else if (trailing) {
+      lastValue = new Promise((resolve, reject) => {
+        lastRejector = rejectOnCancel ? reject : resolve;
+        timer = setTimeout(() => {
+          lastExec = Date.now();
+          isLeading = true;
+          resolve(invoke());
+          clear();
+        }, Math.max(0, duration - elapsed));
+      });
+    }
+    if (!leading && !timer)
+      timer = setTimeout(() => isLeading = true, duration);
+    isLeading = false;
+    return lastValue;
+  };
+  return filter;
+}
+function toArray(value) {
+  return Array.isArray(value) ? value : [value];
+}
+// @__NO_SIDE_EFFECTS__
+function useThrottleFn(fn, ms = 200, trailing = false, leading = true, rejectOnCancel = false) {
+  return createFilterWrapper(
+    throttleFilter(ms, trailing, leading, rejectOnCancel),
+    fn
+  );
+}
+function watchImmediate(source, cb, options) {
+  return watch(
+    source,
+    cb,
+    {
+      ...options,
+      immediate: true
+    }
+  );
+}
+const defaultWindow = isClient ? window : void 0;
+function unrefElement(elRef) {
+  var _a;
+  const plain = toValue(elRef);
+  return (_a = plain == null ? void 0 : plain.$el) != null ? _a : plain;
+}
+function useEventListener(...args) {
+  const cleanups = [];
+  const cleanup = () => {
+    cleanups.forEach((fn) => fn());
+    cleanups.length = 0;
+  };
+  const register = (el, event, listener, options) => {
+    el.addEventListener(event, listener, options);
+    return () => el.removeEventListener(event, listener, options);
+  };
+  const firstParamTargets = computed(() => {
+    const test = toArray(toValue(args[0])).filter((e) => e != null);
+    return test.every((e) => typeof e !== "string") ? test : void 0;
+  });
+  const stopWatch = watchImmediate(
+    () => {
+      var _a, _b;
+      return [
+        (_b = (_a = firstParamTargets.value) == null ? void 0 : _a.map((e) => unrefElement(e))) != null ? _b : [defaultWindow].filter((e) => e != null),
+        toArray(toValue(firstParamTargets.value ? args[1] : args[0])),
+        toArray(unref(firstParamTargets.value ? args[2] : args[1])),
+        // @ts-expect-error - TypeScript gets the correct types, but somehow still complains
+        toValue(firstParamTargets.value ? args[3] : args[2])
+      ];
+    },
+    ([raw_targets, raw_events, raw_listeners, raw_options]) => {
+      cleanup();
+      if (!(raw_targets == null ? void 0 : raw_targets.length) || !(raw_events == null ? void 0 : raw_events.length) || !(raw_listeners == null ? void 0 : raw_listeners.length))
+        return;
+      const optionsClone = isObject$2(raw_options) ? { ...raw_options } : raw_options;
+      cleanups.push(
+        ...raw_targets.flatMap(
+          (el) => raw_events.flatMap(
+            (event) => raw_listeners.map((listener) => register(el, event, listener, optionsClone))
+          )
+        )
+      );
+    },
+    { flush: "post" }
+  );
+  const stop = () => {
+    stopWatch();
+    cleanup();
+  };
+  tryOnScopeDispose(cleanup);
+  return stop;
+}
+// @__NO_SIDE_EFFECTS__
+function useMounted() {
+  const isMounted = shallowRef(false);
+  const instance = getCurrentInstance$1();
+  if (instance) {
+    onMounted(() => {
+      isMounted.value = true;
+    }, instance);
+  }
+  return isMounted;
+}
+// @__NO_SIDE_EFFECTS__
+function useSupported(callback) {
+  const isMounted = /* @__PURE__ */ useMounted();
+  return computed(() => {
+    isMounted.value;
+    return Boolean(callback());
+  });
+}
+function useMutationObserver(target, callback, options = {}) {
+  const { window: window2 = defaultWindow, ...mutationOptions } = options;
+  let observer;
+  const isSupported = /* @__PURE__ */ useSupported(() => window2 && "MutationObserver" in window2);
+  const cleanup = () => {
+    if (observer) {
+      observer.disconnect();
+      observer = void 0;
+    }
+  };
+  const targets = computed(() => {
+    const value = toValue(target);
+    const items = toArray(value).map(unrefElement).filter(notNullish);
+    return new Set(items);
+  });
+  const stopWatch = watch(
+    () => targets.value,
+    (targets2) => {
+      cleanup();
+      if (isSupported.value && targets2.size) {
+        observer = new MutationObserver(callback);
+        targets2.forEach((el) => observer.observe(el, mutationOptions));
+      }
+    },
+    { immediate: true, flush: "post" }
+  );
+  const takeRecords = () => {
+    return observer == null ? void 0 : observer.takeRecords();
+  };
+  const stop = () => {
+    stopWatch();
+    cleanup();
+  };
+  tryOnScopeDispose(stop);
+  return {
+    isSupported,
+    stop,
+    takeRecords
+  };
+}
+function createKeyPredicate(keyFilter) {
+  if (typeof keyFilter === "function")
+    return keyFilter;
+  else if (typeof keyFilter === "string")
+    return (event) => event.key === keyFilter;
+  else if (Array.isArray(keyFilter))
+    return (event) => keyFilter.includes(event.key);
+  return () => true;
+}
+function onKeyStroke(...args) {
+  let key;
+  let handler;
+  let options = {};
+  if (args.length === 3) {
+    key = args[0];
+    handler = args[1];
+    options = args[2];
+  } else if (args.length === 2) {
+    if (typeof args[1] === "object") {
+      key = true;
+      handler = args[0];
+      options = args[1];
+    } else {
+      key = args[0];
+      handler = args[1];
+    }
+  } else {
+    key = true;
+    handler = args[0];
+  }
+  const {
+    target = defaultWindow,
+    eventName = "keydown",
+    passive = false,
+    dedupe = false
+  } = options;
+  const predicate = createKeyPredicate(key);
+  const listener = (e) => {
+    if (e.repeat && toValue(dedupe))
+      return;
+    if (predicate(e))
+      handler(e);
+  };
+  return useEventListener(target, eventName, listener, passive);
+}
+const _global = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
+const globalKey = "__vueuse_ssr_handlers__";
+const handlers = /* @__PURE__ */ getHandlers();
+function getHandlers() {
+  if (!(globalKey in _global))
+    _global[globalKey] = _global[globalKey] || {};
+  return _global[globalKey];
+}
+function getSSRHandler(key, fallback) {
+  return handlers[key] || fallback;
+}
+function resolveElement(el) {
+  if (typeof Window !== "undefined" && el instanceof Window)
+    return el.document.documentElement;
+  if (typeof Document !== "undefined" && el instanceof Document)
+    return el.documentElement;
+  return el;
+}
+function checkOverflowScroll(ele) {
+  const style = window.getComputedStyle(ele);
+  if (style.overflowX === "scroll" || style.overflowY === "scroll" || style.overflowX === "auto" && ele.clientWidth < ele.scrollWidth || style.overflowY === "auto" && ele.clientHeight < ele.scrollHeight) {
+    return true;
+  } else {
+    const parent = ele.parentNode;
+    if (!parent || parent.tagName === "BODY")
+      return false;
+    return checkOverflowScroll(parent);
+  }
+}
+function preventDefault(rawEvent) {
+  const e = rawEvent || window.event;
+  const _target = e.target;
+  if (checkOverflowScroll(_target))
+    return false;
+  if (e.touches.length > 1)
+    return true;
+  if (e.preventDefault)
+    e.preventDefault();
+  return false;
+}
+const elInitialOverflow = /* @__PURE__ */ new WeakMap();
+function useScrollLock$1(element, initialState = false) {
+  const isLocked = shallowRef(initialState);
+  let stopTouchMoveListener = null;
+  let initialOverflow = "";
+  watch(toRef(element), (el) => {
+    const target = resolveElement(toValue(el));
+    if (target) {
+      const ele = target;
+      if (!elInitialOverflow.get(ele))
+        elInitialOverflow.set(ele, ele.style.overflow);
+      if (ele.style.overflow !== "hidden")
+        initialOverflow = ele.style.overflow;
+      if (ele.style.overflow === "hidden")
+        return isLocked.value = true;
+      if (isLocked.value)
+        return ele.style.overflow = "hidden";
+    }
+  }, {
+    immediate: true
+  });
+  const lock = () => {
+    const el = resolveElement(toValue(element));
+    if (!el || isLocked.value)
+      return;
+    if (isIOS) {
+      stopTouchMoveListener = useEventListener(
+        el,
+        "touchmove",
+        (e) => {
+          preventDefault(e);
+        },
+        { passive: false }
+      );
+    }
+    el.style.overflow = "hidden";
+    isLocked.value = true;
+  };
+  const unlock = () => {
+    const el = resolveElement(toValue(element));
+    if (!el || !isLocked.value)
+      return;
+    if (isIOS)
+      stopTouchMoveListener == null ? void 0 : stopTouchMoveListener();
+    el.style.overflow = initialOverflow;
+    elInitialOverflow.delete(el);
+    isLocked.value = false;
+  };
+  tryOnScopeDispose(unlock);
+  return computed({
+    get() {
+      return isLocked.value;
+    },
+    set(v) {
+      if (v)
+        lock();
+      else unlock();
+    }
+  });
+}
+const _newOrchestratorRegistry = () => ({
+  store: ref([]),
+  _isOrchestratorInstalled: ref(false),
+  _isToastAppend: ref(false)
+});
+const useOrchestratorRegistry = () => {
+  const orchestratorRegistry = inject(orchestratorRegistryKey, void 0);
+  if (orchestratorRegistry) {
+    return orchestratorRegistry;
+  }
+  const newOrchestratorRegistry = _newOrchestratorRegistry();
+  provide(orchestratorRegistryKey, newOrchestratorRegistry);
+  return newOrchestratorRegistry;
+};
+const componentsWithExternalPath = {
+  BAccordion: "/components/BAccordion",
+  BAccordionItem: "/components/BAccordion",
+  BAlert: "/components/BAlert",
+  BApp: "/components/BApp",
+  BAvatar: "/components/BAvatar",
+  BAvatarGroup: "/components/BAvatar",
+  BBadge: "/components/BBadge",
+  BBreadcrumb: "/components/BBreadcrumb",
+  BBreadcrumbItem: "/components/BBreadcrumb",
+  BButton: "/components/BButton",
+  BButtonGroup: "/components/BButton",
+  BButtonToolbar: "/components/BButton",
+  BCloseButton: "/components/BButton",
+  BCard: "/components/BCard",
+  BCardBody: "/components/BCard",
+  BCardFooter: "/components/BCard",
+  BCardGroup: "/components/BCard",
+  BCardHeader: "/components/BCard",
+  BCardImg: "/components/BCard",
+  BCardSubtitle: "/components/BCard",
+  BCardText: "/components/BCard",
+  BCardTitle: "/components/BCard",
+  BCarousel: "/components/BCarousel",
+  BCarouselSlide: "/components/BCarousel",
+  BCol: "/components/BContainer",
+  BCollapse: "/components/BCollapse",
+  BContainer: "/components/BContainer",
+  BDropdown: "/components/BDropdown",
+  BDropdownDivider: "/components/BDropdown",
+  BDropdownForm: "/components/BDropdown",
+  BDropdownGroup: "/components/BDropdown",
+  BDropdownHeader: "/components/BDropdown",
+  BDropdownItem: "/components/BDropdown",
+  BDropdownItemButton: "/components/BDropdown",
+  BDropdownText: "/components/BDropdown",
+  BForm: "/components/BForm",
+  BFormCheckbox: "/components/BFormCheckbox",
+  BFormCheckboxGroup: "/components/BFormCheckbox",
+  BFormDatalist: "/components/BForm",
+  BFormFile: "/components/BFormFile",
+  BFormFloatingLabel: "/components/BForm",
+  BFormGroup: "/components/BFormGroup",
+  BFormInput: "/components/BFormInput",
+  BFormInvalidFeedback: "/components/BForm",
+  BFormRadio: "/components/BFormRadio",
+  BFormRadioGroup: "/components/BFormRadio",
+  BFormRating: "/components/BFormRating",
+  BFormRow: "/components/BForm",
+  BFormSelect: "/components/BFormSelect",
+  BFormSelectOption: "/components/BFormSelect",
+  BFormSelectOptionGroup: "/components/BFormSelect",
+  BFormSpinbutton: "/components/BFormSpinbutton",
+  BFormTag: "/components/BFormTags",
+  BFormTags: "/components/BFormTags",
+  BFormText: "/components/BForm",
+  BFormTextarea: "/components/BFormTextarea",
+  BFormValidFeedback: "/components/BForm",
+  BImg: "/components/BImg",
+  BInput: "/components/BFormInput",
+  BInputGroup: "/components/BInputGroup",
+  BInputGroupText: "/components/BInputGroup",
+  BListGroup: "/components/BListGroup",
+  BListGroupItem: "/components/BListGroup",
+  BModal: "/components/BModal",
+  BModalOrchestrator: "/components/BModal",
+  BNav: "/components/BNav",
+  BNavForm: "/components/BNav",
+  BNavItem: "/components/BNav",
+  BNavItemDropdown: "/components/BNav",
+  BNavText: "/components/BNav",
+  BNavbar: "/components/BNavbar",
+  BNavbarBrand: "/components/BNavbar",
+  BNavbarNav: "/components/BNavbar",
+  BNavbarToggle: "/components/BNavbar",
+  BOffcanvas: "/components/BOffcanvas",
+  BOverlay: "/components/BOverlay",
+  BOrchestrator: "/components/BApp",
+  BPagination: "/components/BPagination",
+  BPlaceholder: "/components/BPlaceholder",
+  BPlaceholderButton: "/components/BPlaceholder",
+  BPlaceholderCard: "/components/BPlaceholder",
+  BPlaceholderTable: "/components/BPlaceholder",
+  BPlaceholderWrapper: "/components/BPlaceholder",
+  BPopover: "/components/BPopover",
+  BProgress: "/components/BProgress",
+  BRow: "/components/BContainer",
+  BSpinner: "/components/BSpinner",
+  BTab: "/components/BTabs",
+  BTabs: "/components/BTabs",
+  BToast: "/components/BToast",
+  BToastOrchestrator: "/components/BToast",
+  BTooltip: "/components/BTooltip",
+  BLink: "/components/BLink",
+  BProgressBar: "/components/BProgress",
+  BTableSimple: "/components/BTable",
+  BTableLite: "/components/BTable",
+  BTable: "/components/BTable",
+  BTbody: "/components/BTable",
+  BTd: "/components/BTable",
+  BTh: "/components/BTable",
+  BThead: "/components/BTable",
+  BTfoot: "/components/BTable",
+  BTr: "/components/BTable",
+  BPopoverOrchestrator: "/components/BPopover"
+};
+const componentNames = Object.freeze(
+  Object.keys(componentsWithExternalPath)
+);
+const directivesWithExternalPath = {
+  vBColorMode: "/directives/BColorMode",
+  vBModal: "/directives/BModal",
+  vBPopover: "/directives/BPopover",
+  vBScrollspy: "/directives/BScrollspy",
+  vBToggle: "/directives/BToggle",
+  vBTooltip: "/directives/BTooltip"
+};
+const directiveNames = Object.freeze(
+  Object.keys(directivesWithExternalPath)
+);
+const composablesWithExternalPath = {
+  useBreadcrumb: "/composables/useBreadcrumb",
+  useColorMode: "/composables/useColorMode",
+  useModal: "/composables/useModal",
+  useModalController: "/composables/useModal",
+  useScrollspy: "/composables/useScrollspy",
+  useToast: "/composables/useToast",
+  useToastController: "/composables/useToast",
+  useToggle: "/composables/useToggle",
+  usePopover: "/composables/usePopover",
+  usePopoverController: "/composables/usePopover",
+  useRegistry: "/composables/useRegistry",
+  useProvideDefaults: "/composables/useProvideDefaults",
+  useOrchestratorRegistry: "/composables/orchestratorShared"
+};
+Object.freeze(
+  Object.keys(composablesWithExternalPath)
+);
+const _sfc_main$q = defineComponent({
+  name: "ConditionalTeleport",
+  inheritAttrs: false,
+  props: {
+    to: {
+      type: [String, Object],
+      default: null
+    },
+    disabled: {
+      type: Boolean,
+      required: true
+    }
+  },
+  slots: Object,
+  setup(props, { slots }) {
+    return () => !props.to ? slots.default?.({}) : h$1(Teleport, { to: props.to, disabled: props.disabled || !props.to }, [slots.default?.({})]);
+  }
+});
+defineComponent({
+  name: "ConditionalWrapper",
+  inheritAttrs: false,
+  props: {
+    tag: {
+      type: String,
+      default: "div"
+    },
+    skip: {
+      type: Boolean,
+      required: true
+    }
+  },
+  slots: Object,
+  setup(props, { slots, attrs }) {
+    return () => props.skip ? slots.default?.({}) : h$1(props.tag, { ...attrs }, [slots.default?.({})]);
+  }
+});
+/*!
+* tabbable 6.2.0
+* @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
+*/
+var candidateSelectors = ["input:not([inert])", "select:not([inert])", "textarea:not([inert])", "a[href]:not([inert])", "button:not([inert])", "[tabindex]:not(slot):not([inert])", "audio[controls]:not([inert])", "video[controls]:not([inert])", '[contenteditable]:not([contenteditable="false"]):not([inert])', "details>summary:first-of-type:not([inert])", "details:not([inert])"];
+var candidateSelector = /* @__PURE__ */ candidateSelectors.join(",");
+var NoElement = typeof Element === "undefined";
+var matches = NoElement ? function() {
+} : Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+var getRootNode = !NoElement && Element.prototype.getRootNode ? function(element) {
+  var _element$getRootNode;
+  return element === null || element === void 0 ? void 0 : (_element$getRootNode = element.getRootNode) === null || _element$getRootNode === void 0 ? void 0 : _element$getRootNode.call(element);
+} : function(element) {
+  return element === null || element === void 0 ? void 0 : element.ownerDocument;
+};
+var isInert = function isInert2(node, lookUp) {
+  var _node$getAttribute;
+  if (lookUp === void 0) {
+    lookUp = true;
+  }
+  var inertAtt = node === null || node === void 0 ? void 0 : (_node$getAttribute = node.getAttribute) === null || _node$getAttribute === void 0 ? void 0 : _node$getAttribute.call(node, "inert");
+  var inert = inertAtt === "" || inertAtt === "true";
+  var result = inert || lookUp && node && isInert2(node.parentNode);
+  return result;
+};
+var isContentEditable = function isContentEditable2(node) {
+  var _node$getAttribute2;
+  var attValue = node === null || node === void 0 ? void 0 : (_node$getAttribute2 = node.getAttribute) === null || _node$getAttribute2 === void 0 ? void 0 : _node$getAttribute2.call(node, "contenteditable");
+  return attValue === "" || attValue === "true";
+};
+var getCandidates = function getCandidates2(el, includeContainer, filter) {
+  if (isInert(el)) {
+    return [];
+  }
+  var candidates = Array.prototype.slice.apply(el.querySelectorAll(candidateSelector));
+  if (includeContainer && matches.call(el, candidateSelector)) {
+    candidates.unshift(el);
+  }
+  candidates = candidates.filter(filter);
+  return candidates;
+};
+var getCandidatesIteratively = function getCandidatesIteratively2(elements, includeContainer, options) {
+  var candidates = [];
+  var elementsToCheck = Array.from(elements);
+  while (elementsToCheck.length) {
+    var element = elementsToCheck.shift();
+    if (isInert(element, false)) {
+      continue;
+    }
+    if (element.tagName === "SLOT") {
+      var assigned = element.assignedElements();
+      var content = assigned.length ? assigned : element.children;
+      var nestedCandidates = getCandidatesIteratively2(content, true, options);
+      if (options.flatten) {
+        candidates.push.apply(candidates, nestedCandidates);
+      } else {
+        candidates.push({
+          scopeParent: element,
+          candidates: nestedCandidates
+        });
+      }
+    } else {
+      var validCandidate = matches.call(element, candidateSelector);
+      if (validCandidate && options.filter(element) && (includeContainer || !elements.includes(element))) {
+        candidates.push(element);
+      }
+      var shadowRoot = element.shadowRoot || // check for an undisclosed shadow
+      typeof options.getShadowRoot === "function" && options.getShadowRoot(element);
+      var validShadowRoot = !isInert(shadowRoot, false) && (!options.shadowRootFilter || options.shadowRootFilter(element));
+      if (shadowRoot && validShadowRoot) {
+        var _nestedCandidates = getCandidatesIteratively2(shadowRoot === true ? element.children : shadowRoot.children, true, options);
+        if (options.flatten) {
+          candidates.push.apply(candidates, _nestedCandidates);
+        } else {
+          candidates.push({
+            scopeParent: element,
+            candidates: _nestedCandidates
+          });
+        }
+      } else {
+        elementsToCheck.unshift.apply(elementsToCheck, element.children);
+      }
+    }
+  }
+  return candidates;
+};
+var hasTabIndex = function hasTabIndex2(node) {
+  return !isNaN(parseInt(node.getAttribute("tabindex"), 10));
+};
+var getTabIndex = function getTabIndex2(node) {
+  if (!node) {
+    throw new Error("No node provided");
+  }
+  if (node.tabIndex < 0) {
+    if ((/^(AUDIO|VIDEO|DETAILS)$/.test(node.tagName) || isContentEditable(node)) && !hasTabIndex(node)) {
+      return 0;
+    }
+  }
+  return node.tabIndex;
+};
+var getSortOrderTabIndex = function getSortOrderTabIndex2(node, isScope) {
+  var tabIndex = getTabIndex(node);
+  if (tabIndex < 0 && isScope && !hasTabIndex(node)) {
+    return 0;
+  }
+  return tabIndex;
+};
+var sortOrderedTabbables = function sortOrderedTabbables2(a, b) {
+  return a.tabIndex === b.tabIndex ? a.documentOrder - b.documentOrder : a.tabIndex - b.tabIndex;
+};
+var isInput = function isInput2(node) {
+  return node.tagName === "INPUT";
+};
+var isHiddenInput = function isHiddenInput2(node) {
+  return isInput(node) && node.type === "hidden";
+};
+var isDetailsWithSummary = function isDetailsWithSummary2(node) {
+  var r = node.tagName === "DETAILS" && Array.prototype.slice.apply(node.children).some(function(child) {
+    return child.tagName === "SUMMARY";
+  });
+  return r;
+};
+var getCheckedRadio = function getCheckedRadio2(nodes, form) {
+  for (var i = 0; i < nodes.length; i++) {
+    if (nodes[i].checked && nodes[i].form === form) {
+      return nodes[i];
+    }
+  }
+};
+var isTabbableRadio = function isTabbableRadio2(node) {
+  if (!node.name) {
+    return true;
+  }
+  var radioScope = node.form || getRootNode(node);
+  var queryRadios = function queryRadios2(name) {
+    return radioScope.querySelectorAll('input[type="radio"][name="' + name + '"]');
+  };
+  var radioSet;
+  if (typeof window !== "undefined" && typeof window.CSS !== "undefined" && typeof window.CSS.escape === "function") {
+    radioSet = queryRadios(window.CSS.escape(node.name));
+  } else {
+    try {
+      radioSet = queryRadios(node.name);
+    } catch (err) {
+      console.error("Looks like you have a radio button with a name attribute containing invalid CSS selector characters and need the CSS.escape polyfill: %s", err.message);
+      return false;
+    }
+  }
+  var checked = getCheckedRadio(radioSet, node.form);
+  return !checked || checked === node;
+};
+var isRadio = function isRadio2(node) {
+  return isInput(node) && node.type === "radio";
+};
+var isNonTabbableRadio = function isNonTabbableRadio2(node) {
+  return isRadio(node) && !isTabbableRadio(node);
+};
+var isNodeAttached = function isNodeAttached2(node) {
+  var _nodeRoot;
+  var nodeRoot = node && getRootNode(node);
+  var nodeRootHost = (_nodeRoot = nodeRoot) === null || _nodeRoot === void 0 ? void 0 : _nodeRoot.host;
+  var attached = false;
+  if (nodeRoot && nodeRoot !== node) {
+    var _nodeRootHost, _nodeRootHost$ownerDo, _node$ownerDocument;
+    attached = !!((_nodeRootHost = nodeRootHost) !== null && _nodeRootHost !== void 0 && (_nodeRootHost$ownerDo = _nodeRootHost.ownerDocument) !== null && _nodeRootHost$ownerDo !== void 0 && _nodeRootHost$ownerDo.contains(nodeRootHost) || node !== null && node !== void 0 && (_node$ownerDocument = node.ownerDocument) !== null && _node$ownerDocument !== void 0 && _node$ownerDocument.contains(node));
+    while (!attached && nodeRootHost) {
+      var _nodeRoot2, _nodeRootHost2, _nodeRootHost2$ownerD;
+      nodeRoot = getRootNode(nodeRootHost);
+      nodeRootHost = (_nodeRoot2 = nodeRoot) === null || _nodeRoot2 === void 0 ? void 0 : _nodeRoot2.host;
+      attached = !!((_nodeRootHost2 = nodeRootHost) !== null && _nodeRootHost2 !== void 0 && (_nodeRootHost2$ownerD = _nodeRootHost2.ownerDocument) !== null && _nodeRootHost2$ownerD !== void 0 && _nodeRootHost2$ownerD.contains(nodeRootHost));
+    }
+  }
+  return attached;
+};
+var isZeroArea = function isZeroArea2(node) {
+  var _node$getBoundingClie = node.getBoundingClientRect(), width = _node$getBoundingClie.width, height = _node$getBoundingClie.height;
+  return width === 0 && height === 0;
+};
+var isHidden = function isHidden2(node, _ref) {
+  var displayCheck = _ref.displayCheck, getShadowRoot = _ref.getShadowRoot;
+  if (getComputedStyle(node).visibility === "hidden") {
+    return true;
+  }
+  var isDirectSummary = matches.call(node, "details>summary:first-of-type");
+  var nodeUnderDetails = isDirectSummary ? node.parentElement : node;
+  if (matches.call(nodeUnderDetails, "details:not([open]) *")) {
+    return true;
+  }
+  if (!displayCheck || displayCheck === "full" || displayCheck === "legacy-full") {
+    if (typeof getShadowRoot === "function") {
+      var originalNode = node;
+      while (node) {
+        var parentElement = node.parentElement;
+        var rootNode = getRootNode(node);
+        if (parentElement && !parentElement.shadowRoot && getShadowRoot(parentElement) === true) {
+          return isZeroArea(node);
+        } else if (node.assignedSlot) {
+          node = node.assignedSlot;
+        } else if (!parentElement && rootNode !== node.ownerDocument) {
+          node = rootNode.host;
+        } else {
+          node = parentElement;
+        }
+      }
+      node = originalNode;
+    }
+    if (isNodeAttached(node)) {
+      return !node.getClientRects().length;
+    }
+    if (displayCheck !== "legacy-full") {
+      return true;
+    }
+  } else if (displayCheck === "non-zero-area") {
+    return isZeroArea(node);
+  }
+  return false;
+};
+var isDisabledFromFieldset = function isDisabledFromFieldset2(node) {
+  if (/^(INPUT|BUTTON|SELECT|TEXTAREA)$/.test(node.tagName)) {
+    var parentNode = node.parentElement;
+    while (parentNode) {
+      if (parentNode.tagName === "FIELDSET" && parentNode.disabled) {
+        for (var i = 0; i < parentNode.children.length; i++) {
+          var child = parentNode.children.item(i);
+          if (child.tagName === "LEGEND") {
+            return matches.call(parentNode, "fieldset[disabled] *") ? true : !child.contains(node);
+          }
+        }
+        return true;
+      }
+      parentNode = parentNode.parentElement;
+    }
+  }
+  return false;
+};
+var isNodeMatchingSelectorFocusable = function isNodeMatchingSelectorFocusable2(options, node) {
+  if (node.disabled || // we must do an inert look up to filter out any elements inside an inert ancestor
+  //  because we're limited in the type of selectors we can use in JSDom (see related
+  //  note related to `candidateSelectors`)
+  isInert(node) || isHiddenInput(node) || isHidden(node, options) || // For a details element with a summary, the summary element gets the focus
+  isDetailsWithSummary(node) || isDisabledFromFieldset(node)) {
+    return false;
+  }
+  return true;
+};
+var isNodeMatchingSelectorTabbable = function isNodeMatchingSelectorTabbable2(options, node) {
+  if (isNonTabbableRadio(node) || getTabIndex(node) < 0 || !isNodeMatchingSelectorFocusable(options, node)) {
+    return false;
+  }
+  return true;
+};
+var isValidShadowRootTabbable = function isValidShadowRootTabbable2(shadowHostNode) {
+  var tabIndex = parseInt(shadowHostNode.getAttribute("tabindex"), 10);
+  if (isNaN(tabIndex) || tabIndex >= 0) {
+    return true;
+  }
+  return false;
+};
+var sortByOrder = function sortByOrder2(candidates) {
+  var regularTabbables = [];
+  var orderedTabbables = [];
+  candidates.forEach(function(item, i) {
+    var isScope = !!item.scopeParent;
+    var element = isScope ? item.scopeParent : item;
+    var candidateTabindex = getSortOrderTabIndex(element, isScope);
+    var elements = isScope ? sortByOrder2(item.candidates) : element;
+    if (candidateTabindex === 0) {
+      isScope ? regularTabbables.push.apply(regularTabbables, elements) : regularTabbables.push(element);
+    } else {
+      orderedTabbables.push({
+        documentOrder: i,
+        tabIndex: candidateTabindex,
+        item,
+        isScope,
+        content: elements
+      });
+    }
+  });
+  return orderedTabbables.sort(sortOrderedTabbables).reduce(function(acc, sortable) {
+    sortable.isScope ? acc.push.apply(acc, sortable.content) : acc.push(sortable.content);
+    return acc;
+  }, []).concat(regularTabbables);
+};
+var tabbable = function tabbable2(container, options) {
+  options = options || {};
+  var candidates;
+  if (options.getShadowRoot) {
+    candidates = getCandidatesIteratively([container], options.includeContainer, {
+      filter: isNodeMatchingSelectorTabbable.bind(null, options),
+      flatten: false,
+      getShadowRoot: options.getShadowRoot,
+      shadowRootFilter: isValidShadowRootTabbable
+    });
+  } else {
+    candidates = getCandidates(container, options.includeContainer, isNodeMatchingSelectorTabbable.bind(null, options));
+  }
+  return sortByOrder(candidates);
+};
+var focusable = function focusable2(container, options) {
+  options = options || {};
+  var candidates;
+  if (options.getShadowRoot) {
+    candidates = getCandidatesIteratively([container], options.includeContainer, {
+      filter: isNodeMatchingSelectorFocusable.bind(null, options),
+      flatten: true,
+      getShadowRoot: options.getShadowRoot
+    });
+  } else {
+    candidates = getCandidates(container, options.includeContainer, isNodeMatchingSelectorFocusable.bind(null, options));
+  }
+  return candidates;
+};
+var isTabbable = function isTabbable2(node, options) {
+  options = options || {};
+  if (!node) {
+    throw new Error("No node provided");
+  }
+  if (matches.call(node, candidateSelector) === false) {
+    return false;
+  }
+  return isNodeMatchingSelectorTabbable(options, node);
+};
+var focusableCandidateSelector = /* @__PURE__ */ candidateSelectors.concat("iframe").join(",");
+var isFocusable = function isFocusable2(node, options) {
+  options = options || {};
+  if (!node) {
+    throw new Error("No node provided");
+  }
+  if (matches.call(node, focusableCandidateSelector) === false) {
+    return false;
+  }
+  return isNodeMatchingSelectorFocusable(options, node);
+};
+/*!
+* focus-trap 7.6.5
+* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
+*/
+function _arrayLikeToArray(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
+}
+function _arrayWithoutHoles(r) {
+  if (Array.isArray(r)) return _arrayLikeToArray(r);
+}
+function _defineProperty(e, r, t) {
+  return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  }) : e[r] = t, e;
+}
+function _iterableToArray(r) {
+  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r);
+}
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function ownKeys(e, r) {
+  var t = Object.keys(e);
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e);
+    r && (o = o.filter(function(r2) {
+      return Object.getOwnPropertyDescriptor(e, r2).enumerable;
+    })), t.push.apply(t, o);
+  }
+  return t;
+}
+function _objectSpread2(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {};
+    r % 2 ? ownKeys(Object(t), true).forEach(function(r2) {
+      _defineProperty(e, r2, t[r2]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function(r2) {
+      Object.defineProperty(e, r2, Object.getOwnPropertyDescriptor(t, r2));
+    });
+  }
+  return e;
+}
+function _toConsumableArray(r) {
+  return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread();
+}
+function _toPrimitive(t, r) {
+  if ("object" != typeof t || !t) return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r);
+    if ("object" != typeof i) return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r ? String : Number)(t);
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, "string");
+  return "symbol" == typeof i ? i : i + "";
+}
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ("string" == typeof r) return _arrayLikeToArray(r, a);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+  }
+}
+var activeFocusTraps = {
+  activateTrap: function activateTrap(trapStack, trap) {
+    if (trapStack.length > 0) {
+      var activeTrap = trapStack[trapStack.length - 1];
+      if (activeTrap !== trap) {
+        activeTrap._setPausedState(true);
+      }
+    }
+    var trapIndex = trapStack.indexOf(trap);
+    if (trapIndex === -1) {
+      trapStack.push(trap);
+    } else {
+      trapStack.splice(trapIndex, 1);
+      trapStack.push(trap);
+    }
+  },
+  deactivateTrap: function deactivateTrap(trapStack, trap) {
+    var trapIndex = trapStack.indexOf(trap);
+    if (trapIndex !== -1) {
+      trapStack.splice(trapIndex, 1);
+    }
+    if (trapStack.length > 0 && !trapStack[trapStack.length - 1]._isManuallyPaused()) {
+      trapStack[trapStack.length - 1]._setPausedState(false);
+    }
+  }
+};
+var isSelectableInput = function isSelectableInput2(node) {
+  return node.tagName && node.tagName.toLowerCase() === "input" && typeof node.select === "function";
+};
+var isEscapeEvent = function isEscapeEvent2(e) {
+  return (e === null || e === void 0 ? void 0 : e.key) === "Escape" || (e === null || e === void 0 ? void 0 : e.key) === "Esc" || (e === null || e === void 0 ? void 0 : e.keyCode) === 27;
+};
+var isTabEvent = function isTabEvent2(e) {
+  return (e === null || e === void 0 ? void 0 : e.key) === "Tab" || (e === null || e === void 0 ? void 0 : e.keyCode) === 9;
+};
+var isKeyForward = function isKeyForward2(e) {
+  return isTabEvent(e) && !e.shiftKey;
+};
+var isKeyBackward = function isKeyBackward2(e) {
+  return isTabEvent(e) && e.shiftKey;
+};
+var delay = function delay2(fn) {
+  return setTimeout(fn, 0);
+};
+var valueOrHandler = function valueOrHandler2(value) {
+  for (var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    params[_key - 1] = arguments[_key];
+  }
+  return typeof value === "function" ? value.apply(void 0, params) : value;
+};
+var getActualTarget = function getActualTarget2(event) {
+  return event.target.shadowRoot && typeof event.composedPath === "function" ? event.composedPath()[0] : event.target;
+};
+var internalTrapStack = [];
+var createFocusTrap = function createFocusTrap2(elements, userOptions) {
+  var doc = (userOptions === null || userOptions === void 0 ? void 0 : userOptions.document) || document;
+  var trapStack = (userOptions === null || userOptions === void 0 ? void 0 : userOptions.trapStack) || internalTrapStack;
+  var config = _objectSpread2({
+    returnFocusOnDeactivate: true,
+    escapeDeactivates: true,
+    delayInitialFocus: true,
+    isKeyForward,
+    isKeyBackward
+  }, userOptions);
+  var state = {
+    // containers given to createFocusTrap()
+    // @type {Array<HTMLElement>}
+    containers: [],
+    // list of objects identifying tabbable nodes in `containers` in the trap
+    // NOTE: it's possible that a group has no tabbable nodes if nodes get removed while the trap
+    //  is active, but the trap should never get to a state where there isn't at least one group
+    //  with at least one tabbable node in it (that would lead to an error condition that would
+    //  result in an error being thrown)
+    // @type {Array<{
+    //   container: HTMLElement,
+    //   tabbableNodes: Array<HTMLElement>, // empty if none
+    //   focusableNodes: Array<HTMLElement>, // empty if none
+    //   posTabIndexesFound: boolean,
+    //   firstTabbableNode: HTMLElement|undefined,
+    //   lastTabbableNode: HTMLElement|undefined,
+    //   firstDomTabbableNode: HTMLElement|undefined,
+    //   lastDomTabbableNode: HTMLElement|undefined,
+    //   nextTabbableNode: (node: HTMLElement, forward: boolean) => HTMLElement|undefined
+    // }>}
+    containerGroups: [],
+    // same order/length as `containers` list
+    // references to objects in `containerGroups`, but only those that actually have
+    //  tabbable nodes in them
+    // NOTE: same order as `containers` and `containerGroups`, but __not necessarily__
+    //  the same length
+    tabbableGroups: [],
+    nodeFocusedBeforeActivation: null,
+    mostRecentlyFocusedNode: null,
+    active: false,
+    paused: false,
+    manuallyPaused: false,
+    // timer ID for when delayInitialFocus is true and initial focus in this trap
+    //  has been delayed during activation
+    delayInitialFocusTimer: void 0,
+    // the most recent KeyboardEvent for the configured nav key (typically [SHIFT+]TAB), if any
+    recentNavEvent: void 0
+  };
+  var trap;
+  var getOption = function getOption2(configOverrideOptions, optionName, configOptionName) {
+    return configOverrideOptions && configOverrideOptions[optionName] !== void 0 ? configOverrideOptions[optionName] : config[configOptionName || optionName];
+  };
+  var findContainerIndex = function findContainerIndex2(element, event) {
+    var composedPath = typeof (event === null || event === void 0 ? void 0 : event.composedPath) === "function" ? event.composedPath() : void 0;
+    return state.containerGroups.findIndex(function(_ref) {
+      var container = _ref.container, tabbableNodes = _ref.tabbableNodes;
+      return container.contains(element) || // fall back to explicit tabbable search which will take into consideration any
+      //  web components if the `tabbableOptions.getShadowRoot` option was used for
+      //  the trap, enabling shadow DOM support in tabbable (`Node.contains()` doesn't
+      //  look inside web components even if open)
+      (composedPath === null || composedPath === void 0 ? void 0 : composedPath.includes(container)) || tabbableNodes.find(function(node) {
+        return node === element;
+      });
+    });
+  };
+  var getNodeForOption = function getNodeForOption2(optionName) {
+    var _ref2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, _ref2$hasFallback = _ref2.hasFallback, hasFallback = _ref2$hasFallback === void 0 ? false : _ref2$hasFallback, _ref2$params = _ref2.params, params = _ref2$params === void 0 ? [] : _ref2$params;
+    var optionValue = config[optionName];
+    if (typeof optionValue === "function") {
+      optionValue = optionValue.apply(void 0, _toConsumableArray(params));
+    }
+    if (optionValue === true) {
+      optionValue = void 0;
+    }
+    if (!optionValue) {
+      if (optionValue === void 0 || optionValue === false) {
+        return optionValue;
+      }
+      throw new Error("`".concat(optionName, "` was specified but was not a node, or did not return a node"));
+    }
+    var node = optionValue;
+    if (typeof optionValue === "string") {
+      try {
+        node = doc.querySelector(optionValue);
+      } catch (err) {
+        throw new Error("`".concat(optionName, '` appears to be an invalid selector; error="').concat(err.message, '"'));
+      }
+      if (!node) {
+        if (!hasFallback) {
+          throw new Error("`".concat(optionName, "` as selector refers to no known node"));
+        }
+      }
+    }
+    return node;
+  };
+  var getInitialFocusNode = function getInitialFocusNode2() {
+    var node = getNodeForOption("initialFocus", {
+      hasFallback: true
+    });
+    if (node === false) {
+      return false;
+    }
+    if (node === void 0 || node && !isFocusable(node, config.tabbableOptions)) {
+      if (findContainerIndex(doc.activeElement) >= 0) {
+        node = doc.activeElement;
+      } else {
+        var firstTabbableGroup = state.tabbableGroups[0];
+        var firstTabbableNode = firstTabbableGroup && firstTabbableGroup.firstTabbableNode;
+        node = firstTabbableNode || getNodeForOption("fallbackFocus");
+      }
+    } else if (node === null) {
+      node = getNodeForOption("fallbackFocus");
+    }
+    if (!node) {
+      throw new Error("Your focus-trap needs to have at least one focusable element");
+    }
+    return node;
+  };
+  var updateTabbableNodes = function updateTabbableNodes2() {
+    state.containerGroups = state.containers.map(function(container) {
+      var tabbableNodes = tabbable(container, config.tabbableOptions);
+      var focusableNodes = focusable(container, config.tabbableOptions);
+      var firstTabbableNode = tabbableNodes.length > 0 ? tabbableNodes[0] : void 0;
+      var lastTabbableNode = tabbableNodes.length > 0 ? tabbableNodes[tabbableNodes.length - 1] : void 0;
+      var firstDomTabbableNode = focusableNodes.find(function(node) {
+        return isTabbable(node);
+      });
+      var lastDomTabbableNode = focusableNodes.slice().reverse().find(function(node) {
+        return isTabbable(node);
+      });
+      var posTabIndexesFound = !!tabbableNodes.find(function(node) {
+        return getTabIndex(node) > 0;
+      });
+      return {
+        container,
+        tabbableNodes,
+        focusableNodes,
+        /** True if at least one node with positive `tabindex` was found in this container. */
+        posTabIndexesFound,
+        /** First tabbable node in container, __tabindex__ order; `undefined` if none. */
+        firstTabbableNode,
+        /** Last tabbable node in container, __tabindex__ order; `undefined` if none. */
+        lastTabbableNode,
+        // NOTE: DOM order is NOT NECESSARILY "document position" order, but figuring that out
+        //  would require more than just https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition
+        //  because that API doesn't work with Shadow DOM as well as it should (@see
+        //  https://github.com/whatwg/dom/issues/320) and since this first/last is only needed, so far,
+        //  to address an edge case related to positive tabindex support, this seems like a much easier,
+        //  "close enough most of the time" alternative for positive tabindexes which should generally
+        //  be avoided anyway...
+        /** First tabbable node in container, __DOM__ order; `undefined` if none. */
+        firstDomTabbableNode,
+        /** Last tabbable node in container, __DOM__ order; `undefined` if none. */
+        lastDomTabbableNode,
+        /**
+         * Finds the __tabbable__ node that follows the given node in the specified direction,
+         *  in this container, if any.
+         * @param {HTMLElement} node
+         * @param {boolean} [forward] True if going in forward tab order; false if going
+         *  in reverse.
+         * @returns {HTMLElement|undefined} The next tabbable node, if any.
+         */
+        nextTabbableNode: function nextTabbableNode(node) {
+          var forward = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
+          var nodeIdx = tabbableNodes.indexOf(node);
+          if (nodeIdx < 0) {
+            if (forward) {
+              return focusableNodes.slice(focusableNodes.indexOf(node) + 1).find(function(el) {
+                return isTabbable(el);
+              });
+            }
+            return focusableNodes.slice(0, focusableNodes.indexOf(node)).reverse().find(function(el) {
+              return isTabbable(el);
+            });
+          }
+          return tabbableNodes[nodeIdx + (forward ? 1 : -1)];
+        }
+      };
+    });
+    state.tabbableGroups = state.containerGroups.filter(function(group) {
+      return group.tabbableNodes.length > 0;
+    });
+    if (state.tabbableGroups.length <= 0 && !getNodeForOption("fallbackFocus")) {
+      throw new Error("Your focus-trap must have at least one container with at least one tabbable node in it at all times");
+    }
+    if (state.containerGroups.find(function(g) {
+      return g.posTabIndexesFound;
+    }) && state.containerGroups.length > 1) {
+      throw new Error("At least one node with a positive tabindex was found in one of your focus-trap's multiple containers. Positive tabindexes are only supported in single-container focus-traps.");
+    }
+  };
+  var _getActiveElement = function getActiveElement(el) {
+    var activeElement = el.activeElement;
+    if (!activeElement) {
+      return;
+    }
+    if (activeElement.shadowRoot && activeElement.shadowRoot.activeElement !== null) {
+      return _getActiveElement(activeElement.shadowRoot);
+    }
+    return activeElement;
+  };
+  var _tryFocus = function tryFocus(node) {
+    if (node === false) {
+      return;
+    }
+    if (node === _getActiveElement(document)) {
+      return;
+    }
+    if (!node || !node.focus) {
+      _tryFocus(getInitialFocusNode());
+      return;
+    }
+    node.focus({
+      preventScroll: !!config.preventScroll
+    });
+    state.mostRecentlyFocusedNode = node;
+    if (isSelectableInput(node)) {
+      node.select();
+    }
+  };
+  var getReturnFocusNode = function getReturnFocusNode2(previousActiveElement) {
+    var node = getNodeForOption("setReturnFocus", {
+      params: [previousActiveElement]
+    });
+    return node ? node : node === false ? false : previousActiveElement;
+  };
+  var findNextNavNode = function findNextNavNode2(_ref3) {
+    var target = _ref3.target, event = _ref3.event, _ref3$isBackward = _ref3.isBackward, isBackward = _ref3$isBackward === void 0 ? false : _ref3$isBackward;
+    target = target || getActualTarget(event);
+    updateTabbableNodes();
+    var destinationNode = null;
+    if (state.tabbableGroups.length > 0) {
+      var containerIndex = findContainerIndex(target, event);
+      var containerGroup = containerIndex >= 0 ? state.containerGroups[containerIndex] : void 0;
+      if (containerIndex < 0) {
+        if (isBackward) {
+          destinationNode = state.tabbableGroups[state.tabbableGroups.length - 1].lastTabbableNode;
+        } else {
+          destinationNode = state.tabbableGroups[0].firstTabbableNode;
+        }
+      } else if (isBackward) {
+        var startOfGroupIndex = state.tabbableGroups.findIndex(function(_ref4) {
+          var firstTabbableNode = _ref4.firstTabbableNode;
+          return target === firstTabbableNode;
+        });
+        if (startOfGroupIndex < 0 && (containerGroup.container === target || isFocusable(target, config.tabbableOptions) && !isTabbable(target, config.tabbableOptions) && !containerGroup.nextTabbableNode(target, false))) {
+          startOfGroupIndex = containerIndex;
+        }
+        if (startOfGroupIndex >= 0) {
+          var destinationGroupIndex = startOfGroupIndex === 0 ? state.tabbableGroups.length - 1 : startOfGroupIndex - 1;
+          var destinationGroup = state.tabbableGroups[destinationGroupIndex];
+          destinationNode = getTabIndex(target) >= 0 ? destinationGroup.lastTabbableNode : destinationGroup.lastDomTabbableNode;
+        } else if (!isTabEvent(event)) {
+          destinationNode = containerGroup.nextTabbableNode(target, false);
+        }
+      } else {
+        var lastOfGroupIndex = state.tabbableGroups.findIndex(function(_ref5) {
+          var lastTabbableNode = _ref5.lastTabbableNode;
+          return target === lastTabbableNode;
+        });
+        if (lastOfGroupIndex < 0 && (containerGroup.container === target || isFocusable(target, config.tabbableOptions) && !isTabbable(target, config.tabbableOptions) && !containerGroup.nextTabbableNode(target))) {
+          lastOfGroupIndex = containerIndex;
+        }
+        if (lastOfGroupIndex >= 0) {
+          var _destinationGroupIndex = lastOfGroupIndex === state.tabbableGroups.length - 1 ? 0 : lastOfGroupIndex + 1;
+          var _destinationGroup = state.tabbableGroups[_destinationGroupIndex];
+          destinationNode = getTabIndex(target) >= 0 ? _destinationGroup.firstTabbableNode : _destinationGroup.firstDomTabbableNode;
+        } else if (!isTabEvent(event)) {
+          destinationNode = containerGroup.nextTabbableNode(target);
+        }
+      }
+    } else {
+      destinationNode = getNodeForOption("fallbackFocus");
+    }
+    return destinationNode;
+  };
+  var checkPointerDown = function checkPointerDown2(e) {
+    var target = getActualTarget(e);
+    if (findContainerIndex(target, e) >= 0) {
+      return;
+    }
+    if (valueOrHandler(config.clickOutsideDeactivates, e)) {
+      trap.deactivate({
+        // NOTE: by setting `returnFocus: false`, deactivate() will do nothing,
+        //  which will result in the outside click setting focus to the node
+        //  that was clicked (and if not focusable, to "nothing"); by setting
+        //  `returnFocus: true`, we'll attempt to re-focus the node originally-focused
+        //  on activation (or the configured `setReturnFocus` node), whether the
+        //  outside click was on a focusable node or not
+        returnFocus: config.returnFocusOnDeactivate
+      });
+      return;
+    }
+    if (valueOrHandler(config.allowOutsideClick, e)) {
+      return;
+    }
+    e.preventDefault();
+  };
+  var checkFocusIn = function checkFocusIn2(event) {
+    var target = getActualTarget(event);
+    var targetContained = findContainerIndex(target, event) >= 0;
+    if (targetContained || target instanceof Document) {
+      if (targetContained) {
+        state.mostRecentlyFocusedNode = target;
+      }
+    } else {
+      event.stopImmediatePropagation();
+      var nextNode;
+      var navAcrossContainers = true;
+      if (state.mostRecentlyFocusedNode) {
+        if (getTabIndex(state.mostRecentlyFocusedNode) > 0) {
+          var mruContainerIdx = findContainerIndex(state.mostRecentlyFocusedNode);
+          var tabbableNodes = state.containerGroups[mruContainerIdx].tabbableNodes;
+          if (tabbableNodes.length > 0) {
+            var mruTabIdx = tabbableNodes.findIndex(function(node) {
+              return node === state.mostRecentlyFocusedNode;
+            });
+            if (mruTabIdx >= 0) {
+              if (config.isKeyForward(state.recentNavEvent)) {
+                if (mruTabIdx + 1 < tabbableNodes.length) {
+                  nextNode = tabbableNodes[mruTabIdx + 1];
+                  navAcrossContainers = false;
+                }
+              } else {
+                if (mruTabIdx - 1 >= 0) {
+                  nextNode = tabbableNodes[mruTabIdx - 1];
+                  navAcrossContainers = false;
+                }
+              }
+            }
+          }
+        } else {
+          if (!state.containerGroups.some(function(g) {
+            return g.tabbableNodes.some(function(n) {
+              return getTabIndex(n) > 0;
+            });
+          })) {
+            navAcrossContainers = false;
+          }
+        }
+      } else {
+        navAcrossContainers = false;
+      }
+      if (navAcrossContainers) {
+        nextNode = findNextNavNode({
+          // move FROM the MRU node, not event-related node (which will be the node that is
+          //  outside the trap causing the focus escape we're trying to fix)
+          target: state.mostRecentlyFocusedNode,
+          isBackward: config.isKeyBackward(state.recentNavEvent)
+        });
+      }
+      if (nextNode) {
+        _tryFocus(nextNode);
+      } else {
+        _tryFocus(state.mostRecentlyFocusedNode || getInitialFocusNode());
+      }
+    }
+    state.recentNavEvent = void 0;
+  };
+  var checkKeyNav = function checkKeyNav2(event) {
+    var isBackward = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : false;
+    state.recentNavEvent = event;
+    var destinationNode = findNextNavNode({
+      event,
+      isBackward
+    });
+    if (destinationNode) {
+      if (isTabEvent(event)) {
+        event.preventDefault();
+      }
+      _tryFocus(destinationNode);
+    }
+  };
+  var checkTabKey = function checkTabKey2(event) {
+    if (config.isKeyForward(event) || config.isKeyBackward(event)) {
+      checkKeyNav(event, config.isKeyBackward(event));
+    }
+  };
+  var checkEscapeKey = function checkEscapeKey2(event) {
+    if (isEscapeEvent(event) && valueOrHandler(config.escapeDeactivates, event) !== false) {
+      event.preventDefault();
+      trap.deactivate();
+    }
+  };
+  var checkClick = function checkClick2(e) {
+    var target = getActualTarget(e);
+    if (findContainerIndex(target, e) >= 0) {
+      return;
+    }
+    if (valueOrHandler(config.clickOutsideDeactivates, e)) {
+      return;
+    }
+    if (valueOrHandler(config.allowOutsideClick, e)) {
+      return;
+    }
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  };
+  var addListeners = function addListeners2() {
+    if (!state.active) {
+      return;
+    }
+    activeFocusTraps.activateTrap(trapStack, trap);
+    state.delayInitialFocusTimer = config.delayInitialFocus ? delay(function() {
+      _tryFocus(getInitialFocusNode());
+    }) : _tryFocus(getInitialFocusNode());
+    doc.addEventListener("focusin", checkFocusIn, true);
+    doc.addEventListener("mousedown", checkPointerDown, {
+      capture: true,
+      passive: false
+    });
+    doc.addEventListener("touchstart", checkPointerDown, {
+      capture: true,
+      passive: false
+    });
+    doc.addEventListener("click", checkClick, {
+      capture: true,
+      passive: false
+    });
+    doc.addEventListener("keydown", checkTabKey, {
+      capture: true,
+      passive: false
+    });
+    doc.addEventListener("keydown", checkEscapeKey);
+    return trap;
+  };
+  var removeListeners = function removeListeners2() {
+    if (!state.active) {
+      return;
+    }
+    doc.removeEventListener("focusin", checkFocusIn, true);
+    doc.removeEventListener("mousedown", checkPointerDown, true);
+    doc.removeEventListener("touchstart", checkPointerDown, true);
+    doc.removeEventListener("click", checkClick, true);
+    doc.removeEventListener("keydown", checkTabKey, true);
+    doc.removeEventListener("keydown", checkEscapeKey);
+    return trap;
+  };
+  var checkDomRemoval = function checkDomRemoval2(mutations) {
+    var isFocusedNodeRemoved = mutations.some(function(mutation) {
+      var removedNodes = Array.from(mutation.removedNodes);
+      return removedNodes.some(function(node) {
+        return node === state.mostRecentlyFocusedNode;
+      });
+    });
+    if (isFocusedNodeRemoved) {
+      _tryFocus(getInitialFocusNode());
+    }
+  };
+  var mutationObserver = typeof window !== "undefined" && "MutationObserver" in window ? new MutationObserver(checkDomRemoval) : void 0;
+  var updateObservedNodes = function updateObservedNodes2() {
+    if (!mutationObserver) {
+      return;
+    }
+    mutationObserver.disconnect();
+    if (state.active && !state.paused) {
+      state.containers.map(function(container) {
+        mutationObserver.observe(container, {
+          subtree: true,
+          childList: true
+        });
+      });
+    }
+  };
+  trap = {
+    get active() {
+      return state.active;
+    },
+    get paused() {
+      return state.paused;
+    },
+    activate: function activate(activateOptions) {
+      if (state.active) {
+        return this;
+      }
+      var onActivate = getOption(activateOptions, "onActivate");
+      var onPostActivate = getOption(activateOptions, "onPostActivate");
+      var checkCanFocusTrap = getOption(activateOptions, "checkCanFocusTrap");
+      if (!checkCanFocusTrap) {
+        updateTabbableNodes();
+      }
+      state.active = true;
+      state.paused = false;
+      state.nodeFocusedBeforeActivation = _getActiveElement(doc);
+      onActivate === null || onActivate === void 0 || onActivate();
+      var finishActivation = function finishActivation2() {
+        if (checkCanFocusTrap) {
+          updateTabbableNodes();
+        }
+        addListeners();
+        updateObservedNodes();
+        onPostActivate === null || onPostActivate === void 0 || onPostActivate();
+      };
+      if (checkCanFocusTrap) {
+        checkCanFocusTrap(state.containers.concat()).then(finishActivation, finishActivation);
+        return this;
+      }
+      finishActivation();
+      return this;
+    },
+    deactivate: function deactivate(deactivateOptions) {
+      if (!state.active) {
+        return this;
+      }
+      var options = _objectSpread2({
+        onDeactivate: config.onDeactivate,
+        onPostDeactivate: config.onPostDeactivate,
+        checkCanReturnFocus: config.checkCanReturnFocus
+      }, deactivateOptions);
+      clearTimeout(state.delayInitialFocusTimer);
+      state.delayInitialFocusTimer = void 0;
+      removeListeners();
+      state.active = false;
+      state.paused = false;
+      updateObservedNodes();
+      activeFocusTraps.deactivateTrap(trapStack, trap);
+      var onDeactivate = getOption(options, "onDeactivate");
+      var onPostDeactivate = getOption(options, "onPostDeactivate");
+      var checkCanReturnFocus = getOption(options, "checkCanReturnFocus");
+      var returnFocus = getOption(options, "returnFocus", "returnFocusOnDeactivate");
+      onDeactivate === null || onDeactivate === void 0 || onDeactivate();
+      var finishDeactivation = function finishDeactivation2() {
+        delay(function() {
+          if (returnFocus) {
+            _tryFocus(getReturnFocusNode(state.nodeFocusedBeforeActivation));
+          }
+          onPostDeactivate === null || onPostDeactivate === void 0 || onPostDeactivate();
+        });
+      };
+      if (returnFocus && checkCanReturnFocus) {
+        checkCanReturnFocus(getReturnFocusNode(state.nodeFocusedBeforeActivation)).then(finishDeactivation, finishDeactivation);
+        return this;
+      }
+      finishDeactivation();
+      return this;
+    },
+    pause: function pause(pauseOptions) {
+      if (!state.active) {
+        return this;
+      }
+      state.manuallyPaused = true;
+      return this._setPausedState(true, pauseOptions);
+    },
+    unpause: function unpause(unpauseOptions) {
+      if (!state.active) {
+        return this;
+      }
+      state.manuallyPaused = false;
+      if (trapStack[trapStack.length - 1] !== this) {
+        return this;
+      }
+      return this._setPausedState(false, unpauseOptions);
+    },
+    updateContainerElements: function updateContainerElements(containerElements) {
+      var elementsAsArray = [].concat(containerElements).filter(Boolean);
+      state.containers = elementsAsArray.map(function(element) {
+        return typeof element === "string" ? doc.querySelector(element) : element;
+      });
+      if (state.active) {
+        updateTabbableNodes();
+      }
+      updateObservedNodes();
+      return this;
+    }
+  };
+  Object.defineProperties(trap, {
+    _isManuallyPaused: {
+      value: function value() {
+        return state.manuallyPaused;
+      }
+    },
+    _setPausedState: {
+      value: function value(paused, options) {
+        if (state.paused === paused) {
+          return this;
+        }
+        state.paused = paused;
+        if (paused) {
+          var onPause = getOption(options, "onPause");
+          var onPostPause = getOption(options, "onPostPause");
+          onPause === null || onPause === void 0 || onPause();
+          removeListeners();
+          updateObservedNodes();
+          onPostPause === null || onPostPause === void 0 || onPostPause();
+        } else {
+          var onUnpause = getOption(options, "onUnpause");
+          var onPostUnpause = getOption(options, "onPostUnpause");
+          onUnpause === null || onUnpause === void 0 || onUnpause();
+          updateTabbableNodes();
+          addListeners();
+          updateObservedNodes();
+          onPostUnpause === null || onPostUnpause === void 0 || onPostUnpause();
+        }
+        return this;
+      }
+    }
+  });
+  trap.updateContainerElements(elements);
+  return trap;
+};
+function useFocusTrap(target, options = {}) {
+  let trap;
+  const { immediate, ...focusTrapOptions } = options;
+  const hasFocus = shallowRef(false);
+  const isPaused = shallowRef(false);
+  const activate = (opts) => trap && trap.activate(opts);
+  const deactivate = (opts) => trap && trap.deactivate(opts);
+  const pause = () => {
+    if (trap) {
+      trap.pause();
+      isPaused.value = true;
+    }
+  };
+  const unpause = () => {
+    if (trap) {
+      trap.unpause();
+      isPaused.value = false;
+    }
+  };
+  const targets = computed(() => {
+    const _targets = toValue(target);
+    return toArray(_targets).map((el) => {
+      const _el = toValue(el);
+      return typeof _el === "string" ? _el : unrefElement(_el);
+    }).filter(notNullish);
+  });
+  watch(
+    targets,
+    (els) => {
+      if (!els.length)
+        return;
+      if (!trap) {
+        trap = createFocusTrap(els, {
+          ...focusTrapOptions,
+          onActivate() {
+            hasFocus.value = true;
+            if (options.onActivate)
+              options.onActivate();
+          },
+          onDeactivate() {
+            hasFocus.value = false;
+            if (options.onDeactivate)
+              options.onDeactivate();
+          }
+        });
+        if (immediate)
+          activate();
+      } else {
+        const isActive = trap == null ? void 0 : trap.active;
+        trap == null ? void 0 : trap.updateContainerElements(els);
+        if (!isActive && immediate) {
+          activate();
+        }
+      }
+    },
+    { flush: "post" }
+  );
+  tryOnScopeDispose(() => deactivate());
+  return {
+    hasFocus,
+    isPaused,
+    activate,
+    deactivate,
+    pause,
+    unpause
+  };
+}
+const useActivatedFocusTrap = ({
+  element,
+  isActive,
+  noTrap,
+  fallbackFocus,
+  focus
+}, focusTrapOpts = {
+  allowOutsideClick: true,
+  fallbackFocus: fallbackFocus.ref.value ?? void 0,
+  escapeDeactivates: false,
+  clickOutsideDeactivates: false,
+  initialFocus: focus
+}) => {
+  const resolvedIsActive = readonly(toRef$1(isActive));
+  const resolvedNoTrap = readonly(toRef$1(noTrap));
+  const checkNeedsFallback = () => {
+    const tabbableElements = element.value?.querySelectorAll(
+      `a, button, input, select, textarea, [tabindex]:not([tabindex="-1"]):not(.${fallbackFocus.classSelector})`
+    );
+    return !tabbableElements?.length;
+  };
+  const needsFallback = ref(false);
+  onMounted(() => {
+    needsFallback.value = checkNeedsFallback();
+    useMutationObserver(
+      element,
+      () => {
+        needsFallback.value = checkNeedsFallback();
+      },
+      { childList: true, subtree: true }
+    );
+  });
+  const trap = useFocusTrap(element, focusTrapOpts);
+  watch(resolvedIsActive, async (newValue) => {
+    if (newValue && resolvedNoTrap.value === false) {
+      trap.activate();
+    } else {
+      trap.deactivate();
+    }
+  });
+  watch(resolvedNoTrap, (newValue) => {
+    if (newValue === true) {
+      trap.deactivate();
+    }
+  });
+  return {
+    needsFallback: readonly(needsFallback)
+  };
+};
+const useScrollLock = /* @__PURE__ */ createSharedComposable(useScrollLock$1);
+let prevousRightPadding = "";
+const lockRegistry = /* @__PURE__ */ new Map();
+const useSafeScrollLock = (isOpen, bodyScroll) => {
+  const resolvedIsOpen = readonly(toRef$1(isOpen));
+  const id = useId$1();
+  const inverseBodyScrollingValue = computed(() => !toValue(bodyScroll));
+  const isLocked = useScrollLock(
+    typeof document !== "undefined" ? document.body : null,
+    resolvedIsOpen.value && inverseBodyScrollingValue.value
+  );
+  onMounted(() => {
+    if (typeof document === "undefined") return;
+    lockRegistry.set(id, false);
+    watch(
+      [resolvedIsOpen, inverseBodyScrollingValue],
+      ([modelVal, bodyVal]) => {
+        const scrollBarGap = window.innerWidth - document.documentElement.clientWidth;
+        const hasLocked = Array.from(lockRegistry.values()).some((val) => val === true);
+        const myLocked = modelVal && bodyVal;
+        lockRegistry.set(id, myLocked);
+        if (myLocked && !hasLocked && !isLocked.value) {
+          isLocked.value = true;
+          if (scrollBarGap > 0) {
+            prevousRightPadding = document.body.style.paddingRight;
+            document.body.style.paddingRight = `${scrollBarGap + prevousRightPadding}px`;
+          }
+        }
+        const hasLockedAfter = Array.from(lockRegistry.values()).some((val) => val === true);
+        if (hasLocked && !hasLockedAfter) {
+          lockRegistry.set(id, false);
+          isLocked.value = false;
+          document.body.style.paddingRight = prevousRightPadding;
+        }
+      },
+      { immediate: true }
+    );
+  });
+  onUnmounted(() => {
+    lockRegistry.delete(id);
+    const hasLockedAfter = Array.from(lockRegistry.values()).some((val) => val === true);
+    if (!hasLockedAfter) {
+      document.body.style.paddingRight = prevousRightPadding;
+      isLocked.value = false;
+    }
+  });
+};
+const isEmptySlot = (el) => (el?.() ?? []).length === 0;
+const getModalZIndex = (element) => {
+  if (typeof window === "undefined") return 1055;
+  const target = element ?? document.body;
+  const raw = window.getComputedStyle(target).getPropertyValue("--bs-modal-zindex").trim();
+  const parsed = Number.parseInt(raw, 10);
+  return Number.isFinite(parsed) ? parsed : 1055;
+};
+function injectSelf(key, vm = getCurrentInstance("injectSelf")) {
+  const { provides } = vm;
+  if (provides && key in provides) {
+    return provides[key];
+  }
+  return void 0;
+}
+function getCurrentInstance(name, message) {
+  const vm = getCurrentInstance$1();
+  if (!vm) {
+    throw new Error(`[Bvn] ${name} ${"must be called from inside a setup function"}`);
+  }
+  return vm;
+}
+const toKebabCase = (str = "") => str.replace(/[^a-z]/gi, "-").replace(/\B([A-Z])/g, "-$1").toLowerCase();
+const isObject$1 = (obj) => obj !== null && typeof obj === "object" && !Array.isArray(obj);
+function mergeDeep(source = {}, target = {}, arrayFn) {
+  const out = {};
+  for (const key in source) {
+    out[key] = source[key];
+  }
+  for (const key in target) {
+    const sourceProperty = source[key];
+    const targetProperty = target[key];
+    if (isObject$1(sourceProperty) && isObject$1(targetProperty)) {
+      out[key] = mergeDeep(sourceProperty, targetProperty);
+      continue;
+    }
+    out[key] = targetProperty;
+  }
+  return out;
+}
+const propIsDefined = (vnode, prop) => typeof vnode.props?.[prop] !== "undefined" || typeof vnode.props?.[toKebabCase(prop)] !== "undefined";
+function internalUseDefaults(props = {}, name) {
+  const defaults = inject(defaultsKey, ref({}));
+  const vm = getCurrentInstance("useDefaults");
+  name = name ?? vm.type.name ?? vm.type.__name;
+  if (!name) {
+    throw new Error("[Bvn] Could not determine component name");
+  }
+  const componentDefaults = computed(() => defaults.value?.[props._as ?? name]);
+  const _props = new Proxy(props, {
+    get(target, prop) {
+      const propValue = Reflect.get(target, prop);
+      if (prop === "class" || prop === "style") {
+        return [componentDefaults.value?.[prop], propValue].filter((v) => v != null);
+      } else if (typeof prop === "string" && !propIsDefined(vm.vnode, prop)) {
+        return componentDefaults.value?.[prop] ?? defaults.value?.global?.[prop] ?? propValue;
+      }
+      return propValue;
+    }
+  });
+  const _subcomponentDefaults = shallowRef();
+  watchEffect(() => {
+    if (componentDefaults.value) {
+      const subComponents = Object.entries(componentDefaults.value).filter(
+        ([key]) => key.startsWith(key[0].toUpperCase())
+      );
+      _subcomponentDefaults.value = subComponents.length ? Object.fromEntries(subComponents) : void 0;
+    } else {
+      _subcomponentDefaults.value = void 0;
+    }
+  });
+  function provideSubDefaults() {
+    const injected = injectSelf(defaultsKey, vm);
+    provide(
+      defaultsKey,
+      computed(
+        () => _subcomponentDefaults.value ? mergeDeep(injected?.value ?? {}, _subcomponentDefaults.value) : injected?.value
+      )
+    );
+  }
+  return { props: _props, provideSubDefaults };
+}
+function useDefaults(props, name) {
+  const { props: _props, provideSubDefaults } = internalUseDefaults(props, name);
+  provideSubDefaults();
+  return _props;
+}
+const useColorVariantClasses = (obj) => computed(() => {
+  let props = toValue(obj);
+  props = {
+    variant: props.variant ?? null,
+    bgVariant: props.bgVariant ?? null,
+    textVariant: props.textVariant ?? null,
+    borderVariant: props.borderVariant ?? null
+  };
+  return {
+    [`text-bg-${props.variant}`]: props.variant !== null,
+    [`text-${props.textVariant}`]: props.textVariant !== null,
+    [`bg-${props.bgVariant}`]: props.bgVariant !== null,
+    [`border-${props.borderVariant}`]: props.borderVariant !== null
+  };
+});
+const _hoisted_1$l = {
+  key: 0,
+  class: "visually-hidden"
+};
+const _sfc_main$p = /* @__PURE__ */ defineComponent({
+  __name: "BSpinner",
+  props: {
+    label: { default: void 0 },
+    role: { default: "status" },
+    small: { type: Boolean, default: false },
+    tag: { default: "span" },
+    type: { default: "border" },
+    variant: { default: null }
+  },
+  setup(__props) {
+    const _props = __props;
+    const props = useDefaults(_props, "BSpinner");
+    const slots = useSlots();
+    const colorClasses = useColorVariantClasses(
+      computed(() => ({
+        textVariant: props.variant
+      }))
+    );
+    const computedClasses = computed(() => [
+      `spinner-${props.type}`,
+      colorClasses.value,
+      {
+        [`spinner-${props.type}-sm`]: props.small
+      }
+    ]);
+    const hasLabelSlot = computed(() => !isEmptySlot(slots.label));
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(resolveDynamicComponent(unref(props).tag), {
+        class: normalizeClass(computedClasses.value),
+        role: unref(props).label || hasLabelSlot.value ? unref(props).role : null,
+        "aria-hidden": unref(props).label || hasLabelSlot.value ? null : true
+      }, {
+        default: withCtx(() => [
+          unref(props).label || hasLabelSlot.value ? (openBlock(), createElementBlock("span", _hoisted_1$l, [
+            renderSlot(_ctx.$slots, "label", {}, () => [
+              createTextVNode(toDisplayString(unref(props).label), 1)
+            ])
+          ])) : createCommentVNode("", true)
+        ]),
+        _: 3
+      }, 8, ["class", "role", "aria-hidden"]);
+    };
+  }
+});
+const pick = (objToPluck, keysToPluck) => [...keysToPluck].reduce(
+  (memo, prop) => {
+    memo[prop] = objToPluck[prop];
+    return memo;
+  },
+  {}
+);
+const toPascalCase = (str) => str.replace(/-./g, (match) => match.charAt(1).toUpperCase()).replace(/\b\w/g, (match) => match.toUpperCase()).replace(/\s+/g, "");
+const isLink = (props) => !!(props.href || props.to);
+const useBLinkHelper = (props, pickProps) => {
+  const pickPropsResolved = readonly(toRef$1(pickProps));
+  const resolvedProps = readonly(toRef$1(props));
+  const computedLink = computed(() => isLink(resolvedProps.value));
+  const computedLinkProps = computed(
+    () => computedLink.value ? pick(
+      resolvedProps.value,
+      pickPropsResolved.value ?? [
+        "active",
+        "activeClass",
+        "append",
+        "exactActiveClass",
+        "href",
+        "rel",
+        "replace",
+        "routerComponentName",
+        "target",
+        "to",
+        "variant",
+        "opacity",
+        "opacityHover",
+        "underlineVariant",
+        "underlineOffset",
+        "underlineOffsetHover",
+        "underlineOpacity",
+        "underlineOpacityHover"
+      ]
+    ) : {}
+  );
+  return { computedLink, computedLinkProps };
+};
+const useBLinkTagResolver = ({
+  to,
+  disabled,
+  href,
+  replace,
+  routerComponentName
+}) => {
+  const instance = getCurrentInstance$1();
+  const router = instance?.appContext?.app?.config?.globalProperties?.$router;
+  const route2 = instance?.appContext?.app?.config?.globalProperties?.$route;
+  const RouterLinkComponent = resolveDynamicComponent("RouterLink");
+  const useLink = !!RouterLinkComponent && typeof RouterLinkComponent !== "string" && "useLink" in RouterLinkComponent ? RouterLinkComponent.useLink : null;
+  const resolvedTo = computed(() => toValue(to) || "");
+  const resolvedReplace = readonly(toRef$1(replace));
+  const routerName = computed(() => toPascalCase(toValue(routerComponentName)));
+  const tag = computed(() => {
+    const hasRouter = instance?.appContext?.app?.component(routerName.value) !== void 0;
+    if (!hasRouter || toValue(disabled) || !resolvedTo.value) {
+      return "a";
+    }
+    return routerName.value;
+  });
+  const isRouterLink = computed(() => tag.value === "RouterLink");
+  const isNuxtLink = computed(
+    // @ts-expect-error we're doing an explicit check for Nuxt, so we can safely ignore this
+    () => isRouterLink.value && typeof instance?.appContext?.app?.$nuxt !== "undefined"
+  );
+  const isNonStandardTag = computed(
+    () => tag.value !== "a" && !isRouterLink.value && !isNuxtLink.value
+  );
+  const isOfRouterType = computed(() => isRouterLink.value || isNuxtLink.value);
+  const linkProps = computed(() => ({
+    to: resolvedTo.value,
+    replace: resolvedReplace.value
+  }));
+  const _link = useLink?.({
+    to: resolvedTo,
+    replace: resolvedReplace
+  });
+  const link = computed(() => isOfRouterType.value ? _link : null);
+  const computedHref = computed(() => {
+    if (link.value?.href.value) return link.value.href.value;
+    const toFallback = "#";
+    const resolvedHref = toValue(href);
+    if (resolvedHref) return resolvedHref;
+    if (typeof resolvedTo.value === "string") return resolvedTo.value || toFallback;
+    const stableTo = resolvedTo.value;
+    if (stableTo !== void 0 && "path" in stableTo) {
+      const path = stableTo.path || "";
+      const query = stableTo.query ? `?${Object.keys(stableTo.query).map((e) => `${e}=${stableTo.query?.[e]}`).join("=")}` : "";
+      const hash = !stableTo.hash || stableTo.hash.charAt(0) === "#" ? stableTo.hash || "" : `#${stableTo.hash}`;
+      return `${path}${query}${hash}` || toFallback;
+    }
+    return toFallback;
+  });
+  return {
+    isNonStandardTag,
+    tag,
+    isRouterLink,
+    isNuxtLink,
+    computedHref,
+    routerName,
+    router,
+    route: route2,
+    link,
+    linkProps
+  };
+};
+const useLinkClasses = (linkProps) => computed(() => {
+  const props = toValue(linkProps);
+  return {
+    [`link-${props.variant}`]: props.variant !== null,
+    [`link-opacity-${props.opacity}`]: props.opacity !== void 0,
+    [`link-opacity-${props.opacityHover}-hover`]: props.opacityHover !== void 0,
+    [`link-underline-${props.underlineVariant}`]: props.underlineVariant !== null,
+    [`link-offset-${props.underlineOffset}`]: props.underlineOffset !== void 0,
+    [`link-offset-${props.underlineOffsetHover}-hover`]: props.underlineOffsetHover !== void 0,
+    ["link-underline"]: props.underlineVariant === null && (props.underlineOpacity !== void 0 || props.underlineOpacityHover !== void 0),
+    [`link-underline-opacity-${props.underlineOpacity}`]: props.underlineOpacity !== void 0,
+    [`link-underline-opacity-${props.underlineOpacityHover}-hover`]: props.underlineOpacityHover !== void 0,
+    "icon-link": props.icon === true
+  };
+});
+const defaultActiveClass = "active";
+const _sfc_main$o = /* @__PURE__ */ defineComponent({
+  __name: "BLink",
+  props: {
+    active: { type: Boolean, default: void 0 },
+    activeClass: { default: "router-link-active" },
+    disabled: { type: Boolean, default: false },
+    exactActiveClass: { default: "router-link-exact-active" },
+    href: { default: void 0 },
+    icon: { type: Boolean, default: false },
+    noRel: { type: Boolean, default: false },
+    opacity: { default: void 0 },
+    opacityHover: { default: void 0 },
+    prefetch: { type: Boolean, default: void 0 },
+    prefetchOn: { default: void 0 },
+    noPrefetch: { type: Boolean, default: void 0 },
+    prefetchedClass: { default: void 0 },
+    rel: { default: void 0 },
+    replace: { type: Boolean, default: false },
+    routerComponentName: { default: "router-link" },
+    routerTag: { default: "a" },
+    stretched: { type: Boolean, default: false },
+    target: { default: void 0 },
+    to: { default: void 0 },
+    underlineOffset: { default: void 0 },
+    underlineOffsetHover: { default: void 0 },
+    underlineOpacity: { default: void 0 },
+    underlineOpacityHover: { default: void 0 },
+    underlineVariant: { default: null },
+    variant: { default: null }
+  },
+  emits: ["click"],
+  setup(__props, { emit: __emit }) {
+    const _props = __props;
+    const props = useDefaults(_props, "BLink");
+    const emit2 = __emit;
+    const attrs = useAttrs();
+    const { computedHref, tag, link, isNuxtLink, isRouterLink, linkProps, isNonStandardTag } = useBLinkTagResolver({
+      routerComponentName: () => props.routerComponentName,
+      disabled: () => props.disabled,
+      to: () => props.to,
+      replace: () => props.replace,
+      href: () => props.href
+    });
+    const collapseData = inject(collapseInjectionKey, null);
+    const navbarData = inject(navbarInjectionKey, null);
+    const linkValueClasses = useLinkClasses(props);
+    const computedClasses = computed(() => [
+      linkValueClasses.value,
+      attrs.class,
+      computedLinkClasses.value,
+      {
+        [defaultActiveClass]: props.active,
+        [props.activeClass]: link.value?.isActive.value || false,
+        [props.exactActiveClass]: link.value?.isExactActive.value || false,
+        "stretched-link": props.stretched === true
+      }
+    ]);
+    const computedLinkClasses = computed(() => ({
+      [defaultActiveClass]: props.active,
+      disabled: props.disabled
+    }));
+    const clicked = (e) => {
+      if (props.disabled) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return;
+      }
+      if (collapseData?.isNav?.value === true && navbarData === null || navbarData !== null && navbarData.noAutoClose?.value !== true) {
+        collapseData?.hide?.();
+      }
+      emit2("click", e);
+    };
+    const computedRel = computed(
+      () => props.target === "_blank" ? !props.rel && props.noRel ? "noopener" : props.rel : void 0
+    );
+    const computedTabIndex = computed(
+      () => props.disabled ? "-1" : typeof attrs.tabindex === "undefined" ? null : attrs.tabindex
+    );
+    const nuxtSpecificProps = computed(() => ({
+      prefetch: props.prefetch,
+      noPrefetch: props.noPrefetch,
+      prefetchOn: props.prefetchOn,
+      prefetchedClass: props.prefetchedClass,
+      ...linkProps.value
+    }));
+    const computedSpecificProps = computed(() => ({
+      ...isRouterLink.value ? linkProps.value : void 0,
+      // In addition to being Nuxt specific, we add these values if it's some non-standard tag. We don't know what it is,
+      // So we just add it anyways. It will be made as an attr if it's unused so it's fine
+      ...isNuxtLink.value || isNonStandardTag.value ? nuxtSpecificProps.value : void 0
+    }));
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(resolveDynamicComponent(unref(tag)), mergeProps({
+        class: computedClasses.value,
+        target: unref(props).target,
+        href: unref(computedHref),
+        rel: computedRel.value,
+        tabindex: computedTabIndex.value,
+        "aria-disabled": unref(props).disabled ? true : null
+      }, computedSpecificProps.value, {
+        onClick: _cache[0] || (_cache[0] = (e) => {
+          clicked(e);
+          unref(link)?.navigate(e);
+        })
+      }), {
+        default: withCtx(() => [
+          renderSlot(_ctx.$slots, "default")
+        ]),
+        _: 3
+      }, 16, ["class", "target", "href", "rel", "tabindex", "aria-disabled"]);
+    };
+  }
+});
+const _sfc_main$n = /* @__PURE__ */ defineComponent({
+  __name: "BButton",
+  props: /* @__PURE__ */ mergeModels({
+    loading: { type: Boolean, default: false },
+    loadingFill: { type: Boolean, default: false },
+    loadingText: { default: "Loading..." },
+    pill: { type: Boolean, default: false },
+    size: { default: "md" },
+    squared: { type: Boolean, default: false },
+    tag: { default: "button" },
+    type: { default: "button" },
+    variant: { default: "secondary" },
+    active: { type: Boolean, default: false },
+    activeClass: { default: void 0 },
+    disabled: { type: Boolean, default: void 0 },
+    exactActiveClass: { default: void 0 },
+    href: { default: void 0 },
+    icon: { type: Boolean, default: false },
+    noRel: { type: Boolean },
+    opacity: { default: void 0 },
+    opacityHover: { default: void 0 },
+    prefetch: { type: Boolean },
+    prefetchOn: {},
+    noPrefetch: { type: Boolean },
+    prefetchedClass: {},
+    rel: { default: void 0 },
+    replace: { type: Boolean, default: void 0 },
+    routerComponentName: { default: void 0 },
+    routerTag: { default: void 0 },
+    stretched: { type: Boolean, default: false },
+    target: { default: void 0 },
+    to: { default: void 0 },
+    underlineOffset: { default: void 0 },
+    underlineOffsetHover: { default: void 0 },
+    underlineOpacity: { default: void 0 },
+    underlineOpacityHover: { default: void 0 },
+    underlineVariant: { default: null }
+  }, {
+    "pressed": { type: Boolean, ...{ default: void 0 } },
+    "pressedModifiers": {}
+  }),
+  emits: /* @__PURE__ */ mergeModels(["click"], ["update:pressed"]),
+  setup(__props, { emit: __emit }) {
+    const _props = __props;
+    const props = useDefaults(_props, "BButton");
+    const emit2 = __emit;
+    const element = useTemplateRef("_element");
+    const pressedValue = useModel(__props, "pressed");
+    const { computedLink, computedLinkProps } = useBLinkHelper(props, [
+      "active-class",
+      "exact-active-class",
+      "replace",
+      "routerComponentName",
+      "routerTag"
+    ]);
+    const isToggle = computed(() => typeof pressedValue.value === "boolean");
+    const isButton = computed(
+      () => props.tag === "button" && props.href === void 0 && props.to === void 0
+    );
+    const isBLink = computed(() => props.to !== void 0);
+    const nonStandardTag = computed(() => props.href !== void 0 ? false : !isButton.value);
+    const linkProps = computed(() => isBLink.value ? computedLinkProps.value : []);
+    const computedAriaDisabled = computed(() => {
+      if (props.href === "#" && props.disabled) return true;
+      return nonStandardTag.value ? props.disabled : null;
+    });
+    const variantIsLinkType = computed(() => props.variant?.startsWith("link") || false);
+    const variantIsLinkTypeSubset = computed(() => props.variant?.startsWith("link-") || false);
+    const linkValueClasses = useLinkClasses(
+      computed(() => ({
+        ...variantIsLinkType.value ? {
+          icon: props.icon,
+          opacity: props.opacity,
+          opacityHover: props.opacityHover,
+          underlineOffset: props.underlineOffset,
+          underlineOffsetHover: props.underlineOffsetHover,
+          underlineOpacity: props.underlineOpacity,
+          underlineOpacityHover: props.underlineOpacityHover,
+          underlineVariant: props.underlineVariant,
+          variant: variantIsLinkTypeSubset.value === true ? props.variant?.slice(5) : null
+        } : void 0
+      }))
+    );
+    const computedClasses = computed(() => [
+      variantIsLinkType.value === true && computedLink.value === false ? linkValueClasses.value : void 0,
+      [`btn-${props.size}`],
+      {
+        [`btn-${props.variant}`]: props.variant !== null && variantIsLinkTypeSubset.value === false,
+        "active": props.active || pressedValue.value,
+        "rounded-pill": props.pill,
+        "rounded-0": props.squared,
+        "disabled": props.disabled
+      }
+    ]);
+    const computedTag = computed(() => isBLink.value ? _sfc_main$o : props.href ? "a" : props.tag);
+    const clicked = (e) => {
+      if (props.disabled) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      emit2("click", e);
+      if (isToggle.value) pressedValue.value = !pressedValue.value;
+    };
+    onKeyStroke(
+      [" ", "enter"],
+      (e) => {
+        if (props.href === "#") {
+          e.preventDefault();
+          element.value?.click();
+        }
+      },
+      { target: element }
+    );
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(resolveDynamicComponent(computedTag.value), mergeProps({
+        ref: "_element",
+        class: "btn"
+      }, linkProps.value, {
+        class: computedClasses.value,
+        "aria-disabled": computedAriaDisabled.value,
+        "aria-pressed": isToggle.value ? pressedValue.value : null,
+        autocomplete: isToggle.value ? "off" : null,
+        disabled: isButton.value ? unref(props).disabled : null,
+        href: unref(props).href,
+        rel: unref(computedLink) ? unref(props).rel : null,
+        role: nonStandardTag.value || unref(computedLink) ? "button" : null,
+        target: unref(computedLink) ? unref(props).target : null,
+        type: isButton.value ? unref(props).type : null,
+        to: !isButton.value ? unref(props).to : null,
+        onClick: clicked
+      }), {
+        default: withCtx(() => [
+          unref(props).loading ? renderSlot(_ctx.$slots, "loading", { key: 0 }, () => [
+            !unref(props).loadingFill ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+              createTextVNode(toDisplayString(unref(props).loadingText), 1)
+            ], 64)) : createCommentVNode("", true),
+            renderSlot(_ctx.$slots, "loading-spinner", {}, () => [
+              createVNode(_sfc_main$p, {
+                small: unref(props).size !== "lg",
+                label: unref(props).loadingFill ? unref(props).loadingText : void 0
+              }, null, 8, ["small", "label"])
+            ])
+          ]) : renderSlot(_ctx.$slots, "default", { key: 1 })
+        ]),
+        _: 3
+      }, 16, ["class", "aria-disabled", "aria-pressed", "autocomplete", "disabled", "href", "rel", "role", "target", "type", "to"]);
+    };
+  }
+});
+const _hoisted_1$k = ["type", "disabled", "aria-label"];
+const _sfc_main$m = /* @__PURE__ */ defineComponent({
+  __name: "BCloseButton",
+  props: {
+    ariaLabel: { default: "Close" },
+    disabled: { type: Boolean, default: false },
+    type: { default: "button" }
+  },
+  emits: ["click"],
+  setup(__props, { emit: __emit }) {
+    const _props = __props;
+    const props = useDefaults(_props, "BCloseButton");
+    const emit2 = __emit;
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("button", {
+        type: unref(props).type,
+        class: "btn-close",
+        disabled: unref(props).disabled,
+        "aria-label": unref(props).ariaLabel,
+        onClick: _cache[0] || (_cache[0] = ($event) => emit2("click", $event))
+      }, null, 8, _hoisted_1$k);
+    };
+  }
+});
+const useId = (id, suffix) => {
+  const genId = useId$1();
+  return computed(() => toValue(id) || withBvnPrefix(genId || "", suffix));
+};
+class BvEvent {
+  cancelable = true;
+  componentId = null;
+  _defaultPrevented = false;
+  eventType = "";
+  nativeEvent = null;
+  _preventDefault;
+  relatedTarget = null;
+  target = null;
+  // Readable by everyone,
+  // But only overwritten by inherrited constructors
+  get defaultPrevented() {
+    return this._defaultPrevented;
+  }
+  set defaultPrevented(prop) {
+    this._defaultPrevented = prop;
+  }
+  // I think this is right
+  // We want to be able to have it callable to everyone,
+  // But only overwritten by inherrited constructors
+  get preventDefault() {
+    return this._preventDefault;
+  }
+  // This may not be correct, because it doesn't get correct type inferences in children
+  // Ex overwrite this.preventDefault = () => true is valid. Could be a TS issue
+  set preventDefault(setter) {
+    this._preventDefault = setter;
+  }
+  constructor(eventType, eventInit = {}) {
+    if (!eventType) {
+      throw new TypeError(
+        `Failed to construct '${this.constructor.name}'. 1 argument required, ${arguments.length} given.`
+      );
+    }
+    Object.assign(this, BvEvent.Defaults, eventInit, { eventType });
+    this._preventDefault = function _preventDefault() {
+      if (this.cancelable) {
+        this.defaultPrevented = true;
+      }
+    };
+  }
+  static get Defaults() {
+    return {
+      cancelable: true,
+      componentId: null,
+      eventType: "",
+      nativeEvent: null,
+      relatedTarget: null,
+      target: null
+    };
+  }
+}
+class BvTriggerableEvent extends BvEvent {
+  trigger = null;
+  ok = void 0;
+  constructor(eventType, eventInit = {}) {
+    super(eventType, eventInit);
+    Object.assign(this, BvEvent.Defaults, eventInit, { eventType });
+  }
+  static get Defaults() {
+    return {
+      ...super.Defaults,
+      trigger: null,
+      ok: void 0
+    };
+  }
+}
+const fadeBaseTransitionProps = {
+  name: "fade",
+  enterActiveClass: "",
+  enterFromClass: "showing",
+  enterToClass: "",
+  leaveActiveClass: "",
+  leaveFromClass: "",
+  leaveToClass: "showing",
+  css: true
+};
+const useShowHide = (modelValue, props, emit2, element, computedId, options = {
+  transitionProps: {},
+  showFn: () => {
+  },
+  hideFn: () => {
+  }
+}) => {
+  let noAction = false;
+  const initialShow = !!modelValue.value && !props.initialAnimation || props.visible || false;
+  const showRef = ref(initialShow);
+  const renderRef = ref(initialShow);
+  const renderBackdropRef = ref(initialShow);
+  let isCountdown = typeof modelValue.value !== "boolean";
+  watch(modelValue, () => {
+    isCountdown = typeof modelValue.value !== "boolean";
+    if (noAction) {
+      noAction = false;
+      return;
+    }
+    if (modelValue.value) {
+      show();
+    } else {
+      hide("modelValue", true);
+    }
+  });
+  const localNoAnimation = ref(initialShow);
+  const localTemporaryHide = ref(false);
+  const computedNoAnimation = computed(
+    () => props.noAnimation || props.noFade || localNoAnimation.value || false
+  );
+  let isMounted = false;
+  onMounted(() => {
+    isMounted = true;
+    if (!props.show && initialShow) {
+      const event = buildTriggerableEvent("show", { cancelable: true });
+      emit2("show", event);
+      if (event.defaultPrevented) {
+        emit2("show-prevented", buildTriggerableEvent("show-prevented"));
+        return;
+      }
+      localNoAnimation.value = true;
+      if (!modelValue.value) {
+        noAction = true;
+        modelValue.value = true;
+      }
+      renderRef.value = true;
+      renderBackdropRef.value = true;
+      isVisible.value = true;
+      backdropVisible.value = true;
+      backdropReady.value = true;
+      showRef.value = true;
+      options.showFn?.();
+    } else if (props.show || !!modelValue.value && props.initialAnimation) {
+      show();
+    }
+  });
+  watch(
+    () => props.visible,
+    (newval) => {
+      localNoAnimation.value = true;
+      nextTick(() => {
+        if (newval) isVisible.value = true;
+        if (newval) {
+          show();
+        } else {
+          hide("visible-prop", true);
+        }
+      });
+    }
+  );
+  watch(
+    () => props.show,
+    (newval) => {
+      if (newval) {
+        show();
+      } else {
+        hide("show-prop", true);
+      }
+    }
+  );
+  useEventListener(element, "bv-toggle", () => {
+    modelValue.value = !modelValue.value;
+  });
+  const buildTriggerableEvent = (type, opts = {}) => new BvTriggerableEvent(type, {
+    cancelable: false,
+    target: element?.value || null,
+    relatedTarget: null,
+    trigger: null,
+    ...opts,
+    componentId: computedId?.value
+  });
+  let showTimeout;
+  let hideTimeout;
+  let _Resolve;
+  let _Promise;
+  let _resolveOnHide;
+  const show = (resolveOnHide = false) => {
+    if (showRef.value && !hideTimeout && !_Promise) return Promise.resolve(true);
+    _resolveOnHide = resolveOnHide;
+    if (showRef.value && !hideTimeout && _Promise) return _Promise;
+    _Promise = new Promise((resolve) => {
+      _Resolve = resolve;
+    });
+    const event = buildTriggerableEvent("show", { cancelable: true });
+    emit2("show", event);
+    if (event.defaultPrevented) {
+      emit2("show-prevented", buildTriggerableEvent("show-prevented"));
+      if (isVisible.value) {
+        isVisible.value = false;
+      }
+      if (modelValue.value && !isCountdown) {
+        noAction = true;
+        nextTick(() => {
+          modelValue.value = false;
+        });
+      }
+      _Resolve?.("show-prevented");
+      return _Promise;
+    }
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      hideTimeout = void 0;
+    }
+    renderRef.value = true;
+    renderBackdropRef.value = true;
+    requestAnimationFrame(() => {
+      if (localNoAnimation.value || props.delay === void 0) {
+        if (!isMounted) return;
+        showTimeout = void 0;
+        showRef.value = true;
+        options.showFn?.();
+        if (!modelValue.value) {
+          noAction = true;
+          nextTick(() => {
+            modelValue.value = true;
+          });
+        }
+        return;
+      }
+      showTimeout = setTimeout(
+        () => {
+          if (!isMounted) return;
+          showTimeout = void 0;
+          showRef.value = true;
+          options.showFn?.();
+          if (!modelValue.value) {
+            noAction = true;
+            nextTick(() => {
+              modelValue.value = true;
+            });
+          }
+        },
+        typeof props.delay === "number" ? props.delay : props.delay?.show || 0
+      );
+    });
+    return _Promise;
+  };
+  let leaveTrigger;
+  const hide = (trigger, noTriggerEmit) => {
+    if (!showRef.value && !showTimeout) return Promise.resolve("");
+    if (!_Promise)
+      _Promise = new Promise((resolve) => {
+        _Resolve = resolve;
+      });
+    if (typeof trigger !== "string") trigger = void 0;
+    leaveTrigger = trigger;
+    const event = buildTriggerableEvent("hide", { cancelable: true, trigger });
+    const event2 = buildTriggerableEvent(trigger || "ignore", { cancelable: true, trigger });
+    if (trigger === "backdrop" && props.noCloseOnBackdrop || trigger === "esc" && props.noCloseOnEsc) {
+      emit2("hide-prevented", buildTriggerableEvent("hide-prevented", { trigger }));
+      _Resolve?.("hide-prevented");
+      return _Promise;
+    }
+    if (showTimeout) {
+      clearTimeout(showTimeout);
+      showTimeout = void 0;
+    }
+    if (trigger && !noTriggerEmit) {
+      emit2(trigger, event2);
+    }
+    emit2("hide", event);
+    if (event.defaultPrevented || event2.defaultPrevented) {
+      emit2("hide-prevented", buildTriggerableEvent("hide-prevented", { trigger }));
+      if (!modelValue.value) {
+        nextTick(() => {
+          noAction = true;
+          modelValue.value = true;
+        });
+      }
+      _Resolve?.("hide-prevented");
+      return _Promise;
+    }
+    trapActive.value = false;
+    if (showTimeout) {
+      clearTimeout(showTimeout);
+      showTimeout = void 0;
+      if (!localTemporaryHide.value) renderRef.value = false;
+      renderBackdropRef.value = false;
+    }
+    hideTimeout = setTimeout(
+      () => {
+        if (!isMounted) return;
+        hideTimeout = void 0;
+        isLeaving.value = true;
+        showRef.value = false;
+        options.hideFn?.();
+        if (modelValue.value) {
+          noAction = true;
+          modelValue.value = isCountdown ? 0 : false;
+        }
+      },
+      localNoAnimation.value ? 0 : typeof props.delay === "number" ? props.delay : props.delay?.hide || 0
+    );
+    return _Promise;
+  };
+  const throttleHide = /* @__PURE__ */ useThrottleFn((a) => hide(a), 500);
+  const throttleShow = /* @__PURE__ */ useThrottleFn(() => show(), 500);
+  const toggle = (resolveOnHide = false) => {
+    const e = buildTriggerableEvent("toggle", { cancelable: true });
+    emit2("toggle", e);
+    if (e.defaultPrevented) {
+      emit2("toggle-prevented", buildTriggerableEvent("toggle-prevented"));
+      return Promise.resolve("toggle-prevented");
+    }
+    if (showRef.value) {
+      return hide("toggle-function", true);
+    }
+    return show(resolveOnHide);
+  };
+  const triggerToggle = () => {
+    const e = buildTriggerableEvent("toggle", { cancelable: true });
+    emit2("toggle", e);
+    if (e.defaultPrevented) {
+      emit2("toggle-prevented", buildTriggerableEvent("toggle-prevented"));
+      return;
+    }
+    if (showRef.value) {
+      hide("toggle-trigger", true);
+    } else {
+      show();
+    }
+  };
+  const triggerRegistry = [];
+  const registerTrigger = (trigger, el) => {
+    triggerRegistry.push({ trigger, el });
+    el.addEventListener(trigger, triggerToggle);
+    checkVisibility(el);
+  };
+  const unregisterTrigger = (trigger, el, clean = true) => {
+    const idx = triggerRegistry.findIndex((t) => t?.trigger === trigger && t.el === el);
+    if (idx > -1) {
+      triggerRegistry.splice(idx, 1);
+      el.removeEventListener(trigger, triggerToggle);
+      if (clean) {
+        el.removeAttribute("aria-expanded");
+        el.classList.remove("collapsed");
+        el.classList.remove("not-collapsed");
+      }
+    }
+  };
+  const appRegistry = inject(showHideRegistryKey, void 0)?.register({
+    id: computedId.value,
+    toggle,
+    show,
+    hide,
+    value: readonly(showRef),
+    registerTrigger,
+    unregisterTrigger,
+    component: getCurrentInstance$1()
+  });
+  const checkVisibility = (el) => {
+    el.setAttribute("aria-expanded", modelValue.value ? "true" : "false");
+    el.classList.toggle("collapsed", !modelValue.value);
+    el.classList.toggle("not-collapsed", !!modelValue.value);
+  };
+  watch(modelValue, () => {
+    triggerRegistry.forEach((t) => {
+      checkVisibility(t.el);
+    });
+  });
+  watch(computedId, (newId, oldId) => {
+    appRegistry?.updateId(newId, oldId);
+  });
+  onBeforeUnmount(() => {
+    appRegistry?.unregister();
+    triggerRegistry.forEach((t) => {
+      t.el.removeEventListener(t.trigger, triggerToggle);
+    });
+  });
+  onUnmounted(() => {
+    isMounted = false;
+    clearTimeout(showTimeout);
+    clearTimeout(hideTimeout);
+    showTimeout = void 0;
+    hideTimeout = void 0;
+  });
+  const lazyLoadCompleted = ref(false);
+  const markLazyLoadCompleted = () => {
+    if (props.lazy === true) lazyLoadCompleted.value = true;
+  };
+  const isLeaving = ref(false);
+  const isActive = ref(initialShow);
+  const isVisible = ref(initialShow);
+  const onBeforeEnter = (el) => {
+    options.transitionProps?.onBeforeEnter?.(el);
+    props.transitionProps?.onBeforeEnter?.(el);
+    isActive.value = true;
+  };
+  const onEnter = (el) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        isVisible.value = true;
+      });
+    });
+    options.transitionProps?.onEnter?.(el);
+    props.transitionProps?.onEnter?.(el);
+  };
+  const onAfterEnter = (el) => {
+    markLazyLoadCompleted();
+    options.transitionProps?.onAfterEnter?.(el);
+    props.transitionProps?.onAfterEnter?.(el);
+    if (localNoAnimation.value) {
+      requestAnimationFrame(() => {
+        localNoAnimation.value = false;
+      });
+    }
+    if (localTemporaryHide.value) {
+      localTemporaryHide.value = false;
+    }
+    requestAnimationFrame(() => {
+      trapActive.value = true;
+      nextTick(() => {
+        emit2("shown", buildTriggerableEvent("shown", { cancelable: false }));
+      });
+    });
+    if (!_resolveOnHide) {
+      _Resolve?.(true);
+      _Promise = void 0;
+      _Resolve = void 0;
+    }
+  };
+  const onBeforeLeave = (el) => {
+    if (!isLeaving.value) isLeaving.value = true;
+    options.transitionProps?.onBeforeLeave?.(el);
+    props.transitionProps?.onBeforeLeave?.(el);
+    trapActive.value = false;
+  };
+  const onLeave = (el) => {
+    isVisible.value = false;
+    options.transitionProps?.onLeave?.(el);
+    props.transitionProps?.onLeave?.(el);
+  };
+  const onAfterLeave = (el) => {
+    emit2("hidden", buildTriggerableEvent("hidden", { trigger: leaveTrigger, cancelable: false }));
+    options.transitionProps?.onAfterLeave?.(el);
+    props.transitionProps?.onAfterLeave?.(el);
+    isLeaving.value = false;
+    isActive.value = false;
+    if (localNoAnimation.value) {
+      requestAnimationFrame(() => {
+        localNoAnimation.value = false;
+      });
+    }
+    requestAnimationFrame(() => {
+      if (!localTemporaryHide.value) renderRef.value = false;
+    });
+    _Resolve?.(leaveTrigger || "");
+    _Promise = void 0;
+    _Resolve = void 0;
+    leaveTrigger = void 0;
+  };
+  const contentShowing = computed(
+    () => localTemporaryHide.value === true || isActive.value === true || props.lazy === false || props.lazy === true && lazyLoadCompleted.value === true && props.unmountLazy === false
+  );
+  const trapActive = ref(false);
+  const backdropVisible = ref(false);
+  const backdropReady = ref(false);
+  const transitionFunctions = {
+    ...options.transitionProps,
+    onBeforeEnter,
+    onEnter,
+    onAfterEnter,
+    onBeforeLeave,
+    onLeave,
+    onAfterLeave
+  };
+  return {
+    showRef,
+    renderRef,
+    renderBackdropRef,
+    isVisible,
+    isActive,
+    trapActive,
+    show,
+    hide,
+    toggle,
+    throttleHide,
+    throttleShow,
+    buildTriggerableEvent,
+    computedNoAnimation,
+    localNoAnimation,
+    localTemporaryHide,
+    isLeaving,
+    transitionProps: {
+      ...fadeBaseTransitionProps,
+      ...props.transitionProps,
+      ...transitionFunctions
+    },
+    lazyLoadCompleted,
+    markLazyLoadCompleted,
+    contentShowing,
+    backdropReady,
+    backdropVisible,
+    backdropTransitionProps: {
+      ...fadeBaseTransitionProps,
+      onBeforeEnter: () => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            backdropVisible.value = true;
+          });
+        });
+        backdropReady.value = false;
+      },
+      onAfterEnter: () => {
+        backdropReady.value = true;
+      },
+      onBeforeLeave: () => {
+        backdropVisible.value = false;
+      },
+      onAfterLeave: () => {
+        backdropReady.value = false;
+        requestAnimationFrame(() => {
+          renderBackdropRef.value = false;
+        });
+      }
+    }
+  };
+};
+const getElement = (element, root2 = typeof document !== "undefined" ? document : void 0) => {
+  if (!element) return void 0;
+  if (typeof element === "string") {
+    if (typeof root2 === "undefined" || typeof document === "undefined") return void 0;
+    const idElement = document.getElementById(element);
+    return idElement ?? root2.querySelector(element) ?? void 0;
+  }
+  return element.$el ?? element;
+};
+Object.freeze(
+  Object.keys({
+    bordered: 0,
+    borderless: 0,
+    borderVariant: 0,
+    captionTop: 0,
+    dark: 0,
+    fixed: 0,
+    hover: 0,
+    id: 0,
+    noBorderCollapse: 0,
+    outlined: 0,
+    responsive: 0,
+    small: 0,
+    stacked: 0,
+    stickyHeader: 0,
+    striped: 0,
+    stripedColumns: 0,
+    variant: 0,
+    tableAttrs: 0,
+    tableClass: 0
+  })
+);
+Object.freeze(
+  Object.keys({
+    align: 0,
+    caption: 0,
+    detailsTdClass: 0,
+    fieldColumnClass: 0,
+    fields: 0,
+    footClone: 0,
+    footRowVariant: 0,
+    footVariant: 0,
+    headRowVariant: 0,
+    headVariant: 0,
+    items: 0,
+    labelStacked: 0,
+    modelValue: 0,
+    primaryKey: 0,
+    tbodyClass: 0,
+    tbodyTrAttrs: 0,
+    tbodyTrClass: 0,
+    tfootClass: 0,
+    tfootTrClass: 0,
+    theadClass: 0,
+    theadTrClass: 0
+  })
+);
+const modalOpenClassName = "modal-open";
+const useSharedModalStack = () => {
+  const modalManagerPlugin = inject(modalManagerKey);
+  const dispose = (modal) => {
+    modalManagerPlugin?.removeStack(modal);
+    modalManagerPlugin?.removeRegistry(modal);
+  };
+  const updateHTMLAttrs = getSSRHandler("updateHTMLAttrs", (selector, attribute, value) => {
+    const el = typeof selector === "string" ? window?.document.querySelector(selector) : unrefElement(selector);
+    if (!el) return;
+    if (attribute === "class") {
+      el.classList.toggle(modalOpenClassName, value === modalOpenClassName);
+    } else {
+      el.setAttribute(attribute, value);
+    }
+  });
+  tryOnScopeDispose(() => {
+    if (modalManagerPlugin?.countStack.value === 0) {
+      updateHTMLAttrs("body", "class", "");
+    }
+  });
+  watch(
+    () => modalManagerPlugin?.countStack.value,
+    (newValue) => {
+      if (newValue === void 0) return;
+      updateHTMLAttrs("body", "class", newValue > 0 ? modalOpenClassName : "");
+    }
+  );
+  return {
+    ...modalManagerPlugin,
+    dispose
+  };
+};
+const useModalManager = (modalOpen, initialValue) => {
+  const { pushRegistry, pushStack, removeStack, stack, dispose, countStack } = useSharedModalStack();
+  const currentModal = getCurrentInstance$1();
+  if (!currentModal || currentModal.type.__name !== "BModal") {
+    throw new Error("useModalManager must only use in BModal component");
+  }
+  pushRegistry?.(currentModal);
+  tryOnScopeDispose(() => {
+    dispose(currentModal);
+  });
+  const setInStack = (newValue, oldValue) => {
+    if (newValue) {
+      pushStack?.(currentModal);
+    } else if (oldValue && !newValue) {
+      removeStack?.(currentModal);
+    }
+  };
+  setInStack(initialValue, initialValue);
+  watch(modalOpen, setInStack);
+  return {
+    activePosition: computed(
+      () => stack?.value.findIndex((el) => toValue(el.exposed?.id) === toValue(currentModal.exposed?.id))
+    ),
+    activeModalCount: countStack,
+    stackWithoutSelf: computed(
+      () => stack?.value.filter(
+        (el) => toValue(el.exposed?.id) !== toValue(currentModal.exposed?.id)
+      ) ?? []
+    )
+  };
+};
+const _hoisted_1$j = ["id", "aria-labelledby", "aria-describedby"];
+const _hoisted_2$h = ["id"];
+const fallbackClassSelector = "modal-fallback-focus";
+const _sfc_main$l = /* @__PURE__ */ defineComponent({
+  ...{
+    inheritAttrs: false
+  },
+  __name: "BModal",
+  props: /* @__PURE__ */ mergeModels({
+    focus: { type: [String, Boolean, Object, null], default: void 0 },
+    backdropFirst: { type: Boolean, default: false },
+    body: { default: void 0 },
+    bodyAttrs: { default: void 0 },
+    bodyBgVariant: { default: null },
+    bodyClass: { default: null },
+    bodyScrolling: { type: Boolean, default: false },
+    bodyTextVariant: { default: null },
+    bodyVariant: { default: null },
+    busy: { type: Boolean, default: false },
+    buttonSize: { default: "md" },
+    cancelClass: { default: void 0 },
+    cancelDisabled: { type: Boolean, default: false },
+    cancelTitle: { default: "Cancel" },
+    cancelVariant: { default: "secondary" },
+    centered: { type: Boolean, default: false },
+    contentClass: { default: void 0 },
+    dialogClass: { default: void 0 },
+    footerBgVariant: { default: null },
+    footerBorderVariant: { default: null },
+    footerClass: { default: void 0 },
+    footerTextVariant: { default: null },
+    footerVariant: { default: null },
+    fullscreen: { type: [Boolean, String], default: false },
+    headerAttrs: { default: void 0 },
+    headerBgVariant: { default: null },
+    headerBorderVariant: { default: null },
+    headerClass: { default: void 0 },
+    headerCloseClass: { default: void 0 },
+    headerCloseLabel: { default: "Close" },
+    headerCloseVariant: { default: "secondary" },
+    headerTextVariant: { default: null },
+    headerVariant: { default: null },
+    noBackdrop: { type: Boolean, default: false },
+    noFooter: { type: Boolean, default: false },
+    noHeader: { type: Boolean, default: false },
+    noHeaderClose: { type: Boolean, default: false },
+    id: { default: void 0 },
+    modalClass: { default: void 0 },
+    noCloseOnBackdrop: { type: Boolean, default: false },
+    noCloseOnEsc: { type: Boolean, default: false },
+    noTrap: { type: Boolean, default: false },
+    noStacking: { type: Boolean },
+    okClass: { default: void 0 },
+    okDisabled: { type: Boolean, default: false },
+    okOnly: { type: Boolean, default: false },
+    okTitle: { default: "OK" },
+    okVariant: { default: "primary" },
+    scrollable: { type: Boolean, default: false },
+    size: { default: "md" },
+    title: { default: void 0 },
+    titleClass: { default: void 0 },
+    titleVisuallyHidden: { type: Boolean, default: false },
+    titleTag: { default: "h5" },
+    teleportDisabled: { type: Boolean, default: false },
+    teleportTo: { default: "body" },
+    initialAnimation: { type: Boolean, default: false },
+    noAnimation: { type: Boolean },
+    noFade: { type: Boolean, default: false },
+    lazy: { type: Boolean, default: false },
+    unmountLazy: { type: Boolean, default: false },
+    show: { type: Boolean, default: false },
+    transProps: { default: void 0 },
+    visible: { type: Boolean, default: false }
+  }, {
+    "modelValue": { type: Boolean, ...{ default: false } },
+    "modelModifiers": {}
+  }),
+  emits: /* @__PURE__ */ mergeModels(["backdrop", "close", "esc", "hide", "hide-prevented", "hidden", "show", "show-prevented", "shown", "toggle", "toggle-prevented", "cancel", "ok"], ["update:modelValue"]),
+  setup(__props, { expose: __expose, emit: __emit }) {
+    const _props = __props;
+    const props = useDefaults(_props, "BModal");
+    const emit2 = __emit;
+    const slots = useSlots();
+    const computedId = useId(() => props.id, "modal");
+    const modelValue = useModel(__props, "modelValue");
+    const element = useTemplateRef("_element");
+    const fallbackFocusElement = useTemplateRef("_fallbackFocusElement");
+    const okButton = useTemplateRef("_okButton");
+    const cancelButton = useTemplateRef("_cancelButton");
+    const closeButton = useTemplateRef("_closeButton");
+    const pickFocusItem = () => {
+      if (props.focus && typeof props.focus !== "boolean") {
+        if (props.focus === "ok") {
+          return okButton;
+        } else if (props.focus === "close") {
+          return closeButton;
+        } else if (props.focus === "cancel") {
+          return cancelButton;
+        }
+        return getElement(props.focus, element.value ?? void 0) ?? element.value;
+      }
+      return element;
+    };
+    let activeElement = null;
+    const onAfterEnter = () => {
+      if (props.noTrap && props.focus !== false) {
+        activeElement = document.activeElement;
+        if (activeElement === element.value) {
+          activeElement = null;
+        }
+        const el = unrefElement(pickFocusItem());
+        if (!el) return;
+        el?.focus();
+        if (el.tagName && el.tagName.toLowerCase() === "input" && typeof el.select === "function") {
+          el.select();
+        }
+      }
+    };
+    const onAfterLeave = () => {
+      if (props.noTrap && props.focus !== false && activeElement) {
+        activeElement?.focus();
+        activeElement = null;
+      }
+    };
+    const {
+      showRef,
+      renderRef,
+      renderBackdropRef,
+      hide,
+      show,
+      toggle,
+      computedNoAnimation,
+      transitionProps,
+      backdropTransitionProps,
+      isLeaving,
+      isVisible,
+      trapActive,
+      contentShowing,
+      backdropReady,
+      backdropVisible
+    } = useShowHide(modelValue, props, emit2, element, computedId, {
+      // addShowClass: false,
+      transitionProps: {
+        onAfterEnter,
+        onAfterLeave
+      }
+    });
+    const { needsFallback } = useActivatedFocusTrap({
+      element,
+      isActive: trapActive,
+      noTrap: () => props.noTrap,
+      fallbackFocus: {
+        ref: fallbackFocusElement,
+        classSelector: fallbackClassSelector
+      },
+      focus: () => props.focus === false ? false : unrefElement(pickFocusItem()) ?? void 0
+      // () => (typeof focus === 'boolean' ? focus : (unrefElement(focus) ?? undefined)),
+    });
+    onKeyStroke(
+      "Escape",
+      () => {
+        hide("esc");
+      },
+      { target: element }
+    );
+    useSafeScrollLock(showRef, () => props.bodyScrolling);
+    const hasHeaderCloseSlot = computed(() => !isEmptySlot(slots["header-close"]));
+    const modalDialogClasses = computed(() => [
+      props.dialogClass,
+      {
+        "modal-fullscreen": props.fullscreen === true,
+        [`modal-fullscreen-${props.fullscreen}-down`]: typeof props.fullscreen === "string",
+        [`modal-${props.size}`]: props.size !== "md",
+        "modal-dialog-centered": props.centered,
+        "modal-dialog-scrollable": props.scrollable
+      }
+    ]);
+    const bodyColorClasses = useColorVariantClasses(() => ({
+      bgVariant: props.bodyBgVariant,
+      textVariant: props.bodyTextVariant,
+      variant: props.bodyVariant
+    }));
+    const bodyClasses = computed(() => [props.bodyClass, bodyColorClasses.value]);
+    const headerColorClasses = useColorVariantClasses(() => ({
+      bgVariant: props.headerBgVariant,
+      textVariant: props.headerTextVariant,
+      variant: props.headerVariant,
+      borderVariant: props.headerBorderVariant
+    }));
+    const headerClasses = computed(() => [props.headerClass, headerColorClasses.value]);
+    const headerCloseAttrs = computed(() => ({
+      variant: hasHeaderCloseSlot.value ? props.headerCloseVariant : void 0,
+      class: props.headerCloseClass
+    }));
+    const footerColorClasses = useColorVariantClasses(() => ({
+      bgVariant: props.footerBgVariant,
+      textVariant: props.footerTextVariant,
+      variant: props.footerVariant,
+      borderVariant: props.footerBorderVariant
+    }));
+    const footerClasses = computed(() => [props.footerClass, footerColorClasses.value]);
+    const titleClasses = computed(() => [
+      props.titleClass,
+      {
+        ["visually-hidden"]: props.titleVisuallyHidden
+      }
+    ]);
+    const disableCancel = computed(() => props.cancelDisabled || props.busy);
+    const disableOk = computed(() => props.okDisabled || props.busy);
+    const { activePosition, activeModalCount, stackWithoutSelf } = useModalManager(
+      showRef,
+      modelValue.value
+    );
+    const sharedClasses = computed(() => ({
+      [`stack-position-${activePosition?.value ?? 0}`]: true,
+      [`stack-inverse-position-${(activeModalCount?.value ?? 1) - 1 - (activePosition?.value ?? 0)}`]: true
+    }));
+    watch(stackWithoutSelf, (newValue, oldValue) => {
+      if (newValue.length > oldValue.length && showRef.value === true && props.noStacking === true)
+        hide();
+    });
+    const defaultModalDialogZIndex = ref(
+      getModalZIndex(element.value ?? (typeof document !== "undefined" ? document.body : void 0))
+    );
+    onMounted(() => {
+      watch(
+        renderRef,
+        (v) => {
+          if (!v) return;
+          nextTick(() => {
+            if (!element.value) return;
+            defaultModalDialogZIndex.value = getModalZIndex(element.value);
+          });
+        },
+        { immediate: true }
+      );
+    });
+    const computedZIndexNumber = computed(
+      () => (
+        // Make sure that newly opened modals have a higher z-index than currently active ones.
+        // All active modals have a z-index of ('defaultZIndex' - 'stackSize' - 'positionInStack').
+        //
+        // This means inactive modals will already be higher than active ones when opened.
+        showRef.value || isLeaving.value ? (
+          // Just for reference there is a single frame in which the modal is not active but still has a higher z-index than the active ones due to _when_ it calculates its position. It's a small visual effect
+          defaultModalDialogZIndex.value - ((activeModalCount?.value ?? 0) * 2 - (activePosition?.value ?? 0) * 2)
+        ) : defaultModalDialogZIndex.value
+      )
+    );
+    const computedZIndex = computed(() => ({
+      "z-index": computedZIndexNumber.value,
+      "--b-position": activePosition?.value ?? 0,
+      "--b-inverse-position": (activeModalCount?.value ?? 1) - 1 - (activePosition?.value ?? 0),
+      "--b-count": activeModalCount?.value ?? 0
+    }));
+    const computedZIndexBackdrop = computed(() => ({
+      "z-index": computedZIndexNumber.value - 1,
+      "--b-position": activePosition?.value ?? 0,
+      "--b-inverse-position": (activeModalCount?.value ?? 1) - 1 - (activePosition?.value ?? 0),
+      "--b-count": activeModalCount?.value ?? 0
+    }));
+    const sharedSlots = computed(() => ({
+      id: computedId.value,
+      cancel: () => {
+        hide("cancel");
+      },
+      close: () => {
+        hide("close");
+      },
+      hide,
+      show,
+      toggle,
+      ok: () => {
+        hide("ok");
+      },
+      active: showRef.value,
+      visible: showRef.value
+    }));
+    __expose({
+      hide,
+      id: computedId,
+      show,
+      toggle,
+      visible: showRef
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(_sfc_main$q, {
+        to: unref(props).teleportTo,
+        disabled: unref(props).teleportDisabled
+      }, {
+        default: withCtx(() => [
+          unref(renderRef) || unref(contentShowing) ? (openBlock(), createBlock(Transition, mergeProps({ key: 0 }, unref(transitionProps), {
+            appear: modelValue.value || unref(props).visible
+          }), {
+            default: withCtx(() => [
+              withDirectives(createElementVNode("div", mergeProps({
+                id: unref(computedId),
+                ref: "_element",
+                class: ["modal", [
+                  unref(props).modalClass,
+                  {
+                    fade: !unref(computedNoAnimation),
+                    show: unref(isVisible),
+                    ...sharedClasses.value
+                  }
+                ]],
+                role: "dialog",
+                "aria-labelledby": !unref(props).noHeader ? `${unref(computedId)}-label` : void 0,
+                "aria-describedby": `${unref(computedId)}-body`,
+                tabindex: "-1"
+              }, _ctx.$attrs, {
+                style: [computedZIndex.value, { "display": "block" }],
+                onMousedown: _cache[4] || (_cache[4] = withModifiers(($event) => unref(hide)("backdrop"), ["left", "self"]))
+              }), [
+                createElementVNode("div", {
+                  class: normalizeClass(["modal-dialog", modalDialogClasses.value])
+                }, [
+                  unref(contentShowing) ? (openBlock(), createElementBlock("div", {
+                    key: 0,
+                    class: normalizeClass(["modal-content", unref(props).contentClass])
+                  }, [
+                    !unref(props).noHeader ? (openBlock(), createElementBlock("div", mergeProps({
+                      key: 0,
+                      class: ["modal-header", headerClasses.value]
+                    }, unref(props).headerAttrs), [
+                      renderSlot(_ctx.$slots, "header", normalizeProps(guardReactiveProps(sharedSlots.value)), () => [
+                        (openBlock(), createBlock(resolveDynamicComponent(unref(props).titleTag), {
+                          id: `${unref(computedId)}-label`,
+                          class: normalizeClass(["modal-title", titleClasses.value])
+                        }, {
+                          default: withCtx(() => [
+                            renderSlot(_ctx.$slots, "title", normalizeProps(guardReactiveProps(sharedSlots.value)), () => [
+                              createTextVNode(toDisplayString(unref(props).title), 1)
+                            ])
+                          ]),
+                          _: 3
+                        }, 8, ["id", "class"])),
+                        !unref(props).noHeaderClose ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+                          hasHeaderCloseSlot.value ? (openBlock(), createBlock(_sfc_main$n, mergeProps({
+                            key: 0,
+                            ref: "_closeButton"
+                          }, headerCloseAttrs.value, {
+                            onClick: _cache[0] || (_cache[0] = ($event) => unref(hide)("close"))
+                          }), {
+                            default: withCtx(() => [
+                              renderSlot(_ctx.$slots, "header-close", normalizeProps(guardReactiveProps(sharedSlots.value)))
+                            ]),
+                            _: 3
+                          }, 16)) : (openBlock(), createBlock(_sfc_main$m, mergeProps({
+                            key: 1,
+                            ref: "_closeButton",
+                            "aria-label": unref(props).headerCloseLabel
+                          }, headerCloseAttrs.value, {
+                            onClick: _cache[1] || (_cache[1] = ($event) => unref(hide)("close"))
+                          }), null, 16, ["aria-label"]))
+                        ], 64)) : createCommentVNode("", true)
+                      ])
+                    ], 16)) : createCommentVNode("", true),
+                    createElementVNode("div", mergeProps({
+                      id: `${unref(computedId)}-body`,
+                      class: ["modal-body", bodyClasses.value]
+                    }, unref(props).bodyAttrs), [
+                      renderSlot(_ctx.$slots, "default", normalizeProps(guardReactiveProps(sharedSlots.value)), () => [
+                        createTextVNode(toDisplayString(unref(props).body), 1)
+                      ])
+                    ], 16, _hoisted_2$h),
+                    !unref(props).noFooter ? (openBlock(), createElementBlock("div", {
+                      key: 1,
+                      class: normalizeClass(["modal-footer", footerClasses.value])
+                    }, [
+                      renderSlot(_ctx.$slots, "footer", normalizeProps(guardReactiveProps(sharedSlots.value)), () => [
+                        renderSlot(_ctx.$slots, "cancel", normalizeProps(guardReactiveProps(sharedSlots.value)), () => [
+                          !unref(props).okOnly ? (openBlock(), createBlock(_sfc_main$n, {
+                            key: 0,
+                            ref: "_cancelButton",
+                            disabled: disableCancel.value,
+                            size: unref(props).buttonSize,
+                            variant: unref(props).cancelVariant,
+                            class: normalizeClass(unref(props).cancelClass),
+                            onClick: _cache[2] || (_cache[2] = ($event) => unref(hide)("cancel"))
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(props).cancelTitle), 1)
+                            ]),
+                            _: 1
+                          }, 8, ["disabled", "size", "variant", "class"])) : createCommentVNode("", true)
+                        ]),
+                        renderSlot(_ctx.$slots, "ok", normalizeProps(guardReactiveProps(sharedSlots.value)), () => [
+                          createVNode(_sfc_main$n, {
+                            ref: "_okButton",
+                            disabled: disableOk.value,
+                            size: unref(props).buttonSize,
+                            variant: unref(props).okVariant,
+                            class: normalizeClass(unref(props).okClass),
+                            onClick: _cache[3] || (_cache[3] = ($event) => unref(hide)("ok"))
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(props).okTitle), 1)
+                            ]),
+                            _: 1
+                          }, 8, ["disabled", "size", "variant", "class"])
+                        ])
+                      ])
+                    ], 2)) : createCommentVNode("", true)
+                  ], 2)) : createCommentVNode("", true)
+                ], 2),
+                unref(needsFallback) ? (openBlock(), createElementBlock("div", {
+                  key: 0,
+                  ref: "_fallbackFocusElement",
+                  class: normalizeClass(fallbackClassSelector),
+                  tabindex: "0",
+                  style: { "width": "0", "height": "0", "overflow": "hidden" }
+                }, null, 512)) : createCommentVNode("", true)
+              ], 16, _hoisted_1$j), [
+                [vShow, unref(showRef) && (unref(backdropReady) && unref(props).backdropFirst || !unref(props).backdropFirst)]
+              ])
+            ]),
+            _: 3
+          }, 16, ["appear"])) : createCommentVNode("", true),
+          !unref(props).noBackdrop ? renderSlot(_ctx.$slots, "backdrop", normalizeProps(mergeProps({ key: 1 }, sharedSlots.value)), () => [
+            unref(renderBackdropRef) ? (openBlock(), createBlock(Transition, normalizeProps(mergeProps({ key: 0 }, unref(backdropTransitionProps))), {
+              default: withCtx(() => [
+                withDirectives(createElementVNode("div", {
+                  class: normalizeClass(["modal-backdrop", {
+                    fade: !unref(computedNoAnimation),
+                    show: unref(backdropVisible) || unref(computedNoAnimation),
+                    ...sharedClasses.value
+                  }]),
+                  style: normalizeStyle(computedZIndexBackdrop.value),
+                  onClick: _cache[5] || (_cache[5] = ($event) => unref(hide)("backdrop"))
+                }, null, 6), [
+                  [vShow, unref(showRef) || unref(isLeaving) && unref(props).backdropFirst && !unref(computedNoAnimation)]
+                ])
+              ]),
+              _: 1
+            }, 16)) : createCommentVNode("", true)
+          ]) : createCommentVNode("", true)
+        ]),
+        _: 3
+      }, 8, ["to", "disabled"]);
+    };
+  }
+});
+const useRegistry = (rtl = false) => {
+  const showHideStorage = inject(showHideRegistryKey, void 0);
+  if (!showHideStorage) {
+    const { register, values: values2 } = _newShowHideRegistry();
+    provide(showHideRegistryKey, { register, values: values2 });
+  }
+  const modalManager = inject(modalManagerKey, void 0);
+  if (!modalManager) {
+    const stack = ref(/* @__PURE__ */ new Map());
+    const countStack = computed(() => stack.value.size);
+    const valuesStack = computed(() => [...stack.value.values()]);
+    const lastStack = computed(() => valuesStack.value[valuesStack.value.length - 1]);
+    const pushStack = (modal) => {
+      stack.value.set(modal.uid, modal);
+    };
+    const removeStack = (modal) => {
+      stack.value.delete(modal.uid);
+    };
+    const registry = ref(/* @__PURE__ */ new Map());
+    const pushRegistry = (modal) => {
+      registry.value.set(modal.uid, modal);
+    };
+    const removeRegistry = (modal) => {
+      registry.value.delete(modal.uid);
+    };
+    provide(modalManagerKey, {
+      countStack,
+      lastStack,
+      registry: computed(() => registry.value),
+      stack: valuesStack,
+      pushStack,
+      removeStack,
+      pushRegistry,
+      removeRegistry
+    });
+  }
+  const breadcrumb = inject(breadcrumbRegistryKey, void 0);
+  if (!breadcrumb) {
+    const items = ref({
+      [breadcrumbGlobalIndexKey]: []
+    });
+    const reset = (key = breadcrumbGlobalIndexKey) => {
+      items.value[key] = [];
+    };
+    provide(breadcrumbRegistryKey, { items, reset });
+  }
+  const rtlRegistry = inject(rtlRegistryKey, void 0);
+  if (!rtlRegistry) {
+    const rtlDefault = false;
+    const localeDefault = void 0;
+    const rtlInitial = typeof rtl === "boolean" ? rtlDefault : rtl?.rtlInitial ?? rtlDefault;
+    const localeInitial = typeof rtl === "boolean" ? localeDefault : rtl?.localeInitial ?? localeDefault;
+    const isRtl = ref(rtlInitial);
+    const locale = ref(localeInitial);
+    provide(rtlRegistryKey, { isRtl, locale });
+  }
+};
+const _newShowHideRegistry = () => {
+  const values2 = ref(/* @__PURE__ */ new Map());
+  const register = ({
+    id,
+    component,
+    value,
+    toggle,
+    show,
+    hide,
+    registerTrigger,
+    unregisterTrigger
+  }) => {
+    values2.value.set(id, {
+      id,
+      component,
+      value: readonly(value),
+      toggle,
+      show,
+      hide,
+      registerTrigger,
+      unregisterTrigger
+    });
+    return {
+      unregister() {
+        values2.value.delete(id);
+      },
+      updateId(newId, oldId) {
+        const existingValue = values2.value.get(oldId);
+        if (existingValue) {
+          values2.value.set(newId, { ...existingValue, id: newId });
+          values2.value.delete(oldId);
+        }
+      }
+    };
+  };
+  return {
+    register,
+    values: values2
+  };
+};
+const useProvideDefaults = (defaults, mergeDefaults) => {
+  const injectedDefaults = inject(defaultsKey, void 0);
+  const mergedDefaults = computed(() => {
+    const _defaults = unref(defaults);
+    if (!injectedDefaults) {
+      return _defaults ?? {};
+    }
+    const merged = { ...injectedDefaults.value };
+    if (_defaults) {
+      if (mergeDefaults) {
+        if (typeof mergeDefaults === "function") {
+          return mergeDefaults(merged, _defaults);
+        } else if (mergeDefaults === true) {
+          return deepMerge(merged, _defaults);
+        }
+        return Object.assign(merged, _defaults);
+      }
+      return _defaults;
+    }
+    return merged;
+  });
+  provide(defaultsKey, mergedDefaults);
+};
+function isPlainObject$1(value) {
+  return value !== null && typeof value === "object" && value.constructor === Object && Object.prototype.toString.call(value) === "[object Object]";
+}
+function deepMerge(target, source, visited = /* @__PURE__ */ new WeakSet()) {
+  if (visited.has(source)) {
+    return target;
+  }
+  visited.add(source);
+  const result = { ...target };
+  for (const key in source) {
+    const sourceValue = source[key];
+    const targetValue = target[key];
+    if (isPlainObject$1(sourceValue) && isPlainObject$1(targetValue)) {
+      result[key] = deepMerge(
+        targetValue,
+        sourceValue,
+        visited
+      );
+    } else if (Array.isArray(sourceValue)) {
+      result[key] = [...sourceValue];
+    } else {
+      result[key] = sourceValue;
+    }
+  }
+  return result;
+}
+const positionClasses = {
+  "top-start": "top-0 start-0",
+  "top-center": "top-0 start-50 translate-middle-x",
+  "top-end": "top-0 end-0",
+  "middle-start": "top-50 start-0 translate-middle-y",
+  "middle-center": "top-50 start-50 translate-middle",
+  "middle-end": "top-50 end-0 translate-middle-y",
+  "bottom-start": "bottom-0 start-0",
+  "bottom-center": "bottom-0 start-50 translate-middle-x",
+  "bottom-end": "bottom-0 end-0"
+};
+const _sfc_main$k = /* @__PURE__ */ defineComponent({
+  __name: "BOrchestrator",
+  props: {
+    noPopovers: { type: Boolean, default: false },
+    noToasts: { type: Boolean, default: false },
+    noModals: { type: Boolean, default: false },
+    appendToast: { type: Boolean, default: false },
+    teleportTo: {},
+    filter: { type: Function, default: () => true }
+  },
+  setup(__props) {
+    function setEventOk(event) {
+      event.ok = event.trigger === "ok" ? true : event.trigger === "cancel" ? false : null;
+    }
+    const props = __props;
+    const orchestratorRegistry = inject(orchestratorRegistryKey);
+    if (orchestratorRegistry) {
+      if (!orchestratorRegistry._isOrchestratorInstalled.value) {
+        orchestratorRegistry._isOrchestratorInstalled.value = true;
+      }
+    } else {
+      if (process.env.NODE_ENV === "development") {
+        console.warn(
+          "[BOrchestrator] The orchestrator registry not found. Please use BApp, useRegistry or provide the plugin."
+        );
+      }
+    }
+    watch(
+      () => props.appendToast,
+      (value) => {
+        if (orchestratorRegistry && value !== void 0) {
+          orchestratorRegistry._isToastAppend.value = value;
+        }
+      },
+      { immediate: true }
+    );
+    const ComputedPositionClasses = computed(() => {
+      const positionsActive = items.value?.reduce(
+        (acc, item) => {
+          if (item.position) {
+            acc[item.position] = true;
+          }
+          return acc;
+        },
+        {}
+      );
+      const classes = {};
+      for (const position in positionClasses) {
+        if (positionsActive?.[position]) {
+          classes[position] = {
+            class: `${positionClasses[position]} toast-container position-fixed p-3`,
+            style: "width: calc(var(--bs-toast-max-width, 350px) + var(--bs-toast-padding-x, 1rem) * 2)"
+          };
+        }
+      }
+      if (positionsActive?.["modal"]) {
+        classes["modal"] = {
+          class: "",
+          style: ""
+        };
+      }
+      if (positionsActive?.["popover"]) {
+        classes["popover"] = {
+          class: "",
+          style: ""
+        };
+      }
+      return classes;
+    });
+    const items = computed(() => {
+      const store = orchestratorRegistry?.store.value ?? [];
+      return store.filter((el) => !props.noPopovers || el.type !== "popover").filter((el) => !props.noToasts || el.type !== "toast").filter((el) => !props.noModals || el.type !== "modal").filter(props.filter);
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(_sfc_main$q, {
+        to: _ctx.teleportTo,
+        disabled: !_ctx.teleportTo
+      }, {
+        default: withCtx(() => [
+          createElementVNode("div", mergeProps({ class: "orchestrator-container" }, _ctx.$attrs), [
+            (openBlock(true), createElementBlock(Fragment, null, renderList(ComputedPositionClasses.value, (value, key) => {
+              return openBlock(), createElementBlock("div", {
+                key,
+                class: normalizeClass(value.class),
+                style: normalizeStyle(value.style)
+              }, [
+                createVNode(TransitionGroup, {
+                  name: items.value?.filter((el) => el.position === key)?.some((el) => el.type === "toast") ? "b-list" : void 0
+                }, {
+                  default: withCtx(() => [
+                    (openBlock(true), createElementBlock(Fragment, null, renderList(items.value?.filter((el) => el.position === key) || [], ({
+                      _self,
+                      type,
+                      position,
+                      slots,
+                      promise,
+                      options,
+                      _component,
+                      ...val
+                    }) => {
+                      return openBlock(), createElementBlock("span", { key: _self }, [
+                        (openBlock(), createBlock(resolveDynamicComponent(_component), mergeProps({ ref_for: true }, val, {
+                          ref_for: true,
+                          ref: (ref2) => promise.value.ref = ref2,
+                          "initial-animation": "",
+                          "teleport-disabled": true,
+                          onHide: (e) => {
+                            setEventOk(e);
+                            val.onHide?.(e);
+                            if (e.defaultPrevented) {
+                              return;
+                            }
+                            promise.stop?.();
+                            if (options?.resolveOnHide) {
+                              promise.resolve(e);
+                            }
+                          },
+                          onHidden: (e) => {
+                            setEventOk(e);
+                            val.onHidden?.(e);
+                            if (e.defaultPrevented) {
+                              return;
+                            }
+                            if (!options?.resolveOnHide) {
+                              promise.resolve(e);
+                            }
+                            if (!options?.keep) {
+                              promise.value.destroy?.();
+                            }
+                          }
+                        }), createSlots({ _: 2 }, [
+                          renderList(slots, (comp, slot) => {
+                            return {
+                              name: slot,
+                              fn: withCtx((scope) => [
+                                (openBlock(), createBlock(resolveDynamicComponent(comp), mergeProps({ ref_for: true }, scope), null, 16))
+                              ])
+                            };
+                          })
+                        ]), 1040, ["onHide", "onHidden"]))
+                      ]);
+                    }), 128))
+                  ]),
+                  _: 2
+                }, 1032, ["name"])
+              ], 6);
+            }), 128))
+          ], 16)
+        ]),
+        _: 1
+      }, 8, ["to", "disabled"]);
+    };
+  }
+});
+const _sfc_main$j = /* @__PURE__ */ defineComponent({
+  ...{
+    inheritAttrs: false
+  },
+  __name: "BApp",
+  props: {
+    defaults: { default: void 0 },
+    mergeDefaults: { type: [Boolean, Function], default: false },
+    teleportTo: { default: void 0 },
+    noOrchestrator: { type: Boolean, default: false },
+    appendToast: { type: Boolean, default: false },
+    rtl: { type: [Boolean, Object], default: false }
+  },
+  setup(__props) {
+    const props = __props;
+    useProvideDefaults(
+      toRef$1(() => props.defaults),
+      props.mergeDefaults
+    );
+    useRegistry(props.rtl);
+    if (!props.noOrchestrator) {
+      useOrchestratorRegistry();
+    }
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock(Fragment, null, [
+        !_ctx.noOrchestrator ? (openBlock(), createBlock(_sfc_main$k, {
+          key: 0,
+          "append-toast": _ctx.appendToast,
+          "teleport-to": _ctx.teleportTo
+        }, null, 8, ["append-toast", "teleport-to"])) : createCommentVNode("", true),
+        renderSlot(_ctx.$slots, "default", normalizeProps(guardReactiveProps(_ctx.$attrs)))
+      ], 64);
+    };
+  }
+});
+const bvKey = "bootstrap-vue-next";
+const parseActiveImports = (options, values2) => {
+  const { all, ...others } = options;
+  const valuesCopy = {};
+  if (all) {
+    values2.forEach((el) => {
+      valuesCopy[el] = all;
+    });
+  }
+  const merge = { ...valuesCopy, ...others };
+  return Object.entries(merge).filter(([name, value]) => !!value && values2.includes(name)).map(([name]) => name);
+};
+const usedComponents = /* @__PURE__ */ new Set();
+const usedDirectives = /* @__PURE__ */ new Set();
+Object.assign(
+  ({
+    aliases = {},
+    directives = true,
+    components = true
+  } = {}) => {
+    const selectedComponents = typeof components === "boolean" ? { all: components } : components;
+    const compImports = parseActiveImports(selectedComponents, componentNames).reduce(
+      (map, name) => {
+        map.set(name, `${bvKey}${componentsWithExternalPath[name]}`);
+        return map;
+      },
+      /* @__PURE__ */ new Map()
+    );
+    const selectedDirectives = typeof directives === "boolean" ? { all: directives } : directives;
+    const dirImports = parseActiveImports(selectedDirectives, directiveNames).reduce(
+      (map, directive) => {
+        const key = directive.toLowerCase().startsWith("v") ? directive : `v${directive}`;
+        map.set(key, `${bvKey}${directivesWithExternalPath[key]}`);
+        return map;
+      },
+      /* @__PURE__ */ new Map()
+    );
+    const resolvers = [
+      {
+        type: "component",
+        resolve(name) {
+          const destination = compImports.get(name);
+          const aliasDestination = compImports.get(aliases[name]);
+          if (aliasDestination) {
+            const val = aliases[name];
+            usedComponents.add(val);
+            return {
+              name: val,
+              from: aliasDestination
+            };
+          }
+          if (destination) {
+            usedComponents.add(name);
+            return {
+              name,
+              from: destination
+            };
+          }
+        }
+      },
+      {
+        type: "directive",
+        resolve(name) {
+          const prefixedName = `v${name}`;
+          const destination = dirImports.get(prefixedName);
+          if (destination) {
+            usedDirectives.add(prefixedName);
+            return {
+              name: prefixedName,
+              from: destination
+            };
+          }
+        }
+      }
+    ];
+    return resolvers;
+  },
+  {
+    __usedComponents: usedComponents,
+    __usedDirectives: usedDirectives
+  }
+);
+function isMac() {
+  return detectOS() === "macOS";
+}
+function detectOS() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  if (userAgent.includes("mac os")) {
+    return "macOS";
+  }
+  if (userAgent.includes("windows")) {
+    return "Windows";
+  }
+  if (userAgent.includes("linux")) {
+    return "Linux";
+  }
+  return "unknown";
+}
 var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
 var freeSelf = typeof self == "object" && self && self.Object === Object && self;
 var root = freeGlobal || freeSelf || Function("return this")();
@@ -1122,145 +5142,6 @@ function startsWith(string, target, position) {
   target = baseToString(target);
   return string.slice(position, position + target.length) == target;
 }
-const _sfc_main$j = /* @__PURE__ */ defineComponent({
-  __name: "BsModal",
-  props: {
-    id: {},
-    open: { type: Boolean, default: false },
-    size: {},
-    title: {},
-    backdrop: { type: [String, Boolean], default: true }
-  },
-  emits: ["show", "shown", "hide", "hidden"],
-  setup(__props, { expose: __expose, emit: __emit }) {
-    __expose();
-    const props = __props;
-    const emits = __emit;
-    const slots = useSlots();
-    const modal = ref();
-    const idName = ref(props.id || "modal-" + uid());
-    const visible = ref(props.open);
-    watch(visible, (v, oldValue) => {
-      if (!oldValue && v) {
-        getModalInstance().show();
-      }
-      if (oldValue && !v) {
-        getModalInstance().hide();
-      }
-    });
-    watch(() => props.open, (v) => {
-      visible.value = v;
-    });
-    watch(() => props.id, (val) => {
-      idName.value = val || "modal-" + uid();
-    });
-    onMounted(() => {
-      if (!modal.value) {
-        return;
-      }
-      modal.value.addEventListener("show.bs.modal", (e) => {
-        emits("show", e);
-      });
-      modal.value.addEventListener("shown.bs.modal", (e) => {
-        emits("shown", e);
-      });
-      modal.value.addEventListener("hide.bs.modal", (e) => {
-        emits("hide", e);
-      });
-      modal.value.addEventListener("hidden.bs.modal", (e) => {
-        emits("hidden", e);
-      });
-    });
-    function getModalInstance() {
-      return Modal.getOrCreateInstance(modal.value);
-    }
-    function hasSlots(name) {
-      return !!slots[name];
-    }
-    const __returned__ = { props, emits, slots, modal, idName, visible, getModalInstance, hasSlots };
-    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
-    return __returned__;
-  }
-});
-const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
-  }
-  return target;
-};
-const _hoisted_1$j = ["id", "aria-labelledby", "aria-hidden", "data-bs-backdrop"];
-const _hoisted_2$h = { class: "modal-content" };
-const _hoisted_3$f = {
-  key: 1,
-  class: "modal-header"
-};
-const _hoisted_4$d = ["id"];
-const _hoisted_5$d = {
-  key: 1,
-  class: "modal-body"
-};
-const _hoisted_6$d = {
-  key: 2,
-  class: "modal-footer"
-};
-function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createBlock(Teleport, { to: "body" }, [
-    createElementVNode("div", mergeProps({
-      ref: "modal",
-      class: "modal fade",
-      id: $setup.idName
-    }, _ctx.$attrs, {
-      tabindex: "-1",
-      role: "dialog",
-      "aria-labelledby": $setup.idName + "-label",
-      "aria-hidden": $setup.visible ? "true" : "false",
-      "data-bs-backdrop": $props.backdrop
-    }), [
-      createElementVNode("div", {
-        class: normalizeClass(["modal-dialog", $props.size ? "modal-" + $props.size : null]),
-        role: "document"
-      }, [
-        createElementVNode("div", _hoisted_2$h, [
-          $setup.visible ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-            $setup.hasSlots("header-element") ? renderSlot(_ctx.$slots, "header-element", { key: 0 }) : (openBlock(), createElementBlock("div", _hoisted_3$f, [
-              renderSlot(_ctx.$slots, "header", {}, () => [
-                createElementVNode("div", {
-                  class: "modal-title",
-                  id: $setup.idName + "-label"
-                }, [
-                  createElementVNode("h4", null, toDisplayString($props.title), 1)
-                ], 8, _hoisted_4$d)
-              ]),
-              _cache[0] || (_cache[0] = createTextVNode()),
-              _cache[1] || (_cache[1] = createElementVNode("button", {
-                type: "button",
-                class: "close btn-close",
-                "data-bs-dismiss": "modal",
-                "data-dismiss": "modal",
-                "aria-label": "Close"
-              }, [
-                createElementVNode("span", {
-                  "aria-hidden": "true",
-                  class: "visually-hidden"
-                }, "×")
-              ], -1))
-            ]))
-          ], 64)) : createCommentVNode("", true),
-          _cache[2] || (_cache[2] = createTextVNode()),
-          $setup.visible ? (openBlock(), createElementBlock("div", _hoisted_5$d, [
-            renderSlot(_ctx.$slots, "default")
-          ])) : createCommentVNode("", true),
-          _cache[3] || (_cache[3] = createTextVNode()),
-          $setup.visible && $setup.hasSlots("footer") ? (openBlock(), createElementBlock("div", _hoisted_6$d, [
-            renderSlot(_ctx.$slots, "footer")
-          ])) : createCommentVNode("", true)
-        ])
-      ], 2)
-    ], 16, _hoisted_1$j)
-  ]);
-}
-const BsModal = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j], ["__file", "BsModal.vue"]]);
 var codemirror$1 = { exports: {} };
 var codemirror = codemirror$1.exports;
 var hasRequiredCodemirror;
@@ -1820,7 +5701,7 @@ function requireCodemirror() {
           map2[type] = (map2[type] || noHandlers).concat(f2);
         }
       };
-      function getHandlers(emitter, type) {
+      function getHandlers2(emitter, type) {
         return emitter._handlers && emitter._handlers[type] || noHandlers;
       }
       function off(emitter, type, f2) {
@@ -1839,13 +5720,13 @@ function requireCodemirror() {
         }
       }
       function signal(emitter, type) {
-        var handlers = getHandlers(emitter, type);
-        if (!handlers.length) {
+        var handlers2 = getHandlers2(emitter, type);
+        if (!handlers2.length) {
           return;
         }
         var args = Array.prototype.slice.call(arguments, 2);
-        for (var i2 = 0; i2 < handlers.length; ++i2) {
-          handlers[i2].apply(null, args);
+        for (var i2 = 0; i2 < handlers2.length; ++i2) {
+          handlers2[i2].apply(null, args);
         }
       }
       function signalDOMEvent(cm, e, override) {
@@ -1870,7 +5751,7 @@ function requireCodemirror() {
         }
       }
       function hasHandler(emitter, type) {
-        return getHandlers(emitter, type).length > 0;
+        return getHandlers2(emitter, type).length > 0;
       }
       function eventMixin(ctor) {
         ctor.prototype.on = function(type, f2) {
@@ -3483,7 +7364,7 @@ function requireCodemirror() {
       }
       var orphanDelayedCallbacks = null;
       function signalLater(emitter, type) {
-        var arr = getHandlers(emitter, type);
+        var arr = getHandlers2(emitter, type);
         if (!arr.length) {
           return;
         }
@@ -3614,11 +7495,11 @@ function requireCodemirror() {
         }
         var markers = lineView.line.gutterMarkers;
         if (cm.options.lineNumbers || markers) {
-          var wrap$1 = ensureLineWrapped(lineView);
+          var wrap$12 = ensureLineWrapped(lineView);
           var gutterWrap = lineView.gutter = elt("div", null, "CodeMirror-gutter-wrapper", "left: " + (cm.options.fixedGutter ? dims.fixedPos : -dims.gutterTotalWidth) + "px");
           gutterWrap.setAttribute("aria-hidden", "true");
           cm.display.input.setUneditable(gutterWrap);
-          wrap$1.insertBefore(gutterWrap, lineView.text);
+          wrap$12.insertBefore(gutterWrap, lineView.text);
           if (lineView.line.gutterClass) {
             gutterWrap.className += " " + lineView.line.gutterClass;
           }
@@ -5182,7 +9063,7 @@ function requireCodemirror() {
         this.disableHoriz = new Delayed();
         this.disableVert = new Delayed();
       };
-      NativeScrollbars.prototype.enableZeroWidthBar = function(bar, delay, type) {
+      NativeScrollbars.prototype.enableZeroWidthBar = function(bar, delay3, type) {
         bar.style.visibility = "";
         function maybeDisable() {
           var box = bar.getBoundingClientRect();
@@ -5190,10 +9071,10 @@ function requireCodemirror() {
           if (elt2 != bar) {
             bar.style.visibility = "hidden";
           } else {
-            delay.set(1e3, maybeDisable);
+            delay3.set(1e3, maybeDisable);
           }
         }
-        delay.set(1e3, maybeDisable);
+        delay3.set(1e3, maybeDisable);
       };
       NativeScrollbars.prototype.clear = function() {
         var parent = this.horiz.parentNode;
@@ -14055,6 +17936,13 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
+const _export_sfc = (sfc, props) => {
+  const target = sfc.__vccOpts || sfc;
+  for (const [key, val] of props) {
+    target[key] = val;
+  }
+  return target;
+};
 const _hoisted_1$i = { ref: "wrapper" };
 const _hoisted_2$g = { ref: "editor" };
 function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
@@ -15363,7 +19251,7 @@ function insertAfter(existingNode, newNode) {
   (_a = existingNode.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(newNode, existingNode.nextSibling);
   return existingNode;
 }
-function wrap(ele, wrapper) {
+function wrap$1(ele, wrapper) {
   ele.replaceWith(wrapper);
   wrapper.appendChild(ele);
   return ele;
@@ -15643,12 +19531,12 @@ function spectrum(element, options) {
   container.classList.add(theme);
   doc.body.appendChild(container);
   doc.body;
-  let boundElement = element, disabled = false, pickerContainer = container.querySelector(".sp-picker-container"), dragger = container.querySelector(".sp-color"), dragHelper = container.querySelector(".sp-dragger"), slider = container.querySelector(".sp-hue"), slideHelper = container.querySelector(".sp-slider"), alphaSliderInner = container.querySelector(".sp-alpha-inner"), alphaSlider = container.querySelector(".sp-alpha"), alphaSlideHelper = container.querySelector(".sp-alpha-handle"), textInput = container.querySelector(".sp-input"), paletteContainer = container.querySelector(".sp-palette"), initialColorContainer = container.querySelector(".sp-initial"), cancelButton = container.querySelector(".sp-cancel"), clearButton = container.querySelector(".sp-clear"), chooseButton = container.querySelector(".sp-choose"), toggleButton = container.querySelector(".sp-palette-toggle"), isInput = boundElement.nodeName === "INPUT", isInputTypeColor = isInput && boundElement.getAttribute("type") === "color", shouldReplace = isInput && (type === "color" || isInputTypeColor), replacer = shouldReplace ? (() => {
+  let boundElement = element, disabled = false, pickerContainer = container.querySelector(".sp-picker-container"), dragger = container.querySelector(".sp-color"), dragHelper = container.querySelector(".sp-dragger"), slider = container.querySelector(".sp-hue"), slideHelper = container.querySelector(".sp-slider"), alphaSliderInner = container.querySelector(".sp-alpha-inner"), alphaSlider = container.querySelector(".sp-alpha"), alphaSlideHelper = container.querySelector(".sp-alpha-handle"), textInput = container.querySelector(".sp-input"), paletteContainer = container.querySelector(".sp-palette"), initialColorContainer = container.querySelector(".sp-initial"), cancelButton = container.querySelector(".sp-cancel"), clearButton = container.querySelector(".sp-clear"), chooseButton = container.querySelector(".sp-choose"), toggleButton = container.querySelector(".sp-palette-toggle"), isInput3 = boundElement.nodeName === "INPUT", isInputTypeColor = isInput3 && boundElement.getAttribute("type") === "color", shouldReplace = isInput3 && (type === "color" || isInputTypeColor), replacer = shouldReplace ? (() => {
     const el = replaceInput.cloneNode(true);
     addClass(el, theme);
     addClass(el, opts.replacerClassName);
     return el;
-  })() : null, offsetElement = shouldReplace ? replacer : boundElement, previewElement = replacer === null || replacer === void 0 ? void 0 : replacer.querySelector(".sp-preview-inner"), initialColor = opts.color || isInput && boundElement.value, colorOnShow = "", currentPreferredFormat = opts.preferredFormat, clickoutFiresChange = !opts.showButtons || opts.clickoutFiresChange, isEmpty = !initialColor, allowEmpty = opts.allowEmpty;
+  })() : null, offsetElement = shouldReplace ? replacer : boundElement, previewElement = replacer === null || replacer === void 0 ? void 0 : replacer.querySelector(".sp-preview-inner"), initialColor = opts.color || isInput3 && boundElement.value, colorOnShow = "", currentPreferredFormat = opts.preferredFormat, clickoutFiresChange = !opts.showButtons || opts.clickoutFiresChange, isEmpty = !initialColor, allowEmpty = opts.allowEmpty;
   let originalInputContainer;
   let colorizeElement;
   let colorizeElementInitialColor;
@@ -15726,10 +19614,10 @@ function spectrum(element, options) {
     } else if (type === "text") {
       addClass(originalInputContainer, "sp-colorize-container");
       addClass(boundElement, "spectrum sp-colorize");
-      wrap(boundElement, originalInputContainer);
+      wrap$1(boundElement, originalInputContainer);
     } else if (type === "component") {
       addClass(boundElement, "spectrum");
-      wrap(boundElement, originalInputContainer);
+      wrap$1(boundElement, originalInputContainer);
       const addOn = html([
         "<div class='sp-colorize-container sp-add-on'>",
         "<div class='sp-colorize'></div> ",
@@ -17683,7 +21571,7 @@ const _hoisted_13$8 = { class: "form-group mb-3" };
 const _hoisted_14$8 = ["for"];
 const _hoisted_15$8 = { class: "form-group mb-3" };
 const _hoisted_16$8 = ["for"];
-const _hoisted_17$7 = ["id"];
+const _hoisted_17$6 = ["id"];
 const _hoisted_18$5 = { class: "form-group mb-3" };
 const _hoisted_19$5 = ["for"];
 function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
@@ -17778,7 +21666,7 @@ function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
         createElementVNode("option", { value: "linear" }, "Linear", -1),
         createTextVNode(),
         createElementVNode("option", { value: "radial" }, "Radial", -1)
-      ])], 8, _hoisted_17$7), [
+      ])], 8, _hoisted_17$6), [
         [
           vModelSelect,
           $setup.gradient.type,
@@ -17803,49 +21691,6 @@ function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
   ]);
 }
 const Gradient = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b], ["__file", "Gradient.vue"]]);
-function computedWithControl(source, fn, options = {}) {
-  let v = void 0;
-  let track;
-  let trigger;
-  let dirty = true;
-  const update = () => {
-    dirty = true;
-    trigger();
-  };
-  watch(source, update, { flush: "sync", ...options });
-  const get = typeof fn === "function" ? fn : fn.get;
-  const set = typeof fn === "function" ? void 0 : fn.set;
-  const result = customRef((_track, _trigger) => {
-    track = _track;
-    trigger = _trigger;
-    return {
-      get() {
-        if (dirty) {
-          v = get(v);
-          dirty = false;
-        }
-        track();
-        return v;
-      },
-      set(v2) {
-        set == null ? void 0 : set(v2);
-      }
-    };
-  });
-  result.trigger = update;
-  return result;
-}
-typeof WorkerGlobalScope !== "undefined" && globalThis instanceof WorkerGlobalScope;
-function useCurrentElement(rootComponent) {
-  const vm = getCurrentInstance();
-  const currentElement = computedWithControl(
-    () => null,
-    () => vm.proxy.$el
-  );
-  onUpdated(currentElement.trigger);
-  onMounted(currentElement.trigger);
-  return currentElement;
-}
 const _sfc_main$a = /* @__PURE__ */ defineComponent({
   __name: "SingleImage",
   props: /* @__PURE__ */ mergeModels({
@@ -18080,8 +21925,50 @@ function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
   ], 512);
 }
 const SingleImage = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a], ["__file", "SingleImage.vue"]]);
+const _AlertAdapter = class _AlertAdapter {
+};
+_AlertAdapter.alert = async (title) => window.alert(title);
+_AlertAdapter.confirm = async (title) => {
+  return new Promise((resolve) => {
+    const v = confirm(title);
+    resolve(v);
+  });
+};
+_AlertAdapter.deleteConfirm = async (title) => _AlertAdapter.confirm(title);
+_AlertAdapter.confirmText = () => "確認";
+_AlertAdapter.cancelText = () => "取消";
+_AlertAdapter.deleteText = () => "刪除";
+let AlertAdapter = _AlertAdapter;
+async function simpleAlert(title, text = "", icon = "info", extra) {
+  return AlertAdapter.alert(title, text, icon, extra);
+}
+function useLoading(loading) {
+  loading = loading || ref(false);
+  const run = async function(callback, errorAlert = true) {
+    loading.value = true;
+    try {
+      return await callback();
+    } catch (e) {
+      console.error(e);
+      if (errorAlert) {
+        simpleAlert(e?.message || "Unknown Error", "");
+      }
+      throw e;
+    } finally {
+      loading.value = false;
+    }
+  };
+  const wrap2 = function(callback, errorAlert = true) {
+    return (...args) => {
+      return run(async () => callback(...args), errorAlert);
+    };
+  };
+  return { loading, run, wrap: wrap2 };
+}
+const { loading: saving, wrap } = useLoading();
 function usePageBuilderUtilities() {
   return {
+    saving,
     bindSaveButton,
     savePage,
     addTextToClipboard,
@@ -18104,28 +21991,32 @@ function bindSaveButton() {
   if (!$btn) {
     return;
   }
+  const $icon = $btn.querySelector("[data-spinner]");
+  watch(saving, (v) => {
+    $btn.disabled = v;
+    if ($icon) {
+      if (v) {
+        className = $icon.getAttribute("class");
+        $icon.setAttribute("class", "spinner-border spinner-border-sm");
+      } else {
+        $icon.setAttribute("class", className);
+      }
+    }
+  });
   let className = "";
   $btn.addEventListener("click", async () => {
-    const $icon = $btn.querySelector("[data-spinner]");
-    $btn.disabled = true;
-    if ($icon) {
-      className = $icon.getAttribute("class");
-      $icon.setAttribute("class", "spinner-border spinner-border-sm");
-    }
+    saving.value = true;
     try {
       const res = await savePage();
       console.log("Save Success!");
       return res;
     } finally {
-      $btn.disabled = false;
-      if ($icon) {
-        $icon.setAttribute("class", className);
-      }
+      saving.value = false;
     }
   });
 }
 let previousContent = "";
-async function savePage() {
+const savePage = wrap(async () => {
   const contentInput = document.querySelector("#input-item-content");
   if (previousContent !== "" && previousContent === contentInput.value) {
     console.warn("[Page] Content not change, there was an error or you didn't edit anything.");
@@ -18148,7 +22039,7 @@ async function savePage() {
       simpleAlert$1(e.message, "", "warning");
     }
   }
-}
+});
 function addTextToClipboard(text) {
   if (typeof text !== "string") {
     text = JSON.stringify(text, null, 4);
@@ -18584,10 +22475,9 @@ const UnicornSwitcher = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sf
 const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   __name: "AddonEdit",
   setup(__props, { expose: __expose }) {
-    const { addonBasicOptions: addonBasicOptions2, savePage: doSavePage } = usePageBuilderUtilities();
+    const { saving: saving2, addonBasicOptions: addonBasicOptions2, savePage: doSavePage } = usePageBuilderUtilities();
     const u2 = useUnicorn();
     const content = ref();
-    const saving = ref(false);
     const modalShow = ref(false);
     const tab = ref();
     const currentTab = ref("general");
@@ -18619,25 +22509,26 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
         currentTab.value = active.getAttribute("href")?.replace("#addon-edit-", "") || "general";
       }
     }
+    useEventListener$1("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === "s" && modalShow.value) {
+        event.preventDefault();
+        savePage2();
+      }
+    });
     function saveClose() {
       u2.trigger("addon:save", JSON.parse(JSON.stringify(content.value)));
       close();
     }
     async function savePage2() {
       u2.trigger("addon:save", JSON.parse(JSON.stringify(content.value)));
-      saving.value = true;
       await nextTick();
-      try {
-        return await doSavePage();
-      } finally {
-        saving.value = false;
-      }
+      return await doSavePage();
     }
     function close() {
       modalShow.value = false;
-      nextTick(() => {
+      setTimeout(() => {
         content.value = void 0;
-      });
+      }, 400);
     }
     function dataMigration(data2) {
       const video = data2.options.background.video;
@@ -18646,81 +22537,82 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       }
     }
     const options = computed(() => content.value?.options);
-    const __returned__ = { addonBasicOptions: addonBasicOptions2, doSavePage, u: u2, content, saving, modalShow, tab, currentTab, edit, updateCurrentTab, saveClose, savePage: savePage2, close, dataMigration, options, BsModal, CssEditor, Animations, BoxOffset, ButtonRadio, ColorInput, Gradient, SingleImage, UnicornSwitcher };
+    const __returned__ = { saving: saving2, addonBasicOptions: addonBasicOptions2, doSavePage, u: u2, content, modalShow, tab, currentTab, edit, updateCurrentTab, saveClose, savePage: savePage2, close, dataMigration, options, get BModal() {
+      return _sfc_main$l;
+    }, CssEditor, Animations, BoxOffset, ButtonRadio, ColorInput, Gradient, SingleImage, UnicornSwitcher };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
 });
-const _hoisted_1$8 = { class: "modal-header bg-white sticky-top" };
-const _hoisted_2$8 = {
+const _hoisted_1$8 = {
   ref: "tab",
   class: "nav nav-pills border-0"
 };
-const _hoisted_3$8 = { class: "nav-item" };
-const _hoisted_4$8 = {
+const _hoisted_2$8 = { class: "nav-item" };
+const _hoisted_3$8 = {
   ref: "generalTab",
   class: "nav-link active",
   "data-toggle": "tab",
   "data-bs-toggle": "tab",
   href: "#addon-edit-general"
 };
-const _hoisted_5$8 = { class: "ml-auto ms-auto" };
-const _hoisted_6$8 = ["disabled"];
-const _hoisted_7$8 = {
+const _hoisted_4$8 = { class: "ml-auto ms-auto" };
+const _hoisted_5$8 = ["disabled"];
+const _hoisted_6$8 = {
   key: 0,
   class: "tab-content",
   id: "addon-edit-tab-content"
 };
-const _hoisted_8$8 = {
+const _hoisted_7$8 = {
   class: "tab-pane fade show active",
   id: "addon-edit-general",
   role: "tabpanel",
   "aria-labelledby": "addon-edit-general-tab"
 };
+const _hoisted_8$8 = { class: "form-group mb-3" };
 const _hoisted_9$8 = { class: "form-group mb-3" };
-const _hoisted_10$8 = { class: "form-group mb-3" };
-const _hoisted_11$7 = {
+const _hoisted_10$8 = {
   class: "tab-pane fade",
   id: "addon-edit-layout",
   role: "tabpanel",
   "aria-labelledby": "addon-edit-layout-tab"
 };
+const _hoisted_11$7 = { class: "form-group mb-3" };
 const _hoisted_12$7 = { class: "form-group mb-3" };
-const _hoisted_13$7 = { class: "form-group mb-3" };
-const _hoisted_14$7 = { class: "mt-2" };
-const _hoisted_15$7 = {
+const _hoisted_13$7 = { class: "mt-2" };
+const _hoisted_14$7 = {
   key: 0,
   class: "form-group mb-3"
 };
-const _hoisted_16$7 = {
+const _hoisted_15$7 = {
   key: 0,
   style: { "animation-duration": ".3s" }
 };
-const _hoisted_17$6 = { class: "form-group mb-3" };
-const _hoisted_18$4 = { class: "form-row row" };
+const _hoisted_16$7 = { class: "form-group mb-3" };
+const _hoisted_17$5 = { class: "form-row row" };
+const _hoisted_18$4 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_19$4 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_20$4 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_21$3 = { class: "form-row row" };
+const _hoisted_20$4 = { class: "form-row row" };
+const _hoisted_21$3 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_22$2 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_23$2 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_24$2 = {
+const _hoisted_23$2 = {
   key: 0,
   style: { "animation-duration": ".3s" }
 };
-const _hoisted_25$2 = { class: "form-group mb-3" };
-const _hoisted_26$2 = {
+const _hoisted_24$2 = { class: "form-group mb-3" };
+const _hoisted_25$2 = {
   key: 0,
   style: { "animation-duration": ".3s" }
 };
+const _hoisted_26$2 = { class: "form-group mb-3" };
 const _hoisted_27$2 = { class: "form-group mb-3" };
 const _hoisted_28$2 = { class: "form-group mb-3" };
 const _hoisted_29$2 = { class: "form-group mb-3" };
 const _hoisted_30$2 = { class: "form-group mb-3" };
 const _hoisted_31$2 = { class: "form-group mb-3" };
-const _hoisted_32$2 = { class: "form-group mb-3" };
-const _hoisted_33$2 = { class: "text-muted small mb-3" };
-const _hoisted_34$2 = { key: 0 };
-const _hoisted_35$2 = {
+const _hoisted_32$2 = { class: "text-muted small mb-3" };
+const _hoisted_33$2 = { key: 0 };
+const _hoisted_34$2 = {
   class: "tab-pane fade",
   id: "addon-edit-animation",
   role: "tabpanel",
@@ -18728,69 +22620,68 @@ const _hoisted_35$2 = {
 };
 function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
-    createVNode($setup["BsModal"], {
-      open: $setup.modalShow,
+    createVNode($setup["BModal"], {
+      "model-value": $setup.modalShow,
       size: "lg",
       onHidden: _cache[27] || (_cache[27] = ($event) => $setup.modalShow = false),
       backdrop: "static",
-      class: "c-modal-addon-edit"
+      class: "c-modal-addon-edit",
+      "header-class": "bg-white sticky-top"
     }, {
-      "header-element": withCtx(() => [
-        createElementVNode("div", _hoisted_1$8, [
-          createElementVNode("ul", _hoisted_2$8, [
-            createElementVNode("li", _hoisted_3$8, [
-              createElementVNode("a", _hoisted_4$8, "\n                General\n              ", 512)
-            ]),
-            _cache[28] || (_cache[28] = createTextVNode()),
-            _cache[29] || (_cache[29] = createElementVNode("li", { class: "nav-item" }, [
-              createElementVNode("a", {
-                class: "nav-link",
-                "data-toggle": "tab",
-                "data-bs-toggle": "tab",
-                href: "#addon-edit-layout"
-              }, "\n                Layout\n              ")
-            ], -1)),
-            _cache[30] || (_cache[30] = createTextVNode()),
-            _cache[31] || (_cache[31] = createElementVNode("li", { class: "nav-item" }, [
-              createElementVNode("a", {
-                class: "nav-link",
-                "data-toggle": "tab",
-                "data-bs-toggle": "tab",
-                href: "#addon-edit-animation"
-              }, "\n                Animation\n              ")
-            ], -1))
-          ], 512),
-          _cache[37] || (_cache[37] = createTextVNode()),
-          createElementVNode("div", _hoisted_5$8, [
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-primary",
-              onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
-            }, [..._cache[32] || (_cache[32] = [
-              createElementVNode("span", { class: "fa fa-check" }, null, -1),
-              createTextVNode("\n              Done\n            ", -1)
-            ])]),
-            _cache[35] || (_cache[35] = createTextVNode()),
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-success",
-              onClick: _cache[1] || (_cache[1] = ($event) => $setup.savePage()),
-              disabled: $setup.saving
-            }, [
-              createElementVNode("span", {
-                class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
-              }, null, 2),
-              _cache[33] || (_cache[33] = createTextVNode("\n              Save Page\n            ", -1))
-            ], 8, _hoisted_6$8),
-            _cache[36] || (_cache[36] = createTextVNode()),
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-secondary",
-              onClick: _cache[2] || (_cache[2] = ($event) => $setup.close())
-            }, [..._cache[34] || (_cache[34] = [
-              createElementVNode("span", { class: "fa fa-times" }, null, -1)
-            ])])
-          ])
+      header: withCtx(() => [
+        createElementVNode("ul", _hoisted_1$8, [
+          createElementVNode("li", _hoisted_2$8, [
+            createElementVNode("a", _hoisted_3$8, "\n              General\n            ", 512)
+          ]),
+          _cache[28] || (_cache[28] = createTextVNode()),
+          _cache[29] || (_cache[29] = createElementVNode("li", { class: "nav-item" }, [
+            createElementVNode("a", {
+              class: "nav-link",
+              "data-toggle": "tab",
+              "data-bs-toggle": "tab",
+              href: "#addon-edit-layout"
+            }, "\n              Layout\n            ")
+          ], -1)),
+          _cache[30] || (_cache[30] = createTextVNode()),
+          _cache[31] || (_cache[31] = createElementVNode("li", { class: "nav-item" }, [
+            createElementVNode("a", {
+              class: "nav-link",
+              "data-toggle": "tab",
+              "data-bs-toggle": "tab",
+              href: "#addon-edit-animation"
+            }, "\n              Animation\n            ")
+          ], -1))
+        ], 512),
+        _cache[37] || (_cache[37] = createTextVNode()),
+        createElementVNode("div", _hoisted_4$8, [
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-primary",
+            onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
+          }, [..._cache[32] || (_cache[32] = [
+            createElementVNode("span", { class: "fa fa-check" }, null, -1),
+            createTextVNode("\n            Done\n          ", -1)
+          ])]),
+          _cache[35] || (_cache[35] = createTextVNode()),
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-success",
+            onClick: _cache[1] || (_cache[1] = ($event) => $setup.savePage()),
+            disabled: $setup.saving
+          }, [
+            createElementVNode("span", {
+              class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
+            }, null, 2),
+            _cache[33] || (_cache[33] = createTextVNode("\n            Save Page\n          ", -1))
+          ], 8, _hoisted_5$8),
+          _cache[36] || (_cache[36] = createTextVNode()),
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-secondary",
+            onClick: _cache[2] || (_cache[2] = ($event) => $setup.close())
+          }, [..._cache[34] || (_cache[34] = [
+            createElementVNode("span", { class: "fa fa-times" }, null, -1)
+          ])])
         ])
       ]),
       footer: withCtx(() => [
@@ -18814,9 +22705,9 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       default: withCtx(() => [
         _cache[112] || (_cache[112] = createTextVNode()),
-        $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_7$8, [
-          createElementVNode("div", _hoisted_8$8, [
-            createElementVNode("div", _hoisted_9$8, [
+        $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_6$8, [
+          createElementVNode("div", _hoisted_7$8, [
+            createElementVNode("div", _hoisted_8$8, [
               _cache[38] || (_cache[38] = createElementVNode("label", { for: "input-addon-edit-label" }, "Label", -1)),
               _cache[39] || (_cache[39] = createTextVNode()),
               withDirectives(createElementVNode("input", {
@@ -18838,7 +22729,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
               "addon-id": $setup.content.id
             }, null, 8, ["modelValue", "addon-id"])) : createCommentVNode("", true),
             _cache[45] || (_cache[45] = createTextVNode()),
-            createElementVNode("div", _hoisted_10$8, [
+            createElementVNode("div", _hoisted_9$8, [
               _cache[42] || (_cache[42] = createElementVNode("label", { for: "input-addon-edit-html-class" }, "CSS Class", -1)),
               _cache[43] || (_cache[43] = createTextVNode()),
               withDirectives(createElementVNode("input", {
@@ -18852,7 +22743,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           ]),
           _cache[107] || (_cache[107] = createTextVNode()),
-          createElementVNode("div", _hoisted_11$7, [
+          createElementVNode("div", _hoisted_10$8, [
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.padding,
               "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.options.padding = $event)
@@ -18873,7 +22764,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
               _: 1
             }, 8, ["modelValue"]),
             _cache[92] || (_cache[92] = createTextVNode()),
-            createElementVNode("div", _hoisted_12$7, [
+            createElementVNode("div", _hoisted_11$7, [
               _cache[48] || (_cache[48] = createElementVNode("label", { for: "input-addon-edit-text-color" }, "Text Color", -1)),
               _cache[49] || (_cache[49] = createTextVNode()),
               createVNode($setup["ColorInput"], {
@@ -18884,10 +22775,10 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 8, ["modelValue"])
             ]),
             _cache[93] || (_cache[93] = createTextVNode()),
-            createElementVNode("div", _hoisted_13$7, [
+            createElementVNode("div", _hoisted_12$7, [
               _cache[50] || (_cache[50] = createElementVNode("label", { for: "input-addon-edit-background" }, "Background Type", -1)),
               _cache[51] || (_cache[51] = createTextVNode()),
-              createElementVNode("div", _hoisted_14$7, [
+              createElementVNode("div", _hoisted_13$7, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
                   variant: "outline",
@@ -18907,7 +22798,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
             _cache[94] || (_cache[94] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
-                ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_15$7, [
+                ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_14$7, [
                   _cache[52] || (_cache[52] = createElementVNode("label", { for: "input-addon-edit-bg-color" }, "Background Color", -1)),
                   _cache[53] || (_cache[53] = createTextVNode()),
                   createVNode($setup["ColorInput"], {
@@ -18926,8 +22817,8 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
               mode: "out-in"
             }, {
               default: withCtx(() => [
-                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_16$7, [
-                  createElementVNode("div", _hoisted_17$6, [
+                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_15$7, [
+                  createElementVNode("div", _hoisted_16$7, [
                     _cache[54] || (_cache[54] = createElementVNode("label", { for: "input-addon-edit-bg-image" }, "Background Image", -1)),
                     _cache[55] || (_cache[55] = createTextVNode()),
                     createVNode($setup["SingleImage"], {
@@ -18937,8 +22828,8 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
                     }, null, 8, ["modelValue"])
                   ]),
                   _cache[69] || (_cache[69] = createTextVNode()),
-                  createElementVNode("div", _hoisted_18$4, [
-                    createElementVNode("div", _hoisted_19$4, [
+                  createElementVNode("div", _hoisted_17$5, [
+                    createElementVNode("div", _hoisted_18$4, [
                       _cache[56] || (_cache[56] = createElementVNode("label", { for: "input-addon-edit-bg-overlay" }, "Background Overlay", -1)),
                       _cache[57] || (_cache[57] = createTextVNode()),
                       createVNode($setup["ColorInput"], {
@@ -18949,7 +22840,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8, ["modelValue"])
                     ]),
                     _cache[61] || (_cache[61] = createTextVNode()),
-                    createElementVNode("div", _hoisted_20$4, [
+                    createElementVNode("div", _hoisted_19$4, [
                       _cache[59] || (_cache[59] = createElementVNode("label", { for: "input-addon-edit-bg-repeat" }, "Background Repeat", -1)),
                       _cache[60] || (_cache[60] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
@@ -18977,8 +22868,8 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
                     ])
                   ]),
                   _cache[70] || (_cache[70] = createTextVNode()),
-                  createElementVNode("div", _hoisted_21$3, [
-                    createElementVNode("div", _hoisted_22$2, [
+                  createElementVNode("div", _hoisted_20$4, [
+                    createElementVNode("div", _hoisted_21$3, [
                       _cache[63] || (_cache[63] = createElementVNode("label", { for: "input-addon-edit-bg-attachment" }, "Background Attachment", -1)),
                       _cache[64] || (_cache[64] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
@@ -19001,7 +22892,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
                       ])
                     ]),
                     _cache[68] || (_cache[68] = createTextVNode()),
-                    createElementVNode("div", _hoisted_23$2, [
+                    createElementVNode("div", _hoisted_22$2, [
                       _cache[66] || (_cache[66] = createElementVNode("label", { for: "input-addon-edit-bg-position" }, "Background Position", -1)),
                       _cache[67] || (_cache[67] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
@@ -19062,8 +22953,8 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
               mode: "out-in"
             }, {
               default: withCtx(() => [
-                ["video"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_24$2, [
-                  createElementVNode("div", _hoisted_25$2, [
+                ["video"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_23$2, [
+                  createElementVNode("div", _hoisted_24$2, [
                     _cache[71] || (_cache[71] = createElementVNode("label", { for: "input-addon-edit-bg-video-url" }, "Video URL", -1)),
                     _cache[72] || (_cache[72] = createTextVNode()),
                     withDirectives(createElementVNode("input", {
@@ -19087,8 +22978,8 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
               mode: "out-in"
             }, {
               default: withCtx(() => [
-                ["video", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_26$2, [
-                  createElementVNode("div", _hoisted_27$2, [
+                ["video", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_25$2, [
+                  createElementVNode("div", _hoisted_26$2, [
                     _cache[75] || (_cache[75] = createElementVNode("label", { for: "input-addon-edit-bg-overlay" }, "Background Overlay", -1)),
                     _cache[76] || (_cache[76] = createTextVNode()),
                     createVNode($setup["ColorInput"], {
@@ -19099,7 +22990,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
                     }, null, 8, ["modelValue"])
                   ]),
                   _cache[79] || (_cache[79] = createTextVNode()),
-                  createElementVNode("div", _hoisted_28$2, [
+                  createElementVNode("div", _hoisted_27$2, [
                     _cache[77] || (_cache[77] = createElementVNode("label", { for: "input-addon-edit-hidden-mobile" }, "Parallel Scroll", -1)),
                     _cache[78] || (_cache[78] = createTextVNode()),
                     createElementVNode("div", null, [
@@ -19122,7 +23013,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
             _cache[99] || (_cache[99] = createTextVNode()),
             _cache[100] || (_cache[100] = createElementVNode("hr", null, null, -1)),
             _cache[101] || (_cache[101] = createTextVNode()),
-            createElementVNode("div", _hoisted_29$2, [
+            createElementVNode("div", _hoisted_28$2, [
               _cache[80] || (_cache[80] = createElementVNode("label", { for: "input-addon-edit-hidden-mobile" }, "Hide in Mobile", -1)),
               _cache[81] || (_cache[81] = createTextVNode()),
               createElementVNode("div", null, [
@@ -19139,7 +23030,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ]),
             _cache[102] || (_cache[102] = createTextVNode()),
-            createElementVNode("div", _hoisted_30$2, [
+            createElementVNode("div", _hoisted_29$2, [
               _cache[82] || (_cache[82] = createElementVNode("label", { for: "input-addon-edit-hidden-tablet" }, "Hide in Tablet", -1)),
               _cache[83] || (_cache[83] = createTextVNode()),
               createElementVNode("div", null, [
@@ -19156,7 +23047,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ]),
             _cache[103] || (_cache[103] = createTextVNode()),
-            createElementVNode("div", _hoisted_31$2, [
+            createElementVNode("div", _hoisted_30$2, [
               _cache[84] || (_cache[84] = createElementVNode("label", { for: "input-addon-edit-hidden-desktop" }, "Hide in Desktop", -1)),
               _cache[85] || (_cache[85] = createTextVNode()),
               createElementVNode("div", null, [
@@ -19175,16 +23066,16 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
             _cache[104] || (_cache[104] = createTextVNode()),
             _cache[105] || (_cache[105] = createElementVNode("hr", null, null, -1)),
             _cache[106] || (_cache[106] = createTextVNode()),
-            createElementVNode("div", _hoisted_32$2, [
+            createElementVNode("div", _hoisted_31$2, [
               _cache[88] || (_cache[88] = createElementVNode("label", { for: "input-addon-edit-css" }, "Custom CSS (SCSS)", -1)),
               _cache[89] || (_cache[89] = createTextVNode()),
-              createElementVNode("div", _hoisted_33$2, [
+              createElementVNode("div", _hoisted_32$2, [
                 _cache[86] || (_cache[86] = createTextVNode("\n              Will auto prefix with: ", -1)),
                 createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
                 _cache[87] || (_cache[87] = createTextVNode(", and only affected in this scope.\n            ", -1))
               ]),
               _cache[90] || (_cache[90] = createTextVNode()),
-              $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_34$2, [
+              $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_33$2, [
                 createVNode($setup["CssEditor"], {
                   ref: "css-editor",
                   modelValue: $setup.options.html_css,
@@ -19195,7 +23086,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           ]),
           _cache[108] || (_cache[108] = createTextVNode()),
-          createElementVNode("div", _hoisted_35$2, [
+          createElementVNode("div", _hoisted_34$2, [
             createVNode($setup["Animations"], {
               id: "addon-edit-anim",
               modelValue: $setup.options.animation,
@@ -19206,16 +23097,16 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
         _cache[113] || (_cache[113] = createTextVNode())
       ]),
       _: 1
-    }, 8, ["open"])
+    }, 8, ["model-value"])
   ]);
 }
 const AddonEdit = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8], ["__file", "AddonEdit.vue"]]);
 const _sfc_main$7 = /* @__PURE__ */ defineComponent({
   __name: "ColumnEdit",
   setup(__props, { expose: __expose }) {
+    const { saving: saving2, savePage: doSavePage } = usePageBuilderUtilities();
     const u2 = useUnicorn();
     const content = ref();
-    const saving = ref(false);
     const modalShow = ref(false);
     const cssEditor = useTemplateRef("cssEditor");
     const tab = ref();
@@ -19244,19 +23135,20 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
         currentTab.value = active.getAttribute("href")?.replace("#column-edit-", "") || "general";
       }
     }
+    useEventListener$1("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "s" && modalShow.value) {
+        e.preventDefault();
+        savePage2();
+      }
+    });
     function saveClose() {
       u2.trigger("column:save", JSON.parse(JSON.stringify(content.value)));
       close();
     }
-    async function savePage$1() {
+    async function savePage2() {
       u2.trigger("column:save", JSON.parse(JSON.stringify(content.value)));
       await nextTick();
-      saving.value = true;
-      try {
-        return await savePage();
-      } finally {
-        saving.value = false;
-      }
+      return await doSavePage();
     }
     function close() {
       modalShow.value = false;
@@ -19268,96 +23160,97 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       return range(1, 13);
     }
     const options = computed(() => content.value?.options);
-    const __returned__ = { u: u2, content, saving, modalShow, cssEditor, tab, currentTab, edit, updateCurrentTab, saveClose, savePage: savePage$1, close, widthRange, options, BsModal, CssEditor, UnicornSwitcher, Animations, BoxOffset, ButtonRadio, ColorInput, SingleImage, Gradient, RwdGroup, SliderInput };
+    const __returned__ = { saving: saving2, doSavePage, u: u2, content, modalShow, cssEditor, tab, currentTab, edit, updateCurrentTab, saveClose, savePage: savePage2, close, widthRange, options, get BModal() {
+      return _sfc_main$l;
+    }, CssEditor, UnicornSwitcher, Animations, BoxOffset, ButtonRadio, ColorInput, SingleImage, Gradient, RwdGroup, SliderInput };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
 });
-const _hoisted_1$7 = { class: "modal-header bg-white sticky-top" };
-const _hoisted_2$7 = {
+const _hoisted_1$7 = {
   ref: "tab",
   class: "nav nav-pills border-0"
 };
-const _hoisted_3$7 = { class: "nav-item" };
-const _hoisted_4$7 = {
+const _hoisted_2$7 = { class: "nav-item" };
+const _hoisted_3$7 = {
   ref: "generalTab",
   class: "nav-link active",
   "data-toggle": "tab",
   "data-bs-toggle": "tab",
   href: "#column-edit-general"
 };
-const _hoisted_5$7 = { class: "ml-auto ms-auto" };
-const _hoisted_6$7 = ["disabled"];
-const _hoisted_7$7 = {
+const _hoisted_4$7 = { class: "ml-auto ms-auto" };
+const _hoisted_5$7 = ["disabled"];
+const _hoisted_6$7 = {
   key: 0,
   class: "tab-content",
   id: "column-edit-tab-content"
 };
-const _hoisted_8$7 = {
+const _hoisted_7$7 = {
   class: "tab-pane fade show active",
   id: "column-edit-general",
   role: "tabpanel",
   "aria-labelledby": "column-edit-general-tab"
 };
+const _hoisted_8$7 = { class: "form-group mb-3" };
 const _hoisted_9$7 = { class: "form-group mb-3" };
-const _hoisted_10$7 = { class: "form-group mb-3" };
-const _hoisted_11$6 = { class: "" };
-const _hoisted_12$6 = {
+const _hoisted_10$7 = { class: "" };
+const _hoisted_11$6 = {
   key: 0,
   class: "form-group mb-3",
   style: { "animation-duration": ".3s" }
 };
-const _hoisted_13$6 = {
+const _hoisted_12$6 = {
   key: 0,
   style: { "animation-duration": ".3s" }
 };
-const _hoisted_14$6 = { class: "form-group mb-3" };
-const _hoisted_15$6 = { class: "form-row row" };
+const _hoisted_13$6 = { class: "form-group mb-3" };
+const _hoisted_14$6 = { class: "form-row row" };
+const _hoisted_15$6 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_16$6 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_17$5 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_18$3 = { class: "form-row row" };
+const _hoisted_17$4 = { class: "form-row row" };
+const _hoisted_18$3 = { class: "form-group mb-3 col-md-6" };
 const _hoisted_19$3 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_20$3 = { class: "form-group mb-3 col-md-6" };
-const _hoisted_21$2 = { class: "form-group mb-3" };
-const _hoisted_22$1 = { class: "" };
+const _hoisted_20$3 = { class: "form-group mb-3" };
+const _hoisted_21$2 = { class: "" };
+const _hoisted_22$1 = { class: "form-group mb-3" };
 const _hoisted_23$1 = { class: "form-group mb-3" };
-const _hoisted_24$1 = { class: "form-group mb-3" };
-const _hoisted_25$1 = { key: 0 };
+const _hoisted_24$1 = { key: 0 };
+const _hoisted_25$1 = { class: "form-group mb-3" };
 const _hoisted_26$1 = { class: "form-group mb-3" };
 const _hoisted_27$1 = { class: "form-group mb-3" };
-const _hoisted_28$1 = { class: "form-group mb-3" };
-const _hoisted_29$1 = { key: 1 };
-const _hoisted_30$1 = { class: "form-group mb-3" };
-const _hoisted_31$1 = { class: "form-row row" };
-const _hoisted_32$1 = { class: "col-6" };
-const _hoisted_33$1 = { class: "form-group mb-3" };
-const _hoisted_34$1 = { class: "col-6" };
-const _hoisted_35$1 = { class: "form-group mb-3" };
-const _hoisted_36$1 = { class: "form-row row" };
-const _hoisted_37$1 = { class: "col-6" };
-const _hoisted_38$1 = { class: "form-group mb-3" };
-const _hoisted_39$1 = { class: "col-6" };
+const _hoisted_28$1 = { key: 1 };
+const _hoisted_29$1 = { class: "form-group mb-3" };
+const _hoisted_30$1 = { class: "form-row row" };
+const _hoisted_31$1 = { class: "col-6" };
+const _hoisted_32$1 = { class: "form-group mb-3" };
+const _hoisted_33$1 = { class: "col-6" };
+const _hoisted_34$1 = { class: "form-group mb-3" };
+const _hoisted_35$1 = { class: "form-row row" };
+const _hoisted_36$1 = { class: "col-6" };
+const _hoisted_37$1 = { class: "form-group mb-3" };
+const _hoisted_38$1 = { class: "col-6" };
+const _hoisted_39$1 = { class: "form-group mb-3" };
 const _hoisted_40$1 = { class: "form-group mb-3" };
-const _hoisted_41 = { class: "form-group mb-3" };
-const _hoisted_42 = {
+const _hoisted_41 = {
   class: "tab-pane fade",
   id: "column-edit-layout",
   role: "tabpanel",
   "aria-labelledby": "column-edit-layout-tab"
 };
-const _hoisted_43 = { class: "form-group mb-3" };
-const _hoisted_44 = ["value"];
-const _hoisted_45 = { class: "form-group mb-3" };
-const _hoisted_46 = ["value"];
-const _hoisted_47 = { class: "form-group mb-3" };
-const _hoisted_48 = ["value"];
+const _hoisted_42 = { class: "form-group mb-3" };
+const _hoisted_43 = ["value"];
+const _hoisted_44 = { class: "form-group mb-3" };
+const _hoisted_45 = ["value"];
+const _hoisted_46 = { class: "form-group mb-3" };
+const _hoisted_47 = ["value"];
+const _hoisted_48 = { class: "form-group mb-3" };
 const _hoisted_49 = { class: "form-group mb-3" };
 const _hoisted_50 = { class: "form-group mb-3" };
 const _hoisted_51 = { class: "form-group mb-3" };
-const _hoisted_52 = { class: "form-group mb-3" };
-const _hoisted_53 = { class: "text-muted small mb-3" };
-const _hoisted_54 = { key: 0 };
-const _hoisted_55 = {
+const _hoisted_52 = { class: "text-muted small mb-3" };
+const _hoisted_53 = { key: 0 };
+const _hoisted_54 = {
   class: "tab-pane fade",
   id: "column-edit-animation",
   role: "tabpanel",
@@ -19365,96 +23258,95 @@ const _hoisted_55 = {
 };
 function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
-    createVNode($setup["BsModal"], {
-      open: $setup.modalShow,
+    createVNode($setup["BModal"], {
+      "model-value": $setup.modalShow,
       size: "lg",
-      onHidden: _cache[35] || (_cache[35] = ($event) => $setup.modalShow = false),
+      onHidden: _cache[36] || (_cache[36] = ($event) => $setup.modalShow = false),
       backdrop: "static",
-      class: "c-modal-column-edit"
+      class: "c-modal-column-edit",
+      "header-class": "bg-white sticky-top"
     }, {
-      "header-element": withCtx(() => [
-        createElementVNode("div", _hoisted_1$7, [
-          createElementVNode("ul", _hoisted_2$7, [
-            createElementVNode("li", _hoisted_3$7, [
-              createElementVNode("a", _hoisted_4$7, "\n                General\n              ", 512)
-            ]),
-            _cache[36] || (_cache[36] = createTextVNode()),
-            _cache[37] || (_cache[37] = createElementVNode("li", { class: "nav-item" }, [
-              createElementVNode("a", {
-                class: "nav-link",
-                "data-toggle": "tab",
-                "data-bs-toggle": "tab",
-                href: "#column-edit-layout"
-              }, "\n                Layout\n              ")
-            ], -1)),
-            _cache[38] || (_cache[38] = createTextVNode()),
-            _cache[39] || (_cache[39] = createElementVNode("li", { class: "nav-item" }, [
-              createElementVNode("a", {
-                class: "nav-link",
-                "data-toggle": "tab",
-                "data-bs-toggle": "tab",
-                href: "#column-edit-animation"
-              }, "\n                Animation\n              ")
-            ], -1))
-          ], 512),
+      header: withCtx(() => [
+        createElementVNode("ul", _hoisted_1$7, [
+          createElementVNode("li", _hoisted_2$7, [
+            createElementVNode("a", _hoisted_3$7, "\n              General\n            ", 512)
+          ]),
+          _cache[37] || (_cache[37] = createTextVNode()),
+          _cache[38] || (_cache[38] = createElementVNode("li", { class: "nav-item" }, [
+            createElementVNode("a", {
+              class: "nav-link",
+              "data-toggle": "tab",
+              "data-bs-toggle": "tab",
+              href: "#column-edit-layout"
+            }, "\n              Layout\n            ")
+          ], -1)),
+          _cache[39] || (_cache[39] = createTextVNode()),
+          _cache[40] || (_cache[40] = createElementVNode("li", { class: "nav-item" }, [
+            createElementVNode("a", {
+              class: "nav-link",
+              "data-toggle": "tab",
+              "data-bs-toggle": "tab",
+              href: "#column-edit-animation"
+            }, "\n              Animation\n            ")
+          ], -1))
+        ], 512),
+        _cache[46] || (_cache[46] = createTextVNode()),
+        createElementVNode("div", _hoisted_4$7, [
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-primary",
+            onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
+          }, [..._cache[41] || (_cache[41] = [
+            createElementVNode("span", { class: "fa fa-check" }, null, -1),
+            createTextVNode("\n            Done\n          ", -1)
+          ])]),
+          _cache[44] || (_cache[44] = createTextVNode()),
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-success",
+            onClick: _cache[1] || (_cache[1] = ($event) => $setup.savePage()),
+            disabled: $setup.saving
+          }, [
+            createElementVNode("span", {
+              class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
+            }, null, 2),
+            _cache[42] || (_cache[42] = createTextVNode("\n            Save Page\n          ", -1))
+          ], 8, _hoisted_5$7),
           _cache[45] || (_cache[45] = createTextVNode()),
-          createElementVNode("div", _hoisted_5$7, [
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-primary",
-              onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
-            }, [..._cache[40] || (_cache[40] = [
-              createElementVNode("span", { class: "fa fa-check" }, null, -1),
-              createTextVNode("\n              Done\n            ", -1)
-            ])]),
-            _cache[43] || (_cache[43] = createTextVNode()),
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-success",
-              onClick: _cache[1] || (_cache[1] = ($event) => $setup.savePage()),
-              disabled: $setup.saving
-            }, [
-              createElementVNode("span", {
-                class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
-              }, null, 2),
-              _cache[41] || (_cache[41] = createTextVNode("\n              Save Page\n            ", -1))
-            ], 8, _hoisted_6$7),
-            _cache[44] || (_cache[44] = createTextVNode()),
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-secondary",
-              onClick: _cache[2] || (_cache[2] = ($event) => $setup.close())
-            }, [..._cache[42] || (_cache[42] = [
-              createElementVNode("span", { class: "fa fa-times" }, null, -1)
-            ])])
-          ])
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-secondary",
+            onClick: _cache[2] || (_cache[2] = ($event) => $setup.close())
+          }, [..._cache[43] || (_cache[43] = [
+            createElementVNode("span", { class: "fa fa-times" }, null, -1)
+          ])])
         ])
       ]),
       footer: withCtx(() => [
         createElementVNode("button", {
           type: "button",
           class: "btn btn-success",
-          onClick: _cache[33] || (_cache[33] = ($event) => $setup.saveClose())
-        }, [..._cache[161] || (_cache[161] = [
+          onClick: _cache[34] || (_cache[34] = ($event) => $setup.saveClose())
+        }, [..._cache[162] || (_cache[162] = [
           createElementVNode("span", { class: "fa fa-save" }, null, -1),
           createTextVNode("\n          Save\n        ", -1)
         ])]),
-        _cache[163] || (_cache[163] = createTextVNode()),
+        _cache[164] || (_cache[164] = createTextVNode()),
         createElementVNode("button", {
           type: "button",
           class: "btn btn-secondary",
-          onClick: _cache[34] || (_cache[34] = ($event) => $setup.close())
-        }, [..._cache[162] || (_cache[162] = [
+          onClick: _cache[35] || (_cache[35] = ($event) => $setup.close())
+        }, [..._cache[163] || (_cache[163] = [
           createElementVNode("span", { class: "fa fa-times" }, null, -1)
         ])])
       ]),
       default: withCtx(() => [
-        _cache[164] || (_cache[164] = createTextVNode()),
-        $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_7$7, [
-          createElementVNode("div", _hoisted_8$7, [
-            createElementVNode("div", _hoisted_9$7, [
-              _cache[46] || (_cache[46] = createElementVNode("label", { for: "input-column-edit-text-color" }, "Text Color", -1)),
-              _cache[47] || (_cache[47] = createTextVNode()),
+        _cache[165] || (_cache[165] = createTextVNode()),
+        $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_6$7, [
+          createElementVNode("div", _hoisted_7$7, [
+            createElementVNode("div", _hoisted_8$7, [
+              _cache[47] || (_cache[47] = createElementVNode("label", { for: "input-column-edit-text-color" }, "Text Color", -1)),
+              _cache[48] || (_cache[48] = createTextVNode()),
               createVNode($setup["ColorInput"], {
                 id: "input-column-edit-text-color",
                 modelValue: $setup.options.text_color,
@@ -19462,11 +23354,11 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 modelModifiers: { lazy: true }
               }, null, 8, ["modelValue"])
             ]),
-            _cache[106] || (_cache[106] = createTextVNode()),
-            createElementVNode("div", _hoisted_10$7, [
-              _cache[48] || (_cache[48] = createElementVNode("label", { for: "input-column-edit-background" }, "Background Style", -1)),
-              _cache[49] || (_cache[49] = createTextVNode()),
-              createElementVNode("div", _hoisted_11$6, [
+            _cache[107] || (_cache[107] = createTextVNode()),
+            createElementVNode("div", _hoisted_9$7, [
+              _cache[49] || (_cache[49] = createElementVNode("label", { for: "input-column-edit-background" }, "Background Style", -1)),
+              _cache[50] || (_cache[50] = createTextVNode()),
+              createElementVNode("div", _hoisted_10$7, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
                   variant: "outline",
@@ -19482,15 +23374,15 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[107] || (_cache[107] = createTextVNode()),
+            _cache[108] || (_cache[108] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
             }, {
               default: withCtx(() => [
-                ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_12$6, [
-                  _cache[50] || (_cache[50] = createElementVNode("label", { for: "input-column-edit-bg-color" }, "Background Color", -1)),
-                  _cache[51] || (_cache[51] = createTextVNode()),
+                ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_11$6, [
+                  _cache[51] || (_cache[51] = createElementVNode("label", { for: "input-column-edit-bg-color" }, "Background Color", -1)),
+                  _cache[52] || (_cache[52] = createTextVNode()),
                   createVNode($setup["ColorInput"], {
                     id: "input-column-edit-bg-color",
                     modelValue: $setup.options.background.color,
@@ -19501,27 +23393,27 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[108] || (_cache[108] = createTextVNode()),
+            _cache[109] || (_cache[109] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
             }, {
               default: withCtx(() => [
-                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_13$6, [
-                  createElementVNode("div", _hoisted_14$6, [
-                    _cache[52] || (_cache[52] = createElementVNode("label", { for: "input-column-edit-bg-image" }, "Background Image", -1)),
-                    _cache[53] || (_cache[53] = createTextVNode()),
+                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_12$6, [
+                  createElementVNode("div", _hoisted_13$6, [
+                    _cache[53] || (_cache[53] = createElementVNode("label", { for: "input-column-edit-bg-image" }, "Background Image", -1)),
+                    _cache[54] || (_cache[54] = createTextVNode()),
                     createVNode($setup["SingleImage"], {
                       modelValue: $setup.options.background.image.url,
                       "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.options.background.image.url = $event),
                       id: "input-column-edit-bg-image"
                     }, null, 8, ["modelValue"])
                   ]),
-                  _cache[67] || (_cache[67] = createTextVNode()),
-                  createElementVNode("div", _hoisted_15$6, [
-                    createElementVNode("div", _hoisted_16$6, [
-                      _cache[54] || (_cache[54] = createElementVNode("label", { for: "input-column-edit-bg-overlay" }, "Background Overlay", -1)),
-                      _cache[55] || (_cache[55] = createTextVNode()),
+                  _cache[68] || (_cache[68] = createTextVNode()),
+                  createElementVNode("div", _hoisted_14$6, [
+                    createElementVNode("div", _hoisted_15$6, [
+                      _cache[55] || (_cache[55] = createElementVNode("label", { for: "input-column-edit-bg-overlay" }, "Background Overlay", -1)),
+                      _cache[56] || (_cache[56] = createTextVNode()),
                       createVNode($setup["ColorInput"], {
                         id: "input-column-edit-bg-overlay",
                         modelValue: $setup.options.background.overlay,
@@ -19529,15 +23421,15 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                         modelModifiers: { lazy: true }
                       }, null, 8, ["modelValue"])
                     ]),
-                    _cache[59] || (_cache[59] = createTextVNode()),
-                    createElementVNode("div", _hoisted_17$5, [
-                      _cache[57] || (_cache[57] = createElementVNode("label", { for: "input-column-edit-bg-repeat" }, "Background Repeat", -1)),
-                      _cache[58] || (_cache[58] = createTextVNode()),
+                    _cache[60] || (_cache[60] = createTextVNode()),
+                    createElementVNode("div", _hoisted_16$6, [
+                      _cache[58] || (_cache[58] = createElementVNode("label", { for: "input-column-edit-bg-repeat" }, "Background Repeat", -1)),
+                      _cache[59] || (_cache[59] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-column-edit-bg-repeat",
                         "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.options.background.image.repeat = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[56] || (_cache[56] = [
+                      }, [..._cache[57] || (_cache[57] = [
                         createElementVNode("option", { value: "no-repeat" }, "No Repeat", -1),
                         createTextVNode(),
                         createElementVNode("option", { value: "" }, "Repeat All", -1),
@@ -19557,16 +23449,16 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                       ])
                     ])
                   ]),
-                  _cache[68] || (_cache[68] = createTextVNode()),
-                  createElementVNode("div", _hoisted_18$3, [
-                    createElementVNode("div", _hoisted_19$3, [
-                      _cache[61] || (_cache[61] = createElementVNode("label", { for: "input-column-edit-bg-attachment" }, "Background Attachment", -1)),
-                      _cache[62] || (_cache[62] = createTextVNode()),
+                  _cache[69] || (_cache[69] = createTextVNode()),
+                  createElementVNode("div", _hoisted_17$4, [
+                    createElementVNode("div", _hoisted_18$3, [
+                      _cache[62] || (_cache[62] = createElementVNode("label", { for: "input-column-edit-bg-attachment" }, "Background Attachment", -1)),
+                      _cache[63] || (_cache[63] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-column-edit-bg-attachment",
                         "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.options.background.image.attachment = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[60] || (_cache[60] = [
+                      }, [..._cache[61] || (_cache[61] = [
                         createElementVNode("option", { value: "fixed" }, "Fixed", -1),
                         createTextVNode(),
                         createElementVNode("option", { value: "scroll" }, "Scroll", -1),
@@ -19581,15 +23473,15 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                         ]
                       ])
                     ]),
-                    _cache[66] || (_cache[66] = createTextVNode()),
-                    createElementVNode("div", _hoisted_20$3, [
-                      _cache[64] || (_cache[64] = createElementVNode("label", { for: "input-column-edit-bg-position" }, "Background Position", -1)),
-                      _cache[65] || (_cache[65] = createTextVNode()),
+                    _cache[67] || (_cache[67] = createTextVNode()),
+                    createElementVNode("div", _hoisted_19$3, [
+                      _cache[65] || (_cache[65] = createElementVNode("label", { for: "input-column-edit-bg-position" }, "Background Position", -1)),
+                      _cache[66] || (_cache[66] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-column-edit-bg-position",
                         "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.options.background.image.position = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[63] || (_cache[63] = [
+                      }, [..._cache[64] || (_cache[64] = [
                         createElementVNode("option", { value: "left top" }, "Left Top", -1),
                         createTextVNode(),
                         createElementVNode("option", { value: "left center" }, "Left Center", -1),
@@ -19621,7 +23513,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[109] || (_cache[109] = createTextVNode()),
+            _cache[110] || (_cache[110] = createTextVNode()),
             createVNode(Transition, {
               name: "fade",
               mode: "out-in"
@@ -19637,11 +23529,11 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[110] || (_cache[110] = createTextVNode()),
-            createElementVNode("div", _hoisted_21$2, [
-              _cache[69] || (_cache[69] = createElementVNode("label", { for: "input-addon-edit-text-align" }, "Text Alignment", -1)),
-              _cache[70] || (_cache[70] = createTextVNode()),
-              createElementVNode("div", _hoisted_22$1, [
+            _cache[111] || (_cache[111] = createTextVNode()),
+            createElementVNode("div", _hoisted_20$3, [
+              _cache[70] || (_cache[70] = createElementVNode("label", { for: "input-addon-edit-text-align" }, "Text Alignment", -1)),
+              _cache[71] || (_cache[71] = createTextVNode()),
+              createElementVNode("div", _hoisted_21$2, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
                   variant: "outline",
@@ -19657,10 +23549,10 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[111] || (_cache[111] = createTextVNode()),
-            createElementVNode("div", _hoisted_23$1, [
-              _cache[71] || (_cache[71] = createElementVNode("label", { for: "input-column-edit-valign" }, "Vertical Align Middle", -1)),
-              _cache[72] || (_cache[72] = createTextVNode()),
+            _cache[112] || (_cache[112] = createTextVNode()),
+            createElementVNode("div", _hoisted_22$1, [
+              _cache[72] || (_cache[72] = createElementVNode("label", { for: "input-column-edit-valign" }, "Vertical Align Middle", -1)),
+              _cache[73] || (_cache[73] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-align-middle",
@@ -19674,34 +23566,34 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[112] || (_cache[112] = createTextVNode()),
-            _cache[113] || (_cache[113] = createElementVNode("hr", null, null, -1)),
-            _cache[114] || (_cache[114] = createTextVNode()),
+            _cache[113] || (_cache[113] = createTextVNode()),
+            _cache[114] || (_cache[114] = createElementVNode("hr", null, null, -1)),
+            _cache[115] || (_cache[115] = createTextVNode()),
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.padding,
               "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => $setup.options.padding = $event)
             }, {
-              label: withCtx(() => [..._cache[73] || (_cache[73] = [
+              label: withCtx(() => [..._cache[74] || (_cache[74] = [
                 createElementVNode("label", null, "Padding", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
-            _cache[115] || (_cache[115] = createTextVNode()),
+            _cache[116] || (_cache[116] = createTextVNode()),
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.margin,
               "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => $setup.options.margin = $event)
             }, {
-              label: withCtx(() => [..._cache[74] || (_cache[74] = [
+              label: withCtx(() => [..._cache[75] || (_cache[75] = [
                 createElementVNode("label", null, "Margin", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
-            _cache[116] || (_cache[116] = createTextVNode()),
-            _cache[117] || (_cache[117] = createElementVNode("hr", null, null, -1)),
-            _cache[118] || (_cache[118] = createTextVNode()),
-            createElementVNode("div", _hoisted_24$1, [
-              _cache[75] || (_cache[75] = createElementVNode("label", { for: "input-column-edit-border-enabled" }, "Border", -1)),
-              _cache[76] || (_cache[76] = createTextVNode()),
+            _cache[117] || (_cache[117] = createTextVNode()),
+            _cache[118] || (_cache[118] = createElementVNode("hr", null, null, -1)),
+            _cache[119] || (_cache[119] = createTextVNode()),
+            createElementVNode("div", _hoisted_23$1, [
+              _cache[76] || (_cache[76] = createElementVNode("label", { for: "input-column-edit-border-enabled" }, "Border", -1)),
+              _cache[77] || (_cache[77] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-border-enabled",
@@ -19713,11 +23605,11 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[119] || (_cache[119] = createTextVNode()),
-            $setup.options.border.enabled == 1 ? (openBlock(), createElementBlock("div", _hoisted_25$1, [
+            _cache[120] || (_cache[120] = createTextVNode()),
+            $setup.options.border.enabled == 1 ? (openBlock(), createElementBlock("div", _hoisted_24$1, [
               createVNode($setup["RwdGroup"], { "class-name": "c-border-width" }, createSlots({
                 label: withCtx(() => [
-                  _cache[77] || (_cache[77] = createElementVNode("label", null, "\n                  Border Width\n                ", -1))
+                  _cache[78] || (_cache[78] = createElementVNode("label", null, "\n                  Border Width\n                ", -1))
                 ]),
                 _: 2
               }, [
@@ -19733,10 +23625,10 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                   };
                 })
               ]), 1024),
-              _cache[84] || (_cache[84] = createTextVNode()),
-              createElementVNode("div", _hoisted_26$1, [
-                _cache[79] || (_cache[79] = createElementVNode("label", { for: "input-column-edit-border-color" }, "Border Color", -1)),
-                _cache[80] || (_cache[80] = createTextVNode()),
+              _cache[85] || (_cache[85] = createTextVNode()),
+              createElementVNode("div", _hoisted_25$1, [
+                _cache[80] || (_cache[80] = createElementVNode("label", { for: "input-column-edit-border-color" }, "Border Color", -1)),
+                _cache[81] || (_cache[81] = createTextVNode()),
                 createVNode($setup["ColorInput"], {
                   id: "input-column-edit-border-color",
                   modelValue: $setup.options.border.color,
@@ -19744,15 +23636,15 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                   modelModifiers: { lazy: true }
                 }, null, 8, ["modelValue"])
               ]),
-              _cache[85] || (_cache[85] = createTextVNode()),
-              createElementVNode("div", _hoisted_27$1, [
-                _cache[82] || (_cache[82] = createElementVNode("label", { for: "input-column-edit-border-style" }, "Border Style", -1)),
-                _cache[83] || (_cache[83] = createTextVNode()),
+              _cache[86] || (_cache[86] = createTextVNode()),
+              createElementVNode("div", _hoisted_26$1, [
+                _cache[83] || (_cache[83] = createElementVNode("label", { for: "input-column-edit-border-style" }, "Border Style", -1)),
+                _cache[84] || (_cache[84] = createTextVNode()),
                 withDirectives(createElementVNode("select", {
                   id: "input-column-edit-border-style",
                   "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => $setup.options.border.style = $event),
                   class: "form-select custom-select"
-                }, [..._cache[81] || (_cache[81] = [
+                }, [..._cache[82] || (_cache[82] = [
                   createElementVNode("option", { value: "" }, "None", -1),
                   createTextVNode(),
                   createElementVNode("option", { value: "solid" }, "Solid", -1),
@@ -19771,10 +23663,10 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 ])
               ])
             ])) : createCommentVNode("", true),
-            _cache[120] || (_cache[120] = createTextVNode()),
+            _cache[121] || (_cache[121] = createTextVNode()),
             createVNode($setup["RwdGroup"], { "class-name": "c-border-radius" }, createSlots({
               label: withCtx(() => [
-                _cache[86] || (_cache[86] = createElementVNode("label", null, "\n                Border Radius\n              ", -1))
+                _cache[87] || (_cache[87] = createElementVNode("label", null, "\n                Border Radius\n              ", -1))
               ]),
               _: 2
             }, [
@@ -19791,12 +23683,12 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 };
               })
             ]), 1024),
-            _cache[121] || (_cache[121] = createTextVNode()),
-            _cache[122] || (_cache[122] = createElementVNode("hr", null, null, -1)),
-            _cache[123] || (_cache[123] = createTextVNode()),
-            createElementVNode("div", _hoisted_28$1, [
-              _cache[88] || (_cache[88] = createElementVNode("label", { for: "input-column-edit-box_shadow-enabled" }, "Box Shadow", -1)),
-              _cache[89] || (_cache[89] = createTextVNode()),
+            _cache[122] || (_cache[122] = createTextVNode()),
+            _cache[123] || (_cache[123] = createElementVNode("hr", null, null, -1)),
+            _cache[124] || (_cache[124] = createTextVNode()),
+            createElementVNode("div", _hoisted_27$1, [
+              _cache[89] || (_cache[89] = createElementVNode("label", { for: "input-column-edit-box_shadow-enabled" }, "Box Shadow", -1)),
+              _cache[90] || (_cache[90] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-box_shadow-enabled",
@@ -19808,11 +23700,11 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[124] || (_cache[124] = createTextVNode()),
-            $setup.options.box_shadow.enabled == 1 ? (openBlock(), createElementBlock("div", _hoisted_29$1, [
-              createElementVNode("div", _hoisted_30$1, [
-                _cache[90] || (_cache[90] = createElementVNode("label", { for: "input-column-edit-box-shadow-color" }, "Shadow Color", -1)),
-                _cache[91] || (_cache[91] = createTextVNode()),
+            _cache[125] || (_cache[125] = createTextVNode()),
+            $setup.options.box_shadow.enabled == 1 ? (openBlock(), createElementBlock("div", _hoisted_28$1, [
+              createElementVNode("div", _hoisted_29$1, [
+                _cache[91] || (_cache[91] = createElementVNode("label", { for: "input-column-edit-box-shadow-color" }, "Shadow Color", -1)),
+                _cache[92] || (_cache[92] = createTextVNode()),
                 createVNode($setup["ColorInput"], {
                   id: "input-column-edit-box-shadow-color",
                   modelValue: $setup.options.box_shadow.color,
@@ -19820,23 +23712,23 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                   modelModifiers: { lazy: true }
                 }, null, 8, ["modelValue"])
               ]),
-              _cache[102] || (_cache[102] = createTextVNode()),
-              createElementVNode("div", _hoisted_31$1, [
-                createElementVNode("div", _hoisted_32$1, [
-                  createElementVNode("div", _hoisted_33$1, [
-                    _cache[92] || (_cache[92] = createElementVNode("label", null, "\n                    Shadow X Offset\n                  ", -1)),
-                    _cache[93] || (_cache[93] = createTextVNode()),
+              _cache[103] || (_cache[103] = createTextVNode()),
+              createElementVNode("div", _hoisted_30$1, [
+                createElementVNode("div", _hoisted_31$1, [
+                  createElementVNode("div", _hoisted_32$1, [
+                    _cache[93] || (_cache[93] = createElementVNode("label", null, "\n                    Shadow X Offset\n                  ", -1)),
+                    _cache[94] || (_cache[94] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.hoffset,
                       "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => $setup.options.box_shadow.hoffset = $event)
                     }, null, 8, ["modelValue"])
                   ])
                 ]),
-                _cache[96] || (_cache[96] = createTextVNode()),
-                createElementVNode("div", _hoisted_34$1, [
-                  createElementVNode("div", _hoisted_35$1, [
-                    _cache[94] || (_cache[94] = createElementVNode("label", null, "\n                    Shadow Y Offset\n                  ", -1)),
-                    _cache[95] || (_cache[95] = createTextVNode()),
+                _cache[97] || (_cache[97] = createTextVNode()),
+                createElementVNode("div", _hoisted_33$1, [
+                  createElementVNode("div", _hoisted_34$1, [
+                    _cache[95] || (_cache[95] = createElementVNode("label", null, "\n                    Shadow Y Offset\n                  ", -1)),
+                    _cache[96] || (_cache[96] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.voffset,
                       "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => $setup.options.box_shadow.voffset = $event)
@@ -19844,23 +23736,23 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                   ])
                 ])
               ]),
-              _cache[103] || (_cache[103] = createTextVNode()),
-              createElementVNode("div", _hoisted_36$1, [
-                createElementVNode("div", _hoisted_37$1, [
-                  createElementVNode("div", _hoisted_38$1, [
-                    _cache[97] || (_cache[97] = createElementVNode("label", null, "\n                    Shadow Blur\n                  ", -1)),
-                    _cache[98] || (_cache[98] = createTextVNode()),
+              _cache[104] || (_cache[104] = createTextVNode()),
+              createElementVNode("div", _hoisted_35$1, [
+                createElementVNode("div", _hoisted_36$1, [
+                  createElementVNode("div", _hoisted_37$1, [
+                    _cache[98] || (_cache[98] = createElementVNode("label", null, "\n                    Shadow Blur\n                  ", -1)),
+                    _cache[99] || (_cache[99] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.blur,
                       "onUpdate:modelValue": _cache[23] || (_cache[23] = ($event) => $setup.options.box_shadow.blur = $event)
                     }, null, 8, ["modelValue"])
                   ])
                 ]),
-                _cache[101] || (_cache[101] = createTextVNode()),
-                createElementVNode("div", _hoisted_39$1, [
-                  createElementVNode("div", _hoisted_40$1, [
-                    _cache[99] || (_cache[99] = createElementVNode("label", null, "\n                    Shadow Spread\n                  ", -1)),
-                    _cache[100] || (_cache[100] = createTextVNode()),
+                _cache[102] || (_cache[102] = createTextVNode()),
+                createElementVNode("div", _hoisted_38$1, [
+                  createElementVNode("div", _hoisted_39$1, [
+                    _cache[100] || (_cache[100] = createElementVNode("label", null, "\n                    Shadow Spread\n                  ", -1)),
+                    _cache[101] || (_cache[101] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.spread,
                       "onUpdate:modelValue": _cache[24] || (_cache[24] = ($event) => $setup.options.box_shadow.spread = $event)
@@ -19869,12 +23761,12 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 ])
               ])
             ])) : createCommentVNode("", true),
-            _cache[125] || (_cache[125] = createTextVNode()),
-            _cache[126] || (_cache[126] = createElementVNode("hr", null, null, -1)),
-            _cache[127] || (_cache[127] = createTextVNode()),
-            createElementVNode("div", _hoisted_41, [
-              _cache[104] || (_cache[104] = createElementVNode("label", { for: "input-column-edit-html-class" }, "CSS Class", -1)),
-              _cache[105] || (_cache[105] = createTextVNode()),
+            _cache[126] || (_cache[126] = createTextVNode()),
+            _cache[127] || (_cache[127] = createElementVNode("hr", null, null, -1)),
+            _cache[128] || (_cache[128] = createTextVNode()),
+            createElementVNode("div", _hoisted_40$1, [
+              _cache[105] || (_cache[105] = createElementVNode("label", { for: "input-column-edit-html-class" }, "CSS Class", -1)),
+              _cache[106] || (_cache[106] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-column-edit-html-class",
                 type: "text",
@@ -19885,11 +23777,11 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ])
           ]),
-          _cache[159] || (_cache[159] = createTextVNode()),
-          createElementVNode("div", _hoisted_42, [
-            createElementVNode("div", _hoisted_43, [
-              _cache[128] || (_cache[128] = createElementVNode("label", { for: "input-column-edit-width-desktop" }, "Desktop Width", -1)),
-              _cache[129] || (_cache[129] = createTextVNode()),
+          _cache[160] || (_cache[160] = createTextVNode()),
+          createElementVNode("div", _hoisted_41, [
+            createElementVNode("div", _hoisted_42, [
+              _cache[129] || (_cache[129] = createElementVNode("label", { for: "input-column-edit-width-desktop" }, "Desktop Width", -1)),
+              _cache[130] || (_cache[130] = createTextVNode()),
               withDirectives(createElementVNode("select", {
                 id: "input-column-edit-width-desktop",
                 "onUpdate:modelValue": _cache[26] || (_cache[26] = ($event) => $setup.options.width.lg = $event),
@@ -19898,58 +23790,58 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-lg-" + w
-                  }, "\n                col-lg-" + toDisplayString(w), 9, _hoisted_44);
+                  }, "\n                col-lg-" + toDisplayString(w), 9, _hoisted_43);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.lg]
               ])
             ]),
-            _cache[149] || (_cache[149] = createTextVNode()),
-            createElementVNode("div", _hoisted_45, [
-              _cache[132] || (_cache[132] = createElementVNode("label", { for: "input-column-edit-width-tablet" }, "Tablet Width", -1)),
-              _cache[133] || (_cache[133] = createTextVNode()),
+            _cache[150] || (_cache[150] = createTextVNode()),
+            createElementVNode("div", _hoisted_44, [
+              _cache[133] || (_cache[133] = createElementVNode("label", { for: "input-column-edit-width-tablet" }, "Tablet Width", -1)),
+              _cache[134] || (_cache[134] = createTextVNode()),
               withDirectives(createElementVNode("select", {
                 id: "input-column-edit-width-tablet",
                 "onUpdate:modelValue": _cache[27] || (_cache[27] = ($event) => $setup.options.width.md = $event),
                 class: "form-select custom-select"
               }, [
-                _cache[130] || (_cache[130] = createElementVNode("option", { value: "" }, "- None -", -1)),
-                _cache[131] || (_cache[131] = createTextVNode()),
+                _cache[131] || (_cache[131] = createElementVNode("option", { value: "" }, "- None -", -1)),
+                _cache[132] || (_cache[132] = createTextVNode()),
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-md-" + w
-                  }, "\n                col-md-" + toDisplayString(w), 9, _hoisted_46);
+                  }, "\n                col-md-" + toDisplayString(w), 9, _hoisted_45);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.md]
               ])
             ]),
-            _cache[150] || (_cache[150] = createTextVNode()),
-            createElementVNode("div", _hoisted_47, [
-              _cache[136] || (_cache[136] = createElementVNode("label", { for: "input-column-edit-width-mobile" }, "Mobile Width", -1)),
-              _cache[137] || (_cache[137] = createTextVNode()),
+            _cache[151] || (_cache[151] = createTextVNode()),
+            createElementVNode("div", _hoisted_46, [
+              _cache[137] || (_cache[137] = createElementVNode("label", { for: "input-column-edit-width-mobile" }, "Mobile Width", -1)),
+              _cache[138] || (_cache[138] = createTextVNode()),
               withDirectives(createElementVNode("select", {
                 id: "input-column-edit-width-mobile",
                 "onUpdate:modelValue": _cache[28] || (_cache[28] = ($event) => $setup.options.width.xs = $event),
                 class: "form-select custom-select"
               }, [
-                _cache[134] || (_cache[134] = createElementVNode("option", { value: "" }, "- None -", -1)),
-                _cache[135] || (_cache[135] = createTextVNode()),
+                _cache[135] || (_cache[135] = createElementVNode("option", { value: "" }, "- None -", -1)),
+                _cache[136] || (_cache[136] = createTextVNode()),
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-" + w
-                  }, "\n                col-" + toDisplayString(w), 9, _hoisted_48);
+                  }, "\n                col-" + toDisplayString(w), 9, _hoisted_47);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.xs]
               ])
             ]),
-            _cache[151] || (_cache[151] = createTextVNode()),
-            _cache[152] || (_cache[152] = createElementVNode("hr", null, null, -1)),
-            _cache[153] || (_cache[153] = createTextVNode()),
-            createElementVNode("div", _hoisted_49, [
-              _cache[138] || (_cache[138] = createElementVNode("label", { for: "input-column-edit-hidden-mobile" }, "Hide in Mobile", -1)),
-              _cache[139] || (_cache[139] = createTextVNode()),
+            _cache[152] || (_cache[152] = createTextVNode()),
+            _cache[153] || (_cache[153] = createElementVNode("hr", null, null, -1)),
+            _cache[154] || (_cache[154] = createTextVNode()),
+            createElementVNode("div", _hoisted_48, [
+              _cache[139] || (_cache[139] = createElementVNode("label", { for: "input-column-edit-hidden-mobile" }, "Hide in Mobile", -1)),
+              _cache[140] || (_cache[140] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-hidden-mobile",
@@ -19963,10 +23855,10 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[154] || (_cache[154] = createTextVNode()),
-            createElementVNode("div", _hoisted_50, [
-              _cache[140] || (_cache[140] = createElementVNode("label", { for: "input-column-edit-hidden-tablet" }, "Hide in Tablet", -1)),
-              _cache[141] || (_cache[141] = createTextVNode()),
+            _cache[155] || (_cache[155] = createTextVNode()),
+            createElementVNode("div", _hoisted_49, [
+              _cache[141] || (_cache[141] = createElementVNode("label", { for: "input-column-edit-hidden-tablet" }, "Hide in Tablet", -1)),
+              _cache[142] || (_cache[142] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-hidden-tablet",
@@ -19980,10 +23872,10 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[155] || (_cache[155] = createTextVNode()),
-            createElementVNode("div", _hoisted_51, [
-              _cache[142] || (_cache[142] = createElementVNode("label", { for: "input-column-edit-hidden-desktop" }, "Hide in Desktop", -1)),
-              _cache[143] || (_cache[143] = createTextVNode()),
+            _cache[156] || (_cache[156] = createTextVNode()),
+            createElementVNode("div", _hoisted_50, [
+              _cache[143] || (_cache[143] = createElementVNode("label", { for: "input-column-edit-hidden-desktop" }, "Hide in Desktop", -1)),
+              _cache[144] || (_cache[144] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "column-edit-hidden-desktop",
@@ -19997,19 +23889,19 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[156] || (_cache[156] = createTextVNode()),
-            _cache[157] || (_cache[157] = createElementVNode("hr", null, null, -1)),
-            _cache[158] || (_cache[158] = createTextVNode()),
-            createElementVNode("div", _hoisted_52, [
-              _cache[146] || (_cache[146] = createElementVNode("label", { for: "input-column-edit-css" }, "Custom CSS (SCSS)", -1)),
-              _cache[147] || (_cache[147] = createTextVNode()),
-              createElementVNode("div", _hoisted_53, [
-                _cache[144] || (_cache[144] = createTextVNode("\n              Will auto prefix with: ", -1)),
-                createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
-                _cache[145] || (_cache[145] = createTextVNode(", and only affected in this scope.\n            ", -1))
-              ]),
+            _cache[157] || (_cache[157] = createTextVNode()),
+            _cache[158] || (_cache[158] = createElementVNode("hr", null, null, -1)),
+            _cache[159] || (_cache[159] = createTextVNode()),
+            createElementVNode("div", _hoisted_51, [
+              _cache[147] || (_cache[147] = createElementVNode("label", { for: "input-column-edit-css" }, "Custom CSS (SCSS)", -1)),
               _cache[148] || (_cache[148] = createTextVNode()),
-              $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_54, [
+              createElementVNode("div", _hoisted_52, [
+                _cache[145] || (_cache[145] = createTextVNode("\n              Will auto prefix with: ", -1)),
+                createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
+                _cache[146] || (_cache[146] = createTextVNode(", and only affected in this scope.\n            ", -1))
+              ]),
+              _cache[149] || (_cache[149] = createTextVNode()),
+              $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_53, [
                 createVNode($setup["CssEditor"], {
                   ref: "cssEditor",
                   modelValue: $setup.options.html_css,
@@ -20019,18 +23911,19 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
               ])) : createCommentVNode("", true)
             ])
           ]),
-          _cache[160] || (_cache[160] = createTextVNode()),
-          createElementVNode("div", _hoisted_55, [
+          _cache[161] || (_cache[161] = createTextVNode()),
+          createElementVNode("div", _hoisted_54, [
             createVNode($setup["Animations"], {
               id: "column-edit-anim",
-              value: $setup.options.animation
-            }, null, 8, ["value"])
+              modelValue: $setup.options.animation,
+              "onUpdate:modelValue": _cache[33] || (_cache[33] = ($event) => $setup.options.animation = $event)
+            }, null, 8, ["modelValue"])
           ])
         ])) : createCommentVNode("", true),
-        _cache[165] || (_cache[165] = createTextVNode())
+        _cache[166] || (_cache[166] = createTextVNode())
       ]),
       _: 1
-    }, 8, ["open"])
+    }, 8, ["model-value"])
   ]);
 }
 const ColumnEdit = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7], ["__file", "ColumnEdit.vue"]]);
@@ -21213,7 +25106,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 8, _hoisted_1$6);
 }
-const AddonBox = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__scopeId", "data-v-a01730a8"], ["__file", "AddonBox.vue"]]);
+const AddonBox = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__scopeId", "data-v-06b5348f"], ["__file", "AddonBox.vue"]]);
 const _sfc_main$5 = /* @__PURE__ */ defineComponent({
   __name: "ColumnBox",
   props: {
@@ -21380,7 +25273,7 @@ const _hoisted_13$5 = ["for"];
 const _hoisted_14$5 = ["id"];
 const _hoisted_15$5 = ["value"];
 const _hoisted_16$5 = { class: "form-group mb-3" };
-const _hoisted_17$4 = ["for"];
+const _hoisted_17$3 = ["for"];
 const _hoisted_18$2 = ["id"];
 const _hoisted_19$2 = ["value"];
 const _hoisted_20$2 = { class: "d-inline-block dropdown" };
@@ -21502,7 +25395,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                   createElementVNode("label", {
                     for: `input-column-edit-width-mobile--${$setup.content.id}`,
                     class: "d-block"
-                  }, "\n                    Mobile Width\n                  ", 8, _hoisted_17$4),
+                  }, "\n                    Mobile Width\n                  ", 8, _hoisted_17$3),
                   _cache[32] || (_cache[32] = createTextVNode()),
                   withDirectives(createElementVNode("select", {
                     id: `input-column-edit-width-mobile--${$setup.content.id}`,
@@ -21860,7 +25753,7 @@ const _hoisted_13$4 = { class: "card" };
 const _hoisted_14$4 = { class: "page-row__bottom-toolbar mt-3 text-center" };
 const _hoisted_15$4 = { class: "page-builder__bottom-toolbar text-center" };
 const _hoisted_16$4 = { class: "btn-group" };
-const _hoisted_17$3 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
+const _hoisted_17$2 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
 function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(["bg-light", { "p-2": $props.child, "rounded": $props.child }]),
@@ -22017,14 +25910,15 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
             }, null, 8, ["onDelete", "onDuplicate", "index", "value", "child"]);
           }), 128)),
           _cache[37] || (_cache[37] = createTextVNode()),
-          createElementVNode("a", {
+          $setup.columns.length === 0 ? (openBlock(), createElementBlock("a", {
+            key: 0,
             class: "page-row__body-placeholder text-center p-4 border text-secondary col-12",
             "commented-v-if": "addons.length === 0 && !drag",
             href: "#",
             onClick: _cache[5] || (_cache[5] = withModifiers(($event) => $setup.addNewColumn(), ["prevent"]))
           }, [..._cache[36] || (_cache[36] = [
             createElementVNode("span", { class: "fa fa-plus-square fa-3x" }, null, -1)
-          ])])
+          ])])) : createCommentVNode("", true)
         ]),
         _: 1
       }, 16, ["class", "modelValue"])
@@ -22048,7 +25942,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
             createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
           ], -1)),
           _cache[43] || (_cache[43] = createTextVNode()),
-          createElementVNode("div", _hoisted_17$3, [
+          createElementVNode("div", _hoisted_17$2, [
             createElementVNode("button", {
               type: "button",
               class: "dropdown-item",
@@ -22119,7 +26013,7 @@ const _hoisted_15$3 = {
   class: ""
 };
 const _hoisted_16$3 = { class: "form-row row" };
-const _hoisted_17$2 = { class: "col-6" };
+const _hoisted_17$1 = { class: "col-6" };
 const _hoisted_18$1 = ["onUpdate:modelValue"];
 const _hoisted_19$1 = { class: "col-6" };
 const _hoisted_20$1 = ["onUpdate:modelValue"];
@@ -22204,7 +26098,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     ]),
     _cache[17] || (_cache[17] = createTextVNode()),
     createElementVNode("div", _hoisted_16$3, [
-      createElementVNode("div", _hoisted_17$2, [
+      createElementVNode("div", _hoisted_17$1, [
         createVNode($setup["RwdGroup"], { "class-name": "c-title-margin_top" }, createSlots({
           label: withCtx(() => [
             _cache[11] || (_cache[11] = createElementVNode("label", null, "\n              Title Margin Top\n            ", -1))
@@ -22258,11 +26152,10 @@ const RwdTitleOptions = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sf
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "RowEdit",
   setup(__props, { expose: __expose }) {
-    const { savePage: doSavePage } = usePageBuilderUtilities();
+    const { saving: saving2, savePage: doSavePage } = usePageBuilderUtilities();
     const u2 = useUnicorn();
     const content = ref();
     const sticky = ref(false);
-    const saving = ref(false);
     const modalShow = ref(false);
     const tab = ref();
     const currentTab = ref("general");
@@ -22291,6 +26184,12 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
         currentTab.value = active.getAttribute("href")?.replace("#row-edit-", "") || "general";
       }
     }
+    useEventListener$1("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "s" && modalShow.value) {
+        e.preventDefault();
+        savePage2();
+      }
+    });
     function saveClose() {
       u2.trigger("row:save", JSON.parse(JSON.stringify(content.value)));
       close();
@@ -22298,22 +26197,18 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     async function savePage2() {
       u2.trigger("row:save", JSON.parse(JSON.stringify(content.value)));
       await nextTick();
-      saving.value = true;
-      try {
-        return await doSavePage();
-      } finally {
-        saving.value = false;
-      }
+      return await doSavePage();
     }
-    function close() {
+    async function close() {
       modalShow.value = false;
       sticky.value = false;
-      nextTick(() => {
-        content.value = void 0;
-      });
+      await sleep(400);
+      content.value = void 0;
     }
     const options = computed(() => content.value?.options);
-    const __returned__ = { doSavePage, u: u2, content, sticky, saving, modalShow, tab, currentTab, cssEditor, edit, updateCurrentTab, saveClose, savePage: savePage2, close, options, BsModal, CssEditor, UnicornSwitcher, ColorInput, RwdGroup, Animations, BoxOffset, ButtonRadio, SingleImage, Gradient, SliderInput, RwdTitleOptions };
+    const __returned__ = { saving: saving2, doSavePage, u: u2, content, sticky, modalShow, tab, currentTab, cssEditor, edit, updateCurrentTab, saveClose, savePage: savePage2, close, options, get BModal() {
+      return _sfc_main$l;
+    }, CssEditor, UnicornSwitcher, ColorInput, RwdGroup, Animations, BoxOffset, ButtonRadio, SingleImage, Gradient, SliderInput, RwdTitleOptions };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -22354,7 +26249,7 @@ const _hoisted_16$2 = {
   key: 0,
   class: "form-group mb-3"
 };
-const _hoisted_17$1 = { key: 0 };
+const _hoisted_17 = { key: 0 };
 const _hoisted_18 = { class: "form-group mb-3" };
 const _hoisted_19 = { class: "form-row row" };
 const _hoisted_20 = { class: "form-group mb-3 col-md-6" };
@@ -22385,104 +26280,101 @@ const _hoisted_40 = {
 };
 function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
-    createVNode($setup["BsModal"], {
-      open: $setup.modalShow,
+    createVNode($setup["BModal"], {
+      "model-value": $setup.modalShow,
       size: "lg",
-      onHidden: _cache[33] || (_cache[33] = ($event) => $setup.modalShow = false),
+      onHidden: _cache[34] || (_cache[34] = ($event) => $setup.modalShow = false),
       backdrop: "static",
-      class: "c-modal-row-edit"
+      class: "c-modal-row-edit",
+      "header-class": "bg-white sticky-top"
     }, {
-      "header-element": withCtx(() => [
-        createElementVNode("div", {
-          class: normalizeClass(["modal-header bg-white", { "sticky-top": $setup.sticky }])
-        }, [
-          createElementVNode("ul", _hoisted_1$2, [..._cache[34] || (_cache[34] = [
-            createElementVNode("li", { class: "nav-item" }, [
-              createElementVNode("a", {
-                class: "nav-link active",
-                "data-toggle": "tab",
-                "data-bs-toggle": "tab",
-                href: "#row-edit-general"
-              }, "\n                General\n              ")
-            ], -1),
-            createTextVNode(),
-            createElementVNode("li", { class: "nav-item" }, [
-              createElementVNode("a", {
-                class: "nav-link",
-                "data-toggle": "tab",
-                "data-bs-toggle": "tab",
-                href: "#row-edit-layout"
-              }, "\n                Layout\n              ")
-            ], -1),
-            createTextVNode(),
-            createElementVNode("li", { class: "nav-item" }, [
-              createElementVNode("a", {
-                class: "nav-link",
-                "data-toggle": "tab",
-                "data-bs-toggle": "tab",
-                href: "#row-edit-animation"
-              }, "\n                Animation\n              ")
-            ], -1)
-          ])], 512),
+      header: withCtx(() => [
+        createElementVNode("ul", _hoisted_1$2, [..._cache[35] || (_cache[35] = [
+          createElementVNode("li", { class: "nav-item" }, [
+            createElementVNode("a", {
+              class: "nav-link active",
+              "data-toggle": "tab",
+              "data-bs-toggle": "tab",
+              href: "#row-edit-general"
+            }, "\n              General\n            ")
+          ], -1),
+          createTextVNode(),
+          createElementVNode("li", { class: "nav-item" }, [
+            createElementVNode("a", {
+              class: "nav-link",
+              "data-toggle": "tab",
+              "data-bs-toggle": "tab",
+              href: "#row-edit-layout"
+            }, "\n              Layout\n            ")
+          ], -1),
+          createTextVNode(),
+          createElementVNode("li", { class: "nav-item" }, [
+            createElementVNode("a", {
+              class: "nav-link",
+              "data-toggle": "tab",
+              "data-bs-toggle": "tab",
+              href: "#row-edit-animation"
+            }, "\n              Animation\n            ")
+          ], -1)
+        ])], 512),
+        _cache[41] || (_cache[41] = createTextVNode()),
+        createElementVNode("div", _hoisted_2$2, [
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-primary btn--save",
+            onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
+          }, [..._cache[36] || (_cache[36] = [
+            createElementVNode("span", { class: "fa fa-check" }, null, -1),
+            createTextVNode("\n            Done\n          ", -1)
+          ])]),
+          _cache[39] || (_cache[39] = createTextVNode()),
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-success btn--save-page",
+            onClick: _cache[1] || (_cache[1] = ($event) => $setup.savePage()),
+            disabled: $setup.saving
+          }, [
+            createElementVNode("span", {
+              class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
+            }, null, 2),
+            _cache[37] || (_cache[37] = createTextVNode("\n            Save Page\n          ", -1))
+          ], 8, _hoisted_3$2),
           _cache[40] || (_cache[40] = createTextVNode()),
-          createElementVNode("div", _hoisted_2$2, [
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-primary btn--save",
-              onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
-            }, [..._cache[35] || (_cache[35] = [
-              createElementVNode("span", { class: "fa fa-check" }, null, -1),
-              createTextVNode("\n              Done\n            ", -1)
-            ])]),
-            _cache[38] || (_cache[38] = createTextVNode()),
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-success btn--save-page",
-              onClick: _cache[1] || (_cache[1] = ($event) => $setup.savePage()),
-              disabled: $setup.saving
-            }, [
-              createElementVNode("span", {
-                class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
-              }, null, 2),
-              _cache[36] || (_cache[36] = createTextVNode("\n              Save Page\n            ", -1))
-            ], 8, _hoisted_3$2),
-            _cache[39] || (_cache[39] = createTextVNode()),
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-secondary btn--close",
-              onClick: $setup.close
-            }, [..._cache[37] || (_cache[37] = [
-              createElementVNode("span", { class: "fa fa-times" }, null, -1)
-            ])])
-          ])
-        ], 2)
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-secondary btn--close",
+            onClick: $setup.close
+          }, [..._cache[38] || (_cache[38] = [
+            createElementVNode("span", { class: "fa fa-times" }, null, -1)
+          ])])
+        ])
       ]),
       footer: withCtx(() => [
         createElementVNode("button", {
           type: "button",
           class: "btn btn-success",
-          onClick: _cache[31] || (_cache[31] = ($event) => $setup.saveClose())
-        }, [..._cache[150] || (_cache[150] = [
+          onClick: _cache[32] || (_cache[32] = ($event) => $setup.saveClose())
+        }, [..._cache[151] || (_cache[151] = [
           createElementVNode("span", { class: "fa fa-save" }, null, -1),
           createTextVNode("\n          Save\n        ", -1)
         ])]),
-        _cache[152] || (_cache[152] = createTextVNode()),
+        _cache[153] || (_cache[153] = createTextVNode()),
         createElementVNode("button", {
           type: "button",
           class: "btn btn-secondary",
-          onClick: _cache[32] || (_cache[32] = ($event) => $setup.close())
-        }, [..._cache[151] || (_cache[151] = [
+          onClick: _cache[33] || (_cache[33] = ($event) => $setup.close())
+        }, [..._cache[152] || (_cache[152] = [
           createElementVNode("span", { class: "fa fa-times" }, null, -1),
           createTextVNode("\n          Cancel\n        ", -1)
         ])])
       ]),
       default: withCtx(() => [
-        _cache[153] || (_cache[153] = createTextVNode()),
+        _cache[154] || (_cache[154] = createTextVNode()),
         $setup.content && $setup.options ? (openBlock(), createElementBlock("div", _hoisted_4$2, [
           createElementVNode("div", _hoisted_5$2, [
             createElementVNode("div", _hoisted_6$2, [
-              _cache[41] || (_cache[41] = createElementVNode("label", { for: "input-row-edit-label" }, "Label", -1)),
-              _cache[42] || (_cache[42] = createTextVNode()),
+              _cache[42] || (_cache[42] = createElementVNode("label", { for: "input-row-edit-label" }, "Label", -1)),
+              _cache[43] || (_cache[43] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-row-edit-label",
                 type: "text",
@@ -22491,15 +26383,15 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 512), [
                 [vModelText, $setup.options.label]
               ]),
-              _cache[43] || (_cache[43] = createTextVNode()),
-              _cache[44] || (_cache[44] = createElementVNode("small", { class: "form-text text-muted" }, "This label only show in edit page.", -1))
+              _cache[44] || (_cache[44] = createTextVNode()),
+              _cache[45] || (_cache[45] = createElementVNode("small", { class: "form-text text-muted" }, "This label only show in edit page.", -1))
             ]),
-            _cache[63] || (_cache[63] = createTextVNode()),
-            _cache[64] || (_cache[64] = createElementVNode("hr", null, null, -1)),
-            _cache[65] || (_cache[65] = createTextVNode()),
+            _cache[64] || (_cache[64] = createTextVNode()),
+            _cache[65] || (_cache[65] = createElementVNode("hr", null, null, -1)),
+            _cache[66] || (_cache[66] = createTextVNode()),
             createElementVNode("div", _hoisted_7$2, [
-              _cache[45] || (_cache[45] = createElementVNode("label", { for: "input-row-edit-title-text" }, "Main Title", -1)),
-              _cache[46] || (_cache[46] = createTextVNode()),
+              _cache[46] || (_cache[46] = createElementVNode("label", { for: "input-row-edit-title-text" }, "Main Title", -1)),
+              _cache[47] || (_cache[47] = createTextVNode()),
               withDirectives(createElementVNode("textarea", {
                 id: "input-row-edit-title-text",
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.options.title.text = $event),
@@ -22507,22 +26399,22 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 512), [
                 [vModelText, $setup.options.title.text]
               ]),
-              _cache[47] || (_cache[47] = createTextVNode()),
-              _cache[48] || (_cache[48] = createElementVNode("small", { class: "form-text text-muted" }, "Title of this section, keep empty to hide it.", -1))
+              _cache[48] || (_cache[48] = createTextVNode()),
+              _cache[49] || (_cache[49] = createElementVNode("small", { class: "form-text text-muted" }, "Title of this section, keep empty to hide it.", -1))
             ]),
-            _cache[66] || (_cache[66] = createTextVNode()),
+            _cache[67] || (_cache[67] = createTextVNode()),
             $setup.options.title.text !== "" ? (openBlock(), createBlock($setup["RwdTitleOptions"], {
               key: 0,
               id: "input-row-edit",
               modelValue: $setup.content.options.title,
               "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.content.options.title = $event)
             }, null, 8, ["modelValue"])) : createCommentVNode("", true),
-            _cache[67] || (_cache[67] = createTextVNode()),
-            _cache[68] || (_cache[68] = createElementVNode("hr", null, null, -1)),
-            _cache[69] || (_cache[69] = createTextVNode()),
+            _cache[68] || (_cache[68] = createTextVNode()),
+            _cache[69] || (_cache[69] = createElementVNode("hr", null, null, -1)),
+            _cache[70] || (_cache[70] = createTextVNode()),
             createElementVNode("div", _hoisted_8$2, [
-              _cache[49] || (_cache[49] = createElementVNode("label", { for: "input-row-edit-subtitle-text" }, "Subtitle", -1)),
-              _cache[50] || (_cache[50] = createTextVNode()),
+              _cache[50] || (_cache[50] = createElementVNode("label", { for: "input-row-edit-subtitle-text" }, "Subtitle", -1)),
+              _cache[51] || (_cache[51] = createTextVNode()),
               withDirectives(createElementVNode("textarea", {
                 id: "input-row-edit-subtitle-text",
                 "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.options.subtitle.text = $event),
@@ -22530,14 +26422,14 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 512), [
                 [vModelText, $setup.options.subtitle.text]
               ]),
-              _cache[51] || (_cache[51] = createTextVNode()),
-              _cache[52] || (_cache[52] = createElementVNode("small", { class: "form-text text-muted" }, "Subtitle of this section, keep empty to hide it.", -1))
+              _cache[52] || (_cache[52] = createTextVNode()),
+              _cache[53] || (_cache[53] = createElementVNode("small", { class: "form-text text-muted" }, "Subtitle of this section, keep empty to hide it.", -1))
             ]),
-            _cache[70] || (_cache[70] = createTextVNode()),
+            _cache[71] || (_cache[71] = createTextVNode()),
             $setup.options.subtitle.text !== "" ? (openBlock(), createElementBlock("div", _hoisted_9$2, [
               createVNode($setup["RwdGroup"], { "class-name": "c-title-font-size" }, createSlots({
                 label: withCtx(() => [
-                  _cache[53] || (_cache[53] = createElementVNode("label", null, "\n                  Subtitle Font Size\n                ", -1))
+                  _cache[54] || (_cache[54] = createElementVNode("label", null, "\n                  Subtitle Font Size\n                ", -1))
                 ]),
                 _: 2
               }, [
@@ -22555,10 +26447,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 })
               ]), 1024)
             ])) : createCommentVNode("", true),
-            _cache[71] || (_cache[71] = createTextVNode()),
+            _cache[72] || (_cache[72] = createTextVNode()),
             createElementVNode("div", _hoisted_10$2, [
-              _cache[55] || (_cache[55] = createElementVNode("label", { for: "input-row-edit-title-align" }, "Title/Subtitle Text Alignment", -1)),
-              _cache[56] || (_cache[56] = createTextVNode()),
+              _cache[56] || (_cache[56] = createElementVNode("label", { for: "input-row-edit-title-align" }, "Title/Subtitle Text Alignment", -1)),
+              _cache[57] || (_cache[57] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
@@ -22574,10 +26466,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[72] || (_cache[72] = createTextVNode()),
+            _cache[73] || (_cache[73] = createTextVNode()),
             createElementVNode("div", _hoisted_11$2, [
-              _cache[57] || (_cache[57] = createElementVNode("label", { for: "input-row-edit-text-color" }, "Text Color", -1)),
-              _cache[58] || (_cache[58] = createTextVNode()),
+              _cache[58] || (_cache[58] = createElementVNode("label", { for: "input-row-edit-text-color" }, "Text Color", -1)),
+              _cache[59] || (_cache[59] = createTextVNode()),
               createVNode($setup["ColorInput"], {
                 id: "input-row-edit-text-color",
                 modelValue: $setup.options.text_color,
@@ -22585,10 +26477,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 modelModifiers: { lazy: true }
               }, null, 8, ["modelValue"])
             ]),
-            _cache[73] || (_cache[73] = createTextVNode()),
+            _cache[74] || (_cache[74] = createTextVNode()),
             createElementVNode("div", _hoisted_12$2, [
-              _cache[59] || (_cache[59] = createElementVNode("label", { for: "input-row-edit-html-id" }, "CSS ID", -1)),
-              _cache[60] || (_cache[60] = createTextVNode()),
+              _cache[60] || (_cache[60] = createElementVNode("label", { for: "input-row-edit-html-id" }, "CSS ID", -1)),
+              _cache[61] || (_cache[61] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-row-edit-html-id",
                 type: "text",
@@ -22598,10 +26490,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 [vModelText, $setup.options.html_id]
               ])
             ]),
-            _cache[74] || (_cache[74] = createTextVNode()),
+            _cache[75] || (_cache[75] = createTextVNode()),
             createElementVNode("div", _hoisted_13$2, [
-              _cache[61] || (_cache[61] = createElementVNode("label", { for: "input-row-edit-html-class" }, "CSS Class", -1)),
-              _cache[62] || (_cache[62] = createTextVNode()),
+              _cache[62] || (_cache[62] = createElementVNode("label", { for: "input-row-edit-html-class" }, "CSS Class", -1)),
+              _cache[63] || (_cache[63] = createTextVNode()),
               withDirectives(createElementVNode("input", {
                 id: "input-row-edit-html-class",
                 type: "text",
@@ -22612,31 +26504,31 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ])
           ]),
-          _cache[148] || (_cache[148] = createTextVNode()),
+          _cache[149] || (_cache[149] = createTextVNode()),
           createElementVNode("div", _hoisted_14$2, [
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.padding,
               "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.options.padding = $event)
             }, {
-              label: withCtx(() => [..._cache[75] || (_cache[75] = [
+              label: withCtx(() => [..._cache[76] || (_cache[76] = [
                 createTextVNode("Padding", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
-            _cache[127] || (_cache[127] = createTextVNode()),
+            _cache[128] || (_cache[128] = createTextVNode()),
             createVNode($setup["BoxOffset"], {
               modelValue: $setup.options.margin,
               "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => $setup.options.margin = $event)
             }, {
-              label: withCtx(() => [..._cache[76] || (_cache[76] = [
+              label: withCtx(() => [..._cache[77] || (_cache[77] = [
                 createTextVNode("Margin", -1)
               ])]),
               _: 1
             }, 8, ["modelValue"]),
-            _cache[128] || (_cache[128] = createTextVNode()),
+            _cache[129] || (_cache[129] = createTextVNode()),
             createElementVNode("div", _hoisted_15$2, [
-              _cache[77] || (_cache[77] = createElementVNode("label", { for: "input-row-edit-background" }, "Background Type", -1)),
-              _cache[78] || (_cache[78] = createTextVNode()),
+              _cache[78] || (_cache[78] = createElementVNode("label", { for: "input-row-edit-background" }, "Background Type", -1)),
+              _cache[79] || (_cache[79] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
@@ -22654,12 +26546,12 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[129] || (_cache[129] = createTextVNode()),
+            _cache[130] || (_cache[130] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 ["color", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_16$2, [
-                  _cache[79] || (_cache[79] = createElementVNode("label", { for: "input-row-edit-bg-color" }, "Background Color", -1)),
-                  _cache[80] || (_cache[80] = createTextVNode()),
+                  _cache[80] || (_cache[80] = createElementVNode("label", { for: "input-row-edit-bg-color" }, "Background Color", -1)),
+                  _cache[81] || (_cache[81] = createTextVNode()),
                   createVNode($setup["ColorInput"], {
                     id: "input-row-edit-bg-color",
                     modelValue: $setup.options.background.color,
@@ -22670,29 +26562,29 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[130] || (_cache[130] = createTextVNode()),
+            _cache[131] || (_cache[131] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
-                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_17$1, [
+                ["image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_17, [
                   createElementVNode("div", _hoisted_18, [
-                    _cache[81] || (_cache[81] = createElementVNode("label", { for: "input-row-edit-bg-image" }, "Background Image", -1)),
-                    _cache[82] || (_cache[82] = createTextVNode()),
+                    _cache[82] || (_cache[82] = createElementVNode("label", { for: "input-row-edit-bg-image" }, "Background Image", -1)),
+                    _cache[83] || (_cache[83] = createTextVNode()),
                     createVNode($setup["SingleImage"], {
                       modelValue: $setup.options.background.image.url,
                       "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => $setup.options.background.image.url = $event),
                       id: "input-row-edit-bg-image"
                     }, null, 8, ["modelValue"])
                   ]),
-                  _cache[97] || (_cache[97] = createTextVNode()),
+                  _cache[98] || (_cache[98] = createTextVNode()),
                   createElementVNode("div", _hoisted_19, [
                     createElementVNode("div", _hoisted_20, [
-                      _cache[84] || (_cache[84] = createElementVNode("label", { for: "input-row-edit-bg-size" }, "Background Size", -1)),
-                      _cache[85] || (_cache[85] = createTextVNode()),
+                      _cache[85] || (_cache[85] = createElementVNode("label", { for: "input-row-edit-bg-size" }, "Background Size", -1)),
+                      _cache[86] || (_cache[86] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-row-edit-bg-size",
                         "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => $setup.options.background.image.size = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[83] || (_cache[83] = [
+                      }, [..._cache[84] || (_cache[84] = [
                         createElementVNode("option", { value: "" }, "Default", -1),
                         createTextVNode(),
                         createElementVNode("option", { value: "cover" }, "Cover", -1),
@@ -22709,15 +26601,15 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                         ]
                       ])
                     ]),
-                    _cache[89] || (_cache[89] = createTextVNode()),
+                    _cache[90] || (_cache[90] = createTextVNode()),
                     createElementVNode("div", _hoisted_21, [
-                      _cache[87] || (_cache[87] = createElementVNode("label", { for: "input-row-edit-bg-repeat" }, "Background Repeat", -1)),
-                      _cache[88] || (_cache[88] = createTextVNode()),
+                      _cache[88] || (_cache[88] = createElementVNode("label", { for: "input-row-edit-bg-repeat" }, "Background Repeat", -1)),
+                      _cache[89] || (_cache[89] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-row-edit-bg-repeat",
                         "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => $setup.options.background.image.repeat = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[86] || (_cache[86] = [
+                      }, [..._cache[87] || (_cache[87] = [
                         createElementVNode("option", { value: "no-repeat" }, "No Repeat", -1),
                         createTextVNode(),
                         createElementVNode("option", { value: "" }, "Repeat All", -1),
@@ -22737,16 +26629,16 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                       ])
                     ])
                   ]),
-                  _cache[98] || (_cache[98] = createTextVNode()),
+                  _cache[99] || (_cache[99] = createTextVNode()),
                   createElementVNode("div", _hoisted_22, [
                     createElementVNode("div", _hoisted_23, [
-                      _cache[91] || (_cache[91] = createElementVNode("label", { for: "input-row-edit-bg-attachment" }, "Background Attachment", -1)),
-                      _cache[92] || (_cache[92] = createTextVNode()),
+                      _cache[92] || (_cache[92] = createElementVNode("label", { for: "input-row-edit-bg-attachment" }, "Background Attachment", -1)),
+                      _cache[93] || (_cache[93] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-row-edit-bg-attachment",
                         "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => $setup.options.background.image.attachment = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[90] || (_cache[90] = [
+                      }, [..._cache[91] || (_cache[91] = [
                         createElementVNode("option", { value: "fixed" }, "Fixed", -1),
                         createTextVNode(),
                         createElementVNode("option", { value: "scroll" }, "Scroll", -1),
@@ -22761,15 +26653,15 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                         ]
                       ])
                     ]),
-                    _cache[96] || (_cache[96] = createTextVNode()),
+                    _cache[97] || (_cache[97] = createTextVNode()),
                     createElementVNode("div", _hoisted_24, [
-                      _cache[94] || (_cache[94] = createElementVNode("label", { for: "input-row-edit-bg-position" }, "Background Position", -1)),
-                      _cache[95] || (_cache[95] = createTextVNode()),
+                      _cache[95] || (_cache[95] = createElementVNode("label", { for: "input-row-edit-bg-position" }, "Background Position", -1)),
+                      _cache[96] || (_cache[96] = createTextVNode()),
                       withDirectives(createElementVNode("select", {
                         id: "input-row-edit-bg-position",
                         "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => $setup.options.background.image.position = $event),
                         class: "form-select custom-select"
-                      }, [..._cache[93] || (_cache[93] = [
+                      }, [..._cache[94] || (_cache[94] = [
                         createElementVNode("option", { value: "left top" }, "Left Top", -1),
                         createTextVNode(),
                         createElementVNode("option", { value: "left center" }, "Left Center", -1),
@@ -22801,7 +26693,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[131] || (_cache[131] = createTextVNode()),
+            _cache[132] || (_cache[132] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 $setup.options.background.type === "gradient" ? (openBlock(), createBlock($setup["Gradient"], {
@@ -22812,13 +26704,13 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[132] || (_cache[132] = createTextVNode()),
+            _cache[133] || (_cache[133] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 ["video"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_25, [
                   createElementVNode("div", _hoisted_26, [
-                    _cache[99] || (_cache[99] = createElementVNode("label", { for: "input-row-edit-bg-video-url" }, "Video URL", -1)),
-                    _cache[100] || (_cache[100] = createTextVNode()),
+                    _cache[100] || (_cache[100] = createElementVNode("label", { for: "input-row-edit-bg-video-url" }, "Video URL", -1)),
+                    _cache[101] || (_cache[101] = createTextVNode()),
                     withDirectives(createElementVNode("input", {
                       id: "input-row-edit-bg-video-url",
                       type: "text",
@@ -22827,20 +26719,20 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                     }, null, 512), [
                       [vModelText, $setup.options.background.video.url]
                     ]),
-                    _cache[101] || (_cache[101] = createTextVNode()),
-                    _cache[102] || (_cache[102] = createElementVNode("small", { class: "form-text text-muted" }, "\n                  Paste mp4 video URL, or Youtube / Vimeo URL.\n                ", -1))
+                    _cache[102] || (_cache[102] = createTextVNode()),
+                    _cache[103] || (_cache[103] = createElementVNode("small", { class: "form-text text-muted" }, "\n                  Paste mp4 video URL, or Youtube / Vimeo URL.\n                ", -1))
                   ])
                 ])) : createCommentVNode("", true)
               ]),
               _: 1
             }),
-            _cache[133] || (_cache[133] = createTextVNode()),
+            _cache[134] || (_cache[134] = createTextVNode()),
             createVNode(Transition, { name: "fade" }, {
               default: withCtx(() => [
                 ["video", "image"].indexOf($setup.options.background.type) !== -1 ? (openBlock(), createElementBlock("div", _hoisted_27, [
                   createElementVNode("div", _hoisted_28, [
-                    _cache[103] || (_cache[103] = createElementVNode("label", { for: "input-row-edit-bg-overlay" }, "Color Overlay", -1)),
-                    _cache[104] || (_cache[104] = createTextVNode()),
+                    _cache[104] || (_cache[104] = createElementVNode("label", { for: "input-row-edit-bg-overlay" }, "Color Overlay", -1)),
+                    _cache[105] || (_cache[105] = createTextVNode()),
                     createVNode($setup["ColorInput"], {
                       id: "input-row-edit-bg-overlay",
                       modelValue: $setup.options.background.overlay,
@@ -22848,10 +26740,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                       modelModifiers: { lazy: true }
                     }, null, 8, ["modelValue"])
                   ]),
-                  _cache[107] || (_cache[107] = createTextVNode()),
+                  _cache[108] || (_cache[108] = createTextVNode()),
                   createElementVNode("div", _hoisted_29, [
-                    _cache[105] || (_cache[105] = createElementVNode("label", { for: "input-row-edit-hidden-mobile" }, "Parallax Background", -1)),
-                    _cache[106] || (_cache[106] = createTextVNode()),
+                    _cache[106] || (_cache[106] = createElementVNode("label", { for: "input-row-edit-hidden-mobile" }, "Parallax Background", -1)),
+                    _cache[107] || (_cache[107] = createTextVNode()),
                     createElementVNode("div", null, [
                       createVNode($setup["UnicornSwitcher"], {
                         name: "row-edit-bg-parallax",
@@ -22869,12 +26761,12 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
             }),
-            _cache[134] || (_cache[134] = createTextVNode()),
-            _cache[135] || (_cache[135] = createElementVNode("hr", null, null, -1)),
-            _cache[136] || (_cache[136] = createTextVNode()),
+            _cache[135] || (_cache[135] = createTextVNode()),
+            _cache[136] || (_cache[136] = createElementVNode("hr", null, null, -1)),
+            _cache[137] || (_cache[137] = createTextVNode()),
             createElementVNode("div", _hoisted_30, [
-              _cache[108] || (_cache[108] = createElementVNode("label", { for: "input-row-edit-justify-content" }, "Content Justify", -1)),
-              _cache[109] || (_cache[109] = createTextVNode()),
+              _cache[109] || (_cache[109] = createElementVNode("label", { for: "input-row-edit-justify-content" }, "Content Justify", -1)),
+              _cache[110] || (_cache[110] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["ButtonRadio"], {
                   color: "primary",
@@ -22892,10 +26784,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[137] || (_cache[137] = createTextVNode()),
+            _cache[138] || (_cache[138] = createTextVNode()),
             createElementVNode("div", _hoisted_31, [
-              _cache[110] || (_cache[110] = createElementVNode("label", { for: "input-row-edit-valign" }, "Vertical Align Middle", -1)),
-              _cache[111] || (_cache[111] = createTextVNode()),
+              _cache[111] || (_cache[111] = createElementVNode("label", { for: "input-row-edit-valign" }, "Vertical Align Middle", -1)),
+              _cache[112] || (_cache[112] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-valign",
@@ -22909,10 +26801,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[138] || (_cache[138] = createTextVNode()),
+            _cache[139] || (_cache[139] = createTextVNode()),
             createElementVNode("div", _hoisted_32, [
-              _cache[112] || (_cache[112] = createElementVNode("label", { for: "input-row-edit-fluid_row" }, "Fluid Row", -1)),
-              _cache[113] || (_cache[113] = createTextVNode()),
+              _cache[113] || (_cache[113] = createElementVNode("label", { for: "input-row-edit-fluid_row" }, "Fluid Row", -1)),
+              _cache[114] || (_cache[114] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-fluid_row",
@@ -22926,10 +26818,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[139] || (_cache[139] = createTextVNode()),
+            _cache[140] || (_cache[140] = createTextVNode()),
             createElementVNode("div", _hoisted_33, [
-              _cache[114] || (_cache[114] = createElementVNode("label", { for: "input-row-edit-no_gutter" }, "No Gutters", -1)),
-              _cache[115] || (_cache[115] = createTextVNode()),
+              _cache[115] || (_cache[115] = createElementVNode("label", { for: "input-row-edit-no_gutter" }, "No Gutters", -1)),
+              _cache[116] || (_cache[116] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-no_gutter",
@@ -22943,12 +26835,12 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[140] || (_cache[140] = createTextVNode()),
-            _cache[141] || (_cache[141] = createElementVNode("hr", null, null, -1)),
-            _cache[142] || (_cache[142] = createTextVNode()),
+            _cache[141] || (_cache[141] = createTextVNode()),
+            _cache[142] || (_cache[142] = createElementVNode("hr", null, null, -1)),
+            _cache[143] || (_cache[143] = createTextVNode()),
             createElementVNode("div", _hoisted_34, [
-              _cache[116] || (_cache[116] = createElementVNode("label", { for: "input-row-edit-hidden-mobile" }, "Hide in Mobile", -1)),
-              _cache[117] || (_cache[117] = createTextVNode()),
+              _cache[117] || (_cache[117] = createElementVNode("label", { for: "input-row-edit-hidden-mobile" }, "Hide in Mobile", -1)),
+              _cache[118] || (_cache[118] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-hidden-mobile",
@@ -22962,10 +26854,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[143] || (_cache[143] = createTextVNode()),
+            _cache[144] || (_cache[144] = createTextVNode()),
             createElementVNode("div", _hoisted_35, [
-              _cache[118] || (_cache[118] = createElementVNode("label", { for: "input-row-edit-hidden-tablet" }, "Hide in Tablet", -1)),
-              _cache[119] || (_cache[119] = createTextVNode()),
+              _cache[119] || (_cache[119] = createElementVNode("label", { for: "input-row-edit-hidden-tablet" }, "Hide in Tablet", -1)),
+              _cache[120] || (_cache[120] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-hidden-tablet",
@@ -22979,10 +26871,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[144] || (_cache[144] = createTextVNode()),
+            _cache[145] || (_cache[145] = createTextVNode()),
             createElementVNode("div", _hoisted_36, [
-              _cache[120] || (_cache[120] = createElementVNode("label", { for: "input-row-edit-hidden-desktop" }, "Hide in Desktop", -1)),
-              _cache[121] || (_cache[121] = createTextVNode()),
+              _cache[121] || (_cache[121] = createElementVNode("label", { for: "input-row-edit-hidden-desktop" }, "Hide in Desktop", -1)),
+              _cache[122] || (_cache[122] = createTextVNode()),
               createElementVNode("div", null, [
                 createVNode($setup["UnicornSwitcher"], {
                   name: "row-edit-hidden-desktop",
@@ -22996,18 +26888,18 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["modelValue"])
               ])
             ]),
-            _cache[145] || (_cache[145] = createTextVNode()),
-            _cache[146] || (_cache[146] = createElementVNode("hr", null, null, -1)),
-            _cache[147] || (_cache[147] = createTextVNode()),
+            _cache[146] || (_cache[146] = createTextVNode()),
+            _cache[147] || (_cache[147] = createElementVNode("hr", null, null, -1)),
+            _cache[148] || (_cache[148] = createTextVNode()),
             createElementVNode("div", _hoisted_37, [
-              _cache[124] || (_cache[124] = createElementVNode("label", { for: "input-row-edit-css" }, "Custom CSS (SCSS)", -1)),
-              _cache[125] || (_cache[125] = createTextVNode()),
-              createElementVNode("div", _hoisted_38, [
-                _cache[122] || (_cache[122] = createTextVNode("\n              Will auto prefix by ", -1)),
-                createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
-                _cache[123] || (_cache[123] = createTextVNode(", only works for this scope.\n            ", -1))
-              ]),
+              _cache[125] || (_cache[125] = createElementVNode("label", { for: "input-row-edit-css" }, "Custom CSS (SCSS)", -1)),
               _cache[126] || (_cache[126] = createTextVNode()),
+              createElementVNode("div", _hoisted_38, [
+                _cache[123] || (_cache[123] = createTextVNode("\n              Will auto prefix by ", -1)),
+                createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
+                _cache[124] || (_cache[124] = createTextVNode(", only works for this scope.\n            ", -1))
+              ]),
+              _cache[127] || (_cache[127] = createTextVNode()),
               $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_39, [
                 createVNode($setup["CssEditor"], {
                   ref: "cssEditor",
@@ -23018,61 +26910,22 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               ])) : createCommentVNode("", true)
             ])
           ]),
-          _cache[149] || (_cache[149] = createTextVNode()),
+          _cache[150] || (_cache[150] = createTextVNode()),
           createElementVNode("div", _hoisted_40, [
             createVNode($setup["Animations"], {
               id: "row-edit-anim",
-              value: $setup.options.animation
-            }, null, 8, ["value"])
+              modelValue: $setup.options.animation,
+              "onUpdate:modelValue": _cache[31] || (_cache[31] = ($event) => $setup.options.animation = $event)
+            }, null, 8, ["modelValue"])
           ])
         ])) : createCommentVNode("", true),
-        _cache[154] || (_cache[154] = createTextVNode())
+        _cache[155] || (_cache[155] = createTextVNode())
       ]),
       _: 1
-    }, 8, ["open"])
+    }, 8, ["model-value"])
   ]);
 }
 const RowEdit = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__file", "RowEdit.vue"]]);
-const _AlertAdapter = class _AlertAdapter {
-};
-_AlertAdapter.alert = async (title) => window.alert(title);
-_AlertAdapter.confirm = async (title) => {
-  return new Promise((resolve) => {
-    const v = confirm(title);
-    resolve(v);
-  });
-};
-_AlertAdapter.deleteConfirm = async (title) => _AlertAdapter.confirm(title);
-_AlertAdapter.confirmText = () => "確認";
-_AlertAdapter.cancelText = () => "取消";
-_AlertAdapter.deleteText = () => "刪除";
-let AlertAdapter = _AlertAdapter;
-async function simpleAlert(title, text = "", icon = "info", extra) {
-  return AlertAdapter.alert(title, text, icon, extra);
-}
-function useLoading(loading) {
-  loading = loading || ref(false);
-  const run = async function(callback, errorAlert = true) {
-    loading.value = true;
-    try {
-      return await callback();
-    } catch (e) {
-      console.error(e);
-      if (errorAlert) {
-        simpleAlert(e?.message || "Unknown Error", "");
-      }
-      throw e;
-    } finally {
-      loading.value = false;
-    }
-  };
-  const wrap2 = function(callback, errorAlert = true) {
-    return (...args) => {
-      return run(async () => callback(...args), errorAlert);
-    };
-  };
-  return { loading, run, wrap: wrap2 };
-}
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "TemplateManager",
   emits: ["selected"],
@@ -23094,7 +26947,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       content: null
     });
     const { loading, wrap: wrap2 } = useLoading();
-    const { loading: saving, wrap: wrapSave } = useLoading();
+    const { loading: saving2, wrap: wrapSave } = useLoading();
     const tmplModalShow = ref(false);
     const saveModalShow = ref(false);
     function open(cb, t, idx) {
@@ -23212,7 +27065,9 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       open,
       openSave
     });
-    const __returned__ = { toFormData: toFormData2, emits, q, filterType, items, callback, type, i, saveData, loading, wrap: wrap2, saving, wrapSave, tmplModalShow, saveModalShow, open, loadItems, selected, remove, badgeColor, saveContent, openSave, resetSaveData, filterButtons, filteredItems, BsModal, SingleImage, ButtonRadio };
+    const __returned__ = { toFormData: toFormData2, emits, q, filterType, items, callback, type, i, saveData, loading, wrap: wrap2, saving: saving2, wrapSave, tmplModalShow, saveModalShow, open, loadItems, selected, remove, badgeColor, saveContent, openSave, resetSaveData, filterButtons, filteredItems, get BModal() {
+      return _sfc_main$l;
+    }, SingleImage, ButtonRadio };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -23238,12 +27093,13 @@ const _hoisted_15$1 = { class: "form-group mb-3" };
 const _hoisted_16$1 = ["disabled"];
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
-    createVNode($setup["BsModal"], {
-      open: $setup.tmplModalShow,
+    createVNode($setup["BModal"], {
+      "model-value": $setup.tmplModalShow,
       title: "Template",
       size: "xl",
       onHidden: _cache[2] || (_cache[2] = ($event) => $setup.tmplModalShow = false),
-      "class-name": "c-template-manager"
+      "class-name": "c-template-manager",
+      "no-footer": ""
     }, {
       default: withCtx(() => [
         createElementVNode("div", _hoisted_1$1, [
@@ -23330,12 +27186,13 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
         ])])) : createCommentVNode("", true)
       ]),
       _: 1
-    }, 8, ["open"]),
+    }, 8, ["model-value"]),
     _cache[31] || (_cache[31] = createTextVNode()),
-    createVNode($setup["BsModal"], {
-      open: $setup.saveModalShow,
+    createVNode($setup["BModal"], {
+      "model-value": $setup.saveModalShow,
       onHidden: _cache[7] || (_cache[7] = ($event) => $setup.saveModalShow = false),
-      title: "Save as Template"
+      title: "Save as Template",
+      "no-footer": ""
     }, {
       default: withCtx(() => [
         createElementVNode("div", null, [
@@ -23403,32 +27260,34 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ]),
       _: 1
-    }, 8, ["open"])
+    }, 8, ["model-value"])
   ]);
 }
-const TemplateManager = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-00cc8009"], ["__file", "TemplateManager.vue"]]);
+const TemplateManager = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-b47b2093"], ["__file", "TemplateManager.vue"]]);
+const bvCss = '.b-avatar{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex-shrink:0;width:2.5rem;height:2.5rem;font-size:inherit;font-weight:400;line-height:1;max-width:100%;max-height:auto;text-align:center;overflow:visible;position:relative;transition:color .15s ease-in-out,background-color .15s ease-in-out,box-shadow .15s ease-in-out}.b-avatar:focus{outline:0}.b-avatar.btn,.b-avatar[href]{padding:0;border:0}.b-avatar.btn .b-avatar-img img,.b-avatar[href] .b-avatar-img img{transition:transform .15s ease-in-out}.b-avatar.btn:not(:disabled):not(.disabled),.b-avatar[href]:not(:disabled):not(.disabled){cursor:pointer}.b-avatar.btn:not(:disabled):not(.disabled):hover .b-avatar-img img,.b-avatar[href]:not(:disabled):not(.disabled):hover .b-avatar-img img{transform:scale(1.15)}.b-avatar.disabled,.b-avatar:disabled,.b-avatar[disabled]{opacity:.65;pointer-events:none}.b-avatar .b-avatar-custom,.b-avatar .b-avatar-text,.b-avatar .b-avatar-img{border-radius:inherit;width:100%;height:100%;overflow:hidden;display:flex;justify-content:center;align-items:center;-webkit-mask-image:radial-gradient(#fff,#000);mask-image:radial-gradient(#fff,#000)}.b-avatar .b-avatar-text{text-transform:uppercase;white-space:nowrap}.b-avatar[href]{text-decoration:none}.b-avatar>.bootstrap-icon{width:60%;height:auto;max-width:100%}.b-avatar .b-avatar-img img{width:100%;height:100%;max-height:auto;border-radius:inherit;object-fit:cover}.b-avatar .b-avatar-badge{position:absolute;min-height:1.5em;min-width:1.5em;padding:.25em;line-height:1;border-radius:10em;font-size:70%;font-weight:700;z-index:1}.b-avatar-sm{width:1.5rem;height:1.5rem}.b-avatar-sm .b-avatar-text{font-size:.6rem}.b-avatar-sm .b-avatar-badge{font-size:.42rem}.b-avatar-lg{width:3.5rem;height:3.5rem}.b-avatar-lg .b-avatar-text{font-size:1.4rem}.b-avatar-lg .b-avatar-badge{font-size:.98rem}.b-avatar-group .b-avatar-group-inner{display:flex;flex-wrap:wrap}.b-avatar-group .b-avatar{border:1px solid #dee2e6}.b-avatar-group a.b-avatar:hover:not(.disabled):not(disabled),.b-avatar-group .btn.b-avatar:hover:not(.disabled):not(disabled){z-index:1}.card-deck{gap:1.5rem}@media (min-width: 576px){.card-deck{display:flex;flex-flow:row wrap}}.card-deck>.card{flex:1 0 0%;margin-bottom:0}.card-columns .card{margin-bottom:.75rem}@media (min-width: 576px){.card-columns{column-count:3;column-gap:1.25rem;orphans:1;widows:1}.card-columns .card{display:inline-block;width:100%}}.b-form-rating{display:flex;justify-content:space-between;padding:.375rem .75rem;margin:.5rem;border-radius:.375rem;border:1px solid var(--bs-secondary-border-subtle, #dee2e6);background-color:var(--bs-body-bg);gap:.25rem}.b-form-rating.no-border{border:none}.b-form-rating.is-disabled{color:var(--bs-secondary);background-color:var(--bs-secondary-bg)}.b-form-rating .clear-icon{width:1em;height:1em;transition:transform var(--bs-transition-duration) ease;color:var(--bs-body-color);fill:currentColor}.b-form-rating:not(.is-readonly):not(.is-disabled) .clear-icon:hover{transform:scale(1.5)}.star{cursor:pointer;-webkit-user-select:none;user-select:none;padding:0 .25em}.is-readonly .star,.is-disabled .star{cursor:default}.clear-button-spacing{cursor:pointer;margin-left:.5rem}.star-spacing{margin:0 .5rem}.rating-value-text{color:var(--bs-body-color);margin:0 .6}.b-form-rating-star svg{transition:transform .2s ease}.b-form-rating:not(.is-readonly):not(.is-disabled) .star:hover .b-form-rating-star svg{transform:scale(1.5)}.b-form-tags.focus{background-color:var(--bs-body-bg);border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem #0d6efd40}.b-form-tags.disabled{background-color:var(--bs-secondary-bg)}.b-form-tag.disabled{opacity:.75}.b-form-tags.focus.is-valid{border-color:#198754;box-shadow:0 0 0 .25rem #19875440}.b-form-tags.focus.is-invalid{border-color:#dc3545;box-shadow:0 0 0 .25rem #dc354540}.b-form-tags .b-form-tags-list{margin-top:-.25rem}.b-form-tags .b-form-tags-list .b-form-tag,.b-form-tags .b-form-tags-list .b-from-tags-field{margin-top:.25rem}.b-form-tags .b-form-tags-list .b-form-tag{padding:.25em .65em}.b-form-tag{font-size:75%!important;font-weight:400!important;line-height:1.5!important;margin-right:.25rem}.b-form-tags .b-form-tag+.b-form-tag{margin-left:0}.b-form-tag>button.b-form-tag-remove{color:inherit;font-size:75%;line-height:1;float:none;margin-left:.25rem}.input-group .btn-group:not(:last-child)>:not(:first-child){border-start-end-radius:0px;border-end-end-radius:0px}.input-group .btn-group:not(:last-child)>:not(:last-child){border-start-start-radius:0px;border-end-start-radius:0px}.input-group .btn-group:not(:first-child)>:not(:last-child){border-end-start-radius:0px;border-start-start-radius:0px}.b-pagination-pills .page-item .page-link{border-radius:50rem!important;margin-left:.25rem!important;line-height:1}.b-pagination-pills .page-item:first-child .page-link{margin-left:0!important}.b-table-stacked-label{display:none;font-weight:700}.table.b-table.b-table-stacked{display:block;width:100%}.table.b-table.b-table-stacked>tfoot,.table.b-table.b-table-stacked>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked>thead,.table.b-table.b-table-stacked>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked>caption,.table.b-table.b-table-stacked>tbody,.table.b-table.b-table-stacked>tbody>tr,.table.b-table.b-table-stacked>tbody>tr>td,.table.b-table.b-table-stacked>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked>tbody>tr>th{display:block}.table.b-table.b-table-stacked>tbody>tr>:first-child,.table.b-table.b-table-stacked>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}@media (max-width: 575.98px){.table.b-table.b-table-stacked-sm{display:block;width:100%}.table.b-table.b-table-stacked-sm>tfoot,.table.b-table.b-table-stacked-sm>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-sm>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-sm>thead,.table.b-table.b-table-stacked-sm>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-sm>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-sm>caption,.table.b-table.b-table-stacked-sm>tbody,.table.b-table.b-table-stacked-sm>tbody>tr,.table.b-table.b-table-stacked-sm>tbody>tr>td,.table.b-table.b-table-stacked-sm>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-sm>tbody>tr>th{display:block}.table.b-table.b-table-stacked-sm>tbody>tr>:first-child,.table.b-table.b-table-stacked-sm>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-sm>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 767.98px){.table.b-table.b-table-stacked-md{display:block;width:100%}.table.b-table.b-table-stacked-md>tfoot,.table.b-table.b-table-stacked-md>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-md>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-md>thead,.table.b-table.b-table-stacked-md>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-md>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-md>caption,.table.b-table.b-table-stacked-md>tbody,.table.b-table.b-table-stacked-md>tbody>tr,.table.b-table.b-table-stacked-md>tbody>tr>td,.table.b-table.b-table-stacked-md>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-md>tbody>tr>th{display:block}.table.b-table.b-table-stacked-md>tbody>tr>:first-child,.table.b-table.b-table-stacked-md>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-md>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 991.98px){.table.b-table.b-table-stacked-lg{display:block;width:100%}.table.b-table.b-table-stacked-lg>tfoot,.table.b-table.b-table-stacked-lg>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-lg>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-lg>thead,.table.b-table.b-table-stacked-lg>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-lg>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-lg>caption,.table.b-table.b-table-stacked-lg>tbody,.table.b-table.b-table-stacked-lg>tbody>tr,.table.b-table.b-table-stacked-lg>tbody>tr>td,.table.b-table.b-table-stacked-lg>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-lg>tbody>tr>th{display:block}.table.b-table.b-table-stacked-lg>tbody>tr>:first-child,.table.b-table.b-table-stacked-lg>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-lg>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 1199.98px){.table.b-table.b-table-stacked-xl{display:block;width:100%}.table.b-table.b-table-stacked-xl>tfoot,.table.b-table.b-table-stacked-xl>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xl>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-xl>thead,.table.b-table.b-table-stacked-xl>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xl>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-xl>caption,.table.b-table.b-table-stacked-xl>tbody,.table.b-table.b-table-stacked-xl>tbody>tr,.table.b-table.b-table-stacked-xl>tbody>tr>td,.table.b-table.b-table-stacked-xl>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-xl>tbody>tr>th{display:block}.table.b-table.b-table-stacked-xl>tbody>tr>:first-child,.table.b-table.b-table-stacked-xl>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-xl>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 1399.98px){.table.b-table.b-table-stacked-xxl{display:block;width:100%}.table.b-table.b-table-stacked-xxl>tfoot,.table.b-table.b-table-stacked-xxl>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xxl>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-xxl>thead,.table.b-table.b-table-stacked-xxl>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xxl>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-xxl>caption,.table.b-table.b-table-stacked-xxl>tbody,.table.b-table.b-table-stacked-xxl>tbody>tr,.table.b-table.b-table-stacked-xxl>tbody>tr>td,.table.b-table.b-table-stacked-xxl>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-xxl>tbody>tr>th{display:block}.table.b-table.b-table-stacked-xxl>tbody>tr>:first-child,.table.b-table.b-table-stacked-xxl>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-xxl>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}.b-table-sticky-header,.table-responsive,[class*=table-responsive-]{margin-bottom:1rem}.b-table-sticky-header>.table,.table-responsive>.table,[class*=table-responsive-]>.table{margin-bottom:0}.b-table-sticky-header{overflow-y:auto}@media print{.b-table-sticky-header{overflow-y:visible!important;max-height:none!important}}.table.b-table[aria-busy=true]{opacity:.55}@supports (position: sticky){.b-table-sticky-header>.table.b-table>thead>tr>th{position:sticky;top:0;z-index:2}.b-table-sticky-header>.table.b-table>thead>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tbody>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tfoot>tr>.b-table-sticky-column,.table-responsive>.table.b-table>thead>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tbody>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tfoot>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>thead>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tbody>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tfoot>tr>.b-table-sticky-column{position:sticky;left:0}.b-table-sticky-header>.table.b-table>thead>tr>.b-table-sticky-column,.table-responsive>.table.b-table>thead>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>thead>tr>.b-table-sticky-column{z-index:5}.b-table-sticky-header>.table.b-table>tbody>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tfoot>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tbody>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tfoot>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tbody>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tfoot>tr>.b-table-sticky-column{z-index:2}}.table.b-table>tbody>tr>.table-b-table-default,.table.b-table>tfoot>tr>.table-b-table-default,.table.b-table>thead>tr>.table-b-table-default{color:#212529;background-color:#fff}.table th.b-table-sortable-column,.b-table.b-table-selectable td{cursor:pointer}.b-table.b-table-busy .b-table-busy-slot>td{border:none;padding:0}.b-table.b-table-fixed{table-layout:fixed}.b-table.b-table-no-border-collapse{border-collapse:separate;border-spacing:0}input[type=range].is-valid::-webkit-slider-thumb{background-color:#198754}input[type=range].is-valid::-moz-range-thumb{background-color:#198754}input[type=range].is-valid::-ms-thumb{background-color:#198754}input[type=range].is-invalid::-webkit-slider-thumb{background-color:#dc3545}input[type=range].is-invalid::-moz-range-thumb{background-color:#dc3545}input[type=range].is-invalid::-ms-thumb{background-color:#dc3545}input[type=range].is-valid::-webkit-slider-runnable-track{background-color:#84e8ba}input[type=range].is-valid::-moz-range-track{background-color:#84e8ba}input[type=range].is-valid::-ms-track{background-color:#84e8ba}input[type=range].is-invalid::-webkit-slider-runnable-track{background-color:#fae3e5}input[type=range].is-invalid::-moz-range-track{background-color:#fae3e5}input[type=range].is-invalid::-ms-track{background-color:#fae3e5}input[type=file].form-control-input-file-hide-button::-webkit-file-upload-button{display:none}input[type=file].form-control-input-file-hide-button::file-selector-button{display:none}.b-form-spinbutton{text-align:center;overflow:hidden;background-image:none;padding:0}[dir=rtl] .b-form-spinbutton:not(.flex-column),.b-form-spinbutton[dir=rtl]:not(.flex-column){flex-direction:row-reverse}.b-form-spinbutton output{font-size:inherit;outline:0;border:0;background-color:transparent;width:auto;margin:0;padding:0 .25rem}.b-form-spinbutton output>div,.b-form-spinbutton output>bdi{display:block;min-width:2.25em;height:1.5em}.b-form-spinbutton.flex-column{height:auto;width:auto}.b-form-spinbutton.flex-column output{margin:0 .25rem;padding:.25rem 0}.b-form-spinbutton:not(.d-inline-flex):not(.flex-column){output-width:100%}.b-form-spinbutton.d-inline-flex:not(.flex-column){width:auto}.b-form-spinbutton .btn{line-height:1;box-shadow:none!important}.b-form-spinbutton .btn:disabled{pointer-events:none}.b-form-spinbutton .btn:hover:not(:disabled)>div>.b-icon{transform:scale(1.25)}.b-form-spinbutton.disabled,.b-form-spinbutton.readonly{background-color:var(--bs-secondary-bg)}.b-form-spinbutton.disabled{pointer-events:none}.b-form-spinbutton:not(.form-control-sm):not(.form-control-lg):not(.flex-column){height:calc(1.5em + .5rem + var(--bs-border-width) * 2)}.alert .progress .progress-bar{--bs-progress-bar-transition: none}.alert .btn-close-custom{margin-bottom:auto;position:relative}.bs-popover-auto[data-popper-placement^=bottom] .popover-arrow:has(+div>.popover-header):after,.bs-popover-bottom .popover-arrow:has(+div>.popover-header):after{--bs-popover-bg: var(--bs-popover-header-bg)}.toast .progress .progress-bar{--bs-progress-bar-transition: none}.toast:not(.show){opacity:unset}.toast.fade:not(.show){opacity:0}.toast .btn-close-custom{margin:var(--bs-toast-padding-x) var(--bs-toast-padding-x) auto}.b-list-move,.b-list-enter-active,.b-list-leave-active{transition:all .5s cubic-bezier(.55,0,.1,1)}.b-list-enter-from,.b-list-leave-to{opacity:0}.b-list-leave-active{position:fixed}.container,.container-fluid{display:block}.input-group>.form-floating:not(:first-child)>:not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback){margin-left:0;border-top-left-radius:0;border-bottom-left-radius:0}.input-group:not(.has-validation)>.form-floating:not(:last-child)>:not(.dropdown-toggle):not(.dropdown-menu){border-top-right-radius:0;border-bottom-right-radius:0}.dropdown-toggle.dropdown-toggle-no-caret:before,.dropdown-toggle.dropdown-toggle-no-caret:after{display:none!important}.dropdown-menu.fade.showing{display:block!important}.bv-no-focus-ring:focus{outline:none}@media (max-width: 575.98px){.bv-d-sm-down-none{display:none!important}}@media (max-width: 767.98px){.bv-d-md-down-none{display:none!important}}@media (max-width: 991.98px){.bv-d-lg-down-none{display:none!important}}@media (max-width: 1199.98px){.bv-d-xl-down-none{display:none!important}}@media (max-width: 1399.98px){.bv-d-xxl-down-none{display:none!important}}.fade-enter-active,.fade-leave-active{transition:opacity .25s linear}.fade-enter-from,.fade-leave-to{opacity:0}.no-transition{transition:none!important}:root{--bs-modal-zindex: 1055;--bs-toast-max-width: 350px}\n';
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "PageBuilderApp",
   setup(__props, { expose: __expose }) {
     __expose();
+    injectCssToDocument(bvCss);
     const {
       addTextToClipboard: addTextToClipboard2,
       emptyRow: emptyRow2,
       readClipboard: readClipboard2,
+      saving: saving2,
       savePage: doSavePage,
       bindSaveButton: bindSaveButton2,
       duplicateAny: duplicateAny2
     } = usePageBuilderUtilities();
     const u2 = useUnicorn();
     const addonDefines = inject("addons");
-    const app2 = getCurrentInstance();
+    const app2 = getCurrentInstance$1();
     const content = ref(data("builder-content") || []);
     const drag = ref(false);
     const editingRow = ref();
     const editingColumn = ref();
     const editingAddon = ref();
     const css2 = ref(data("css") || "");
-    const saving = ref(false);
     const cssModalShow = ref(false);
     u2.trigger("page-builder.created", app2);
     const rowEditor = useTemplateRef("rowEditor");
@@ -23521,14 +27380,18 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }, "page,row", i);
     }
     async function savePage2() {
-      saving.value = true;
       await nextTick();
-      try {
-        return await doSavePage();
-      } finally {
-        saving.value = false;
-      }
+      return await doSavePage();
     }
+    useEventListener$1("keydown", (e) => {
+      if (isMac() && e.metaKey && e.key === "s") {
+        e.preventDefault();
+        savePage2();
+      } else if (e.ctrlKey && e.key === "s") {
+        e.preventDefault();
+        savePage2();
+      }
+    });
     function registerUnicornEvents() {
       u2.on("row:edit", (content2) => {
         editingColumn.value = void 0;
@@ -23540,7 +27403,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         if (!editingRow.value) {
           return;
         }
-        editingRow.value = { ...editingRow.value, ...content2 };
+        editingRow.value = Object.assign(editingRow.value, content2);
       });
       u2.on("column:edit", (content2) => {
         editingRow.value = void 0;
@@ -23552,7 +27415,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         if (!editingColumn.value) {
           return;
         }
-        editingColumn.value = { ...editingColumn.value, ...content2 };
+        editingColumn.value = Object.assign(editingColumn.value, content2);
       });
       u2.on("addon:add", (column) => {
         editingColumn.value = void 0;
@@ -23573,7 +27436,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         if (editingColumn.value.addons.filter((item) => item.id === addon.id).length === 0) {
           editingColumn.value.addons.push(addon);
         }
-        editingAddon.value = { ...editingAddon.value, ...addon };
+        editingAddon.value = Object.assign(editingAddon.value, addon);
       });
       u2.on("tmpl.open", (callback, type, i) => {
         tmplManager.value?.open(callback, type, i);
@@ -23583,248 +27446,255 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       });
       u2.trigger("page-builder.mounted", app2);
     }
-    const __returned__ = { addTextToClipboard: addTextToClipboard2, emptyRow: emptyRow2, readClipboard: readClipboard2, doSavePage, bindSaveButton: bindSaveButton2, duplicateAny: duplicateAny2, u: u2, addonDefines, app: app2, content, drag, editingRow, editingColumn, editingAddon, css: css2, saving, cssModalShow, rowEditor, columnEditor, addonEditor, addonListShow, tmplManager, cssEdit, addNewRow, deleteRow, copy, paste, pastePage, pasteTo, duplicateRow: duplicateRow2, columnsChange, selectAddon, contentInput, cssInput, openTemplates, savePage: savePage2, registerUnicornEvents, get VueDraggable() {
+    const __returned__ = { addTextToClipboard: addTextToClipboard2, emptyRow: emptyRow2, readClipboard: readClipboard2, saving: saving2, doSavePage, bindSaveButton: bindSaveButton2, duplicateAny: duplicateAny2, u: u2, addonDefines, app: app2, content, drag, editingRow, editingColumn, editingAddon, css: css2, cssModalShow, rowEditor, columnEditor, addonEditor, addonListShow, tmplManager, cssEdit, addNewRow, deleteRow, copy, paste, pastePage, pasteTo, duplicateRow: duplicateRow2, columnsChange, selectAddon, contentInput, cssInput, openTemplates, savePage: savePage2, registerUnicornEvents, get BApp() {
+      return _sfc_main$j;
+    }, get BModal() {
+      return _sfc_main$l;
+    }, get VueDraggable() {
       return VueDraggable;
-    }, AddonEdit, BsModal, ColumnEdit, CssEditor, RowBox, RowEdit, TemplateManager };
+    }, AddonEdit, ColumnEdit, CssEditor, RowBox, RowEdit, TemplateManager };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
 });
-const _hoisted_1 = {
-  id: "page-builder",
-  class: "page-builder card bg-light border-0"
-};
-const _hoisted_2 = { class: "card-header page-builder__topbar d-flex" };
-const _hoisted_3 = { class: "ms-auto" };
-const _hoisted_4 = { class: "d-inline-block" };
-const _hoisted_5 = { class: "text-nowrap btn-group dropdown" };
-const _hoisted_6 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
-const _hoisted_7 = { class: "card-body" };
-const _hoisted_8 = { class: "page-builder__body body" };
-const _hoisted_9 = {
+const _hoisted_1 = { class: "card-header page-builder__topbar d-flex" };
+const _hoisted_2 = { class: "ms-auto" };
+const _hoisted_3 = { class: "d-inline-block" };
+const _hoisted_4 = { class: "text-nowrap btn-group dropdown" };
+const _hoisted_5 = { class: "dropdown-menu dropdown-menu-end dropdown-menu-right" };
+const _hoisted_6 = { class: "card-body" };
+const _hoisted_7 = { class: "page-builder__body body" };
+const _hoisted_8 = {
   key: 0,
   class: "page-builder__bottom-toolbar text-center"
 };
-const _hoisted_10 = { class: "dropdown btn-group text-nowrap" };
-const _hoisted_11 = { class: "row c-addon-list" };
-const _hoisted_12 = { class: "col-6 col-md-4 mb-2 c-addon-list__item c-addon" };
-const _hoisted_13 = ["title", "onClick"];
-const _hoisted_14 = { class: "c-addon__icon" };
-const _hoisted_15 = { class: "m-0" };
-const _hoisted_16 = { class: "ml-auto ms-auto" };
-const _hoisted_17 = ["disabled"];
+const _hoisted_9 = { class: "dropdown btn-group text-nowrap" };
+const _hoisted_10 = { class: "row c-addon-list" };
+const _hoisted_11 = { class: "col-6 col-md-4 mb-2 c-addon-list__item c-addon" };
+const _hoisted_12 = ["title", "onClick"];
+const _hoisted_13 = { class: "c-addon__icon" };
+const _hoisted_14 = { class: "m-0" };
+const _hoisted_15 = { class: "ml-auto ms-auto" };
+const _hoisted_16 = ["disabled"];
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_tooltip = resolveDirective("tooltip");
-  return openBlock(), createElementBlock("div", _hoisted_1, [
-    createElementVNode("div", _hoisted_2, [
-      createElementVNode("div", _hoisted_3, [
-        createElementVNode("button", {
-          type: "button",
-          class: "btn btn-outline-secondary btn-sm",
-          onClick: $setup.cssEdit,
-          style: { "min-width": "150px" }
-        }, [..._cache[11] || (_cache[11] = [
-          createElementVNode("span", { class: "fab fa-css3" }, null, -1),
-          createTextVNode("\n          Edit CSS\n        ", -1)
-        ])]),
-        _cache[18] || (_cache[18] = createTextVNode()),
-        createElementVNode("div", _hoisted_4, [
-          createElementVNode("div", _hoisted_5, [
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-outline-secondary btn-sm",
-              onClick: _cache[0] || (_cache[0] = ($event) => $setup.openTemplates($setup.content.length))
-            }, [..._cache[12] || (_cache[12] = [
-              createElementVNode("div", { style: { "display": "inline-block", "min-width": "120px" } }, [
-                createElementVNode("span", { class: "fa fa-file-code" }),
-                createTextVNode("\n                Insert Template\n              ")
-              ], -1)
-            ])]),
-            _cache[14] || (_cache[14] = createTextVNode()),
-            _cache[15] || (_cache[15] = createElementVNode("button", {
-              class: "btn btn-outline-secondary btn-sm dropdown-toggle dropdown-toggle-split",
-              "data-toggle": "dropdown",
-              "data-bs-toggle": "dropdown"
-            }, [
-              createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
-            ], -1)),
-            _cache[16] || (_cache[16] = createTextVNode()),
-            createElementVNode("div", _hoisted_6, [
-              createElementVNode("button", {
-                class: "dropdown-item",
-                onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$trigger("tmpl.save", $setup.content, "page"))
-              }, [..._cache[13] || (_cache[13] = [
-                createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
-                createTextVNode("\n                Save as Template\n              ", -1)
-              ])])
-            ])
-          ])
-        ]),
-        _cache[19] || (_cache[19] = createTextVNode()),
-        createElementVNode("button", {
-          type: "button",
-          class: "btn btn-outline-secondary btn-sm",
-          onClick: $setup.copy,
-          style: { "min-width": "150px" }
-        }, [..._cache[17] || (_cache[17] = [
-          createElementVNode("span", { class: "fa fa-clone" }, null, -1),
-          createTextVNode("\n          Copy page content\n        ", -1)
-        ])])
-      ])
-    ]),
-    _cache[38] || (_cache[38] = createTextVNode()),
-    createElementVNode("div", _hoisted_7, [
-      createElementVNode("div", _hoisted_8, [
-        createVNode($setup["VueDraggable"], mergeProps({
-          modelValue: $setup.content,
-          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.content = $event),
-          onStart: _cache[3] || (_cache[3] = ($event) => $setup.drag = true),
-          onEnd: _cache[4] || (_cache[4] = ($event) => $setup.drag = false)
-        }, { handle: ".row-move-handle", animation: 300 }, {
-          "item-key": "id",
-          onAdd: _cache[5] || (_cache[5] = withModifiers(() => {
-          }, ["stop"]))
-        }), {
-          default: withCtx(() => [
-            (openBlock(true), createElementBlock(Fragment, null, renderList($setup.content, (row, i) => {
-              return openBlock(), createBlock($setup["RowBox"], {
-                key: row.id,
-                class: "body__row page-row mb-4",
-                value: row,
-                "move-handle": "row-move-handle",
-                onColumnsChange: ($event) => $setup.columnsChange(row, $event),
-                onAddNew: ($event) => $setup.addNewRow(i),
-                onDuplicate: ($event) => $setup.duplicateRow($event || row, i),
-                onPastePage: ($event) => $setup.pastePage($event, i),
-                onOpenTemplates: ($event) => $setup.openTemplates(i),
-                onDelete: ($event) => $setup.deleteRow(i)
-              }, null, 8, ["value", "onColumnsChange", "onAddNew", "onDuplicate", "onPastePage", "onOpenTemplates", "onDelete"]);
-            }), 128))
-          ]),
-          _: 1
-        }, 16, ["modelValue"])
-      ]),
-      _cache[31] || (_cache[31] = createTextVNode()),
-      $setup.content.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_9, [
-        createElementVNode("div", _hoisted_10, [
+  return openBlock(), createBlock($setup["BApp"], {
+    id: "page-builder",
+    class: "page-builder card bg-light border-0"
+  }, {
+    default: withCtx(() => [
+      createElementVNode("div", _hoisted_1, [
+        createElementVNode("div", _hoisted_2, [
           createElementVNode("button", {
             type: "button",
             class: "btn btn-outline-secondary btn-sm",
-            onClick: _cache[6] || (_cache[6] = ($event) => $setup.addNewRow())
-          }, "\n            Add New Row\n          "),
-          _cache[23] || (_cache[23] = createTextVNode()),
-          _cache[24] || (_cache[24] = createElementVNode("button", { class: "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" }, [
-            createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
-          ], -1)),
-          _cache[25] || (_cache[25] = createTextVNode()),
-          createElementVNode("div", { class: "dropdown-menu dropdown-menu dropdown-menu-right" }, [
-            createElementVNode("div", {
-              class: "dropdown-item",
-              onClick: $setup.paste
-            }, [..._cache[20] || (_cache[20] = [
-              createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
-              createTextVNode("\n              Paste\n            ", -1)
-            ])]),
-            _cache[22] || (_cache[22] = createTextVNode()),
-            createElementVNode("div", {
-              class: "dropdown-item",
-              onClick: $setup.paste
-            }, [..._cache[21] || (_cache[21] = [
-              createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
-              createTextVNode("\n              Insert Template\n            ", -1)
-            ])])
-          ])
+            onClick: $setup.cssEdit,
+            style: { "min-width": "150px" }
+          }, [..._cache[11] || (_cache[11] = [
+            createElementVNode("span", { class: "fab fa-css3" }, null, -1),
+            createTextVNode("\n          Edit CSS\n        ", -1)
+          ])]),
+          _cache[18] || (_cache[18] = createTextVNode()),
+          createElementVNode("div", _hoisted_3, [
+            createElementVNode("div", _hoisted_4, [
+              createElementVNode("button", {
+                type: "button",
+                class: "btn btn-outline-secondary btn-sm",
+                onClick: _cache[0] || (_cache[0] = ($event) => $setup.openTemplates($setup.content.length))
+              }, [..._cache[12] || (_cache[12] = [
+                createElementVNode("div", { style: { "display": "inline-block", "min-width": "120px" } }, [
+                  createElementVNode("span", { class: "fa fa-file-code" }),
+                  createTextVNode("\n                Insert Template\n              ")
+                ], -1)
+              ])]),
+              _cache[14] || (_cache[14] = createTextVNode()),
+              _cache[15] || (_cache[15] = createElementVNode("button", {
+                class: "btn btn-outline-secondary btn-sm dropdown-toggle dropdown-toggle-split",
+                "data-toggle": "dropdown",
+                "data-bs-toggle": "dropdown"
+              }, [
+                createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
+              ], -1)),
+              _cache[16] || (_cache[16] = createTextVNode()),
+              createElementVNode("div", _hoisted_5, [
+                createElementVNode("button", {
+                  class: "dropdown-item",
+                  onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$trigger("tmpl.save", $setup.content, "page"))
+                }, [..._cache[13] || (_cache[13] = [
+                  createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
+                  createTextVNode("\n                Save as Template\n              ", -1)
+                ])])
+              ])
+            ])
+          ]),
+          _cache[19] || (_cache[19] = createTextVNode()),
+          createElementVNode("button", {
+            type: "button",
+            class: "btn btn-outline-secondary btn-sm",
+            onClick: $setup.copy,
+            style: { "min-width": "150px" }
+          }, [..._cache[17] || (_cache[17] = [
+            createElementVNode("span", { class: "fa fa-clone" }, null, -1),
+            createTextVNode("\n          Copy page content\n        ", -1)
+          ])])
         ])
-      ])) : createCommentVNode("", true),
-      _cache[32] || (_cache[32] = createTextVNode()),
-      createVNode($setup["RowEdit"], { ref: "rowEditor" }, null, 512),
-      _cache[33] || (_cache[33] = createTextVNode()),
-      createVNode($setup["ColumnEdit"], { ref: "columnEditor" }, null, 512),
-      _cache[34] || (_cache[34] = createTextVNode()),
-      createVNode($setup["AddonEdit"], { ref: "addonEditor" }, null, 512),
-      _cache[35] || (_cache[35] = createTextVNode()),
-      createVNode($setup["BsModal"], {
-        open: $setup.addonListShow,
-        onHidden: _cache[7] || (_cache[7] = ($event) => $setup.addonListShow = false),
-        size: "lg",
-        class: "c-modal-addon-select",
-        title: "New Addon"
-      }, {
-        default: withCtx(() => [
-          createElementVNode("div", _hoisted_11, [
-            (openBlock(true), createElementBlock(Fragment, null, renderList($setup.addonDefines, (addon) => {
-              return openBlock(), createElementBlock("div", _hoisted_12, [
-                withDirectives((openBlock(), createElementBlock("a", {
-                  class: "d-inline-block p-4 c-addon__link btn btn-outline-dark w-100 text-center",
-                  href: "javascript://",
-                  title: addon.description,
-                  onClick: withModifiers(($event) => $setup.selectAddon(addon.type), ["prevent"])
-                }, [
-                  createElementVNode("div", _hoisted_14, [
-                    createElementVNode("span", {
-                      class: normalizeClass(["fa-3x", addon.icon])
-                    }, null, 2)
-                  ]),
-                  _cache[26] || (_cache[26] = createTextVNode()),
-                  createElementVNode("h5", _hoisted_15, toDisplayString(addon.name), 1)
-                ], 8, _hoisted_13)), [
-                  [_directive_tooltip]
-                ])
-              ]);
-            }), 256))
-          ])
+      ]),
+      _cache[38] || (_cache[38] = createTextVNode()),
+      createElementVNode("div", _hoisted_6, [
+        createElementVNode("div", _hoisted_7, [
+          createVNode($setup["VueDraggable"], mergeProps({
+            modelValue: $setup.content,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.content = $event),
+            onStart: _cache[3] || (_cache[3] = ($event) => $setup.drag = true),
+            onEnd: _cache[4] || (_cache[4] = ($event) => $setup.drag = false)
+          }, { handle: ".row-move-handle", animation: 300 }, {
+            "item-key": "id",
+            onAdd: _cache[5] || (_cache[5] = withModifiers(() => {
+            }, ["stop"]))
+          }), {
+            default: withCtx(() => [
+              (openBlock(true), createElementBlock(Fragment, null, renderList($setup.content, (row, i) => {
+                return openBlock(), createBlock($setup["RowBox"], {
+                  key: row.id,
+                  class: "body__row page-row mb-4",
+                  value: row,
+                  "move-handle": "row-move-handle",
+                  onColumnsChange: ($event) => $setup.columnsChange(row, $event),
+                  onAddNew: ($event) => $setup.addNewRow(i),
+                  onDuplicate: ($event) => $setup.duplicateRow($event || row, i),
+                  onPastePage: ($event) => $setup.pastePage($event, i),
+                  onOpenTemplates: ($event) => $setup.openTemplates(i),
+                  onDelete: ($event) => $setup.deleteRow(i)
+                }, null, 8, ["value", "onColumnsChange", "onAddNew", "onDuplicate", "onPastePage", "onOpenTemplates", "onDelete"]);
+              }), 128))
+            ]),
+            _: 1
+          }, 16, ["modelValue"])
         ]),
-        _: 1
-      }, 8, ["open"]),
-      _cache[36] || (_cache[36] = createTextVNode()),
-      createVNode($setup["TemplateManager"], { ref: "tmplManager" }, null, 512),
-      _cache[37] || (_cache[37] = createTextVNode()),
-      createVNode($setup["BsModal"], {
-        title: "CSS Edit (Support SCSS)",
-        size: "xl",
-        class: "c-modal-css-edit",
-        open: $setup.cssModalShow,
-        onHidden: _cache[10] || (_cache[10] = ($event) => $setup.cssModalShow = false),
-        backdrop: "static"
-      }, {
-        footer: withCtx(() => [
-          createElementVNode("div", _hoisted_16, [
+        _cache[31] || (_cache[31] = createTextVNode()),
+        $setup.content.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_8, [
+          createElementVNode("div", _hoisted_9, [
             createElementVNode("button", {
               type: "button",
-              class: "btn btn-outline-dark",
-              style: { "min-width": "150px" },
-              onClick: _cache[9] || (_cache[9] = ($event) => $setup.cssModalShow = false)
-            }, [..._cache[27] || (_cache[27] = [
-              createElementVNode("i", { class: "fa fa-times" }, null, -1),
-              createTextVNode("\n              Close\n            ", -1)
-            ])]),
-            _cache[29] || (_cache[29] = createTextVNode()),
-            createElementVNode("button", {
-              type: "button",
-              class: "btn btn-primary",
-              style: { "min-width": "200px" },
-              onClick: $setup.savePage,
-              disabled: $setup.saving
-            }, [
-              createElementVNode("span", {
-                class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
-              }, null, 2),
-              _cache[28] || (_cache[28] = createTextVNode("\n              Save\n            ", -1))
-            ], 8, _hoisted_17)
+              class: "btn btn-outline-secondary btn-sm",
+              onClick: _cache[6] || (_cache[6] = ($event) => $setup.addNewRow())
+            }, "\n            Add New Row\n          "),
+            _cache[23] || (_cache[23] = createTextVNode()),
+            _cache[24] || (_cache[24] = createElementVNode("button", { class: "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" }, [
+              createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
+            ], -1)),
+            _cache[25] || (_cache[25] = createTextVNode()),
+            createElementVNode("div", { class: "dropdown-menu dropdown-menu dropdown-menu-right" }, [
+              createElementVNode("div", {
+                class: "dropdown-item",
+                onClick: $setup.paste
+              }, [..._cache[20] || (_cache[20] = [
+                createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
+                createTextVNode("\n              Paste\n            ", -1)
+              ])]),
+              _cache[22] || (_cache[22] = createTextVNode()),
+              createElementVNode("div", {
+                class: "dropdown-item",
+                onClick: $setup.paste
+              }, [..._cache[21] || (_cache[21] = [
+                createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
+                createTextVNode("\n              Insert Template\n            ", -1)
+              ])])
+            ])
           ])
-        ]),
-        default: withCtx(() => [
-          createVNode($setup["CssEditor"], {
-            modelValue: $setup.css,
-            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.css = $event),
-            "auto-focus": true
-          }, null, 8, ["modelValue"]),
-          _cache[30] || (_cache[30] = createTextVNode())
-        ]),
-        _: 1
-      }, 8, ["open"])
-    ])
-  ]);
+        ])) : createCommentVNode("", true),
+        _cache[32] || (_cache[32] = createTextVNode()),
+        createVNode($setup["RowEdit"], { ref: "rowEditor" }, null, 512),
+        _cache[33] || (_cache[33] = createTextVNode()),
+        createVNode($setup["ColumnEdit"], { ref: "columnEditor" }, null, 512),
+        _cache[34] || (_cache[34] = createTextVNode()),
+        createVNode($setup["AddonEdit"], { ref: "addonEditor" }, null, 512),
+        _cache[35] || (_cache[35] = createTextVNode()),
+        createVNode($setup["BModal"], {
+          "model-value": $setup.addonListShow,
+          onHidden: _cache[7] || (_cache[7] = ($event) => $setup.addonListShow = false),
+          size: "lg",
+          class: "c-modal-addon-select",
+          title: "New Addon",
+          "no-footer": ""
+        }, {
+          default: withCtx(() => [
+            createElementVNode("div", _hoisted_10, [
+              (openBlock(true), createElementBlock(Fragment, null, renderList($setup.addonDefines, (addon) => {
+                return openBlock(), createElementBlock("div", _hoisted_11, [
+                  withDirectives((openBlock(), createElementBlock("a", {
+                    class: "d-inline-block p-4 c-addon__link btn btn-outline-dark w-100 text-center",
+                    href: "javascript://",
+                    title: addon.description,
+                    onClick: withModifiers(($event) => $setup.selectAddon(addon.type), ["prevent"])
+                  }, [
+                    createElementVNode("div", _hoisted_13, [
+                      createElementVNode("span", {
+                        class: normalizeClass(["fa-3x", addon.icon])
+                      }, null, 2)
+                    ]),
+                    _cache[26] || (_cache[26] = createTextVNode()),
+                    createElementVNode("h5", _hoisted_14, toDisplayString(addon.name), 1)
+                  ], 8, _hoisted_12)), [
+                    [_directive_tooltip]
+                  ])
+                ]);
+              }), 256))
+            ])
+          ]),
+          _: 1
+        }, 8, ["model-value"]),
+        _cache[36] || (_cache[36] = createTextVNode()),
+        createVNode($setup["TemplateManager"], { ref: "tmplManager" }, null, 512),
+        _cache[37] || (_cache[37] = createTextVNode()),
+        createVNode($setup["BModal"], {
+          title: "CSS Edit (Support SCSS)",
+          size: "xl",
+          class: "c-modal-css-edit",
+          "model-value": $setup.cssModalShow,
+          onHidden: _cache[10] || (_cache[10] = ($event) => $setup.cssModalShow = false),
+          backdrop: "static"
+        }, {
+          footer: withCtx(() => [
+            createElementVNode("div", _hoisted_15, [
+              createElementVNode("button", {
+                type: "button",
+                class: "btn btn-outline-dark",
+                style: { "min-width": "150px" },
+                onClick: _cache[9] || (_cache[9] = ($event) => $setup.cssModalShow = false)
+              }, [..._cache[27] || (_cache[27] = [
+                createElementVNode("i", { class: "fa fa-times" }, null, -1),
+                createTextVNode("\n              Close\n            ", -1)
+              ])]),
+              _cache[29] || (_cache[29] = createTextVNode()),
+              createElementVNode("button", {
+                type: "button",
+                class: "btn btn-primary",
+                style: { "min-width": "200px" },
+                onClick: $setup.savePage,
+                disabled: $setup.saving
+              }, [
+                createElementVNode("span", {
+                  class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
+                }, null, 2),
+                _cache[28] || (_cache[28] = createTextVNode("\n              Save\n            ", -1))
+              ], 8, _hoisted_16)
+            ])
+          ]),
+          default: withCtx(() => [
+            createVNode($setup["CssEditor"], {
+              modelValue: $setup.css,
+              "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.css = $event),
+              "auto-focus": true
+            }, null, 8, ["modelValue"]),
+            _cache[30] || (_cache[30] = createTextVNode())
+          ]),
+          _: 1
+        }, 8, ["model-value"])
+      ])
+    ]),
+    _: 1
+  });
 }
 const PageBuilderApp = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "PageBuilderApp.vue"]]);
 async function useTinymce(selector, options = {}) {

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { useUnicorn } from '@windwalker-io/unicorn-next';
-import { usePageBuilderUtilities } from '~luna/services/page-builder/usePageBuilderUtilities';
+import { useEventListener } from '@vueuse/core';
+import { sleep, useUnicorn } from '@windwalker-io/unicorn-next';
+import { BModal } from 'bootstrap-vue-next';
+import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
 import { Row, RowSaveEvent } from '~luna/types';
-import BsModal from '~luna/components/page-builder/bootstrap/BsModal.vue';
 import CssEditor from '~luna/components/page-builder/CssEditor.vue';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 import UnicornSwitcher from '~luna/components/form/UnicornSwitcher.vue';
@@ -16,12 +17,11 @@ import Gradient from "~luna/components/page-builder/form/Gradient.vue";
 import SliderInput from '~luna/components/page-builder/form/SliderInput.vue';
 import RwdTitleOptions from '~luna/components/page-builder/form/RwdTitleOptions.vue';
 
-const { savePage: doSavePage } = usePageBuilderUtilities();
+const { saving, savePage: doSavePage } = usePageBuilderUtilities();
 
 const u = useUnicorn();
 const content = ref<Row>();
 const sticky = ref(false);
-const saving = ref(false);
 const modalShow = ref(false);
 const tab = ref<HTMLElement>();
 const currentTab = ref('general');
@@ -61,6 +61,14 @@ function updateCurrentTab() {
   }
 }
 
+// Save
+useEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's' && modalShow.value) {
+    e.preventDefault();
+    savePage();
+  }
+});
+
 function saveClose() {
   u.trigger<RowSaveEvent>('row:save', JSON.parse(JSON.stringify(content.value)));
   close();
@@ -71,21 +79,15 @@ async function savePage() {
 
   await nextTick();
 
-  saving.value = true;
-
-  try {
-    return await doSavePage();
-  } finally {
-    saving.value = false;
-  }
+  return await doSavePage();
 }
 
-function close() {
+async function close() {
   modalShow.value = false;
   sticky.value = false;
-  nextTick(() => {
-    content.value = undefined;
-  });
+
+  await sleep(400);
+  content.value = undefined;
 }
 
 const options = computed(() => content.value?.options);
@@ -93,43 +95,43 @@ const options = computed(() => content.value?.options);
 
 <template>
   <div>
-    <BsModal :open="modalShow" size="lg" @hidden="modalShow = false"
-      backdrop="static" class="c-modal-row-edit">
-      <template #header-element>
-        <div class="modal-header bg-white" :class="{ 'sticky-top': sticky }">
-          <!-- Tabs -->
-          <ul ref="tab" class="nav nav-pills border-0">
-            <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-general">
-                General
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-layout">
-                Layout
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-animation">
-                Animation
-              </a>
-            </li>
-          </ul>
+    <BModal :model-value="modalShow" size="lg" @hidden="modalShow = false"
+      backdrop="static" class="c-modal-row-edit"
+      header-class="bg-white sticky-top"
+    >
+      <template #header>
+        <!-- Tabs -->
+        <ul ref="tab" class="nav nav-pills border-0">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-general">
+              General
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-layout">
+              Layout
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#row-edit-animation">
+              Animation
+            </a>
+          </li>
+        </ul>
 
-          <div class="ml-auto ms-auto">
-            <button type="button" class="btn btn-primary btn--save" @click="saveClose()">
-              <span class="fa fa-check"></span>
-              Done
-            </button>
-            <button type="button" class="btn btn-success btn--save-page" @click="savePage()"
-              :disabled="saving">
-              <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
-              Save Page
-            </button>
-            <button type="button" class="btn btn-secondary btn--close" @click="close">
-              <span class="fa fa-times"></span>
-            </button>
-          </div>
+        <div class="ml-auto ms-auto">
+          <button type="button" class="btn btn-primary btn--save" @click="saveClose()">
+            <span class="fa fa-check"></span>
+            Done
+          </button>
+          <button type="button" class="btn btn-success btn--save-page" @click="savePage()"
+            :disabled="saving">
+            <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
+            Save Page
+          </button>
+          <button type="button" class="btn btn-secondary btn--close" @click="close">
+            <span class="fa fa-times"></span>
+          </button>
         </div>
       </template>
 
@@ -504,7 +506,7 @@ const options = computed(() => content.value?.options);
 
         <!-- Tab Animation -->
         <div class="tab-pane fade" id="row-edit-animation" role="tabpanel" aria-labelledby="row-edit-animation-tab">
-          <Animations id="row-edit-anim" :value="options.animation"></Animations>
+          <Animations id="row-edit-anim" v-model="options.animation"></Animations>
         </div>
       </div>
 
@@ -518,7 +520,7 @@ const options = computed(() => content.value?.options);
           Cancel
         </button>
       </template>
-    </BsModal>
+    </BModal>
   </div>
 </template>
 

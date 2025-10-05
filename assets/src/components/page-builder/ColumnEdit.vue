@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import { useEventListener } from '@vueuse/core';
 import { useUnicorn } from '@windwalker-io/unicorn-next';
+import { BModal } from 'bootstrap-vue-next';
+import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
 import { Column, ColumnSaveEvent } from '~luna/types';
-import BsModal from '../../components/page-builder/bootstrap/BsModal.vue';
 import CssEditor from '../../components/page-builder/CssEditor.vue';
 import { range } from 'lodash-es';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
-import { savePage as doSavePage } from '../../services/page-builder/usePageBuilderUtilities';
 import UnicornSwitcher from '../form/UnicornSwitcher.vue';
 import Animations from "./form/Animations.vue";
 import BoxOffset from "./form/BoxOffset.vue";
@@ -16,10 +17,10 @@ import Gradient from "./form/Gradient.vue";
 import RwdGroup from "./form/RwdGroup.vue";
 import SliderInput from './form/SliderInput.vue';
 
-const u = useUnicorn();
+const { saving, savePage: doSavePage } = usePageBuilderUtilities();
 
+const u = useUnicorn();
 const content = ref<Column>();
-const saving = ref(false);
 const modalShow = ref(false);
 const cssEditor = useTemplateRef<typeof CssEditor>('cssEditor');
 const tab = ref<HTMLElement>();
@@ -59,6 +60,14 @@ function updateCurrentTab() {
   }
 }
 
+// Save
+useEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's' && modalShow.value) {
+    e.preventDefault();
+    savePage();
+  }
+});
+
 function saveClose() {
   u.trigger('column:save', JSON.parse(JSON.stringify(content.value)));
   close();
@@ -69,13 +78,7 @@ async function savePage() {
 
   await nextTick();
 
-  saving.value = true;
-
-  try {
-    return await doSavePage();
-  } finally {
-    saving.value = false;
-  }
+  return await doSavePage();
 }
 
 function close() {
@@ -94,42 +97,42 @@ const options = computed(() => content.value?.options);
 
 <template>
   <div>
-    <BsModal :open="modalShow" size="lg" @hidden="modalShow = false"
-      backdrop="static" class="c-modal-column-edit">
-      <template #header-element>
-        <div class="modal-header bg-white sticky-top">
-          <ul ref="tab" class="nav nav-pills border-0">
-            <li class="nav-item">
-              <a ref="generalTab" class="nav-link active" data-toggle="tab" data-bs-toggle="tab" href="#column-edit-general">
-                General
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#column-edit-layout">
-                Layout
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#column-edit-animation">
-                Animation
-              </a>
-            </li>
-          </ul>
+    <BModal :model-value="modalShow" size="lg" @hidden="modalShow = false"
+      backdrop="static" class="c-modal-column-edit"
+      header-class="bg-white sticky-top"
+    >
+      <template #header>
+        <ul ref="tab" class="nav nav-pills border-0">
+          <li class="nav-item">
+            <a ref="generalTab" class="nav-link active" data-toggle="tab" data-bs-toggle="tab" href="#column-edit-general">
+              General
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#column-edit-layout">
+              Layout
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#column-edit-animation">
+              Animation
+            </a>
+          </li>
+        </ul>
 
-          <div class="ml-auto ms-auto">
-            <button type="button" class="btn btn-primary" @click="saveClose()">
-              <span class="fa fa-check"></span>
-              Done
-            </button>
-            <button type="button" class="btn btn-success" @click="savePage()"
-              :disabled="saving">
-              <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
-              Save Page
-            </button>
-            <button type="button" class="btn btn-secondary" @click="close()">
-              <span class="fa fa-times"></span>
-            </button>
-          </div>
+        <div class="ml-auto ms-auto">
+          <button type="button" class="btn btn-primary" @click="saveClose()">
+            <span class="fa fa-check"></span>
+            Done
+          </button>
+          <button type="button" class="btn btn-success" @click="savePage()"
+            :disabled="saving">
+            <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
+            Save Page
+          </button>
+          <button type="button" class="btn btn-secondary" @click="close()">
+            <span class="fa fa-times"></span>
+          </button>
         </div>
       </template>
 
@@ -555,7 +558,7 @@ const options = computed(() => content.value?.options);
 
         <!-- Tab Animation -->
         <div class="tab-pane fade" id="column-edit-animation" role="tabpanel" aria-labelledby="column-edit-animation-tab">
-          <Animations id="column-edit-anim" :value="options.animation"></Animations>
+          <Animations id="column-edit-anim" v-model="options.animation"></Animations>
         </div>
       </div>
 
@@ -568,7 +571,7 @@ const options = computed(() => content.value?.options);
           <span class="fa fa-times"></span>
         </button>
       </template>
-    </BsModal>
+    </BModal>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { simpleAlert, uid, useHttpClient } from '@windwalker-io/unicorn-next';
+import { BModal } from 'bootstrap-vue-next';
 import { TemplateCallback, TemplateItem } from '~luna/types';
-import BsModal from '~luna/components/page-builder/bootstrap/BsModal.vue';
 import SingleImage from '~luna/components/page-builder/form/SingleImage.vue';
 import ButtonRadio from '~luna/components/page-builder/form/ButtonRadio.vue';
 import { computed, ref } from 'vue';
-import { usePageBuilderUtilities } from '~luna/services/page-builder/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
 import { useLoading } from '@lyrasoft/ts-toolkit/vue';
 
 const { toFormData } = usePageBuilderUtilities();
@@ -174,11 +174,12 @@ defineExpose({
 
 <template>
   <div>
-    <BsModal :open="tmplModalShow"
+    <BModal :model-value="tmplModalShow"
       title="Template"
       :size="'xl'"
       @hidden="tmplModalShow = false"
       class-name="c-template-manager"
+      no-footer
     >
       <div class="form-group mb-3 d-flex align-items-center">
           <span class="me-2">
@@ -233,11 +234,13 @@ defineExpose({
       <div v-if="items.length === 0 && loading" class="d-flex justify-content-center py-5 my-5">
         <span class="spinner spinner-border"></span>
       </div>
-    </BsModal>
+    </BModal>
 
     <!-- Save Modal -->
-    <BsModal :open="saveModalShow" @hidden="saveModalShow = false"
-      title="Save as Template">
+    <BModal :model-value="saveModalShow" @hidden="saveModalShow = false"
+      title="Save as Template"
+      no-footer
+    >
       <div>
         Save as: <div class="badge" :class="`bg-${badgeColor(saveData.type!)}`">{{ saveData.type }}</div>
       </div>
@@ -274,7 +277,7 @@ defineExpose({
           </button>
         </div>
       </div>
-    </BsModal>
+    </BModal>
 
   </div>
 </template>

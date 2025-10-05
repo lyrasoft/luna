@@ -19,6 +19,20 @@ function mergeDeep(target, ...sources) {
   }
   return out;
 }
+const _AlertAdapter = class _AlertAdapter {
+};
+_AlertAdapter.alert = async (title) => window.alert(title);
+_AlertAdapter.confirm = async (title) => {
+  return new Promise((resolve) => {
+    const v = confirm(title);
+    resolve(v);
+  });
+};
+_AlertAdapter.deleteConfirm = async (title) => _AlertAdapter.confirm(title);
+_AlertAdapter.confirmText = () => "確認";
+_AlertAdapter.cancelText = () => "取消";
+_AlertAdapter.deleteText = () => "刪除";
+let AlertAdapter = _AlertAdapter;
 class Stack {
   constructor(store = []) {
     this.store = store;
@@ -162,15 +176,15 @@ function clearHooks() {
   hooks = [];
 }
 async function loadTinymce() {
-  await useScriptImport("@tinymce");
   if (imported) {
     return tinymce;
   }
-  imported = true;
+  await useScriptImport("@tinymce");
   for (const hook of hooks) {
     hook(tinymce);
   }
   await registerDragPlugin(tinymce);
+  imported = true;
   return tinymce;
 }
 const defaultOptions = {};

@@ -1,9 +1,14 @@
+import { useLoading } from '@lyrasoft/ts-toolkit/vue';
 import { simpleAlert, uid, useHttpClient } from '@windwalker-io/unicorn-next';
 import { startsWith } from 'lodash-es';
+import { watch } from 'vue';
 import { Addon, AddonOptions, Column, MaybeArray, Row } from '~luna/types';
+
+const { loading: saving, wrap } = useLoading();
 
 export function usePageBuilderUtilities() {
   return {
+    saving,
     bindSaveButton,
     savePage,
     addTextToClipboard,
@@ -29,34 +34,38 @@ export function bindSaveButton() {
     return;
   }
 
-  let className: string = '';
-  $btn.addEventListener('click', async () => {
-    const $icon = $btn.querySelector<HTMLSpanElement>('[data-spinner]');
+  const $icon = $btn.querySelector<HTMLSpanElement>('[data-spinner]');
 
-    $btn.disabled = true;
+  watch(saving, (v) => {
+    $btn.disabled = v;
 
     if ($icon) {
-      className = $icon.getAttribute('class')!;
-      $icon.setAttribute('class', 'spinner-border spinner-border-sm');
+      if (v) {
+        className = $icon.getAttribute('class')!;
+        $icon.setAttribute('class', 'spinner-border spinner-border-sm');
+      } else {
+        $icon.setAttribute('class', className);
+      }
     }
+  });
+
+  let className: string = '';
+  $btn.addEventListener('click', async () => {
+    saving.value = true;
 
     try {
       const res = await savePage();
       console.log('Save Success!');
       return res;
     } finally {
-      $btn.disabled = false;
-
-      if ($icon) {
-        $icon.setAttribute('class', className);
-      }
+      saving.value = false;
     }
   });
 }
 
 let previousContent = '';
 
-export async function savePage() {
+export const savePage = wrap(async () => {
   const contentInput = document.querySelector<HTMLTextAreaElement>('#input-item-content')!;
 
   if (previousContent !== '' && previousContent === contentInput.value) {
@@ -86,7 +95,7 @@ export async function savePage() {
       simpleAlert(e.message, '', 'warning');
     }
   }
-}
+});
 
 export function addTextToClipboard(text: any) {
   if (typeof text !== 'string') {

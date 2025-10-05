@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import { useEventListener } from '@vueuse/core';
 import { useUnicorn } from '@windwalker-io/unicorn-next';
+import { BModal } from 'bootstrap-vue-next';
 import { defaultsDeep } from 'lodash-es';
 import { computed, nextTick, onMounted, ref } from 'vue';
 import { Addon, AddonOptions, AddonSaveEvent } from '~luna/types';
-import BsModal from '../../components/page-builder/bootstrap/BsModal.vue';
 import CssEditor from '../../components/page-builder/CssEditor.vue';
 import Animations from "../../components/page-builder/form/Animations.vue";
 import BoxOffset from "../../components/page-builder/form/BoxOffset.vue";
@@ -11,14 +12,13 @@ import ButtonRadio from '../../components/page-builder/form/ButtonRadio.vue';
 import ColorInput from '../../components/page-builder/form/ColorInput.vue';
 import Gradient from "../../components/page-builder/form/Gradient.vue";
 import SingleImage from "../../components/page-builder/form/SingleImage.vue";
-import { usePageBuilderUtilities } from '../../services/page-builder/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '../../composables/usePageBuilderUtilities';
 import UnicornSwitcher from '../form/UnicornSwitcher.vue';
 
-const { addonBasicOptions, savePage: doSavePage } = usePageBuilderUtilities();
+const { saving, addonBasicOptions, savePage: doSavePage } = usePageBuilderUtilities();
 
 const u = useUnicorn();
 const content = ref<Addon>();
-const saving = ref(false);
 const modalShow = ref(false);
 const tab = ref<HTMLElement>();
 const currentTab = ref<string>('general');
@@ -65,6 +65,14 @@ function updateCurrentTab() {
   }
 }
 
+// Save
+useEventListener('keydown', (event: KeyboardEvent) => {
+  if ((event.ctrlKey || event.metaKey) && event.key === 's' && modalShow.value) {
+    event.preventDefault();
+    savePage();
+  }
+});
+
 function saveClose() {
   u.trigger<AddonSaveEvent>('addon:save', JSON.parse(JSON.stringify(content.value)));
   close();
@@ -72,23 +80,18 @@ function saveClose() {
 
 async function savePage() {
   u.trigger<AddonSaveEvent>('addon:save', JSON.parse(JSON.stringify(content.value)));
-  saving.value = true;
 
   await nextTick();
 
-  try {
-    return await doSavePage();
-  } finally {
-    saving.value = false;
-  }
+  return await doSavePage();
 }
 
 function close() {
   modalShow.value = false;
 
-  nextTick(() => {
+  setTimeout(() => {
     content.value = undefined;
-  });
+  }, 400);
 }
 
 function dataMigration(data: Addon) {
@@ -104,44 +107,44 @@ const options = computed<AddonOptions | undefined>(() => content.value?.options)
 
 <template>
   <div>
-    <BsModal :open="modalShow" size="lg" @hidden="modalShow = false"
+    <BModal :model-value="modalShow" size="lg" @hidden="modalShow = false"
       backdrop="static" class="c-modal-addon-edit"
+      header-class="bg-white sticky-top"
     >
-      <template #header-element>
-        <div class="modal-header bg-white sticky-top">
-          <!-- Tabs -->
-          <ul ref="tab" class="nav nav-pills border-0">
-            <li class="nav-item">
-              <a ref="generalTab" class="nav-link active" data-toggle="tab" data-bs-toggle="tab"
-                href="#addon-edit-general">
-                General
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#addon-edit-layout">
-                Layout
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#addon-edit-animation">
-                Animation
-              </a>
-            </li>
-          </ul>
-          <div class="ml-auto ms-auto">
-            <button type="button" class="btn btn-primary" @click="saveClose()">
-              <span class="fa fa-check"></span>
-              Done
-            </button>
-            <button type="button" class="btn btn-success" @click="savePage()"
-              :disabled="saving">
-              <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
-              Save Page
-            </button>
-            <button type="button" class="btn btn-secondary" @click="close()">
-              <span class="fa fa-times"></span>
-            </button>
-          </div>
+      <template #header>
+        <!-- Tabs -->
+        <ul ref="tab" class="nav nav-pills border-0">
+          <li class="nav-item">
+            <a ref="generalTab" class="nav-link active" data-toggle="tab" data-bs-toggle="tab"
+              href="#addon-edit-general">
+              General
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#addon-edit-layout">
+              Layout
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-bs-toggle="tab" href="#addon-edit-animation">
+              Animation
+            </a>
+          </li>
+        </ul>
+
+        <div class="ml-auto ms-auto">
+          <button type="button" class="btn btn-primary" @click="saveClose()">
+            <span class="fa fa-check"></span>
+            Done
+          </button>
+          <button type="button" class="btn btn-success" @click="savePage()"
+            :disabled="saving">
+            <span :class="saving ? 'spinner-border spinner-border-sm' : 'fa fa-save'"></span>
+            Save Page
+          </button>
+          <button type="button" class="btn btn-secondary" @click="close()">
+            <span class="fa fa-times"></span>
+          </button>
         </div>
       </template>
 
@@ -420,7 +423,7 @@ const options = computed<AddonOptions | undefined>(() => content.value?.options)
           Cancel
         </button>
       </template>
-    </BsModal>
+    </BModal>
   </div>
 </template>
 

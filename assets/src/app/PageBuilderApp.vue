@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { data, selectAll, uid, useUnicorn } from '@windwalker-io/unicorn-next';
+import { useEventListener, useMagicKeys } from '@vueuse/core';
+import { data, injectCssToDocument, selectAll, uid, useUnicorn } from '@windwalker-io/unicorn-next';
+import { BApp, BModal } from 'bootstrap-vue-next';
 import { getCurrentInstance, inject, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { ComponentExposed } from 'vue-component-type-helpers';
 import { VueDraggable } from 'vue-draggable-plus';
@@ -21,6 +23,7 @@ import {
   TemplateOpenEvent,
   TemplateSaveEvent
 } from '~luna/types';
+import { isMac } from '~luna/utilities';
 import AddonEdit from '../components/page-builder/AddonEdit.vue';
 import BsModal from '../components/page-builder/bootstrap/BsModal.vue';
 import ColumnEdit from '../components/page-builder/ColumnEdit.vue';
@@ -28,12 +31,16 @@ import CssEditor from '../components/page-builder/CssEditor.vue';
 import RowBox from '../components/page-builder/RowBox.vue';
 import RowEdit from '../components/page-builder/RowEdit.vue';
 import TemplateManager from '../components/page-builder/templates/TemplateManager.vue';
-import { usePageBuilderUtilities } from '../services/page-builder/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '../composables/usePageBuilderUtilities';
+import bvCss from 'bootstrap-vue-next/dist/bootstrap-vue-next.css?inline';
+
+injectCssToDocument(bvCss);
 
 const {
   addTextToClipboard,
   emptyRow,
   readClipboard,
+  saving,
   savePage: doSavePage,
   bindSaveButton,
   duplicateAny
@@ -48,7 +55,6 @@ const editingRow = ref<Row>();
 const editingColumn = ref<Column>();
 const editingAddon = ref<Addon>();
 const css = ref(data<string>('css') || '');
-const saving = ref(false);
 const cssModalShow = ref(false);
 
 u.trigger<PageBuilderCreatedEvent>('page-builder.created', app);
@@ -211,17 +217,22 @@ function openTemplates(i = 0) {
   }, 'page,row', i);
 }
 
+// Save
 async function savePage() {
-  saving.value = true;
-
   await nextTick();
 
-  try {
-    return await doSavePage();
-  } finally {
-    saving.value = false;
-  }
+  return await doSavePage();
 }
+
+useEventListener('keydown', (e) => {
+  if (isMac() && e.metaKey && e.key === 's') {
+    e.preventDefault();
+    savePage();
+  } else if (e.ctrlKey && e.key === 's') {
+    e.preventDefault();
+    savePage();
+  }
+});
 
 function registerUnicornEvents() {
   u.on<RowEditEvent>('row:edit', (content) => {
@@ -237,7 +248,7 @@ function registerUnicornEvents() {
       return;
     }
 
-    editingRow.value = { ...editingRow.value, ...content };
+    editingRow.value = Object.assign(editingRow.value!, content);
   });
 
   u.on<ColumnEditEvent>('column:edit', content => {
@@ -253,7 +264,7 @@ function registerUnicornEvents() {
       return;
     }
 
-    editingColumn.value = { ...editingColumn.value, ...content };
+    editingColumn.value = Object.assign(editingColumn.value!, content);
   });
 
   u.on<AddonAddEvent>('addon:add', (column) => {
@@ -282,7 +293,7 @@ function registerUnicornEvents() {
       editingColumn.value.addons.push(addon);
     }
 
-    editingAddon.value = { ...editingAddon.value, ...addon };
+    editingAddon.value = Object.assign(editingAddon.value!, addon);
   });
 
   u.on<TemplateOpenEvent>('tmpl.open', (callback, type, i) => {
@@ -298,7 +309,7 @@ function registerUnicornEvents() {
 </script>
 
 <template>
-  <div id="page-builder" class="page-builder card bg-light border-0">
+  <BApp id="page-builder" class="page-builder card bg-light border-0">
     <div class="card-header page-builder__topbar d-flex">
       <div class="ms-auto">
         <button type="button" class="btn btn-outline-secondary btn-sm"
@@ -391,9 +402,11 @@ function registerUnicornEvents() {
       <AddonEdit ref="addonEditor" />
 
       <!-- Addon selector -->
-      <BsModal :open="addonListShow" @hidden="addonListShow = false" size="lg"
+      <BModal :model-value="addonListShow" @hidden="addonListShow = false" size="lg"
         class="c-modal-addon-select"
-        title="New Addon">
+        title="New Addon"
+        no-footer
+      >
         <div class="row c-addon-list">
           <div v-for="addon of addonDefines" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
             <a class="d-inline-block p-4 c-addon__link btn btn-outline-dark w-100 text-center"
@@ -410,15 +423,15 @@ function registerUnicornEvents() {
             </a>
           </div>
         </div>
-      </BsModal>
+      </BModal>
 
       <!-- Templates -->
       <TemplateManager ref="tmplManager" />
 
-      <BsModal title="CSS Edit (Support SCSS)"
+      <BModal title="CSS Edit (Support SCSS)"
         size="xl"
         class="c-modal-css-edit"
-        :open="cssModalShow"
+        :model-value="cssModalShow"
         @hidden="cssModalShow = false"
         backdrop="static"
       >
@@ -440,9 +453,9 @@ function registerUnicornEvents() {
             </button>
           </div>
         </template>
-      </BsModal>
+      </BModal>
     </div>
-  </div>
+  </BApp>
 </template>
 
 <style scoped>

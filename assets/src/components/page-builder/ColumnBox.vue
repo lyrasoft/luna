@@ -3,7 +3,7 @@ import { simpleAlert, simpleConfirm, useUnicorn } from '@windwalker-io/unicorn-n
 import { defaultsDeep, range, values } from 'lodash-es';
 import { computed, ref, watch } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus';
-import { usePageBuilderUtilities } from '~luna/services/page-builder/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
 import { Addon, Column, ColumnEditEvent, Row, TemplateOpenEvent } from '~luna/types';
 import AddonBox from './AddonBox.vue';
 import RowBox from './RowBox.vue';
