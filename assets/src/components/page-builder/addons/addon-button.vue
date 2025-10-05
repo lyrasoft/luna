@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { uid as getUid } from '@windwalker-io/unicorn-next';
 import { ref } from 'vue';
-import { AddonProps, useAddonDefaults } from '~luna/composables/useAddonDefaults';
+import { AddonProps, useAddonDefaults } from '~luna/composables';
 import { AddonOptions } from '~luna/types';
 import ButtonRadio from '../../../components/page-builder/form/ButtonRadio.vue';
 import SliderInput from '../../../components/page-builder/form/SliderInput.vue';

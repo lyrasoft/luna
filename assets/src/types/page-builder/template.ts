@@ -1,7 +1,7 @@
 import { Addon, Column, Row } from '~luna/types';
 
 export type Page = Row[];
-export interface TemplateItem<T extends TemplatePossibleContent = TemplatePossibleContent> {
+export interface TemplateItem<T = string> {
   id: number;
   title: string;
   type: string;
@@ -18,4 +18,4 @@ export interface TemplateItem<T extends TemplatePossibleContent = TemplatePossib
 
 export type TemplatePossibleContent = Page | Row | Column | Addon;
 
-export type TemplateCallback<T extends TemplatePossibleContent = TemplatePossibleContent> = (item: TemplateItem<T>, type: string, i: number) => void;
+export type TemplateCallback<T = string> = (item: TemplateItem<T>, type: string, i: number) => void;

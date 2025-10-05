@@ -5,7 +5,7 @@ import { TemplateCallback, TemplateItem } from '~luna/types';
 import SingleImage from '~luna/components/page-builder/form/SingleImage.vue';
 import ButtonRadio from '~luna/components/page-builder/form/ButtonRadio.vue';
 import { computed, ref } from 'vue';
-import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '~luna/composables';
 import { useLoading } from '@lyrasoft/ts-toolkit/vue';
 
 const { toFormData } = usePageBuilderUtilities();

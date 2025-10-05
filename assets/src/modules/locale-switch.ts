@@ -1,5 +1,4 @@
-
-import '@main';
+import { __, module, useForm, useFormValidationSync, useUniDirective } from '@windwalker-io/unicorn-next';
 
 interface LocaleSwitchOptions {
   type: string;
@@ -32,19 +31,19 @@ export class LocaleSwitchModal {
 
     let buttons = this.el.querySelectorAll<HTMLButtonElement|HTMLAnchorElement>('[data-task=create_lang_version]');
 
-    u.each(buttons, (button) => {
+    for (const button of buttons) {
       button.addEventListener('click', (e) => {
         this.saveCurrentAndCreateLang(button);
       });
-    });
+    }
 
     buttons = this.el.querySelectorAll<HTMLButtonElement|HTMLAnchorElement>('[data-task=switch_lang]');
 
-    u.each(buttons, (button) => {
+    for (const button of buttons) {
       button.addEventListener('click', (e) => {
         this.switchLang(button);
       });
-    });
+    }
   }
 
   validateForm() {
@@ -56,12 +55,12 @@ export class LocaleSwitchModal {
       return undefined;
     }
 
-    const validation = u.$validation.get(form)!;
+    const validation = useFormValidationSync(form)!;
 
     const valid = validation.validateAll();
 
     if (!valid) {
-      alert(u.__('luna.field.locale.switch.message.form.invalid'));
+      alert(__('luna.field.locale.switch.message.form.invalid'));
       throw new Error('Form invalid');
     }
 
@@ -74,7 +73,7 @@ export class LocaleSwitchModal {
   saveCurrentAndCreateLang(button: HTMLAnchorElement | HTMLButtonElement) {
     const form = this.validateForm()!;
 
-    u.form(form).post(
+    useForm(form)?.post(
       null,
       {
         [this.options.triggerInputName]: {
@@ -96,7 +95,7 @@ export class LocaleSwitchModal {
   switchLang(button: HTMLAnchorElement | HTMLButtonElement) {
     const form = this.validateForm()!;
 
-    u.form(form).post(
+    useForm(form)?.post(
       null,
       {
         [this.options.triggerInputName]: {
@@ -110,13 +109,13 @@ export class LocaleSwitchModal {
   }
 }
 
-u.directive(
+useUniDirective(
   'locale-switch-modal',
   {
     mounted(el, { value }) {
       const options = JSON.parse(value);
 
-      u.module(el, 'locale.switch', () => new LocaleSwitchModal(el as HTMLElement, options));
+      module(el, 'locale.switch', () => new LocaleSwitchModal(el as HTMLElement, options));
     }
   }
 );

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
-import { CodeMirror, CodeMirrorOptions } from '~luna/services/page-builder/codemirror';
+import { useCodeMirror } from '~luna/composables';
 
 const props = withDefaults(
   defineProps<{
@@ -24,6 +24,8 @@ const options = ref<any>({});
 let firstLoad = false;
 
 onMounted(async () => {
+  const { CodeMirror, CodeMirrorOptions } = await useCodeMirror();
+
   options.value = CodeMirrorOptions;
 
   setTimeout(() => {

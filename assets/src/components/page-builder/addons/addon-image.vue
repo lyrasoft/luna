@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AddonProps, useAddonDefaults } from '~luna/composables/useAddonDefaults';
+import { AddonProps, useAddonDefaults } from '~luna/composables';
 import { AddonOptions } from '~luna/types';
 import ButtonRadio from '../../../components/page-builder/form/ButtonRadio.vue';
 import SingleImage from "../../../components/page-builder/form/SingleImage.vue";

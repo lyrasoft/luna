@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 import { computed, ref, watch } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus';
 import ColumnBox from '~luna/components/page-builder/ColumnBox.vue';
-import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '~luna/composables';
 import type { Addon, Column, Row, RowEditEvent, TemplateOpenEvent } from '~luna/types';
 
 const {

@@ -1,4 +1,4 @@
-import '@main';
+import { module, useHttpClient, useUniDirective } from '@windwalker-io/unicorn-next';
 import type { SRPOptions } from '../types/srp';
 
 const defaultOptions: SRPOptions = {
@@ -10,8 +10,6 @@ const defaultOptions: SRPOptions = {
   size: 256,
   hasher: 'sha256'
 };
-
-const $http = u.$http;
 
 class SRPRegistration {
   identityInput: HTMLInputElement | null;
@@ -226,9 +224,10 @@ class SRPLogin {
     const password = this.passwordInput.value;
 
     const client = this.createClient();
+    const { get, post } = await useHttpClient();
 
     // Challenge
-    const res = await $http.get(
+    const res = await get(
       '@auth_ajax/srpChallenge{?identity}',
       {
         vars: {
@@ -267,7 +266,7 @@ class SRPLogin {
     const K = await client.hash(S);
     const M1 = await client.generateClientSessionProof(identity, salt, A, B, K);
 
-    const res2 = await $http.post(
+    const res2 = await post(
       '@auth_ajax/srpAuthenticate',
       {
         identity,
@@ -345,10 +344,10 @@ function hexToBigint(hex: string) {
   return BigInt(`0x${hex}`);
 }
 
-u.directive('srp-registration', {
+useUniDirective('srp-registration', {
   mounted(el, { value }) {
     const options = JSON.parse(value);
-    u.module(
+    module(
       el,
       'srp.registration',
       (el) => new SRPRegistration(el as HTMLFormElement, options)
@@ -356,12 +355,12 @@ u.directive('srp-registration', {
   }
 });
 
-u.directive('srp-login', {
+useUniDirective('srp-login', {
   mounted(el, { value }) {
     const options = JSON.parse(value);
-    u.module(
+    module(
       el,
-      'srp.registration',
+      'srp.login',
       (el) => new SRPLogin(el as HTMLFormElement, options)
     );
   }

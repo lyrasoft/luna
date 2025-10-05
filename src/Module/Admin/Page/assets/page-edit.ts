@@ -24,6 +24,9 @@ useDisableIfStackNotEmpty();
 
 useKeepAlive(location.href);
 
+// Init Page Builder Admin
+// usePageBuilder();
+
 // Auto open options
 const url = new URL(location.href);
 const titleInput = document.querySelector<HTMLInputElement>('#input-item-title')!;

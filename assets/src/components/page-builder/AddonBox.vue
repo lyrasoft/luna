@@ -2,7 +2,7 @@
 import { deleteConfirm, useUnicorn } from '@windwalker-io/unicorn-next';
 import { Tooltip } from 'bootstrap';
 import { defineEmits, defineProps, ref, watch } from 'vue';
-import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '~luna/composables';
 import { Addon, AddonOptions, Column } from '~luna/types';
 
 const { addTextToClipboard } = usePageBuilderUtilities();

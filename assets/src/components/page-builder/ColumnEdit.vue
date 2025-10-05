@@ -2,7 +2,7 @@
 import { useEventListener } from '@vueuse/core';
 import { useUnicorn } from '@windwalker-io/unicorn-next';
 import { BModal } from 'bootstrap-vue-next';
-import { usePageBuilderUtilities } from '~luna/composables/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '~luna/composables';
 import { Column, ColumnSaveEvent } from '~luna/types';
 import CssEditor from '../../components/page-builder/CssEditor.vue';
 import { range } from 'lodash-es';

@@ -23,15 +23,15 @@ import {
   TemplateOpenEvent,
   TemplateSaveEvent
 } from '~luna/types';
-import { isMac } from '~luna/utilities';
 import AddonEdit from '../components/page-builder/AddonEdit.vue';
-import BsModal from '../components/page-builder/bootstrap/BsModal.vue';
 import ColumnEdit from '../components/page-builder/ColumnEdit.vue';
 import CssEditor from '../components/page-builder/CssEditor.vue';
 import RowBox from '../components/page-builder/RowBox.vue';
 import RowEdit from '../components/page-builder/RowEdit.vue';
 import TemplateManager from '../components/page-builder/templates/TemplateManager.vue';
 import { usePageBuilderUtilities } from '../composables/usePageBuilderUtilities';
+
+// @ts-ignore
 import bvCss from 'bootstrap-vue-next/dist/bootstrap-vue-next.css?inline';
 
 injectCssToDocument(bvCss);
@@ -225,10 +225,7 @@ async function savePage() {
 }
 
 useEventListener('keydown', (e) => {
-  if (isMac() && e.metaKey && e.key === 's') {
-    e.preventDefault();
-    savePage();
-  } else if (e.ctrlKey && e.key === 's') {
+  if ((e.metaKey || e.ctrlKey) && e.key === 's') {
     e.preventDefault();
     savePage();
   }

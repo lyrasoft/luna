@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type AddonProps, useAddonDefaults } from '~luna/composables/useAddonDefaults';
+import { type AddonProps, useAddonDefaults } from '~luna/composables';
 import { AddonOptions } from '~luna/types';
 import ButtonRadio from '../../../components/page-builder/form/ButtonRadio.vue';
 import RwdGroup from '../../../components/page-builder/form/RwdGroup.vue';

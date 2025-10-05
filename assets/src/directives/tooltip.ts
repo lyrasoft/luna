@@ -1,8 +1,9 @@
 import { Tooltip } from 'bootstrap';
+import type { App } from 'vue';
 
 export default class BsTooltip {
-  static install(app) {
-    app.directive('tooltip', {
+  static install(app: App) {
+    app.directive<HTMLElement>('tooltip', {
       mounted(el, { value }) {
         const inc = Tooltip.getOrCreateInstance(el, value || {});
       },

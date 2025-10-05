@@ -4,6 +4,7 @@
   ],
   "include": [
     "./src/**/*.ts",
+    "./src/types/globals.d.ts",
     "./src/**/*.vue",
     "./src/**/*.js",
   ],
@@ -15,6 +16,7 @@
   ],
   "compilerOptions": {
       "allowJs": true,
+      "skipLibCheck": true,
       "paths": {
           "~luna/*": ["./src/*"]
       }
