@@ -6,9 +6,9 @@
     "minimum-stability": "beta",
     "require": {
         "php": ">=8.4.6",
-        "windwalker/core": "^4.1",
-        "windwalker/unicorn": "^1.1",
-        "windwalker/crypt": "^4.1",
+        "windwalker/core": "^4.2",
+        "windwalker/unicorn": "^1.2",
+        "windwalker/crypt": "^4.2",
         "scssphp/scssphp": "^1.0",
         "symfony/polyfill-intl-idn": "^1.23",
         "firebase/php-jwt": "^5.4||^6.0"

@@ -1,4 +1,4 @@
-import { useHttpClient, addGlobalValidator, __, useMacro, useUnicorn } from "@windwalker-io/unicorn-next";
+import { useHttpClient, addGlobalValidator, __, prepareAlpine, useMacro, useUnicorn } from "@windwalker-io/unicorn-next";
 import "./chunks/usePageBuilderUtilities.js";
 import { Dropdown } from "bootstrap";
 async function useAccountCheck() {
@@ -18,8 +18,8 @@ async function useAccountCheck() {
 function useCaptcha() {
   return import("./chunks/captcha.js");
 }
-function useLangDropdown() {
-  document.addEventListener("alpine:init", async () => {
+async function useLangDropdown() {
+  await prepareAlpine(async (Alpine) => {
     Alpine.data("LangDropdown", (options) => ({
       options,
       dropdown: null,

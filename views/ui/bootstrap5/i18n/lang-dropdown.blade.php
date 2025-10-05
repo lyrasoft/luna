@@ -16,6 +16,7 @@ namespace App\View;
  * @var $lang      LangService     The language translation service.
  */
 
+use Lyrasoft\Luna\Script\LunaScript;
 use Lyrasoft\Luna\Services\LocaleService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -26,7 +27,8 @@ use Windwalker\Core\Router\SystemUri;
 use Windwalker\Edge\Component\ComponentAttributes;
 use Windwalker\ORM\ORM;
 
-$asset->js('@vendor/lyrasoft/luna/dist/lang-dropdown.js');
+$lunaScript = $app->service(LunaScript::class);
+$lunaScript->langDropdown();
 
 $localeService = $app->service(LocaleService::class);
 

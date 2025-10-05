@@ -1,9 +1,5 @@
-// JS file for Auth
+import { useDisableOnSubmit, useFormValidation } from '@windwalker-io/unicorn-next';
 
-import '@main';
+const formSelector = '#login-form';
 
-u.formValidation()
-  .then(() => {
-    u.$ui.disableOnSubmit('#login-form');
-    u.$ui.disableOnSubmit('#login-form-extra');
-  });
+useFormValidation().then(() => useDisableOnSubmit(formSelector));

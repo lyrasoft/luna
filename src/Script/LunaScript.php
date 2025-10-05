@@ -21,7 +21,11 @@ class LunaScript extends AbstractScript
         if ($this->available()) {
             $this->unicornScript->translate('luna.field.captcha.message.please.check.first');
 
-            $this->unicornScript->importMainThen("u.import('@luna/dist/captcha.js')");
+            if ($this->unicornScript->next) {
+                $this->unicornScript->importMainThen("u\$luna.useCaptcha()");
+            } else {
+                $this->unicornScript->importMainThen("u.import('@luna/dist/captcha.js')");
+            }
         }
 
         return $this;
@@ -30,7 +34,7 @@ class LunaScript extends AbstractScript
     public function flagIcon(): static
     {
         if ($this->available()) {
-            $this->css('@luna/dist/flag-icon.min.css');
+            $this->css('@luna/dist/flag-icon.css');
         }
 
         return $this;
@@ -44,7 +48,39 @@ class LunaScript extends AbstractScript
                 '@account_check',
             );
 
-            $this->js('@luna/dist/account-check.js');
+            if ($this->unicornScript->next) {
+                $this->unicornScript->importMainThen(
+                    "u.\$luna.useAccountCheck()",
+                );
+            } else {
+                $this->js('@luna/dist/account-check.js');
+            }
+        }
+
+        return $this;
+    }
+
+    public function langDropdown(): static
+    {
+        if ($this->available()) {
+            if ($this->unicornScript->next) {
+                $this->unicornScript->importMainThen("u.\$luna.useLangDropdown()");
+            } else {
+                $this->js('@vendor/lyrasoft/luna/dist/lang-dropdown.js');
+            }
+        }
+
+        return $this;
+    }
+
+    public function localeSwitch(): static
+    {
+        if ($this->available()) {
+            if ($this->unicornScript->next) {
+                $this->unicornScript->importMainThen("u.\$luna.useLocaleSwitch()");
+            } else {
+                $this->js('@vendor/lyrasoft/luna/dist/locale-switch.js');
+            }
         }
 
         return $this;

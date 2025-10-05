@@ -2,9 +2,9 @@
     "name": "luna",
     "scripts": {
         "dev": "vite build --mode development --watch",
-        "build": "vite build --mode development",
+        "build": "vite build",
         "dev:assets": "vite build -c vite.assets.config.ts --mode development --wtach",
-        "build:assets": "vite build -c vite.assets.config.ts --mode development",
+        "build:assets": "vite build -c vite.assets.config.ts",
         "build:prod": "vite build; yarn build:assets",
         "watch": "vite build --watch --mode development",
         "upgrade": "yarn up '**' -R"

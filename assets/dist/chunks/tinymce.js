@@ -117,6 +117,7 @@ class TinymceController {
   constructor(tinymce2, element, options) {
     this.tinymce = tinymce2;
     this.element = element;
+    this.options = {};
     options.target = element;
     this.options = mergeDeep(
       {
@@ -131,8 +132,6 @@ class TinymceController {
       this.editor = editor[0];
     });
   }
-  editor;
-  options = {};
   prepareOptions(options, version = "6") {
     const defaults = {};
     if (options.images_upload_url) {

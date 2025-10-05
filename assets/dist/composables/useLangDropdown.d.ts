@@ -1,1 +1,1 @@
-export declare function useLangDropdown(): void;
+export declare function useLangDropdown(): Promise<void>;

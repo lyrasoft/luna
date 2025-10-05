@@ -1,8 +1,9 @@
-import { useHttpClient } from '@windwalker-io/unicorn-next';
+import { initAlpineComponent, prepareAlpine, selectAll, useHttpClient } from '@windwalker-io/unicorn-next';
+import { prepareAlpineDefer } from '@windwalker-io/unicorn-next/src/service';
 import { Dropdown } from 'bootstrap';
 
-export function useLangDropdown() {
-  document.addEventListener('alpine:init', async () => {
+export async function useLangDropdown() {
+  await prepareAlpine(async (Alpine) => {
     Alpine.data('LangDropdown', (options: any) => ({
       options,
       dropdown: null,
@@ -47,5 +48,15 @@ export function useLangDropdown() {
       }
     }))
   });
+
+  // selectAll('[data-langdropdown]', (el) => {
+  //   el.removeAttribute('x-ignore');
+  // });
+  //
+  // initAlpineComponent('data-langdropdown');
+
+  // document.addEventListener('alpine:init', async () => {
+  //
+  // });
 }
 

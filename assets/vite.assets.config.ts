@@ -3,15 +3,15 @@ import { rimraf } from 'rimraf';
 import { defineConfig } from 'vite';
 
 export default defineConfig(({ mode }) => {
-  const src = resolve('./src').replace(/\\/g, '/');
-
   return {
+    base: './',
     resolve: {
       alias: {
         // '@': resolve('./src'),
       }
     },
     build: {
+      assetsInlineLimit: 0,
       rollupOptions: {
         // preserveEntrySignatures: 'strict',
         input: {
@@ -38,6 +38,7 @@ export default defineConfig(({ mode }) => {
       },
       outDir: 'dist',
       emptyOutDir: false,
+      sourcemap: 'external',
       minify: mode === 'production',
     },
     css: {
@@ -45,7 +46,7 @@ export default defineConfig(({ mode }) => {
         scss: {
           silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import']
         },
-      }
+      },
     },
     plugins: [
       {

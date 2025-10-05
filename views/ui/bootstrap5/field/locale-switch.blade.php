@@ -18,6 +18,7 @@ namespace App\View;
 
 use Lyrasoft\Luna\Field\LanguageListField;
 use Lyrasoft\Luna\Field\LocaleSwitchField;
+use Lyrasoft\Luna\Script\LunaScript;
 use Lyrasoft\Luna\Services\LocaleService;
 use Unicorn\Script\UnicornScript;
 use Windwalker\Core\Application\AppContext;
@@ -31,7 +32,12 @@ use Windwalker\Core\Router\SystemUri;
  * @var LocaleSwitchField $field
  */
 
-$asset->js('@vendor/lyrasoft/luna/dist/locale-switch.js');
+$app->service(UnicornScript::class)
+    ->addRoute('@language_ajax');
+
+$lunaScript = $app->service(LunaScript::class);
+$lunaScript->localeSwitch();
+
 $localeService = $app->service(LocaleService::class);
 
 $value = $field->getValue();
@@ -41,9 +47,6 @@ $currentId = $field->getCurrentId();
 $modalId = $field->getId('-modal');
 $idName = $field->getIdName();
 $defaultLang = $lang->getFallback();
-
-$app->service(UnicornScript::class)
-    ->addRoute('@language_ajax');
 
 $currentLang = $localeService->getLanguageByCode((string) $value);
 
