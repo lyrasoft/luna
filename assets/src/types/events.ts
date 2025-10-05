@@ -1,5 +1,5 @@
 import { ComponentInternalInstance } from '@vue/runtime-core';
-import { Addon, Column, Row, TemplateCallback, TemplatePossibleContent } from './page-builder';
+import { Addon, Column, Row, TemplateCallback } from './page-builder';
 
 export type PageBuilderCreatedEvent = [app: ComponentInternalInstance];
 export type PageBuilderMountedEvent = [app: ComponentInternalInstance];

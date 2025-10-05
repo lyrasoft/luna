@@ -2,6 +2,7 @@
 import { useEventListener, useMagicKeys } from '@vueuse/core';
 import { data, injectCssToDocument, selectAll, uid, useUnicorn } from '@windwalker-io/unicorn-next';
 import { BApp, BModal } from 'bootstrap-vue-next';
+import { defaultsDeep } from 'lodash-es';
 import { getCurrentInstance, inject, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { ComponentExposed } from 'vue-component-type-helpers';
 import { VueDraggable } from 'vue-draggable-plus';
@@ -43,7 +44,8 @@ const {
   saving,
   savePage: doSavePage,
   bindSaveButton,
-  duplicateAny
+  duplicateAny,
+  addonBasicOptions,
 } = usePageBuilderUtilities();
 
 const u = useUnicorn();
@@ -179,7 +181,7 @@ function duplicateRow(row: Row, i: number) {
 // }
 
 // Events
-function columnsChange(row: Row, $event) {
+function columnsChange(row: Row, $event: { columns: Column[] }) {
   row.columns = $event.columns;
 }
 
@@ -187,8 +189,10 @@ function selectAddon(type: string) {
   addonListShow.value = false;
 
   const addonDefine = addonDefines[type];
+  const basicOptions = addonBasicOptions();
+  const addon = defaultsDeep({}, { ...addonDefine, id: 'addon-' + uid(), is: 'addon' }, basicOptions);
 
-  u.trigger<AddonEditEvent>('addon:edit', { ...addonDefine, id: 'addon-' + uid(), is: 'addon' }, editingColumn.value);
+  u.trigger<AddonEditEvent>('addon:edit', addon, editingColumn.value!);
 
   nextTick(() => {
     selectAll('.bs-tooltip-auto', (ele) => {
@@ -272,6 +276,7 @@ function registerUnicornEvents() {
   });
 
   u.on<AddonEditEvent>('addon:edit', (addon, column) => {
+    console.log(addon, column);
     editingRow.value = undefined;
     editingColumn.value = undefined;
 

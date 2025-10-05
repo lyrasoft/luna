@@ -8933,7 +8933,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       saving,
       savePage: doSavePage,
       bindSaveButton,
-      duplicateAny
+      duplicateAny,
+      addonBasicOptions
     } = usePageBuilderUtilities();
     const u2 = useUnicorn();
     const addonDefines = inject("addons");
@@ -9015,7 +9016,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     function selectAddon(type) {
       addonListShow.value = false;
       const addonDefine = addonDefines[type];
-      u2.trigger("addon:edit", { ...addonDefine, id: "addon-" + uid(), is: "addon" }, editingColumn.value);
+      const basicOptions = addonBasicOptions();
+      const addon = defaultsDeep({}, { ...addonDefine, id: "addon-" + uid(), is: "addon" }, basicOptions);
+      u2.trigger("addon:edit", addon, editingColumn.value);
       nextTick(() => {
         selectAll(".bs-tooltip-auto", (ele) => {
           ele.parentElement?.removeChild(ele);
@@ -9076,6 +9079,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         addonListShow.value = true;
       });
       u2.on("addon:edit", (addon, column) => {
+        console.log(addon, column);
         editingRow.value = void 0;
         editingColumn.value = void 0;
         editingAddon.value = addon;
@@ -9099,7 +9103,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       });
       u2.trigger("page-builder.mounted", app2);
     }
-    const __returned__ = { addTextToClipboard, emptyRow, readClipboard, saving, doSavePage, bindSaveButton, duplicateAny, u: u2, addonDefines, app: app2, content, drag, editingRow, editingColumn, editingAddon, css: css2, cssModalShow, rowEditor, columnEditor, addonEditor, addonListShow, tmplManager, cssEdit, addNewRow, deleteRow, copy, paste, pastePage, pasteTo, duplicateRow, columnsChange, selectAddon, contentInput, cssInput, openTemplates, savePage, registerUnicornEvents, get BApp() {
+    const __returned__ = { addTextToClipboard, emptyRow, readClipboard, saving, doSavePage, bindSaveButton, duplicateAny, addonBasicOptions, u: u2, addonDefines, app: app2, content, drag, editingRow, editingColumn, editingAddon, css: css2, cssModalShow, rowEditor, columnEditor, addonEditor, addonListShow, tmplManager, cssEdit, addNewRow, deleteRow, copy, paste, pastePage, pasteTo, duplicateRow, columnsChange, selectAddon, contentInput, cssInput, openTemplates, savePage, registerUnicornEvents, get BApp() {
       return _sfc_main$b;
     }, get BModal() {
       return _sfc_main$d;

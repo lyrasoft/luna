@@ -35,7 +35,7 @@ const props = withDefaults(
 const emits = defineEmits<{
   'delete': [],
   'duplicate': [data?: Row],
-  'columns-change': [{ columns: any[] }],
+  'columns-change': [{ columns: Column[] }],
   'add-new': [],
   'open-templates': [],
   'paste-page': [data: Row[]]

@@ -12,7 +12,7 @@ import ButtonRadio from '../../components/page-builder/form/ButtonRadio.vue';
 import ColorInput from '../../components/page-builder/form/ColorInput.vue';
 import Gradient from "../../components/page-builder/form/Gradient.vue";
 import SingleImage from "../../components/page-builder/form/SingleImage.vue";
-import { usePageBuilderUtilities } from '../../composables/usePageBuilderUtilities';
+import { usePageBuilderUtilities } from '~luna/composables';
 import UnicornSwitcher from '../form/UnicornSwitcher.vue';
 
 const { saving, addonBasicOptions, savePage: doSavePage } = usePageBuilderUtilities();
