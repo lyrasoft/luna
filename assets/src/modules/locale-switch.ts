@@ -1,4 +1,4 @@
-import { __, module, useForm, useFormValidationSync, useUniDirective } from '@windwalker-io/unicorn-next';
+import { __, module, useForm, useFormValidationInstance, useUniDirective } from '@windwalker-io/unicorn-next';
 
 interface LocaleSwitchOptions {
   type: string;
@@ -55,7 +55,7 @@ export class LocaleSwitchModal {
       return undefined;
     }
 
-    const validation = useFormValidationSync(form)!;
+    const validation = useFormValidationInstance(form)!;
 
     const valid = validation.validateAll();
 

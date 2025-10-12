@@ -1,4 +1,4 @@
-import { useFormValidationSync, __, useForm, useUniDirective, module } from "@windwalker-io/unicorn-next";
+import { useFormValidationInstance, __, useForm, useUniDirective, module } from "@windwalker-io/unicorn-next";
 class LocaleSwitchModal {
   constructor(el, options = {}) {
     this.el = el;
@@ -33,7 +33,7 @@ class LocaleSwitchModal {
     if (!form) {
       return void 0;
     }
-    const validation = useFormValidationSync(form);
+    const validation = useFormValidationInstance(form);
     const valid = validation.validateAll();
     if (!valid) {
       alert(__("luna.field.locale.switch.message.form.invalid"));
