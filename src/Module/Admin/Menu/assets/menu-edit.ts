@@ -5,8 +5,7 @@ import {
   useDisableOnSubmit,
   useForm,
   useFormComponent,
-  useFormValidation,
-  useFormValidationSync,
+  useFormValidation, useFormValidationInstance,
   useKeepAlive,
   useTomSelect
 } from '@windwalker-io/unicorn-next';
@@ -31,7 +30,7 @@ const typeField = document.querySelector<HTMLInputElement>('#input-item-type')!;
 
 typeField.addEventListener('change', (e) => {
   if (typeField.value !== '' && typeField.value !== currentType) {
-    const v = useFormValidationSync(formSelector)!;
+    const v = useFormValidationInstance(formSelector)!;
     v.options.enabled = false;
 
     useForm(formSelector)?.post(null, { task: 'switch_type' });
@@ -43,7 +42,7 @@ const viewField = document.querySelector<HTMLInputElement>('#input-item-view')!;
 
 viewField.addEventListener('change', (e) => {
   if (viewField.value !== '' && viewField.value !== currentView) {
-    const v = useFormValidationSync(formSelector)!;
+    const v = useFormValidationInstance(formSelector)!;
     v.options.enabled = false;
 
     useForm(formSelector)?.post(null, { task: 'switch_type' });

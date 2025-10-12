@@ -5,7 +5,7 @@ import {
   useDisableOnSubmit,
   useFormComponent,
   useFormValidation,
-  useFormValidationSync,
+  useFormValidationInstance,
   useKeepAlive
 } from '@windwalker-io/unicorn-next';
 import { Modal } from 'bootstrap';
@@ -51,7 +51,7 @@ if (url.searchParams.get('new') === '1' || titleInput.value === '') {
 
 // Validate options
 function validateOptionsModal() {
-  const validation = useFormValidationSync(formSelector)!;
+  const validation = useFormValidationInstance(formSelector)!;
 
   const modal = document.querySelector<HTMLDivElement>('#options-modal')!;
 
