@@ -9,8 +9,8 @@ import {
   useKeepAlive
 } from '@windwalker-io/unicorn-next';
 import { Modal } from 'bootstrap';
-import { usePageBuilder } from '~vendor/lyrasoft/luna/dist/luna';
-import css from '~vendor/lyrasoft/luna/dist/luna-admin.css?inline';
+import { usePageBuilder } from '@lyrasoft/luna';
+import css from '@lyrasoft/luna/dist/luna-admin.css?inline';
 
 injectCssToDocument(css);
 usePageBuilder();
