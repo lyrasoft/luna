@@ -39,7 +39,7 @@
             ],
             "assets": {
                 "vendors": {
-                    "@lyrasoft/luna": "file:./vendor/lyrasoft/luna/assets"
+                    "@lyrasoft/luna": "portal:./vendor/lyrasoft/luna/assets"
                 },
                 "exposes": [
                     "@windwalker-io/srp",
