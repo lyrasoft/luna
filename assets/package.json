@@ -1,5 +1,6 @@
 {
-    "name": "luna",
+    "name": "@lyrasoft/luna",
+    "type": "module",
     "main": "dist/luna.js",
     "module": "dist/luna.js",
     "types": "dist/luna.d.ts",
@@ -13,12 +14,12 @@
         "upgrade": "yarn up '**' -R"
     },
     "dependencies": {
+        "@lyrasoft/ts-toolkit": "^0.2.1",
         "animate.css": "^4.1.1",
         "jarallax": "^1.12.8",
         "wowjs": "^1.1.3"
     },
     "devDependencies": {
-        "@lyrasoft/ts-toolkit": "^0.2.1",
         "@types/alpinejs": "^3",
         "@types/bootstrap": "^5",
         "@types/codemirror": "^5",
