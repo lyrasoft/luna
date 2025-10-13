@@ -43,7 +43,10 @@
                 },
                 "exposes": [
                     "@windwalker-io/srp",
-                    "@lyrasoft/luna"
+                    "@lyrasoft/luna",
+                    "wowjs",
+                    "animate.css",
+                    "jarallax"
                 ]
             }
         },
