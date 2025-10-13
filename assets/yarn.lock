@@ -289,7 +289,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lyrasoft/ts-toolkit@npm:^0.2.0":
+"@lyrasoft/ts-toolkit@npm:^0.2.1":
   version: 0.2.1
   resolution: "@lyrasoft/ts-toolkit@npm:0.2.1"
   dependencies:
@@ -857,6 +857,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"animate.css@npm:^4.1.1, animate.css@npm:latest":
+  version: 4.1.1
+  resolution: "animate.css@npm:4.1.1"
+  checksum: 10c0/28fcf5a5f502e4c12186846d22aa1cd63b835955160a97116930c78bff8a89135aa5c57f94010252a29456ada7cfc8ed8791cac02521ec6402befaf883937159
+  languageName: node
+  linkType: hard
+
 "ansi-regex@npm:^5.0.1":
   version: 5.0.1
   resolution: "ansi-regex@npm:5.0.1"
@@ -1101,6 +1108,13 @@ __metadata:
   version: 1.0.0
   resolution: "delayed-stream@npm:1.0.0"
   checksum: 10c0/d758899da03392e6712f042bec80aa293bbe9e9ff1b2634baae6a360113e708b91326594c8a486d475c69d6259afb7efacdc3537bfcda1c6c648e390ce601b19
+  languageName: node
+  linkType: hard
+
+"dom-walk@npm:^0.1.0":
+  version: 0.1.2
+  resolution: "dom-walk@npm:0.1.2"
+  checksum: 10c0/4d2ad9062a9423d890f8577aa202b597a6b85f9489bdde656b9443901b8b322b289655c3affefc58ec2e41931e0828dfee0a1d2db6829a607d76def5901fc5a9
   languageName: node
   linkType: hard
 
@@ -1459,6 +1473,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"global@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "global@npm:4.4.0"
+  dependencies:
+    min-document: "npm:^2.19.0"
+    process: "npm:^0.11.10"
+  checksum: 10c0/4a467aec6602c00a7c5685f310574ab04e289ad7f894f0f01c9c5763562b82f4b92d1e381ce6c5bbb12173e2a9f759c1b63dda6370cfb199970267e14d90aa91
+  languageName: node
+  linkType: hard
+
 "gopd@npm:^1.2.0":
   version: 1.2.0
   resolution: "gopd@npm:1.2.0"
@@ -1582,10 +1606,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jarallax@npm:^1.12.8":
+  version: 1.12.8
+  resolution: "jarallax@npm:1.12.8"
+  dependencies:
+    global: "npm:^4.4.0"
+    lite-ready: "npm:^1.0.4"
+    video-worker: "npm:^1.1.17"
+  checksum: 10c0/f40e2a226ff9312841747203949ecbe423da1b246c589c85da741a52e98f68e0d4aa62f8d4432906c68c97a27365aad0cc09429fcb6f034b5111e8a2f49f2ec4
+  languageName: node
+  linkType: hard
+
 "kolorist@npm:^1.8.0":
   version: 1.8.0
   resolution: "kolorist@npm:1.8.0"
   checksum: 10c0/73075db44a692bf6c34a649f3b4b3aea4993b84f6b754cbf7a8577e7c7db44c0bad87752bd23b0ce533f49de2244ce2ce03b7b1b667a85ae170a94782cc50f9b
+  languageName: node
+  linkType: hard
+
+"lite-ready@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "lite-ready@npm:1.0.4"
+  checksum: 10c0/34e9749996260d71d6b850bd4fb1a708350cef7f183461d5efc4256a9d2bc40eca4d6f8a4d2b10d089b18430d5304b4132f13077ee47b6eec20f3a10395a0d4a
   languageName: node
   linkType: hard
 
@@ -1618,7 +1660,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "luna@workspace:."
   dependencies:
-    "@lyrasoft/ts-toolkit": "npm:^0.2.0"
+    "@lyrasoft/ts-toolkit": "npm:^0.2.1"
     "@types/alpinejs": "npm:^3"
     "@types/bootstrap": "npm:^5"
     "@types/codemirror": "npm:^5"
@@ -1628,9 +1670,11 @@ __metadata:
     "@vueform/slider": "npm:^2.1.10"
     "@vueuse/core": "npm:^13.9.0"
     "@windwalker-io/unicorn-next": "npm:^0.1.0"
+    animate.css: "npm:^4.1.1"
     bootstrap: "npm:^5.3.8"
     bootstrap-vue-next: "npm:^0.40.5"
     codemirror: "npm:^5.0"
+    jarallax: "npm:^1.12.8"
     lodash-es: "npm:^4.17.21"
     sweetalert: "npm:^2.1.2"
     unplugin-dts: "npm:^1.0.0-beta.6"
@@ -1639,6 +1683,7 @@ __metadata:
     vue-component-type-helpers: "npm:^3.1.0"
     vue-slide-bar: "npm:^1.2.0"
     vue-slider-component: "npm:^4.1.0-beta.7"
+    wowjs: "npm:^1.1.3"
   languageName: unknown
   linkType: soft
 
@@ -1690,6 +1735,15 @@ __metadata:
   dependencies:
     mime-db: "npm:1.52.0"
   checksum: 10c0/82fb07ec56d8ff1fc999a84f2f217aa46cb6ed1033fefaabd5785b9a974ed225c90dc72fff460259e66b95b73648596dbcc50d51ed69cdf464af2d237d3149b2
+  languageName: node
+  linkType: hard
+
+"min-document@npm:^2.19.0":
+  version: 2.19.0
+  resolution: "min-document@npm:2.19.0"
+  dependencies:
+    dom-walk: "npm:^0.1.0"
+  checksum: 10c0/783724da716fc73a51c171865d7b29bf2b855518573f82ef61c40d214f6898d7b91b5c5419e4d22693cdb78d4615873ebc3b37d7639d3dd00ca283e5a07c7af9
   languageName: node
   linkType: hard
 
@@ -1949,6 +2003,13 @@ __metadata:
   version: 5.0.0
   resolution: "proc-log@npm:5.0.0"
   checksum: 10c0/bbe5edb944b0ad63387a1d5b1911ae93e05ce8d0f60de1035b218cdcceedfe39dbd2c697853355b70f1a090f8f58fe90da487c85216bf9671f9499d1a897e9e3
+  languageName: node
+  linkType: hard
+
+"process@npm:^0.11.10":
+  version: 0.11.10
+  resolution: "process@npm:0.11.10"
+  checksum: 10c0/40c3ce4b7e6d4b8c3355479df77aeed46f81b279818ccdc500124e6a5ab882c0cc81ff7ea16384873a95a74c4570b01b120f287abbdd4c877931460eca6084b3
   languageName: node
   linkType: hard
 
@@ -2345,6 +2406,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"video-worker@npm:^1.1.17":
+  version: 1.1.17
+  resolution: "video-worker@npm:1.1.17"
+  dependencies:
+    global: "npm:^4.4.0"
+  checksum: 10c0/6e1d272d821345742420c008054f6859777aaf83d922df6c9f209c3e73a77e5084cf053ed34db396b6627ee0710605c164fabc94b83a7e1d09dc7e0294f99d2e
+  languageName: node
+  linkType: hard
+
 "vite@npm:^7.1.7":
   version: 7.1.9
   resolution: "vite@npm:7.1.9"
@@ -2512,6 +2582,15 @@ __metadata:
   bin:
     node-which: bin/which.js
   checksum: 10c0/e556e4cd8b7dbf5df52408c9a9dd5ac6518c8c5267c8953f5b0564073c66ed5bf9503b14d876d0e9c7844d4db9725fb0dcf45d6e911e17e26ab363dc3965ae7b
+  languageName: node
+  linkType: hard
+
+"wowjs@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "wowjs@npm:1.1.3"
+  dependencies:
+    animate.css: "npm:latest"
+  checksum: 10c0/a14f162312390803b66c777d413f11926f47f643fde59de015236a935a3915c6d86b349187ba5c8d48c9a2d381df2842885f5273d31b8f9380c380069667cb24
   languageName: node
   linkType: hard
 
