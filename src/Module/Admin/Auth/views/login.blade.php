@@ -35,13 +35,13 @@ $srp = $app->service(SRPService::class);
         {!! $srp->loginDirective() !!}
     >
 
-        <div class="container">
+        <div class="container d-flex flex-column gap-4">
             <x-fieldset :form="$form" ns="user" is="div">
 
             </x-fieldset>
 
-            <div id="input-user-remember-control" class="checkbox-field" style="margin-bottom: 20px">
-                <div class="form-check checkbox checkbox-primary">
+            <div id="input-user-remember-control" class="checkbox-field">
+                <div class="form-check checkbox checkbox-primary m-0">
                     <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember"
                         value="on">
                     <label class="form-check-label" for="input-user-remember">
