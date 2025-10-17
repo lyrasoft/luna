@@ -16,7 +16,8 @@ $router->group('menu')
     ->extra('menu', ['sidemenu' => 'menu_list'])
     ->middleware(
         KeepUrlQueryMiddleware::class,
-        key: 'type'
+        key: 'type',
+        uid: 'admin_menu_type'
     )
     ->register(function (RouteCreator $router) {
         $router->any('menu_list', '/menu/list[/{type}]')

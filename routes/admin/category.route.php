@@ -14,7 +14,11 @@ use Windwalker\Core\Router\RouteCreator;
 
 $router->group('category')
     ->extra('menu', ['sidemenu' => 'category_list'])
-    ->middleware(KeepUrlQueryMiddleware::di(options: ['key' => 'type',]))
+    ->middleware(
+        KeepUrlQueryMiddleware::class,
+        key: 'type',
+        uid: 'admin_category_type'
+    )
     ->register(
         function (RouteCreator $router) {
             // Category
