@@ -1,12 +1,11 @@
-import { data, route, useSystemUri } from '@windwalker-io/unicorn-next';
-import { useTinymce } from '@windwalker-io/unicorn-next/src/composable/useTinymce';
+import { data, route, useSystemUri, useTinymce } from '@windwalker-io/unicorn-next';
 import { defaultsDeep } from 'lodash-es';
-import { ObjectDirective } from 'vue';
 import type { Editor } from 'tinymce';
+import { ObjectDirective } from 'vue';
 
 const uri = useSystemUri();
 
-export default <ObjectDirective<HTMLTextAreaElement>> {
+export default <ObjectDirective<HTMLTextAreaElement>>{
   async mounted(el) {
     const options = defaultsDeep(
       {},
@@ -70,7 +69,7 @@ export default <ObjectDirective<HTMLTextAreaElement>> {
                 })
               );
             }
-          })
+          });
           // editor.shortcuts.remove('meta+s');
           // editor.shortcuts.remove('ctrl+s');
         }

@@ -178,7 +178,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
         $container->mergeParameters(
             'asset.import_map.imports',
             [
-                '@luna/' => 'vendor/lyrasoft/luna/',
+                '@luna/' => 'vendor/@lyrasoft/luna/',
             ]
         );
     }

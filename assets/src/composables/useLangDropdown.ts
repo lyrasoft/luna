@@ -1,5 +1,4 @@
-import { initAlpineComponent, prepareAlpine, selectAll, useHttpClient } from '@windwalker-io/unicorn-next';
-import { prepareAlpineDefer } from '@windwalker-io/unicorn-next/src/service';
+import { prepareAlpine, useHttpClient } from '@windwalker-io/unicorn-next';
 import { Dropdown } from 'bootstrap';
 
 export async function useLangDropdown() {
@@ -46,7 +45,7 @@ export async function useLangDropdown() {
 
         this.loaded = true;
       }
-    }))
+    }));
   });
 
   // selectAll('[data-langdropdown]', (el) => {
