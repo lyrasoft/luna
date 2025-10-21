@@ -35,7 +35,7 @@
         "lodash-es": "^4.17.21",
         "sweetalert": "^2.1.2",
         "unplugin-dts": "^1.0.0-beta.6",
-        "vite": "^7.1.7",
+        "vite": "^7.1.11",
         "vue": "^3.0",
         "vue-component-type-helpers": "^3.1.0",
         "vue-slide-bar": "^1.2.0",
