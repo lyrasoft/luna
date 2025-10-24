@@ -39,7 +39,7 @@ interface NodeInterface extends IteratorAggregate
      *
      * @return static
      */
-    public function addChild(NodeInterface $child): static;
+    public function addChild(mixed $child): static;
 
     /**
      * Remove a node from children

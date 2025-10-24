@@ -30,7 +30,7 @@ class Node implements NodeInterface, JsonSerializable
 
     /**
      * @param  mixed  $value
-     * @param  NodeInterface[]  $children
+     * @param  (NodeInterface|mixed)[]  $children
      */
     public function __construct(mixed $value = null, array $children = [])
     {
@@ -68,12 +68,16 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Add a child
      *
-     * @param  NodeInterface  $child
+     * @param  NodeInterface|mixed  $child
      *
      * @return static
      */
-    public function addChild(NodeInterface $child): static
+    public function addChild(mixed $child): static
     {
+        if (!$child instanceof NodeInterface) {
+            $child = new static($child);
+        }
+
         $child->setParent($this);
         $this->children[] = $child;
 
