@@ -85,8 +85,8 @@ class User implements EntityInterface, LunaUserEntityInterface
     }
 
     #[Column('registered')]
-    #[CreatedTime]
     #[CastNullable(ServerTimeCast::class)]
+    #[CreatedTime]
     public ?Chronos $registered = null {
         set(\DateTimeInterface|string|null $value) => $this->registered = Chronos::tryWrap($value);
     }
