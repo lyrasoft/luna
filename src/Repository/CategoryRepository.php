@@ -62,7 +62,8 @@ class CategoryRepository implements ManageRepositoryInterface, ListRepositoryInt
             ->leftJoin(User::class, 'user', 'user.id', 'category.created_by');
 
         $selector->where('category.parent_id', '!=', 0)
-            ->where('category.level', '>=', 1);
+            ->where('category.level', '>=', 1)
+            ->where('category.state', 1);
 
         if ($this->localeService->isEnabled()) {
             $selector->where('category.language', 'in', ['*', $this->getLocale()]);

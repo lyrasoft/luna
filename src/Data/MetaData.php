@@ -188,17 +188,20 @@ class MetaData extends ValueObject
         return $this;
     }
 
-    public function processHtmlFrame(HtmlFrame $htmlFrame): void
-    {
+    public function processHtmlFrame(
+        HtmlFrame $htmlFrame,
+        ?string $defaultTitle = null,
+        ?int $descriptionTruncate = 150,
+    ): void {
         if ($this->getTitle()) {
-            $htmlFrame->setTitle($this->getTitle());
+            $htmlFrame->setTitle($this->getTitle() ?: $defaultTitle);
         }
 
         if ($this->getOgTitle()) {
-            $htmlFrame->addOpenGraph('og:title', $this->getOgDescription(), true);
+            $htmlFrame->addOpenGraph('og:title', $this->getOgTitle(), true);
         }
 
-        $htmlFrame->setDescriptionIfNotEmpty($this->getDescription());
+        $htmlFrame->setDescriptionIfNotEmpty($this->getDescription(), $descriptionTruncate);
 
         if ($this->getOgDescription()) {
             $htmlFrame->addOpenGraph('og:description', $this->getOgDescription(), true);
