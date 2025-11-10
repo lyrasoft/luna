@@ -9,8 +9,6 @@ use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Entity\Tag;
 use Lyrasoft\Luna\Entity\TagMap;
 use Lyrasoft\Luna\Entity\User;
-use Lyrasoft\Luna\Importer\DataImporter;
-use Lyrasoft\Luna\Importer\DataImporterTrait;
 use Lyrasoft\Luna\Services\LocaleService;
 use Unicorn\Utilities\SlugHelper;
 use Windwalker\Core\Seed\AbstractSeeder;
@@ -20,8 +18,6 @@ use Windwalker\ORM\EntityMapper;
 use Windwalker\Utilities\Utf8String;
 
 return new /** Article Seeder */ class extends AbstractSeeder {
-    use DataImporterTrait;
-
     #[SeedImport]
     public function import(): void
     {
@@ -74,41 +70,5 @@ return new /** Article Seeder */ class extends AbstractSeeder {
     public function clear(): void
     {
         $this->truncate(Article::class);
-    }
-
-    /**
-     * Include Example:
-     *
-     *  ```php
-     *  return [
-     *     'type' => [
-     *         Article::create(title: '...', alias: '...'),
-     *         function () {
-     *            $item = new Article();
-     *            $item->title = '...';
-     *            $item->alias = '...';
-     *            return $item;
-     *         },
-     *     ]
-     *  ```
-     *
-     * ```php
-     * $this->>importArticles('type', [...], function(Article $item) { ... });
-     * $this->>importArticles('type', 'file/to/articles.php', function(Article $item) { ... });
-     * ```
-     */
-    public function importArticles(string $type, iterable|string $items, ?\Closure $dataHandler = null): void
-    {
-        /** @var DataImporter $importer */
-        $importer = $this->createDataImporter();
-        $importer->setDefaultDataHandler(
-            function (Article $item) use ($type) {
-                $item->type = $item->type ?: $type;
-
-                return $item;
-            }
-        );
-
-        $importer->import($items, $dataHandler);
     }
 };
