@@ -14,11 +14,15 @@ class DataImporter
         get => $this->invoker ?? static fn(\Closure $callback) => $callback();
     }
 
+    public ?\Closure $onItemSaved = null {
+        get => $this->onItemSaved ?? static fn(object $item) => null;
+    }
+
     public function __construct(public ORM $orm)
     {
     }
 
-    public function import(iterable|string $items, ?\Closure $dataHandler = null): void
+    public function import(\Closure|iterable|string $items, ?\Closure $dataHandler = null): void
     {
         if (is_string($items)) {
             $items = include $items;
@@ -47,7 +51,11 @@ class DataImporter
             $item = $dataHandler($item, $this->orm) ?? $item;
         }
 
-        return $this->save($item);
+        $result = $this->save($item);
+
+        $result = ($this->onItemSaved)($result) ?? $result;
+
+        return $result;
     }
 
     protected function save(object $item): object
@@ -65,6 +73,13 @@ class DataImporter
     public function setInvoker(?\Closure $invoker): DataImporter
     {
         $this->invoker = $invoker;
+
+        return $this;
+    }
+
+    public function onItemSaved(?\Closure $onItemSaved): DataImporter
+    {
+        $this->onItemSaved = $onItemSaved;
 
         return $this;
     }

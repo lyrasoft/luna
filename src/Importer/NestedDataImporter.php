@@ -50,10 +50,6 @@ class NestedDataImporter extends DataImporter
 
         if ($origin instanceof NodeInterface) {
             foreach ($origin->getChildren() as $child) {
-                if ($child instanceof NodeInterface) {
-                    $child = $child->getValue();
-                }
-
                 $this->importItem($child, $dataHandler, $saved);
             }
         }
