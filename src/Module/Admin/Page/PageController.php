@@ -29,6 +29,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\DI\Attributes\Inject;
 use Windwalker\DI\Attributes\Service;
 use Windwalker\DI\Exception\DependencyResolutionException;
 use Windwalker\ORM\EntityMapper;
@@ -106,6 +107,7 @@ class PageController
         AppContext $app,
         #[Autowire]
         PageRepository $repository,
+        #[Inject(tag: 'image')]
         FileUploadService $fileUploadService,
         #[Service]
         PageBuilder $pageBuilder,
