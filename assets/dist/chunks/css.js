@@ -24,7 +24,7 @@ var hasRequiredCss;
 function requireCss() {
   if (hasRequiredCss) return css$2.exports;
   hasRequiredCss = 1;
-  (function(module, exports) {
+  (function(module, exports$1) {
     (function(mod) {
       mod(requireCodemirror());
     })(function(CodeMirror) {

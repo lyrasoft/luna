@@ -660,10 +660,6 @@ defineComponent({
     return () => props.skip ? slots.default?.({}) : h(props.tag, { ...attrs }, [slots.default?.({})]);
   }
 });
-/*!
-* tabbable 6.2.0
-* @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
-*/
 var candidateSelectors = ["input:not([inert])", "select:not([inert])", "textarea:not([inert])", "a[href]:not([inert])", "button:not([inert])", "[tabindex]:not(slot):not([inert])", "audio[controls]:not([inert])", "video[controls]:not([inert])", '[contenteditable]:not([contenteditable="false"]):not([inert])', "details>summary:first-of-type:not([inert])", "details:not([inert])"];
 var candidateSelector = /* @__PURE__ */ candidateSelectors.join(",");
 var NoElement = typeof Element === "undefined";
@@ -993,10 +989,6 @@ var isFocusable = function isFocusable2(node, options) {
   }
   return isNodeMatchingSelectorFocusable(options, node);
 };
-/*!
-* focus-trap 7.6.5
-* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
-*/
 function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
@@ -5759,7 +5751,7 @@ var hasRequiredSweetalert_min;
 function requireSweetalert_min() {
   if (hasRequiredSweetalert_min) return sweetalert_min$1.exports;
   hasRequiredSweetalert_min = 1;
-  (function(module, exports) {
+  (function(module, exports$1) {
     !(function(t, e) {
       module.exports = e();
     })(sweetalert_min, function() {
@@ -9356,12 +9348,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   });
 }
 const PageBuilderApp = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "PageBuilderApp.vue"]]);
-/**
- * Part of earth project.
- *
- * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
- * @license    __LICENSE__
- */
 function lunaAddonMixin(props, { emit }, state) {
   state.options = state.options || {};
   state.options = defaultsDeep(props.modelValue || {}, state.options);

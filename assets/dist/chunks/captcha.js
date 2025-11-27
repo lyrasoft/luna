@@ -1,4 +1,4 @@
-import { useUniDirective, module, uid, addQuery, useScriptImport, simpleAlert, __ } from "@windwalker-io/unicorn-next";
+import { useUniDirective, module as module$1, uid, addQuery, useScriptImport, simpleAlert, __ } from "@windwalker-io/unicorn-next";
 class GragwarCaptcha {
   constructor($element, options = {}) {
     this.$element = $element;
@@ -32,7 +32,7 @@ class GragwarCaptcha {
 }
 useUniDirective("captcha-gregwar", {
   mounted(el) {
-    module(el, "captcha.grwgwar", (el2) => new GragwarCaptcha(el2));
+    module$1(el, "captcha.grwgwar", (el2) => new GragwarCaptcha(el2));
   }
 });
 class RecaptchaCaptcha {
@@ -84,7 +84,7 @@ class RecaptchaCaptcha {
 }
 useUniDirective("captcha-recaptcha", {
   mounted(el, { value }) {
-    module(
+    module$1(
       el,
       "captcha.recaptcha",
       (el2) => new RecaptchaCaptcha(el2, value)

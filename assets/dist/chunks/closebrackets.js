@@ -24,7 +24,7 @@ var hasRequiredClosebrackets;
 function requireClosebrackets() {
   if (hasRequiredClosebrackets) return closebrackets$2.exports;
   hasRequiredClosebrackets = 1;
-  (function(module, exports) {
+  (function(module, exports$1) {
     (function(mod) {
       mod(requireCodemirror());
     })(function(CodeMirror) {

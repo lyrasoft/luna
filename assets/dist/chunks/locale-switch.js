@@ -1,4 +1,4 @@
-import { useFormValidationInstance, __, useForm, useUniDirective, module } from "@windwalker-io/unicorn-next";
+import { useFormValidationInstance, __, useForm, useUniDirective, module as module$1 } from "@windwalker-io/unicorn-next";
 class LocaleSwitchModal {
   constructor(el, options = {}) {
     this.el = el;
@@ -84,7 +84,7 @@ useUniDirective(
   {
     mounted(el, { value }) {
       const options = JSON.parse(value);
-      module(el, "locale.switch", () => new LocaleSwitchModal(el, options));
+      module$1(el, "locale.switch", () => new LocaleSwitchModal(el, options));
     }
   }
 );

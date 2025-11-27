@@ -4,7 +4,7 @@ var hasRequiredCodemirror;
 function requireCodemirror() {
   if (hasRequiredCodemirror) return codemirror$1.exports;
   hasRequiredCodemirror = 1;
-  (function(module, exports) {
+  (function(module, exports$1) {
     (function(global, factory) {
       module.exports = factory();
     })(codemirror, (function() {

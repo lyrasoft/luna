@@ -1017,12 +1017,6 @@ function getElementPosition(el) {
     left: left - parseInt(marginLeft, 10)
   };
 }
-/**
- * spectrum-vanilla.js
- *
- * @copyright  Copyright (C) 2023.
- * @license    MIT
- */
 const defaultOpts = {
   // Callbacks
   beforeShow: noop,

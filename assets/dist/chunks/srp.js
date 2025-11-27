@@ -1,4 +1,4 @@
-import { useUniDirective, module, useHttpClient } from "@windwalker-io/unicorn-next";
+import { useUniDirective, module as module$1, useHttpClient } from "@windwalker-io/unicorn-next";
 const defaultOptions = {
   identitySelector: "[data-input-identity]",
   passwordSelector: "[data-input-password]",
@@ -256,7 +256,7 @@ function hexToBigint(hex) {
 useUniDirective("srp-registration", {
   mounted(el, { value }) {
     const options = JSON.parse(value);
-    module(
+    module$1(
       el,
       "srp.registration",
       (el2) => new SRPRegistration(el2, options)
@@ -266,7 +266,7 @@ useUniDirective("srp-registration", {
 useUniDirective("srp-login", {
   mounted(el, { value }) {
     const options = JSON.parse(value);
-    module(
+    module$1(
       el,
       "srp.login",
       (el2) => new SRPLogin(el2, options)
