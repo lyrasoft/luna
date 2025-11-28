@@ -83,15 +83,15 @@ class RegistrationRepository implements CrudRepositoryInterface
         /** @var User $user */
         $user = $this->getItem(['email' => $email, $key => $id]);
 
-        $ac = $user->getActivation();
+        $ac = $user->activation;
 
         if ($ac !== $token) {
             throw new ValidateFailException($this->trans('luna.message.activate.fail'));
         }
 
-        $user->setActivation('');
-        $user->setVerified(true);
-        $user->setEnabled(true);
+        $user->activation = '';
+        $user->verified = true;
+        $user->enabled = true;
 
         $mapper->updateOne($user);
     }

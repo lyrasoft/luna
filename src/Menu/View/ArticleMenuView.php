@@ -81,7 +81,7 @@ class ArticleMenuView extends AbstractMenuView
     public function prepareVariablesStore(array &$variables): void
     {
         if ($variables['id']) {
-            $variables['alias'] = (string) $this->orm->findOne(Article::class, $variables['id'])?->getAlias();
+            $variables['alias'] = (string) $this->orm->findOne(Article::class, $variables['id'])?->alias;
         }
     }
 

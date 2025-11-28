@@ -34,7 +34,7 @@ use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
  */
 
 $level = $item->getDepth();
-$type = $item->getValue()?->getVariables()['type'] ?? 'link';
+$type = $item->getValue()?->variables['type'] ?? 'link';
 ?>
 
 @if ($level === 1 || $type === 'link')

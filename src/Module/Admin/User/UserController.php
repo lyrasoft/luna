@@ -67,7 +67,7 @@ class UserController
                 $user = $event->entity;
                 $files = $app->file('item');
 
-                $user->setId((int) $data['id']);
+                $user->id = (int) $data['id'];
 
                 unset($data['password']);
 
@@ -122,7 +122,7 @@ class UserController
             return;
         }
 
-        $basicRoles = array_map(static fn (UserRole $role) => $role->getId(), $accessService->getBasicRoles());
+        $basicRoles = array_map(static fn (UserRole $role) => $role->id, $accessService->getBasicRoles());
 
         // Add basic role if is empty
         $roles = $roles ?: $basicRoles;
@@ -133,15 +133,15 @@ class UserController
 
         foreach ($roles as $role) {
             $maps[] = $map = new UserRoleMap();
-            $map->setUserId($user->getId());
-            $map->setRoleId($role);
+            $map->userId = $user->id;
+            $map->roleId = $role;
 
             if (!$newRolesIsSuperUser) {
                 $newRolesIsSuperUser = $accessService->isSuperUserRole($role);
             }
         }
 
-        $conditions = ['user_id' => $user->getId()];
+        $conditions = ['user_id' => $user->id];
 
         // If I'm not superuser, always ignore superuser roles
         // This will prevent a non-superuser delete another superuser's role
@@ -168,7 +168,7 @@ class UserController
             $userService = $app->service(UserService::class);
             $user = $userService->getCurrentUser();
 
-            if ($entity->getId() === $user->getId()) {
+            if ($entity->id === $user->id) {
                 throw new ValidateFailException(
                     $this->trans('luna.user.message.cant.delete.self')
                 );

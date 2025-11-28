@@ -36,20 +36,20 @@ use Windwalker\Core\Router\SystemUri;
         <article>
             <header>
                 <h1 class="h3">
-                    {{ $item->getTitle() }}
+                    {{ $item->title }}
                 </h1>
             </header>
 
             <div class="text-muted my-4">
                 <div>
                     <i class="fa fa-calendar-days"></i>
-                    {{ $chronos->toLocalFormat($item->getCreated(), 'Y/m/d H:i:s') }}
+                    {{ $chronos->toLocalFormat($item->created, 'Y/m/d H:i:s') }}
                 </div>
             </div>
 
             <div class="article-content">
-                {!! $item->getIntrotext() !!}
-                {!! $item->getFulltext() !!}
+                {!! $item->introtext !!}
+                {!! $item->fulltext !!}
             </div>
         </article>
     </div>

@@ -27,7 +27,7 @@ class UserRoleListField extends ListField
         foreach ($roles as $value => $text) {
             if ($text instanceof EnumTranslatableInterface || is_numeric($value)) {
                 $value = value($text);
-                $text = $this->accessService->wrapUserRole($value)?->getTitle() ?? $value;
+                $text = $this->accessService->wrapUserRole($value)?->title ?? $value;
             }
 
             if (!$iAmSuperUser && $this->accessService->isSuperUserRole($value)) {

@@ -13,9 +13,9 @@ namespace Lyrasoft\Luna {
         function create_role(string $title, string $desc = '', array $children = []): Node
         {
             $role = new UserRole();
-            $role->setTitle($title);
-            $role->setDescription($desc);
-            $role->setState(BasicState::PUBLISHED());
+            $role->title = $title;
+            $role->description = $desc;
+            $role->state = BasicState::PUBLISHED();
 
             return new Node($role, AccessService::injectIdToRoles($children));
         }

@@ -103,7 +103,7 @@ class SRPService
         $password = static::encodePasswordVerifier($salt, $verifier);
 
         if ($user instanceof User) {
-            $user->setPassword($password);
+            $user->password = $password;
         } else {
             $user['password'] = $password;
         }

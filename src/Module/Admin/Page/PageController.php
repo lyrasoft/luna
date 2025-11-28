@@ -202,12 +202,12 @@ class PageController
 
         $item = $mapper->findOne($id) ?? new PageTemplate();
 
-        $item->setId($id ?: null);
-        $item->setTitle($title);
-        $item->setDescription($description);
-        $item->setContent(json_decode($content, true));
-        $item->setImage($image);
-        $item->setType($type);
+        $item->id = $id ?: null;
+        $item->title = $title;
+        $item->description = $description;
+        $item->content = json_decode($content, true);
+        $item->image = $image;
+        $item->type = $type;
 
         return $mapper->saveOne($item);
     }

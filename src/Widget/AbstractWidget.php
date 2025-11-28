@@ -82,7 +82,7 @@ abstract class AbstractWidget implements FieldDefinitionInterface
 
     public function getParam(): array
     {
-        return $this->getData()->getParams();
+        return $this->getData()->params;
     }
 
     public function __call(string $name, array $args): mixed

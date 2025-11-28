@@ -64,7 +64,7 @@ class ArticleController
 
                 $tagService->flushTagMapsFromInput(
                     'article',
-                    $entity->getId(),
+                    $entity->id,
                     (array) ($app->input('item')['tags'] ?? [])
                 );
             }

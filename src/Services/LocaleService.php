@@ -84,7 +84,7 @@ class LocaleService
                     ->where('language.state', 1)
                     ->order('language.ordering', 'ASC')
                     ->all(Language::class)
-                    ->mapWithKeys(fn(Language $language) => [$language->getAlias() => $language]);
+                    ->mapWithKeys(fn(Language $language) => [$language->alias => $language]);
             }
         );
     }
@@ -114,7 +114,7 @@ class LocaleService
             'language.id.' . $id,
             function () use ($id) {
                 foreach ($this->getAvailableLanguages() as $language) {
-                    if ($language->getCode() === $id) {
+                    if ($language->code === $id) {
                         return $language;
                     }
                 }
@@ -139,7 +139,7 @@ class LocaleService
             'language.code.' . $code,
             function () use ($code) {
                 foreach ($this->getAvailableLanguages() as $language) {
-                    if ($language->getCode() === $code) {
+                    if ($language->code === $code) {
                         return $language;
                     }
                 }
@@ -158,7 +158,7 @@ class LocaleService
      */
     public function getCurrentLanguageCode(): ?string
     {
-        return $this->getCurrentLanguage()?->getCode();
+        return $this->getCurrentLanguage()?->code;
     }
 
     /**
@@ -169,7 +169,7 @@ class LocaleService
     public function getCurrentLanguage(): ?Language
     {
         return $this->getAvailableLanguages()
-            ->findFirst(fn (Language $lang) => $lang->getCode() === $this->getLocale());
+            ->findFirst(fn (Language $lang) => $lang->code === $this->getLocale());
     }
 
     /**
@@ -203,7 +203,7 @@ class LocaleService
     public function getBrowserLanguage(?array $available = null, string $default = 'en-US'): string
     {
         $available ??= $this->getAvailableLanguages()
-            ->map(fn(Language $language) => $language->getCode())
+            ->map(fn(Language $language) => $language->code)
             ->dump();
 
         $accept = $this->app->getServerRequest()->getServerParams()['HTTP_ACCEPT_LANGUAGE'] ?? null;

@@ -61,8 +61,8 @@ class CustomHtmlWidget extends AbstractWidget implements ViewModelInterface
     public function prepare(AppContext $app, View $view): mixed
     {
         $data = $this->getData();
-        $html = $data->getContent();
-        $params = $data->getParams();
+        $html = $data->content;
+        $params = $data->params;
 
         return compact('html', 'params');
     }

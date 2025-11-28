@@ -76,14 +76,14 @@ $languageField->setValue($value, '*');
         <div class="card-body p-2 d-flex gap-3">
             <div class="flex-grow-1">
                 <h4>
-                    {{ $currentLang?->getTitle() }}
+                    {{ $currentLang?->title }}
                     <span class="badge bg-secondary">
-                    {{ $currentLang?->getCode() }}
+                    {{ $currentLang?->code }}
                     </span>
                 </h4>
                 <div class="small text-muted">
-                    <span class="{{ $localeService->getFlagIconClass($currentLang?->getImage() ?? '') }}"></span>
-                    {{ $currentLang?->getTitleNative() }}
+                    <span class="{{ $localeService->getFlagIconClass($currentLang?->image ?? '') }}"></span>
+                    {{ $currentLang?->titleNative }}
                 </div>
             </div>
             <div>
@@ -145,7 +145,7 @@ $jsOptions = [
             <div class="modal-body list-group list-group-flush p-0">
                 @foreach ($languages as $language)
                     <?php
-                    $item = $field->getItemByLandCode($language->getCode());
+                    $item = $field->getItemByLandCode($language->code);
                     $titleField = $field->getTitleField();
 
                     $active = (string) $item?->$idName === (string) $currentId;
@@ -154,14 +154,14 @@ $jsOptions = [
                         class="list-group-item d-flex align-items-center gap-2 {{ $active ? 'active' : '' }} {{ $item ? '' : 'bg-light' }}">
                         <div class="flex-grow-1">
                             <div class="small {{ $active ? '' : 'text-muted' }} mb-2">
-                                <span class="{{ $localeService->getFlagIconClass($language->getImage()) }}"></span>
-                                <strong>{{ $language->getTitle() }}</strong>
-                                - {{ $language->getTitleNative() }}
+                                <span class="{{ $localeService->getFlagIconClass($language->image) }}"></span>
+                                <strong>{{ $language->title }}</strong>
+                                - {{ $language->titleNative }}
                                 <span
                                     class="badge {{ $active ? 'bg-light text-primary' : '' }} {{ $item ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $language->getCode() }}
+                                    {{ $language->code }}
                                 </span>
-                                @if ($defaultLang === $language->getCode())
+                                @if ($defaultLang === $language->code)
                                     <span class="badge {{ $active ? 'bg-light text-primary' : 'bg-dark' }}">
                                         @lang('luna.field.locale.switch.default')
                                     </span>
@@ -197,7 +197,7 @@ $jsOptions = [
                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-right">
                                         <button class="dropdown-item"
                                             data-task="create_lang_version"
-                                            data-lang="{{ $language->getCode() }}"
+                                            data-lang="{{ $language->code }}"
                                             data-copy="current"
                                         >
                                             @lang('luna.field.locale.switch.button.copy.current')
@@ -205,7 +205,7 @@ $jsOptions = [
                                         @if ($defaultItem || $defaultItem?->$idName !== $item?->$idName)
                                             <button class="dropdown-item"
                                                 data-task="create_lang_version"
-                                                data-lang="{{ $language->getCode() }}"
+                                                data-lang="{{ $language->code }}"
                                                 data-copy="default">
                                                 @lang('luna.field.locale.switch.button.copy.default')
                                             </button>
@@ -213,7 +213,7 @@ $jsOptions = [
                                         @if ($field->isAllowCreateEmpty())
                                             <button class="dropdown-item"
                                                 data-task="create_lang_version"
-                                                data-lang="{{ $language->getCode() }}"
+                                                data-lang="{{ $language->code }}"
                                                 data-copy="no">
                                                 @lang('luna.field.locale.switch.button.create.empty')
                                             </button>

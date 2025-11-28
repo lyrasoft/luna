@@ -83,7 +83,7 @@ class LanguageAjaxController
                 'lang.code',
                 $type . '.' . $langField
             )
-            ->where('assoc.hash', $assoc->getHash())
+            ->where('assoc.hash', $assoc->hash)
             ->where($type . '.' . $idName, '!=', $id)
             ->groupByJoins()
             ->all(Collection::class);

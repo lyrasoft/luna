@@ -63,12 +63,12 @@ class ForgetController
             ->var('locale', false)
             ->full();
 
-        $user->setResetToken($token);
-        $user->setLastReset('now');
+        $user->resetToken = $token;
+        $user->lastReset = 'now';
 
         $orm->updateOne(User::class, $user);
 
-        $name = $user->getName();
+        $name = $user->name;
 
         $message = $mailer->createMessage(
             $this->trans('luna.forget.request.mail.subject')
@@ -107,7 +107,7 @@ class ForgetController
             throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
         }
 
-        if ($user->getResetToken() !== $token) {
+        if ($user->resetToken !== $token) {
             throw new ValidateFailException($this->trans('luna.forget.request.message.invalid.token'));
         }
 
@@ -142,7 +142,7 @@ class ForgetController
             throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
         }
 
-        if ($user->getResetToken() !== $token) {
+        if ($user->resetToken !== $token) {
             throw new ValidateFailException($this->trans('luna.forget.request.message.invalid.token'));
         }
 
@@ -160,11 +160,11 @@ class ForgetController
                 throw new ValidateFailException($this->trans('luna.forget.reset.message.password.not.match'));
             }
 
-            $user->setPassword($hasher->hash($password));
+            $user->password = $hasher->hash($password);
         }
 
-        $user->setResetToken('');
-        $user->setLastReset('now');
+        $user->resetToken = '';
+        $user->lastReset = 'now';
 
 
         $orm->updateOne(

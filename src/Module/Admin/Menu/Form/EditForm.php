@@ -61,7 +61,7 @@ class EditForm implements FieldDefinitionInterface
 
                                 if ($self) {
                                     $query->whereRaw(
-                                        '(lft < ' . $self->getLft() . ' OR rgt > ' . $self->getRgt() . ')'
+                                        '(lft < ' . $self->lft . ' OR rgt > ' . $self->rgt . ')'
                                     );
                                 }
                             }

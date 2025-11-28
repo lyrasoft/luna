@@ -57,7 +57,7 @@ return new /** Article Seeder */ class extends AbstractSeeder {
                 $map = new TagMap();
                 $map->tagId = (int) $tagId;
                 $map->type = 'article';
-                $map->targetId = $item->getId();
+                $map->targetId = $item->id;
 
                 $this->orm->createOne(TagMap::class, $map);
             }

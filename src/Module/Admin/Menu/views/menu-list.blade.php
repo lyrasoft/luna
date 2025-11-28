@@ -115,44 +115,44 @@ $orders = [];
                     <?php
                         $entity = $vm->prepareItem($item);
 
-                        $orders[$entity->getParentId()][] = $entity->getId();
-                        $order = count($orders[$entity->getParentId()]);
+                        $orders[$entity->parentId][] = $entity->id;
+                        $order = count($orders[$entity->parentId]);
                     ?>
                     <tr>
                         <td>
-                            <x-row-checkbox :row="$i" :id="$entity->getId()"></x-row-checkbox>
+                            <x-row-checkbox :row="$i" :id="$entity->id"></x-row-checkbox>
                         </td>
                         <td>
                             <x-state-dropdown color-on="text"
                                 button-style="width: 100%"
                                 use-states
                                 :workflow="$workflow"
-                                :id="$entity->getId()"
+                                :id="$entity->id"
                                 :value="$item->state"
                             />
                         </td>
                         <td>
                             <div class="d-flex">
-                                <div class="{{ $entity->getLevel() > 1 ? 'me-1' : '' }}">
-                                    {{ str_repeat('—', $entity->getLevel() - 1) }}
+                                <div class="{{ $entity->level > 1 ? 'me-1' : '' }}">
+                                    {{ str_repeat('—', $entity->level - 1) }}
                                 </div>
                                 <div>
-                                    <a href="{{ $nav->to('menu_edit')->id($entity->getId()) }}">
-                                        {{ $entity->getTitle() }}
+                                    <a href="{{ $nav->to('menu_edit')->id($entity->id) }}">
+                                        {{ $entity->title }}
                                     </a>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="small text-muted">
-                                <?php $viewInstance = $vm->getViewInstance($entity->getView()) ?>
+                                <?php $viewInstance = $vm->getViewInstance($entity->view) ?>
                                 @if ($viewInstance)
                                     @lang('luna.menu.group.' . $viewInstance::getGroup())
                                 @else
                                     @lang('luna.menu.unknown')
                                 @endif
                             </div>
-                            <div class="has-tooltip" title="{{ $entity->getView() }}">
+                            <div class="has-tooltip" title="{{ $entity->view }}">
                                 @if ($viewInstance)
                                     {{ $viewInstance::getTitle($lang) }}
                                 @else
@@ -164,20 +164,20 @@ $orders = [];
                             <x-order-control
                                 :enabled="$vm->reorderEnabled($ordering)"
                                 :row="$i"
-                                :id="$entity->getId()"
+                                :id="$entity->id"
                                 :value="$order"
                             ></x-order-control>
                         </td>
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-outline-secondary"
-                                @click="grid.deleteItem('{{ $entity->getId() }}')"
+                                @click="grid.deleteItem('{{ $entity->id }}')"
                                 data-dos
                             >
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </td>
                         <td class="text-end">
-                            {{ $entity->getId() }}
+                            {{ $entity->id }}
                         </td>
                     </tr>
                 @endforeach

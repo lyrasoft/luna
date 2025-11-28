@@ -61,7 +61,7 @@ class ConfigService
             $id,
             function () use ($refresh, $subtype, $type, $conditions) {
                 return collect(
-                    $this->getConfigItem($type, $subtype, $conditions, $refresh)?->getContent() ?? []
+                    $this->getConfigItem($type, $subtype, $conditions, $refresh)?->content ?? []
                 );
             },
             $refresh

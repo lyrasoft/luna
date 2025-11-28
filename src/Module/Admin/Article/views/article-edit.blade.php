@@ -46,7 +46,7 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
         <x-title-bar :form="$form">
             @if ($vm->isLocaleEnabled())
                 <x-slot name="end">
-                    <?php $form['language']->currentId($item?->getId()) ?>
+                    <?php $form['language']->currentId($item?->id) ?>
                     <x-field :field="$form['language']" no-label></x-field>
                 </x-slot>
             @endif

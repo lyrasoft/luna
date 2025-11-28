@@ -87,7 +87,7 @@ class LangAssocMiddleware implements MiddlewareInterface
         $assoc = [];
 
         foreach ($associations as $association) {
-            $assoc[$association->getKey()] = $association->getTargetId();
+            $assoc[$association->key] = $association->targetId;
         }
 
         $handleCopyData = function (
@@ -192,13 +192,13 @@ class LangAssocMiddleware implements MiddlewareInterface
             ]
         );
 
-        if ($assoc && $assoc->getKey() !== $code) {
+        if ($assoc && $assoc->key !== $code) {
             $this->orm->deleteWhere(
                 Association::class,
                 [
-                    'type' => $assoc->getType(),
-                    'target_id' => $assoc->getTargetId(),
-                    'key' => $assoc->getKey(),
+                    'type' => $assoc->type,
+                    'target_id' => $assoc->targetId,
+                    'key' => $assoc->key,
                 ]
             );
         }

@@ -141,7 +141,7 @@ class LocaleSwitchField extends AbstractField
         $ids = [$this->getCurrentId()];
 
         foreach ($assocs as $assoc) {
-            $ids[] = $assoc->getTargetId();
+            $ids[] = $assoc->targetId;
         }
 
         $query->where($this->getIdName(), 'in', $ids ?: [0]);

@@ -81,7 +81,7 @@ if ($dropdown) {
 ?>
 
 <{{ $tag }} {!! $attributes !!}
-    data-menu-id="{{ $menu->getValue()?->getId() }}"
+    data-menu-id="{{ $menu->getValue()?->id }}"
 data-level="1">
 {!! $start ?? '' !!}
 

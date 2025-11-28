@@ -60,7 +60,7 @@ class UserEditView implements ViewModelInterface
                 return $this->nav->to('user_list');
             }
 
-            $item->setPassword('');
+            $item->password = '';
         }
 
         $form = $this->formFactory
@@ -72,7 +72,7 @@ class UserEditView implements ViewModelInterface
             )
             ->fill(
                 [
-                    'params' => $item?->getParams(),
+                    'params' => $item?->params,
                 ]
             );
 
@@ -80,7 +80,7 @@ class UserEditView implements ViewModelInterface
             $roles = $this->orm->findColumn(
                 UserRoleMap::class,
                 'role_id',
-                ['user_id' => $item->getId()]
+                ['user_id' => $item->id]
             );
 
             $form->fill(['roles' => $roles]);

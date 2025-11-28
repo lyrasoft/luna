@@ -105,7 +105,7 @@ class UserSwitchService
      */
     public function switch(UserEntityInterface $targetUser, array $options = []): self
     {
-        $userId = $this->getOriginUserId() ?: $this->userService->getUser()->getId();
+        $userId = $this->getOriginUserId() ?: $this->userService->getUser()->id;
 
         $this->setOriginUserId($userId);
 
@@ -133,7 +133,7 @@ class UserSwitchService
      */
     public function frontendLogin(UserEntityInterface $targetUser, array $options = []): self
     {
-        $userId = $this->getOriginUserId() ?: $this->userService->getUser()->getId();
+        $userId = $this->getOriginUserId() ?: $this->userService->getUser()->id;
 
         $backup = $_SESSION ?? [];
         $currentName = $this->session->getName();

@@ -37,7 +37,7 @@ $props = $attributes->props(
 );
 $attributes->setAttributes(
     [
-        'data-widget-id' => $widget->getData()->getId()
+        'data-widget-id' => $widget->getData()->id
     ]
 );
 

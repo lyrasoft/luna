@@ -95,7 +95,7 @@ class LocaleSubscriber
         $this->language = $language;
 
         if ($language) {
-            $this->getAppContext()->state->set('matched_locale', $language->getCode());
+            $this->getAppContext()->state->set('matched_locale', $language->code);
         }
 
         // $locale = [

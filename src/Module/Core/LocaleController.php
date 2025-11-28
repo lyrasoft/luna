@@ -37,16 +37,16 @@ class LocaleController
             throw new \RangeException('Language ' . $alias . ' not exists.', 404);
         }
 
-        $localeService->setLocale($lang->getCode());
+        $localeService->setLocale($lang->code);
 
         if ($return) {
             $uri = $app->getSystemUri();
             $scriptName = $uri->getScriptName('index.php');
             $root = $uri->root() . $scriptName;
             $path = ltrim(Str::removeLeft($return, UriNormalizer::clean($root)), '/');
-            $path = Str::removeLeft($path, $previousLang?->getAlias() . '/');
+            $path = Str::removeLeft($path, $previousLang?->alias . '/');
 
-            $path = $lang->getAlias() . '/' . $path;
+            $path = $lang->alias . '/' . $path;
 
             $path = Str::removeLeft($scriptName . '/' . $path, '/');
 

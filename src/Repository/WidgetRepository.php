@@ -53,7 +53,7 @@ class WidgetRepository implements ManageRepositoryInterface, ListRepositoryInter
     {
         $action->setReorderGroupHandler(
             function (Query $query, Widget $widget) {
-                $query->where('position', $widget->getPosition());
+                $query->where('position', $widget->position);
             }
         );
     }

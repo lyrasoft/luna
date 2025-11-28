@@ -119,13 +119,13 @@ class PageView implements ViewModelInterface
         $previewSecret = $app->input('preview');
 
         if (
-            $page->getState()->equals(BasicState::UNPUBLISHED)
-            && (!$previewSecret || !$this->pageService->secretVerify($page->getId(), (string) $previewSecret))
+            $page->state === BasicState::UNPUBLISHED
+            && (!$previewSecret || !$this->pageService->secretVerify($page->id, (string) $previewSecret))
         ) {
             throw new RouteNotFoundException();
         }
 
-        $rows = $page->getContent();
+        $rows = $page->content;
 
         // $css = $this->renderCSS($page);
         $css = '';
@@ -141,7 +141,7 @@ class PageView implements ViewModelInterface
 
     public function prepareMeta(Page $page): void
     {
-        $meta = $page->getMeta();
+        $meta = $page->meta;
 
         $this->htmlFrame->setDescriptionIfNotEmpty($meta->getDescription());
 
@@ -153,14 +153,14 @@ class PageView implements ViewModelInterface
             $this->htmlFrame->addMetadata('keywords', $meta->getKeywords(), true);
         }
 
-        if ($page->getImage()) {
-            $this->htmlFrame->setCoverImages($page->getImage());
+        if ($page->image) {
+            $this->htmlFrame->setCoverImages($page->image);
         }
 
         if (trim($meta->getTitle()) !== '') {
             $this->htmlFrame->setTitle($meta->getTitle());
         } else {
-            $this->htmlFrame->setTitle($page->getTitle());
+            $this->htmlFrame->setTitle($page->title);
         }
 
         if ($meta->getOgTitle()) {
@@ -179,7 +179,7 @@ class PageView implements ViewModelInterface
      */
     protected function renderCSS(Page $page): string
     {
-        $css = $page->getCss();
+        $css = $page->css;
 
         $scss = new Compiler();
 

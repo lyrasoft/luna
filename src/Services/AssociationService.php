@@ -55,7 +55,7 @@ class AssociationService
 
         // Delete existing assoc by hash
         if ($assoc) {
-            $mapper->deleteWhere(['type' => $type, 'hash' => $assoc->getHash()]);
+            $mapper->deleteWhere(['type' => $type, 'hash' => $assoc->hash]);
         }
 
         // Remove empty id
@@ -172,7 +172,7 @@ class AssociationService
             return;
         }
 
-        foreach ($this->getRelativeItemsByHash($type, $assoc->getHash(), $id) as $key => $value) {
+        foreach ($this->getRelativeItemsByHash($type, $assoc->hash, $id) as $key => $value) {
             yield $key => $value;
         }
     }
@@ -198,7 +198,7 @@ class AssociationService
         return $this->getMapper()->findOne(
             [
                 'type' => $type,
-                'hash' => $assoc->getHash(),
+                'hash' => $assoc->hash,
                 'key' => $key,
                 ['target_id', '!=', $id],
             ]

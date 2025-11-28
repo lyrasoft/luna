@@ -47,15 +47,15 @@ $itemClass ??= '';
             data-toggle="dropdown"
         >
             <span class="fa fa-earth-asia"></span>
-            {{ $localeService->getCurrentLanguage()->getTitleNative() }}
+            {{ $localeService->getCurrentLanguage()->titleNative }}
         </a>
 
         <ul class="dropdown-menu">
             @foreach ($localeService->getAvailableLanguages() as $lang)
                 <li class="{{ $itemClass }}">
                     <a class="dropdown-item"
-                        href="{{ $nav->to('locale_switch')->var('alias', $lang->getAlias())->withReturn() }}">
-                        {{ $lang->getTitleNative() }}
+                        href="{{ $nav->to('locale_switch')->var('alias', $lang->alias)->withReturn() }}">
+                        {{ $lang->titleNative }}
                     </a>
                 </li>
             @endforeach

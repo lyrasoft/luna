@@ -95,8 +95,8 @@ class ArticleRepository implements ManageRepositoryInterface, ListRepositoryInte
     {
         $action->setReorderGroupHandler(
             function (Query $query, Article $article) {
-                $query->where('category_id', $article->getCategoryId());
-                $query->where('type', $article->getType());
+                $query->where('category_id', $article->categoryId);
+                $query->where('type', $article->type);
             }
         );
     }

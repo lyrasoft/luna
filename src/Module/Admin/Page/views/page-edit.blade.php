@@ -52,7 +52,7 @@ $uni->data(
     <div class="">
         <page-builder-app id="page-builder-app"
             class="env-{{ $app->getMode() }}"
-            page-id="{{ $item?->getId() }}"
+            page-id="{{ $item?->id }}"
         ></page-builder-app>
     </div>
 

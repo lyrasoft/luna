@@ -224,7 +224,7 @@ class MenuService
 
         /** @var DbMenuNode $menuNode */
         foreach ($node->iterate() as $menuNode) {
-            if (!$instance = $this->getViewInstance($menuNode->getValue()->getView())) {
+            if (!$instance = $this->getViewInstance($menuNode->getValue()->view)) {
                 throw new DomainException(
                     sprintf(
                         'Menu View: %s not found',
@@ -324,8 +324,8 @@ class MenuService
             $parent = $this->orm->findOne(Menu::class, $parent);
         }
 
-        $query->where('lft', '>=', $parent->getLft())
-            ->where('rgt', '<=', $parent->getRgt());
+        $query->where('lft', '>=', $parent->lft)
+            ->where('rgt', '<=', $parent->rgt);
 
         return $query;
     }
@@ -439,8 +439,8 @@ class MenuService
 
         $this->each(function (DbMenuNode $menuNode) use ($view, $conditions) {
             if (
-                $menuNode->getValue()->getView() === $view
-                && array_intersect(Arr::flatten($menuNode->getValue()->getVariables()), $conditions) === $conditions
+                $menuNode->getValue()->view === $view
+                && array_intersect(Arr::flatten($menuNode->getValue()->variables), $conditions) === $conditions
             ) {
                 $menuNode->forceActive(true);
             }

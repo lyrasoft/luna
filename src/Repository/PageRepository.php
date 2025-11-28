@@ -60,7 +60,7 @@ class PageRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     {
         $action->setReorderGroupHandler(
             function (Query $query, Page $page) {
-                $query->where('category_id', $page->getCategoryId());
+                $query->where('category_id', $page->categoryId);
             }
         );
     }

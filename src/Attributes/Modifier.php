@@ -26,10 +26,10 @@ class Modifier implements CastForSaveInterface
 
             if ($mapper->canCheckIsNew()) {
                 if (!$mapper->isNew($entity)) {
-                    $value = $userService->getUser()?->getId();
+                    $value = $userService->getUser()?->id;
                 }
             } else {
-                $value = $userService->getUser()?->getId();
+                $value = $userService->getUser()?->id;
             }
 
             return $value;

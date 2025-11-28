@@ -80,7 +80,7 @@ class AuthController
         $orm->updateWhere(
             User::class,
             ['last_login' => chronos()],
-            ['id' => $userService->getCurrentUser()->getId()]
+            ['id' => $userService->getCurrentUser()->id]
         );
 
         $app->addMessage($this->trans('luna.login.message.success'), 'success');

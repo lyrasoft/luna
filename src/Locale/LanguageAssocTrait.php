@@ -31,19 +31,19 @@ trait LanguageAssocTrait
         }
 
         $langs = $this->localeService->getAvailableLanguages()
-            ->filter(fn (Language $lan) => $lan->getCode() !== $lang);
+            ->filter(fn (Language $lan) => $lan->code !== $lang);
 
         $form->ns(
             'assoc',
             function (Form $form) use ($postHandler, $fieldClass, $langs) {
                 foreach ($langs as $language) {
-                    $flag = h('span', ['class' => $this->localeService->getFlagIconClass($language->getImage())]);
+                    $flag = h('span', ['class' => $this->localeService->getFlagIconClass($language->image)]);
 
-                    $field = $form->add($language->getCode(), $fieldClass)
+                    $field = $form->add($language->code, $fieldClass)
                         ->modifyLabel(
                             function (HTMLElement $label) use ($language, $flag) {
                                 $label->appendChild($flag);
-                                $label->appendText(' ' . $language->getTitle());
+                                $label->appendText(' ' . $language->title);
                             }
                         );
 
@@ -62,7 +62,7 @@ trait LanguageAssocTrait
         $assoc = [];
 
         foreach ($associations as $association) {
-            $assoc[$association->getKey()] = $association->getTargetId();
+            $assoc[$association->key] = $association->targetId;
         }
 
         $form->fill(compact('assoc'));

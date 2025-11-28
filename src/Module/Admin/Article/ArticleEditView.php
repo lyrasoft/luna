@@ -59,8 +59,8 @@ class ArticleEditView implements ViewModelInterface
         /** @var Article $item */
         $item = $this->repository->getItem(compact('id'));
 
-        if ($type && $item && $item->getType() !== $type) {
-            return $this->nav->self()->var('type', $item->getType());
+        if ($type && $item && $item->type !== $type) {
+            return $this->nav->self()->var('type', $item->type);
         }
 
         $form = $this->formFactory
@@ -72,7 +72,7 @@ class ArticleEditView implements ViewModelInterface
             )
             ->fill(
                 [
-                    'params' => $item?->getParams(),
+                    'params' => $item?->params,
                 ]
             );
 

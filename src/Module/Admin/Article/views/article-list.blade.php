@@ -169,20 +169,20 @@ $localeService = $app->service(\Lyrasoft\Luna\Services\LocaleService::class);
                             @endif
                             <td>
                                 <div data-bs-toggle="tooltip"
-                                    title="{{ $chronos->toLocalFormat($entity->getCreated()) }}">
-                                    {{ $chronos->toLocalFormat($entity->getCreated(), 'Y-m-d') }}
+                                    title="{{ $chronos->toLocalFormat($entity->created) }}">
+                                    {{ $chronos->toLocalFormat($entity->created, 'Y-m-d') }}
                                 </div>
                             </td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-outline-secondary"
-                                    @click="grid.deleteItem('{{ $entity->getId() }}')"
+                                    @click="grid.deleteItem('{{ $entity->id }}')"
                                     data-dos
                                 >
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </td>
                             <td class="text-end">
-                                {{ $entity->getId() }}
+                                {{ $entity->id }}
                             </td>
                         </tr>
                     @endforeach

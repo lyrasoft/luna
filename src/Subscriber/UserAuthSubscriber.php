@@ -42,7 +42,7 @@ class UserAuthSubscriber
             )
             && !$user->isVerified()
         ) {
-            $this->state->remember(ActivationService::RE_ACTIVATE_SESSION_KEY, $user->getEmail());
+            $this->state->remember(ActivationService::RE_ACTIVATE_SESSION_KEY, $user->email);
 
             throw new AuthenticateFailException(
                 $this->trans('luna.login.message.not.activated'),

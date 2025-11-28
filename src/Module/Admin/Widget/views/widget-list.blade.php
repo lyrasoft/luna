@@ -136,12 +136,12 @@ $localeService = $app->service(LocaleService::class);
                     @foreach($items as $i => $item)
                             <?php
                             $entity = $vm->prepareItem($item);
-                            $widgetType = $vm->getWidgetType($entity->getType());
+                            $widgetType = $vm->getWidgetType($entity->type);
                             ?>
                         <tr>
                             {{-- Checkbox --}}
                             <td>
-                                <x-row-checkbox :row="$i" :id="$entity->getId()"></x-row-checkbox>
+                                <x-row-checkbox :row="$i" :id="$entity->id"></x-row-checkbox>
                             </td>
 
                             {{-- State --}}
@@ -150,7 +150,7 @@ $localeService = $app->service(LocaleService::class);
                                     button-style="width: 100%"
                                     use-states
                                     :workflow="$workflow"
-                                    :id="$entity->getId()"
+                                    :id="$entity->id"
                                     :value="$item->state"
                                 ></x-state-dropdown>
                             </td>
@@ -158,12 +158,12 @@ $localeService = $app->service(LocaleService::class);
                             {{-- Title --}}
                             <td>
                                 <div>
-                                    <a href="{{ $nav->to('widget_edit')->id($entity->getId()) }}">
+                                    <a href="{{ $nav->to('widget_edit')->id($entity->id) }}">
                                         {{ $item->title }}
                                     </a>
                                 </div>
                                 <div class="small text-muted">
-                                    {{ $entity->getNote() }}
+                                    {{ $entity->note }}
                                 </div>
                             </td>
 
@@ -178,12 +178,12 @@ $localeService = $app->service(LocaleService::class);
                                 <div>
                                 <span class="badge"
                                     style="
-                                        background-color: {{ $bg = $widgetService->getPositionColor($entity->getPosition()) }};
+                                        background-color: {{ $bg = $widgetService->getPositionColor($entity->position) }};
                                         color: {{ $widgetService::getTextColor($bg) }}
                                     ">
-                                    @if ($entity->getPosition())
+                                    @if ($entity->position)
                                             <?php
-                                            $position = $entity->getPosition();
+                                            $position = $entity->position;
 
                                             $posName = $widgetService->getAllPositions()[$position] ?? null;
                                             ?>
@@ -203,7 +203,7 @@ $localeService = $app->service(LocaleService::class);
                                 <x-order-control
                                     :enabled="$vm->reorderEnabled($ordering)"
                                     :row="$i"
-                                    :id="$entity->getId()"
+                                    :id="$entity->id"
                                     :value="$item->ordering"
                                 ></x-order-control>
                             </td>
@@ -217,7 +217,7 @@ $localeService = $app->service(LocaleService::class);
                             {{-- Delete --}}
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-outline-secondary"
-                                    @click="grid.deleteItem('{{ $entity->getId() }}')"
+                                    @click="grid.deleteItem('{{ $entity->id }}')"
                                     data-dos
                                 >
                                     <i class="fa-solid fa-trash"></i>
@@ -226,7 +226,7 @@ $localeService = $app->service(LocaleService::class);
 
                             {{-- ID --}}
                             <td class="text-end">
-                                {{ $entity->getId() }}
+                                {{ $entity->id }}
                             </td>
                         </tr>
                     @endforeach

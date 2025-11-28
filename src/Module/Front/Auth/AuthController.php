@@ -100,7 +100,7 @@ class AuthController
         $orm->updateWhere(
             User::class,
             ['last_login' => chronos()],
-            ['id' => $userService->getCurrentUser()->getId()]
+            ['id' => $userService->getCurrentUser()->id]
         );
 
         if ($return = $app->getState()->getAndForget('login_return')) {
@@ -152,7 +152,7 @@ class AuthController
         $app->getState()->forget('reg.data');
 
         if (env('MAIL_ENABLED')) {
-            $repository->sendActivateMail($user->getId());
+            $repository->sendActivateMail($user->id);
         }
 
         $app->addMessage($this->trans('luna.message.registration.success'), 'success');
@@ -248,7 +248,7 @@ class AuthController
         $orm->updateWhere(
             User::class,
             ['last_login' => chronos()],
-            ['id' => $user->getId()]
+            ['id' => $user->id]
         );
 
         return $nav->to('home');

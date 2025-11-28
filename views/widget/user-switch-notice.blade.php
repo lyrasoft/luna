@@ -45,9 +45,9 @@ if ($nav->has('user_switch_recover')) {
     <div class="d-flex align-items-center justify-content-between">
         <div>
             @if ($keepaccess)
-                @lang('luna.user.message.switched.keepaccess.desc', $user->getName())
+                @lang('luna.user.message.switched.keepaccess.desc', $user->name)
             @else
-                @lang('luna.user.message.switched.desc', $user->getName())
+                @lang('luna.user.message.switched.desc', $user->name)
             @endif
         </div>
         <div>

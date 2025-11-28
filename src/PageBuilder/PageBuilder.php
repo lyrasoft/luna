@@ -65,7 +65,7 @@ class PageBuilder
 
     public function renderByEntityAndCache(Page $page, bool $refresh = false): string
     {
-        $cache = $this->getCacheFile($page->getId());
+        $cache = $this->getCacheFile($page->id);
 
         if ($cache->isFile() && !$refresh) {
             return (string) $cache->read();
@@ -89,9 +89,9 @@ class PageBuilder
 
     public function renderByEntity(Page $page): string
     {
-        $customCSS = $page->getCss();
+        $customCSS = $page->css;
 
-        $html = $this->renderLayout($page->getContent(), $customCSS);
+        $html = $this->renderLayout($page->content, $customCSS);
 
         $this->prepareAssets($html);
 

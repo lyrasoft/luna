@@ -35,7 +35,7 @@ trait SRPControllerTrait
             return null;
         }
 
-        $password = $user->getPassword();
+        $password = $user->password;
 
         if (!$srpService::isValidSRPHash($password)) {
             return [
@@ -70,7 +70,7 @@ trait SRPControllerTrait
         /** @var User $user */
         $user = $userService->mustLoad([$loginName => $identity]);
 
-        $password = $user->getPassword();
+        $password = $user->password;
 
         $pf = $SRPService::decodePasswordVerifier($password);
 

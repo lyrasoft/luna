@@ -50,7 +50,7 @@ class ProfileController
                 }
 
                 $key = $repository->getEntityMapper()->getMainKey();
-                $data[$key] = $user->getId();
+                $data[$key] = $user->id;
 
                 $data = $srpService->handleRegister($app, $data);
             }

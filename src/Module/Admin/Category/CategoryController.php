@@ -155,8 +155,8 @@ class CategoryController
         /** @var Category $item */
         foreach ($query->getIterator(Category::class) as $item) {
             $items[] = [
-                'title' => $item->getTitle(),
-                'id' => $item->getId(),
+                'title' => $item->title,
+                'id' => $item->id,
             ];
         }
 

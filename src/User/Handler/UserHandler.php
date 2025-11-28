@@ -120,7 +120,7 @@ class UserHandler implements UserHandlerInterface
         $mapper = $this->getMapper();
 
         if ($user instanceof UserEntityInterface) {
-            $userId = $user->getId();
+            $userId = $user->id;
         } else {
             $user = $mapper->toCollection($user);
             $pk = $mapper->getMainKey();

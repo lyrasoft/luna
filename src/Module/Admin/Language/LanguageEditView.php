@@ -60,7 +60,7 @@ class LanguageEditView implements ViewModelInterface
             )
             ->fill(
                 [
-                    'meta' => $item?->getMeta()
+                    'meta' => $item?->meta
                 ]
             );
 

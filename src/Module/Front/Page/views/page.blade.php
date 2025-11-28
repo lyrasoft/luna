@@ -32,7 +32,7 @@ $builder = $app->service(\Lyrasoft\Luna\PageBuilder\PageBuilder::class);
 
 ?>
 
-@extends($page->getExtends())
+@extends($page->extends)
 
 @section('content')
     <div class="l-page-container">

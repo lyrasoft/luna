@@ -61,7 +61,7 @@ class AccessService
         $action = (string) unwrap_enum($action);
 
         if (
-            ($user === null || $user->getId() === $currentUser?->getId())
+            ($user === null || $user->id === $currentUser?->id)
             && $action === static::ADMIN_ACCESS_ACTION
             && $this->isAdminUserSwitched()
         ) {
@@ -73,7 +73,7 @@ class AccessService
         }
 
         $user = $this->getUser($user ?? $currentUser);
-        $userId = $user->getId();
+        $userId = $user->id;
 
         // Get roles
         $roles = $this->getUserRoles($userId);
@@ -179,7 +179,7 @@ class AccessService
     {
         $user = $this->getUser($user);
 
-        $id = $user->getId();
+        $id = $user->id;
 
         return $this->once(
             'user.roles.' . $id,
@@ -212,7 +212,7 @@ class AccessService
     public function addRoleMapsToUser(mixed $user = null, mixed $roleMaps = []): array
     {
         $currentRoleIds = collect($this->getUserRoles($user))
-            ->map(fn(UserRole $map) => $map->getId())
+            ->map(fn(UserRole $map) => $map->id)
             ->map('strval');
 
         $user = $this->getUser($user);
@@ -226,20 +226,20 @@ class AccessService
         foreach ($roleMaps as $roleMap) {
             if (!$roleMap instanceof UserRoleMap) {
                 $map = new UserRoleMap();
-                $map->userId = $user->getId();
+                $map->userId = $user->id;
                 $map->roleId = $roleMap->roleId;
 
                 $roleMap = $map;
             }
 
-            if ($currentRoleIds->contains($roleMap->getRoleId())) {
+            if ($currentRoleIds->contains($roleMap->roleId)) {
                 continue;
             }
 
             $maps[] = $this->orm->createOne(UserRoleMap::class, $roleMap);
         }
 
-        $this->cacheRemove('user.roles.' . $user->getId());
+        $this->cacheRemove('user.roles.' . $user->id);
 
         return $maps;
     }
@@ -255,7 +255,7 @@ class AccessService
     public function addRolesToUser(mixed $user = null, mixed $roles = [], array $extra = []): array
     {
         $currentRoleIds = collect($this->getUserRoles($user))
-            ->map(fn(UserRole $map) => $map->getId())
+            ->map(fn(UserRole $map) => $map->id)
             ->map('strval');
 
         $user = $this->getUser($user);
@@ -274,7 +274,7 @@ class AccessService
             }
 
             $map = new UserRoleMap();
-            $map->userId = $user->getId();
+            $map->userId = $user->id;
             $map->roleId = $roleId;
 
             if ($extra !== []) {
@@ -284,7 +284,7 @@ class AccessService
             $maps[] = $this->orm->createOne(UserRoleMap::class, $map);
         }
 
-        $this->cacheRemove('user.roles.' . $user->getId());
+        $this->cacheRemove('user.roles.' . $user->id);
 
         return $maps;
     }
@@ -306,12 +306,12 @@ class AccessService
         $this->orm->deleteWhere(
             UserRoleMap::class,
             [
-                'user_id' => $user->getId(),
+                'user_id' => $user->id,
                 'role_id' => $roleIds,
             ]
         );
 
-        $this->cacheRemove('user.roles.' . $user->getId());
+        $this->cacheRemove('user.roles.' . $user->id);
     }
 
     public function userIsRole(mixed $user = null, mixed $role = null): bool
@@ -383,7 +383,7 @@ class AccessService
                 }
 
                 $parentRole = $ancestor->getValue();
-                $parents[$parentRole->getId()] = $parentRole;
+                $parents[$parentRole->id] = $parentRole;
             }
 
             if ($includeSelf) {
@@ -432,7 +432,7 @@ class AccessService
             }
 
             if ($includeSelf) {
-                $descendants[$role->getId()] = $role;
+                $descendants[$role->id] = $role;
             }
 
             foreach ($roleNode->iterate() as $descendant) {
@@ -480,7 +480,7 @@ class AccessService
 
         return array_any(
             $this->getDescendantRoles($role),
-            fn($descendantRole) => $descendantRole->getId() === $targetNode->getValue()->getId()
+            fn($descendantRole) => $descendantRole->getId() === $targetNode->getValue()->id
         );
     }
 

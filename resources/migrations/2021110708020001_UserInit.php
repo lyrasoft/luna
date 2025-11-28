@@ -141,7 +141,7 @@ return new /** 2021110708020001_UserInit */ class extends AbstractMigration {
         $user = $orm->createOne(User::class, $user);
 
         $map = new UserRoleMap();
-        $map->userId = $user->getId();
+        $map->userId = $user->id;
         $map->roleId = 'superuser';
 
         $orm->createOne($map::class, $map);

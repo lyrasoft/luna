@@ -451,13 +451,13 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         if ($srp->isEnabled()) {
             $pf = $srp->generateVerifier(
                 $this->getUserIdentity($user),
-                $user->getPassword()
+                $user->password
             );
 
-            $user->setPassword($srp::encodePasswordVerifier($pf->salt, $pf->verifier));
+            $user->password = $srp::encodePasswordVerifier($pf->salt, $pf->verifier);
         } else {
             $hasher = $this->app->retrieve(PasswordHasherInterface::class);
-            $user->setPassword($hasher->hash($password));
+            $user->password = $hasher->hash($password);
         }
 
         return $user;

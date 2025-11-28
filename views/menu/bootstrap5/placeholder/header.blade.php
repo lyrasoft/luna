@@ -35,7 +35,7 @@ use Windwalker\DOM\HTMLElement;
  * @var $viewInstance AbstractMenuView|SelfRenderMenuInterface
  */
 
-$header = $item->getValue()?->getVariables()['header'] ?? '';
+$header = $item->getValue()?->variables['header'] ?? '';
 
 $attrs = $item->getHTMLAttributes();
 $attrs['class'] ??= '';

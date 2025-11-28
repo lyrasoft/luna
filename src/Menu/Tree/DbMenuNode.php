@@ -56,12 +56,12 @@ class DbMenuNode extends Node implements MenuNodeInterface
      */
     public function getIcon(): string
     {
-        return $this->getValue()?->getImage();
+        return $this->getValue()?->image;
     }
 
     public function getTitle(): string
     {
-        return $this->getValue()?->getTitle() ?? '';
+        return $this->getValue()?->title ?? '';
     }
 
     /**
@@ -119,8 +119,8 @@ class DbMenuNode extends Node implements MenuNodeInterface
     {
         return $this->getViewInstance()?->route(
             $nav,
-            $this->getValue()->getVariables(),
-            $this->getValue()->getParams()
+            $this->getValue()->variables,
+            $this->getValue()->params
         );
     }
 
@@ -140,8 +140,8 @@ class DbMenuNode extends Node implements MenuNodeInterface
         }
 
         $active = $this->getViewInstance()->isActive(
-            $this->getValue()->getVariables(),
-            $this->getValue()->getParams()
+            $this->getValue()->variables,
+            $this->getValue()->params
         );
 
         if (!$active && $checkChildren) {
@@ -168,7 +168,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     public function getMenuById(mixed $id): ?static
     {
         return $this->findFirst(function (self $item) use ($id) {
-            return (int) $item->getValue()->getId() === $id;
+            return (int) $item->getValue()->id === $id;
         });
     }
 
@@ -255,7 +255,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     {
         $menu = $this->getValue();
 
-        return $menu->getView() === $view && Arr::query([$menu->getVariables()], $variablesQuery) !== [];
+        return $menu->view === $view && Arr::query([$menu->variables], $variablesQuery) !== [];
     }
 
     /**
@@ -271,7 +271,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
      */
     public function getTarget(): MenuTarget
     {
-        return $this->getValue()->getTarget();
+        return $this->getValue()->target;
     }
 
     /**
@@ -283,7 +283,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     {
         return array_merge(
             [
-                'data-menu-id' => $this->getValue()->getId(),
+                'data-menu-id' => $this->getValue()->id,
             ],
             $merge
         );

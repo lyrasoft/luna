@@ -71,11 +71,11 @@ class EntityDefaultValueSubscriber
         $userService = $this->app->service(UserService::class);
 
         if (array_key_exists('created_by', $data) && !$data['created_by'] && $event->isCreate()) {
-            $data['created_by'] = $userService->getUser()?->getId();
+            $data['created_by'] = $userService->getUser()?->id;
         }
 
         if (array_key_exists('modified_by', $data) && !$data['modified_by'] && $event->isUpdate()) {
-            $data['modified_by'] = $userService->getUser()?->getId();
+            $data['modified_by'] = $userService->getUser()?->id;
         }
     }
 }

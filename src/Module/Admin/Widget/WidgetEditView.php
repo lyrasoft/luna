@@ -52,7 +52,7 @@ class WidgetEditView implements ViewModelInterface
 
         /** @var Widget $item */
         $item = $this->repository->getItem($id);
-        $type = $item?->getType() ?? $app->input('type');
+        $type = $item?->type ?? $app->input('type');
 
         $typeClass = $this->widgetService->getWidgetTypeClass($type);
         $widgetInstance = $this->widgetService->createWidgetInstance($type, $item);
@@ -66,7 +66,7 @@ class WidgetEditView implements ViewModelInterface
                     ?: $this->orm->extractEntity($item)
             )
             ->fill(compact('type'))
-            ->fill(['params' => $item?->getParams()]);
+            ->fill(['params' => $item?->params]);
 
         $this->prepareMetadata($app, $view);
 

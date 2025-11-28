@@ -65,28 +65,28 @@ class MenuEditView implements ViewModelInterface
             ->fill(compact('type'))
             ->fill(
                 [
-                    'params' => $item?->getParams(),
+                    'params' => $item?->params,
                 ]
             );
 
         $viewInstance = $this->menuService->getViewInstance(
-            $form->getField('view')?->getValue() ?: $item?->getView() ?: ''
+            $form->getField('view')?->getValue() ?: $item?->view ?: ''
         );
 
         if ($viewInstance) {
             $viewInstance->getEventDispatcher()->addDealer($app->getEventDispatcher());
 
-            $vars = $item?->getVariables() ?? [];
+            $vars = $item?->variables ?? [];
 
             $viewInstance->prepareVariablesForm($vars);
 
-            $item?->setVariables($vars);
+            $item->variables = $vars;
 
             $form->defineFormFields($viewInstance)
                 ->fill(
                     [
-                        'variables' => $item?->getVariables(),
-                        'params' => $item?->getParams(),
+                        'variables' => $item?->variables,
+                        'params' => $item?->params,
                     ]
                 );
             // $tabs = $viewInstance->getTabs();

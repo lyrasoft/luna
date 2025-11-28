@@ -69,10 +69,10 @@ class ArticleItemView implements ViewModelInterface
 
         $locale = $this->getLocale();
 
-        if ($this->isLocaleEnabled() && $item->getLanguage() !== $locale) {
+        if ($this->isLocaleEnabled() && $item->language !== $locale) {
             $assoc = $this->associationService->getRelativeItemByIdAndKey(
                 'article',
-                $item->getId(),
+                $item->id,
                 $locale
             );
 
@@ -80,31 +80,31 @@ class ArticleItemView implements ViewModelInterface
                 throw new RouteNotFoundException('Assoc not found');
             }
 
-            $item = $this->repository->mustGetItem($assoc->getTargetId());
+            $item = $this->repository->mustGetItem($assoc->targetId);
 
             return $this->nav->self()->id($item->getId())->alias($item->getAlias());
         }
 
-        if (!$item->getState()->isPublished()) {
+        if (!$item->state->isPublished()) {
             throw new RouteNotFoundException('Article not found.');
         }
 
-        if ($item->getPageId()) {
+        if ($item->pageId) {
             /** @var View $pageView */
             $pageView = $app->make(PageView::class);
-            return $pageView->render(['id' => $item->getPageId()]);
+            return $pageView->render(['id' => $item->pageId]);
         }
 
         /** @var Category $category */
-        $category = $this->getCategoryOrFail($item->getCategoryId());
+        $category = $this->getCategoryOrFail($item->categoryId);
 
-        if (!$category->getState()->isPublished()) {
+        if (!$category->state->isPublished()) {
             throw new RouteNotFoundException('Category not published.');
         }
 
         // Keep URL unique
-        if (($item->getAlias() !== $alias) && !$app->service(BrowserNext::class)->isRobot()) {
-            return $this->nav->self()->alias($item->getAlias());
+        if (($item->alias !== $alias) && !$app->service(BrowserNext::class)->isRobot()) {
+            return $this->nav->self()->alias($item->alias);
         }
 
         $this->prepareMetadata($view->getHtmlFrame(), $item);
@@ -117,10 +117,10 @@ class ArticleItemView implements ViewModelInterface
 
     protected function prepareMetadata(HtmlFrame $htmlFrame, Article $item): void
     {
-        $htmlFrame->setTitle($item->getTitle());
-        $htmlFrame->setCoverImagesIfNotEmpty($item->getImage());
+        $htmlFrame->setTitle($item->title);
+        $htmlFrame->setCoverImagesIfNotEmpty($item->image);
         $htmlFrame->setDescriptionIfNotEmpty(
-            (string) str($item->getIntrotext())->stripHtmlTags()->truncate(150, '...')
+            (string) str($item->introtext)->stripHtmlTags()->truncate(150, '...')
         );
     }
 }

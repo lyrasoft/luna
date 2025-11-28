@@ -121,7 +121,7 @@ class WidgetService
 
                 /** @var Widget $item */
                 foreach ($items as $item) {
-                    $instance = $this->createWidgetInstance($item->getType(), $item);
+                    $instance = $this->createWidgetInstance($item->type, $item);
 
                     if ($instance) {
                         $widgets[] = $instance;

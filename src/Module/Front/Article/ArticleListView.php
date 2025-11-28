@@ -52,7 +52,7 @@ class ArticleListView implements ViewModelInterface
         if ($path) {
             $category = $this->getCategoryOrFail(['type' => 'article', 'path' => $path]);
 
-            if (!$category->getState()->isPublished()) {
+            if (!$category->state->isPublished()) {
                 throw new RouteNotFoundException();
             }
         }
@@ -67,8 +67,8 @@ class ArticleListView implements ViewModelInterface
             ->tapIf(
                 $category !== null,
                 function (ListSelector $selector) use ($category) {
-                    $selector->where('category.lft', '>=', $category->getLft())
-                        ->where('category.rgt', '<=', $category->getRgt());
+                    $selector->where('category.lft', '>=', $category->lft)
+                        ->where('category.rgt', '<=', $category->rgt);
                 }
             )
             ->ordering('article.created', 'DESC')

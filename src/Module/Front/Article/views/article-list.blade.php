@@ -36,20 +36,20 @@ use Windwalker\Core\Router\SystemUri;
             <div class="card mb-4">
                 <div class="card-body row">
                     <div class="col-md-3">
-                        <img class="img-fluid rounded" src="{{ $item->getImage() }}" alt="Image">
+                        <img class="img-fluid rounded" src="{{ $item->image }}" alt="Image">
                     </div>
 
                     <div class="col-md-9">
                         <div class="mb-3">
                             <h4>
-                                <a href="{{ $nav->to('article_item')->id($item->getId())->alias($item->getAlias()) }}">
-                                    {{ $item->getTitle() }}
+                                <a href="{{ $nav->to('article_item')->id($item->id)->alias($item->alias) }}">
+                                    {{ $item->title }}
                                 </a>
                             </h4>
                         </div>
 
                         <div>
-                            {!! \Windwalker\str($item->getIntrotext())->stripHtmlTags()->truncate(200, '...') !!}
+                            {!! \Windwalker\str($item->introtext)->stripHtmlTags()->truncate(200, '...') !!}
                         </div>
                     </div>
                 </div>

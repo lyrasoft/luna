@@ -140,8 +140,8 @@ class User implements EntityInterface, LunaUserEntityInterface
         $item = $event->entity;
         $orm = $event->orm;
 
-        $orm->deleteWhere(UserSocial::class, ['user_id' => $item->getId()]);
-        $orm->deleteWhere(UserRoleMap::class, ['user_id' => $item->getId()]);
+        $orm->deleteWhere(UserSocial::class, ['user_id' => $item->id]);
+        $orm->deleteWhere(UserRoleMap::class, ['user_id' => $item->id]);
     }
 
     public function can(string $action, ...$args): bool
@@ -162,7 +162,7 @@ class User implements EntityInterface, LunaUserEntityInterface
 
     public function isLogin(): bool
     {
-        return $this->getId() !== null;
+        return $this->id !== null;
     }
 
     public function getId(): mixed

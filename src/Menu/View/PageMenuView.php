@@ -87,7 +87,7 @@ class PageMenuView extends AbstractMenuView
     public function prepareVariablesStore(array &$variables): void
     {
         if ($variables['id']) {
-            $variables['path'] = (string) $this->orm->findOne(Page::class, $variables['id'])?->getAlias();
+            $variables['path'] = (string) $this->orm->findOne(Page::class, $variables['id'])?->alias;
         }
 
         if (!$variables['path'] && !$variables['id']) {

@@ -55,7 +55,7 @@ class ProfileEditView implements ViewModelInterface
             throw new RouteNotFoundException();
         }
 
-        $id = $item->getId();
+        $id = $item->id;
 
         $form = $this->formFactory
             ->create(EditForm::class)

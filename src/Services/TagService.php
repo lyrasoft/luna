@@ -36,8 +36,8 @@ class TagService
                 $tagTitle = Str::removeLeft((string) $tagId, 'new#');
 
                 $tag = new Tag();
-                $tag->setTitle($tagTitle);
-                $tag->setState(1);
+                $tag->title = $tagTitle;
+                $tag->state = 1;
 
                 if ($configure) {
                     $tag = $configure($tag) ?? $tag;
@@ -45,7 +45,7 @@ class TagService
 
                 $tag = $mapper->createOne($tag);
 
-                $r[$i] = (string) $tag->getId();
+                $r[$i] = (string) $tag->id;
             } else {
                 $r[$i] = $tagId;
             }
@@ -92,9 +92,9 @@ class TagService
 
         foreach ($tagIds as $tagId) {
             $map = $tagMapMapper->createEntity();
-            $map->setType($type);
-            $map->setTagId((int) $tagId);
-            $map->setTargetId($targetId);
+            $map->type = $type;
+            $map->tagId = (int) $tagId;
+            $map->targetId = $targetId;
 
             $maps[] = $map;
         }

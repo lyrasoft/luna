@@ -95,7 +95,7 @@ class UserListView implements ViewModelInterface
             ->from(UserRoleMap::class)
             ->where('user_id', $ids ?: [0])
             ->all(UserRoleMap::class)
-            ->groupBy(fn (UserRoleMap $map) => $map->getUserId());
+            ->groupBy(fn (UserRoleMap $map) => $map->userId);
 
         $showFilters = $this->showFilterBar($filter);
 

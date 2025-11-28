@@ -58,8 +58,8 @@ return new /** Menu Seeder */ class extends AbstractSeeder {
                         /** @var Article $article */
                         $article = $faker->randomElement($articles);
                         $item->variables = [
-                            'id' => $article->getId(),
-                            'alias' => $article->getAlias(),
+                            'id' => $article->id,
+                            'alias' => $article->alias,
                         ];
                         break;
 
@@ -68,8 +68,8 @@ return new /** Menu Seeder */ class extends AbstractSeeder {
                         $category = $faker->randomElement($categories);
 
                         $item->variables = [
-                            'id' => $category->getId(),
-                            'path' => $category->getPath(),
+                            'id' => $category->id,
+                            'path' => $category->path,
                         ];
                         break;
                 }

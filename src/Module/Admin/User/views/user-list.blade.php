@@ -141,7 +141,7 @@ $loginName = $luna->getLoginName();
                                     <div class="user-avatar-wrapper mr-2">
                                         @if (method_exists($entity, 'getAvatar'))
                                             <img class="c-user-avatar rounded-circle me-2"
-                                                src="{{ $entity->getAvatar() ?: $imgPlaceholder->avatar() }}"
+                                                src="{{ $entity->avatar ?: $imgPlaceholder->avatar() }}"
                                                 height="45"
                                                 width="45"
                                                 alt="Avatar">
@@ -150,10 +150,10 @@ $loginName = $luna->getLoginName();
                                     <div>
                                         <div class="user-name">
                                             @if ($superuser && !$iAmSuperUser)
-                                                {{ $entity->getName() }}
+                                                {{ $entity->name }}
                                             @else
                                                 <a href="{{ $nav->to('user_edit', ['id' => $item->id]) }}">
-                                                    {{ $entity->getName() }}
+                                                    {{ $entity->name }}
                                                 </a>
                                             @endif
                                         </div>
@@ -171,12 +171,12 @@ $loginName = $luna->getLoginName();
 
                             {{-- Roles --}}
                             <td>
-                                @php($roles = $vm->getUserRoles($entity->getId()))
+                                @php($roles = $vm->getUserRoles($entity->id))
 
                                 @foreach ($roles as $role)
                                     <div>
                                         <span class="badge bg-primary">
-                                            {{ $accessService->wrapUserRole($role->getRoleId())?->getTitle() ?? $role->getRoleId() }}
+                                            {{ $accessService->wrapUserRole($role->getRoleId())?->title ?? $role->roleId }}
                                         </span>
                                     </div>
                                 @endforeach
@@ -220,7 +220,7 @@ $loginName = $luna->getLoginName();
                             {{-- Delete --}}
                             <td class="text-center">
                                 <button type="button"
-                                    @attr('disabled', $currentUser?->getId() === $entity->getId())
+                                    @attr('disabled', $currentUser?->id === $entity->id)
                                     class="waves-effect btn btn-default btn-outline-secondary btn-sm hasTooltip"
                                     @click="grid.deleteItem({{ $item->id }});"
                                     title="@lang('unicorn.toolbar.delete')">
@@ -230,7 +230,7 @@ $loginName = $luna->getLoginName();
 
                             {{-- ID --}}
                             <td class="searchable text-end">
-                                {{ $entity->getId() }}
+                                {{ $entity->id }}
                             </td>
                         </tr>
                     @endforeach

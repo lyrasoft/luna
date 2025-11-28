@@ -79,7 +79,7 @@ class ActivationService
 
         $token = $this->createToken($user);
 
-        $user->setActivation($token);
+        $user->activation = $token;
 
         $this->orm->updateOne(User::class, $user);
         $link = $this->nav->to(
@@ -94,7 +94,7 @@ class ActivationService
         $message = $mailer->createMessage(
             $this->trans('luna.registration.mail.subject', site: $site)
         )
-            ->to("{$user->getName()} <{$user->getEmail()}>")
+            ->to("{$user->name} <{$user->email}>")
             ->html(
                 $this->rendererService->render(
                     'mail.registration',
@@ -118,8 +118,8 @@ class ActivationService
         return $this->userInfoGetter ?? static function (object $user) {
             /** @var User $user */
             return [
-                'email' => $user->getEmail(),
-                'id' => $user->getId(),
+                'email' => $user->email,
+                'id' => $user->id,
             ];
         };
     }

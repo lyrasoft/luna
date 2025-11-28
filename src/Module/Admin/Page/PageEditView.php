@@ -70,15 +70,15 @@ class PageEditView implements ViewModelInterface
             )
             ->fill(
                 [
-                    'meta' => static::asSnakes($item?->getMeta()->dump() ?? []),
-                    'params' => $item?->getParams(),
+                    'meta' => static::asSnakes($item?->meta->dump() ?? []),
+                    'params' => $item?->params,
                 ]
             );
 
         if ($this->isLocaleEnabled()) {
             /** @var LocaleSwitchField $localeField */
             $localeField = $form->getField('language');
-            $localeField->currentId($item?->getId());
+            $localeField->currentId($item?->id);
         }
 
         $this->prepareScripts($app, $item, $form);
@@ -131,8 +131,8 @@ class PageEditView implements ViewModelInterface
             $addons[$addonType->getType()] = $addon;
         }
 
-        $this->unicornScript->data('builder-content', $item?->getContent() ?? []);
-        $this->unicornScript->data('css', $item?->getCss() ?? '');
+        $this->unicornScript->data('builder-content', $item?->content ?? []);
+        $this->unicornScript->data('css', $item?->css ?? '');
         $this->unicornScript->data('addons', $addons);
 
         $this->unicornScript->addRoute(

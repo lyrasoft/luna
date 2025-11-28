@@ -87,7 +87,7 @@ class LocaleMiddleware implements MiddlewareInterface
                             $lang = $localeService->getCurrentLanguage();
 
                             if ($lang) {
-                                $alias = $lang->getAlias();
+                                $alias = $lang->alias;
                                 $event->url = $alias . '/' . $event->url;
                             }
 

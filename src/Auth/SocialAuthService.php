@@ -76,7 +76,7 @@ class SocialAuthService
         $identifyName = $this->getIdentifyName($handler, $data);
 
         if ($socialMap = $mapMapper->findOne($map)) {
-            $user = $userMapper->findOne($socialMap->getUserId());
+            $user = $userMapper->findOne($socialMap->userId);
 
             if (!$user) {
                 $user = $userMapper->findOne([$identifyName => $data[$identifyName] ?? null]);
@@ -94,7 +94,7 @@ class SocialAuthService
                 $user = $this->createUser($data);
             }
 
-            $map['user_id'] = $user->getId();
+            $map['user_id'] = $user->id;
             $map['params'] = json_encode($userProfile);
 
             $socialMap = $mapMapper->createOne($map);
