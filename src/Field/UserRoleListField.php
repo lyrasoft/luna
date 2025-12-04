@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Field;
 
 use Lyrasoft\Luna\Access\AccessService;
+use Lyrasoft\Luna\Entity\UserRole;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Utilities\Enum\EnumTranslatableInterface;
@@ -15,6 +16,8 @@ class UserRoleListField extends ListField
 {
     #[Inject]
     protected AccessService $accessService;
+
+    protected ?bool $loadDbRoles = null;
 
     protected function prepareOptions(): array
     {
@@ -37,7 +40,30 @@ class UserRoleListField extends ListField
             $options[] = static::createOption($text, (string) $value);
         }
 
+        if ($this->loadDbRoles ?? $this->accessService->isDbRolesEnabled()) {
+            $dbRoles = $this->accessService->loadDBRoles();
+
+            foreach ($dbRoles->getChildren() as $dbRole) {
+                /** @var UserRole $role */
+                $role = $dbRole->getValue();
+
+                $options[] = static::createOption($role->title, (string) $role->id);
+            }
+        }
+
         return $options;
+    }
+
+    public function isLoadDbRoles(): ?bool
+    {
+        return $this->loadDbRoles;
+    }
+
+    public function loadDbRoles(?bool $loadDbRoles): static
+    {
+        $this->loadDbRoles = $loadDbRoles;
+
+        return $this;
     }
 
     /**

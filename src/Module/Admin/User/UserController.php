@@ -54,6 +54,8 @@ class UserController
             function (BeforeSaveEvent $event) use ($srpService, $app) {
                 $data = &$event->data;
 
+                $app->call($this->checkSuperUserAccess(...), ['user' => $event->tempEntity]);
+
                 if ($srpService->isEnabled()) {
                     $data = $srpService->handleRegister($app, $data);
                 }
@@ -81,7 +83,7 @@ class UserController
                 $roles = $app->input('item')['roles'] ?? null;
 
                 if ($roles !== null && $userService->can(AccessService::ROLE_MODIFY_ACTION)) {
-                    $app->call([$this, 'saveUserRoles'], ['user' => $user, 'roles' => $roles]);
+                    $app->call($this->saveUserRoles(...), ['user' => $user, 'roles' => $roles]);
                 }
 
                 $repository->save($data);
@@ -104,6 +106,17 @@ class UserController
 
             default:
                 return $uri;
+        }
+    }
+
+    protected function checkSuperUserAccess(UserService $userService, mixed $user): void
+    {
+        $iAmSuperUser = $userService->isSuperUser();
+
+        if ($userService->isSuperUser($user) && !$iAmSuperUser) {
+            throw new ValidateFailException(
+                'Forbidden: You cannot modify a superuser account.'
+            );
         }
     }
 
@@ -165,6 +178,8 @@ class UserController
             /** @var User $entity */
             $entity = $event->entity;
 
+            $app->call($this->checkSuperUserAccess(...), ['user' => $entity]);
+
             $userService = $app->service(UserService::class);
             $user = $userService->getCurrentUser();
 
@@ -191,6 +206,12 @@ class UserController
         #[Autowire] UserRepository $repository,
         GridController $controller
     ): mixed {
+        $ids = (array) $app->input('id');
+
+        foreach ($ids as $id) {
+            $app->call($this->checkSuperUserAccess(...), ['user' => $id]);
+        }
+
         if ($app->input('task') === 'resend') {
             return $app->call([$this, 'resend']);
         }

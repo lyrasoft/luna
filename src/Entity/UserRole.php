@@ -19,6 +19,7 @@ use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\JsonObject;
 use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
+use Windwalker\ORM\Event\AfterDeleteEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 use Windwalker\ORM\Nested\NestedEntityInterface;
 use Windwalker\ORM\Nested\NestedEntityTrait;
@@ -80,6 +81,28 @@ class UserRole implements NestedEntityInterface
     public static function setup(EntityMetadata $metadata): void
     {
         //
+    }
+
+    #[AfterDeleteEvent]
+    public static function afterDelete(AfterDeleteEvent $event): void
+    {
+        /** @var static $item */
+        $item = $event->entity;
+        $orm = $event->orm;
+
+        $orm->deleteWhere(
+            UserRoleMap::class,
+            [
+                'role_id' => (string) $item->id,
+            ]
+        );
+
+        $orm->deleteWhere(
+            Rule::class,
+            [
+                'role_id' => (string) $item->id,
+            ]
+        );
     }
 
     public function isStatic(): bool

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
-use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\CastNullable;
 use Windwalker\ORM\Attributes\Column;
 use Windwalker\ORM\Attributes\EntitySetup;

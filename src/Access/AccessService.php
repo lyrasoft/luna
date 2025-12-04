@@ -58,15 +58,21 @@ class AccessService
     {
         $currentUser = $this->getUser($user);
 
+        if (is_object($user)) {
+            $userId = $user->id;
+        } else {
+            $userId = $user;
+        }
+
         $action = (string) unwrap_enum($action);
 
-        if (
-            ($user === null || $user->id === $currentUser?->id)
-            && $action === static::ADMIN_ACCESS_ACTION
-            && $this->isAdminUserSwitched()
-        ) {
-            return true;
-        }
+        // if (
+        //     ($user === null || $userId === $currentUser?->id)
+        //     && $action === static::ADMIN_ACCESS_ACTION
+        //     && $this->isAdminUserSwitched()
+        // ) {
+        //     return true;
+        // }
 
         if ($this->authorization->hasPolicy($action)) {
             return $this->authorization->authorize($action, $user, ...$args);
@@ -525,7 +531,7 @@ class AccessService
             function () {
                 $roles = $this->loadStaticRoles();
 
-                if ($this->app->config('access.roles_db_enabled') ?? false) {
+                if ($this->isDbRolesEnabled()) {
                     $dbRoles = $this->loadDBRoles();
 
                     // Merge nodes
@@ -619,7 +625,10 @@ class AccessService
         return $this->once(
             'roles.db',
             function () {
-                $items = $this->orm->findList(UserRole::class)->all();
+                $items = $this->orm->findList(
+                    UserRole::class,
+                    ['state' => 1],
+                )->all();
 
                 return TreeBuilder::create(
                     $items,
@@ -646,7 +655,7 @@ class AccessService
                 // Static rules
                 $rules = $this->loadStaticRules();
 
-                if ($this->app->config('access.actions_db_enabled') ?? false) {
+                if ($this->isDbActionsEnabled()) {
                     // DB Rules
                     $rules = array_merge(
                         $rules,
@@ -880,8 +889,9 @@ class AccessService
     public function canSelectUserRoles(): bool
     {
         $roles = $this->getSelectableRoles();
+        $dbEnabled = $this->isDbRolesEnabled();
 
-        return $roles !== [] && $this->check(static::ROLE_MODIFY_ACTION);
+        return ($roles !== [] || $dbEnabled) && $this->check(static::ROLE_MODIFY_ACTION);
     }
 
     public function getUserByRolesQuery(
@@ -916,5 +926,15 @@ class AccessService
                         ->bind('roles', $roleIds);
                 }
             );
+    }
+
+    public function isDbRolesEnabled(): bool
+    {
+        return (bool) ($this->app->config('access.roles_db_enabled') ?? false);
+    }
+
+    function isDbActionsEnabled(): bool
+    {
+        return (bool) ($this->app->config('access.actions_db_enabled') ?? false);
     }
 }
