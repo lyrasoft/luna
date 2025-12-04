@@ -1785,7 +1785,7 @@ const useActivatedFocusTrap = ({
   focus
 }, focusTrapOpts = {
   allowOutsideClick: true,
-  fallbackFocus: fallbackFocus.ref.value ?? void 0,
+  fallbackFocus: () => fallbackFocus.ref.value || (typeof document !== "undefined" ? document.body : "body"),
   escapeDeactivates: false,
   clickOutsideDeactivates: false,
   initialFocus: focus

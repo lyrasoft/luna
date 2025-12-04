@@ -931,8 +931,8 @@ __metadata:
   linkType: hard
 
 "bootstrap-vue-next@npm:^0.40.5":
-  version: 0.40.8
-  resolution: "bootstrap-vue-next@npm:0.40.8"
+  version: 0.40.9
+  resolution: "bootstrap-vue-next@npm:0.40.9"
   peerDependencies:
     "@floating-ui/vue": "*"
     "@vueuse/core": "*"
@@ -945,7 +945,7 @@ __metadata:
       optional: true
     vue-router:
       optional: true
-  checksum: 10/c8ae0a641fb7e4a4b185cd25b508cb21fbd076ce9154ca21d612a3327f62095c329d366e38f5ccf2947bb55cd3dcf86718733e02578bc4358bfb8590980a5f5a
+  checksum: 10/8664f9b5bc380f659a8263699cbe3f72c349a7d2ae641f2dbae99bbc068d9b9301e6e0999edc47c3aa7f5d5f2c4cebf36508ea93a4999abaef129c224c837b33
   languageName: node
   linkType: hard
 
@@ -1540,9 +1540,9 @@ __metadata:
   linkType: hard
 
 "lru-cache@npm:^11.0.0, lru-cache@npm:^11.1.0, lru-cache@npm:^11.2.1":
-  version: 11.2.2
-  resolution: "lru-cache@npm:11.2.2"
-  checksum: 10/fa7919fbf068a739f79a1ad461eb273514da7246cebb9dca68e3cd7ba19e3839e7e2aaecd9b72867e08038561eeb96941189e89b3d4091c75ced4f56c71c80db
+  version: 11.2.4
+  resolution: "lru-cache@npm:11.2.4"
+  checksum: 10/3b2da74c0b6653767f8164c38c4c4f4d7f0cc10c62bfa512663d94a830191ae6a5af742a8d88a8b30d5f9974652d3adae53931f32069139ad24fa2a18a199aca
   languageName: node
   linkType: hard
 
@@ -2198,8 +2198,8 @@ __metadata:
   linkType: hard
 
 "vite@npm:^7.1.11":
-  version: 7.2.4
-  resolution: "vite@npm:7.2.4"
+  version: 7.2.6
+  resolution: "vite@npm:7.2.6"
   dependencies:
     esbuild: "npm:^0.25.0"
     fdir: "npm:^6.5.0"
@@ -2248,7 +2248,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10/25962e65159e62fa6b643ac5bc79457c61c9b2cec9a1a17763b067b1e5ecac6483ad84247d6d457d81e25c5d1f8c553372bedf71dee09d8c1bd41af6c7b016a5
+  checksum: 10/c640ed9c91957749287af2f483f5b5024a56718ba7cf32b0e2c398772fdf7fdb9fd5f97665c41712d4e9422c14009e283d0b69ac1b64b4f91474625bebe324de
   languageName: node
   linkType: hard
 
