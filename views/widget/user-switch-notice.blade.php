@@ -40,6 +40,22 @@ if ($nav->has('user_switch_recover')) {
 
 ?>
 
+<script data-macro="luna.admin.user.switch.notice" lang="ts" type="module"
+    data-prop:link="(string) $link" data-prop:csrf="$csrf->getToken()">
+    import { useMacroProps } from '@windwalker-io/core/app';
+    import { useForm, useMacro } from '@windwalker-io/unicorn-next';
+
+    const { link, csrf } = useMacroProps();
+
+    useMacro({
+        recoverUser() {
+            console.log(useForm());
+            useForm().patch(link, { anticsrf: csrf });
+        }
+    })
+</script>
+
+
 <div class="alert alert-warning alert-dismissible fade show">
 
     <div class="d-flex align-items-center justify-content-between">
@@ -52,7 +68,7 @@ if ($nav->has('user_switch_recover')) {
         </div>
         <div>
             <button type="button" class="btn btn-warning btn-sm"
-                onclick="u.form().patch('{{ $link }}', { anticsrf: '{{ $csrf->getToken() }}' })"
+                onclick="u.recoverUser()"
             >
                 @lang('luna.user.switch.recover.button')
             </button>

@@ -290,6 +290,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
             )
         );
 
+        $user = $event->user;
+
         if (is_scalar($user) || is_array($user)) {
             $user = $this->load($user);
         }
@@ -297,8 +299,6 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         if (!$user) {
             return false;
         }
-
-        $user = $event->user;
 
         $result = $this->getUserHandler()->login($user, $event->options);
 
