@@ -19,6 +19,7 @@ use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\JsonObject;
 use Windwalker\ORM\Attributes\NestedSet;
 use Windwalker\ORM\Attributes\PK;
+use Windwalker\ORM\Event\AfterCopyEvent;
 use Windwalker\ORM\Event\AfterDeleteEvent;
 use Windwalker\ORM\Metadata\EntityMetadata;
 use Windwalker\ORM\Nested\NestedEntityInterface;
@@ -103,6 +104,31 @@ class UserRole implements NestedEntityInterface
                 'role_id' => (string) $item->id,
             ]
         );
+    }
+
+    #[AfterCopyEvent]
+    public static function afterCopy(AfterCopyEvent $event): void
+    {
+        /** @var static $oldItem */
+        $oldItem = $event->oldEntity;
+        /** @var static $newItem */
+        $newItem = $event->entity;
+        $orm = $event->orm;
+
+        $rules = $orm->findList(
+            Rule::class,
+            [
+                'role_id' => (string) $oldItem->id,
+                'target_id' => '',
+            ]
+        )->all();
+
+        /** @var Rule $rule */
+        foreach ($rules as $rule) {
+            $rule->roleId = $newItem->id;
+
+            $orm->createOne($rule);
+        }
     }
 
     public function isStatic(): bool
