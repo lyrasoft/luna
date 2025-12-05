@@ -62,7 +62,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
         string $type = 'checkbox'
     ) {
         if (!class_exists(ReCaptcha::class)) {
-            throw new DomainException('Please install google/recaptcha first.');
+            throw new DomainException('Please install google/recaptcha OR phpfui/recaptcha first.');
         }
 
         $this->key = $key;
