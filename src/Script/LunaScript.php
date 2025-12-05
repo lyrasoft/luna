@@ -22,7 +22,7 @@ class LunaScript extends AbstractScript
             $this->unicornScript->translate('luna.field.captcha.message.please.check.first');
 
             if ($this->unicornScript->next) {
-                $this->unicornScript->importMainThen("u\$luna.useCaptcha()");
+                $this->unicornScript->importMainThen("u.\$luna.useCaptcha()");
             } else {
                 $this->unicornScript->importMainThen("u.import('@luna/dist/captcha.js')");
             }
