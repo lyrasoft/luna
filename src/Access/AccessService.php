@@ -625,10 +625,7 @@ class AccessService
         return $this->once(
             'roles.db',
             function () {
-                $items = $this->orm->findList(
-                    UserRole::class,
-                    ['state' => 1],
-                )->all();
+                $items = $this->orm->findList(UserRole::class)->all();
 
                 return TreeBuilder::create(
                     $items,

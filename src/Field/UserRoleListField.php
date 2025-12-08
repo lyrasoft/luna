@@ -6,6 +6,7 @@ namespace Lyrasoft\Luna\Field;
 
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\UserRole;
+use Unicorn\Enum\BasicState;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Utilities\Enum\EnumTranslatableInterface;
@@ -18,6 +19,8 @@ class UserRoleListField extends ListField
     protected AccessService $accessService;
 
     protected ?bool $loadDbRoles = null;
+
+    protected bool $publishedOnly = false;
 
     protected function prepareOptions(): array
     {
@@ -44,6 +47,10 @@ class UserRoleListField extends ListField
             $dbRoles = $this->accessService->loadDBRoles();
 
             foreach ($dbRoles->getChildren() as $dbRole) {
+                if ($this->publishedOnly && $dbRole->getValue()->state === BasicState::UNPUBLISHED) {
+                    continue;
+                }
+
                 /** @var UserRole $role */
                 $role = $dbRole->getValue();
 
@@ -62,6 +69,18 @@ class UserRoleListField extends ListField
     public function loadDbRoles(?bool $loadDbRoles): static
     {
         $this->loadDbRoles = $loadDbRoles;
+
+        return $this;
+    }
+
+    public function isPublishedOnly(): bool
+    {
+        return $this->publishedOnly;
+    }
+
+    public function publishedOnly(bool $publishedOnly): static
+    {
+        $this->publishedOnly = $publishedOnly;
 
         return $this;
     }
