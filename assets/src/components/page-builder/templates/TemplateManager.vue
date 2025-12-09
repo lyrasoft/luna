@@ -191,6 +191,8 @@ defineExpose({
     <BModal :model-value="tmplModalShow"
       title="Template"
       :size="'xl'"
+      lazy
+      unmount-lazy
       @hidden="tmplModalShow = false"
       class-name="c-template-manager"
       no-footer
@@ -253,6 +255,8 @@ defineExpose({
     <!-- Save Modal -->
     <BModal :model-value="saveModalShow" @hidden="saveModalShow = false"
       title="Save as Template"
+      lazy
+      unmount-lazy
       no-footer
     >
       <div class="d-flex flex-column gap-4">
