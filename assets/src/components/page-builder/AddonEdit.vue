@@ -111,6 +111,7 @@ const options = computed<AddonOptions | undefined>(() => content.value?.options)
       backdrop="static" class="c-modal-addon-edit"
       lazy
       unmount-lazy
+      no-trap
       header-class="bg-white sticky-top"
     >
       <template #header>

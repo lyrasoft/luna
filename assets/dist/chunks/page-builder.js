@@ -4446,6 +4446,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
       class: "c-modal-addon-edit",
       lazy: "",
       "unmount-lazy": "",
+      "no-trap": "",
       "header-class": "bg-white sticky-top"
     }, {
       header: withCtx(() => [
@@ -5086,6 +5087,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
       class: "c-modal-column-edit",
       lazy: "",
       "unmount-lazy": "",
+      "no-trap": "",
       "header-class": "bg-white sticky-top"
     }, {
       header: withCtx(() => [
@@ -7927,6 +7929,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
       class: "c-modal-row-edit",
       lazy: "",
       "unmount-lazy": "",
+      "no-trap": "",
       "header-class": "bg-white sticky-top"
     }, {
       header: withCtx(() => [
@@ -9277,6 +9280,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           title: "New Addon",
           lazy: "",
           "unmount-lazy": "",
+          "no-trap": "",
           "no-footer": ""
         }, {
           default: withCtx(() => [
@@ -9313,6 +9317,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           size: "xl",
           lazy: "",
           "unmount-lazy": "",
+          "no-trap": "",
           class: "c-modal-css-edit",
           "model-value": $setup.cssModalShow,
           onHidden: _cache[10] || (_cache[10] = ($event) => $setup.cssModalShow = false),

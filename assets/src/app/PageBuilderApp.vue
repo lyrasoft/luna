@@ -408,6 +408,7 @@ function registerUnicornEvents() {
         title="New Addon"
         lazy
         unmount-lazy
+        no-trap
         no-footer
       >
         <div class="row c-addon-list">
@@ -435,6 +436,7 @@ function registerUnicornEvents() {
         size="xl"
         lazy
         unmount-lazy
+        no-trap
         class="c-modal-css-edit"
         :model-value="cssModalShow"
         @hidden="cssModalShow = false"
