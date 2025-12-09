@@ -408,8 +408,8 @@ function registerUnicornEvents() {
         title="New Addon"
         lazy
         unmount-lazy
-        no-trap
         no-footer
+        :no-trap="true"
       >
         <div class="row c-addon-list">
           <div v-for="addon of addonDefines" class="col-6 col-md-4 mb-2 c-addon-list__item c-addon">
@@ -436,7 +436,7 @@ function registerUnicornEvents() {
         size="xl"
         lazy
         unmount-lazy
-        no-trap
+        :no-trap="true"
         class="c-modal-css-edit"
         :model-value="cssModalShow"
         @hidden="cssModalShow = false"
