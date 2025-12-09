@@ -4,11 +4,10 @@ import type { Editor } from 'tinymce';
 import { ObjectDirective } from 'vue';
 
 const uri = useSystemUri();
-const storage = new WeakMap<Element, any>();
 
 export default <ObjectDirective<HTMLTextAreaElement>>{
   async mounted(el) {
-    // el.id = `tinymce_${Math.random().toString(36).substring(2, 15)}`;
+    // el.id = `input-tinymce-${Math.random().toString(36).substring(2, 15)}`;
 
     const options = defaultsDeep(
       {},
@@ -80,21 +79,14 @@ export default <ObjectDirective<HTMLTextAreaElement>>{
     );
 
     const { create } = await useTinymce();
-    const controller = await create(el, options);
 
-    storage.set(el, controller);
+    if (window.tinymce) {
+      tinymce.get(el.id)?.remove();
+    }
 
-    // u.$ui.tinymce.loadTinymce().then(() => {
-    //   tinymce.remove();
-    //   u.$ui.tinymce.create(el, options);
-    // });
+    await create(el, options);
   },
   async unmounted(el) {
-    const controller = storage.get(el);
-
-    controller.editor?.remove(el);
-
-    storage.delete(el);
   }
 };
 
