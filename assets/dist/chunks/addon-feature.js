@@ -189,20 +189,20 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         _cache[29] || (_cache[29] = createTextVNode()),
         _cache[30] || (_cache[30] = createElementVNode("small", { class: "form-text text-muted" }, [
-          createTextVNode("\n          The icon class, for example: "),
+          createTextVNode("\r\n          The icon class, for example: "),
           createElementVNode("code", null, "fa fa-star"),
-          createTextVNode("\n          Find available icons on: "),
+          createTextVNode("\r\n          Find available icons on: "),
           createElementVNode("a", {
             target: "_blank",
             href: "https://fontawesome.com/icons"
           }, "FontAwesome"),
-          createTextVNode(".\n        ")
+          createTextVNode(".\r\n        ")
         ], -1))
       ]),
       _cache[54] || (_cache[54] = createTextVNode()),
       createVNode($setup["RwdGroup"], { "class-name": "c-title-font-size" }, createSlots({
         label: withCtx(() => [
-          _cache[31] || (_cache[31] = createElementVNode("label", null, "\n            Title Font Size\n          ", -1))
+          _cache[31] || (_cache[31] = createElementVNode("label", null, "\r\n            Title Font Size\r\n          ", -1))
         ]),
         _: 2
       }, [
@@ -252,7 +252,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         createElementVNode("div", _hoisted_17, [
           createVNode($setup["RwdGroup"], { "class-name": "c-title-margin_top" }, createSlots({
             label: withCtx(() => [
-              _cache[38] || (_cache[38] = createElementVNode("label", null, "\n                Margin Top\n              ", -1))
+              _cache[38] || (_cache[38] = createElementVNode("label", null, "\r\n                Margin Top\r\n              ", -1))
             ]),
             _: 2
           }, [
@@ -276,7 +276,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         createElementVNode("div", _hoisted_19, [
           createVNode($setup["RwdGroup"], { "class-name": "c-title-margin_bottom" }, createSlots({
             label: withCtx(() => [
-              _cache[40] || (_cache[40] = createElementVNode("label", null, "\n                Margin Bottom\n              ", -1))
+              _cache[40] || (_cache[40] = createElementVNode("label", null, "\r\n                Margin Bottom\r\n              ", -1))
             ]),
             _: 2
           }, [
@@ -321,7 +321,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       _cache[58] || (_cache[58] = createTextVNode()),
       createVNode($setup["RwdGroup"], { "class-name": "c-border-width" }, createSlots({
         label: withCtx(() => [
-          _cache[47] || (_cache[47] = createElementVNode("label", null, "\n            Border Width\n          ", -1))
+          _cache[47] || (_cache[47] = createElementVNode("label", null, "\r\n            Border Width\r\n          ", -1))
         ]),
         _: 2
       }, [
@@ -354,7 +354,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       _cache[60] || (_cache[60] = createTextVNode()),
       createVNode($setup["RwdGroup"], { "class-name": "c-border-radius" }, createSlots({
         label: withCtx(() => [
-          _cache[52] || (_cache[52] = createElementVNode("label", null, "\n            Border Radius\n          ", -1))
+          _cache[52] || (_cache[52] = createElementVNode("label", null, "\r\n            Border Radius\r\n          ", -1))
         ]),
         _: 2
       }, [
@@ -407,7 +407,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     _cache[83] || (_cache[83] = createTextVNode()),
     createVNode($setup["RwdGroup"], { "class-name": "c-content-font-size" }, createSlots({
       label: withCtx(() => [
-        _cache[65] || (_cache[65] = createElementVNode("label", null, "\n          Content Font Size\n        ", -1))
+        _cache[65] || (_cache[65] = createElementVNode("label", null, "\r\n          Content Font Size\r\n        ", -1))
       ]),
       _: 2
     }, [
@@ -427,7 +427,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     _cache[84] || (_cache[84] = createTextVNode()),
     createVNode($setup["RwdGroup"], { "class-name": "c-content-line-height" }, createSlots({
       label: withCtx(() => [
-        _cache[67] || (_cache[67] = createElementVNode("label", null, "\n          Content Line Height\n        ", -1))
+        _cache[67] || (_cache[67] = createElementVNode("label", null, "\r\n          Content Line Height\r\n        ", -1))
       ]),
       _: 2
     }, [

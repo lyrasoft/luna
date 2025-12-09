@@ -276,7 +276,6 @@ function registerUnicornEvents() {
   });
 
   u.on<AddonEditEvent>('addon:edit', (addon, column) => {
-    console.log(addon, column);
     editingRow.value = undefined;
     editingColumn.value = undefined;
 
@@ -407,6 +406,8 @@ function registerUnicornEvents() {
       <BModal :model-value="addonListShow" @hidden="addonListShow = false" size="lg"
         class="c-modal-addon-select"
         title="New Addon"
+        lazy
+        unmount-lazy
         no-footer
       >
         <div class="row c-addon-list">
@@ -432,6 +433,8 @@ function registerUnicornEvents() {
 
       <BModal title="CSS Edit (Support SCSS)"
         size="xl"
+        lazy
+        unmount-lazy
         class="c-modal-css-edit"
         :model-value="cssModalShow"
         @hidden="cssModalShow = false"

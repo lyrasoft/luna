@@ -97,6 +97,8 @@ const options = computed(() => content.value?.options);
   <div>
     <BModal :model-value="modalShow" size="lg" @hidden="modalShow = false"
       backdrop="static" class="c-modal-row-edit"
+      lazy
+      unmount-lazy
       header-class="bg-white sticky-top"
     >
       <template #header>
