@@ -165,13 +165,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function canAny(array $actions, mixed $user = null, mixed ...$args): bool
     {
-        foreach ($actions as $action) {
-            if ($this->can($action, $user, ...$args)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($actions, fn($action) => $this->can($action, $user, ...$args));
     }
 
     /**
@@ -183,13 +177,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      */
     public function canAll(array $actions, mixed $user = null, mixed ...$args): bool
     {
-        foreach ($actions as $action) {
-            if (!$this->can($action, $user, ...$args)) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($actions, fn($action) => $this->can($action, $user, ...$args));
     }
 
     public function authenticate(array $credential, ?ResultSet &$resultSet = null): false|AuthResult
