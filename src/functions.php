@@ -15,7 +15,7 @@ namespace Lyrasoft\Luna {
             $role = new UserRole();
             $role->title = $title;
             $role->description = $desc;
-            $role->state = BasicState::PUBLISHED();
+            $role->state = BasicState::PUBLISHED;
 
             return new Node($role, AccessService::injectIdToRoles($children));
         }
