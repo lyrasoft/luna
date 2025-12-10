@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Services;
 
 use Lyrasoft\Luna\Entity\Association;
-use Psr\Http\Message\ResponseInterface;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Router\Navigator;
-use Windwalker\Data\Collection;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
 
@@ -34,18 +32,22 @@ class AssociationService
     }
 
     /**
-     * saveAssoc
-     *
-     * @param  string      $type
-     * @param  string      $key
-     * @param  string|int  $targetId
-     * @param  array       $associations
+     * @param  string|\BackedEnum    $type           The association type.
+     * @param  string                $key            Current association key to save.
+     * @param  string|int            $targetId       Current target ID to save.
+     * @param  array<string, mixed>  $associations   The associations array, the array key is the association key,
+     *                                               array value is target ID.
      *
      * @return  void
+     * @throws \JsonException
      * @throws \ReflectionException
      */
-    public function saveAssociations(string $type, string $key, string|int $targetId, array $associations): void
-    {
+    public function saveAssociations(
+        string|\BackedEnum $type,
+        string $key,
+        string|int $targetId,
+        array $associations
+    ): void {
         if (in_array($targetId, $associations)) {
             throw new ValidateFailException('Association target cannot be self');
         }
@@ -61,6 +63,7 @@ class AssociationService
         // Remove empty id
         $associations = array_filter($associations, static fn($v) => !empty($v));
 
+        // Assoc must at least 2 items to make it linked
         if ($associations === []) {
             return;
         }
@@ -72,15 +75,17 @@ class AssociationService
     }
 
     /**
-     * createAssoc
-     *
-     * @param  string  $type
-     * @param  array   $associations
+     * @param  string|\BackedEnum    $type          The association type.
+     * @param  array<string, mixed>  $associations  The associations array, the array key is the association key,
+     *                                              array value is target ID.
      *
      * @return  void
+     * @throws \JsonException
+     * @throws \ReflectionException
      */
-    public function createAssociations(string $type, array $associations): void
+    public function createAssociations(string|\BackedEnum $type, array $associations): void
     {
+        // Assoc must at least 2 items to make it linked
         if (count($associations) <= 1) {
             return;
         }
@@ -112,9 +117,27 @@ class AssociationService
         }
     }
 
-    public function deleteWhere(mixed $conditions): array
+    public function addAssociation(string|\BackedEnum $type, string $key, string|int $targetId): void
     {
-        return $this->getMapper()->deleteWhere($conditions);
+        $associations = $this->getRelativeItemsByTargetId($type, $targetId);
+
+        $assocIds = [];
+
+        foreach ($associations as $association) {
+            $assocIds[$association->key] = $association->targetId;
+        }
+
+        // Assoc must at least 2 items to make it linked
+        if ($assocIds === []) {
+            return;
+        }
+
+        $this->saveAssociations($type, $key, $targetId, $assocIds);
+    }
+
+    public function deleteWhere(mixed $conditions): void
+    {
+        $this->getMapper()->deleteWhere($conditions);
     }
 
     /**
@@ -125,7 +148,7 @@ class AssociationService
      *
      * @return  string
      */
-    public static function getHash(string $type, array $associations): string
+    public static function getHash(string|\BackedEnum $type, array $associations): string
     {
         ksort($associations);
 
@@ -144,7 +167,7 @@ class AssociationService
      * @return iterable<Association>
      * @throws \ReflectionException
      */
-    public function getRelativeItemsByHash(string $type, string $hash, string|int|null $id = null): iterable
+    public function getRelativeItemsByHash(string|\BackedEnum $type, string $hash, string|int|null $id = null): iterable
     {
         $conditions = ['type' => $type, 'hash' => $hash];
 
@@ -164,7 +187,7 @@ class AssociationService
      * @return iterable<Association>
      * @throws \ReflectionException
      */
-    public function getRelativeItemsByTargetId(string $type, string|int $id): iterable
+    public function getRelativeItemsByTargetId(string|\BackedEnum $type, string|int $id): iterable
     {
         $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
 
@@ -177,6 +200,19 @@ class AssociationService
         }
     }
 
+    public function getTargetIdMapsByOneTargetId(string|\BackedEnum $type, string|int $id): array
+    {
+        $associations = $this->getRelativeItemsByTargetId($type, $id);
+
+        $assocIds = [];
+
+        foreach ($associations as $association) {
+            $assocIds[$association->key] = $association->targetId;
+        }
+
+        return $assocIds;
+    }
+
     /**
      * getAssocByIdAndLanguage
      *
@@ -187,7 +223,7 @@ class AssociationService
      * @return Association|null
      * @throws \ReflectionException
      */
-    public function getRelativeItemByIdAndKey(string $type, string|int $id, string $key): ?Association
+    public function getRelativeItemByIdAndKey(string|\BackedEnum $type, string|int $id, string $key): ?Association
     {
         $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
 
