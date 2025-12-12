@@ -257,7 +257,7 @@ class AssociationService
             }
         }
 
-        if (ORM::isEntity($type)) {
+        if (class_exists($type) && ORM::isEntity($type)) {
             $table = Collection::explode("\\", $type)
                 ->last();
 
