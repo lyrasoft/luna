@@ -7,8 +7,10 @@ namespace Lyrasoft\Luna\Services;
 use Lyrasoft\Luna\Entity\Association;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\Data\Collection;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
+use Windwalker\Utilities\StrNormalize;
 
 /**
  * The AssociationService class.
@@ -43,7 +45,7 @@ class AssociationService
      * @throws \ReflectionException
      */
     public function saveAssociations(
-        string|\BackedEnum $type,
+        string|\UnitEnum $type,
         string $key,
         string|int $targetId,
         array $associations
@@ -51,6 +53,8 @@ class AssociationService
         if (in_array($targetId, $associations)) {
             throw new ValidateFailException('Association target cannot be self');
         }
+
+        $type = static::toTypeString($type);
 
         $mapper = $this->getMapper();
         $assoc = $mapper->findOne(['type' => $type, 'target_id' => $targetId]);
@@ -83,12 +87,14 @@ class AssociationService
      * @throws \JsonException
      * @throws \ReflectionException
      */
-    public function createAssociations(string|\BackedEnum $type, array $associations): void
+    public function createAssociations(string|\UnitEnum $type, array $associations): void
     {
         // Assoc must at least 2 items to make it linked
         if (count($associations) <= 1) {
             return;
         }
+
+        $type = static::toTypeString($type);
 
         $mapper = $this->getMapper();
 
@@ -117,8 +123,10 @@ class AssociationService
         }
     }
 
-    public function addAssociation(string|\BackedEnum $type, string $key, string|int $targetId): void
+    public function addAssociation(string|\UnitEnum $type, string $key, string|int $targetId): void
     {
+        $type = static::toTypeString($type);
+
         $associations = $this->getRelativeItemsByTargetId($type, $targetId);
 
         $assocIds = [];
@@ -140,16 +148,10 @@ class AssociationService
         $this->getMapper()->deleteWhere($conditions);
     }
 
-    /**
-     * getHash
-     *
-     * @param  string  $type
-     * @param  array   $associations
-     *
-     * @return  string
-     */
-    public static function getHash(string|\BackedEnum $type, array $associations): string
+    public static function getHash(string|\UnitEnum $type, array $associations): string
     {
+        $type = static::toTypeString($type);
+
         ksort($associations);
 
         $json = json_encode($associations);
@@ -158,17 +160,17 @@ class AssociationService
     }
 
     /**
-     * getAssocByHash
-     *
-     * @param  string           $type
-     * @param  string           $hash
-     * @param  string|int|null  $id
+     * @param  string|\UnitEnum  $type
+     * @param  string            $hash
+     * @param  string|int|null   $id
      *
      * @return iterable<Association>
      * @throws \ReflectionException
      */
-    public function getRelativeItemsByHash(string|\BackedEnum $type, string $hash, string|int|null $id = null): iterable
+    public function getRelativeItemsByHash(string|\UnitEnum $type, string $hash, string|int|null $id = null): iterable
     {
+        $type = static::toTypeString($type);
+
         $conditions = ['type' => $type, 'hash' => $hash];
 
         if ($id) {
@@ -179,16 +181,16 @@ class AssociationService
     }
 
     /**
-     * getAssocsByItemId
-     *
-     * @param  string      $type
-     * @param  string|int  $id
+     * @param  string|\UnitEnum  $type
+     * @param  string|int        $id
      *
      * @return iterable<Association>
      * @throws \ReflectionException
      */
-    public function getRelativeItemsByTargetId(string|\BackedEnum $type, string|int $id): iterable
+    public function getRelativeItemsByTargetId(string|\UnitEnum $type, string|int $id): iterable
     {
+        $type = static::toTypeString($type);
+
         $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
 
         if (!$assoc) {
@@ -200,8 +202,10 @@ class AssociationService
         }
     }
 
-    public function getTargetIdMapsByOneTargetId(string|\BackedEnum $type, string|int $id): array
+    public function getTargetIdMapsByOneTargetId(string|\UnitEnum $type, string|int $id): array
     {
+        $type = static::toTypeString($type);
+
         $associations = $this->getRelativeItemsByTargetId($type, $id);
 
         $assocIds = [];
@@ -214,17 +218,17 @@ class AssociationService
     }
 
     /**
-     * getAssocByIdAndLanguage
-     *
-     * @param  string      $type
-     * @param  string|int  $id
-     * @param  string      $key
+     * @param  string|\UnitEnum  $type
+     * @param  string|int        $id
+     * @param  string            $key
      *
      * @return Association|null
      * @throws \ReflectionException
      */
-    public function getRelativeItemByIdAndKey(string|\BackedEnum $type, string|int $id, string $key): ?Association
+    public function getRelativeItemByIdAndKey(string|\UnitEnum $type, string|int $id, string $key): ?Association
     {
+        $type = static::toTypeString($type);
+
         $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
 
         if (!$assoc) {
@@ -239,5 +243,27 @@ class AssociationService
                 ['target_id', '!=', $id],
             ]
         );
+    }
+
+    public static function toTypeString(string|object $type): string
+    {
+        if (is_object($type)) {
+            if ($type instanceof \BackedEnum) {
+                $type = $type->value;
+            } elseif ($type instanceof \UnitEnum) {
+                $type = $type->name;
+            } else {
+                $type = get_class($type);
+            }
+        }
+
+        if (ORM::isEntity($type)) {
+            $table = Collection::explode("\\", $type)
+                ->last();
+
+            return StrNormalize::toSnakeCase($table);
+        }
+
+        return $type;
     }
 }
