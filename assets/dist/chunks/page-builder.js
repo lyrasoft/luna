@@ -4111,7 +4111,7 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
         [vModelText, $setup.animation.duration]
       ]),
       _cache[7] || (_cache[7] = createTextVNode()),
-      _cache[8] || (_cache[8] = createElementVNode("small", { class: "form-text text-muted" }, '\r\n        The duration of this animation. The unit is "ms" (1/1000 seconds)\r\n      ', -1))
+      _cache[8] || (_cache[8] = createElementVNode("small", { class: "form-text text-muted" }, '\n        The duration of this animation. The unit is "ms" (1/1000 seconds)\n      ', -1))
     ]),
     _cache[13] || (_cache[13] = createTextVNode()),
     createElementVNode("div", _hoisted_9$9, [
@@ -4129,7 +4129,7 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
         [vModelText, $setup.animation.delay]
       ]),
       _cache[10] || (_cache[10] = createTextVNode()),
-      _cache[11] || (_cache[11] = createElementVNode("small", { class: "form-text text-muted" }, '\r\n        Delay a while to start animation. The unit is "ms" (1/1000 seconds)\r\n      ', -1))
+      _cache[11] || (_cache[11] = createElementVNode("small", { class: "form-text text-muted" }, '\n        Delay a while to start animation. The unit is "ms" (1/1000 seconds)\n      ', -1))
     ])
   ]);
 }
@@ -4452,7 +4452,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
       header: withCtx(() => [
         createElementVNode("ul", _hoisted_1$7, [
           createElementVNode("li", _hoisted_2$7, [
-            createElementVNode("a", _hoisted_3$7, "\r\n              General\r\n            ", 512)
+            createElementVNode("a", _hoisted_3$7, "\n              General\n            ", 512)
           ]),
           _cache[28] || (_cache[28] = createTextVNode()),
           _cache[29] || (_cache[29] = createElementVNode("li", { class: "nav-item" }, [
@@ -4461,7 +4461,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
               "data-toggle": "tab",
               "data-bs-toggle": "tab",
               href: "#addon-edit-layout"
-            }, "\r\n              Layout\r\n            ")
+            }, "\n              Layout\n            ")
           ], -1)),
           _cache[30] || (_cache[30] = createTextVNode()),
           _cache[31] || (_cache[31] = createElementVNode("li", { class: "nav-item" }, [
@@ -4470,7 +4470,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
               "data-toggle": "tab",
               "data-bs-toggle": "tab",
               href: "#addon-edit-animation"
-            }, "\r\n              Animation\r\n            ")
+            }, "\n              Animation\n            ")
           ], -1))
         ], 512),
         _cache[37] || (_cache[37] = createTextVNode()),
@@ -4481,7 +4481,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
             onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
           }, [..._cache[32] || (_cache[32] = [
             createElementVNode("span", { class: "fa fa-check" }, null, -1),
-            createTextVNode("\r\n            Done\r\n          ", -1)
+            createTextVNode("\n            Done\n          ", -1)
           ])]),
           _cache[35] || (_cache[35] = createTextVNode()),
           createElementVNode("button", {
@@ -4493,7 +4493,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
             createElementVNode("span", {
               class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
             }, null, 2),
-            _cache[33] || (_cache[33] = createTextVNode("\r\n            Save Page\r\n          ", -1))
+            _cache[33] || (_cache[33] = createTextVNode("\n            Save Page\n          ", -1))
           ], 8, _hoisted_5$7),
           _cache[36] || (_cache[36] = createTextVNode()),
           createElementVNode("button", {
@@ -4512,7 +4512,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: _cache[25] || (_cache[25] = ($event) => $setup.saveClose())
         }, [..._cache[109] || (_cache[109] = [
           createElementVNode("span", { class: "fa fa-save" }, null, -1),
-          createTextVNode("\r\n          Save\r\n        ", -1)
+          createTextVNode("\n          Save\n        ", -1)
         ])]),
         _cache[111] || (_cache[111] = createTextVNode()),
         createElementVNode("button", {
@@ -4521,7 +4521,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: _cache[26] || (_cache[26] = ($event) => $setup.close())
         }, [..._cache[110] || (_cache[110] = [
           createElementVNode("span", { class: "fa fa-times" }, null, -1),
-          createTextVNode("\r\n          Cancel\r\n        ", -1)
+          createTextVNode("\n          Cancel\n        ", -1)
         ])])
       ]),
       default: withCtx(() => [
@@ -4787,7 +4787,7 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
                       [vModelText, $setup.options.background.video.url]
                     ]),
                     _cache[73] || (_cache[73] = createTextVNode()),
-                    _cache[74] || (_cache[74] = createElementVNode("small", { class: "form-text text-muted" }, "\r\n                  Paste mp4 video URL or Youtube / Vimeo link.\r\n                ", -1))
+                    _cache[74] || (_cache[74] = createElementVNode("small", { class: "form-text text-muted" }, "\n                  Paste mp4 video URL or Youtube / Vimeo link.\n                ", -1))
                   ])
                 ])) : createCommentVNode("", true)
               ]),
@@ -4891,9 +4891,9 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
               _cache[88] || (_cache[88] = createElementVNode("label", { for: "input-addon-edit-css" }, "Custom CSS (SCSS)", -1)),
               _cache[89] || (_cache[89] = createTextVNode()),
               createElementVNode("div", _hoisted_32$2, [
-                _cache[86] || (_cache[86] = createTextVNode("\r\n              Will auto prefix with: ", -1)),
+                _cache[86] || (_cache[86] = createTextVNode("\n              Will auto prefix with: ", -1)),
                 createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
-                _cache[87] || (_cache[87] = createTextVNode(", and only affected in this scope.\r\n            ", -1))
+                _cache[87] || (_cache[87] = createTextVNode(", and only affected in this scope.\n            ", -1))
               ]),
               _cache[90] || (_cache[90] = createTextVNode()),
               $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_33$2, [
@@ -5093,7 +5093,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
       header: withCtx(() => [
         createElementVNode("ul", _hoisted_1$6, [
           createElementVNode("li", _hoisted_2$6, [
-            createElementVNode("a", _hoisted_3$6, "\r\n              General\r\n            ", 512)
+            createElementVNode("a", _hoisted_3$6, "\n              General\n            ", 512)
           ]),
           _cache[37] || (_cache[37] = createTextVNode()),
           _cache[38] || (_cache[38] = createElementVNode("li", { class: "nav-item" }, [
@@ -5102,7 +5102,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               "data-toggle": "tab",
               "data-bs-toggle": "tab",
               href: "#column-edit-layout"
-            }, "\r\n              Layout\r\n            ")
+            }, "\n              Layout\n            ")
           ], -1)),
           _cache[39] || (_cache[39] = createTextVNode()),
           _cache[40] || (_cache[40] = createElementVNode("li", { class: "nav-item" }, [
@@ -5111,7 +5111,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               "data-toggle": "tab",
               "data-bs-toggle": "tab",
               href: "#column-edit-animation"
-            }, "\r\n              Animation\r\n            ")
+            }, "\n              Animation\n            ")
           ], -1))
         ], 512),
         _cache[46] || (_cache[46] = createTextVNode()),
@@ -5122,7 +5122,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
             onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
           }, [..._cache[41] || (_cache[41] = [
             createElementVNode("span", { class: "fa fa-check" }, null, -1),
-            createTextVNode("\r\n            Done\r\n          ", -1)
+            createTextVNode("\n            Done\n          ", -1)
           ])]),
           _cache[44] || (_cache[44] = createTextVNode()),
           createElementVNode("button", {
@@ -5134,7 +5134,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
             createElementVNode("span", {
               class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
             }, null, 2),
-            _cache[42] || (_cache[42] = createTextVNode("\r\n            Save Page\r\n          ", -1))
+            _cache[42] || (_cache[42] = createTextVNode("\n            Save Page\n          ", -1))
           ], 8, _hoisted_5$6),
           _cache[45] || (_cache[45] = createTextVNode()),
           createElementVNode("button", {
@@ -5153,7 +5153,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: _cache[34] || (_cache[34] = ($event) => $setup.saveClose())
         }, [..._cache[162] || (_cache[162] = [
           createElementVNode("span", { class: "fa fa-save" }, null, -1),
-          createTextVNode("\r\n          Save\r\n        ", -1)
+          createTextVNode("\n          Save\n        ", -1)
         ])]),
         _cache[164] || (_cache[164] = createTextVNode()),
         createElementVNode("button", {
@@ -5433,7 +5433,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
             $setup.options.border.enabled == 1 ? (openBlock(), createElementBlock("div", _hoisted_24$1, [
               createVNode($setup["RwdGroup"], { "class-name": "c-border-width" }, createSlots({
                 label: withCtx(() => [
-                  _cache[78] || (_cache[78] = createElementVNode("label", null, "\r\n                  Border Width\r\n                ", -1))
+                  _cache[78] || (_cache[78] = createElementVNode("label", null, "\n                  Border Width\n                ", -1))
                 ]),
                 _: 2
               }, [
@@ -5490,7 +5490,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
             _cache[121] || (_cache[121] = createTextVNode()),
             createVNode($setup["RwdGroup"], { "class-name": "c-border-radius" }, createSlots({
               label: withCtx(() => [
-                _cache[87] || (_cache[87] = createElementVNode("label", null, "\r\n                Border Radius\r\n              ", -1))
+                _cache[87] || (_cache[87] = createElementVNode("label", null, "\n                Border Radius\n              ", -1))
               ]),
               _: 2
             }, [
@@ -5540,7 +5540,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               createElementVNode("div", _hoisted_30$1, [
                 createElementVNode("div", _hoisted_31$1, [
                   createElementVNode("div", _hoisted_32$1, [
-                    _cache[93] || (_cache[93] = createElementVNode("label", null, "\r\n                    Shadow X Offset\r\n                  ", -1)),
+                    _cache[93] || (_cache[93] = createElementVNode("label", null, "\n                    Shadow X Offset\n                  ", -1)),
                     _cache[94] || (_cache[94] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.hoffset,
@@ -5551,7 +5551,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 _cache[97] || (_cache[97] = createTextVNode()),
                 createElementVNode("div", _hoisted_33$1, [
                   createElementVNode("div", _hoisted_34$1, [
-                    _cache[95] || (_cache[95] = createElementVNode("label", null, "\r\n                    Shadow Y Offset\r\n                  ", -1)),
+                    _cache[95] || (_cache[95] = createElementVNode("label", null, "\n                    Shadow Y Offset\n                  ", -1)),
                     _cache[96] || (_cache[96] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.voffset,
@@ -5564,7 +5564,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               createElementVNode("div", _hoisted_35$1, [
                 createElementVNode("div", _hoisted_36$1, [
                   createElementVNode("div", _hoisted_37$1, [
-                    _cache[98] || (_cache[98] = createElementVNode("label", null, "\r\n                    Shadow Blur\r\n                  ", -1)),
+                    _cache[98] || (_cache[98] = createElementVNode("label", null, "\n                    Shadow Blur\n                  ", -1)),
                     _cache[99] || (_cache[99] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.blur,
@@ -5575,7 +5575,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 _cache[102] || (_cache[102] = createTextVNode()),
                 createElementVNode("div", _hoisted_38$1, [
                   createElementVNode("div", _hoisted_39$1, [
-                    _cache[100] || (_cache[100] = createElementVNode("label", null, "\r\n                    Shadow Spread\r\n                  ", -1)),
+                    _cache[100] || (_cache[100] = createElementVNode("label", null, "\n                    Shadow Spread\n                  ", -1)),
                     _cache[101] || (_cache[101] = createTextVNode()),
                     createVNode($setup["SliderInput"], {
                       modelValue: $setup.options.box_shadow.spread,
@@ -5614,7 +5614,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-lg-" + w
-                  }, "\r\n                col-lg-" + toDisplayString(w), 9, _hoisted_43);
+                  }, "\n                col-lg-" + toDisplayString(w), 9, _hoisted_43);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.lg]
@@ -5634,7 +5634,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-md-" + w
-                  }, "\r\n                col-md-" + toDisplayString(w), 9, _hoisted_45);
+                  }, "\n                col-md-" + toDisplayString(w), 9, _hoisted_45);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.md]
@@ -5654,7 +5654,7 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                   return openBlock(), createElementBlock("option", {
                     value: "col-" + w
-                  }, "\r\n                col-" + toDisplayString(w), 9, _hoisted_47);
+                  }, "\n                col-" + toDisplayString(w), 9, _hoisted_47);
                 }), 256))
               ], 512), [
                 [vModelSelect, $setup.options.width.xs]
@@ -5720,9 +5720,9 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
               _cache[147] || (_cache[147] = createElementVNode("label", { for: "input-column-edit-css" }, "Custom CSS (SCSS)", -1)),
               _cache[148] || (_cache[148] = createTextVNode()),
               createElementVNode("div", _hoisted_52, [
-                _cache[145] || (_cache[145] = createTextVNode("\r\n              Will auto prefix with: ", -1)),
+                _cache[145] || (_cache[145] = createTextVNode("\n              Will auto prefix with: ", -1)),
                 createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
-                _cache[146] || (_cache[146] = createTextVNode(", and only affected in this scope.\r\n            ", -1))
+                _cache[146] || (_cache[146] = createTextVNode(", and only affected in this scope.\n            ", -1))
               ]),
               _cache[149] || (_cache[149] = createTextVNode()),
               $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_53, [
@@ -6913,7 +6913,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$trigger("tmpl.save", $props.content, "addon"))
             }, [..._cache[8] || (_cache[8] = [
               createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
-              createTextVNode("\r\n              Save as Template\r\n            ", -1)
+              createTextVNode("\n              Save as Template\n            ", -1)
             ])]),
             _cache[10] || (_cache[10] = createTextVNode()),
             createElementVNode("button", {
@@ -6922,7 +6922,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: $setup.remove
             }, [..._cache[9] || (_cache[9] = [
               createElementVNode("span", { class: "fa fa-fw fa-trash" }, null, -1),
-              createTextVNode("\r\n              Delete\r\n            ", -1)
+              createTextVNode("\n              Delete\n            ", -1)
             ])])
           ])
         ])
@@ -6930,7 +6930,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 8, _hoisted_1$5);
 }
-const AddonBox = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__scopeId", "data-v-23f8e976"], ["__file", "AddonBox.vue"]]);
+const AddonBox = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__scopeId", "data-v-61f150e4"], ["__file", "AddonBox.vue"]]);
 const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   __name: "ColumnBox",
   props: {
@@ -7171,7 +7171,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   createElementVNode("label", {
                     for: `input-column-edit-width-desktop--${$setup.content.id}`,
                     class: "d-block"
-                  }, "\r\n                    Desktop Width\r\n                  ", 8, _hoisted_9$4),
+                  }, "\n                    Desktop Width\n                  ", 8, _hoisted_9$4),
                   _cache[26] || (_cache[26] = createTextVNode()),
                   withDirectives(createElementVNode("select", {
                     id: `input-column-edit-width-desktop--${$setup.content.id}`,
@@ -7183,7 +7183,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                     (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                       return openBlock(), createElementBlock("option", {
                         value: "col-lg-" + w
-                      }, "\r\n                      col-lg-" + toDisplayString(w), 9, _hoisted_11$4);
+                      }, "\n                      col-lg-" + toDisplayString(w), 9, _hoisted_11$4);
                     }), 256))
                   ], 8, _hoisted_10$4), [
                     [vModelSelect, $setup.content.options.width.lg]
@@ -7194,7 +7194,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   createElementVNode("label", {
                     for: `input-column-edit-width-tablet--${$setup.content.id}`,
                     class: "d-block"
-                  }, "\r\n                    Tablet Width\r\n                  ", 8, _hoisted_13$4),
+                  }, "\n                    Tablet Width\n                  ", 8, _hoisted_13$4),
                   _cache[29] || (_cache[29] = createTextVNode()),
                   withDirectives(createElementVNode("select", {
                     id: `input-column-edit-width-tablet--${$setup.content.id}`,
@@ -7208,7 +7208,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                     (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                       return openBlock(), createElementBlock("option", {
                         value: "col-md-" + w
-                      }, "\r\n                      col-md-" + toDisplayString(w), 9, _hoisted_15$4);
+                      }, "\n                      col-md-" + toDisplayString(w), 9, _hoisted_15$4);
                     }), 256))
                   ], 8, _hoisted_14$4), [
                     [vModelSelect, $setup.content.options.width.md]
@@ -7219,7 +7219,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   createElementVNode("label", {
                     for: `input-column-edit-width-mobile--${$setup.content.id}`,
                     class: "d-block"
-                  }, "\r\n                    Mobile Width\r\n                  ", 8, _hoisted_17$3),
+                  }, "\n                    Mobile Width\n                  ", 8, _hoisted_17$3),
                   _cache[32] || (_cache[32] = createTextVNode()),
                   withDirectives(createElementVNode("select", {
                     id: `input-column-edit-width-mobile--${$setup.content.id}`,
@@ -7233,7 +7233,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                     (openBlock(true), createElementBlock(Fragment, null, renderList($setup.widthRange(), (w) => {
                       return openBlock(), createElementBlock("option", {
                         value: "col-" + w
-                      }, "\r\n                      col-" + toDisplayString(w), 9, _hoisted_19$1);
+                      }, "\n                      col-" + toDisplayString(w), 9, _hoisted_19$1);
                     }), 256))
                   ], 8, _hoisted_18$1), [
                     [vModelSelect, $setup.content.options.width.xs]
@@ -7260,7 +7260,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   onClick: _cache[8] || (_cache[8] = ($event) => $setup.duplicate())
                 }, [..._cache[37] || (_cache[37] = [
                   createElementVNode("span", { class: "fa fa-fw fa-clone" }, null, -1),
-                  createTextVNode("\r\n                  Duplicate\r\n                ", -1)
+                  createTextVNode("\n                  Duplicate\n                ", -1)
                 ])])) : createCommentVNode("", true),
                 _cache[44] || (_cache[44] = createTextVNode()),
                 !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
@@ -7270,7 +7270,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   onClick: _cache[9] || (_cache[9] = ($event) => $setup.copy())
                 }, [..._cache[38] || (_cache[38] = [
                   createElementVNode("span", { class: "fa fa-fw fa-copy" }, null, -1),
-                  createTextVNode("\r\n                  Copy\r\n                ", -1)
+                  createTextVNode("\n                  Copy\n                ", -1)
                 ])])) : createCommentVNode("", true),
                 _cache[45] || (_cache[45] = createTextVNode()),
                 !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
@@ -7280,7 +7280,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   onClick: _cache[10] || (_cache[10] = ($event) => $setup.paste())
                 }, [..._cache[39] || (_cache[39] = [
                   createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
-                  createTextVNode("\r\n                  Paste\r\n                ", -1)
+                  createTextVNode("\n                  Paste\n                ", -1)
                 ])])) : createCommentVNode("", true),
                 _cache[46] || (_cache[46] = createTextVNode()),
                 createElementVNode("button", {
@@ -7301,7 +7301,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   onClick: _cache[12] || (_cache[12] = ($event) => $setup.addNewRow())
                 }, [..._cache[40] || (_cache[40] = [
                   createElementVNode("span", { class: "fa fa-fw fa-plus" }, null, -1),
-                  createTextVNode("\r\n                  New Row\r\n                ", -1)
+                  createTextVNode("\n                  New Row\n                ", -1)
                 ])])) : createCommentVNode("", true),
                 _cache[48] || (_cache[48] = createTextVNode()),
                 !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
@@ -7311,7 +7311,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   onClick: $setup.openTemplates
                 }, [..._cache[41] || (_cache[41] = [
                   createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
-                  createTextVNode("\r\n                  Insert Template\r\n                ", -1)
+                  createTextVNode("\n                  Insert Template\n                ", -1)
                 ])])) : createCommentVNode("", true),
                 _cache[49] || (_cache[49] = createTextVNode()),
                 createElementVNode("button", {
@@ -7320,7 +7320,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   onClick: _cache[13] || (_cache[13] = ($event) => _ctx.$trigger("tmpl.save", $setup.content, "column"))
                 }, [..._cache[42] || (_cache[42] = [
                   createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
-                  createTextVNode("\r\n                  Save as Template\r\n                ", -1)
+                  createTextVNode("\n                  Save as Template\n                ", -1)
                 ])]),
                 _cache[50] || (_cache[50] = createTextVNode()),
                 createElementVNode("button", {
@@ -7329,7 +7329,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
                   onClick: _cache[14] || (_cache[14] = ($event) => $setup.remove())
                 }, [..._cache[43] || (_cache[43] = [
                   createElementVNode("span", { class: "fa fa-fw fa-trash" }, null, -1),
-                  createTextVNode("\r\n                  Delete\r\n                ", -1)
+                  createTextVNode("\n                  Delete\n                ", -1)
                 ])])
               ])
             ])
@@ -7607,7 +7607,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
         }, [
           _cache[15] || (_cache[15] = createElementVNode("span", { class: "fa fa-plus" }, null, -1)),
           _cache[16] || (_cache[16] = createTextVNode()),
-          !$props.child ? (openBlock(), createElementBlock("span", _hoisted_9$3, "\r\n            New Column\r\n          ")) : createCommentVNode("", true)
+          !$props.child ? (openBlock(), createElementBlock("span", _hoisted_9$3, "\n            New Column\n          ")) : createCommentVNode("", true)
         ])) : createCommentVNode("", true),
         _cache[33] || (_cache[33] = createTextVNode()),
         !$setup.content.disabled ? (openBlock(), createElementBlock("button", {
@@ -7618,7 +7618,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
         }, [
           _cache[17] || (_cache[17] = createElementVNode("span", { class: "fa fa-edit" }, null, -1)),
           _cache[18] || (_cache[18] = createTextVNode()),
-          !$props.child ? (openBlock(), createElementBlock("span", _hoisted_10$3, "\r\n            Edit\r\n          ")) : createCommentVNode("", true)
+          !$props.child ? (openBlock(), createElementBlock("span", _hoisted_10$3, "\n            Edit\n          ")) : createCommentVNode("", true)
         ])) : createCommentVNode("", true),
         _cache[34] || (_cache[34] = createTextVNode()),
         createElementVNode("div", _hoisted_11$3, [
@@ -7650,7 +7650,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: _cache[2] || (_cache[2] = withModifiers(($event) => $setup.duplicate(), ["prevent"]))
             }, [..._cache[19] || (_cache[19] = [
               createElementVNode("span", { class: "fa fa-fw fa-clone" }, null, -1),
-              createTextVNode("\r\n                    Duplicate\r\n                ", -1)
+              createTextVNode("\n                    Duplicate\n                ", -1)
             ])])) : createCommentVNode("", true),
             _cache[26] || (_cache[26] = createTextVNode()),
             !$setup.content.disabled ? (openBlock(), createElementBlock("a", {
@@ -7660,7 +7660,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: withModifiers($setup.copy, ["prevent"])
             }, [..._cache[20] || (_cache[20] = [
               createElementVNode("span", { class: "fa fa-fw fa-copy" }, null, -1),
-              createTextVNode("\r\n                    Copy\r\n                ", -1)
+              createTextVNode("\n                    Copy\n                ", -1)
             ])])) : createCommentVNode("", true),
             _cache[27] || (_cache[27] = createTextVNode()),
             !$setup.content.disabled ? (openBlock(), createElementBlock("a", {
@@ -7670,7 +7670,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: withModifiers($setup.paste, ["prevent"])
             }, [..._cache[21] || (_cache[21] = [
               createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
-              createTextVNode("\r\n                    Paste\r\n                ", -1)
+              createTextVNode("\n                    Paste\n                ", -1)
             ])])) : createCommentVNode("", true),
             _cache[28] || (_cache[28] = createTextVNode()),
             !$setup.content.disabled ? (openBlock(), createElementBlock("a", {
@@ -7680,7 +7680,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: withModifiers($setup.openTemplates, ["prevent"])
             }, [..._cache[22] || (_cache[22] = [
               createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
-              createTextVNode("\r\n                    Insert Template\r\n                ", -1)
+              createTextVNode("\n                    Insert Template\n                ", -1)
             ])])) : createCommentVNode("", true),
             _cache[29] || (_cache[29] = createTextVNode()),
             createElementVNode("a", {
@@ -7689,7 +7689,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: _cache[3] || (_cache[3] = withModifiers(($event) => _ctx.$trigger("tmpl.save", $setup.content, "row"), ["prevent"]))
             }, [..._cache[23] || (_cache[23] = [
               createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
-              createTextVNode("\r\n                  Save as Template\r\n                ", -1)
+              createTextVNode("\n                  Save as Template\n                ", -1)
             ])]),
             _cache[30] || (_cache[30] = createTextVNode()),
             createElementVNode("a", {
@@ -7698,7 +7698,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: _cache[4] || (_cache[4] = withModifiers(($event) => $setup.remove(), ["prevent"]))
             }, [..._cache[24] || (_cache[24] = [
               createElementVNode("span", { class: "fa fa-fw fa-trash" }, null, -1),
-              createTextVNode("\r\n                    Delete\r\n                ", -1)
+              createTextVNode("\n                    Delete\n                ", -1)
             ])])
           ])
         ])
@@ -7753,7 +7753,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
             type: "button",
             onClick: _cache[10] || (_cache[10] = ($event) => _ctx.$emit("add-new")),
             class: "btn btn-sm btn-outline-secondary"
-          }, "\r\n            Add New Row\r\n          "),
+          }, "\n            Add New Row\n          "),
           _cache[41] || (_cache[41] = createTextVNode()),
           _cache[42] || (_cache[42] = createElementVNode("button", {
             type: "button",
@@ -7771,7 +7771,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: _cache[11] || (_cache[11] = ($event) => $setup.paste(true))
             }, [..._cache[38] || (_cache[38] = [
               createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
-              createTextVNode("\r\n              Paste\r\n            ", -1)
+              createTextVNode("\n              Paste\n            ", -1)
             ])]),
             _cache[40] || (_cache[40] = createTextVNode()),
             !$props.child ? (openBlock(), createElementBlock("button", {
@@ -7781,7 +7781,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: _cache[12] || (_cache[12] = ($event) => _ctx.$emit("open-templates"))
             }, [..._cache[39] || (_cache[39] = [
               createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
-              createTextVNode("\r\n              Insert Template\r\n            ", -1)
+              createTextVNode("\n              Insert Template\n            ", -1)
             ])])) : createCommentVNode("", true)
           ])
         ])
@@ -7940,7 +7940,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               "data-toggle": "tab",
               "data-bs-toggle": "tab",
               href: "#row-edit-general"
-            }, "\r\n              General\r\n            ")
+            }, "\n              General\n            ")
           ], -1),
           createTextVNode(),
           createElementVNode("li", { class: "nav-item" }, [
@@ -7949,7 +7949,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               "data-toggle": "tab",
               "data-bs-toggle": "tab",
               href: "#row-edit-layout"
-            }, "\r\n              Layout\r\n            ")
+            }, "\n              Layout\n            ")
           ], -1),
           createTextVNode(),
           createElementVNode("li", { class: "nav-item" }, [
@@ -7958,7 +7958,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               "data-toggle": "tab",
               "data-bs-toggle": "tab",
               href: "#row-edit-animation"
-            }, "\r\n              Animation\r\n            ")
+            }, "\n              Animation\n            ")
           ], -1)
         ])], 512),
         _cache[41] || (_cache[41] = createTextVNode()),
@@ -7969,7 +7969,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             onClick: _cache[0] || (_cache[0] = ($event) => $setup.saveClose())
           }, [..._cache[36] || (_cache[36] = [
             createElementVNode("span", { class: "fa fa-check" }, null, -1),
-            createTextVNode("\r\n            Done\r\n          ", -1)
+            createTextVNode("\n            Done\n          ", -1)
           ])]),
           _cache[39] || (_cache[39] = createTextVNode()),
           createElementVNode("button", {
@@ -7981,7 +7981,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             createElementVNode("span", {
               class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
             }, null, 2),
-            _cache[37] || (_cache[37] = createTextVNode("\r\n            Save Page\r\n          ", -1))
+            _cache[37] || (_cache[37] = createTextVNode("\n            Save Page\n          ", -1))
           ], 8, _hoisted_3$2),
           _cache[40] || (_cache[40] = createTextVNode()),
           createElementVNode("button", {
@@ -8000,7 +8000,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: _cache[32] || (_cache[32] = ($event) => $setup.saveClose())
         }, [..._cache[151] || (_cache[151] = [
           createElementVNode("span", { class: "fa fa-save" }, null, -1),
-          createTextVNode("\r\n          Save\r\n        ", -1)
+          createTextVNode("\n          Save\n        ", -1)
         ])]),
         _cache[153] || (_cache[153] = createTextVNode()),
         createElementVNode("button", {
@@ -8009,7 +8009,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: _cache[33] || (_cache[33] = ($event) => $setup.close())
         }, [..._cache[152] || (_cache[152] = [
           createElementVNode("span", { class: "fa fa-times" }, null, -1),
-          createTextVNode("\r\n          Cancel\r\n        ", -1)
+          createTextVNode("\n          Cancel\n        ", -1)
         ])])
       ]),
       default: withCtx(() => [
@@ -8073,7 +8073,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             $setup.options.subtitle.text !== "" ? (openBlock(), createElementBlock("div", _hoisted_9$2, [
               createVNode($setup["RwdGroup"], { "class-name": "c-title-font-size" }, createSlots({
                 label: withCtx(() => [
-                  _cache[54] || (_cache[54] = createElementVNode("label", null, "\r\n                  Subtitle Font Size\r\n                ", -1))
+                  _cache[54] || (_cache[54] = createElementVNode("label", null, "\n                  Subtitle Font Size\n                ", -1))
                 ]),
                 _: 2
               }, [
@@ -8364,7 +8364,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                       [vModelText, $setup.options.background.video.url]
                     ]),
                     _cache[102] || (_cache[102] = createTextVNode()),
-                    _cache[103] || (_cache[103] = createElementVNode("small", { class: "form-text text-muted" }, "\r\n                  Paste mp4 video URL, or Youtube / Vimeo URL.\r\n                ", -1))
+                    _cache[103] || (_cache[103] = createElementVNode("small", { class: "form-text text-muted" }, "\n                  Paste mp4 video URL, or Youtube / Vimeo URL.\n                ", -1))
                   ])
                 ])) : createCommentVNode("", true)
               ]),
@@ -8539,9 +8539,9 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               _cache[125] || (_cache[125] = createElementVNode("label", { for: "input-row-edit-css" }, "Custom CSS (SCSS)", -1)),
               _cache[126] || (_cache[126] = createTextVNode()),
               createElementVNode("div", _hoisted_38, [
-                _cache[123] || (_cache[123] = createTextVNode("\r\n              Will auto prefix by ", -1)),
+                _cache[123] || (_cache[123] = createTextVNode("\n              Will auto prefix by ", -1)),
                 createElementVNode("code", null, toDisplayString(`#luna-${$setup.content.id}`), 1),
-                _cache[124] || (_cache[124] = createTextVNode(", only works for this scope.\r\n            ", -1))
+                _cache[124] || (_cache[124] = createTextVNode(", only works for this scope.\n            ", -1))
               ]),
               _cache[127] || (_cache[127] = createTextVNode()),
               $setup.currentTab === "layout" ? (openBlock(), createElementBlock("div", _hoisted_39, [
@@ -8760,7 +8760,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, {
       default: withCtx(() => [
         createElementVNode("div", _hoisted_1$1, [
-          _cache[8] || (_cache[8] = createElementVNode("span", { class: "me-2" }, "\r\n            Filter:\r\n          ", -1)),
+          _cache[8] || (_cache[8] = createElementVNode("span", { class: "me-2" }, "\n            Filter:\n          ", -1)),
           _cache[9] || (_cache[9] = createTextVNode()),
           createVNode($setup["ButtonRadio"], {
             id: "input-filter",
@@ -8823,7 +8823,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                             onClick: withModifiers(($event) => $setup.remove(item, idx), ["prevent", "stop"])
                           }, [..._cache[11] || (_cache[11] = [
                             createElementVNode("span", { class: "fa fa-trash" }, null, -1),
-                            createTextVNode("\r\n                      Delete\r\n                    ", -1)
+                            createTextVNode("\n                      Delete\n                    ", -1)
                           ])], 8, _hoisted_9$1)) : createCommentVNode("", true)
                         ])
                       ]),
@@ -8856,7 +8856,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
       default: withCtx(() => [
         createElementVNode("div", _hoisted_12$1, [
           createElementVNode("div", null, [
-            _cache[19] || (_cache[19] = createTextVNode("\r\n          Save as: ", -1)),
+            _cache[19] || (_cache[19] = createTextVNode("\n          Save as: ", -1)),
             createElementVNode("div", {
               class: normalizeClass(["badge", `bg-${$setup.badgeColor($setup.saveData.type)}`])
             }, toDisplayString($setup.saveData.type), 3)
@@ -8916,7 +8916,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
               createElementVNode("span", {
                 class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
               }, null, 2),
-              _cache[26] || (_cache[26] = createTextVNode("\r\n            Save\r\n          ", -1))
+              _cache[26] || (_cache[26] = createTextVNode("\n            Save\n          ", -1))
             ], 8, _hoisted_17)
           ])
         ])
@@ -8925,7 +8925,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["model-value"])
   ]);
 }
-const TemplateManager = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-e6c3510b"], ["__file", "TemplateManager.vue"]]);
+const TemplateManager = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-c6e4993b"], ["__file", "TemplateManager.vue"]]);
 const bvCss = '.b-avatar{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex-shrink:0;width:2.5rem;height:2.5rem;font-size:inherit;font-weight:400;line-height:1;max-width:100%;max-height:auto;text-align:center;overflow:visible;position:relative;transition:color .15s ease-in-out,background-color .15s ease-in-out,box-shadow .15s ease-in-out}.b-avatar:focus{outline:0}.b-avatar.btn,.b-avatar[href]{padding:0;border:0}.b-avatar.btn .b-avatar-img img,.b-avatar[href] .b-avatar-img img{transition:transform .15s ease-in-out}.b-avatar.btn:not(:disabled):not(.disabled),.b-avatar[href]:not(:disabled):not(.disabled){cursor:pointer}.b-avatar.btn:not(:disabled):not(.disabled):hover .b-avatar-img img,.b-avatar[href]:not(:disabled):not(.disabled):hover .b-avatar-img img{transform:scale(1.15)}.b-avatar.disabled,.b-avatar:disabled,.b-avatar[disabled]{opacity:.65;pointer-events:none}.b-avatar .b-avatar-custom,.b-avatar .b-avatar-text,.b-avatar .b-avatar-img{border-radius:inherit;width:100%;height:100%;overflow:hidden;display:flex;justify-content:center;align-items:center;-webkit-mask-image:radial-gradient(#fff,#000);mask-image:radial-gradient(#fff,#000)}.b-avatar .b-avatar-text{text-transform:uppercase;white-space:nowrap}.b-avatar[href]{text-decoration:none}.b-avatar>.bootstrap-icon{width:60%;height:auto;max-width:100%}.b-avatar .b-avatar-img img{width:100%;height:100%;max-height:auto;border-radius:inherit;object-fit:cover}.b-avatar .b-avatar-badge{position:absolute;min-height:1.5em;min-width:1.5em;padding:.25em;line-height:1;border-radius:10em;font-size:70%;font-weight:700;z-index:1}.b-avatar-sm{width:1.5rem;height:1.5rem}.b-avatar-sm .b-avatar-text{font-size:.6rem}.b-avatar-sm .b-avatar-badge{font-size:.42rem}.b-avatar-lg{width:3.5rem;height:3.5rem}.b-avatar-lg .b-avatar-text{font-size:1.4rem}.b-avatar-lg .b-avatar-badge{font-size:.98rem}.b-avatar-group .b-avatar-group-inner{display:flex;flex-wrap:wrap}.b-avatar-group .b-avatar{border:1px solid #dee2e6}.b-avatar-group a.b-avatar:hover:not(.disabled):not(disabled),.b-avatar-group .btn.b-avatar:hover:not(.disabled):not(disabled){z-index:1}.card-deck{gap:1.5rem}@media (min-width: 576px){.card-deck{display:flex;flex-flow:row wrap}}.card-deck>.card{flex:1 0 0%;margin-bottom:0}.card-columns .card{margin-bottom:.75rem}@media (min-width: 576px){.card-columns{column-count:3;column-gap:1.25rem;orphans:1;widows:1}.card-columns .card{display:inline-block;width:100%}}.b-form-rating{display:flex;justify-content:space-between;padding:.375rem .75rem;margin:.5rem;border-radius:.375rem;border:1px solid var(--bs-secondary-border-subtle, #dee2e6);background-color:var(--bs-body-bg);gap:.25rem}.b-form-rating.no-border{border:none}.b-form-rating.is-disabled{color:var(--bs-secondary);background-color:var(--bs-secondary-bg)}.b-form-rating .clear-icon{width:1em;height:1em;transition:transform var(--bs-transition-duration) ease;color:var(--bs-body-color);fill:currentColor}.b-form-rating:not(.is-readonly):not(.is-disabled) .clear-icon:hover{transform:scale(1.5)}.star{cursor:pointer;-webkit-user-select:none;user-select:none;padding:0 .25em}.is-readonly .star,.is-disabled .star{cursor:default}.clear-button-spacing{cursor:pointer;margin-left:.5rem}.star-spacing{margin:0 .5rem}.rating-value-text{color:var(--bs-body-color);margin:0 .6}.b-form-rating-star svg{transition:transform .2s ease}.b-form-rating:not(.is-readonly):not(.is-disabled) .star:hover .b-form-rating-star svg{transform:scale(1.5)}.b-form-tags.focus{background-color:var(--bs-body-bg);border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem #0d6efd40}.b-form-tags.disabled{background-color:var(--bs-secondary-bg)}.b-form-tag.disabled{opacity:.75}.b-form-tags.focus.is-valid{border-color:#198754;box-shadow:0 0 0 .25rem #19875440}.b-form-tags.focus.is-invalid{border-color:#dc3545;box-shadow:0 0 0 .25rem #dc354540}.b-form-tags .b-form-tags-list{margin-top:-.25rem}.b-form-tags .b-form-tags-list .b-form-tag,.b-form-tags .b-form-tags-list .b-from-tags-field{margin-top:.25rem}.b-form-tags .b-form-tags-list .b-form-tag{padding:.25em .65em}.b-form-tag{font-size:75%!important;font-weight:400!important;line-height:1.5!important;margin-right:.25rem}.b-form-tags .b-form-tag+.b-form-tag{margin-left:0}.b-form-tag>button.b-form-tag-remove{color:inherit;font-size:75%;line-height:1;float:none;margin-left:.25rem}.input-group .btn-group:not(:last-child)>:not(:first-child){border-start-end-radius:0px;border-end-end-radius:0px}.input-group .btn-group:not(:last-child)>:not(:last-child){border-start-start-radius:0px;border-end-start-radius:0px}.input-group .btn-group:not(:first-child)>:not(:last-child){border-end-start-radius:0px;border-start-start-radius:0px}.b-pagination-pills .page-item .page-link{border-radius:50rem!important;margin-left:.25rem!important;line-height:1}.b-pagination-pills .page-item:first-child .page-link{margin-left:0!important}.b-table-stacked-label{display:none;font-weight:700}.table.b-table.b-table-stacked{display:block;width:100%}.table.b-table.b-table-stacked>tfoot,.table.b-table.b-table-stacked>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked>thead,.table.b-table.b-table-stacked>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked>caption,.table.b-table.b-table-stacked>tbody,.table.b-table.b-table-stacked>tbody>tr,.table.b-table.b-table-stacked>tbody>tr>td,.table.b-table.b-table-stacked>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked>tbody>tr>th{display:block}.table.b-table.b-table-stacked>tbody>tr>:first-child,.table.b-table.b-table-stacked>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}@media (max-width: 575.98px){.table.b-table.b-table-stacked-sm{display:block;width:100%}.table.b-table.b-table-stacked-sm>tfoot,.table.b-table.b-table-stacked-sm>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-sm>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-sm>thead,.table.b-table.b-table-stacked-sm>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-sm>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-sm>caption,.table.b-table.b-table-stacked-sm>tbody,.table.b-table.b-table-stacked-sm>tbody>tr,.table.b-table.b-table-stacked-sm>tbody>tr>td,.table.b-table.b-table-stacked-sm>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-sm>tbody>tr>th{display:block}.table.b-table.b-table-stacked-sm>tbody>tr>:first-child,.table.b-table.b-table-stacked-sm>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-sm>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-sm>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 767.98px){.table.b-table.b-table-stacked-md{display:block;width:100%}.table.b-table.b-table-stacked-md>tfoot,.table.b-table.b-table-stacked-md>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-md>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-md>thead,.table.b-table.b-table-stacked-md>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-md>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-md>caption,.table.b-table.b-table-stacked-md>tbody,.table.b-table.b-table-stacked-md>tbody>tr,.table.b-table.b-table-stacked-md>tbody>tr>td,.table.b-table.b-table-stacked-md>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-md>tbody>tr>th{display:block}.table.b-table.b-table-stacked-md>tbody>tr>:first-child,.table.b-table.b-table-stacked-md>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-md>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-md>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 991.98px){.table.b-table.b-table-stacked-lg{display:block;width:100%}.table.b-table.b-table-stacked-lg>tfoot,.table.b-table.b-table-stacked-lg>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-lg>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-lg>thead,.table.b-table.b-table-stacked-lg>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-lg>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-lg>caption,.table.b-table.b-table-stacked-lg>tbody,.table.b-table.b-table-stacked-lg>tbody>tr,.table.b-table.b-table-stacked-lg>tbody>tr>td,.table.b-table.b-table-stacked-lg>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-lg>tbody>tr>th{display:block}.table.b-table.b-table-stacked-lg>tbody>tr>:first-child,.table.b-table.b-table-stacked-lg>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-lg>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-lg>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 1199.98px){.table.b-table.b-table-stacked-xl{display:block;width:100%}.table.b-table.b-table-stacked-xl>tfoot,.table.b-table.b-table-stacked-xl>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xl>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-xl>thead,.table.b-table.b-table-stacked-xl>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xl>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-xl>caption,.table.b-table.b-table-stacked-xl>tbody,.table.b-table.b-table-stacked-xl>tbody>tr,.table.b-table.b-table-stacked-xl>tbody>tr>td,.table.b-table.b-table-stacked-xl>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-xl>tbody>tr>th{display:block}.table.b-table.b-table-stacked-xl>tbody>tr>:first-child,.table.b-table.b-table-stacked-xl>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-xl>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-xl>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}@media (max-width: 1399.98px){.table.b-table.b-table-stacked-xxl{display:block;width:100%}.table.b-table.b-table-stacked-xxl>tfoot,.table.b-table.b-table-stacked-xxl>tfoot>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xxl>tfoot>tr.b-table-top-row,.table.b-table.b-table-stacked-xxl>thead,.table.b-table.b-table-stacked-xxl>thead>tr.b-table-bottom-row,.table.b-table.b-table-stacked-xxl>thead>tr.b-table-top-row{display:none}.table.b-table.b-table-stacked-xxl>caption,.table.b-table.b-table-stacked-xxl>tbody,.table.b-table.b-table-stacked-xxl>tbody>tr,.table.b-table.b-table-stacked-xxl>tbody>tr>td,.table.b-table.b-table-stacked-xxl>tbody>tr>td>.b-table-stacked-label,.table.b-table.b-table-stacked-xxl>tbody>tr>th{display:block}.table.b-table.b-table-stacked-xxl>tbody>tr>:first-child,.table.b-table.b-table-stacked-xxl>tbody>tr>[rowspan]+td,.table.b-table.b-table-stacked-xxl>tbody>tr>[rowspan]+th{border-top-width:3px}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]:before{content:attr(data-label);width:40%;float:left;text-align:right;word-wrap:break-word;font-weight:700;font-style:normal;padding:0 .5rem 0 0;margin:0}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]:after{display:block;clear:both;content:""}.table.b-table.b-table-stacked-xxl>tbody>tr>[data-label]>div{display:inline-block;width:60%;padding:0 0 0 .5rem;margin:0}}.b-table-sticky-header,.table-responsive,[class*=table-responsive-]{margin-bottom:1rem}.b-table-sticky-header>.table,.table-responsive>.table,[class*=table-responsive-]>.table{margin-bottom:0}.b-table-sticky-header{overflow-y:auto}@media print{.b-table-sticky-header{overflow-y:visible!important;max-height:none!important}}.table.b-table[aria-busy=true]{opacity:.55}@supports (position: sticky){.b-table-sticky-header>.table.b-table>thead>tr>th{position:sticky;top:0;z-index:2}.b-table-sticky-header>.table.b-table>thead>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tbody>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tfoot>tr>.b-table-sticky-column,.table-responsive>.table.b-table>thead>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tbody>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tfoot>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>thead>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tbody>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tfoot>tr>.b-table-sticky-column{position:sticky;left:0}.b-table-sticky-header>.table.b-table>thead>tr>.b-table-sticky-column,.table-responsive>.table.b-table>thead>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>thead>tr>.b-table-sticky-column{z-index:5}.b-table-sticky-header>.table.b-table>tbody>tr>.b-table-sticky-column,.b-table-sticky-header>.table.b-table>tfoot>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tbody>tr>.b-table-sticky-column,.table-responsive>.table.b-table>tfoot>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tbody>tr>.b-table-sticky-column,[class*=table-responsive-]>.table.b-table>tfoot>tr>.b-table-sticky-column{z-index:2}}.table.b-table>tbody>tr>.table-b-table-default,.table.b-table>tfoot>tr>.table-b-table-default,.table.b-table>thead>tr>.table-b-table-default{color:#212529;background-color:#fff}.table th.b-table-sortable-column,.b-table.b-table-selectable td{cursor:pointer}.b-table.b-table-busy .b-table-busy-slot>td{border:none;padding:0}.b-table.b-table-fixed{table-layout:fixed}.b-table.b-table-no-border-collapse{border-collapse:separate;border-spacing:0}input[type=range].is-valid::-webkit-slider-thumb{background-color:#198754}input[type=range].is-valid::-moz-range-thumb{background-color:#198754}input[type=range].is-valid::-ms-thumb{background-color:#198754}input[type=range].is-invalid::-webkit-slider-thumb{background-color:#dc3545}input[type=range].is-invalid::-moz-range-thumb{background-color:#dc3545}input[type=range].is-invalid::-ms-thumb{background-color:#dc3545}input[type=range].is-valid::-webkit-slider-runnable-track{background-color:#84e8ba}input[type=range].is-valid::-moz-range-track{background-color:#84e8ba}input[type=range].is-valid::-ms-track{background-color:#84e8ba}input[type=range].is-invalid::-webkit-slider-runnable-track{background-color:#fae3e5}input[type=range].is-invalid::-moz-range-track{background-color:#fae3e5}input[type=range].is-invalid::-ms-track{background-color:#fae3e5}input[type=file].form-control-input-file-hide-button::-webkit-file-upload-button{display:none}input[type=file].form-control-input-file-hide-button::file-selector-button{display:none}.b-form-spinbutton{text-align:center;overflow:hidden;background-image:none;padding:0}[dir=rtl] .b-form-spinbutton:not(.flex-column),.b-form-spinbutton[dir=rtl]:not(.flex-column){flex-direction:row-reverse}.b-form-spinbutton output{font-size:inherit;outline:0;border:0;background-color:transparent;width:auto;margin:0;padding:0 .25rem}.b-form-spinbutton output>div,.b-form-spinbutton output>bdi{display:block;min-width:2.25em;height:1.5em}.b-form-spinbutton.flex-column{height:auto;width:auto}.b-form-spinbutton.flex-column output{margin:0 .25rem;padding:.25rem 0}.b-form-spinbutton:not(.d-inline-flex):not(.flex-column){output-width:100%}.b-form-spinbutton.d-inline-flex:not(.flex-column){width:auto}.b-form-spinbutton .btn{line-height:1;box-shadow:none!important}.b-form-spinbutton .btn:disabled{pointer-events:none}.b-form-spinbutton .btn:hover:not(:disabled)>div>.b-icon{transform:scale(1.25)}.b-form-spinbutton.disabled,.b-form-spinbutton.readonly{background-color:var(--bs-secondary-bg)}.b-form-spinbutton.disabled{pointer-events:none}.b-form-spinbutton:not(.form-control-sm):not(.form-control-lg):not(.flex-column){height:calc(1.5em + .5rem + var(--bs-border-width) * 2)}.alert .progress .progress-bar{--bs-progress-bar-transition: none}.alert .btn-close-custom{margin-bottom:auto;position:relative}.bs-popover-auto[data-popper-placement^=bottom] .popover-arrow:has(+div>.popover-header):after,.bs-popover-bottom .popover-arrow:has(+div>.popover-header):after{--bs-popover-bg: var(--bs-popover-header-bg)}.toast .progress .progress-bar{--bs-progress-bar-transition: none}.toast:not(.show){opacity:unset}.toast.fade:not(.show){opacity:0}.toast .btn-close-custom{margin:var(--bs-toast-padding-x) var(--bs-toast-padding-x) auto}.b-list-move,.b-list-enter-active,.b-list-leave-active{transition:all .5s cubic-bezier(.55,0,.1,1)}.b-list-enter-from,.b-list-leave-to{opacity:0}.b-list-leave-active{position:fixed}.container,.container-fluid{display:block}.input-group>.form-floating:not(:first-child)>:not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback){margin-left:0;border-top-left-radius:0;border-bottom-left-radius:0}.input-group:not(.has-validation)>.form-floating:not(:last-child)>:not(.dropdown-toggle):not(.dropdown-menu){border-top-right-radius:0;border-bottom-right-radius:0}.dropdown-toggle.dropdown-toggle-no-caret:before,.dropdown-toggle.dropdown-toggle-no-caret:after{display:none!important}.dropdown-menu.fade.showing{display:block!important}.bv-no-focus-ring:focus{outline:none}@media (max-width: 575.98px){.bv-d-sm-down-none{display:none!important}}@media (max-width: 767.98px){.bv-d-md-down-none{display:none!important}}@media (max-width: 991.98px){.bv-d-lg-down-none{display:none!important}}@media (max-width: 1199.98px){.bv-d-xl-down-none{display:none!important}}@media (max-width: 1399.98px){.bv-d-xxl-down-none{display:none!important}}.fade-enter-active,.fade-leave-active{transition:opacity .25s linear}.fade-enter-from,.fade-leave-to{opacity:0}.no-transition{transition:none!important}:root{--bs-modal-zindex: 1055;--bs-toast-max-width: 350px}\n';
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "PageBuilderApp",
@@ -9154,7 +9154,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             style: { "min-width": "150px" }
           }, [..._cache[11] || (_cache[11] = [
             createElementVNode("span", { class: "fab fa-css3" }, null, -1),
-            createTextVNode("\r\n          Edit CSS\r\n        ", -1)
+            createTextVNode("\n          Edit CSS\n        ", -1)
           ])]),
           _cache[18] || (_cache[18] = createTextVNode()),
           createElementVNode("div", _hoisted_3, [
@@ -9166,7 +9166,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               }, [..._cache[12] || (_cache[12] = [
                 createElementVNode("div", { style: { "display": "inline-block", "min-width": "120px" } }, [
                   createElementVNode("span", { class: "fa fa-file-code" }),
-                  createTextVNode("\r\n                Insert Template\r\n              ")
+                  createTextVNode("\n                Insert Template\n              ")
                 ], -1)
               ])]),
               _cache[14] || (_cache[14] = createTextVNode()),
@@ -9184,7 +9184,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                   onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$trigger("tmpl.save", $setup.content, "page"))
                 }, [..._cache[13] || (_cache[13] = [
                   createElementVNode("span", { class: "fa fa-fw fa-save" }, null, -1),
-                  createTextVNode("\r\n                Save as Template\r\n              ", -1)
+                  createTextVNode("\n                Save as Template\n              ", -1)
                 ])])
               ])
             ])
@@ -9197,7 +9197,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             style: { "min-width": "150px" }
           }, [..._cache[17] || (_cache[17] = [
             createElementVNode("span", { class: "fa fa-clone" }, null, -1),
-            createTextVNode("\r\n          Copy page content\r\n        ", -1)
+            createTextVNode("\n          Copy page content\n        ", -1)
           ])])
         ])
       ]),
@@ -9240,7 +9240,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               type: "button",
               class: "btn btn-outline-secondary btn-sm",
               onClick: _cache[6] || (_cache[6] = ($event) => $setup.addNewRow())
-            }, "\r\n            Add New Row\r\n          "),
+            }, "\n            Add New Row\n          "),
             _cache[23] || (_cache[23] = createTextVNode()),
             _cache[24] || (_cache[24] = createElementVNode("button", { class: "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" }, [
               createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
@@ -9252,7 +9252,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: $setup.paste
               }, [..._cache[20] || (_cache[20] = [
                 createElementVNode("span", { class: "fa fa-fw fa-paste" }, null, -1),
-                createTextVNode("\r\n              Paste\r\n            ", -1)
+                createTextVNode("\n              Paste\n            ", -1)
               ])]),
               _cache[22] || (_cache[22] = createTextVNode()),
               createElementVNode("div", {
@@ -9260,7 +9260,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: $setup.paste
               }, [..._cache[21] || (_cache[21] = [
                 createElementVNode("span", { class: "fa fa-fw fa-file-code" }, null, -1),
-                createTextVNode("\r\n              Insert Template\r\n            ", -1)
+                createTextVNode("\n              Insert Template\n            ", -1)
               ])])
             ])
           ])
@@ -9332,7 +9332,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: _cache[9] || (_cache[9] = ($event) => $setup.cssModalShow = false)
               }, [..._cache[27] || (_cache[27] = [
                 createElementVNode("i", { class: "fa fa-times" }, null, -1),
-                createTextVNode("\r\n              Close\r\n            ", -1)
+                createTextVNode("\n              Close\n            ", -1)
               ])]),
               _cache[29] || (_cache[29] = createTextVNode()),
               createElementVNode("button", {
@@ -9345,7 +9345,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 createElementVNode("span", {
                   class: normalizeClass($setup.saving ? "spinner-border spinner-border-sm" : "fa fa-save")
                 }, null, 2),
-                _cache[28] || (_cache[28] = createTextVNode("\r\n              Save\r\n            ", -1))
+                _cache[28] || (_cache[28] = createTextVNode("\n              Save\n            ", -1))
               ], 8, _hoisted_16)
             ])
           ]),

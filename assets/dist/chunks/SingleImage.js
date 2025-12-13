@@ -323,7 +323,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           disabled: $setup.uploading
         }, [..._cache[4] || (_cache[4] = [
           createElementVNode("i", { class: "fa fa-upload" }, null, -1),
-          createTextVNode("\r\n          Upload\r\n        ", -1)
+          createTextVNode("\n          Upload\n        ", -1)
         ])], 8, _hoisted_9),
         _cache[8] || (_cache[8] = createTextVNode()),
         withDirectives((openBlock(), createElementBlock("button", {
@@ -349,7 +349,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         ])], 8, _hoisted_11)) : createCommentVNode("", true)
       ]),
       _cache[10] || (_cache[10] = createTextVNode()),
-      _cache[11] || (_cache[11] = createElementVNode("small", { class: "form-text text-muted" }, "\r\n        Paste image url/file or drag and upload image here.\r\n      ", -1))
+      _cache[11] || (_cache[11] = createElementVNode("small", { class: "form-text text-muted" }, "\n        Paste image url/file or drag and upload image here.\n      ", -1))
     ])
   ], 512);
 }

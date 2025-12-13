@@ -41,7 +41,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
     createVNode($setup["RwdGroup"], { "class-name": "c-empty-height" }, createSlots({
       label: withCtx(() => [
-        _cache[2] || (_cache[2] = createElementVNode("label", null, "\r\n          Height\r\n        ", -1))
+        _cache[2] || (_cache[2] = createElementVNode("label", null, "\n          Height\n        ", -1))
       ]),
       _: 2
     }, [

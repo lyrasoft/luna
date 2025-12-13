@@ -135,12 +135,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ])], 8, _hoisted_7),
       _cache[22] || (_cache[22] = createTextVNode()),
       _cache[23] || (_cache[23] = createElementVNode("small", { class: "form-text text-muted" }, [
-        createTextVNode("\r\n        Use "),
+        createTextVNode("\n        Use "),
         createElementVNode("a", {
           href: "https://getbootstrap.com/docs/5.1/components/buttons/",
           target: "_blank"
         }, "Bootstrap button style"),
-        createTextVNode("\r\n        , if you need a custom style, just enter your button class names.\r\n      ")
+        createTextVNode("\n        , if you need a custom style, just enter your button class names.\n      ")
       ], -1))
     ]),
     _cache[44] || (_cache[44] = createTextVNode()),
@@ -162,17 +162,17 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       _cache[27] || (_cache[27] = createTextVNode()),
       _cache[28] || (_cache[28] = createElementVNode("small", { class: "form-text text-muted" }, [
-        createTextVNode("\r\n        Use "),
+        createTextVNode("\n        Use "),
         createElementVNode("a", {
           href: "https://getbootstrap.com/docs/4.5/components/buttons/",
           target: "_blank"
         }, "Bootstrap button style"),
-        createTextVNode("\r\n        , if you need a custom style, just enter your button class names.\r\n      ")
+        createTextVNode("\n        , if you need a custom style, just enter your button class names.\n      ")
       ], -1))
     ]),
     _cache[45] || (_cache[45] = createTextVNode()),
     createElementVNode("div", _hoisted_9, [
-      _cache[29] || (_cache[29] = createElementVNode("label", null, "\r\n        Border Radius\r\n      ", -1)),
+      _cache[29] || (_cache[29] = createElementVNode("label", null, "\n        Border Radius\n      ", -1)),
       _cache[30] || (_cache[30] = createTextVNode()),
       createVNode($setup["SliderInput"], {
         modelValue: $setup.options.border_radius,
@@ -219,9 +219,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       _cache[36] || (_cache[36] = createTextVNode()),
       _cache[37] || (_cache[37] = createElementVNode("small", { class: "form-text text-muted" }, [
-        createTextVNode("\r\n        Enter icon class, example: "),
+        createTextVNode("\n        Enter icon class, example: "),
         createElementVNode("code", null, "fa fa-star"),
-        createTextVNode(".\r\n        You can find icons from: "),
+        createTextVNode(".\n        You can find icons from: "),
         createElementVNode("a", {
           target: "_blank",
           href: "https://fontawesome.com/v6.0/icons"

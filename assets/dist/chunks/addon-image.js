@@ -121,11 +121,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         [vModelText, $setup.options.alt]
       ]),
       _cache[20] || (_cache[20] = createTextVNode()),
-      _cache[21] || (_cache[21] = createElementVNode("small", { class: "form-text text-muted" }, "\r\n        The alt text if image unavailable, also good for SEO.\r\n      ", -1))
+      _cache[21] || (_cache[21] = createElementVNode("small", { class: "form-text text-muted" }, "\n        The alt text if image unavailable, also good for SEO.\n      ", -1))
     ]),
     _cache[33] || (_cache[33] = createTextVNode()),
     createElementVNode("div", _hoisted_6, [
-      _cache[22] || (_cache[22] = createElementVNode("label", null, "\r\n        Border Radius\r\n      ", -1)),
+      _cache[22] || (_cache[22] = createElementVNode("label", null, "\n        Border Radius\n      ", -1)),
       _cache[23] || (_cache[23] = createTextVNode()),
       createVNode($setup["SliderInput"], {
         modelValue: $setup.options.border_radius,
