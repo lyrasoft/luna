@@ -154,7 +154,7 @@ class AssociationService
         $this->getMapper()->deleteWhere(['type' => static::toTypeString($type), 'target_id' => $id]);
     }
 
-    public function deleteAllAssociationByTargetId(string|\UnitEnum $type, int|string $id): void
+    public function deleteAllAssociationsByTargetId(string|\UnitEnum $type, int|string $id): void
     {
         $assoc = $this->getAssociationByTargetId($type, $id);
 
