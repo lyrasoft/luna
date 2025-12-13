@@ -12,6 +12,8 @@ use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
 use Windwalker\Utilities\StrNormalize;
 
+use function Windwalker\collect;
+
 /**
  * The AssociationService class.
  */
@@ -101,9 +103,13 @@ class AssociationService
         $hash = static::getHash($type, $associations);
 
         // Remove existing assoc by new hash
-        $mapper->deleteWhere(['type' => $type, 'hash' => $hash]);
+        $this->deleteAllAssociationsByHash($type, $hash);
 
         // Remove all items with different assoc
+        // This can happen when new assoc members is different from old ones.
+        // We must unlink all found target IDs first, since they may link to different hashes,
+        // which we can not know here.
+        // NOTE: A target ID can only link to one assoc hash at a time.
         $mapper->deleteWhere(['type' => $type, 'target_id' => array_values($associations)]);
 
         // Let's build new assoc
@@ -143,7 +149,26 @@ class AssociationService
         $this->saveAssociations($type, $key, $targetId, $assocIds);
     }
 
-    public function deleteWhere(mixed $conditions): void
+    public function deleteAssociationByTargetId(string|\UnitEnum $type, int|string $id): void
+    {
+        $this->getMapper()->deleteWhere(['type' => static::toTypeString($type), 'target_id' => $id]);
+    }
+
+    public function deleteAllAssociationByTargetId(string|\UnitEnum $type, int|string $id): void
+    {
+        $assoc = $this->getAssociationByTargetId($type, $id);
+
+        if ($assoc) {
+            $this->deleteAllAssociationsByHash($type, $assoc->hash);
+        }
+    }
+
+    public function deleteAllAssociationsByHash(string|\UnitEnum $type, string $hash): void
+    {
+        $this->getMapper()->deleteWhere(['type' => static::toTypeString($type), 'hash' => $hash]);
+    }
+
+    protected function deleteWhere(mixed $conditions): void
     {
         $this->getMapper()->deleteWhere($conditions);
     }
@@ -284,8 +309,11 @@ class AssociationService
         }
     }
 
-    public function getAssociationItemsByHash(string|\UnitEnum $type, string $hash, string|int|null $id = null): iterable
-    {
+    public function getAssociationItemsByHash(
+        string|\UnitEnum $type,
+        string $hash,
+        string|int|null $id = null
+    ): iterable {
         $type = static::toTypeString($type);
 
         $conditions = ['type' => $type, 'hash' => $hash];
@@ -315,9 +343,76 @@ class AssociationService
         return $type;
     }
 
-    public function getAssociationByTargetId(string|\UnitEnum $type, int|string $id): ?Association {
+    public function getAssociationByTargetId(string|\UnitEnum $type, int|string $id): ?Association
+    {
         $type = static::toTypeString($type);
 
         return $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
+    }
+
+    /**
+     * @template C of Collection
+     * @template T of C
+     *
+     * @param  class-string<T>|\UnitEnum  $type
+     * @param  string|int                 $currentId
+     * @param  string                     $key
+     * @param  class-string<C>|null       $table
+     *
+     * @return  T|C|null
+     *
+     * @throws \ReflectionException
+     */
+    public function getRelatedTargetItem(
+        string|\UnitEnum $type,
+        string|int $currentId,
+        string $key,
+        ?string $table = null
+    ): ?object {
+        $table ??= $type;
+        $type = static::toTypeString($type);
+
+        $assoc = $this->getRelativeItemByIdAndKey($type, $currentId, $key);
+
+        if (!$assoc) {
+            return null;
+        }
+
+        $targetId = $assoc->targetId;
+
+        return $this->orm->findOne($table, $targetId);
+    }
+
+    /**
+     * @template C of Collection
+     * @template T of C
+     *
+     * @param  string|\UnitEnum  $type
+     * @param  string|int        $currentId
+     * @param  string|null       $table
+     *
+     * @return  Collection<T|C>
+     *
+     * @throws \ReflectionException
+     */
+    public function getRelatedTargetItems(
+        string|\UnitEnum $type,
+        string|int $currentId,
+        ?string $table = null
+    ): Collection {
+        $table ??= $type;
+        $type = static::toTypeString($type);
+
+        $associations = iterator_to_array($this->getRelativeItemsByTargetId($type, $currentId));
+
+        $assocIds = array_column($associations, 'targetId');
+
+        if (!$assocIds) {
+            return collect();
+        }
+
+        $key = $this->orm->mapper($table)->getMainKey();
+
+        return $this->orm->findList($table, [$key => $assocIds])->all();
     }
 }
