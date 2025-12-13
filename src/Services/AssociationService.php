@@ -165,19 +165,18 @@ class AssociationService
      * @param  string|int|null   $id
      *
      * @return iterable<Association>
-     * @throws \ReflectionException
      */
     public function getRelativeItemsByHash(string|\UnitEnum $type, string $hash, string|int|null $id = null): iterable
     {
-        $type = static::toTypeString($type);
+        $items = $this->getAssociationItemsByHash($type, $hash, $id);
 
-        $conditions = ['type' => $type, 'hash' => $hash];
+        foreach ($items as $item) {
+            if ($id !== null && (string) $item->targetId === (string) $id) {
+                continue;
+            }
 
-        if ($id) {
-            $conditions[] = ['target_id', '!=', $id];
+            yield $item;
         }
-
-        return $this->getMapper()->findList($conditions);
     }
 
     /**
@@ -191,7 +190,7 @@ class AssociationService
     {
         $type = static::toTypeString($type);
 
-        $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
+        $assoc = $this->getAssociationByTargetId($type, $id);
 
         if (!$assoc) {
             return;
@@ -229,7 +228,7 @@ class AssociationService
     {
         $type = static::toTypeString($type);
 
-        $assoc = $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
+        $assoc = $this->getAssociationByTargetId($type, $id);
 
         if (!$assoc) {
             return null;
@@ -243,6 +242,55 @@ class AssociationService
                 ['target_id', '!=', $id],
             ]
         );
+    }
+
+    public function getAllTargetIdMapsByOneTargetId(string|\UnitEnum $type, string|int $id): array
+    {
+        $type = static::toTypeString($type);
+
+        $associations = $this->getAssociationItemsByTargetId($type, $id);
+
+        $assocIds = [];
+
+        foreach ($associations as $association) {
+            $assocIds[$association->key] = $association->targetId;
+        }
+
+        return $assocIds;
+    }
+
+    /**
+     * @param  string|\UnitEnum  $type
+     * @param  string|int        $id
+     *
+     * @return  \Generator<Association>
+     *
+     * @throws \ReflectionException
+     */
+    public function getAssociationItemsByTargetId(string|\UnitEnum $type, string|int $id): iterable
+    {
+        $type = static::toTypeString($type);
+
+        $assoc = $this->getAssociationByTargetId($type, $id);
+
+        if (!$assoc) {
+            return;
+        }
+
+        $items = $this->getAssociationItemsByHash($type, $assoc->hash, $id);
+
+        foreach ($items as $item) {
+            yield $item;
+        }
+    }
+
+    public function getAssociationItemsByHash(string|\UnitEnum $type, string $hash, string|int|null $id = null): iterable
+    {
+        $type = static::toTypeString($type);
+
+        $conditions = ['type' => $type, 'hash' => $hash];
+
+        return $this->getMapper()->findList($conditions);
     }
 
     public static function toTypeString(string|object $type): string
@@ -265,5 +313,11 @@ class AssociationService
         }
 
         return $type;
+    }
+
+    public function getAssociationByTargetId(string|\UnitEnum $type, int|string $id): ?Association {
+        $type = static::toTypeString($type);
+
+        return $this->getMapper()->findOne(['type' => $type, 'target_id' => $id]);
     }
 }
