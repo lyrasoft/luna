@@ -156,6 +156,30 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         return $this->getAuthService()->authorize($action, $user, ...$args);
     }
 
+    /**
+     * @param  array<string>  $actions
+     * @param  mixed|null     $user
+     * @param  mixed          ...$args
+     *
+     * @return  bool
+     */
+    public function canAny(array $actions, mixed $user = null, mixed ...$args): bool
+    {
+        return array_any($actions, fn($action) => $this->can($action, $user, ...$args));
+    }
+
+    /**
+     * @param  array<string>  $actions
+     * @param  mixed|null     $user
+     * @param  mixed          ...$args
+     *
+     * @return  bool
+     */
+    public function canAll(array $actions, mixed $user = null, mixed ...$args): bool
+    {
+        return array_all($actions, fn($action) => $this->can($action, $user, ...$args));
+    }
+
     public function authenticate(array $credential, ?ResultSet &$resultSet = null): false|AuthResult
     {
         $handler = $this->getUserHandler();

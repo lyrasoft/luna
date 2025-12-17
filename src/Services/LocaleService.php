@@ -302,7 +302,7 @@ class LocaleService
 
         // Remove this item from assoc if lang is all.
         if ($lang === '*') {
-            $assocService->deleteWhere(['type' => $type, 'target_id' => $targetId]);
+            $assocService->deleteAssociationByTargetId($type, $targetId);
 
             return;
         }

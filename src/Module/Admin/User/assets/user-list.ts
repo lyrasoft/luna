@@ -21,10 +21,10 @@ useDisableOnSubmit(formSelector);
 useCheckboxesMultiSelect(formSelector);
 
 // User Switch
-const $modal = document.querySelector<HTMLDivElement>('#user-switch-modal')!;
-const $switchUserId = $modal.querySelector<HTMLInputElement>('[data-role=user_id]')!;
+const $modal = document.querySelector<HTMLDivElement>('#user-switch-modal');
+const $switchUserId = $modal?.querySelector<HTMLInputElement>('[data-role=user_id]')!;
 
-$modal.addEventListener('hidden.bs.modal', () => {
+$modal?.addEventListener('hidden.bs.modal', () => {
   $switchUserId.value = '';
 });
 
@@ -32,9 +32,9 @@ useUniDirective<HTMLButtonElement>('user-switch-button', {
   mounted(el, { value }) {
     value = JSON.parse(value || '{}');
     el.addEventListener('click', () => {
-      Modal.getOrCreateInstance($modal).show();
+      Modal.getOrCreateInstance($modal!).show();
       $switchUserId.value = value.id;
-      $modal.querySelector('[data-role=user_name]')!.textContent = value.name;
+      $modal!.querySelector('[data-role=user_name]')!.textContent = value.name;
     });
   },
   updated(el, bindings) {

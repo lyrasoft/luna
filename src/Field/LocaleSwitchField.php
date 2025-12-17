@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Field;
 
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Services\AssociationService;
 use Unicorn\Field\DatabaseAwareTrait;
 use Unicorn\Field\LayoutFieldTrait;
@@ -27,6 +28,7 @@ class LocaleSwitchField extends AbstractField
     use LayoutFieldTrait;
     use InstanceCacheTrait;
     use DatabaseAwareTrait;
+    use LocaleAwareTrait;
 
     protected string $languageField = 'language';
 
@@ -38,11 +40,35 @@ class LocaleSwitchField extends AbstractField
 
     protected ?string $routeName = null;
 
+    /**
+     * Allow user create and empty item or must copt from existing language item.
+     *
+     * @var bool
+     */
     protected bool $allowCreateEmpty = false;
 
+    /**
+     * When item saved and association linked, can user change item language?
+     * If allow changed, the association will be unlinked.
+     *
+     * @var bool
+     */
     protected bool $canChangeSelfLang = true;
 
+    /**
+     * Display the "All" (*) language option.
+     *
+     * @var bool
+     */
     protected bool $showAllOption = true;
+
+    /**
+     * If no value, use fallback language and default.
+     * It means user cannot select language at the initial.
+     *
+     * @var bool
+     */
+    protected bool $useDefaultFallback = false;
 
     #[Inject]
     protected AssociationService $associationService;
@@ -69,6 +95,17 @@ class LocaleSwitchField extends AbstractField
                 'options'
             )
         );
+    }
+
+    public function getValue(): mixed
+    {
+        $value = parent::getValue();
+
+        if (!$value && $this->isUseDefaultFallback()) {
+            $value = $this->getFallbackLocale();
+        }
+
+        return $value;
     }
 
     public function getDefaultLayout(): string
@@ -127,6 +164,18 @@ class LocaleSwitchField extends AbstractField
     public function canChangeSelfLang(bool $canChangeSelfLang): static
     {
         $this->canChangeSelfLang = $canChangeSelfLang;
+
+        return $this;
+    }
+
+    public function isUseDefaultFallback(): bool
+    {
+        return $this->useDefaultFallback;
+    }
+
+    public function useDefaultFallback(bool $useDefaultFallback): static
+    {
+        $this->useDefaultFallback = $useDefaultFallback;
 
         return $this;
     }

@@ -2270,7 +2270,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         createElementVNode("div", _hoisted_4, [
           createElementVNode("label", {
             for: $props.id + "title-element"
-          }, "\r\n            Title Element\r\n          ", 8, _hoisted_5),
+          }, "\n            Title Element\n          ", 8, _hoisted_5),
           _cache[3] || (_cache[3] = createTextVNode()),
           withDirectives(createElementVNode("select", {
             id: $props.id + "title-element",
@@ -2280,7 +2280,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             (openBlock(), createElementBlock(Fragment, null, renderList([1, 2, 3, 4, 5, 6], (i) => {
               return createElementVNode("option", {
                 value: "h" + i
-              }, "\r\n              h" + toDisplayString(i), 9, _hoisted_7);
+              }, "\n              h" + toDisplayString(i), 9, _hoisted_7);
             }), 64))
           ], 8, _hoisted_6), [
             [vModelSelect, $setup.options.element]
@@ -2308,7 +2308,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       createElementVNode("div", _hoisted_12, [
         createVNode($setup["RwdGroup"], { "class-name": "c-title-font-size" }, createSlots({
           label: withCtx(() => [
-            _cache[6] || (_cache[6] = createElementVNode("label", null, "\r\n              Title Font Size\r\n            ", -1))
+            _cache[6] || (_cache[6] = createElementVNode("label", null, "\n              Title Font Size\n            ", -1))
           ]),
           _: 2
         }, [
@@ -2329,7 +2329,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       _cache[10] || (_cache[10] = createTextVNode()),
       createElementVNode("div", _hoisted_13, [
         createElementVNode("div", _hoisted_14, [
-          _cache[8] || (_cache[8] = createElementVNode("label", null, "\r\n            Title Font Weight\r\n          ", -1)),
+          _cache[8] || (_cache[8] = createElementVNode("label", null, "\n            Title Font Weight\n          ", -1)),
           _cache[9] || (_cache[9] = createTextVNode()),
           $setup.prepared ? (openBlock(), createElementBlock("div", _hoisted_15, [
             createVNode($setup["SliderInput"], {
@@ -2347,7 +2347,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       createElementVNode("div", _hoisted_17, [
         createVNode($setup["RwdGroup"], { "class-name": "c-title-margin_top" }, createSlots({
           label: withCtx(() => [
-            _cache[11] || (_cache[11] = createElementVNode("label", null, "\r\n              Title Margin Top\r\n            ", -1))
+            _cache[11] || (_cache[11] = createElementVNode("label", null, "\n              Title Margin Top\n            ", -1))
           ]),
           _: 2
         }, [
@@ -2371,7 +2371,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       createElementVNode("div", _hoisted_19, [
         createVNode($setup["RwdGroup"], { "class-name": "c-title-margin_bottom" }, createSlots({
           label: withCtx(() => [
-            _cache[13] || (_cache[13] = createElementVNode("label", null, "\r\n              Title Margin Bottom\r\n            ", -1))
+            _cache[13] || (_cache[13] = createElementVNode("label", null, "\n              Title Margin Bottom\n            ", -1))
           ]),
           _: 2
         }, [

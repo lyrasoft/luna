@@ -82,7 +82,7 @@ class AccessService
         $userId = $user->id;
 
         // Get roles
-        $roles = $this->getUserRoles($userId);
+        $roles = $this->getEnabledUserRoles($userId);
 
         // Check for Super User
         if ($this->checkRolesAllowAction($roles, static::SUPERUSER_ACTION)) {
@@ -206,6 +206,19 @@ class AccessService
 
                 return $matches;
             }
+        );
+    }
+
+    /**
+     * @param  mixed|null  $user
+     *
+     * @return  array<UserRole>
+     */
+    public function getEnabledUserRoles(mixed $user = null): array
+    {
+        return array_filter(
+            $this->getUserRoles($user),
+            fn(UserRole $role) => $role->state->isPublished()
         );
     }
 

@@ -24,4 +24,9 @@ trait LocaleAwareTrait
     {
         return $this->localeService->getLocale();
     }
+
+    public function getFallbackLocale(): string
+    {
+        return $this->localeService->getFallback();
+    }
 }

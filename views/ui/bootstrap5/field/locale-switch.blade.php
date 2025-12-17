@@ -87,12 +87,14 @@ $languageField->setValue($value, '*');
                 </div>
             </div>
             <div>
-                <button type="button" class="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{ $modalId }}"
-                >
-                    @lang('luna.field.locale.switch.button.select')
-                </button>
+                @if ($currentId)
+                    <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{ $modalId }}"
+                    >
+                        @lang('luna.field.locale.switch.button.select')
+                    </button>
+                @endif
             </div>
         </div>
         @if ($field->isCanChangeSelfLang())
