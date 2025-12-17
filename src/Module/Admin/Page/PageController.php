@@ -223,7 +223,7 @@ class PageController
 
         $item = $orm->findOne(PageTemplate::class, $id);
 
-        $orm->deleteWhere(PageTemplate::class, $id);
+        $orm->deleteBatch(PageTemplate::class, $id);
 
         return $item;
     }

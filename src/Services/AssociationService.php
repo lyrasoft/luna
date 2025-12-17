@@ -55,7 +55,7 @@ class AssociationService
 
         // Delete existing assoc by hash
         if ($assoc) {
-            $mapper->deleteWhere(['type' => $type, 'hash' => $assoc->hash]);
+            $mapper->deleteBatch(['type' => $type, 'hash' => $assoc->hash]);
         }
 
         // Remove empty id
@@ -90,10 +90,10 @@ class AssociationService
         $hash = static::getHash($type, $associations);
 
         // Remove existing assoc by new hash
-        $mapper->deleteWhere(['type' => $type, 'hash' => $hash]);
+        $mapper->deleteBatch(['type' => $type, 'hash' => $hash]);
 
         // Remove all items with different assoc
-        $mapper->deleteWhere(['type' => $type, 'target_id' => array_values($associations)]);
+        $mapper->deleteBatch(['type' => $type, 'target_id' => array_values($associations)]);
 
         // Let's build new assoc
         foreach ($associations as $key => $targetId) {
@@ -114,7 +114,7 @@ class AssociationService
 
     public function deleteWhere(mixed $conditions): array
     {
-        return $this->getMapper()->deleteWhere($conditions);
+        return $this->getMapper()->deleteBatch($conditions);
     }
 
     /**

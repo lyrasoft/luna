@@ -140,8 +140,8 @@ class User implements EntityInterface, LunaUserEntityInterface
         $item = $event->entity;
         $orm = $event->orm;
 
-        $orm->deleteWhere(UserSocial::class, ['user_id' => $item->id]);
-        $orm->deleteWhere(UserRoleMap::class, ['user_id' => $item->id]);
+        $orm->deleteBatch(UserSocial::class, ['user_id' => $item->id]);
+        $orm->deleteBatch(UserRoleMap::class, ['user_id' => $item->id]);
     }
 
     public function can(string $action, ...$args): bool

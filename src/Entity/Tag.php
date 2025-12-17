@@ -102,6 +102,6 @@ class Tag implements EntityInterface
         $entity = $event->entity;
         $orm = $event->orm;
 
-        $orm->deleteWhere(TagMap::class, ['tag_id' => $entity->id]);
+        $orm->deleteBatch(TagMap::class, ['tag_id' => $entity->id]);
     }
 }

@@ -115,7 +115,7 @@ class TagService
         /** @var EntityMapper<TagMap> $tagMapMapper */
         $tagMapMapper = $this->orm->mapper(TagMap::class);
 
-        $tagMapMapper->deleteWhere(
+        $tagMapMapper->deleteBatch(
             [
                 'type' => $type,
                 'target_id' => $targetId,
@@ -128,7 +128,7 @@ class TagService
         /** @var EntityMapper<TagMap> $tagMapMapper */
         $tagMapMapper = $this->orm->mapper(TagMap::class);
 
-        $tagMapMapper->deleteWhere(
+        $tagMapMapper->deleteBatch(
             [
                 'type' => $type,
                 'tag_id' => $tagId,

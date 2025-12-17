@@ -193,7 +193,7 @@ class LangAssocMiddleware implements MiddlewareInterface
         );
 
         if ($assoc && $assoc->key !== $code) {
-            $this->orm->deleteWhere(
+            $this->orm->deleteBatch(
                 Association::class,
                 [
                     'type' => $assoc->type,

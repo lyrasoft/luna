@@ -91,14 +91,14 @@ class UserRole implements NestedEntityInterface
         $item = $event->entity;
         $orm = $event->orm;
 
-        $orm->deleteWhere(
+        $orm->deleteBatch(
             UserRoleMap::class,
             [
                 'role_id' => (string) $item->id,
             ]
         );
 
-        $orm->deleteWhere(
+        $orm->deleteBatch(
             Rule::class,
             [
                 'role_id' => (string) $item->id,

@@ -309,7 +309,7 @@ class AccessService
 
         $roleIds = array_map([$this, 'unwrapRole'], $roles);
 
-        $this->orm->deleteWhere(
+        $this->orm->deleteBatch(
             UserRoleMap::class,
             [
                 'user_id' => $user->id,
