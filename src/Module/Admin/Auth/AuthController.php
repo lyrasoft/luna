@@ -77,7 +77,7 @@ class AuthController
             return $nav->to('login');
         }
 
-        $orm->updateWhere(
+        $orm->updateBulk(
             User::class,
             ['last_login' => chronos()],
             ['id' => $userService->getCurrentUser()->id]

@@ -13,7 +13,7 @@ return new /** Language Seeder */ class extends AbstractSeeder {
     #[SeedImport]
     public function import(): void
     {
-        $this->orm->updateWhere(Language::class, ['state' => 1], ['code' => ['zh-TW', 'ja-JP']]);
+        $this->orm->updateBulk(Language::class, ['state' => 1], ['code' => ['zh-TW', 'ja-JP']]);
     }
 
     #[SeedClear]

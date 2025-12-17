@@ -97,7 +97,7 @@ class AuthController
 
         $app->addMessage($this->trans('luna.login.message.success'), 'success');
 
-        $orm->updateWhere(
+        $orm->updateBulk(
             User::class,
             ['last_login' => chronos()],
             ['id' => $userService->getCurrentUser()->id]
@@ -245,7 +245,7 @@ class AuthController
 
         $userService->login($user);
 
-        $orm->updateWhere(
+        $orm->updateBulk(
             User::class,
             ['last_login' => chronos()],
             ['id' => $user->id]
