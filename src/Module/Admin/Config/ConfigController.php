@@ -4,22 +4,16 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Config;
 
-use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Repository\ConfigRepository;
 use RuntimeException;
-use Unicorn\Attributes\Ajax;
 use Unicorn\Controller\AjaxControllerTrait;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
-use Windwalker\Core\Attributes\JsonApi;
-use Windwalker\Core\Attributes\Request\Input;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
-
-use Windwalker\ORM\ORM;
 
 use function Windwalker\chronos;
 
@@ -104,24 +98,5 @@ class ConfigController
     public function copy(AppContext $app, #[Autowire] ConfigRepository $repository, GridController $controller): mixed
     {
         return $app->call([$controller, 'copy'], compact('repository'));
-    }
-
-    #[Ajax]
-    public function getList(#[Input] string $value, ORM $orm)
-    {
-        if (!$value) {
-            return [];
-        }
-
-        $items = $orm->findList(Article::class, ['category_id' => $value])
-            ->all()
-            ->map(fn(Article $a) => ['id' => $a->id, 'title' => $a->title]);
-
-        return [
-            'articles' => $items,
-            'hello' => [
-                ['id' => 1324, 'title' => 'Hello World']
-            ]
-        ];
     }
 }
