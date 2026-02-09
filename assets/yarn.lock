@@ -318,7 +318,7 @@ __metadata:
     vue-component-type-helpers: "npm:^3.1.0"
     vue-slide-bar: "npm:^1.2.0"
     vue-slider-component: "npm:^4.1.0-beta.7"
-    wowjs: "npm:^1.1.3"
+    wow.js: "npm:^1.2.2"
   languageName: unknown
   linkType: soft
 
@@ -884,7 +884,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"animate.css@npm:^4.1.1, animate.css@npm:latest":
+"animate.css@npm:^4.1.1":
   version: 4.1.1
   resolution: "animate.css@npm:4.1.1"
   checksum: 10/3b8ce49f12c006579049499fca5be99e8813add3e0d355b6209c4d6a5d56cd42e9b9e2f88df2f3da78ace474d5164530f556b6c04c851a439933a5cad321707f
@@ -2356,12 +2356,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wowjs@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "wowjs@npm:1.1.3"
-  dependencies:
-    animate.css: "npm:latest"
-  checksum: 10/fcd0e823e01557c6d63599b0ede1f54e9302b5e8ffc1a5822f3469965c093400e5e9aca4dfb2789df1cfa743ede583ec7eb044c42b4f7a7bdfc29cf191166616
+"wow.js@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "wow.js@npm:1.2.2"
+  checksum: 10/31871b3468aaf55286b33965c2e031a6b831414263d551867e173f0af43e8fcaf65bc0039d172a13ad2602fffe706af160cbd91fe519d8bc64e543e3b08c3761
   languageName: node
   linkType: hard
 

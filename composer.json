@@ -45,6 +45,7 @@
                     "@windwalker-io/srp",
                     "@lyrasoft/luna",
                     "wowjs",
+                    "wow.js",
                     "animate.css",
                     "jarallax"
                 ]

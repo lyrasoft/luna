@@ -27,11 +27,11 @@ class PageScript extends AbstractScript
     public function wow(): void
     {
         if ($this->available()) {
-            if ($this->asset->has('@vendor/wowjs/dist/wow.min.js')) {
-                $this->js('@vendor/wowjs/dist/wow.min.js');
+            if ($this->asset->has('@vendor/wow.js/dist/wow.min.js')) {
+                $this->js('@vendor/wow.js/dist/wow.min.js');
                 $this->internalJS('new WOW().init();');
             } else {
-                $this->warnIfDebug('Please install `wowjs` module to support animation.');
+                $this->warnIfDebug('Please install `wow.js` module to support animation.');
             }
         }
     }
