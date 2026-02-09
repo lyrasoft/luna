@@ -23,7 +23,7 @@ return new /** Tag Seeder */ class extends AbstractSeeder {
         /** @var EntityMapper<Tag> $mapper */
         $mapper = $this->orm->mapper(Tag::class);
 
-        foreach (range(1, 30) as $i) {
+        foreach (range(1, 40) as $i) {
             $item = $mapper->createEntity();
 
             $item->title = Utf8String::ucfirst($faker->word);

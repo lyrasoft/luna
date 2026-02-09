@@ -235,21 +235,16 @@ $loginName = $luna->getLoginName();
                         </tr>
                     @endforeach
                     </tbody>
-
-                    <tfoot>
-                    <tr>
-                        {{-- PAGINATION --}}
-                        <td colspan="25">
-                            <x-pagination :pagination="$pagination">
-                                <x-slot name="end">
-                                    <x-pagination-stats :pagination="$pagination" class="ms-0 ms-md-auto" />
-                                </x-slot>
-                            </x-pagination>
-                        </td>
-                    </tr>
-                    </tfoot>
                 </table>
 
+                <div>
+                    <x-pagination :pagination="$pagination">
+                        <x-slot name="end">
+                            <x-pagination-jump :pagination="$pagination" />
+                            <x-pagination-stats :pagination="$pagination" class="ms-0 ms-md-auto" />
+                        </x-slot>
+                    </x-pagination>
+                </div>
             </div>
 
         @else

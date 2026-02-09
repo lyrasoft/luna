@@ -56,7 +56,7 @@ class MenuListView implements ViewModelInterface
 
         // Prepare Items
         $page = $state->rememberFromRequest('page');
-        $limit = $state->rememberFromRequest('limit') ?? 45;
+        $limit = $state->rememberFromRequest('limit') ?? 30;
         $filter = (array) $state->rememberMergeRequest('filter');
         $search = (array) $state->rememberMergeRequest('search');
         $ordering = $state->rememberFromRequest('list_ordering') ?? $this->getDefaultOrdering();

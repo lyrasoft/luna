@@ -21,7 +21,7 @@ return new /** Menu Seeder */ class extends AbstractSeeder {
         $types = [
             'mainmenu' => [
                 'max_level' => 3,
-                'number' => 30,
+                'number' => 40,
             ],
         ];
 

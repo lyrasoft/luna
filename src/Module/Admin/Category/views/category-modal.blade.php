@@ -118,15 +118,16 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                     </tr>
                 @endforeach
                 </tbody>
-
-                <tfoot>
-                <tr>
-                    <td colspan="20">
-                        {!! $pagination->render() !!}
-                    </td>
-                </tr>
-                </tfoot>
             </table>
+
+            <div>
+                <x-pagination :pagination="$pagination" in-modal>
+                    <x-slot name="end">
+                        <x-pagination-jump :pagination="$pagination" />
+                        <x-pagination-stats :pagination="$pagination" class="ms-0 ms-md-auto" />
+                    </x-slot>
+                </x-pagination>
+            </div>
         </div>
 
         <div class="d-none">
