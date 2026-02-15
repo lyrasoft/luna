@@ -1,4 +1,4 @@
-import { defineComponent, mergeModels, ref, useModel, createElementBlock, openBlock, normalizeClass, createElementVNode, createTextVNode } from "vue";
+import { defineComponent, ref, useModel, mergeModels, openBlock, createElementBlock, normalizeClass, createElementVNode, createTextVNode } from "vue";
 import { _ as _export_sfc } from "./SliderInput.js";
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "UnicornSwitcher",

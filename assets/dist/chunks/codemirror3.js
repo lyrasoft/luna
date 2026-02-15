@@ -187,7 +187,7 @@ function requireCodemirror() {
           target = {};
         }
         for (var prop2 in obj) {
-          if (obj.hasOwnProperty(prop2) && (overwrite !== false || !target.hasOwnProperty(prop2))) {
+          if (Object.prototype.hasOwnProperty.call(obj, prop2) && (overwrite !== false || !Object.prototype.hasOwnProperty.call(target, prop2))) {
             target[prop2] = obj[prop2];
           }
         }
@@ -10736,7 +10736,7 @@ function requireCodemirror() {
       };
       CodeMirror.fromTextArea = fromTextArea;
       addLegacyProps(CodeMirror);
-      CodeMirror.version = "5.65.20";
+      CodeMirror.version = "5.65.21";
       return CodeMirror;
     }));
   })(codemirror$1);
