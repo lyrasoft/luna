@@ -11,7 +11,7 @@
         "windwalker/crypt": "^4.2",
         "scssphp/scssphp": "^1.0",
         "symfony/polyfill-intl-idn": "^1.23",
-        "firebase/php-jwt": "^5.4||^6.0"
+        "firebase/php-jwt": "^5.4||^6.0||^7.0"
     },
     "require-dev": {
     },
