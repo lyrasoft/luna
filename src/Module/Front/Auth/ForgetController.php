@@ -55,7 +55,7 @@ class ForgetController
             [
                 'email' => $email,
             ],
-            $app->getSecret(),
+            $app->getSecret('password.forget'),
             'HS256'
         );
 
@@ -91,7 +91,7 @@ class ForgetController
 
         $payload = JWT::decode(
             $token,
-            new Key($app->getSecret(), 'HS256'),
+            new Key($app->getSecret('password.forget'), 'HS256'),
         );
 
         $email = $payload->email ?? null;
@@ -130,7 +130,7 @@ class ForgetController
 
         $payload = JWT::decode(
             $token,
-            new Key($app->getSecret(), 'HS256'),
+            new Key($app->getSecret('password.forget'), 'HS256'),
         );
 
         $email = $payload->email ?? null;

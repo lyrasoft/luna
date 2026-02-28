@@ -32,6 +32,8 @@ class ActivationService
 
     public string $tokenAlgo = 'HS256';
 
+    public string $secretDeriveInfo = 'user.activation';
+
     /**
      * ActivationService constructor.
      */
@@ -48,7 +50,7 @@ class ActivationService
     {
         return JWT::encode(
             $this->getUserInfo($user),
-            $this->app->getSecret(),
+            $this->app->getSecret($this->secretDeriveInfo),
             $this->tokenAlgo
         );
     }
@@ -57,7 +59,7 @@ class ActivationService
     {
         return (array) JWT::decode(
             $token,
-            new Key($this->app->getSecret(), $this->tokenAlgo)
+            new Key($this->app->getSecret($this->secretDeriveInfo), $this->tokenAlgo)
         );
     }
 
