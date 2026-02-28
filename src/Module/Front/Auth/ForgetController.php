@@ -55,7 +55,7 @@ class ForgetController
             [
                 'email' => $email,
             ],
-            $app->getSecret(),
+            $this->deriveSecret($app),
             'HS256'
         );
 
@@ -91,7 +91,7 @@ class ForgetController
 
         $payload = JWT::decode(
             $token,
-            new Key($app->getSecret(), 'HS256'),
+            new Key($this->deriveSecret($app), 'HS256'),
         );
 
         $email = $payload->email ?? null;
@@ -130,7 +130,7 @@ class ForgetController
 
         $payload = JWT::decode(
             $token,
-            new Key($app->getSecret(), 'HS256'),
+            new Key($this->deriveSecret($app), 'HS256'),
         );
 
         $email = $payload->email ?? null;
@@ -175,5 +175,20 @@ class ForgetController
         $app->getState()->forget('reset.token');
 
         return $nav->to('forget_complete');
+    }
+
+    /**
+     * @param  AppContext  $app
+     *
+     * @return  string
+     */
+    public function deriveSecret(AppContext $app): string
+    {
+        return hash_hkdf(
+            'sha256',
+            $app->getSecret(),
+            32,
+            'password.forget'
+        );
     }
 }

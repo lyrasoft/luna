@@ -48,7 +48,7 @@ class ActivationService
     {
         return JWT::encode(
             $this->getUserInfo($user),
-            $this->app->getSecret(),
+            $this->deriveSecret(),
             $this->tokenAlgo
         );
     }
@@ -57,7 +57,7 @@ class ActivationService
     {
         return (array) JWT::decode(
             $token,
-            new Key($this->app->getSecret(), $this->tokenAlgo)
+            new Key($this->deriveSecret(), $this->tokenAlgo)
         );
     }
 
@@ -134,5 +134,18 @@ class ActivationService
         $this->userInfoGetter = $userInfoGetter;
 
         return $this;
+    }
+
+    /**
+     * @return  string
+     */
+    public function deriveSecret(): string
+    {
+        return hash_hkdf(
+            'sha256',
+            $this->app->getSecret(),
+            32,
+            'user.activation'
+        );
     }
 }

@@ -64,7 +64,15 @@ class ForgetResetView implements ViewModelInterface
         if ($this->srp->isEnabled()) {
             $payload = JWT::decode(
                 $token,
-                new Key($app->getSecret(), 'HS256'),
+                new Key(
+                    hash_hkdf(
+                        'sha256',
+                        $app->getSecret(),
+                        32,
+                        'password.forget'
+                    ),
+                    'HS256'
+                ),
             );
 
             $email = $payload->email ?? null;
