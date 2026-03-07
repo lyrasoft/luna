@@ -1,18 +1,17 @@
-import '@main';
-
-u.$ui.bootstrap.tooltip();
+import { useBs5Tooltip, useFormValidation, useDisableOnSubmit, useKeepAlive } from '@windwalker-io/unicorn-next';
 
 const formSelector = '#profile-form';
 
-u.formValidation()
-  .then(() => u.$ui.disableOnSubmit(formSelector));
-u.form(formSelector).initComponent();
-u.$ui.keepAlive(location.href);
+useBs5Tooltip();
 
-const form = u.selectOne<HTMLFormElement>(formSelector);
+useFormValidation().then(() => useDisableOnSubmit(formSelector));
 
-const passwordInput = u.selectOne<HTMLInputElement>('[data-input-password]');
-const password2Input = u.selectOne<HTMLInputElement>('[data-validate=password-confirm]');
+useKeepAlive(location.href);
+
+const form = document.querySelector<HTMLFormElement>(formSelector)!;
+
+const passwordInput = document.querySelector<HTMLInputElement>('[data-input-password]');
+const password2Input = document.querySelector<HTMLInputElement>('[data-validate=password-confirm]');
 
 passwordInput?.addEventListener('input', () => {
   if (passwordInput.value) {
@@ -23,7 +22,7 @@ passwordInput?.addEventListener('input', () => {
 });
 
 if (form?.hasAttribute('uni-srp-registration')) {
-  const identityInput = u.selectOne<HTMLInputElement>('[data-input-identity]');
+  const identityInput = document.querySelector<HTMLInputElement>('[data-input-identity]');
   const oldIdentity = identityInput?.value;
 
   identityInput?.addEventListener('input', () => {
