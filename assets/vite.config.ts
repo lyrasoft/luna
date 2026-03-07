@@ -78,7 +78,8 @@ export default defineConfig(({ mode }) => {
           'bootstrap',
           'vue',
           'vue-draggable-plus',
-          'vue-multi-uploader'
+          'vue-multi-uploader',
+          'aos',
         ]
       },
       outDir: 'dist',

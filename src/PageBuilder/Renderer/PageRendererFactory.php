@@ -92,4 +92,9 @@ class PageRendererFactory
         $this->asset->setScripts([]);
         $this->asset->setInternalScripts([]);
     }
+
+    public function getAnimationDriver(): string
+    {
+        return $this->app->config('pages.animation.driver') ?: 'aos';
+    }
 }

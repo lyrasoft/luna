@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Script;
 
+use Unicorn\Script\UnicornScript;
 use Windwalker\Core\Asset\AbstractScript;
 
 /**
@@ -11,6 +12,49 @@ use Windwalker\Core\Asset\AbstractScript;
  */
 class PageScript extends AbstractScript
 {
+    public function __construct(protected UnicornScript $unicornScript)
+    {
+    }
+
+    public static function wowToAOS(string $animationName): string
+    {
+        $map = [
+            'fadeIn' => 'fade',
+            'fadeInDown' => 'fade-down',
+            'fadeInDownBig' => 'fade-down',
+            'fadeInLeft' => 'fade-left',
+            'fadeInLeftBig' => 'fade-left',
+            'fadeInRight' => 'fade-right',
+            'fadeInRightBig' => 'fade-right',
+            'fadeInUp' => 'fade-up',
+            'fadeInUpBig' => 'fade-up',
+
+            'flip' => 'flip-left',
+            'flipInX' => 'flip-up',
+            'flipInY' => 'flip-left',
+
+            'rotateIn' => 'zoom-in',
+            'rotateInDownLeft' => 'fade-down',
+            'rotateInDownRight' => 'fade-down',
+            'rotateInUpLeft' => 'fade-up',
+            'rotateInUpRight' => 'fade-up',
+
+            'zoomIn' => 'zoom-in',
+            'zoomInDown' => 'zoom-in-down',
+            'zoomInLeft' => 'zoom-in-left',
+            'zoomInRight' => 'zoom-in-right',
+            'zoomInUp' => 'zoom-in-up',
+
+            'bounceIn' => 'zoom-in',
+            'bounceInDown' => 'fade-down',
+            'bounceInLeft' => 'fade-left',
+            'bounceInRight' => 'fade-right',
+            'bounceInUp' => 'fade-up',
+        ];
+
+        return $map[$animationName] ?? 'fade';
+    }
+
     public function jarallax(): void
     {
         if ($this->available()) {
@@ -44,6 +88,14 @@ class PageScript extends AbstractScript
             } else {
                 $this->warnIfDebug('Please install `animate.css` module to support animation.');
             }
+        }
+    }
+
+    public function aos(): void
+    {
+        if ($this->available()) {
+            $this->unicornScript->importMainThen('u.$luna.useAOS();');
+            // $this->asset->importMainThen('u.$luna.useAOS();');
         }
     }
 }

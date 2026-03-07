@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { data } from '@windwalker-io/unicorn-next';
 import { AnimationOptions } from '~luna/types';
 
 const props = defineProps<{
@@ -8,7 +9,53 @@ const animation = defineModel<AnimationOptions>({
   required: true,
 });
 
+const driver = data('animation.driver');
+const isAOS = driver === 'aos';
+
+// Migration
+const animations = getAnimations();
+
+if (!animations.includes(animation.value.name)) {
+  animation.value.name = animations[0];
+}
+
 function getAnimations() {
+  if (isAOS) {
+    return [
+      'fade',
+      'fade-up',
+      'fade-down',
+      'fade-left',
+      'fade-right',
+      'fade-up-right',
+      'fade-up-left',
+      'fade-down-right',
+      'fade-down-left',
+
+      'flip-up',
+      'flip-down',
+      'flip-left',
+      'flip-right',
+
+      'slide-up',
+      'slide-down',
+      'slide-left',
+      'slide-right',
+
+      'zoom-in',
+      'zoom-in-up',
+      'zoom-in-down',
+      'zoom-in-left',
+      'zoom-in-right',
+
+      'zoom-out',
+      'zoom-out-up',
+      'zoom-out-down',
+      'zoom-out-left',
+      'zoom-out-right',
+    ];
+  }
+
   return [
     'fadeIn',
     'fadeInDown',
@@ -55,6 +102,11 @@ function getAnimations() {
           {{ anim }}
         </option>
       </select>
+
+      <div class="mt-2 text-muted small" v-if="isAOS">
+        Please refer to
+        <a href="https://michalsnik.github.io/aos/" target="_blank">AOS animations</a>.
+      </div>
     </div>
 
     <div class="form-group mb-3">

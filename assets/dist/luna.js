@@ -1,4 +1,5 @@
-import { useHttpClient, addGlobalValidator, __, prepareAlpine, useMacro, useUnicorn } from "@windwalker-io/unicorn-next";
+import { useHttpClient, addGlobalValidator, __, injectCssToDocument, prepareAlpine, useMacro, useUnicorn } from "@windwalker-io/unicorn-next";
+import AOS from "aos";
 import "./chunks/usePageBuilderUtilities.js";
 import { Dropdown } from "bootstrap";
 async function useAccountCheck() {
@@ -14,6 +15,10 @@ async function useAccountCheck() {
     }
     return "";
   });
+}
+function useAOS(options = {}) {
+  injectCssToDocument(() => import("./chunks/aos.js"));
+  AOS.init(options);
 }
 function useCaptcha() {
   return import("./chunks/captcha.js");
@@ -75,7 +80,8 @@ function createLuna() {
         useAccountCheck,
         useCaptcha,
         useLangDropdown,
-        useLocaleSwitch
+        useLocaleSwitch,
+        useAOS
       };
       useMacro("$luna", $luna);
     }
@@ -87,6 +93,7 @@ function useLuna() {
 }
 export {
   createLuna,
+  useAOS,
   useAccountCheck,
   useCaptcha,
   useLangDropdown,

@@ -1,5 +1,5 @@
 import { UnicornApp, useMacro, useUnicorn } from '@windwalker-io/unicorn-next';
-import { useAccountCheck, useCaptcha, useLangDropdown, useLocaleSwitch } from '~luna/composables';
+import { useAccountCheck, useAOS, useCaptcha, useLangDropdown, useLocaleSwitch } from '~luna/composables';
 
 export * from './composables/useAccountCheck';
 export * from './composables/useCaptcha';
@@ -7,6 +7,7 @@ export * from './composables/useLangDropdown';
 export * from './composables/useLocaleSwitch';
 export * from './composables/useSrp';
 export * from './composables/usePageBuilder';
+export * from './composables/useAOS';
 
 export function createLuna() {
   return {
@@ -16,11 +17,12 @@ export function createLuna() {
         useCaptcha,
         useLangDropdown,
         useLocaleSwitch,
+        useAOS,
       };
 
       useMacro('$luna', $luna);
     }
-  }
+  };
 }
 
 export function useLuna() {
@@ -36,6 +38,6 @@ declare module '@windwalker-io/unicorn-next' {
       useCaptcha: typeof useCaptcha;
       useLangDropdown: typeof useLangDropdown;
       useLocaleSwitch: typeof useLocaleSwitch;
-    }
+    };
   }
 }

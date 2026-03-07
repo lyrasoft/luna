@@ -1,6 +1,7 @@
 import { defineComponent, useModel, mergeModels, openBlock, createElementBlock, createVNode, createSlots, withCtx, createElementVNode, renderList, createTextVNode, withDirectives, vModelText, createCommentVNode } from "vue";
 import "@windwalker-io/unicorn-next";
 import { u as useAddonDefaults } from "./useAddonDefaults.js";
+import "aos";
 import "./usePageBuilderUtilities.js";
 import "bootstrap";
 import { R as RwdGroup } from "./RwdGroup.js";

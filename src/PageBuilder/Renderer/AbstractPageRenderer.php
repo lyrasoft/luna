@@ -4,6 +4,7 @@ namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleRules;
+use Lyrasoft\Luna\Script\PageScript;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\SassException;
 use Windwalker\Core\Asset\AssetService;
@@ -11,6 +12,7 @@ use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\Renderer\CompositeRenderer;
+use Windwalker\Utilities\StrNormalize;
 
 /**
  * The AbstractPageRenderer class.
@@ -118,13 +120,28 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      */
     public function prepareElement(Collection $options, array &$classes, array &$attrs): void
     {
-        if ($options->getDeep('animation.name') !== '') {
-            $classes[] = 'wow';
-            $classes[] = $options->getDeep('animation.name');
-            $classes[] = 'animate__animated animate__' . $options->getDeep('animation.name');
+        $animationName = (string) $options->getDeep('animation.name');
 
-            $attrs['data-wow-duration'] = ($options->getDeep('animation.duration') / 1000) . 's';
-            $attrs['data-wow-delay'] = ($options->getDeep('animation.delay') / 1000) . 's';
+        if ($animationName !== '') {
+            $duration = $options->getDeep('animation.duration');
+            $delay = $options->getDeep('animation.delay');
+
+            $driver = $this->factory->getAnimationDriver();
+
+            if ($driver === 'wow') {
+                // WOW
+                $classes[] = 'wow';
+                $classes[] = $animationName;
+                $classes[] = 'animate__animated animate__' . $animationName;
+
+                $attrs['data-wow-duration'] = ($duration / 1000) . 's';
+                $attrs['data-wow-delay'] = ($delay / 1000) . 's';
+            } elseif ($driver === 'aos') {
+                // AOS
+                $attrs['data-aos'] = PageScript::wowToAOS($animationName);
+                // $attrs['data-aos-duration'] = $duration;
+                // $attrs['data-aos-delay'] = $delay;
+            }
         }
 
         // Video Background

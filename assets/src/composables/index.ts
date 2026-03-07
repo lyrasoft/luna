@@ -1,5 +1,6 @@
 export * from './useAccountCheck';
 export * from './useAddonDefaults';
+export * from './useAOS';
 export * from './useCodeMirror';
 export * from './usePageBuilderUtilities';
 export * from './useCaptcha';

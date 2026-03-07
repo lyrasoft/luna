@@ -1,6 +1,7 @@
 import { defineComponent, useModel, ref, mergeModels, openBlock, createElementBlock, createElementVNode, createTextVNode, withDirectives, vModelText, createVNode, createCommentVNode, createStaticVNode, vModelSelect, normalizeClass } from "vue";
 import { uid } from "@windwalker-io/unicorn-next";
 import { u as useAddonDefaults } from "./useAddonDefaults.js";
+import "aos";
 import "./usePageBuilderUtilities.js";
 import "bootstrap";
 import { B as ButtonRadio } from "./ButtonRadio.js";

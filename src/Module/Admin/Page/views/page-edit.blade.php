@@ -40,6 +40,10 @@ $uni->data(
         $asset->handleUri('@unicorn/editor.css')
     )
 );
+$uni->data(
+    'animation.driver',
+    $app->config('luna.pages.animation.driver') ?: 'aos'
+);
 ?>
 
 @extends($app->config('luna.view_extends.admin.edit') ?? 'admin.global.body-edit')

@@ -6,6 +6,7 @@ export * from './composables/useLangDropdown';
 export * from './composables/useLocaleSwitch';
 export * from './composables/useSrp';
 export * from './composables/usePageBuilder';
+export * from './composables/useAOS';
 export declare function createLuna(): {
     install(app: UnicornApp): void;
 };

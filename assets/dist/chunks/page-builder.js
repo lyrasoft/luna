@@ -1,7 +1,8 @@
-import { injectCssToDocument, useUnicorn, deleteConfirm, simpleAlert, simpleConfirm, uid, sleep, useHttpClient, data, selectAll, useSystemUri, route, useTinymce, useCssImport, isDebug, useImport, domready } from "@windwalker-io/unicorn-next";
+import { injectCssToDocument, data, useUnicorn, deleteConfirm, simpleAlert, simpleConfirm, uid, sleep, useHttpClient, selectAll, useSystemUri, route, useTinymce, useCssImport, isDebug, useImport, domready } from "@windwalker-io/unicorn-next";
 import { getCurrentScope, onScopeDispose, watch, effectScope, isRef, toValue, toRef as toRef$1, readonly, customRef, ref, computed, unref, shallowRef, getCurrentInstance as getCurrentInstance$1, onMounted, inject, provide, defineComponent, h, Teleport, useId as useId$1, onUnmounted, watchEffect, useSlots, openBlock, createBlock, resolveDynamicComponent, normalizeClass, withCtx, createElementBlock, renderSlot, createTextVNode, toDisplayString, createCommentVNode, useAttrs, mergeProps, useTemplateRef, useModel, Fragment, createVNode, mergeModels, nextTick, onBeforeUnmount, Transition, withDirectives, createElementVNode, withModifiers, normalizeProps, guardReactiveProps, vShow, normalizeStyle, renderList, TransitionGroup, createSlots, vModelSelect, vModelText, resolveDirective, reactive, createApp, defineAsyncComponent } from "vue";
 import { u as useEventListener$1, S as SingleImage } from "./SingleImage.js";
 import { VueDraggable } from "vue-draggable-plus";
+import "aos";
 import { a as arrayMap, t as toFinite, u as usePageBuilderUtilities } from "./usePageBuilderUtilities.js";
 import { Tooltip } from "bootstrap";
 import { i as isIterateeCall, _ as _export_sfc, S as SliderInput, d as defaultsDeep } from "./SliderInput.js";
@@ -4027,7 +4028,44 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
     __expose();
     const props = __props;
     const animation = useModel(__props, "modelValue");
+    const driver = data("animation.driver");
+    const isAOS = driver === "aos";
+    const animations = getAnimations();
+    if (!animations.includes(animation.value.name)) {
+      animation.value.name = animations[0];
+    }
     function getAnimations() {
+      if (isAOS) {
+        return [
+          "fade",
+          "fade-up",
+          "fade-down",
+          "fade-left",
+          "fade-right",
+          "fade-up-right",
+          "fade-up-left",
+          "fade-down-right",
+          "fade-down-left",
+          "flip-up",
+          "flip-down",
+          "flip-left",
+          "flip-right",
+          "slide-up",
+          "slide-down",
+          "slide-left",
+          "slide-right",
+          "zoom-in",
+          "zoom-in-up",
+          "zoom-in-down",
+          "zoom-in-left",
+          "zoom-in-right",
+          "zoom-out",
+          "zoom-out-up",
+          "zoom-out-down",
+          "zoom-out-left",
+          "zoom-out-right"
+        ];
+      }
       return [
         "fadeIn",
         "fadeInDown",
@@ -4058,7 +4096,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
         "bounceInUp"
       ];
     }
-    const __returned__ = { props, animation, getAnimations };
+    const __returned__ = { props, animation, driver, isAOS, animations, getAnimations };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -4068,19 +4106,23 @@ const _hoisted_2$9 = { class: "form-group mb-3" };
 const _hoisted_3$9 = ["for"];
 const _hoisted_4$9 = ["id"];
 const _hoisted_5$9 = ["value"];
-const _hoisted_6$9 = { class: "form-group mb-3" };
-const _hoisted_7$9 = ["for"];
-const _hoisted_8$9 = ["id"];
-const _hoisted_9$9 = { class: "form-group mb-3" };
-const _hoisted_10$9 = ["for"];
-const _hoisted_11$8 = ["id"];
+const _hoisted_6$9 = {
+  key: 0,
+  class: "mt-2 text-muted small"
+};
+const _hoisted_7$9 = { class: "form-group mb-3" };
+const _hoisted_8$9 = ["for"];
+const _hoisted_9$9 = ["id"];
+const _hoisted_10$9 = { class: "form-group mb-3" };
+const _hoisted_11$8 = ["for"];
+const _hoisted_12$8 = ["id"];
 function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$9, [
     createElementVNode("div", _hoisted_2$9, [
       createElementVNode("label", {
         for: $setup.props.id + "-name"
       }, "Animation Name", 8, _hoisted_3$9),
-      _cache[5] || (_cache[5] = createTextVNode()),
+      _cache[6] || (_cache[6] = createTextVNode()),
       withDirectives(createElementVNode("select", {
         id: $setup.props.id + "-name",
         class: "form-select custom-select",
@@ -4093,43 +4135,52 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
         }), 256))
       ], 8, _hoisted_4$9), [
         [vModelSelect, $setup.animation.name]
-      ])
+      ]),
+      _cache[7] || (_cache[7] = createTextVNode()),
+      $setup.isAOS ? (openBlock(), createElementBlock("div", _hoisted_6$9, [..._cache[5] || (_cache[5] = [
+        createTextVNode("\n        Please refer to\n        ", -1),
+        createElementVNode("a", {
+          href: "https://michalsnik.github.io/aos/",
+          target: "_blank"
+        }, "AOS animations", -1),
+        createTextVNode(".\n      ", -1)
+      ])])) : createCommentVNode("", true)
     ]),
-    _cache[12] || (_cache[12] = createTextVNode()),
-    createElementVNode("div", _hoisted_6$9, [
+    _cache[14] || (_cache[14] = createTextVNode()),
+    createElementVNode("div", _hoisted_7$9, [
       createElementVNode("label", {
         for: $setup.props.id + "-duration"
-      }, "Animation Duration", 8, _hoisted_7$9),
-      _cache[6] || (_cache[6] = createTextVNode()),
+      }, "Animation Duration", 8, _hoisted_8$9),
+      _cache[8] || (_cache[8] = createTextVNode()),
       withDirectives(createElementVNode("input", {
         type: "number",
         id: $setup.props.id + "-duration",
         class: "form-control",
         "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.animation.duration = $event),
         min: "0"
-      }, null, 8, _hoisted_8$9), [
+      }, null, 8, _hoisted_9$9), [
         [vModelText, $setup.animation.duration]
       ]),
-      _cache[7] || (_cache[7] = createTextVNode()),
-      _cache[8] || (_cache[8] = createElementVNode("small", { class: "form-text text-muted" }, '\n        The duration of this animation. The unit is "ms" (1/1000 seconds)\n      ', -1))
+      _cache[9] || (_cache[9] = createTextVNode()),
+      _cache[10] || (_cache[10] = createElementVNode("small", { class: "form-text text-muted" }, '\n        The duration of this animation. The unit is "ms" (1/1000 seconds)\n      ', -1))
     ]),
-    _cache[13] || (_cache[13] = createTextVNode()),
-    createElementVNode("div", _hoisted_9$9, [
+    _cache[15] || (_cache[15] = createTextVNode()),
+    createElementVNode("div", _hoisted_10$9, [
       createElementVNode("label", {
         for: $setup.props.id + "-delay"
-      }, "Delay Time", 8, _hoisted_10$9),
-      _cache[9] || (_cache[9] = createTextVNode()),
+      }, "Delay Time", 8, _hoisted_11$8),
+      _cache[11] || (_cache[11] = createTextVNode()),
       withDirectives(createElementVNode("input", {
         type: "number",
         id: $setup.props.id + "-delay",
         class: "form-control",
         "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.animation.delay = $event),
         min: "0"
-      }, null, 8, _hoisted_11$8), [
+      }, null, 8, _hoisted_12$8), [
         [vModelText, $setup.animation.delay]
       ]),
-      _cache[10] || (_cache[10] = createTextVNode()),
-      _cache[11] || (_cache[11] = createElementVNode("small", { class: "form-text text-muted" }, '\n        Delay a while to start animation. The unit is "ms" (1/1000 seconds)\n      ', -1))
+      _cache[12] || (_cache[12] = createTextVNode()),
+      _cache[13] || (_cache[13] = createElementVNode("small", { class: "form-text text-muted" }, '\n        Delay a while to start animation. The unit is "ms" (1/1000 seconds)\n      ', -1))
     ])
   ]);
 }

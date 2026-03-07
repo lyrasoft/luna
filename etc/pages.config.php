@@ -25,6 +25,9 @@ static fn() => [
     'page_extends' => [
         'global.body' => 'luna.page.extends.global.body',
     ],
+    'animation' => [
+        'driver' => 'aos'
+    ],
     'protects' => [
         'theme.',
     ],

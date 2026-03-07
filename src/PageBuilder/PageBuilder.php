@@ -35,8 +35,13 @@ class PageBuilder
     public function prepareAssets(?string $html = null): void
     {
         $script = $this->rendererFactory->getScript();
-        $script->wow();
-        $script->animate();
+
+        if ($this->rendererFactory->getAnimationDriver() === 'wow') {
+            $script->wow();
+            $script->animate();
+        } else {
+            $script->aos();
+        }
 
         $this->asset->css('@luna/dist/page.css');
 
