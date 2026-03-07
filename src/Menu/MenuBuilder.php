@@ -266,4 +266,12 @@ class MenuBuilder
     {
         return $this->getRoot();
     }
+
+    /**
+     * @return  array<MenuNode>
+     */
+    public function items(): array
+    {
+        return $this->getRoot()->getChildren();
+    }
 }
