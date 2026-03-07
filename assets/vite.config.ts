@@ -79,7 +79,7 @@ export default defineConfig(({ mode }) => {
           'vue',
           'vue-draggable-plus',
           'vue-multi-uploader',
-          'aos',
+          /^aos/,
         ]
       },
       outDir: 'dist',
