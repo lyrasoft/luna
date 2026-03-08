@@ -77,25 +77,25 @@ $uniScript->addRoute('@auth_ajax');
             </div>
         </form>
 
-        <form id="login-form" class="" action="{{ $nav->to('login') }}"
+        <form id="login-form" class=""
+            action="{{ $nav->to('login') }}"
             uni-form-validate
             method="POST"
             enctype="multipart/form-data"
             {!! $srp->loginDirective() !!}
         >
-
             <x-fieldset :form="$form"></x-fieldset>
 
-            <div class="d-sm-flex justify-content-between mb-5">
-                {{--                <div id="input-user-remember-control mb-3 mb-sm-0" class="checkbox-field">--}}
-                {{--                    <div class="form-check checkbox checkbox-primary">--}}
-                {{--                        <input name="user[remember]" class="form-check-input" type="checkbox"--}}
-                {{--                            id="input-user-remember" value="on">--}}
-                {{--                        <label class="form-check-label" for="input-user-remember">--}}
-                {{--                            @lang('luna.user.field.remember')--}}
-                {{--                        </label>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
+            <div class="d-sm-flex justify-content-between mt-3 mb-5">
+                <div id="input-user-remember-control mb-3 mb-sm-0" class="checkbox-field">
+                    <div class="form-check checkbox checkbox-primary">
+                        <input name="user[remember]" class="form-check-input" type="checkbox"
+                            id="input-user-remember" value="on">
+                        <label class="form-check-label" for="input-user-remember">
+                            @lang('luna.user.field.remember')
+                        </label>
+                    </div>
+                </div>
 
                 <div class="l-login__action ms-auto">
                     <a class="forget-link"

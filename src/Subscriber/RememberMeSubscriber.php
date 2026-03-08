@@ -11,6 +11,8 @@ use Windwalker\Event\Attributes\ListenTo;
 use Windwalker\Session\Cookie\CookiesConfigurableInterface;
 use Windwalker\Session\Session;
 
+use function Windwalker\ds;
+
 /**
  * The RememberMeSubscriber class.
  */
@@ -31,13 +33,14 @@ class RememberMeSubscriber
             $cookies = $this->session->getCookies();
 
             if ($cookies instanceof CookiesConfigurableInterface) {
-                $cookies->expires(
-                    $this->config->getDeep('user.remember_expires') ?? '+100days'
-                );
+                $expires = $this->config->getDeep('user.remember_expires') ?? '+100days';
+                $cookieName = $this->config->getDeep('user.remember_cookie_name') ?? 'WINDWALKER_REMEMBER';
+
+                $cookies->expires($expires);
 
                 $cookies->set(
-                    $this->session->getName(),
-                    $this->session->getId()
+                    $cookieName,
+                    $this->session->getId(),
                 );
             }
         }

@@ -22,6 +22,8 @@ static fn() => [
 
     'remember_expires' => '+100days',
 
+    'remember_cookie_name' => 'WINDWALKER_REMEMBER',
+
     'entity' => User::class,
 
     'srp' => [
