@@ -26,7 +26,7 @@ return new /** 2026030817480001_RememberTokenInit */ class extends AbstractMigra
                 $schema->datetime('last_used_at');
                 $schema->json('params');
 
-                $schema->addIndex('selector');
+                $schema->addUniqueKey('selector');
                 $schema->addIndex('user_id');
                 $schema->addIndex('expired_at');
             }

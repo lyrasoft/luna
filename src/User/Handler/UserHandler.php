@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\User\Handler;
 
 use Lyrasoft\Luna\Entity\User;
+use Lyrasoft\Luna\Services\RememberMeService;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Ramsey\Uuid\UuidInterface;
 use ReflectionException;
@@ -27,6 +28,7 @@ class UserHandler implements UserHandlerInterface
      * UserService constructor.
      */
     public function __construct(
+        protected RememberMeService $rememberMeService,
         protected Session $session,
         protected ORM $orm,
         #[Ref('user')]
@@ -46,7 +48,7 @@ class UserHandler implements UserHandlerInterface
 
         $mapper = $this->getMapper();
 
-        $sessUserId = $this->session->get('login_user_id');
+        $sessUserId = $this->getLoginUserId();
 
         // If session user id same as conditions
         // Just get current user
@@ -60,34 +62,7 @@ class UserHandler implements UserHandlerInterface
         }
 
         if (!$conditions) {
-            $user = $this->once(
-                'current.user',
-                function () use ($sessUserId, $mapper) {
-                    if (!$sessUserId) {
-                        return false;
-                    }
-
-                    $pk = $mapper->getMainKey();
-
-                    // If user is logged-in, get user data from DB to refresh info.
-                    $user = $mapper->findOne([$pk => $sessUserId], Collection::class);
-
-                    if (!$user) {
-                        return false;
-                    }
-
-                    unset($user->password);
-                    $loginUser = $user->dump();
-
-                    return $this->handleFoundUser($loginUser, $mapper);
-                }
-            );
-
-            if (!$user) {
-                return null;
-            }
-
-            return $user;
+            return $this->loadCurrentLoginUser($sessUserId);
         }
 
         if (isset($conditions['email'])) {
@@ -127,7 +102,7 @@ class UserHandler implements UserHandlerInterface
             $userId = $user->$pk;
         }
 
-        $this->session->set('login_user_id', $userId);
+        $this->rememberLoginUserId($userId);
 
         $this->cacheReset();
 
@@ -157,20 +132,75 @@ class UserHandler implements UserHandlerInterface
         $session->destroy();
         $session->regenerate(false, false);
 
+        $this->rememberMeService->forget();
+
         $this->cacheReset();
 
         return true;
     }
 
-    /**
-     * getMapper
-     *
-     * @return  EntityMapper
-     *
-     * @throws ReflectionException
-     *
-     * @since  2.0.0
-     */
+    public function getLoginUserId(): mixed
+    {
+        $userId = $this->session->get('login_user_id');
+
+        if ($userId) {
+            return $userId;
+        }
+
+        // If user id not exists, try to get user id from remember me token.
+        $token = $this->rememberMeService->getRenewableTokenItem();
+
+        if (!$token) {
+            return null;
+        }
+
+        // Renew login session
+        $this->session->set('login_user_id', $token->userId);
+
+        $this->rememberMeService->renew($token);
+
+        return $token->userId;
+    }
+
+    public function rememberLoginUserId(mixed $userId): void
+    {
+        $this->session->set('login_user_id', $userId);
+    }
+
+    public function loadCurrentLoginUser(mixed $id): mixed
+    {
+        $mapper = $this->getMapper();
+
+        $user = $this->once(
+            'current.user',
+            function () use ($id, $mapper) {
+                if (!$id) {
+                    return false;
+                }
+
+                $pk = $mapper->getMainKey();
+
+                // If user is logged-in, get user data from DB to refresh info.
+                $user = $mapper->findOne([$pk => $id], Collection::class);
+
+                if (!$user) {
+                    return false;
+                }
+
+                unset($user->password);
+                $loginUser = $user->dump();
+
+                return $this->handleFoundUser($loginUser, $mapper);
+            }
+        );
+
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
+    }
+
     protected function getMapper(): EntityMapper
     {
         return $this->orm->mapper($this->getUserEntityClass());

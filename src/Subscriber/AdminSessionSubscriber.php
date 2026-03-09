@@ -19,18 +19,22 @@ class AdminSessionSubscriber
     /**
      * AdminSessionSubscriber constructor.
      */
-    public function __construct(protected Container $container)
+    public function __construct(protected Container $container, protected string $adminStageName = 'admin')
     {
     }
 
     #[ListenTo(AfterRoutingEvent::class)]
     public function afterRouting(AfterRoutingEvent $event): void
     {
+        if ($this->container->has(Session::class)) {
+            return;
+        }
+
         $matched = $event->matched;
 
         $ns = $matched->getExtraValue('namespace');
 
-        if (str_starts_with($ns, 'admin')) {
+        if (str_starts_with($ns, $this->adminStageName)) {
             $session = $this->container->get(Session::class);
             $session->setName('WINDWALKER_ADMIN_SESSID');
         }

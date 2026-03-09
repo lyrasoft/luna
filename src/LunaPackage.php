@@ -10,6 +10,7 @@ use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Captcha\CaptchaDriverInterface;
 use Lyrasoft\Luna\Captcha\CaptchaManager;
+use Lyrasoft\Luna\Entity\RememberToken;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
 use Lyrasoft\Luna\Menu\MenuBuilder;
@@ -38,6 +39,7 @@ use Windwalker\Core\DI\RequestBootableProviderInterface;
 use Windwalker\Core\Http\AppRequest;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\Core\Package\PackageInstaller;
+use Windwalker\Core\Package\PackageMigrator;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Core\Seed\FakerService;
 use Windwalker\Core\Service\ErrorService;
@@ -322,6 +324,15 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
                 ['modules', $name . '_model']
             );
         }
+    }
+
+    public function migrate(PackageMigrator $migrator): void
+    {
+        $migrator->addDbMigrate('2.2.14')
+            ->checkEntitiesNotOverrides(RememberToken::class)
+            ->migrationFiles(
+                static::path('resources/migrations/2026030817480001_RememberTokenInit.php')
+            );
     }
 
     protected function registerSRPServices(Container $container): void

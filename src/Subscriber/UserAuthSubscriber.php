@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Subscriber;
 
-use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\Event\LoginAuthEvent;
 use Lyrasoft\Luna\User\Exception\AuthenticateFailException;
 use Lyrasoft\Luna\User\UserEnabledEntityInterface;
-use Lyrasoft\Luna\User\UserService;
 use Lyrasoft\Luna\User\UserVerifiedEntityInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\State\AppState;
+use Windwalker\DI\Container;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
 
@@ -25,8 +24,11 @@ class UserAuthSubscriber
 {
     use TranslatorTrait;
 
-    public function __construct(protected AppState $state)
-    {
+    public function __construct(
+        protected Container $container,
+        protected AppState $state,
+        protected ?\Closure $handler = null,
+    ) {
     }
 
     #[ListenTo(LoginAuthEvent::class)]
@@ -60,6 +62,16 @@ class UserAuthSubscriber
             throw new AuthenticateFailException(
                 $this->trans('luna.login.message.not.enabled'),
                 40102
+            );
+        }
+
+        if ($this->handler) {
+            $this->container->call(
+                $this->handler,
+                [
+                    'event' => $event,
+                    LoginAuthEvent::class => $event,
+                ]
             );
         }
     }
