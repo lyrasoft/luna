@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Services;
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use Lyrasoft\Luna\Entity\RememberToken;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\Utilities\Base64Url;
 use Windwalker\Crypt\Hasher\PasswordHasherInterface;
-use Windwalker\Crypt\SecretToolkit;
 use Windwalker\ORM\ORM;
 use Windwalker\Session\Cookie\CookiesConfigurableInterface;
 use Windwalker\Session\Session;
 
 use function Windwalker\chronos;
 
-use const Windwalker\Crypt\ENCODER_HEX;
-
 class RememberMeService
 {
-    public const string REMEMBER_SECRET_INFO = 'luna.remember.me';
-
     public function __construct(
         protected AppContext $app,
         protected ORM $orm,
