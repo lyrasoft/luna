@@ -207,7 +207,9 @@ class RememberMeService
     protected function forgetCookieTokenPair(): void
     {
         $cookies = $this->session->getCookies();
-        $cookies->remove($this->getCookieName());
+
+        // todo: Use remove() after framework fix it
+        $cookies->set($this->getCookieName(), '', ['expires' => 0]);
     }
 
     /**
