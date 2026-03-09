@@ -37,7 +37,7 @@ class PageRepository implements ManageRepositoryInterface, ListRepositoryInterfa
         $selector->from(Page::class)
             ->leftJoin(
                 Category::class,
-                null,
+                'category',
                 'category.id',
                 'page.category_id'
             );
