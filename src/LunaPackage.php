@@ -22,6 +22,7 @@ use Lyrasoft\Luna\Services\AssociationService;
 use Lyrasoft\Luna\Services\ConfigService;
 use Lyrasoft\Luna\Services\LocaleService;
 use Lyrasoft\Luna\Services\MenuService;
+use Lyrasoft\Luna\Services\RememberMeService;
 use Lyrasoft\Luna\Services\TagService;
 use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\ActivationService;
@@ -209,6 +210,7 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             )
         );
         $container->prepareSharedObject(UserSwitchService::class);
+        $container->prepareSharedObject(RememberMeService::class);
         $container->prepareSharedObject(AccessService::class);
         $container->prepareSharedObject(ActivationService::class);
         $container->prepareSharedObject(SocialAuthService::class);

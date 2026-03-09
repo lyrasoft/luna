@@ -20,11 +20,14 @@ return #[ConfigModule(name: 'user', enabled: true, priority: 100, belongsTo: Lun
 static fn() => [
     'login_name' => 'email',
 
-    'remember_expires' => '+100days',
-
-    'remember_cookie_name' => 'WINDWALKER_REMEMBER',
-
     'entity' => User::class,
+
+    'remember' => [
+        'expires' => '+100days',
+        'cookie_name' => 'WINDWALKER_REMEMBER',
+        'clear_probability' => 1,
+        'clear_divisor' => 100,
+    ],
 
     'srp' => [
         'enabled' => false,

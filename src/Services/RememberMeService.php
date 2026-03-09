@@ -10,16 +10,17 @@ use Lyrasoft\Luna\Entity\RememberToken;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Core\Utilities\Base64Url;
 use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\Crypt\SecretToolkit;
-use Windwalker\DI\Attributes\Service;
 use Windwalker\ORM\ORM;
 use Windwalker\Session\Cookie\CookiesConfigurableInterface;
 use Windwalker\Session\Session;
 
 use function Windwalker\chronos;
 
-#[Service]
+use const Windwalker\Crypt\ENCODER_HEX;
+
 class RememberMeService
 {
     public const string REMEMBER_SECRET_INFO = 'luna.remember.me';
@@ -30,19 +31,19 @@ class RememberMeService
         protected Session $session,
         protected UserService $userService,
         protected PasswordHasherInterface $passwordHasher,
-        protected int $selectorLength = 12,
+        protected int $selectorLength = 16,
         protected int $validatorLength = 32,
     ) {
     }
 
     public function createSelector(): string
     {
-        return SecretToolkit::genSecret($this->selectorLength, withPrefix: false);
+        return random_bytes($this->selectorLength);
     }
 
     public function createValidator(): string
     {
-        return SecretToolkit::genSecret($this->validatorLength, withPrefix: false);
+        return random_bytes($this->validatorLength);
     }
 
     public function startNewRemember(mixed $userId): ?RememberToken
@@ -50,16 +51,6 @@ class RememberMeService
         $cookies = $this->session->getCookies();
 
         if (!$cookies instanceof CookiesConfigurableInterface) {
-            return null;
-        }
-
-        if (!$this->isTableExists()) {
-            if (WINDWALKER_DEBUG) {
-                throw new \RuntimeException(
-                    'Missing `remember_tokens` table. Please run the migration to create it.'
-                );
-            }
-
             return null;
         }
 
@@ -83,16 +74,21 @@ class RememberMeService
         $tokenItem = $this->findTokenItem($selector);
 
         if (!$tokenItem) {
+            $this->forgetCookieTokenPair();
+            $this->clearExpired();
+
             return null;
         }
 
         if ($tokenItem->expiredAt->isPast()) {
             $this->orm->deleteBulk(RememberToken::class, $tokenItem->id);
+            $this->forgetCookieTokenPair();
+            $this->clearExpired();
 
             return null;
         }
 
-        if (!$this->passwordHasher->verify($validator, $tokenItem->validator)) {
+        if (!hash_equals($tokenItem->validator, hash('sha256', $validator, true))) {
             return null;
         }
 
@@ -112,10 +108,6 @@ class RememberMeService
 
     public function findTokenItem(string $selector): ?RememberToken
     {
-        if (!$this->isTableExists()) {
-            return null;
-        }
-
         return $this->orm->findOne(RememberToken::class, compact('selector'));
     }
 
@@ -148,9 +140,10 @@ class RememberMeService
     ): string {
         $validator = $this->createValidator();
 
-        $validatorHashed = $this->passwordHasher->hash($validator);
+        $validatorHashed = hash('sha256', $validator, true);
 
         $token->validator = $validatorHashed;
+        $token->lastUsedAt = 'now';
         $token->expiredAt = chronos($expires ?? $this->getExpires());
 
         return $validator;
@@ -168,9 +161,7 @@ class RememberMeService
             return null;
         }
 
-        [$selector, $validator] = $this->decodeRememberToken($rememberToken);
-
-        return [$selector, $validator];
+        return $this->decodeRememberToken($rememberToken);
     }
 
     protected function rememberCookieTokenPair(
@@ -180,7 +171,7 @@ class RememberMeService
     ): void {
         $cookies = $this->session->getCookies();
 
-        $token = $this->encodeRememberToken($selector, $validator, $expires);
+        $token = $this->encodeRememberToken($selector, $validator);
 
         $cookies->set(
             $this->getCookieName(),
@@ -202,6 +193,7 @@ class RememberMeService
         }
 
         $this->forgetCookieTokenPair();
+        $this->clearExpired();
     }
 
     protected function forgetCookieTokenPair(): void
@@ -212,20 +204,34 @@ class RememberMeService
         $cookies->set($this->getCookieName(), '', ['expires' => 0]);
     }
 
+    public function clearExpired(): void
+    {
+        $probability = $this->getClearProbability();
+        $divisor = $this->getClearDivisor();
+
+        if (random_int(1, $divisor) <= $probability) {
+            $this->orm->delete(RememberToken::class)
+                ->where('expired_at', '<', chronos())
+                ->execute();
+        }
+    }
+
     /**
      * @param  string  $token
      *
-     * @return  array{ string, string }
+     * @return  array{ string, string }|null
      */
-    public function decodeRememberToken(string $token): array
+    public function decodeRememberToken(string $token): ?array
     {
-        $payload = JWT::decode(
-            $token,
-            new Key($this->getDerivedSecret(), 'HS256')
-        );
+        $raw = (string) Base64Url::decode($token);
 
-        $selector = $payload->selector;
-        $validator = $payload->validator;
+        // Get 16 and 32 length bytes for selector and validator.
+        $selector = substr($raw, 0, $this->selectorLength);
+        $validator = substr($raw, $this->selectorLength, $this->validatorLength);
+
+        if (!$selector || !$validator) {
+            return null;
+        }
 
         return [$selector, $validator];
     }
@@ -233,31 +239,30 @@ class RememberMeService
     public function encodeRememberToken(
         string $selector,
         string $validator,
-        \DateTimeInterface|string|int $expires
     ): string {
-        $expires = chronos($expires);
-
-        return JWT::encode(
-            [
-                'selector' => $selector,
-                'validator' => $validator,
-                'exp' => $expires->getTimestamp(),
-            ],
-            $this->getDerivedSecret(),
-            'HS256',
-        );
+        return Base64Url::encode($selector . $validator);
     }
 
     public function getExpires(): Chronos
     {
-        $expires = $this->app->config('user.remember_expires') ?: '100days';
+        $expires = $this->app->config('user.remember.expires') ?: '100days';
 
         return chronos($expires);
     }
 
     public function getCookieName(): string
     {
-        return (string) ($this->app->config('user.remember_cookie_name') ?? 'WINDWALKER_REMEMBER');
+        return (string) ($this->app->config('user.remember.cookie_name') ?? 'WINDWALKER_REMEMBER');
+    }
+
+    public function getClearProbability(): int
+    {
+        return (int) ($this->app->config('user.remember.clear_probability') ?? 1);
+    }
+
+    public function getClearDivisor(): int
+    {
+        return (int) ($this->app->config('user.remember.clear_divisor') ?? 100);
     }
 
     /**

@@ -18,8 +18,8 @@ return new /** 2026030817480001_RememberTokenInit */ class extends AbstractMigra
             RememberToken::class,
             function (Schema $schema) {
                 $schema->primary('id');
-                $schema->varchar('selector');
-                $schema->varchar('validator');
+                $schema->binary('selector')->length(16);
+                $schema->binary('validator')->length(32);
                 $schema->integer('user_id');
                 $schema->datetime('created');
                 $schema->datetime('expired_at');
