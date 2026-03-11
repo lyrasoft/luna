@@ -41,6 +41,10 @@ class RememberMeService
 
     public function startNewRemember(mixed $userId): ?RememberToken
     {
+        if (!$this->isEnabled()) {
+            return null;
+        }
+
         $cookies = $this->session->getCookies();
 
         if (!$cookies instanceof CookiesConfigurableInterface) {
@@ -56,6 +60,10 @@ class RememberMeService
 
     public function getRenewableTokenItem(): ?RememberToken
     {
+        if (!$this->isEnabled()) {
+            return null;
+        }
+
         $pair = $this->getCookieTokenPair();
 
         if (!$pair) {
@@ -68,7 +76,6 @@ class RememberMeService
 
         if (!$tokenItem) {
             $this->forgetCookieTokenPair();
-            $this->clearExpired();
 
             return null;
         }
@@ -76,7 +83,6 @@ class RememberMeService
         if ($tokenItem->expiredAt->isPast()) {
             $this->orm->deleteBulk(RememberToken::class, $tokenItem->id);
             $this->forgetCookieTokenPair();
-            $this->clearExpired();
 
             return null;
         }
@@ -90,11 +96,17 @@ class RememberMeService
 
     public function renew(RememberToken $token, \DateTimeInterface|string|int|null $expires = null): string
     {
+        if (!$this->isEnabled()) {
+            throw new \LogicException('Remember me is not enabled.');
+        }
+
         $validator = $this->renewTokenValidator($token, $expires);
 
         $this->orm->updateOne($token);
 
         $this->rememberCookieTokenPair($token->selector, $validator, $token->expiredAt);
+
+        $this->clearExpired();
 
         return $validator;
     }
@@ -236,6 +248,11 @@ class RememberMeService
         return Base64Url::encode($selector . $validator);
     }
 
+    public function isEnabled(): bool
+    {
+        return (bool) $this->app->config('user.remember.enabled');
+    }
+
     public function getExpires(): Chronos
     {
         $expires = $this->app->config('user.remember.expires') ?: '100days';
@@ -256,14 +273,6 @@ class RememberMeService
     public function getClearDivisor(): int
     {
         return (int) ($this->app->config('user.remember.clear_divisor') ?? 100);
-    }
-
-    /**
-     * @return  string
-     */
-    public function getDerivedSecret(): string
-    {
-        return $this->app->getSecret(static::REMEMBER_SECRET_INFO);
     }
 
     /**

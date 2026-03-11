@@ -23,6 +23,7 @@ static fn() => [
     'entity' => User::class,
 
     'remember' => [
+        'enabled' => false,
         'expires' => '+100days',
         'cookie_name' => 'WINDWALKER_REMEMBER',
         'clear_probability' => 1,
