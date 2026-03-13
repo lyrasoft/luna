@@ -61,8 +61,6 @@ class UserHandler implements UserHandlerInterface
             $conditions = null;
         }
 
-        $this->rememberMeService->clearExpired();
-
         if (!$conditions) {
             return $this->loadCurrentLoginUser($sessUserId);
         }
