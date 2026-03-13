@@ -67,7 +67,7 @@ export default defineConfig(({ mode }) => {
           // }
         },
         external: [
-          '@windwalker-io/unicorn-next',
+          /^@windwalker-io\/unicorn-next/,
           '@lyrasoft/ts-toolkit',
           /^@lyrasoft\/ts-toolkit/,
           'node:crypto',
@@ -80,6 +80,7 @@ export default defineConfig(({ mode }) => {
           'vue-draggable-plus',
           'vue-multi-uploader',
           /^aos/,
+          /^spectrum-vanilla/,
         ]
       },
       outDir: 'dist',
