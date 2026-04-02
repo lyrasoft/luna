@@ -10,9 +10,12 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
+use Windwalker\Query\Clause\AsClause;
+use Windwalker\Query\Query;
 use Windwalker\Utilities\StrNormalize;
 
 use function Windwalker\collect;
+use function Windwalker\Query\val;
 
 /**
  * The AssociationService class.
@@ -414,5 +417,71 @@ class AssociationService
         $key = $this->orm->mapper($table)->getMainKey();
 
         return $this->orm->findList($table, [$key => $assocIds])->all();
+    }
+
+    public static function smartJoin(
+        Query $query,
+        string $keyFrom,
+        string $thatAlias,
+        string $keyThat,
+    ) {
+        $from = $query->getFrom();
+
+        if (count($from->elements) === 0) {
+            throw new \InvalidArgumentException('Query has no `from` clause.');
+        }
+
+        /** @var AsClause $fromClause */
+        $fromClause = $from->elements[0];
+
+        $table = $fromClause->getValue();
+        $alias = $fromClause->getAlias();
+
+        if (!$alias) {
+            $query::convertClassToTable($table, $alias);
+        }
+
+        return static::prepareJoin(
+            $query,
+            $table,
+            $alias,
+            $keyFrom,
+            $thatAlias,
+            $keyThat
+        );
+    }
+
+    public static function prepareJoin(
+        Query $query,
+        string $table,
+        string $fromAlias,
+        string $keyFrom,
+        string $thatAlias,
+        string $keyThat,
+    ): Query {
+        return $query->leftJoin(
+            Association::class,
+            'assoc',
+            [
+                ['assoc.target_id', $fromAlias . '.id'],
+                ['assoc.type', val(static::toTypeString($table))],
+                ['assoc.key', val($keyFrom)],
+            ]
+        )
+            ->leftJoin(
+                Association::class,
+                'assoc2',
+                [
+                    ['assoc2.type', val(static::toTypeString($table))],
+                    ['assoc2.key', val($keyThat)],
+                    ['assoc2.hash', 'assoc.hash'],
+                ]
+            )
+            ->leftJoin(
+                $table,
+                $thatAlias,
+                $thatAlias . '.id',
+                'assoc2.target_id',
+            );
     }
 }
