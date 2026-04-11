@@ -114,7 +114,6 @@ class UserHandler implements UserHandlerInterface
             if ($this->orm->getDb()->getTableManager($table)->hasColumn('user_id')) {
                 $this->orm->getDb()->update($table)
                     ->set('user_id', $userId)
-                    ->set('remember', (int) ($options['remember'] ?? 0))
                     ->where('id', $this->session->getId())
                     ->execute();
             }
@@ -157,7 +156,7 @@ class UserHandler implements UserHandlerInterface
         // Renew login session
         $this->session->set('login_user_id', $token->userId);
 
-        $this->rememberMeService->renew($token);
+        $this->rememberMeService->renew($token, sessId: $this->session->getId());
 
         return $token->userId;
     }

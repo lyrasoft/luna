@@ -21,6 +21,7 @@ return new /** 2026030817480001_RememberTokenInit */ class extends AbstractMigra
                 $schema->binary('selector')->length(16);
                 $schema->binary('validator')->length(32);
                 $schema->integer('user_id');
+                $schema->varchar('sess_id');
                 $schema->datetime('created');
                 $schema->datetime('expired_at');
                 $schema->datetime('last_used_at');
@@ -29,6 +30,7 @@ return new /** 2026030817480001_RememberTokenInit */ class extends AbstractMigra
                 $schema->addUniqueKey('selector');
                 $schema->addIndex('user_id');
                 $schema->addIndex('expired_at');
+                $schema->addIndex('sess_id');
             }
         );
     }

@@ -32,8 +32,7 @@ class Session implements EntityInterface
     public int $userId = 0;
 
     #[Column('remember')]
-    #[Cast('bool', 'int')]
-    public bool $remember = false;
+    public ?string $remember = null;
 
     #[Column('time')]
     public int $time = 0;

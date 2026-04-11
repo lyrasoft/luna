@@ -10,12 +10,10 @@ use Lyrasoft\Luna\Subscriber\AutoOpenGraphSubscriber;
 use Lyrasoft\Luna\Subscriber\BuildFormFieldSubscriber;
 use Lyrasoft\Luna\Subscriber\EntityBuildingSubscriber;
 use Lyrasoft\Luna\Subscriber\LocaleSubscriber;
-use Lyrasoft\Luna\User\Handler\SessionDatabaseHandler;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\ConfigModule;
 use Windwalker\Core\Console\ConsoleApplication;
 use Windwalker\Core\Router\Navigator;
-use Windwalker\Session\Handler\DatabaseHandler;
 
 return #[ConfigModule(name: 'luna', enabled: true, priority: 100, belongsTo: LunaPackage::class)]
 static fn() => [
@@ -35,7 +33,7 @@ static fn() => [
     ],
 
     'aliases' => [
-        DatabaseHandler::class => SessionDatabaseHandler::class,
+        //
     ],
 
     'view_extends' => [

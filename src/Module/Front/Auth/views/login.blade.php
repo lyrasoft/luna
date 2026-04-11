@@ -17,6 +17,7 @@ namespace App\View;
  */
 
 use Lyrasoft\Luna\Auth\SRP\SRPService;
+use Lyrasoft\Luna\Services\RememberMeService;
 use Unicorn\Script\UnicornScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -26,6 +27,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $srp = $app->service(SRPService::class);
+$rememberMeService = $app->service(RememberMeService::class);
 
 $uniScript = $app->service(UnicornScript::class);
 $uniScript->addRoute('@auth_ajax');
@@ -86,9 +88,10 @@ $uniScript->addRoute('@auth_ajax');
         >
             <x-fieldset :form="$form"></x-fieldset>
 
-            <div class="d-sm-flex justify-content-between mt-3 mb-5">
-                <div id="input-user-remember-control mb-3 mb-sm-0" class="checkbox-field">
-                    <div class="form-check checkbox checkbox-primary">
+            <div class="d-flex flex-column flex-sm-row justify-content-between mt-3 mb-5 gap-3">
+                @if ($rememberMeService->isEnabled())
+                <div class="l-login__remember">
+                    <div id="input-user-remember-control" class="form-check checkbox checkbox-primary">
                         <input name="user[remember]" class="form-check-input" type="checkbox"
                             id="input-user-remember" value="on">
                         <label class="form-check-label" for="input-user-remember">
@@ -96,8 +99,9 @@ $uniScript->addRoute('@auth_ajax');
                         </label>
                     </div>
                 </div>
+                @endif
 
-                <div class="l-login__action ms-auto">
+                <div class="l-login__forget">
                     <a class="forget-link"
                         href="{{ $nav->to('forget_request') }}">
                         @lang('luna.button.forget')

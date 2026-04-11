@@ -13,6 +13,8 @@ use function Windwalker\chronos;
 
 /**
  * The SessionDatabaseHandler class.
+ *
+ * @deprecated  Use remember tokens to handle remember me.
  */
 class SessionDatabaseHandler extends DatabaseHandler
 {

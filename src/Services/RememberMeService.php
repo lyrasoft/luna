@@ -5,20 +5,28 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Services;
 
 use Lyrasoft\Luna\Entity\RememberToken;
+use Lyrasoft\Luna\Entity\Session as SessionEntity;
+use Lyrasoft\Luna\User\Event\RememberTokenRenewEvent;
+use Lyrasoft\Luna\User\Event\RememberTokenStartEvent;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Core\Event\CoreEventAwareTrait;
 use Windwalker\Core\Utilities\Base64Url;
 use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\ORM;
+use Windwalker\Session\Bridge\PhpBridge;
 use Windwalker\Session\Cookie\CookiesConfigurableInterface;
 use Windwalker\Session\Cookie\CookiesOptions;
+use Windwalker\Session\Handler\DatabaseHandler;
 use Windwalker\Session\Session;
 
 use function Windwalker\chronos;
 
 class RememberMeService
 {
+    use CoreEventAwareTrait;
+
     public function __construct(
         protected AppContext $app,
         protected ORM $orm,
@@ -46,15 +54,26 @@ class RememberMeService
             return null;
         }
 
-        $cookies = $this->session->getCookies();
+        [$item, $selector, $rawValidator] = $this->createAndSaveRememberToken($userId, sessId: $this->session->getId());
 
-        if (!$cookies instanceof CookiesConfigurableInterface) {
-            return null;
+        $this->rememberCookieTokenPair($selector, $rawValidator, $item->expiredAt);
+
+        $bridge = $this->session->getBridge();
+
+        if ($bridge instanceof PhpBridge && $bridge->getHandler() instanceof DatabaseHandler) {
+            $this->orm->update(SessionEntity::class)
+                ->set('remember', $selector)
+                ->where('id', $this->session->getId())
+                ->execute();
         }
 
-        [$item, $selector, $validator] = $this->createAndSaveRememberToken($userId);
-
-        $this->rememberCookieTokenPair($selector, $validator, $item->expiredAt);
+        $this->emit(
+            new RememberTokenStartEvent(
+                token: $item,
+                validator: $rawValidator,
+                rememberMeService: $this,
+            )
+        );
 
         return $item;
     }
@@ -95,21 +114,32 @@ class RememberMeService
         return $tokenItem;
     }
 
-    public function renew(RememberToken $token, \DateTimeInterface|string|int|null $expires = null): string
-    {
+    public function renew(
+        RememberToken $token,
+        \DateTimeInterface|string|int|null $expires = null,
+        ?string $sessId = null,
+    ): string {
         if (!$this->isEnabled()) {
             throw new \LogicException('Remember me is not enabled.');
         }
 
-        $validator = $this->renewTokenValidator($token, $expires);
+        $rawValidator = $this->renewTokenValidator($token, $expires, $sessId);
 
         $this->orm->updateOne($token);
 
-        $this->rememberCookieTokenPair($token->selector, $validator, $token->expiredAt);
+        $this->rememberCookieTokenPair($token->selector, $rawValidator, $token->expiredAt);
+
+        $this->emit(
+            new RememberTokenRenewEvent(
+                token: $token,
+                validator: $rawValidator,
+                rememberMeService: $this,
+            )
+        );
 
         $this->clearExpired();
 
-        return $validator;
+        return $rawValidator;
     }
 
     public function findTokenItem(string $selector): ?RememberToken
@@ -118,31 +148,37 @@ class RememberMeService
     }
 
     /**
-     * @param  mixed  $userId
+     * @param  mixed                               $userId
+     * @param  \DateTimeInterface|string|int|null  $expires
+     * @param  string|null                         $sessId
      *
      * @return  array{ RememberToken, string, string }
      *
      * @throws \JsonException
      * @throws \ReflectionException
      */
-    public function createAndSaveRememberToken(mixed $userId, \DateTimeInterface|string|int|null $expires = null): array
-    {
+    public function createAndSaveRememberToken(
+        mixed $userId,
+        \DateTimeInterface|string|int|null $expires = null,
+        ?string $sessId = null,
+    ): array {
         $selector = $this->createSelector();
 
         $token = new RememberToken();
         $token->selector = $selector;
         $token->userId = $userId;
 
-        $validator = $this->renewTokenValidator($token, $expires);
+        $rawValidator = $this->renewTokenValidator($token, $expires, $sessId);
 
         $this->orm->createOne($token);
 
-        return [$token, $selector, $validator];
+        return [$token, $selector, $rawValidator];
     }
 
     protected function renewTokenValidator(
         RememberToken $token,
-        \DateTimeInterface|string|int|null $expires = null
+        \DateTimeInterface|string|int|null $expires = null,
+        ?string $sessId = null
     ): string {
         $validator = $this->createValidator();
 
@@ -151,6 +187,10 @@ class RememberMeService
         $token->validator = $validatorHashed;
         $token->lastUsedAt = 'now';
         $token->expiredAt = chronos($expires ?? $this->getExpires());
+
+        if ($sessId) {
+            $token->sessId = $sessId;
+        }
 
         return $validator;
     }
