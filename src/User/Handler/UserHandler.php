@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\User\Handler;
 
+use Lyrasoft\Luna\Entity\Session as SessionEntity;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Services\RememberMeService;
 use Lyrasoft\Luna\User\UserEntityInterface;
 use Ramsey\Uuid\UuidInterface;
 use ReflectionException;
+use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Ref;
 use Windwalker\Data\Collection;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
+use Windwalker\Session\Bridge\PhpBridge;
 use Windwalker\Session\Handler\DatabaseHandler;
 use Windwalker\Session\Session;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
@@ -28,7 +31,7 @@ class UserHandler implements UserHandlerInterface
      * UserService constructor.
      */
     public function __construct(
-        protected RememberMeService $rememberMeService,
+        protected AppContext $app,
         protected Session $session,
         protected ORM $orm,
         #[Ref('user')]
@@ -106,18 +109,7 @@ class UserHandler implements UserHandlerInterface
 
         $this->cacheReset();
 
-        $sessHandler = $this->session->getBridge()->getHandler();
-
-        if ($sessHandler instanceof DatabaseHandler) {
-            $table = $sessHandler->getOption('table');
-
-            if ($this->orm->getDb()->getTableManager($table)->hasColumn('user_id')) {
-                $this->orm->getDb()->update($table)
-                    ->set('user_id', $userId)
-                    ->where('id', $this->session->getId())
-                    ->execute();
-            }
-        }
+        $this->syncToDatabaseSession($this->session->getId(), $userId);
 
         return true;
     }
@@ -131,7 +123,7 @@ class UserHandler implements UserHandlerInterface
         $session->destroy();
         $session->regenerate(false, false);
 
-        $this->rememberMeService->forget();
+        $this->getRememberMeService()->forget();
 
         $this->cacheReset();
 
@@ -147,16 +139,22 @@ class UserHandler implements UserHandlerInterface
         }
 
         // If user id not exists, try to get user id from remember me token.
-        $token = $this->rememberMeService->getRenewableTokenItem();
+        $rememberMeService = $this->getRememberMeService();
+
+        $token = $rememberMeService->getRenewableTokenItem();
 
         if (!$token) {
             return null;
         }
 
         // Renew login session
-        $this->session->set('login_user_id', $token->userId);
+        $this->rememberLoginUserId($token->userId);
 
-        $this->rememberMeService->renew($token, sessId: $this->session->getId());
+        $rememberMeService->renew($token, sessId: $this->session->getId());
+
+        $this->cacheReset();
+
+        $this->syncToDatabaseSession($this->session->getId(), $token->userId);
 
         return $token->userId;
     }
@@ -247,5 +245,35 @@ class UserHandler implements UserHandlerInterface
         $this->cacheSet('current.user', $current);
 
         return $this;
+    }
+
+    public function getRememberMeService(): RememberMeService
+    {
+        return $this->app->retrieve(RememberMeService::class);
+    }
+
+    protected function syncToDatabaseSession(string $sessId, mixed $userId): void
+    {
+        $bridge = $this->session->getBridge();
+
+        if ($bridge instanceof PhpBridge && $bridge->getHandler() instanceof DatabaseHandler) {
+            $bridge->write();
+            $stage = $this->app->getMatchedRoute()?->getNamespace() ?? '';
+
+            $item = [
+                'id' => $sessId,
+                'user_id' => $userId,
+                'stage' => $stage,
+            ];
+
+            // $this->orm->db->getWriter()->upsert(SessionEntity::table(), $item, 'id');
+
+            $this->orm->getDb()
+                ->update(SessionEntity::class)
+                ->set('user_id', $userId)
+                ->set('stage', $stage)
+                ->where('id', $sessId)
+                ->execute();
+        }
     }
 }

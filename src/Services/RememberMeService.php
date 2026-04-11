@@ -58,14 +58,7 @@ class RememberMeService
 
         $this->rememberCookieTokenPair($selector, $rawValidator, $item->expiredAt);
 
-        $bridge = $this->session->getBridge();
-
-        if ($bridge instanceof PhpBridge && $bridge->getHandler() instanceof DatabaseHandler) {
-            $this->orm->update(SessionEntity::class)
-                ->set('remember', $selector)
-                ->where('id', $this->session->getId())
-                ->execute();
-        }
+        $this->syncToDatabaseSession($selector);
 
         $this->emit(
             new RememberTokenStartEvent(
@@ -127,6 +120,8 @@ class RememberMeService
 
         $this->orm->updateOne($token);
 
+        $this->syncToDatabaseSession($token->selector);
+
         $this->rememberCookieTokenPair($token->selector, $rawValidator, $token->expiredAt);
 
         $this->emit(
@@ -167,6 +162,10 @@ class RememberMeService
         $token = new RememberToken();
         $token->selector = $selector;
         $token->userId = $userId;
+
+        if ($matched = $this->app->getMatchedRoute()) {
+            $token->stage = $matched->getNamespace();
+        }
 
         $rawValidator = $this->renewTokenValidator($token, $expires, $sessId);
 
@@ -323,5 +322,19 @@ class RememberMeService
     public function isTableExists(): bool
     {
         return $this->orm->getDb()->getTableManager(RememberToken::class)->exists();
+    }
+
+    public function syncToDatabaseSession(string $selector): void
+    {
+        $bridge = $this->session->getBridge();
+
+        if ($bridge instanceof PhpBridge && $bridge->getHandler() instanceof DatabaseHandler) {
+            $bridge->write();
+
+            $this->orm->update(SessionEntity::class)
+                ->set('remember', $selector)
+                ->where('id', $this->session->getId())
+                ->execute();
+        }
     }
 }

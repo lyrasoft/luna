@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Entity;
 
-use Windwalker\ORM\Attributes\Cast;
 use Windwalker\ORM\Attributes\Column;
 use Windwalker\ORM\Attributes\EntitySetup;
 use Windwalker\ORM\Attributes\PK;
@@ -33,6 +32,9 @@ class Session implements EntityInterface
 
     #[Column('remember')]
     public ?string $remember = null;
+
+    #[Column('stage')]
+    public string $stage = '';
 
     #[Column('time')]
     public int $time = 0;

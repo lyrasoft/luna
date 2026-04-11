@@ -37,8 +37,12 @@ class RememberToken implements EntityInterface
 
     #[Column('user_id')]
     public int $userId = 0;
+
     #[Column('sess_id')]
     public string $sessId = '';
+
+    #[Column('stage')]
+    public string $stage = '';
 
     #[Column('created')]
     #[CastNullable(ServerTimeCast::class)]

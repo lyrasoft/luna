@@ -37,7 +37,7 @@ class UnsplashHelper
     {
         static::init();
 
-        if (!isset(static::$ids[$id])) {
+        if (!isset(static::$ids[$id ?? ''])) {
             $id = static::$ids[array_rand(static::$ids)];
         }
 
