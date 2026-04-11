@@ -73,7 +73,7 @@ use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
                 <input name="{{ $idField->getInputName() }}" type="hidden" value="{{ $idField->getValue() }}" />
             @endif
 
-            @csrf
+            <x-csrf />
         </div>
     </form>
 @stop

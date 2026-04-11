@@ -33,7 +33,7 @@ class Session implements EntityInterface
 
     #[Column('remember')]
     #[Cast('bool', 'int')]
-    public bool $remember = true;
+    public bool $remember = false;
 
     #[Column('time')]
     public int $time = 0;

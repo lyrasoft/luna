@@ -12,6 +12,7 @@ use Windwalker\Core\Utilities\Base64Url;
 use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\ORM;
 use Windwalker\Session\Cookie\CookiesConfigurableInterface;
+use Windwalker\Session\Cookie\CookiesOptions;
 use Windwalker\Session\Session;
 
 use function Windwalker\chronos;
@@ -176,14 +177,16 @@ class RememberMeService
     ): void {
         $cookies = $this->session->getCookies();
 
+        if (!$cookies) {
+            return;
+        }
+
         $token = $this->encodeRememberToken($selector, $validator);
 
         $cookies->set(
             $this->getCookieName(),
             $token,
-            [
-                'expires' => $expires,
-            ]
+            new CookiesOptions(expires: $expires)
         );
     }
 
@@ -205,8 +208,7 @@ class RememberMeService
     {
         $cookies = $this->session->getCookies();
 
-        // todo: Use remove() after framework fix it
-        $cookies->set($this->getCookieName(), '', ['expires' => 0]);
+        $cookies->remove($this->getCookieName());
     }
 
     public function clearExpired(): void
