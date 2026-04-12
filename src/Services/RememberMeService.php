@@ -71,15 +71,33 @@ class RememberMeService
         return $item;
     }
 
+    public function getCurrentSelector(): ?string
+    {
+        if (!$pair = $this->getCookieTokenPair()) {
+            return null;
+        }
+
+        [$selector] = $pair;
+
+        return $selector;
+    }
+
+    public function getCurrentTokenItem(): ?RememberToken
+    {
+        if (!$selector = $this->getCurrentSelector()) {
+            return null;
+        }
+
+        return $this->findTokenItem($selector);
+    }
+
     public function getRenewableTokenItem(): ?RememberToken
     {
         if (!$this->isEnabled()) {
             return null;
         }
 
-        $pair = $this->getCookieTokenPair();
-
-        if (!$pair) {
+        if (!$pair = $this->getCookieTokenPair()) {
             return null;
         }
 
@@ -209,7 +227,7 @@ class RememberMeService
     /**
      * @return  array{ string, string }|null
      */
-    protected function getCookieTokenPair(): ?array
+    public function getCookieTokenPair(): ?array
     {
         $cookies = $this->session->getCookies();
         $rememberToken = $cookies->get($this->getCookieName());
