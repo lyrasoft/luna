@@ -106,12 +106,13 @@ return new /** 2021110708020001_UserInit */ class extends AbstractMigration {
                 $schema->varchar('id')->length(192);
                 $schema->text('data');
                 $schema->integer('user_id');
-                $schema->tinyint('remember');
+                $schema->binary('remember')->nullable(true)->length(16);
                 $schema->integer('time');
 
                 $schema->addUniqueKey('id');
                 $schema->addIndex('user_id');
                 $schema->addIndex('time');
+                $schema->addIndex('remember');
             }
         );
 

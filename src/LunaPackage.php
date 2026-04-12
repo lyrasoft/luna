@@ -11,6 +11,7 @@ use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Captcha\CaptchaDriverInterface;
 use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Lyrasoft\Luna\Entity\RememberToken;
+use Lyrasoft\Luna\Entity\Session;
 use Lyrasoft\Luna\Error\LunaErrorHandler;
 use Lyrasoft\Luna\Faker\LunaFakerProvider;
 use Lyrasoft\Luna\Menu\MenuBuilder;
@@ -334,6 +335,12 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
             ->checkEntitiesNotOverrides(RememberToken::class)
             ->migrationFiles(
                 static::path('resources/migrations/2026030817480001_RememberTokenInit.php')
+            );
+
+        $migrator->addDbMigrate('2.2.16')
+            ->checkEntitiesNotOverrides(RememberToken::class, Session::class)
+            ->migrationFiles(
+                static::path('resources/migrations/2026041111270001_RememberTokenSessionLinked.php')
             );
     }
 
