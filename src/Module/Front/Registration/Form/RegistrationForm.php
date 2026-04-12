@@ -68,7 +68,8 @@ class RegistrationForm implements FieldDefinitionInterface
 
             $form->add('password2', PasswordField::class)
                 ->label($this->trans('luna.user.field.password.confirm'))
-                ->required(true)
+                // Only required from frontend
+                ->attr('required', true)
                 ->attr('data-validate', 'password-confirm')
                 ->attr('data-confirm-target', '[data-role=password]')
                 ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
