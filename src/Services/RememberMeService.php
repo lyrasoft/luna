@@ -157,10 +157,8 @@ class RememberMeService
         \DateTimeInterface|string|int|null $expires = null,
         ?string $sessId = null,
     ): array {
-        $selector = $this->createSelector();
 
         $token = new RememberToken();
-        $token->selector = $selector;
         $token->userId = $userId;
 
         if ($matched = $this->app->getMatchedRoute()) {
@@ -169,9 +167,23 @@ class RememberMeService
 
         $rawValidator = $this->renewTokenValidator($token, $expires, $sessId);
 
+        try {
+            $this->genSelectorAndCreate($token);
+        } catch (\Exception) {
+            // Prevent selector conflict
+            $this->genSelectorAndCreate($token);
+        }
+
+        return [$token, $token->selector, $rawValidator];
+    }
+
+    protected function genSelectorAndCreate(RememberToken $token): RememberToken
+    {
+        $token->selector = $this->createSelector();
+
         $this->orm->createOne($token);
 
-        return [$token, $selector, $rawValidator];
+        return $token;
     }
 
     protected function renewTokenValidator(
