@@ -18,6 +18,7 @@ use Lyrasoft\Luna\User\UserService;
 use Windwalker\Authorization\AuthorizationInterface;
 use Windwalker\Core\Application\AppClient;
 use Windwalker\Core\Application\ApplicationInterface;
+use Windwalker\Data\Collection;
 use Windwalker\ORM\ORM;
 use Windwalker\ORM\SelectorQuery;
 use Windwalker\Query\Query;
@@ -902,6 +903,21 @@ class AccessService
         $dbEnabled = $this->isDbRolesEnabled();
 
         return ($roles !== [] || $dbEnabled) && $this->check(static::ROLE_MODIFY_ACTION);
+    }
+
+    /**
+     * @param  mixed  $roles
+     * @param  bool   $includesSuperior
+     * @param  bool   $includeSuperUser
+     *
+     * @return  Collection<User>
+     */
+    public function getUserByRoles(
+        mixed $roles,
+        bool $includesSuperior = false,
+        bool $includeSuperUser = false
+    ): Collection {
+        return $this->getUserByRolesQuery($roles, $includesSuperior, $includeSuperUser)->all(User::class);
     }
 
     public function getUserByRolesQuery(
