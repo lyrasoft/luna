@@ -6,6 +6,7 @@ namespace Lyrasoft\Luna\Module\Front\Registration;
 
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
+use Lyrasoft\Luna\Repository\PasswordHandleTrait;
 use Lyrasoft\Luna\User\ActivationService;
 use Symfony\Component\Mailer\SentMessage;
 use Unicorn\Attributes\ConfigureAction;
@@ -27,11 +28,11 @@ class RegistrationRepository implements CrudRepositoryInterface
 {
     use TranslatorTrait;
     use CrudRepositoryTrait;
+    use PasswordHandleTrait;
 
     public function __construct(
         protected LunaPackage $luna,
         protected ActivationService $activationService,
-        protected PasswordHasherInterface $hasher,
     ) {
     }
 
@@ -51,15 +52,7 @@ class RegistrationRepository implements CrudRepositoryInterface
             );
         }
 
-        $password = $user['password'];
-        $password2 = $user['password2'];
-
-        if ($password !== $password2) {
-            throw new ValidateFailException($this->trans('luna.message.password.not.match'));
-        }
-
-        $user['password'] = $this->hasher->hash($password);
-        unset($user['password2']);
+        $user = $this->prepareUserPasswordData($user);
 
         return $this->createSaveAction()
             ->processDataAndSave($user, $form);

@@ -32,6 +32,7 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     use ManageRepositoryTrait;
     use ListRepositoryTrait;
     use TranslatorTrait;
+    use PasswordHandleTrait;
 
     public function __construct(
         protected PasswordHasherInterface $password,
@@ -56,13 +57,8 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
                 $data = &$event->data;
 
                 if ($data['password'] ?? null) {
-                    if ($data['password'] !== $data['password2']) {
-                        throw new ValidateFailException('Password not match');
-                    }
-
-                    $data['password'] = $this->password->hash($data['password']);
-
-                    unset($data['password2']);
+                    // If has password, means user wants to change password
+                    $data = $this->prepareUserPasswordData($data);
                 } else {
                     unset($data['password']);
                 }
