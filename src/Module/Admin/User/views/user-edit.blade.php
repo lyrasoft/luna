@@ -16,7 +16,6 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -31,7 +30,6 @@ use Windwalker\Form\Form;
  * @var User $item
  */
 
-$srp = $app->service(SRPService::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.edit') ?? 'admin.global.body-edit')
@@ -45,7 +43,6 @@ $srp = $app->service(SRPService::class);
         novalidate uni-form-validate='{"scroll": true}'
         action="{{ $nav->to('user_edit') }}"
         method="POST" enctype="multipart/form-data"
-        {!! $srp->registerDirective() !!}
     >
 
         <div class="row">

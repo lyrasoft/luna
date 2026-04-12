@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Auth;
 
-use Brick\Math\BigInteger;
 use Lyrasoft\Luna\Access\AccessService;
 use Lyrasoft\Luna\Auth\SocialAuthService;
 use Lyrasoft\Luna\Auth\SRP\SRPControllerTrait;
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\Module\Front\Registration\Form\RegistrationForm;
 use Lyrasoft\Luna\Module\Front\Registration\RegistrationRepository;
 use Lyrasoft\Luna\User\ActivationService;
 use Lyrasoft\Luna\User\UserService;
-use Unicorn\Attributes\Ajax;
 use Unicorn\Controller\AjaxControllerTrait;
 use Windwalker\Authentication\AuthResult;
 use Windwalker\Authentication\ResultSet;
@@ -56,18 +53,17 @@ class AuthController
         }
 
         $data = $app->input('user');
-        $srp = $app->input('srp');
-
-        $data['srp'] = (array) $srp;
 
         // Social Login
         if ($provider = $app->input('provider')) {
             $data = compact('provider');
         }
 
+        $remember = (bool) ($data['remember'] ?? false);
+
         $result = $userService->attemptToLogin(
             $data,
-            ['remember' => (bool) ($data['remember'] ?? false)],
+            ['remember' => $remember],
             $resultSet
         );
 
@@ -136,9 +132,6 @@ class AuthController
         $app->getState()->remember('reg.data', $rememberData);
 
         try {
-            $srpService = $app->retrieve(\Lyrasoft\Luna\Auth\SRP\SRPService::class);
-            $user = $srpService->handleRegister($app, $user);
-
             /** @var User $user */
             $user = $repository->register($user, RegistrationForm::class);
         } catch (\Throwable $e) {

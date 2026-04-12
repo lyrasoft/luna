@@ -16,7 +16,6 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Unicorn\Script\UnicornScript;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -24,8 +23,6 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
-
-$srp = $app->service(SRPService::class);
 
 $uniScript = $app->service(UnicornScript::class);
 $uniScript->addRoute('@auth_ajax');
@@ -82,7 +79,6 @@ $uniScript->addRoute('@auth_ajax');
             uni-form-validate
             method="POST"
             enctype="multipart/form-data"
-            {!! $srp->loginDirective() !!}
         >
             <x-fieldset :form="$form"></x-fieldset>
 
@@ -120,7 +116,7 @@ $uniScript->addRoute('@auth_ajax');
             </div>
 
             <div class="hidden-inputs">
-                @csrf
+                <x-csrf />
             </div>
         </form>
     </div>

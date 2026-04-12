@@ -6,7 +6,6 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
@@ -118,7 +117,6 @@ class ForgetController
 
     public function reset(
         AppContext $app,
-        UserService $userService,
         ORM $orm,
         Navigator $nav
     ): RouteUri {
@@ -146,22 +144,16 @@ class ForgetController
             throw new ValidateFailException($this->trans('luna.forget.request.message.invalid.token'));
         }
 
-        $srpService = $app->retrieve(SRPService::class);
+        $password = $app->input('password');
+        $password2 = $app->input('password2');
 
-        if ($srpService->isEnabled()) {
-            $user = $srpService->handleRegister($app, $user);
-        } else {
-            $password = $app->input('password');
-            $password2 = $app->input('password2');
+        $hasher = $app->retrieve(PasswordHasherInterface::class);
 
-            $hasher = $app->retrieve(PasswordHasherInterface::class);
-
-            if ($password !== $password2) {
-                throw new ValidateFailException($this->trans('luna.forget.reset.message.password.not.match'));
-            }
-
-            $user->password = $hasher->hash($password);
+        if ($password !== $password2) {
+            throw new ValidateFailException($this->trans('luna.forget.reset.message.password.not.match'));
         }
+
+        $user->password = $hasher->hash($password);
 
         $user->resetToken = '';
         $user->lastReset = 'now';

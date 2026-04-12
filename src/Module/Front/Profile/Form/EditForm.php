@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Profile\Form;
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\LunaPackage;
 use Unicorn\Field\SingleImageDragField;
 use Windwalker\Core\Language\TranslatorTrait;
@@ -22,7 +21,7 @@ class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
 
-    public function __construct(protected LunaPackage $luna, protected SRPService $srpService)
+    public function __construct(protected LunaPackage $luna)
     {
     }
 
@@ -54,7 +53,6 @@ class EditForm implements FieldDefinitionInterface
                 if ($loginName !== 'email') {
                     $form->add($loginName, TextField::class)
                         ->label($this->trans('luna.user.field.' . $loginName))
-                        ->attr('data-input-identity', true)
                         ->required(true)
                         ->addFilter('trim');
                 }
@@ -62,7 +60,6 @@ class EditForm implements FieldDefinitionInterface
                 $form->add('email', EmailField::class)
                     ->label($this->trans('luna.user.field.email'))
                     ->required(true)
-                    ->attr('data-input-identity', $loginName === 'email')
                     ->addFilter('trim')
                     ->addValidator(EmailAddress::class);
             }
@@ -74,7 +71,6 @@ class EditForm implements FieldDefinitionInterface
                 $form->add('password', PasswordField::class)
                     ->label($this->trans('luna.user.field.password'))
                     ->attr('data-role', 'password')
-                    ->attr('data-input-password', true)
                     ->attr(
                         'data-value-missing-message',
                         $this->trans('luna.user.field.validate.change.identity.required.password')
@@ -86,7 +82,6 @@ class EditForm implements FieldDefinitionInterface
                     ->attr('data-validate', 'password-confirm')
                     ->attr('data-confirm-target', '[data-role=password]')
                     ->attr('data-custom-error-message', $this->trans('luna.message.password.not.match'))
-                    ->attr('data-srp-override', true)
                     ->autocomplete('new-password');
             }
         );

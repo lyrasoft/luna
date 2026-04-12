@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Registration;
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
 use Lyrasoft\Luna\User\ActivationService;
@@ -33,7 +32,6 @@ class RegistrationRepository implements CrudRepositoryInterface
         protected LunaPackage $luna,
         protected ActivationService $activationService,
         protected PasswordHasherInterface $hasher,
-        protected SRPService $srpService,
     ) {
     }
 
@@ -53,17 +51,15 @@ class RegistrationRepository implements CrudRepositoryInterface
             );
         }
 
-        if (!$this->srpService->isEnabled()) {
-            $password = $user['password'];
-            $password2 = $user['password2'];
+        $password = $user['password'];
+        $password2 = $user['password2'];
 
-            if ($password !== $password2) {
-                throw new ValidateFailException($this->trans('luna.message.password.not.match'));
-            }
-
-            $user['password'] = $this->hasher->hash($password);
-            unset($user['password2']);
+        if ($password !== $password2) {
+            throw new ValidateFailException($this->trans('luna.message.password.not.match'));
         }
+
+        $user['password'] = $this->hasher->hash($password);
+        unset($user['password2']);
 
         return $this->createSaveAction()
             ->processDataAndSave($user, $form);

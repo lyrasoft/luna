@@ -16,7 +16,6 @@ namespace App\View;
  * @var $lang      LangService     The language translation service.
  */
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -24,7 +23,6 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
-$srp = $app->retrieve(SRPService::class);
 ?>
 
 @extends($app->config('luna.view_extends.front.auth') ?? 'global.auth')
@@ -35,7 +33,6 @@ $srp = $app->retrieve(SRPService::class);
         uni-form-validate
         method="POST"
         enctype="multipart/form-data"
-        {!! $srp->registerDirective() !!}
     >
         <div class="container">
             <div class="form-group mb-3" uni-field-validate>
@@ -73,12 +70,9 @@ $srp = $app->retrieve(SRPService::class);
                 </button>
             </p>
 
-            <div class="hidden-inputs">
+            <div class="hidden-inputs d-none">
                 <input name="token" type="hidden" value="{{ $token ?? '' }}" />
-                @if ($srp->isEnabled())
-                    <input name="identity" type="hidden" value="{{ $identity ?? '' }}" data-input-identity />
-                @endif
-                @csrf
+                <x-csrf />
             </div>
         </div>
     </form>

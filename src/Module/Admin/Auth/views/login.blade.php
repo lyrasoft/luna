@@ -16,7 +16,6 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -24,7 +23,6 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
-$srp = $app->service(SRPService::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.auth') ?? 'admin.global.auth')
@@ -32,7 +30,6 @@ $srp = $app->service(SRPService::class);
 @section('container')
     <form id="login-form" class="l-login" action="{{ $nav->to('login') }}" method="POST"
         enctype="multipart/form-data"
-        {!! $srp->loginDirective() !!}
     >
 
         <div class="container d-flex flex-column gap-4">
@@ -58,7 +55,7 @@ $srp = $app->service(SRPService::class);
             </p>
 
             <div class="hidden-inputs">
-                @csrf
+                <x-csrf />
             </div>
         </div>
     </form>

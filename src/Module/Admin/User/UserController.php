@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\User;
 
 use Lyrasoft\Luna\Access\AccessService;
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\Entity\UserRoleMap;
@@ -48,17 +47,12 @@ class UserController
         #[Autowire] EditForm $form,
         FileUploadService $uploadService,
         UserService $userService,
-        SRPService $srpService,
     ): mixed {
         $controller->beforeSave(
-            function (BeforeSaveEvent $event) use ($srpService, $app) {
+            function (BeforeSaveEvent $event) use ($app) {
                 $data = &$event->data;
 
                 $app->call($this->checkSuperUserAccess(...), ['user' => $event->tempEntity]);
-
-                if ($srpService->isEnabled()) {
-                    $data = $srpService->handleRegister($app, $data);
-                }
             }
         );
 

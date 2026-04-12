@@ -16,7 +16,6 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Attributes\ViewModel;
@@ -26,8 +25,6 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 $app->service(\Lyrasoft\Luna\Script\LunaScript::class)->accountCheck();
-
-$srp = $app->service(SRPService::class);
 
 ?>
 
@@ -63,7 +60,6 @@ $srp = $app->service(SRPService::class);
             uni-form-validate="@json(['scroll' => true])"
             method="POST"
             enctype="multipart/form-data"
-            {!! $srp->registerDirective() !!}
         >
 
             <x-fieldset :form="$form"></x-fieldset>

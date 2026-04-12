@@ -16,7 +16,6 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -31,7 +30,6 @@ use Windwalker\Form\Form;
  * @var User $item
  */
 
-$srp = $app->retrieve(SRPService::class);
 ?>
 
 @extends($app->config('luna.view_extends.front.base') ?? 'global.body')
@@ -44,7 +42,6 @@ $srp = $app->retrieve(SRPService::class);
             action="{{ $nav->to('profile_edit') }}"
             method="POST"
             enctype="multipart/form-data"
-            {!! $srp->registerDirective() !!}
         >
 
             <div class="row justify-content-center">

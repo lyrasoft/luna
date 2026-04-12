@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Front\Profile;
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Module\Front\Profile\Form\EditForm;
 use Lyrasoft\Luna\Repository\UserRepository;
 use Lyrasoft\Luna\User\UserService;
@@ -37,10 +36,9 @@ class ProfileController
         #[Autowire] UserRepository $repository,
         #[Autowire] EditForm $form,
         FileUploadService $uploadService,
-        SRPService $srpService
     ): mixed {
         $controller->prepareSave(
-            function (PrepareSaveEvent $event) use ($srpService, $userService, $repository, $app) {
+            function (PrepareSaveEvent $event) use ($userService, $repository, $app) {
                 $data = &$event->data;
 
                 $user = $userService->getUser();
@@ -51,8 +49,6 @@ class ProfileController
 
                 $key = $repository->getEntityMapper()->getMainKey();
                 $data[$key] = $user->id;
-
-                $data = $srpService->handleRegister($app, $data);
             }
         );
 

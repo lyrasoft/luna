@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Repository;
 
-use Lyrasoft\Luna\Auth\SRP\SRPService;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\LunaPackage;
 use Unicorn\Attributes\ConfigureAction;
@@ -37,7 +36,6 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     public function __construct(
         protected PasswordHasherInterface $password,
         protected LunaPackage $lunaPackage,
-        protected SRPService $srpService,
     ) {
     }
 
@@ -58,13 +56,11 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
                 $data = &$event->data;
 
                 if ($data['password'] ?? null) {
-                    if (!$this->srpService->isEnabled()) {
-                        if ($data['password'] !== $data['password2']) {
-                            throw new ValidateFailException('Password not match');
-                        }
-
-                        $data['password'] = $this->password->hash($data['password']);
+                    if ($data['password'] !== $data['password2']) {
+                        throw new ValidateFailException('Password not match');
                     }
+
+                    $data['password'] = $this->password->hash($data['password']);
 
                     unset($data['password2']);
                 } else {
