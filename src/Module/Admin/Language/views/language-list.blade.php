@@ -206,15 +206,15 @@ $localeService = $app->service(LocaleService::class);
                     @endforeach
                     </tbody>
                 </table>
+            </div>
 
-                <div>
-                    <x-pagination :pagination="$pagination">
-                        <x-slot name="end">
-                            <x-pagination-jump :pagination="$pagination" />
-                            <x-pagination-stats :pagination="$pagination" class="ms-0 ms-md-auto" />
-                        </x-slot>
-                    </x-pagination>
-                </div>
+            <div>
+                <x-pagination :pagination="$pagination">
+                    <x-slot name="end">
+                        <x-pagination-jump :pagination="$pagination" />
+                        <x-pagination-stats :pagination="$pagination" class="ms-0 ms-md-auto" />
+                    </x-slot>
+                </x-pagination>
             </div>
         @else
             <div class="grid-no-items card bg-light" style="padding: 125px 0;">

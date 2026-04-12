@@ -3,6 +3,9 @@
 namespace Lyrasoft\Luna\Module\Admin\Config\Form;
 
 use InvalidArgumentException;
+use Unicorn\Field\InlineField;
+use Unicorn\Field\RepeatableField;
+use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
@@ -38,6 +41,21 @@ class CoreForm implements FieldDefinitionInterface
 
                 $form->add('google_search_console', TextField::class)
                     ->label('Search Console');
+
+                $form->add('qwe', RepeatableField::class)
+                    ->colWidths(3, 3, 6)
+                    ->layout(RepeatableField::LAYOUT_GRID)
+                    ->rwdBreakpoint('xl')
+                    ->configureForm(
+                        function (Form $form) {
+                            $form->add('county', ListField::class)
+                                ->label('縣市');
+                            $form->add('dist', ListField::class)
+                                ->label('區域');
+                            $form->add('address', TextField::class)
+                                ->label('街道地址');
+                        }
+                    );
             }
         );
 
