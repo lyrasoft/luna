@@ -16,6 +16,7 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
+use Lyrasoft\Luna\Services\RememberMeService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -23,6 +24,7 @@ use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
+$rememberMeService = $app->retrieve(RememberMeService::class);
 ?>
 
 @extends($app->config('luna.view_extends.admin.auth') ?? 'admin.global.auth')
@@ -37,15 +39,17 @@ use Windwalker\Core\Router\SystemUri;
 
             </x-fieldset>
 
-            <div id="input-user-remember-control" class="checkbox-field">
-                <div class="form-check checkbox checkbox-primary m-0">
-                    <input name="user[remember]" class="form-check-input" type="checkbox" id="input-user-remember"
-                        value="on">
-                    <label class="form-check-label" for="input-user-remember">
-                        @lang('luna.login.field.remember')
-                    </label>
+            @if ($rememberMeService->isEnabled())
+                <div class="l-login__remember">
+                    <div id="input-user-remember-control" class="form-check checkbox checkbox-primary">
+                        <input name="user[remember]" class="form-check-input" type="checkbox"
+                            id="input-user-remember" value="on">
+                        <label class="form-check-label" for="input-user-remember">
+                            @lang('luna.user.field.remember')
+                        </label>
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <p class="login-button-group">
                 <button class="login-button btn btn-primary w-100"
