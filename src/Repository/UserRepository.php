@@ -34,6 +34,8 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     use TranslatorTrait;
     use PasswordHandleTrait;
 
+    protected bool $processPassword = true;
+
     public function __construct(
         protected PasswordHasherInterface $password,
         protected LunaPackage $lunaPackage,
@@ -49,6 +51,25 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
         return $selector;
     }
 
+    /**
+     * @template T or object
+     *
+     * @param  array|T  $item
+     * @param  int      $options
+     *
+     * @return  T
+     */
+    public function saveWithoutProcessPassword(array|object $item, int $options = 0): object
+    {
+        $this->processPassword = false;
+
+        $item = $this->save($item, $options);
+
+        $this->processPassword = true;
+
+        return $item;
+    }
+
     #[ConfigureAction(SaveAction::class)]
     protected function configureSaveAction(SaveAction $action): void
     {
@@ -56,11 +77,13 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
             function (PrepareSaveEvent $event) {
                 $data = &$event->data;
 
-                if ($data['password'] ?? null) {
-                    // If has password, means user wants to change password
-                    $data = $this->prepareUserPasswordData($data);
-                } else {
-                    unset($data['password']);
+                if ($this->processPassword) {
+                    if ($data['password'] ?? null) {
+                        // If has password, means user wants to change password
+                        $data = $this->prepareUserPasswordData($data);
+                    } else {
+                        unset($data['password'], $data['password2']);
+                    }
                 }
             }
         );
@@ -69,33 +92,45 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
             function (BeforeSaveEvent $event) {
                 $data = &$event->data;
 
-                $loginName = $this->lunaPackage->getLoginName();
-
-                $account = $data[$loginName];
-
-                $exists = $this->getEntityMapper()->select()
-                    ->where($loginName, $account)
-                    ->where('id', '!=', $data['id'] ?? null)
-                    ->get();
-
-                if ($exists) {
-                    throw new ValidateFailException($this->trans('luna.message.user.account.exists'));
-                }
-
-                if ($loginName !== 'email') {
-                    $email = $data['email'];
-
-                    $exists = $this->getEntityMapper()->select()
-                        ->where('email', $email)
-                        ->where('id', '!=', $data['id'] ?? null)
-                        ->get();
-
-                    if ($exists) {
-                        throw new ValidateFailException($this->trans('luna.message.user.email.exists'));
-                    }
-                }
+                $this->checkUserLoginNameExists($data);
             }
         );
+    }
+
+    /**
+     * @throws ValidateFailException
+     */
+    public function checkUserLoginNameExists(array|User $user): void
+    {
+        if ($user instanceof User) {
+            $user = $this->getEntityMapper()->extract($user);
+        }
+
+        $loginName = $this->lunaPackage->getLoginName();
+
+        $account = $user[$loginName];
+
+        $exists = $this->getEntityMapper()->select()
+            ->where($loginName, $account)
+            ->where('id', '!=', $user['id'] ?? null)
+            ->get();
+
+        if ($exists) {
+            throw new ValidateFailException($this->trans('luna.message.user.account.exists'));
+        }
+
+        if ($loginName !== 'email') {
+            $email = $user['email'];
+
+            $exists = $this->getEntityMapper()->select()
+                ->where('email', $email)
+                ->where('id', '!=', $user['id'] ?? null)
+                ->get();
+
+            if ($exists) {
+                throw new ValidateFailException($this->trans('luna.message.user.email.exists'));
+            }
+        }
     }
 
     #[ConfigureAction(ReorderAction::class)]
