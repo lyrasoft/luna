@@ -11,6 +11,7 @@ use ReflectionClass;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\SassException;
 use Unicorn\Enum\BasicState;
+use Webmozart\Glob\Glob;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Attributes\ViewModel;
@@ -21,6 +22,7 @@ use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\Filesystem\Path;
 use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Attributes\Prop;
+use Windwalker\Utilities\Str;
 
 /**
  * The PageView class.
@@ -59,7 +61,8 @@ class PageView implements ViewModelInterface
      */
     public function prepare(AppContext $app, View $view): array
     {
-        $path = $app->input('path');
+        $routePath = $app->input('path');
+        $path = $routePath ?: $app->getMatchedRoute()?->getExtraValue('path');
 
         if ($path) {
             // Load root layout
@@ -87,10 +90,22 @@ class PageView implements ViewModelInterface
 
                 if (!$app->isDebug()) {
                     $protects = $app->config('pages.protects');
+                    $systemUri = $app->getSystemUri();
+                    $route = rtrim(Str::ensureStart($systemUri->route(), '/'), '/');
 
                     foreach ($protects as $protect) {
-                        if (str_starts_with($layout, $protect)) {
-                            throw new RouteNotFoundException();
+                        if (str_starts_with($protect, '/')) {
+                            if ($protect === $route) {
+                                throw new RouteNotFoundException();
+                            }
+
+                            if (str_contains($protect, '*') && Glob::match($route, $protect)) {
+                                throw new RouteNotFoundException();
+                            }
+                        } else {
+                            if (str_starts_with($layout, $protect)) {
+                                throw new RouteNotFoundException();
+                            }
                         }
                     }
                 }
