@@ -16,6 +16,7 @@ class SRPRegistration {
     this.passwordInput = this.el.querySelector(this.options.passwordSelector);
     this.init();
   }
+  el;
   identityInput;
   passwordInput;
   // saltInput: HTMLInputElement;
@@ -111,6 +112,7 @@ class SRPLogin {
     this.passwordInput = this.el.querySelector(this.options.passwordSelector);
     this.init();
   }
+  el;
   identityInput;
   passwordInput;
   // saltInput: HTMLInputElement | null;

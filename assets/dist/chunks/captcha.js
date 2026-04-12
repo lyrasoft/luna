@@ -11,6 +11,8 @@ class GragwarCaptcha {
       this.refresh();
     });
   }
+  $element;
+  options;
   $image;
   $input;
   $refreshButton;
@@ -78,6 +80,8 @@ class RecaptchaCaptcha {
       }
     }
   }
+  el;
+  type;
   key;
   callbackName;
   jsVerify;

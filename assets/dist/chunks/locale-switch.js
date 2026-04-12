@@ -16,6 +16,7 @@ class LocaleSwitchModal {
       });
     }
   }
+  el;
   options = {
     type: "",
     table: "",
