@@ -29,7 +29,7 @@ static fn() => [
         'driver' => 'aos'
     ],
     'protects' => [
-        'theme.',
+        '/page/theme/**/*',
     ],
     'upload_profile' => 'image',
     'styles' => [
