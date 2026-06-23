@@ -2132,15 +2132,15 @@ __metadata:
   linkType: hard
 
 "tar@npm:^7.5.4":
-  version: 7.5.13
-  resolution: "tar@npm:7.5.13"
+  version: 7.5.16
+  resolution: "tar@npm:7.5.16"
   dependencies:
-    "@isaacs/fs-minipass": "npm:^4.0.0"
-    chownr: "npm:^3.0.0"
-    minipass: "npm:^7.1.2"
-    minizlib: "npm:^3.1.0"
-    yallist: "npm:^5.0.0"
-  checksum: 2bc2b6f0349038a6621dbba1c4522d45752d5071b2994692257113c2050cd23fafc30308f820e5f8ad6fda3f7d7f92adc9a432aa733daa04c42af2061c021c3f
+    "@isaacs/fs-minipass": ^4.0.0
+    chownr: ^3.0.0
+    minipass: ^7.1.2
+    minizlib: ^3.1.0
+    yallist: ^5.0.0
+  checksum: 8/9b7f886f5ce8681a7430f80b9b377bfa498e6feb957b9afe6507db08e59d309f8546b7f76a0c2e47bdb54da4602575a5c7519e287fe94de8302e635032fc94f1
   languageName: node
   linkType: hard
 
