@@ -2,7 +2,7 @@ import { Addon, AddonOptions, Column, MaybeArray, Row } from '../types';
 export declare function usePageBuilderUtilities(): {
     saving: import('vue').Ref<boolean, boolean>;
     bindSaveButton: typeof bindSaveButton;
-    savePage: () => Promise<Promise<import('axios').AxiosResponse<any, any, {}> | undefined>>;
+    savePage: () => Promise<Promise<import('axios').AxiosResponse<any, any, {}, any> | undefined>>;
     addTextToClipboard: typeof addTextToClipboard;
     readClipboard: typeof readClipboard;
     duplicateAny: typeof duplicateAny;
@@ -18,7 +18,7 @@ export declare function usePageBuilderUtilities(): {
     addonBasicOptions: typeof addonBasicOptions;
 };
 export declare function bindSaveButton(): void;
-export declare const savePage: () => Promise<Promise<import('axios').AxiosResponse<any, any, {}> | undefined>>;
+export declare const savePage: () => Promise<Promise<import('axios').AxiosResponse<any, any, {}, any> | undefined>>;
 export declare function addTextToClipboard(text: any): Promise<void>;
 export declare function readClipboard(): Promise<string>;
 export declare function duplicateAny<T extends MaybeArray<Row>>(data: T, child?: boolean): T;

@@ -287,6 +287,7 @@ __metadata:
     "@types/lodash-es": "npm:^4.17.12"
     "@types/sortablejs": "npm:^1"
     "@vitejs/plugin-vue": "npm:^6.0.1"
+    "@vue/language-core": "npm:^3.3.9"
     "@vueform/slider": "npm:^2.1.10"
     "@vueuse/core": "npm:^13.9.0"
     "@windwalker-io/unicorn-next": "npm:^0.1.0"
@@ -298,7 +299,7 @@ __metadata:
     jarallax: "npm:^1.12.8"
     lodash-es: "npm:^4.18.1"
     sweetalert: "npm:^2.1.2"
-    unplugin-dts: "npm:^1.0.0-beta.6"
+    unplugin-dts: "npm:^1.0.0"
     vite: "npm:^7.3.2"
     vue: "npm:^3.0"
     vue-component-type-helpers: "npm:^3.1.0"
@@ -674,7 +675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-dom@npm:3.5.40":
+"@vue/compiler-dom@npm:3.5.40, @vue/compiler-dom@npm:^3.5.0":
   version: 3.5.40
   resolution: "@vue/compiler-dom@npm:3.5.40"
   dependencies:
@@ -723,6 +724,21 @@ __metadata:
     "@vue/compiler-dom": "npm:3.5.40"
     "@vue/shared": "npm:3.5.40"
   checksum: 10/fb96a69b02036fdd4b945f2a992b1e07e533badcc9c980732d9803d80249c96cfa636abfb5a363cf02030493153c359306b6a345a6a645dcb280cab378b0e699
+  languageName: node
+  linkType: hard
+
+"@vue/language-core@npm:^3.3.9":
+  version: 3.3.9
+  resolution: "@vue/language-core@npm:3.3.9"
+  dependencies:
+    "@volar/language-core": "npm:2.4.28"
+    "@vue/compiler-dom": "npm:^3.5.0"
+    "@vue/shared": "npm:^3.5.0"
+    alien-signals: "npm:^3.2.1"
+    muggle-string: "npm:^0.4.1"
+    path-browserify: "npm:^1.0.1"
+    picomatch: "npm:^4.0.4"
+  checksum: 10/c564d6f6f0dbd2ae1d70410594bb9a8974969208a46be6ad167dedb0be1293a150754ea5a3050a2028b2501d178afa24e8341db0bdea12c5c12afa476f1f78c2
   languageName: node
   linkType: hard
 
@@ -784,7 +800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/shared@npm:3.5.40":
+"@vue/shared@npm:3.5.40, @vue/shared@npm:^3.5.0":
   version: 3.5.40
   resolution: "@vue/shared@npm:3.5.40"
   checksum: 10/00311cca09227196144ef027c61f516bc91055640e9f7984ee5ab3a9db6c34e319e571e4a542e9794d8d5c76197f14392af98611e3572ab3d9d3192a66e4ad42
@@ -871,6 +887,13 @@ __metadata:
   dependencies:
     debug: "npm:4"
   checksum: 10/21fb903e0917e5cb16591b4d0ef6a028a54b83ac30cd1fca58dece3d4e0990512a8723f9f83130d88a41e2af8b1f7be1386fda3ea2d181bb1a62155e75e95e23
+  languageName: node
+  linkType: hard
+
+"alien-signals@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "alien-signals@npm:3.2.1"
+  checksum: 10/9c8b14c460e748f40d85bbe4e607f81a4177d8ca1c056eab86f9792297003ef10717690019e23cacf19bb68babba97d1cb0bb03c35ca495d736cb6809efb7291
   languageName: node
   linkType: hard
 
@@ -1552,6 +1575,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"muggle-string@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "muggle-string@npm:0.4.1"
+  checksum: 10/8fa2ea08f497c04069718bd3fd1909b382114dacbad832d10967ca72690de43f5f8492d8ccfbf827d6be63868ed5fc10395e7b7c082aa95997eea498586c6620
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^3.3.16":
   version: 3.3.17
   resolution: "nanoid@npm:3.3.17"
@@ -1891,7 +1921,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-dts@npm:^1.0.0-beta.6":
+"unplugin-dts@npm:^1.0.0":
   version: 1.0.3
   resolution: "unplugin-dts@npm:1.0.3"
   dependencies:

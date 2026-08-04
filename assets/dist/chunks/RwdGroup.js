@@ -67,11 +67,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     createElementVNode("div", {
       class: normalizeClass($setup.getClassName("__inputs"))
     }, [
-      $setup.currentSize === "lg" ? renderSlot(_ctx.$slots, "lg", { key: 0 }) : createCommentVNode("", true),
+      $setup.currentSize === "lg" ? renderSlot(_ctx.$slots, "lg", {}, void 0, void 0, 0) : createCommentVNode("", true),
       _cache[9] || (_cache[9] = createTextVNode()),
-      $setup.currentSize === "md" ? renderSlot(_ctx.$slots, "md", { key: 1 }) : createCommentVNode("", true),
+      $setup.currentSize === "md" ? renderSlot(_ctx.$slots, "md", {}, void 0, void 0, 1) : createCommentVNode("", true),
       _cache[10] || (_cache[10] = createTextVNode()),
-      $setup.currentSize === "xs" ? renderSlot(_ctx.$slots, "xs", { key: 2 }) : createCommentVNode("", true)
+      $setup.currentSize === "xs" ? renderSlot(_ctx.$slots, "xs", {}, void 0, void 0, 2) : createCommentVNode("", true)
     ], 2),
     _cache[12] || (_cache[12] = createTextVNode()),
     renderSlot(_ctx.$slots, "description")
