@@ -117,6 +117,7 @@ class ForgetController
 
     public function reset(
         AppContext $app,
+        UserService $userService,
         ORM $orm,
         Navigator $nav
     ): RouteUri {
