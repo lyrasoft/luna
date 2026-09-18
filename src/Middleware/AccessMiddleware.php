@@ -31,6 +31,11 @@ use Windwalker\Utilities\Options\OptionsResolverTrait;
  *       options: []
  *   )
  *
+ *   AccessMiddleware::di(
+ *       rules: fn (...) => ['can.access', 'can.edit'],
+ *       options: []
+ *   )
+ *
  * Options:
  *   - exception: (string|Closure) Define the exception class name or use closure to throw custom exception.
  *   - error_code: (int) Set the error code for exception, default is: 403.
@@ -72,21 +77,26 @@ class AccessMiddleware implements MiddlewareInterface
             $result = $this->app->call($this->rules);
 
             if ($result === false) {
-                $this->raiseError();
+                return $this->raiseError();
             }
 
             if ($result instanceof UriInterface) {
-                $result = new RedirectResponse($result);
+                return new RedirectResponse($result);
             }
 
             if ($result instanceof ResponseInterface) {
                 return $result;
             }
 
-            return $handler->handle($request);
-        }
+            if ($result === true) {
+                return $handler->handle($request);
+            }
 
-        $rules = (array) $this->rules;
+            // If result is string | array, treat it as rules.
+            $rules = (array) $result;
+        } else {
+            $rules = (array) $this->rules;
+        }
 
         foreach ($rules as $rule) {
             $allow = $allow || $userService->can($rule);
