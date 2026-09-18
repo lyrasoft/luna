@@ -33,7 +33,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * @var T[]
      */
-    public protected(set) array $childValues {
+    public array $childValues {
         get => $this->getChildValues();
     }
 

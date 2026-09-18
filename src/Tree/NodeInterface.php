@@ -19,19 +19,19 @@ interface NodeInterface extends IteratorAggregate
     /**
      * @var T
      */
-    public protected(set) mixed $value {
+    public mixed $value {
         get;
     }
 
-    public protected(set) ?NodeInterface $parent {
+    public ?NodeInterface $parent {
         get;
     }
 
-    public protected(set) array $children {
+    public array $children {
         get;
     }
 
-    public protected(set) array $childValues {
+    public array $childValues {
         get;
     }
 
