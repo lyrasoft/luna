@@ -2,20 +2,20 @@
 .sp-add-on {
     width: 40px !important;
 }
-.c-addon-instance[data-v-23f8e976] {
+.c-addon-instance[data-v-61f150e4] {
   position: relative;
 }
-.c-addon-instance__toolbar[data-v-23f8e976] {
+.c-addon-instance__toolbar[data-v-61f150e4] {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-}.c-template-item[data-v-e6c3510b] {
+}.c-template-item[data-v-c6e4993b] {
   transition: all 0.3s;
 }
-.c-template-item[data-v-e6c3510b]:hover {
+.c-template-item[data-v-c6e4993b]:hover {
   opacity: 0.85;
 }
-.c-template-item__preview[data-v-e6c3510b] {
+.c-template-item__preview[data-v-c6e4993b] {
   width: 100%;
   padding-top: 50%;
   background: no-repeat center center;
