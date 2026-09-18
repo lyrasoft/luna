@@ -16,7 +16,7 @@ class TreeBuilder
     /**
      * fromObjects
      *
-     * @param  object[]|Traversable  $items
+     * @param  object[]|iterable  $items
      * @param  string|Closure        $keyName
      * @param  string|Closure        $parentIdName
      * @param  string                $nodeClass

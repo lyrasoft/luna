@@ -9,24 +9,33 @@ use Traversable;
 /**
  * The Node class.
  *
+ * @template T
+ *
  * @since  1.0
  */
 class Node implements NodeInterface, JsonSerializable
 {
     /**
-     * @var mixed
+     * @var T
      */
     public protected(set) mixed $value;
 
     /**
-     * @var ?NodeInterface
+     * @var ?NodeInterface<T>
      */
     public protected(set) ?NodeInterface $parent = null;
 
     /**
-     * @var NodeInterface[]
+     * @var NodeInterface<T>[]
      */
     public protected(set) array $children = [];
+
+    /**
+     * @var T[]
+     */
+    public protected(set) array $childValues {
+        get => $this->getChildValues();
+    }
 
     /**
      * @param  mixed  $value
@@ -58,7 +67,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Get the current node value
      *
-     * @return mixed
+     * @return T
      */
     public function getValue(): mixed
     {
@@ -142,6 +151,17 @@ class Node implements NodeInterface, JsonSerializable
     public function getChildren(): array
     {
         return $this->children;
+    }
+
+    /**
+     * @return  T[]
+     */
+    public function getChildValues(): array
+    {
+        return array_map(
+            fn ($node) => $node->value,
+            $this->children
+        );
     }
 
     /**

@@ -17,6 +17,25 @@ use Traversable;
 interface NodeInterface extends IteratorAggregate
 {
     /**
+     * @var T
+     */
+    public protected(set) mixed $value {
+        get;
+    }
+
+    public protected(set) ?NodeInterface $parent {
+        get;
+    }
+
+    public protected(set) array $children {
+        get;
+    }
+
+    public protected(set) array $childValues {
+        get;
+    }
+
+    /**
      * Set the value of the current node
      *
      * @param  T  $value
@@ -63,6 +82,13 @@ interface NodeInterface extends IteratorAggregate
      * @return static[]
      */
     public function getChildren(): array;
+
+    /**
+     * Return values in child nodes.
+     *
+     * @return  T[]
+     */
+    public function getChildValues(): array;
 
     /**
      * Get a child by key.

@@ -25,7 +25,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
      *
      * @var ?Menu
      */
-    protected mixed $value;
+    public protected(set) mixed $value;
 
     /**
      * Property instance.
