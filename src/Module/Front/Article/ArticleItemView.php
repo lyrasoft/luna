@@ -9,6 +9,7 @@ use Lyrasoft\Luna\Entity\Category;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Module\Front\Category\CategoryViewTrait;
 use Lyrasoft\Luna\Module\Front\Page\PageView;
+use Lyrasoft\Luna\PageBuilder\PageService;
 use Lyrasoft\Luna\Repository\ArticleRepository;
 use Lyrasoft\Luna\Services\AssociationService;
 use Windwalker\Core\Application\AppContext;
@@ -44,7 +45,8 @@ class ArticleItemView implements ViewModelInterface
         protected ArticleRepository $repository,
         #[Autowire]
         protected Navigator $nav,
-        protected AssociationService $associationService
+        protected AssociationService $associationService,
+        protected PageService $pageService,
     ) {
         //
     }
@@ -63,6 +65,7 @@ class ArticleItemView implements ViewModelInterface
     {
         $id = $app->input('id');
         $alias = $app->input('alias');
+        $previewSecret = $app->input('s');
 
         /** @var Article $item */
         $item = $this->repository->mustGetItem($id);
@@ -85,7 +88,10 @@ class ArticleItemView implements ViewModelInterface
             return $this->nav->self()->id($item->getId())->alias($item->getAlias());
         }
 
-        if (!$item->state->isPublished()) {
+        if (
+            !$item->state->isPublished()
+            && !$this->pageService->secretVerify($item->id, $previewSecret)
+        ) {
             throw new RouteNotFoundException('Article not found.');
         }
 

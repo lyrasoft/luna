@@ -68,7 +68,7 @@ class ArticleListView
             ->page($page)
             ->limit($limit);
 
-        $pagination = $items->getSimplePagination();
+        $pagination = $items->getPagination();
 
         // Prepare Form
         $form = $this->formFactory->create(GridForm::class);

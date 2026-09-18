@@ -16,6 +16,8 @@ namespace App\View;
  * @var  $lang      LangService     The language translation service.
  */
 
+use Lyrasoft\Luna\Entity\Article;
+use Lyrasoft\Luna\PageBuilder\PageService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Attributes\ViewModel;
@@ -23,6 +25,11 @@ use Windwalker\Core\DateTime\ChronosService;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
+
+/**
+ * @var  Article|null $item
+ */
+$pageService = $app->retrieve(PageService::class);
 
 ?>
 
@@ -72,7 +79,15 @@ use Windwalker\Core\Router\SystemUri;
     </button>
 
     @if ($item)
-        <a href="{{ $nav->to('front::article_item')->id($item->getId())->alias($item->getAlias()) }}"
+        @php
+            $secret = $pageService->genPreviewSecret($item->id);
+            $previewLink = $nav->to('front::article_item')->id($item->id)->alias($item->alias);
+
+            if ($item->state->isUnpublished()) {
+                $previewLink = $previewLink->var('s', $secret);
+            }
+        @endphp
+        <a href="{{ $previewLink }}"
             class="btn btn-outline-primary btn-sm"
             target="_blank">
             <span class="fa fa-eye"></span>
