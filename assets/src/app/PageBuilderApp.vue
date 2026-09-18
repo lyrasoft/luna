@@ -381,10 +381,13 @@ function registerUnicornEvents() {
             @click="addNewRow()">
             Add New Row
           </button>
-          <button class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split">
+          <button class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
+          >
             <span class="visually-hidden sr-only">Toggle Dropdown</span>
           </button>
-          <div class="dropdown-menu dropdown-menu dropdown-menu-right ">
+          <div class="dropdown-menu dropdown-menu dropdown-menu-end dropdown-menu-right">
             <div class="dropdown-item" @click="paste">
               <span class="fa fa-fw fa-paste"></span>
               Paste

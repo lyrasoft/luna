@@ -9293,11 +9293,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: _cache[6] || (_cache[6] = ($event) => $setup.addNewRow())
             }, "\n            Add New Row\n          "),
             _cache[23] || (_cache[23] = createTextVNode()),
-            _cache[24] || (_cache[24] = createElementVNode("button", { class: "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" }, [
+            _cache[24] || (_cache[24] = createElementVNode("button", {
+              class: "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split",
+              "data-toggle": "dropdown",
+              "data-bs-toggle": "dropdown"
+            }, [
               createElementVNode("span", { class: "visually-hidden sr-only" }, "Toggle Dropdown")
             ], -1)),
             _cache[25] || (_cache[25] = createTextVNode()),
-            createElementVNode("div", { class: "dropdown-menu dropdown-menu dropdown-menu-right" }, [
+            createElementVNode("div", { class: "dropdown-menu dropdown-menu dropdown-menu-end dropdown-menu-right" }, [
               createElementVNode("div", {
                 class: "dropdown-item",
                 onClick: $setup.paste
