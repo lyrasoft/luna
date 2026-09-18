@@ -40,12 +40,15 @@ class AdminSessionSubscriber
 
         if (str_starts_with($ns, $this->adminStageName)) {
             $session = $this->container->get(Session::class);
-            $session->setName('WINDWALKER_ADMIN_SESSID');
+            $sessName = env('ADMIN_SESS_NAME') ?: 'WINDWALKER_ADMIN_SESSID';
+            $session->setName($sessName);
 
             // todo: Must not set to parent, should fix: https://github.com/windwalker-io/core/issues/1431
+            $rememberTokenName = env('ADMIN_REMEMBER_TOKEN_NAME') ?: 'WINDWALKER_ADMIN_REMEMBER';
+
             $this->container->getParent()->getParameters()->setDeep(
                 'user.remember.cookie_name',
-                'WINDWALKER_ADMIN_REMEMBER'
+                $rememberTokenName
             );
         }
     }
