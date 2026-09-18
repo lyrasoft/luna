@@ -47,14 +47,12 @@ class WindwalkerRequestMethod implements RequestMethod
      *
      * @return string Body of the reCAPTCHA response
      */
+    #[\ReturnTypeWillChange]
     public function submit(RequestParameters $params): string
     {
         $response = $this->http->post(
             $this->url,
             $params->toQueryString(),
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-            ]
         );
 
         if ($response->getStatusCode() === 200) {

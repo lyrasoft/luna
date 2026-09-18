@@ -25,7 +25,7 @@ static fn() => [
             'google' => static fn() => CaptchaFactory::recaptcha(
                 (string) env('RECAPTCHA_KEY'),
                 (string) env('RECAPTCHA_SECRET'),
-                (string) env('RECAPTCHA_TYPE', 'checkbox'),
+                (string) env('RECAPTCHA_TYPE') ?: 'invisible',
             ),
             'image' => static fn() => CaptchaFactory::gregwar(),
             'none' => static fn() => new NullCaptchaDriver(),

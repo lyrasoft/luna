@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
 use Lyrasoft\Luna\Entity\Article;
+use Lyrasoft\Luna\Field\CaptchaField;
 use Lyrasoft\Luna\Field\CategoryListField;
 use Lyrasoft\Luna\Field\LanguageListField;
 use Lyrasoft\Luna\Field\LocaleSwitchField;
@@ -86,6 +87,11 @@ class EditForm
         $form->add('category_id', CategoryListField::class)
             ->label($this->trans('luna.article.field.category'))
             ->categoryType((string) $this->type);
+
+        $form->add('captcha', CaptchaField::class)
+            ->label($this->trans('luna.article.field.captcha'))
+            ->jsVerify(true)
+            ->autoValidate(true);
 
         $form->add('tags', TagListField::class)
             ->label($this->trans('luna.article.field.tags'))
