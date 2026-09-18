@@ -17,11 +17,13 @@ $router->group('language')
     ->extra('menu', ['sidemenu' => 'language_list'])
     ->register(function (RouteCreator $router) {
         $router->any('language_list', '/language/list')
-            ->controller(LanguageController::class)
-            ->view(LanguageListView::class)
-            ->postHandler('copy')
-            ->putHandler('filter')
-            ->patchHandler('batch');
+            ->controller(
+                LanguageController::class,
+                post: 'copy',
+                put: 'filter',
+                patch: 'batch',
+            )
+            ->view(LanguageListView::class);
 
         $router->any('language_edit', '/language/edit[/{id}]')
             ->controller(LanguageController::class)

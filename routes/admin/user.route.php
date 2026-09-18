@@ -15,11 +15,13 @@ $router->group('user')
     ->extra('menu', ['sidemenu' => 'user_list'])
     ->register(function (RouteCreator $router) {
         $router->any('user_list', '/user/list')
-            ->controller(UserController::class)
-            ->view(UserListView::class)
-            ->postHandler('copy')
-            ->putHandler('filter')
-            ->patchHandler('batch');
+            ->controller(
+                UserController::class,
+                post: 'copy',
+                put: 'filter',
+                patch: 'batch',
+            )
+            ->view(UserListView::class);
 
         $router->any('user_edit', '/user/edit[/{id}]')
             ->controller(UserController::class)

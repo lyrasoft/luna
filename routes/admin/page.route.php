@@ -16,11 +16,13 @@ $router->group('page')
     ->extra('menu', ['sidemenu' => 'page_list'])
     ->register(function (RouteCreator $router) {
         $router->any('page_list', '/page/list')
-            ->controller(PageController::class)
-            ->view(PageListView::class)
-            ->postHandler('copy')
-            ->putHandler('filter')
-            ->patchHandler('batch');
+            ->controller(
+                PageController::class,
+                post: 'copy',
+                put: 'filter',
+                patch: 'batch',
+            )
+            ->view(PageListView::class);
 
         $router->any('page_edit', '/page/edit[/{id}]')
             ->controller(PageController::class)

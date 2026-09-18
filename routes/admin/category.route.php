@@ -29,11 +29,13 @@ $router->group('category')
 
             // Categories
             $router->any('category_list', '/category/list/{type}')
-                ->controller(CategoryController::class)
-                ->postHandler('copy')
-                ->patchHandler('batch')
-                ->putHandler('filter')
-                ->deleteHandler('delete')
+                ->controller(
+                    CategoryController::class,
+                    post: 'copy',
+                    put: 'filter',
+                    patch: 'batch',
+                    delete: 'delete',
+                )
                 ->view(CategoryListView::class);
 
             // Ajax Category List

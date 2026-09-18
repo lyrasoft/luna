@@ -16,11 +16,13 @@ $router->group('article')
     ->extra('menu', ['sidemenu' => 'article_list'])
     ->register(function (RouteCreator $router) {
         $router->any('article_list', '/article/list')
-            ->controller(ArticleController::class)
-            ->view(ArticleListView::class)
-            ->postHandler('copy')
-            ->putHandler('filter')
-            ->patchHandler('batch');
+            ->controller(
+                ArticleController::class,
+                post: 'copy',
+                put: 'filter',
+                patch: 'batch',
+            )
+            ->view(ArticleListView::class);
 
         $router->any('article_edit', '/article/edit[/{id}]')
             ->controller(ArticleController::class)

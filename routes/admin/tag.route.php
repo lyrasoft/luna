@@ -15,11 +15,13 @@ $router->group('tag')
     ->extra('menu', ['sidemenu' => 'tag_list'])
     ->register(function (RouteCreator $router) {
         $router->any('tag_list', '/tag/list')
-            ->controller(TagController::class)
-            ->view(TagListView::class)
-            ->postHandler('copy')
-            ->putHandler('filter')
-            ->patchHandler('batch');
+            ->controller(
+                TagController::class,
+                post: 'copy',
+                put: 'filter',
+                patch: 'batch',
+            )
+            ->view(TagListView::class);
 
         $router->any('tag_edit', '/tag/edit[/{id}]')
             ->controller(TagController::class)

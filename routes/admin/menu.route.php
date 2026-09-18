@@ -21,11 +21,13 @@ $router->group('menu')
     )
     ->register(function (RouteCreator $router) {
         $router->any('menu_list', '/menu/list[/{type}]')
-            ->controller(MenuController::class)
-            ->view(MenuListView::class)
-            ->postHandler('copy')
-            ->putHandler('filter')
-            ->patchHandler('batch');
+            ->controller(
+                MenuController::class,
+                post: 'copy',
+                put: 'filter',
+                patch: 'batch',
+            )
+            ->view(MenuListView::class);
 
         $router->any('menu_edit', '/menu/edit[/{id}]')
             ->controller(MenuController::class)
