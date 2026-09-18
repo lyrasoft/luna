@@ -65,7 +65,7 @@ class ArticleItemView implements ViewModelInterface
     {
         $id = $app->input('id');
         $alias = $app->input('alias');
-        $previewSecret = $app->input('s');
+        $previewSecret = (string) $app->input('s');
 
         /** @var Article $item */
         $item = $this->repository->mustGetItem($id);
@@ -104,7 +104,10 @@ class ArticleItemView implements ViewModelInterface
         /** @var Category $category */
         $category = $this->getCategoryOrFail($item->categoryId);
 
-        if (!$category->state->isPublished()) {
+        if (
+            !$category->state->isPublished()
+            && !$this->pageService->secretVerify($item->id, $previewSecret)
+        ) {
             throw new RouteNotFoundException('Category not published.');
         }
 
