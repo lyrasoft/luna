@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 10
   cacheKey: 10
 
 "@babel/helper-string-parser@npm:^7.29.7":
@@ -1882,9 +1882,9 @@ __metadata:
   linkType: hard
 
 "tinymce@npm:^6.0||^7.0||^8.0":
-  version: 8.9.1
-  resolution: "tinymce@npm:8.9.1"
-  checksum: 10/1a905262fecbfa6a52ec16c3c07ccb57d94d88dfd6b58919a0e7dfe983e11034808794c193e9f3027d3635622406721e14a69711ca68ff4afd51dd3eeab753cf
+  version: 8.10.1
+  resolution: "tinymce@npm:8.10.1"
+  checksum: 10/a15e27505dd272c158f4cee10af1494aacaf2b781a16dbfedfc24ddbb439f8e0e618654a3762fad7de7a3b092e9d16525eb314b8c265c769a76f3ccae1254b79
   languageName: node
   linkType: hard
 
