@@ -7,7 +7,6 @@ namespace Lyrasoft\Luna\Services;
 use Lyrasoft\Luna\Entity\Tag;
 use Lyrasoft\Luna\Entity\TagMap;
 use ReflectionException;
-use Windwalker\Database\Driver\StatementInterface;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
 use Windwalker\ORM\SelectorQuery;
@@ -20,9 +19,7 @@ class TagService
 {
     protected string $newTagPrefix = 'new#';
 
-    public function __construct(protected ORM $orm)
-    {
-    }
+    public function __construct(protected ORM $orm) {}
 
     public function createTagsIfNew(iterable $tagIds, ?callable $configure = null): array
     {
@@ -62,7 +59,7 @@ class TagService
      *
      * @return  iterable<TagMap>
      *
-     * @throws ReflectionException
+     * @throws  ReflectionException
      */
     public function flushTagMapsFromInput(
         string|\BackedEnum $type,
@@ -82,7 +79,7 @@ class TagService
      *
      * @return  iterable<TagMap>
      *
-     * @throws ReflectionException
+     * @throws  ReflectionException
      */
     public function flushTagMaps(string|\BackedEnum $type, mixed $targetId, iterable $tagIds): iterable
     {
@@ -106,9 +103,9 @@ class TagService
      * @param  string  $type
      * @param  mixed   $targetId
      *
-     * @return void
+     * @return  void
      *
-     * @throws ReflectionException
+     * @throws  ReflectionException
      */
     public function clearMapsOfTarget(string $type, mixed $targetId): void
     {
@@ -155,7 +152,7 @@ class TagService
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getNewTagPrefix(): string
     {

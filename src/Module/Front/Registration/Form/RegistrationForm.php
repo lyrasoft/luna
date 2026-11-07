@@ -23,16 +23,14 @@ class RegistrationForm implements FieldDefinitionInterface
     /**
      * RegistrationForm constructor.
      */
-    public function __construct(#[Ref('user')] protected $config)
-    {
-    }
+    public function __construct(#[Ref('user')] protected $config) {}
 
     /**
      * Define the form fields.
      *
      * @param  Form  $form  The Windwalker form object.
      *
-     * @return    void
+     * @return  void
      */
     public function define(Form $form): void
     {

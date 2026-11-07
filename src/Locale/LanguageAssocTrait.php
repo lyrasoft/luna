@@ -31,7 +31,7 @@ trait LanguageAssocTrait
         }
 
         $langs = $this->localeService->getAvailableLanguages()
-            ->filter(fn (Language $lan) => $lan->code !== $lang);
+            ->filter(fn(Language $lan) => $lan->code !== $lang);
 
         $form->ns(
             'assoc',

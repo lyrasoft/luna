@@ -16,9 +16,7 @@ use Windwalker\Event\Attributes\ListenTo;
 #[EventSubscriber]
 class AutoOpenGraphSubscriber
 {
-    public function __construct(protected Container $container)
-    {
-    }
+    public function __construct(protected Container $container) {}
 
     #[ListenTo(BeforeRenderEvent::class)]
     public function beforeRender(BeforeRenderEvent $event): void

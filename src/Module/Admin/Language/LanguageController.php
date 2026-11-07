@@ -25,7 +25,8 @@ class LanguageController
         AppContext $app,
         CrudController $controller,
         Navigator $nav,
-        #[Autowire] LanguageRepository $repository,
+        #[Autowire]
+        LanguageRepository $repository,
         FileUploadService $fileUploadService
     ): mixed {
         $form = $app->make(EditForm::class);
@@ -68,7 +69,8 @@ class LanguageController
 
     public function delete(
         AppContext $app,
-        #[Autowire] LanguageRepository $repository,
+        #[Autowire]
+        LanguageRepository $repository,
         CrudController $controller
     ): mixed {
         return $app->call([$controller, 'delete'], compact('repository'));
@@ -76,7 +78,8 @@ class LanguageController
 
     public function filter(
         AppContext $app,
-        #[Autowire] LanguageRepository $repository,
+        #[Autowire]
+        LanguageRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -84,7 +87,8 @@ class LanguageController
 
     public function batch(
         AppContext $app,
-        #[Autowire] LanguageRepository $repository,
+        #[Autowire]
+        LanguageRepository $repository,
         GridController $controller
     ): mixed {
         $task = $app->input('task');
@@ -99,7 +103,8 @@ class LanguageController
 
     public function copy(
         AppContext $app,
-        #[Autowire] LanguageRepository $repository,
+        #[Autowire]
+        LanguageRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Module\Admin\Category\Form;
 
 use Lyrasoft\Luna\Field\CategoryListField;
@@ -26,9 +28,7 @@ class GridForm implements FieldDefinitionInterface
     /**
      * GridForm constructor.
      */
-    public function __construct(protected AppRequest $request)
-    {
-    }
+    public function __construct(protected AppRequest $request) {}
 
     /**
      * Define the form fields.

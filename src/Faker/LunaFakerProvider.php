@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Faker;
 
 use Exception;
@@ -39,7 +41,7 @@ class LunaFakerProvider extends BaseProvider
      *
      * @return  array
      *
-     * @throws Exception
+     * @throws  Exception
      * @since  1.5.6
      */
     public function unsplashImages(int $count, int|array $width = 800, int|array $height = 600, ?int $id = null): array
@@ -57,7 +59,7 @@ class LunaFakerProvider extends BaseProvider
      *
      * @return  string
      *
-     * @throws JsonException
+     * @throws  JsonException
      * @since  1.5.6
      */
     public function unsplashImagesJson(int $count, int $width = 800, int $height = 600, ?int $id = null): string
@@ -73,7 +75,7 @@ class LunaFakerProvider extends BaseProvider
      *
      * @return  string
      *
-     * @throws Exception
+     * @throws  Exception
      *
      * @since  1.5.6
      */

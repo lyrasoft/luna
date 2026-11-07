@@ -27,8 +27,7 @@ class LunaErrorHandler implements ErrorHandlerInterface
         protected Container $container,
         protected string|\Closure $route = 'front::home',
         protected ?string $layout = null
-    ) {
-    }
+    ) {}
 
     /**
      * @inheritDoc

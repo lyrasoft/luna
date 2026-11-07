@@ -8,7 +8,6 @@ use Lyrasoft\Luna\Entity\Widget;
 use Lyrasoft\Luna\Services\LocaleService;
 use Windwalker\Core\Application\ApplicationInterface;
 use Windwalker\Core\Language\TranslatorTrait;
-use Windwalker\Core\View\View;
 use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Cache\InstanceCacheTrait;
 use Windwalker\Utilities\Wrapper\RawWrapper;
@@ -82,8 +81,7 @@ class WidgetService
         protected ApplicationInterface $app,
         protected ORM $orm,
         protected LocaleService $localeService,
-    ) {
-    }
+    ) {}
 
     /**
      * getWidgets
@@ -267,8 +265,8 @@ class WidgetService
      *
      * @see https://stackoverflow.com/a/12043228
      *
-     * @param string $bgHex
-     * @param int    $sep
+     * @param  string  $bgHex
+     * @param  int     $sep
      *
      * @return  string
      */

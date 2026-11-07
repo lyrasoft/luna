@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
 use Windwalker\Data\Collection;
-use Windwalker\Legacy\Structure\Structure;
 
 /**
  * Interface HasOwnStyleInterface

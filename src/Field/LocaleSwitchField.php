@@ -43,7 +43,7 @@ class LocaleSwitchField extends AbstractField
     /**
      * Allow user create and empty item or must copt from existing language item.
      *
-     * @var bool
+     * @var  bool
      */
     protected bool $allowCreateEmpty = false;
 
@@ -51,14 +51,14 @@ class LocaleSwitchField extends AbstractField
      * When item saved and association linked, can user change item language?
      * If allow changed, the association will be unlinked.
      *
-     * @var bool
+     * @var  bool
      */
     protected bool $canChangeSelfLang = true;
 
     /**
      * Display the "All" (*) language option.
      *
-     * @var bool
+     * @var  bool
      */
     protected bool $showAllOption = true;
 
@@ -66,7 +66,7 @@ class LocaleSwitchField extends AbstractField
      * If no value, use fallback language and default.
      * It means user cannot select language at the initial.
      *
-     * @var bool
+     * @var  bool
      */
     protected bool $useDefaultFallback = false;
 
@@ -125,11 +125,11 @@ class LocaleSwitchField extends AbstractField
     {
         $items = $this->loadItems();
 
-        return $items->findFirst(fn (Collection $item) => $item[$this->getLanguageField()] === $code);
+        return $items->findFirst(fn(Collection $item) => $item[$this->getLanguageField()] === $code);
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getTitleField(): string
     {
@@ -149,7 +149,7 @@ class LocaleSwitchField extends AbstractField
     }
 
     /**
-     * @return bool
+     * @return  bool
      */
     public function isCanChangeSelfLang(): bool
     {
@@ -197,7 +197,7 @@ class LocaleSwitchField extends AbstractField
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getLanguageField(): string
     {
@@ -230,7 +230,7 @@ class LocaleSwitchField extends AbstractField
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getRouteName(): string
     {
@@ -258,7 +258,7 @@ class LocaleSwitchField extends AbstractField
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getAssocType(): string
     {
@@ -285,7 +285,7 @@ class LocaleSwitchField extends AbstractField
         return $this->once(
             'snake.table',
             function () {
-                $table = Collection::explode("\\", $this->getTable())
+                $table = Collection::explode('\\', $this->getTable())
                     ->last();
 
                 return StrNormalize::toSnakeCase($table);
@@ -294,7 +294,7 @@ class LocaleSwitchField extends AbstractField
     }
 
     /**
-     * @return mixed
+     * @return  mixed
      */
     public function getCurrentId(): mixed
     {
@@ -325,7 +325,7 @@ class LocaleSwitchField extends AbstractField
     }
 
     /**
-     * @return bool
+     * @return  bool
      */
     public function isAllowCreateEmpty(): bool
     {
@@ -345,7 +345,7 @@ class LocaleSwitchField extends AbstractField
     }
 
     /**
-     * @return bool
+     * @return  bool
      */
     public function isShowAllOption()
     {

@@ -32,9 +32,9 @@ class LanguageEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
-        #[Autowire] protected LanguageRepository $repository
-    ) {
-    }
+        #[Autowire]
+        protected LanguageRepository $repository
+    ) {}
 
     /**
      * Prepare

@@ -23,9 +23,7 @@ class AdminAccessMiddleware implements MiddlewareInterface
 {
     use TranslatorTrait;
 
-    public function __construct(protected UserService $userService)
-    {
-    }
+    public function __construct(protected UserService $userService) {}
 
     /**
      * @inheritDoc

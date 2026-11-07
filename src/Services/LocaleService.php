@@ -46,8 +46,7 @@ class LocaleService
         protected ORM $orm,
         protected Navigator $nav,
         protected LangService $langService,
-    ) {
-    }
+    ) {}
 
     public function isEnabled(): bool
     {
@@ -154,7 +153,7 @@ class LocaleService
     /**
      * getLanguage
      *
-     * @return string|null
+     * @return  string|null
      */
     public function getCurrentLanguageCode(): ?string
     {
@@ -169,7 +168,7 @@ class LocaleService
     public function getCurrentLanguage(): ?Language
     {
         return $this->getAvailableLanguages()
-            ->findFirst(fn (Language $lang) => $lang->code === $this->getLocale());
+            ->findFirst(fn(Language $lang) => $lang->code === $this->getLocale());
     }
 
     /**
@@ -314,7 +313,7 @@ class LocaleService
     {
         return $this->once(
             'nav.build.event',
-            fn () => $nav->on(
+            fn() => $nav->on(
                 AfterRouteBuildEvent::class,
                 $listener
             )

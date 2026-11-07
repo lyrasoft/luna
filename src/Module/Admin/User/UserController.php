@@ -43,8 +43,10 @@ class UserController
         AppContext $app,
         CrudController $controller,
         Navigator $nav,
-        #[Autowire] UserRepository $repository,
-        #[Autowire] EditForm $form,
+        #[Autowire]
+        UserRepository $repository,
+        #[Autowire]
+        EditForm $form,
         FileUploadService $uploadService,
         UserService $userService,
     ): mixed {
@@ -129,7 +131,7 @@ class UserController
             return;
         }
 
-        $basicRoles = array_map(static fn (UserRole $role) => $role->id, $accessService->getBasicRoles());
+        $basicRoles = array_map(static fn(UserRole $role) => $role->id, $accessService->getBasicRoles());
 
         // Add basic role if is empty
         $roles = $roles ?: $basicRoles;
@@ -165,7 +167,8 @@ class UserController
 
     public function delete(
         AppContext $app,
-        #[Autowire] UserRepository $repository,
+        #[Autowire]
+        UserRepository $repository,
         CrudController $controller
     ): mixed {
         $controller->beforeDelete(function (BeforeDeleteEvent $event) use ($app) {
@@ -189,7 +192,8 @@ class UserController
 
     public function filter(
         AppContext $app,
-        #[Autowire] UserRepository $repository,
+        #[Autowire]
+        UserRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -197,7 +201,8 @@ class UserController
 
     public function batch(
         AppContext $app,
-        #[Autowire] UserRepository $repository,
+        #[Autowire]
+        UserRepository $repository,
         GridController $controller
     ): mixed {
         $ids = (array) $app->input('id');
@@ -246,7 +251,8 @@ class UserController
 
     public function copy(
         AppContext $app,
-        #[Autowire] UserRepository $repository,
+        #[Autowire]
+        UserRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));

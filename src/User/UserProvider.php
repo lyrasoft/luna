@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\User;
 
 use Windwalker\DI\Container;

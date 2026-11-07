@@ -35,7 +35,7 @@ interface UserHandlerInterface
      *
      * @param  mixed  $user
      *
-     * @return bool
+     * @return  bool
      */
     public function logout(mixed $user = null): bool;
 

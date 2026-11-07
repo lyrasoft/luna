@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
@@ -7,12 +9,9 @@ use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleRules;
 use Lyrasoft\Luna\Script\PageScript;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\SassException;
-use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Data\Collection;
-use Windwalker\DI\Attributes\Inject;
 use Windwalker\Renderer\CompositeRenderer;
-use Windwalker\Utilities\StrNormalize;
 
 /**
  * The AbstractPageRenderer class.
@@ -423,7 +422,7 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      *
      * @return  void
      *
-     * @throws SassException
+     * @throws  SassException
      */
     protected function renderCustomCSS(Collection $content): void
     {

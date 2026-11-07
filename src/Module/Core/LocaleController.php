@@ -10,7 +10,6 @@ use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Core\Utilities\Base64Url;
-use Windwalker\Filesystem\Path;
 use Windwalker\Uri\UriNormalizer;
 use Windwalker\Utilities\Str;
 

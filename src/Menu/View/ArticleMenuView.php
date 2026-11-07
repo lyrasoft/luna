@@ -20,9 +20,7 @@ class ArticleMenuView extends AbstractMenuView
 {
     use TranslatorTrait;
 
-    public function __construct(protected ORM $orm)
-    {
-    }
+    public function __construct(protected ORM $orm) {}
 
     /**
      * @inheritDoc
@@ -57,9 +55,7 @@ class ArticleMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParamsForm(Form $form): void
-    {
-    }
+    protected function defineParamsForm(Form $form): void {}
 
     /**
      * @inheritDoc

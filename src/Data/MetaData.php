@@ -29,7 +29,7 @@ class MetaData extends ValueObject
     public string $ogTitle = '';
 
     /**
-     * @return string
+     * @return  string
      */
     public function getTitle(): string
     {
@@ -49,7 +49,7 @@ class MetaData extends ValueObject
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getDescription(): string
     {
@@ -69,7 +69,7 @@ class MetaData extends ValueObject
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getKeywords(): string
     {
@@ -89,7 +89,7 @@ class MetaData extends ValueObject
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getCover(): string
     {
@@ -109,7 +109,7 @@ class MetaData extends ValueObject
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getCustomCode(): string
     {
@@ -129,7 +129,7 @@ class MetaData extends ValueObject
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getOgDescription(): string
     {
@@ -149,7 +149,7 @@ class MetaData extends ValueObject
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getOgImage(): string
     {
@@ -169,7 +169,7 @@ class MetaData extends ValueObject
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getOgTitle(): string
     {

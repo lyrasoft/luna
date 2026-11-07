@@ -41,9 +41,9 @@ class CategoryEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
-        #[Autowire] protected CategoryRepository $repository,
-    ) {
-    }
+        #[Autowire]
+        protected CategoryRepository $repository,
+    ) {}
 
     /**
      * Prepare
@@ -51,7 +51,7 @@ class CategoryEditView implements ViewModelInterface
      * @param  AppContext  $app
      * @param  View        $view
      *
-     * @return    mixed
+     * @return  mixed
      */
     public function prepare(AppContext $app, View $view): array
     {

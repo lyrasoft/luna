@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\User;
 
 use Exception;
@@ -67,7 +69,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  UserEntityInterface|T
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      */
     public function getCurrentUser(): UserEntityInterface
     {
@@ -81,7 +83,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  UserEntityInterface|T
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      */
     public function getUser(mixed $conditions = null): UserEntityInterface
     {
@@ -93,7 +95,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  UserEntityInterface|T
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      */
     public function getLoggedInUser(mixed $conditions = null): UserEntityInterface
     {
@@ -117,8 +119,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  array|object  $conditions
      *
      * @return  UserEntityInterface|T|null
-     * @throws Exception
-     * @throws InvalidArgumentException
+     * @throws  Exception
+     * @throws  InvalidArgumentException
      */
     public function load(mixed $conditions = null): ?UserEntityInterface
     {
@@ -130,7 +132,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  UserEntityInterface|T
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      */
     public function mustLoad(mixed $conditions = null): UserEntityInterface
     {
@@ -302,8 +304,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  array  $options
      *
      * @return  boolean
-     * @throws InvalidArgumentException
-     * @throws DefinitionException
+     * @throws  InvalidArgumentException
+     * @throws  DefinitionException
      */
     public function login(mixed $user, array $options = []): bool
     {
@@ -342,7 +344,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @param  mixed  $user
      *
-     * @return bool
+     * @return  bool
      */
     public function logout(mixed $user = null): bool
     {
@@ -365,7 +367,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  mixed  $user
      *
      * @return  array<UserRole>
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      */
     public function getUserRoles(mixed $user): array
     {
@@ -379,7 +381,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  string|T
      *
-     * @throws DefinitionException
+     * @throws  DefinitionException
      */
     public function getUserEntityClass(): string
     {
@@ -387,8 +389,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     }
 
     /**
-     * @return UserHandlerInterface
-     * @throws DefinitionException
+     * @return  UserHandlerInterface
+     * @throws  DefinitionException
      */
     public function getUserHandler(): UserHandlerInterface
     {
@@ -401,7 +403,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  array  $data  *
      *
      * @return  object|T
-     * @throws DefinitionException
+     * @throws  DefinitionException
      */
     public function createUserEntity(array $data = []): object
     {
@@ -427,7 +429,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  string  Random Password
      *
-     * @throws Exception
+     * @throws  Exception
      * @since   2.0.9
      * @see     https://github.com/joomla/joomla-cms/blob/staging/libraries/joomla/user/helper.php#L642
      */

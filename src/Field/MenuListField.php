@@ -39,7 +39,7 @@ class MenuListField extends SqlListField
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getMenuType(): string
     {
@@ -59,7 +59,7 @@ class MenuListField extends SqlListField
     }
 
     /**
-     * @return int|null
+     * @return  int|null
      */
     public function getMaxLevel(): ?int
     {
@@ -79,7 +79,7 @@ class MenuListField extends SqlListField
     }
 
     /**
-     * @return bool
+     * @return  bool
      */
     public function isShowRoot(): bool
     {
@@ -101,7 +101,7 @@ class MenuListField extends SqlListField
     /**
      * getAccessors
      *
-     * @return    array
+     * @return  array
      */
     protected function getAccessors(): array
     {

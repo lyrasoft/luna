@@ -39,7 +39,7 @@ class MenuModalField extends ModalField
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getMenuType(): string
     {

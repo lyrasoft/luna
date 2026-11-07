@@ -13,7 +13,6 @@ use Windwalker\Core\Attributes\ViewPrepare;
 use Windwalker\Core\Form\FormFactory;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
-use Windwalker\Core\View\ViewModelInterface;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\ORM\ORM;
@@ -37,14 +36,14 @@ class ArticleListView
         #[Autowire]
         protected ArticleRepository $repository,
         protected FormFactory $formFactory
-    ) {
-    }
+    ) {}
 
     #[ViewPrepare]
     public function prepare(
         AppContext $app,
         View $view,
-        #[Input] ?string $type = 'article',
+        #[Input]
+        ?string $type = 'article',
     ): array {
         $state = $this->repository->getState();
 

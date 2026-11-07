@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Module\Admin\Config\Form;
 
 use InvalidArgumentException;
-use Unicorn\Field\InlineField;
 use Unicorn\Field\RepeatableField;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\TextField;
@@ -24,7 +25,7 @@ class CoreForm implements FieldDefinitionInterface
      *
      * @return  void
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      */
     public function define(Form $form): void
     {

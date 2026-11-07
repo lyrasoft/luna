@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Field;
 
 use Lyrasoft\Luna\Captcha\CaptchaDriverInterface;
-use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\DI\Attributes\Inject;
@@ -16,9 +17,9 @@ use Windwalker\Form\ValidateResult;
  * The CaptchaField class.
  *
  * @method  $this  autoValidate(bool $value = null)
- * @method  bool  isAutoValidate()
+ * @method  bool   isAutoValidate()
  * @method  $this  jsVerify(bool $value = null)
- * @method  bool  isJsVerify()
+ * @method  bool   isJsVerify()
  * @method  $this  captchaOptions(array $value = null)
  * @method  $this  imageRoute(string|callable $value = null)
  * @method  mixed  getImageRoute()
@@ -37,7 +38,7 @@ class CaptchaField extends TextField
     /**
      * Property driver.
      *
-     * @var CaptchaDriverInterface
+     * @var  CaptchaDriverInterface
      */
     protected CaptchaDriverInterface $driver;
 
@@ -115,7 +116,7 @@ class CaptchaField extends TextField
     }
 
     /**
-     * @return string|null
+     * @return  string|null
      */
     public function getProfile(): ?string
     {

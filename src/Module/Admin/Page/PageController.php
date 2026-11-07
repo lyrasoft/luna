@@ -4,34 +4,26 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\Page;
 
-use Exception;
 use Lyrasoft\Luna\Attributes\LangAssoc;
 use Lyrasoft\Luna\Entity\Page;
 use Lyrasoft\Luna\Entity\PageTemplate;
 use Lyrasoft\Luna\PageBuilder\PageBuilder;
 use Lyrasoft\Luna\Repository\PageRepository;
-use Lyrasoft\Luna\Services\ConfigService;
-use Psr\Cache\InvalidArgumentException;
-use ReflectionException;
 use RuntimeException;
 use Unicorn\Attributes\Ajax;
 use Unicorn\Controller\AjaxControllerTrait;
 use Unicorn\Controller\CrudController;
 use Unicorn\Controller\GridController;
 use Unicorn\Image\ImagePlaceholder;
-use Unicorn\Repository\Actions\SaveAction;
-use Unicorn\Repository\Event\PrepareSaveEvent;
 use Unicorn\Upload\FileUploadService;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;
-use Windwalker\Core\Http\Exception\ApiException;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Data\Collection;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\DI\Attributes\Service;
-use Windwalker\DI\Exception\DependencyResolutionException;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Arr;
@@ -55,7 +47,8 @@ class PageController
         AppContext $app,
         CrudController $controller,
         Navigator $nav,
-        #[Autowire] PageRepository $repository,
+        #[Autowire]
+        PageRepository $repository,
     ): mixed {
         /** @var Page $page */
         $page = $repository->save([]);
@@ -65,7 +58,8 @@ class PageController
 
     public function delete(
         AppContext $app,
-        #[Autowire] PageRepository $repository,
+        #[Autowire]
+        PageRepository $repository,
         CrudController $controller
     ): mixed {
         return $app->call([$controller, 'delete'], compact('repository'));
@@ -73,7 +67,8 @@ class PageController
 
     public function filter(
         AppContext $app,
-        #[Autowire] PageRepository $repository,
+        #[Autowire]
+        PageRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -81,7 +76,8 @@ class PageController
 
     public function batch(
         AppContext $app,
-        #[Autowire] PageRepository $repository,
+        #[Autowire]
+        PageRepository $repository,
         GridController $controller
     ): mixed {
         $task = $app->input('task');
@@ -96,7 +92,8 @@ class PageController
 
     public function copy(
         AppContext $app,
-        #[Autowire] PageRepository $repository,
+        #[Autowire]
+        PageRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));
@@ -136,7 +133,8 @@ class PageController
     public function getTemplates(
         AppContext $app,
         ORM $orm,
-        #[Autowire] ImagePlaceholder $imagePlaceholder
+        #[Autowire]
+        ImagePlaceholder $imagePlaceholder
     ): array {
         $type = $app->input('type');
         $types = Arr::explodeAndClear(',', $type);

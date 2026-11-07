@@ -58,8 +58,8 @@ class ArticleItemView implements ViewModelInterface
      * @param  View        $view  The view object.
      *
      * @return  mixed
-     * @throws \ReflectionException
-     * @throws DefinitionException
+     * @throws  \ReflectionException
+     * @throws  DefinitionException
      */
     public function prepare(AppContext $app, View $view): mixed
     {

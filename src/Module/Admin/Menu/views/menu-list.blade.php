@@ -7,13 +7,13 @@ namespace App\View;
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var  $app       AppContext      Application context.
- * @var  $vm        MenuListView The view model object.
- * @var  $uri       SystemUri       System Uri information.
- * @var  $chronos   ChronosService  The chronos datetime service.
- * @var  $nav       Navigator       Navigator object to build route.
- * @var  $asset     AssetService    The Asset manage service.
- * @var  $lang      LangService     The language translation service.
+ * @var    $app       AppContext      Application context.
+ * @var    $vm        MenuListView The view model object.
+ * @var    $uri       SystemUri       System Uri information.
+ * @var    $chronos   ChronosService  The chronos datetime service.
+ * @var    $nav       Navigator       Navigator object to build route.
+ * @var    $asset     AssetService    The Asset manage service.
+ * @var    $lang      LangService     The language translation service.
  */
 
 use Windwalker\Core\Application\AppContext;
@@ -25,7 +25,7 @@ use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Menu\MenuListView;
 
 /**
- * @var \Lyrasoft\Luna\Entity\Menu $entity
+ * @var  \Lyrasoft\Luna\Entity\Menu  $entity
  */
 
 $app->service(\Unicorn\Script\UnicornScript::class)
@@ -115,9 +115,9 @@ $orders = [];
                     <?php
                         $entity = $vm->prepareItem($item);
 
-                        $orders[$entity->parentId][] = $entity->id;
-                        $order = count($orders[$entity->parentId]);
-                    ?>
+$orders[$entity->parentId][] = $entity->id;
+$order = count($orders[$entity->parentId]);
+?>
                     <tr>
                         <td>
                             <x-row-checkbox :row="$i" :id="$entity->id"></x-row-checkbox>

@@ -33,7 +33,8 @@ class CategoryController
     #[LangAssoc]
     public function save(
         AppContext $app,
-        #[Autowire] CategoryRepository $repository,
+        #[Autowire]
+        CategoryRepository $repository,
         CrudController $controller,
         Navigator $nav,
         #[Inject(tag: 'image')]
@@ -87,7 +88,8 @@ class CategoryController
 
     public function delete(
         AppContext $app,
-        #[Autowire] CategoryRepository $repository,
+        #[Autowire]
+        CategoryRepository $repository,
         CrudController $controller
     ): mixed {
         return $app->call([$controller, 'delete'], compact('repository'));
@@ -95,7 +97,8 @@ class CategoryController
 
     public function filter(
         AppContext $app,
-        #[Autowire] CategoryRepository $repository,
+        #[Autowire]
+        CategoryRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -103,7 +106,8 @@ class CategoryController
 
     public function batch(
         AppContext $app,
-        #[Autowire] CategoryRepository $repository,
+        #[Autowire]
+        CategoryRepository $repository,
         GridController $controller
     ): mixed {
         $task = $app->input('task');

@@ -35,9 +35,9 @@ class UserEditView implements ViewModelInterface
         protected FormFactory $formFactory,
         protected Navigator $nav,
         protected AccessService $accessService,
-        #[Autowire] protected UserRepository $repository,
-    ) {
-    }
+        #[Autowire]
+        protected UserRepository $repository,
+    ) {}
 
     /**
      * Prepare

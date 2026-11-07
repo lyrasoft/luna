@@ -94,7 +94,7 @@ class EntityBuildingSubscriber
             );
 
             $uuidIndex = static::findUuidAttrIndex($prop);
-            
+
             if ($uuidIndex !== false) {
                 array_splice($prop->attrGroups, $uuidIndex, 0, [$attr]);
             } else {
@@ -128,7 +128,7 @@ class EntityBuildingSubscriber
                 }
             }
         }
-        
+
         return false;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder;
 
 use ReflectionException;
@@ -39,8 +41,8 @@ interface AdminVueComponentInterface
      * @param  CompositeRenderer  $renderer
      * @param  array              $data
      *
-     * @return string
-     * @throws ReflectionException
+     * @return  string
+     * @throws  ReflectionException
      */
     public static function getVueComponentTemplate(CompositeRenderer $renderer, array $data = []): string;
 }

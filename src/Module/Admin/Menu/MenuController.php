@@ -27,7 +27,8 @@ class MenuController
         CrudController $controller,
         Navigator $nav,
         MenuService $menuService,
-        #[Autowire] MenuRepository $repository,
+        #[Autowire]
+        MenuRepository $repository,
     ): mixed {
         // Switch type/view
         switch ($app->input('task')) {
@@ -85,7 +86,8 @@ class MenuController
 
     public function delete(
         AppContext $app,
-        #[Autowire] MenuRepository $repository,
+        #[Autowire]
+        MenuRepository $repository,
         CrudController $controller
     ): mixed {
         return $app->call([$controller, 'delete'], compact('repository'));
@@ -93,7 +95,8 @@ class MenuController
 
     public function filter(
         AppContext $app,
-        #[Autowire] MenuRepository $repository,
+        #[Autowire]
+        MenuRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -101,7 +104,8 @@ class MenuController
 
     public function batch(
         AppContext $app,
-        #[Autowire] MenuRepository $repository,
+        #[Autowire]
+        MenuRepository $repository,
         GridController $controller
     ): mixed {
         $task = $app->input('task');
@@ -124,7 +128,8 @@ class MenuController
 
     public function copy(
         AppContext $app,
-        #[Autowire] MenuRepository $repository,
+        #[Autowire]
+        MenuRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));

@@ -35,9 +35,9 @@ class MenuEditView implements ViewModelInterface
         protected Navigator $nav,
         #[Autowire]
         protected MenuService $menuService,
-        #[Autowire] protected MenuRepository $repository
-    ) {
-    }
+        #[Autowire]
+        protected MenuRepository $repository
+    ) {}
 
     /**
      * Prepare

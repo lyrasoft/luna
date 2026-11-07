@@ -63,7 +63,7 @@ class LoginRequireMiddleware implements MiddlewareInterface
      * @param  Navigator  $nav
      *
      * @return  RedirectResponse
-     * @throws \ReflectionException
+     * @throws  \ReflectionException
      */
     public function getRedirectResponse(Navigator $nav): RedirectResponse
     {

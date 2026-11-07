@@ -38,8 +38,7 @@ class MenuListView implements ViewModelInterface
         protected MenuRepository $repository,
         protected FormFactory $formFactory,
         protected MenuService $menuService,
-    ) {
-    }
+    ) {}
 
     /**
      * Prepare view data.

@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Lyrasoft\Luna\Subscriber;
 
 use Lyrasoft\Luna\Services\RememberMeService;
-use Lyrasoft\Luna\User\Event\AfterLoginEvent;
 use Lyrasoft\Luna\User\Event\AfterLoginSessionEvent;
 use Windwalker\Core\Application\AppContext;
-use Windwalker\Core\Runtime\Config;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
 use Windwalker\Session\Session;
@@ -24,8 +22,7 @@ class RememberMeSubscriber
         protected Session $session,
         protected RememberMeService $rememberMeService,
         protected ?\Closure $conditions = null,
-    ) {
-    }
+    ) {}
 
     #[ListenTo(AfterLoginSessionEvent::class)]
     public function afterLoginSession(AfterLoginSessionEvent $event): void

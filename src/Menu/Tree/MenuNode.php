@@ -39,7 +39,7 @@ class MenuNode extends Node implements MenuNodeInterface
     protected array $extra = [];
 
     /**
-     * @var callable
+     * @var  callable
      */
     protected $activeHandler;
 
@@ -204,7 +204,7 @@ class MenuNode extends Node implements MenuNodeInterface
     }
 
     /**
-     * @return UriInterface|null
+     * @return  UriInterface|null
      */
     public function getLink(): ?UriInterface
     {
@@ -302,7 +302,7 @@ class MenuNode extends Node implements MenuNodeInterface
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getLayout(): string
     {
@@ -322,7 +322,7 @@ class MenuNode extends Node implements MenuNodeInterface
     }
 
     /**
-     * @return callable
+     * @return  callable
      */
     public function getActiveHandler(): callable
     {
@@ -353,7 +353,7 @@ class MenuNode extends Node implements MenuNodeInterface
     }
 
     /**
-     * @return MenuHelper
+     * @return  MenuHelper
      */
     public function getMenuHelper(): MenuHelper
     {

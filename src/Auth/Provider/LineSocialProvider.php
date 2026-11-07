@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Auth\Provider;
 
-use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\Adapter\OAuth2;
 use Hybridauth\Data\Collection;
 use Hybridauth\User\Profile;
-use Lyrasoft\Luna\Auth\Profile\ProfileHandlerInterface;
 use Windwalker\Core\Utilities\Base64Url;
 
 /**

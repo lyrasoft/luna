@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\User;
 
-use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\Entity\UserRoleMap;
 use Lyrasoft\Luna\Enum\UserEnabled;
 use Lyrasoft\Luna\Enum\UserVerified;
@@ -39,7 +38,7 @@ class UserListView implements ViewModelInterface
     use TranslatorTrait;
 
     /**
-     * @var Collection
+     * @var  Collection
      */
     protected Collection $roles;
 
@@ -49,8 +48,7 @@ class UserListView implements ViewModelInterface
         #[Autowire]
         protected UserRepository $repository,
         protected FormFactory $formFactory
-    ) {
-    }
+    ) {}
 
     /**
      * Prepare view data.
@@ -95,7 +93,7 @@ class UserListView implements ViewModelInterface
             ->from(UserRoleMap::class)
             ->where('user_id', $ids ?: [0])
             ->all(UserRoleMap::class)
-            ->groupBy(fn (UserRoleMap $map) => $map->userId);
+            ->groupBy(fn(UserRoleMap $map) => $map->userId);
 
         $showFilters = $this->showFilterBar($filter);
 

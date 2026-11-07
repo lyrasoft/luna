@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
-use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\SassException;
 use Windwalker\Data\Collection;
 
@@ -24,7 +25,7 @@ class ColumnRenderer extends AbstractPageRenderer
     /**
      * render
      *
-     * @param  array  $content
+     * @param  array   $content
      * @param  string  $path
      *
      * @return  string
@@ -58,7 +59,7 @@ class ColumnRenderer extends AbstractPageRenderer
      *
      * @return  void
      *
-     * @throws SassException
+     * @throws  SassException
      * @since  1.5.2
      */
     protected function prepareCSS(Collection $content): void
@@ -92,9 +93,7 @@ class ColumnRenderer extends AbstractPageRenderer
      *
      * @since  1.5.2
      */
-    protected function prepareJS(Collection $content): void
-    {
-    }
+    protected function prepareJS(Collection $content): void {}
 
     /**
      * prepareElement

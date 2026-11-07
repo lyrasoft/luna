@@ -26,9 +26,7 @@ class AliasMenuView extends AbstractMenuView
 {
     use TranslatorTrait;
 
-    public function __construct(protected ORM $orm, protected MenuService $menuService)
-    {
-    }
+    public function __construct(protected ORM $orm, protected MenuService $menuService) {}
 
     /**
      * @inheritDoc
@@ -50,9 +48,7 @@ class AliasMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParamsForm(Form $form): void
-    {
-    }
+    protected function defineParamsForm(Form $form): void {}
 
     /**
      * prepareVariablesStore
@@ -108,9 +104,9 @@ class AliasMenuView extends AbstractMenuView
      *
      * @return  DbMenuNode|null
      *
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
      *
      * @since  1.7
      */

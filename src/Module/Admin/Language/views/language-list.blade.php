@@ -7,13 +7,13 @@ namespace App\View;
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var  $app       AppContext      Application context.
- * @var  $vm        LanguageListView The view model object.
- * @var  $uri       SystemUri       System Uri information.
- * @var  $chronos   ChronosService  The chronos datetime service.
- * @var  $nav       Navigator       Navigator object to build route.
- * @var  $asset     AssetService    The Asset manage service.
- * @var  $lang      LangService     The language translation service.
+ * @var    $app       AppContext      Application context.
+ * @var    $vm        LanguageListView The view model object.
+ * @var    $uri       SystemUri       System Uri information.
+ * @var    $chronos   ChronosService  The chronos datetime service.
+ * @var    $nav       Navigator       Navigator object to build route.
+ * @var    $asset     AssetService    The Asset manage service.
+ * @var    $lang      LangService     The language translation service.
  */
 
 use Lyrasoft\Luna\Entity\Language;
@@ -28,7 +28,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 /**
- * @var Language $entity
+ * @var  Language  $entity
  */
 
 $workflow = $app->service(BasicStateWorkflow::class);
@@ -132,7 +132,7 @@ $localeService = $app->service(LocaleService::class);
                     @foreach($items as $i => $item)
                             <?php
                             $entity = $vm->prepareItem($item);
-                            ?>
+?>
                         <tr>
                             {{-- Checkbox --}}
                             <td>

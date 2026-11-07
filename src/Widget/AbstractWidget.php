@@ -13,13 +13,13 @@ use Windwalker\Form\FieldDefinitionInterface;
 /**
  * The AbstractWidget class.
  *
- * @method string getId()
- * @method string getTitle()
- * @method string getContent()
- * @method string getPosition()
- * @method array  getParams()
- * @method BasicState getState()
- * @method string getLanguage()
+ * @method  string      getId()
+ * @method  string      getTitle()
+ * @method  string      getContent()
+ * @method  string      getPosition()
+ * @method  array       getParams()
+ * @method  BasicState  getState()
+ * @method  string      getLanguage()
  */
 abstract class AbstractWidget implements FieldDefinitionInterface
 {
@@ -34,7 +34,7 @@ abstract class AbstractWidget implements FieldDefinitionInterface
     abstract public static function getTypeDescription(LangService $lang): string;
 
     /**
-     * @return string
+     * @return  string
      */
     public static function getType(): string
     {
@@ -61,7 +61,7 @@ abstract class AbstractWidget implements FieldDefinitionInterface
     }
 
     /**
-     * @return Widget
+     * @return  Widget
      */
     public function getData(): Widget
     {

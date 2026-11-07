@@ -35,7 +35,7 @@ class TagListField extends SqlListField
     /**
      * getAccessors
      *
-     * @return    array
+     * @return  array
      */
     protected function getAccessors(): array
     {

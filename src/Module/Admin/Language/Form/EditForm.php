@@ -6,7 +6,6 @@ namespace Lyrasoft\Luna\Module\Admin\Language\Form;
 
 use Lyrasoft\Luna\Field\FlagListField;
 use Windwalker\Core\Language\TranslatorTrait;
-use Windwalker\Form\Field\NumberField;
 use Unicorn\Field\SwitcherField;
 use Windwalker\Form\Field\TextareaField;
 use Unicorn\Field\SingleImageDragField;

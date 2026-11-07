@@ -7,13 +7,13 @@ namespace App\View;
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var  $app       AppContext      Application context.
- * @var  $vm        ArticleEditView  The view model object.
- * @var  $uri       SystemUri       System Uri information.
- * @var  $chronos   ChronosService  The chronos datetime service.
- * @var  $nav       Navigator       Navigator object to build route.
- * @var  $asset     AssetService    The Asset manage service.
- * @var  $lang      LangService     The language translation service.
+ * @var    $app       AppContext      Application context.
+ * @var    $vm        ArticleEditView  The view model object.
+ * @var    $uri       SystemUri       System Uri information.
+ * @var    $chronos   ChronosService  The chronos datetime service.
+ * @var    $nav       Navigator       Navigator object to build route.
+ * @var    $asset     AssetService    The Asset manage service.
+ * @var    $lang      LangService     The language translation service.
  */
 
 use Windwalker\Core\Application\AppContext;
@@ -26,8 +26,8 @@ use Windwalker\Form\Form;
 use Lyrasoft\Luna\Module\Admin\Article\ArticleEditView;
 
 /**
- * @var Form  $form
- * @var \Lyrasoft\Luna\Entity\Article $item
+ * @var  Form                           $form
+ * @var  \Lyrasoft\Luna\Entity\Article  $item
  */
 ?>
 

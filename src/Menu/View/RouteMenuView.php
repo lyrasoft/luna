@@ -20,9 +20,7 @@ class RouteMenuView extends AbstractMenuView
 {
     use TranslatorTrait;
 
-    public function __construct(protected Router $router)
-    {
-    }
+    public function __construct(protected Router $router) {}
 
     /**
      * @inheritDoc
@@ -69,9 +67,7 @@ class RouteMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParamsForm(Form $form): void
-    {
-    }
+    protected function defineParamsForm(Form $form): void {}
 
     /**
      * @inheritDoc

@@ -36,9 +36,7 @@ class EditForm implements FieldDefinitionInterface
     /**
      * EditForm constructor.
      */
-    public function __construct(protected string $type, protected mixed $id, protected ORM $orm)
-    {
-    }
+    public function __construct(protected string $type, protected mixed $id, protected ORM $orm) {}
 
     /**
      * Define the form fields.
@@ -46,7 +44,7 @@ class EditForm implements FieldDefinitionInterface
      * @param  Form  $form  The Windwalker form object.
      *
      * @return  void
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      */
     public function define(Form $form): void
     {

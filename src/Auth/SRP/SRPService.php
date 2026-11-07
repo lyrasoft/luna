@@ -19,8 +19,6 @@ use Windwalker\SRP\Step\PasswordFile;
 use Windwalker\SRP\Step\ProofResult;
 use Windwalker\Utilities\Str;
 
-use const Windwalker\Crypt\ENCODER_BASE64URLSAFE;
-
 class SRPService
 {
     public const PASSWORD_PREFIX = '$srp$';
@@ -200,7 +198,7 @@ class SRPService
     }
 
     /**
-     * @return SRPServer
+     * @return  SRPServer
      */
     public function getSRPServer(): SRPServer
     {

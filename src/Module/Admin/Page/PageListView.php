@@ -35,8 +35,7 @@ class PageListView implements ViewModelInterface
         #[Autowire]
         protected PageRepository $repository,
         protected FormFactory $formFactory
-    ) {
-    }
+    ) {}
 
     /**
      * Prepare view data.

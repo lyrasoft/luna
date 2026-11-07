@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\User;
 
 use Firebase\JWT\JWT;
@@ -26,7 +28,7 @@ class ActivationService
     public const RE_ACTIVATE_SESSION_KEY = 'reactivate.mail';
 
     /**
-     * @var callable
+     * @var  callable
      */
     protected $userInfoGetter;
 
@@ -43,8 +45,7 @@ class ActivationService
         protected ORM $orm,
         protected Navigator $nav,
         protected RendererService $rendererService
-    ) {
-    }
+    ) {}
 
     public function createToken(object $user): string
     {
@@ -70,7 +71,7 @@ class ActivationService
      *
      * @return  void
      *
-     * @throws ReflectionException
+     * @throws  ReflectionException
      *
      * @since  1.7
      */
@@ -113,7 +114,7 @@ class ActivationService
     }
 
     /**
-     * @return callable
+     * @return  callable
      */
     public function getUserInfoGetter(): callable
     {

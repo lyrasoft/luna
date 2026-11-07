@@ -9,7 +9,7 @@ interface UserVerifiedEntityInterface
     /**
      * Check if user is verified.
      *
-     * @return bool
+     * @return  bool
      */
     public function isVerified(): bool;
 }

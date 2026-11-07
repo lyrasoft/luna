@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Menu;
 
 use Lyrasoft\Luna\Menu\Tree\DbMenuNode;

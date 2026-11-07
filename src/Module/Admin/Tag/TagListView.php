@@ -35,8 +35,7 @@ class TagListView implements ViewModelInterface
         #[Autowire]
         protected TagRepository $repository,
         protected FormFactory $formFactory
-    ) {
-    }
+    ) {}
 
     /**
      * Prepare view data.

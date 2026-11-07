@@ -13,8 +13,8 @@ use Windwalker\DI\Container;
 /**
  * The CaptchaManager class.
  *
- * @method CaptchaDriverInterface create(?string $name = null, ...$args)
- * @method CaptchaDriverInterface get(?string $name = null, ...$args)
+ * @method  CaptchaDriverInterface  create(?string $name = null, ...$args)
+ * @method  CaptchaDriverInterface  get(?string $name = null, ...$args)
  */
 #[Isolation]
 class CaptchaFactory implements ServiceFactoryInterface

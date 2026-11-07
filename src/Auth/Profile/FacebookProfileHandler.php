@@ -12,9 +12,7 @@ use Lyrasoft\Luna\LunaPackage;
  */
 class FacebookProfileHandler implements ProfileHandlerInterface
 {
-    public function __construct(protected LunaPackage $luna)
-    {
-    }
+    public function __construct(protected LunaPackage $luna) {}
 
     public function handle(AdapterInterface $adapter): array
     {

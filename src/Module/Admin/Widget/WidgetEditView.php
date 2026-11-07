@@ -34,9 +34,9 @@ class WidgetEditView implements ViewModelInterface
         protected FormFactory $formFactory,
         protected Navigator $nav,
         protected WidgetService $widgetService,
-        #[Autowire] protected WidgetRepository $repository
-    ) {
-    }
+        #[Autowire]
+        protected WidgetRepository $repository
+    ) {}
 
     /**
      * Prepare

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Tree;
 
 use RecursiveIterator;
@@ -35,7 +37,7 @@ class RecursiveNodeIterator implements RecursiveIterator
     /**
      * Return the current element
      *
-     * @return NodeInterface|null Can return any type.
+     * @return  NodeInterface|null  Can return any type.
      */
     public function current(): ?NodeInterface
     {
@@ -45,7 +47,7 @@ class RecursiveNodeIterator implements RecursiveIterator
     /**
      * Move forward to next element
      *
-     * @return void Any returned value is ignored.
+     * @return  void  Any returned value is ignored.
      */
     public function next(): void
     {
@@ -55,7 +57,7 @@ class RecursiveNodeIterator implements RecursiveIterator
     /**
      * Return the key of the current element
      *
-     * @return mixed scalar on success, or null on failure.
+     * @return  mixed  scalar on success, or null on failure.
      */
     public function key(): mixed
     {
@@ -65,8 +67,8 @@ class RecursiveNodeIterator implements RecursiveIterator
     /**
      * Checks if current position is valid
      *
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     *                 Returns true on success or false on failure.
+     * @return  boolean  The return value will be casted to boolean and then evaluated.
+     *                   Returns true on success or false on failure.
      */
     public function valid(): bool
     {
@@ -76,7 +78,7 @@ class RecursiveNodeIterator implements RecursiveIterator
     /**
      * Rewind the Iterator to the first element
      *
-     * @return void Any returned value is ignored.
+     * @return  void  Any returned value is ignored.
      */
     public function rewind(): void
     {
@@ -86,7 +88,7 @@ class RecursiveNodeIterator implements RecursiveIterator
     /**
      * Returns if an iterator can be created for the current entry.
      *
-     * @return bool true if the current entry can be iterated over, otherwise returns false.
+     * @return  bool  true if the current entry can be iterated over, otherwise returns false.
      */
     public function hasChildren(): bool
     {
@@ -96,7 +98,7 @@ class RecursiveNodeIterator implements RecursiveIterator
     /**
      * Returns an iterator for the current entry.
      *
-     * @return RecursiveIterator An iterator for the current entry.
+     * @return  RecursiveIterator  An iterator for the current entry.
      */
     public function getChildren(): RecursiveIterator
     {

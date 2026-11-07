@@ -40,7 +40,7 @@ class CategoryModalField extends ModalField
     }
 
     /**
-     * @return string
+     * @return  string
      */
     public function getCategoryType(): string
     {

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use Lyrasoft\Luna\PageBuilder\Renderer\Style\StyleContainer;
-use ScssPhp\ScssPhp\Compiler;
 use Windwalker\Data\Collection;
 
 /**
@@ -122,9 +123,7 @@ class RowRenderer extends AbstractPageRenderer
      *
      * @since  1.5.2
      */
-    protected function prepareJS(Collection $content): void
-    {
-    }
+    protected function prepareJS(Collection $content): void {}
 
     /**
      * handleContentAlign

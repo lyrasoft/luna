@@ -9,16 +9,12 @@ use Windwalker\Authorization\AuthorizationInterface;
 use Windwalker\Authorization\PolicyInterface;
 use Windwalker\Authorization\PolicyProviderInterface;
 
-use function Windwalker\unwrap_enum;
-
 /**
  * The AccessAuthorization class.
  */
 class AccessAuthorization implements AuthorizationInterface
 {
-    public function __construct(protected Authorization $authorization, protected AccessService $accessService)
-    {
-    }
+    public function __construct(protected Authorization $authorization, protected AccessService $accessService) {}
 
     public function authorize(string|\UnitEnum $policy, mixed $user, ...$args): bool
     {
@@ -49,7 +45,7 @@ class AccessAuthorization implements AuthorizationInterface
     }
 
     /**
-     * @return Authorization
+     * @return  Authorization
      */
     public function getAuthorization(): Authorization
     {

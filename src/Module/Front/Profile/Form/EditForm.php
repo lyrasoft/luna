@@ -21,9 +21,7 @@ class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
 
-    public function __construct(protected LunaPackage $luna)
-    {
-    }
+    public function __construct(protected LunaPackage $luna) {}
 
     /**
      * Define the form fields.

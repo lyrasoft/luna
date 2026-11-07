@@ -28,7 +28,8 @@ class WidgetController
         AppContext $app,
         CrudController $controller,
         Navigator $nav,
-        #[Autowire] WidgetRepository $repository,
+        #[Autowire]
+        WidgetRepository $repository,
         WidgetService $widgetService,
         FormFactory $formFactory,
     ): mixed {
@@ -67,7 +68,8 @@ class WidgetController
 
     public function delete(
         AppContext $app,
-        #[Autowire] WidgetRepository $repository,
+        #[Autowire]
+        WidgetRepository $repository,
         CrudController $controller
     ): mixed {
         return $app->call([$controller, 'delete'], compact('repository'));
@@ -75,7 +77,8 @@ class WidgetController
 
     public function filter(
         AppContext $app,
-        #[Autowire] WidgetRepository $repository,
+        #[Autowire]
+        WidgetRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -83,7 +86,8 @@ class WidgetController
 
     public function batch(
         AppContext $app,
-        #[Autowire] WidgetRepository $repository,
+        #[Autowire]
+        WidgetRepository $repository,
         GridController $controller
     ): mixed {
         $task = $app->input('task');
@@ -98,7 +102,8 @@ class WidgetController
 
     public function copy(
         AppContext $app,
-        #[Autowire] WidgetRepository $repository,
+        #[Autowire]
+        WidgetRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));

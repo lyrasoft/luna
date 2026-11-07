@@ -117,10 +117,10 @@ $orders = [];
                     //     ? array_search($item->id, $ordering[$item->parent_id]) + 1
                     //     : '-';
                     $orders[$item->parent_id][] = $item->id;
-                    $order = count($orders[$item->parent_id]);
+$order = count($orders[$item->parent_id]);
 
-                    $entity = $vm->prepareItem($item);
-                    ?>
+$entity = $vm->prepareItem($item);
+?>
                     <tr data-order-group="{{ $item->parent_id }}">
                         {{-- CHECKBOX --}}
                         <td>

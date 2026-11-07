@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Tree;
 
 use IteratorAggregate;
@@ -17,7 +19,7 @@ use Traversable;
 interface NodeInterface extends IteratorAggregate
 {
     /**
-     * @var T
+     * @var  T
      */
     public mixed $value {
         get;
@@ -40,14 +42,14 @@ interface NodeInterface extends IteratorAggregate
      *
      * @param  T  $value
      *
-     * @return static the current instance
+     * @return  static  the current instance
      */
     public function setValue(mixed $value): static;
 
     /**
      * Get the current node value
      *
-     * @return T
+     * @return  T
      */
     public function getValue(): mixed;
 
@@ -56,7 +58,7 @@ interface NodeInterface extends IteratorAggregate
      *
      * @param  NodeInterface  $child
      *
-     * @return static
+     * @return  static
      */
     public function addChild(mixed $child): static;
 
@@ -65,21 +67,21 @@ interface NodeInterface extends IteratorAggregate
      *
      * @param  NodeInterface  $child
      *
-     * @return static the current instance
+     * @return  static  the current instance
      */
     public function removeChild(NodeInterface $child): static;
 
     /**
      * Remove all children
      *
-     * @return static The current instance
+     * @return  static  The current instance
      */
     public function removeAllChildren(): static;
 
     /**
      * Return the array of children
      *
-     * @return static[]
+     * @return  static[]
      */
     public function getChildren(): array;
 
@@ -95,7 +97,7 @@ interface NodeInterface extends IteratorAggregate
      *
      * @param  string|int  $key
      *
-     * @return NodeInterface|null
+     * @return  NodeInterface|null
      */
     public function getChild(mixed $key): ?static;
 
@@ -104,7 +106,7 @@ interface NodeInterface extends IteratorAggregate
      *
      * @param  static[]  $children
      *
-     * @return static
+     * @return  static
      */
     public function setChildren(array $children): static;
 
@@ -113,14 +115,14 @@ interface NodeInterface extends IteratorAggregate
      *
      * @param  NodeInterface|null  $parent
      *
-     * @return static
+     * @return  static
      */
     public function setParent(?NodeInterface $parent = null): static;
 
     /**
      * getParent
      *
-     * @return ?static
+     * @return  ?static
      */
     public function getParent(): ?static;
 
@@ -136,63 +138,63 @@ interface NodeInterface extends IteratorAggregate
     /**
      * Retrieves all ancestors of node excluding current node.
      *
-     * @return static[]
+     * @return  static[]
      */
     public function getAncestors(): array;
 
     /**
      * Retrieves all ancestors of node as well as the node itself.
      *
-     * @return static[]
+     * @return  static[]
      */
     public function getAncestorsAndSelf(): array;
 
     /**
      * Retrieves all neighboring nodes, excluding the current node.
      *
-     * @return static[]
+     * @return  static[]
      */
     public function getNeighbors(): array;
 
     /**
      * Returns all neighboring nodes, including the current node.
      *
-     * @return static[]
+     * @return  static[]
      */
     public function getNeighborsAndSelf(): array;
 
     /**
      * Return true if the node is the root, false otherwise
      *
-     * @return bool
+     * @return  bool
      */
     public function isRoot(): bool;
 
     /**
      * Return true if the node is a child, false otherwise.
      *
-     * @return bool
+     * @return  bool
      */
     public function isChild(): bool;
 
     /**
      * Return true if the node has no children, false otherwise
      *
-     * @return bool
+     * @return  bool
      */
     public function isLeaf(): bool;
 
     /**
      * Return the distance from the current node to the root
      *
-     * @return int
+     * @return  int
      */
     public function getDepth(): int;
 
     /**
      * Return the height of the tree whose root is this node
      *
-     * @return int
+     * @return  int
      */
     public function getHeight(): int;
 

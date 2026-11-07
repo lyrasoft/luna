@@ -23,7 +23,8 @@ class TagController
         AppContext $app,
         CrudController $controller,
         Navigator $nav,
-        #[Autowire] TagRepository $repository,
+        #[Autowire]
+        TagRepository $repository,
     ): mixed {
         $form = $app->make(EditForm::class);
 
@@ -48,7 +49,8 @@ class TagController
 
     public function delete(
         AppContext $app,
-        #[Autowire] TagRepository $repository,
+        #[Autowire]
+        TagRepository $repository,
         CrudController $controller
     ): mixed {
         return $app->call([$controller, 'delete'], compact('repository'));
@@ -56,7 +58,8 @@ class TagController
 
     public function filter(
         AppContext $app,
-        #[Autowire] TagRepository $repository,
+        #[Autowire]
+        TagRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -64,7 +67,8 @@ class TagController
 
     public function batch(
         AppContext $app,
-        #[Autowire] TagRepository $repository,
+        #[Autowire]
+        TagRepository $repository,
         GridController $controller
     ): mixed {
         $task = $app->input('task');
@@ -79,7 +83,8 @@ class TagController
 
     public function copy(
         AppContext $app,
-        #[Autowire] TagRepository $repository,
+        #[Autowire]
+        TagRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));

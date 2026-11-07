@@ -7,13 +7,13 @@ namespace App\View;
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var  $app       AppContext      Application context.
- * @var  $vm        TagListView The view model object.
- * @var  $uri       SystemUri       System Uri information.
- * @var  $chronos   ChronosService  The chronos datetime service.
- * @var  $nav       Navigator       Navigator object to build route.
- * @var  $asset     AssetService    The Asset manage service.
- * @var  $lang      LangService     The language translation service.
+ * @var    $app       AppContext      Application context.
+ * @var    $vm        TagListView The view model object.
+ * @var    $uri       SystemUri       System Uri information.
+ * @var    $chronos   ChronosService  The chronos datetime service.
+ * @var    $nav       Navigator       Navigator object to build route.
+ * @var    $asset     AssetService    The Asset manage service.
+ * @var    $lang      LangService     The language translation service.
  */
 
 use Windwalker\Core\Application\AppContext;
@@ -25,7 +25,7 @@ use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\Tag\TagListView;
 
 /**
- * @var \Lyrasoft\Luna\Entity\Tag $entity
+ * @var  \Lyrasoft\Luna\Entity\Tag  $entity
  */
 
 $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
@@ -83,7 +83,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                 @foreach($items as $i => $item)
                     <?php
                         $entity = $vm->prepareItem($item);
-                    ?>
+?>
                     <tr>
                         <td>
                             <x-row-checkbox :row="$i" :id="$entity->id"></x-row-checkbox>

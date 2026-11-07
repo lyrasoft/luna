@@ -12,7 +12,7 @@ use Windwalker\Utilities\Contract\LanguageInterface;
 class AddonType
 {
     /**
-     * @var class-string<AbstractAddon>|AbstractAddon
+     * @var  class-string<AbstractAddon>|AbstractAddon
      */
     public string $className = '';
 

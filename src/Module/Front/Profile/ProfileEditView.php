@@ -33,9 +33,9 @@ class ProfileEditView implements ViewModelInterface
         protected FormFactory $formFactory,
         protected Navigator $nav,
         protected UserService $userService,
-        #[Autowire] protected UserRepository $repository
-    ) {
-    }
+        #[Autowire]
+        protected UserRepository $repository
+    ) {}
 
     /**
      * Prepare
@@ -44,7 +44,7 @@ class ProfileEditView implements ViewModelInterface
      * @param  View        $view
      *
      * @return  mixed
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      */
     public function prepare(AppContext $app, View $view): mixed
     {

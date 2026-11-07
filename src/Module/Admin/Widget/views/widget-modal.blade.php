@@ -16,7 +16,6 @@ namespace App\View;
  * @var $lang      LangService     The language translation service.
  */
 
-use Lyrasoft\Luna\Module\Admin\Widget\WidgetListView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;

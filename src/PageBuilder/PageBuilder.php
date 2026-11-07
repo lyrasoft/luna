@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder;
 
 use Lyrasoft\Luna\Entity\Page;
@@ -28,9 +30,7 @@ class PageBuilder
     /**
      * PageBuilder constructor.
      */
-    public function __construct(protected ORM $orm)
-    {
-    }
+    public function __construct(protected ORM $orm) {}
 
     public function prepareAssets(?string $html = null): void
     {

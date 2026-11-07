@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Menu\Tree;
 
 use Lyrasoft\Luna\Entity\Menu;
@@ -14,7 +16,7 @@ use Windwalker\Utilities\Assert\TypeAssert;
 /**
  * The MenuNode class.
  *
- * @method Menu getValue()
+ * @method  Menu  getValue()
  *
  * @since  1.7
  */
@@ -23,23 +25,23 @@ class DbMenuNode extends Node implements MenuNodeInterface
     /**
      * Property value.
      *
-     * @var ?Menu
+     * @var  ?Menu
      */
     public protected(set) mixed $value;
 
     /**
      * Property instance.
      *
-     * @var AbstractMenuView|null
+     * @var  AbstractMenuView|null
      */
     protected ?AbstractMenuView $viewInstance;
 
     /**
      * Property active.
      *
-     * @var bool|null
+     * @var  bool|null
      */
-    protected bool|null $forceActive = null;
+    protected ?bool $forceActive = null;
 
     /**
      * @inheritDoc

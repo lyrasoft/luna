@@ -91,9 +91,9 @@ $typeField = $app->make(\Lyrasoft\Luna\Field\MenuTypeListField::class)
                     <?php
                     $entity = $vm->prepareItem($item);
 
-                    $orders[$entity->getParentId()][] = $entity->getId();
-                    $order = count($orders[$entity->getParentId()]);
-                    ?>
+$orders[$entity->getParentId()][] = $entity->getId();
+$order = count($orders[$entity->getParentId()]);
+?>
                     @php($data = [
                         'title' => $item->title,
                         'value' => $item->id,

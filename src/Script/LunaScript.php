@@ -12,9 +12,7 @@ use Windwalker\Core\Asset\AbstractScript;
  */
 class LunaScript extends AbstractScript
 {
-    public function __construct(protected UnicornScript $unicornScript)
-    {
-    }
+    public function __construct(protected UnicornScript $unicornScript) {}
 
     public function captcha(): static
     {
@@ -22,7 +20,7 @@ class LunaScript extends AbstractScript
             $this->unicornScript->translate('luna.field.captcha.message.please.check.first');
 
             if ($this->unicornScript->next) {
-                $this->unicornScript->importMainThen("u.\$luna.useCaptcha()");
+                $this->unicornScript->importMainThen('u.$luna.useCaptcha()');
             } else {
                 $this->unicornScript->importMainThen("u.import('@luna/dist/captcha.js')");
             }
@@ -50,7 +48,7 @@ class LunaScript extends AbstractScript
 
             if ($this->unicornScript->next) {
                 $this->unicornScript->importMainThen(
-                    "u.\$luna.useAccountCheck()",
+                    'u.$luna.useAccountCheck()',
                 );
             } else {
                 $this->js('@luna/dist/account-check.js');
@@ -64,7 +62,7 @@ class LunaScript extends AbstractScript
     {
         if ($this->available()) {
             if ($this->unicornScript->next) {
-                $this->unicornScript->importMainThen("u.\$luna.useLangDropdown()");
+                $this->unicornScript->importMainThen('u.$luna.useLangDropdown()');
             } else {
                 $this->js('@vendor/lyrasoft/luna/dist/lang-dropdown.js');
             }
@@ -77,7 +75,7 @@ class LunaScript extends AbstractScript
     {
         if ($this->available()) {
             if ($this->unicornScript->next) {
-                $this->unicornScript->importMainThen("u.\$luna.useLocaleSwitch()");
+                $this->unicornScript->importMainThen('u.$luna.useLocaleSwitch()');
             } else {
                 $this->js('@vendor/lyrasoft/luna/dist/locale-switch.js');
             }

@@ -9,7 +9,6 @@ use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Form\Field\TextField;
-use Windwalker\Form\Field\UrlField;
 use Windwalker\Form\Form;
 use Windwalker\Uri\Uri;
 
@@ -41,9 +40,7 @@ class LinkMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParamsForm(Form $form): void
-    {
-    }
+    protected function defineParamsForm(Form $form): void {}
 
     /**
      * @inheritDoc

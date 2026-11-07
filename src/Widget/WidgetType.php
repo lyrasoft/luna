@@ -7,6 +7,4 @@ namespace Lyrasoft\Luna\Widget;
 /**
  * The WidgetType class.
  */
-class WidgetType
-{
-}
+class WidgetType {}

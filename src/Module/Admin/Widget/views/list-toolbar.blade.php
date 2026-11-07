@@ -7,16 +7,15 @@ namespace App\View;
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var  $app       AppContext      Application context.
- * @var  $vm        \Lyrasoft\Luna\Module\Admin\Widget\WidgetListView  The view model object.
- * @var  $uri       SystemUri       System Uri information.
- * @var  $chronos   ChronosService  The chronos datetime service.
- * @var  $nav       Navigator       Navigator object to build route.
- * @var  $asset     AssetService    The Asset manage service.
- * @var  $lang      LangService     The language translation service.
+ * @var    $app       AppContext      Application context.
+ * @var    $vm        \Lyrasoft\Luna\Module\Admin\Widget\WidgetListView  The view model object.
+ * @var    $uri       SystemUri       System Uri information.
+ * @var    $chronos   ChronosService  The chronos datetime service.
+ * @var    $nav       Navigator       Navigator object to build route.
+ * @var    $asset     AssetService    The Asset manage service.
+ * @var    $lang      LangService     The language translation service.
  */
 
-use Lyrasoft\Luna\Module\Admin\Widget\WidgetListView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;

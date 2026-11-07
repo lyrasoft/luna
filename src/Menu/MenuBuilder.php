@@ -32,7 +32,7 @@ class MenuBuilder
     protected MenuHelper $menuHelper;
 
     /**
-     * @var array<MenuNodeInterface>
+     * @var  array<MenuNodeInterface>
      */
     protected array $stack = [];
 
@@ -92,7 +92,7 @@ class MenuBuilder
      * @param  mixed   $uri
      *
      * @return  MenuNode
-     * @throws ReflectionException
+     * @throws  ReflectionException
      */
     public function add(string $title, mixed $uri = null): MenuNode
     {
@@ -215,7 +215,7 @@ class MenuBuilder
     }
 
     /**
-     * @return MenuNode|null
+     * @return  MenuNode|null
      */
     public function getRoot(): ?MenuNode
     {
@@ -235,7 +235,7 @@ class MenuBuilder
     }
 
     /**
-     * @return MenuNodeInterface|null
+     * @return  MenuNodeInterface|null
      */
     public function getCurrent(): ?MenuNodeInterface
     {
@@ -255,7 +255,7 @@ class MenuBuilder
     }
 
     /**
-     * @return MenuNodeInterface|null
+     * @return  MenuNodeInterface|null
      */
     public function getLast(): ?MenuNodeInterface
     {

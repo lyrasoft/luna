@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Captcha\Recaptcha;
 
 use ReCaptcha\ReCaptcha;
@@ -45,7 +47,7 @@ class WindwalkerRequestMethod implements RequestMethod
      *
      * @param  RequestParameters  $params  Request parameters
      *
-     * @return string Body of the reCAPTCHA response
+     * @return  string  Body of the reCAPTCHA response
      */
     #[\ReturnTypeWillChange]
     public function submit(RequestParameters $params): string

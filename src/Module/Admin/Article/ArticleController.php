@@ -19,7 +19,6 @@ use Windwalker\Core\Attributes\Controller;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Autowire;
 use Windwalker\DI\Attributes\Inject;
-use Windwalker\DI\Attributes\Service;
 use Windwalker\ORM\Event\AfterSaveEvent;
 
 /**
@@ -35,7 +34,8 @@ class ArticleController
         AppContext $app,
         CrudController $controller,
         Navigator $nav,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire]
+        ArticleRepository $repository,
         TagService $tagService,
         #[Inject(tag: 'image')]
         FileUploadService $fileUploadService,
@@ -91,7 +91,8 @@ class ArticleController
 
     public function delete(
         AppContext $app,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire]
+        ArticleRepository $repository,
         CrudController $controller
     ): mixed {
         return $app->call([$controller, 'delete'], compact('repository'));
@@ -99,7 +100,8 @@ class ArticleController
 
     public function filter(
         AppContext $app,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire]
+        ArticleRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'filter'], compact('repository'));
@@ -107,7 +109,8 @@ class ArticleController
 
     public function batch(
         AppContext $app,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire]
+        ArticleRepository $repository,
         GridController $controller
     ): mixed {
         $data = match ($app->input('task')) {
@@ -121,7 +124,8 @@ class ArticleController
 
     public function copy(
         AppContext $app,
-        #[Autowire] ArticleRepository $repository,
+        #[Autowire]
+        ArticleRepository $repository,
         GridController $controller
     ): mixed {
         return $app->call([$controller, 'copy'], compact('repository'));

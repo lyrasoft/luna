@@ -42,9 +42,9 @@ class PageEditView implements ViewModelInterface
         protected Navigator $nav,
         protected PageService $pageService,
         protected UnicornScript $unicornScript,
-        #[Autowire] protected PageRepository $repository
-    ) {
-    }
+        #[Autowire]
+        protected PageRepository $repository
+    ) {}
 
     /**
      * Prepare

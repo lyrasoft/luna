@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Subscriber;
 
-use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Events\Web\AfterRoutingEvent;
-use Windwalker\Core\Runtime\Config;
 use Windwalker\DI\Container;
 use Windwalker\Event\Attributes\EventSubscriber;
 use Windwalker\Event\Attributes\ListenTo;
@@ -24,8 +22,7 @@ class AdminSessionSubscriber
     public function __construct(
         protected Container $container,
         protected string $adminStageName = 'admin'
-    ) {
-    }
+    ) {}
 
     #[ListenTo(AfterRoutingEvent::class)]
     public function afterRouting(AfterRoutingEvent $event): void

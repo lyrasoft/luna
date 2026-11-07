@@ -13,6 +13,5 @@ class AfterLoginSessionEvent extends BaseEvent
         public UserEntityInterface $user,
         public bool $result,
         public array $options = []
-    ) {
-    }
+    ) {}
 }

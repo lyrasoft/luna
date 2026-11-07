@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Helper;
 
 use Exception;
@@ -56,7 +58,7 @@ class PravatarHelper
      * @param  string|null  $u
      *
      * @return  string
-     * @throws Exception
+     * @throws  Exception
      */
     public static function unique(int $size = 300, ?string $u = null): string
     {

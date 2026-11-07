@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder\Renderer\Style;
 
 /**
@@ -12,7 +14,7 @@ class StyleRules
     /**
      * Property rules.
      *
-     * @var array|StyleContainer[]
+     * @var  array|StyleContainer[]
      */
     protected array $rules = [];
 

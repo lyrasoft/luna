@@ -18,9 +18,7 @@ class DataImporter
         get => $this->onItemSaved ?? static fn(object $item) => null;
     }
 
-    public function __construct(public ORM $orm)
-    {
-    }
+    public function __construct(public ORM $orm) {}
 
     public function import(\Closure|iterable|string $items, ?\Closure $dataHandler = null): void
     {

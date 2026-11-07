@@ -56,8 +56,8 @@ class PageView implements ViewModelInterface
      * @param  View        $view  The view object.
      *
      * @return  mixed
-     * @throws \ReflectionException
-     * @throws SassException
+     * @throws  \ReflectionException
+     * @throws  SassException
      */
     public function prepare(AppContext $app, View $view): array
     {
@@ -190,7 +190,7 @@ class PageView implements ViewModelInterface
      *
      * @return  string
      *
-     * @throws SassException
+     * @throws  SassException
      */
     protected function renderCSS(Page $page): string
     {

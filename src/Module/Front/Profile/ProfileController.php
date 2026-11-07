@@ -33,8 +33,10 @@ class ProfileController
         CrudController $controller,
         Navigator $nav,
         UserService $userService,
-        #[Autowire] UserRepository $repository,
-        #[Autowire] EditForm $form,
+        #[Autowire]
+        UserRepository $repository,
+        #[Autowire]
+        EditForm $form,
         FileUploadService $uploadService,
     ): mixed {
         $controller->prepareSave(

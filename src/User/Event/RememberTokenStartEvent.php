@@ -14,6 +14,5 @@ class RememberTokenStartEvent extends BaseEvent
         public RememberToken $token,
         public string $validator,
         public RememberMeService $rememberMeService,
-    ) {
-    }
+    ) {}
 }

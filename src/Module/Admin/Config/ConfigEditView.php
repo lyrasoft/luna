@@ -38,9 +38,9 @@ class ConfigEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
-        #[Autowire] protected ConfigRepository $repository
-    ) {
-    }
+        #[Autowire]
+        protected ConfigRepository $repository
+    ) {}
 
     /**
      * Prepare
@@ -48,7 +48,7 @@ class ConfigEditView implements ViewModelInterface
      * @param  AppContext  $app
      * @param  View        $view
      *
-     * @return    mixed
+     * @return  mixed
      */
     public function prepare(AppContext $app, View $view): mixed
     {

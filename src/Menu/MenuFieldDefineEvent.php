@@ -18,6 +18,5 @@ class MenuFieldDefineEvent extends BaseEvent
     public function __construct(
         protected Form $form,
         protected AbstractMenuView $menu
-    ) {
-    }
+    ) {}
 }

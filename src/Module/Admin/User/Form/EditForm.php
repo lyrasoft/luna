@@ -29,8 +29,7 @@ class EditForm implements FieldDefinitionInterface
     public function __construct(
         protected LunaPackage $luna,
         protected AccessService $accessService,
-    ) {
-    }
+    ) {}
 
     /**
      * Define the form fields.

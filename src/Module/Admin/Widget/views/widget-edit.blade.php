@@ -7,17 +7,16 @@ namespace App\View;
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var  $app       AppContext      Application context.
- * @var  $vm        \Lyrasoft\Luna\Module\Admin\Widget\WidgetEditView  The view model object.
- * @var  $uri       SystemUri       System Uri information.
- * @var  $chronos   ChronosService  The chronos datetime service.
- * @var  $nav       Navigator       Navigator object to build route.
- * @var  $asset     AssetService    The Asset manage service.
- * @var  $lang      LangService     The language translation service.
+ * @var    $app       AppContext      Application context.
+ * @var    $vm        \Lyrasoft\Luna\Module\Admin\Widget\WidgetEditView  The view model object.
+ * @var    $uri       SystemUri       System Uri information.
+ * @var    $chronos   ChronosService  The chronos datetime service.
+ * @var    $nav       Navigator       Navigator object to build route.
+ * @var    $asset     AssetService    The Asset manage service.
+ * @var    $lang      LangService     The language translation service.
  */
 
 use Lyrasoft\Luna\Entity\Widget;
-use Lyrasoft\Luna\Module\Admin\Widget\WidgetEditView;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\DateTime\ChronosService;
@@ -27,10 +26,10 @@ use Windwalker\Core\Router\SystemUri;
 use Windwalker\Form\Form;
 
 /**
- * @var Form   $form
- * @var Widget $item
- * @var \Lyrasoft\Luna\Widget\AbstractWidget $typeClass
- * @var \Lyrasoft\Luna\Widget\AbstractWidget $widgetInstance
+ * @var  Form                                  $form
+ * @var  Widget                                $item
+ * @var  \Lyrasoft\Luna\Widget\AbstractWidget  $typeClass
+ * @var  \Lyrasoft\Luna\Widget\AbstractWidget  $widgetInstance
  */
 
 $tabs = $form->getFieldsets();

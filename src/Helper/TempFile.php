@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Helper;
 
 use Exception;
@@ -28,7 +30,7 @@ class TempFile
      *
      * @return  string
      *
-     * @throws Exception
+     * @throws  Exception
      * @since  1.5.20
      */
     public static function folder(?string $root = null): string
@@ -53,7 +55,7 @@ class TempFile
      *
      * @return  string
      *
-     * @throws Exception
+     * @throws  Exception
      * @since  1.5.20
      */
     public static function fileName(?string $name = null, ?string $root = null, bool $autoRemove = true): string
@@ -86,7 +88,7 @@ class TempFile
      *
      * @return  false|resource
      *
-     * @throws Exception
+     * @throws  Exception
      * @since  1.5.20
      */
     public static function fileResource(?string $name = null, ?string $root = null, bool $autoRemove = true): mixed
@@ -105,7 +107,7 @@ class TempFile
      *
      * @return  StreamInterface
      *
-     * @throws Exception
+     * @throws  Exception
      * @since  1.5.20
      */
     public static function fileStream(

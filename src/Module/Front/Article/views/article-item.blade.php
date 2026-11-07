@@ -24,8 +24,8 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 /**
- * @var \Lyrasoft\Luna\Entity\Article $item
- * @var \Lyrasoft\Luna\Entity\Category $category
+ * @var  \Lyrasoft\Luna\Entity\Article   $item
+ * @var  \Lyrasoft\Luna\Entity\Category  $category
  */
 ?>
 

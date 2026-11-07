@@ -30,8 +30,7 @@ class LocaleMiddleware implements MiddlewareInterface
         protected bool $uriPrefix = true,
         protected string $sessionKey = 'locale',
         protected mixed $excludes = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @inheritDoc
@@ -108,7 +107,7 @@ class LocaleMiddleware implements MiddlewareInterface
      *
      * @return  bool
      *
-     * @throws \ReflectionException
+     * @throws  \ReflectionException
      *
      * @since  1.8.39
      */

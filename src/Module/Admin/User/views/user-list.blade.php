@@ -7,13 +7,13 @@ namespace App\View;
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var  $app       AppContext      Application context.
- * @var  $vm        UserListView The view model object.
- * @var  $uri       SystemUri       System Uri information.
- * @var  $chronos   ChronosService  The chronos datetime service.
- * @var  $nav       Navigator       Navigator object to build route.
- * @var  $asset     AssetService    The Asset manage service.
- * @var  $lang      LangService     The language translation service.
+ * @var    $app       AppContext      Application context.
+ * @var    $vm        UserListView The view model object.
+ * @var    $uri       SystemUri       System Uri information.
+ * @var    $chronos   ChronosService  The chronos datetime service.
+ * @var    $nav       Navigator       Navigator object to build route.
+ * @var    $asset     AssetService    The Asset manage service.
+ * @var    $lang      LangService     The language translation service.
  */
 
 use Lyrasoft\Luna\Entity\User;
@@ -29,7 +29,7 @@ use Windwalker\Core\Router\SystemUri;
 use Lyrasoft\Luna\Module\Admin\User\UserListView;
 
 /**
- * @var User $entity
+ * @var  User  $entity
  */
 
 $enabledButton = $vm->createEnabledButton();
@@ -127,8 +127,8 @@ $loginName = $luna->getLoginName();
                     @foreach ($items as $i => $item)
                             <?php
                             $entity = $vm->prepareItem($item);
-                            $superuser = $userService->isSuperUser($entity);
-                            ?>
+$superuser = $userService->isSuperUser($entity);
+?>
                         <tr data-order-group="">
                             {{-- CHECKBOX --}}
                             <td>

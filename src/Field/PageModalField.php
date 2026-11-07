@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Field;
 
-use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Page;
 use Unicorn\Field\ModalField;
 

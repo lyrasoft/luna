@@ -11,6 +11,5 @@ class BeforeLoginSessionEvent extends BaseEvent
     public function __construct(
         public mixed $user,
         public array $options = []
-    ) {
-    }
+    ) {}
 }

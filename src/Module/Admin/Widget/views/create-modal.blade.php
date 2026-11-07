@@ -28,7 +28,7 @@ $widgetService = $app->service(\Lyrasoft\Luna\Widget\WidgetService::class);
 $types = $widgetService->getWidgetTypes();
 
 /**
- * @var \Lyrasoft\Luna\Widget\AbstractWidget $typeClass
+ * @var  \Lyrasoft\Luna\Widget\AbstractWidget  $typeClass
  */
 ?>
 

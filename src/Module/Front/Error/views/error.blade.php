@@ -24,7 +24,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 /**
- * @var Throwable $exception
+ * @var  Throwable  $exception
  */
 
 $code = $exception->getCode();

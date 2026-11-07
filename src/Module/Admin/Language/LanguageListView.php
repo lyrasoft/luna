@@ -35,8 +35,7 @@ class LanguageListView implements ViewModelInterface
         #[Autowire]
         protected LanguageRepository $repository,
         protected FormFactory $formFactory
-    ) {
-    }
+    ) {}
 
     /**
      * Prepare view data.

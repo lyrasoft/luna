@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Tree;
 
 use JsonSerializable;
@@ -16,29 +18,29 @@ use Traversable;
 class Node implements NodeInterface, JsonSerializable
 {
     /**
-     * @var T
+     * @var  T
      */
     public protected(set) mixed $value;
 
     /**
-     * @var ?NodeInterface<T>
+     * @var  ?NodeInterface<T>
      */
     public protected(set) ?NodeInterface $parent = null;
 
     /**
-     * @var NodeInterface<T>[]
+     * @var  NodeInterface<T>[]
      */
     public protected(set) array $children = [];
 
     /**
-     * @var T[]
+     * @var  T[]
      */
     public array $childValues {
         get => $this->getChildValues();
     }
 
     /**
-     * @param  mixed  $value
+     * @param  mixed                    $value
      * @param  (NodeInterface|mixed)[]  $children
      */
     public function __construct(mixed $value = null, array $children = [])
@@ -55,7 +57,7 @@ class Node implements NodeInterface, JsonSerializable
      *
      * @param  mixed  $value
      *
-     * @return static the current instance
+     * @return  static  the current instance
      */
     public function setValue(mixed $value): static
     {
@@ -67,7 +69,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Get the current node value
      *
-     * @return T
+     * @return  T
      */
     public function getValue(): mixed
     {
@@ -79,7 +81,7 @@ class Node implements NodeInterface, JsonSerializable
      *
      * @param  NodeInterface|mixed  $child
      *
-     * @return static
+     * @return  static
      */
     public function addChild(mixed $child): static
     {
@@ -98,7 +100,7 @@ class Node implements NodeInterface, JsonSerializable
      *
      * @param  NodeInterface  $child
      *
-     * @return static the current instance
+     * @return  static  the current instance
      */
     public function removeChild(NodeInterface $child): static
     {
@@ -120,7 +122,7 @@ class Node implements NodeInterface, JsonSerializable
      *
      * @param  string|int  $key
      *
-     * @return NodeInterface|null
+     * @return  NodeInterface|null
      */
     public function getChild(mixed $key): ?static
     {
@@ -134,7 +136,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Remove all children
      *
-     * @return static The current instance
+     * @return  static  The current instance
      */
     public function removeAllChildren(): static
     {
@@ -146,7 +148,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Return the array of children
      *
-     * @return static[]
+     * @return  static[]
      */
     public function getChildren(): array
     {
@@ -159,7 +161,7 @@ class Node implements NodeInterface, JsonSerializable
     public function getChildValues(): array
     {
         return array_map(
-            fn ($node) => $node->value,
+            fn($node) => $node->value,
             $this->children
         );
     }
@@ -169,7 +171,7 @@ class Node implements NodeInterface, JsonSerializable
      *
      * @param  static[]  $children
      *
-     * @return static
+     * @return  static
      */
     public function setChildren(array $children): static
     {
@@ -189,7 +191,7 @@ class Node implements NodeInterface, JsonSerializable
      *
      * @param  NodeInterface|null  $parent
      *
-     * @return static
+     * @return  static
      */
     public function setParent(?NodeInterface $parent = null): static
     {
@@ -201,7 +203,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * getParent
      *
-     * @return ?static
+     * @return  ?static
      */
     public function getParent(): ?static
     {
@@ -229,7 +231,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Retrieves all ancestors of node excluding current node.
      *
-     * @return array
+     * @return  array
      */
     public function getAncestors(): array
     {
@@ -247,7 +249,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Retrieves all ancestors of node as well as the node itself.
      *
-     * @return Node[]
+     * @return  Node[]
      */
     public function getAncestorsAndSelf(): array
     {
@@ -257,7 +259,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Retrieves all neighboring nodes, excluding the current node.
      *
-     * @return array
+     * @return  array
      */
     public function getNeighbors(): array
     {
@@ -278,7 +280,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Returns all neighboring nodes, including the current node.
      *
-     * @return Node[]
+     * @return  Node[]
      */
     public function getNeighborsAndSelf(): array
     {
@@ -288,7 +290,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Return true if the node is the root, false otherwise
      *
-     * @return bool
+     * @return  bool
      */
     public function isRoot(): bool
     {
@@ -298,7 +300,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Return true if the node is a child, false otherwise.
      *
-     * @return bool
+     * @return  bool
      */
     public function isChild(): bool
     {
@@ -308,7 +310,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Return true if the node has no children, false otherwise
      *
-     * @return bool
+     * @return  bool
      */
     public function isLeaf(): bool
     {
@@ -330,7 +332,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Return the distance from the current node to the root
      *
-     * @return int
+     * @return  int
      */
     public function getDepth(): int
     {
@@ -344,7 +346,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Return the height of the tree whose root is this node
      *
-     * @return int
+     * @return  int
      */
     public function getHeight(): int
     {
@@ -364,7 +366,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Find the root of the node
      *
-     * @return static
+     * @return  static
      */
     public function root(): static
     {
@@ -380,7 +382,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Return the number of nodes in a tree
      *
-     * @return int
+     * @return  int
      */
     public function getSize(): int
     {
@@ -408,7 +410,7 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Retrieve an external iterator
      *
-     * @return Traversable An instance of an object implementing Iterator.
+     * @return  Traversable  An instance of an object implementing Iterator.
      */
     public function getIterator(): Traversable
     {
@@ -449,8 +451,8 @@ class Node implements NodeInterface, JsonSerializable
     /**
      * Specify data which should be serialized to JSON
      *
-     * @return mixed Data which can be serialized by json_encode,
-     *               which is a value of any type other than a resource.
+     * @return  mixed  Data which can be serialized by json_encode,
+     *                 which is a value of any type other than a resource.
      */
     public function jsonSerialize(): mixed
     {

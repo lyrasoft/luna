@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder\Addon\Emptyspace;
 
 use Lyrasoft\Luna\PageBuilder\AbstractAddon;
@@ -34,9 +36,7 @@ class EmptyspaceAddon extends AbstractAddon implements HasOwnStyleInterface
     /**
      * @inheritDoc
      */
-    protected function prepareData(Collection $data): void
-    {
-    }
+    protected function prepareData(Collection $data): void {}
 
     /**
      * @inheritDoc
@@ -60,7 +60,5 @@ class EmptyspaceAddon extends AbstractAddon implements HasOwnStyleInterface
     /**
      * @inheritDoc
      */
-    public function prepareElement(Collection $options, array &$classes, array &$attrs): void
-    {
-    }
+    public function prepareElement(Collection $options, array &$classes, array &$attrs): void {}
 }

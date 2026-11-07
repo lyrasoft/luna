@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Captcha;
 
 use DomainException;
@@ -23,21 +25,21 @@ class RecaptchaDriver implements CaptchaDriverInterface
     /**
      * Property key.
      *
-     * @var string
+     * @var  string
      */
     protected string $key;
 
     /**
      * Property secret.
      *
-     * @var string
+     * @var  string
      */
     protected string $secret;
 
     /**
      * Property recaptcha.
      *
-     * @var ?ReCaptcha
+     * @var  ?ReCaptcha
      */
     protected ?ReCaptcha $recaptcha = null;
 
@@ -110,7 +112,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
      * @param  mixed  $value
      * @param  array  $options
      *
-     * @return bool
+     * @return  bool
      *
      * @since  1.5.1
      */

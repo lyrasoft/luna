@@ -36,8 +36,7 @@ class UserHandler implements UserHandlerInterface
         protected ORM $orm,
         #[Ref('user')]
         protected array $config
-    ) {
-    }
+    ) {}
 
     public function load(mixed $conditions = null): ?UserEntityInterface
     {
@@ -220,7 +219,7 @@ class UserHandler implements UserHandlerInterface
      *
      * @return  object|T
      *
-     * @throws ReflectionException
+     * @throws  ReflectionException
      */
     public function createUserEntity(array $data = []): object
     {
@@ -228,7 +227,7 @@ class UserHandler implements UserHandlerInterface
     }
 
     /**
-     * @return User|null
+     * @return  User|null
      */
     public function getCurrent(): ?User
     {

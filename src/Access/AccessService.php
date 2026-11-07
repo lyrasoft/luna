@@ -47,8 +47,7 @@ class AccessService
         protected AuthorizationInterface $authorization,
         protected ORM $orm,
         protected Session $session
-    ) {
-    }
+    ) {}
 
     public function can(string|\UnitEnum $action, mixed $user = null, ...$args): bool
     {
@@ -270,7 +269,7 @@ class AccessService
      * @param  array                   $extra
      *
      * @return  array<UserRoleMap>
-     * @throws \ReflectionException
+     * @throws  \ReflectionException
      */
     public function addRolesToUser(mixed $user = null, mixed $roles = [], array $extra = []): array
     {
@@ -959,7 +958,7 @@ class AccessService
         return (bool) ($this->app->config('access.roles_db_enabled') ?? false);
     }
 
-    function isDbActionsEnabled(): bool
+    public function isDbActionsEnabled(): bool
     {
         return (bool) ($this->app->config('access.actions_db_enabled') ?? false);
     }

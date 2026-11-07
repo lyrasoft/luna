@@ -23,9 +23,7 @@ class ConfigService
     /**
      * ConfigService constructor.
      */
-    public function __construct(protected ORM $orm)
-    {
-    }
+    public function __construct(protected ORM $orm) {}
 
     /**
      * getConfig
@@ -37,7 +35,7 @@ class ConfigService
      *
      * @return  Collection
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      *
      * @since  1.5.2
      */
@@ -78,7 +76,7 @@ class ConfigService
      *
      * @return  Data
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      *
      * @since  1.5.2
      */

@@ -15,13 +15,11 @@ class HASessionStorage implements StorageInterface
     /**
      * Namespace
      *
-     * @var string
+     * @var  string
      */
     protected string $storeNamespace = 'HYBRIDAUTH::STORAGE';
 
-    public function __construct(protected Session $session)
-    {
-    }
+    public function __construct(protected Session $session) {}
 
     public function get($key)
     {
@@ -59,7 +57,5 @@ class HASessionStorage implements StorageInterface
         }
     }
 
-    public function clear()
-    {
-    }
+    public function clear() {}
 }

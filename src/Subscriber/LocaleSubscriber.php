@@ -23,9 +23,7 @@ class LocaleSubscriber
 {
     protected ?Language $language;
 
-    public function __construct(protected Container $container)
-    {
-    }
+    public function __construct(protected Container $container) {}
 
     protected function getAppContext(): AppContext
     {

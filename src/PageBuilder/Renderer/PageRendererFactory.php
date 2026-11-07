@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder\Renderer;
 
 use LogicException;
@@ -73,7 +75,7 @@ class PageRendererFactory
     }
 
     /**
-     * @return AssetService
+     * @return  AssetService
      */
     public function getAsset(): AssetService
     {

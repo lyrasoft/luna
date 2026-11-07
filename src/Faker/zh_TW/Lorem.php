@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Faker\zh_TW;
 
 use Exception;
@@ -170,7 +172,7 @@ class Lorem extends Base
     ];
 
     /**
-     * @return string
+     * @return  string
      * @example '乾為天'
      */
     public static function word(): string
@@ -184,7 +186,7 @@ class Lorem extends Base
      * @param  integer  $nb      how many words to return
      * @param  bool     $asText  if true the sentences are returned as one string
      *
-     * @return array|string
+     * @return  array|string
      * @example array('乾為天', '澤天夬', '火天大有')
      *
      */
@@ -206,8 +208,8 @@ class Lorem extends Base
      * @param  boolean  $variableNbWords  set to false if you want exactly $nbWords returned,
      *                                    otherwise $nbWords may vary by +/-40% with a minimum of 1
      *
-     * @return string
-     * @throws Exception
+     * @return  string
+     * @throws  Exception
      * @example '天行健，自強不息，飛龍在天，大人造也，亢龍有悔，盈不可久也。'
      *
      */
@@ -232,8 +234,8 @@ class Lorem extends Base
      * @param  integer  $nb      how many sentences to return
      * @param  bool     $asText  if true the sentences are returned as one string
      *
-     * @return array|string
-     * @throws Exception
+     * @return  array|string
+     * @throws  Exception
      * @example array('天行健，自強不息。', '亢龍有悔，盈不可久也。')
      *
      */
@@ -255,8 +257,8 @@ class Lorem extends Base
      * @param  boolean  $variableNbSentences  set to false if you want exactly $nbSentences returned,
      *                                        otherwise $nbSentences may vary by +/-40% with a minimum of 1
      *
-     * @return string
-     * @throws Exception
+     * @return  string
+     * @throws  Exception
      * @example '天行健，自強不息，飛龍在天，大人造也，亢龍有悔，盈不可久也。天地變化，草木蕃，天地閉，賢人隱。'
      *
      */
@@ -279,8 +281,8 @@ class Lorem extends Base
      * @param  integer  $nb      how many paragraphs to return
      * @param  bool     $asText  if true the paragraphs are returned as one string, separated by two newlines
      *
-     * @return array|string
-     * @throws Exception
+     * @return  array|string
+     * @throws  Exception
      * @example array($paragraph1, $paragraph2, $paragraph3)
      *
      */
@@ -301,7 +303,7 @@ class Lorem extends Base
      *
      * @param  integer  $maxNbChars  Maximum number of characters the text should contain (minimum 1)
      *
-     * @return string
+     * @return  string
      * @example 'Sapiente sunt omnis. Ut pariatur ad autem ducimus et. Voluptas rem voluptas sint modi dolorem amet.'
      *
      */
@@ -372,7 +374,7 @@ class Lorem extends Base
      *
      * @return  int
      *
-     * @throws Exception
+     * @throws  Exception
      * @since  1.5.1
      */
     protected static function randomizeNbElements($nbElements): int

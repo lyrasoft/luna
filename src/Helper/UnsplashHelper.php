@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Helper;
 
 use Exception;
@@ -20,7 +22,7 @@ class UnsplashHelper
      *
      * @var  array|null
      */
-    protected static array|null $ids = null;
+    protected static ?array $ids = null;
 
     protected static ?\Closure $imageListHandler = null;
 
@@ -54,7 +56,7 @@ class UnsplashHelper
      *
      * @return  array
      *
-     * @throws Exception
+     * @throws  Exception
      * @since  1.4
      */
     public static function getImages(
@@ -86,8 +88,8 @@ class UnsplashHelper
      *
      * @return  string
      *
-     * @throws JsonException
-     * @throws Exception
+     * @throws  JsonException
+     * @throws  Exception
      * @since  1.4
      */
     public static function getImagesJson(int $count, int $width = 800, int $height = 600, ?int $id = null): string
@@ -176,7 +178,7 @@ class UnsplashHelper
     }
 
     /**
-     * @return \Closure|null
+     * @return  \Closure|null
      */
     public static function getImageListHandler(): ?\Closure
     {
@@ -185,8 +187,8 @@ class UnsplashHelper
                 $url,
                 [
                     'headers' => [
-                        'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' .
-                            '(KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+                        'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                            . '(KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
                     ]
                 ]
             );

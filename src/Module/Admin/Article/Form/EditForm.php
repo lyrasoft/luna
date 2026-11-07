@@ -6,14 +6,12 @@ namespace Lyrasoft\Luna\Module\Admin\Article\Form;
 
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Field\CategoryListField;
-use Lyrasoft\Luna\Field\LanguageListField;
 use Lyrasoft\Luna\Field\LocaleSwitchField;
 use Lyrasoft\Luna\Field\PageModalField;
 use Lyrasoft\Luna\Field\TagListField;
 use Lyrasoft\Luna\Field\UserModalField;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Field\CalendarField;
-use Unicorn\Field\RepeatableField;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
 use Unicorn\Field\TinymceEditorField;
@@ -22,7 +20,6 @@ use Windwalker\Form\Attributes\Fieldset;
 use Windwalker\Form\Attributes\FormDefine;
 use Windwalker\Form\Field\HiddenField;
 use Windwalker\Form\Field\TextField;
-use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 
 class EditForm
@@ -30,9 +27,7 @@ class EditForm
     use TranslatorTrait;
     use LocaleAwareTrait;
 
-    public function __construct(protected ?string $type = 'article')
-    {
-    }
+    public function __construct(protected ?string $type = 'article') {}
 
     #[FormDefine]
     public function main(Form $form): void

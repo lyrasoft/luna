@@ -28,8 +28,7 @@ class UserAuthSubscriber
         protected Container $container,
         protected AppState $state,
         protected ?\Closure $handler = null,
-    ) {
-    }
+    ) {}
 
     #[ListenTo(LoginAuthEvent::class)]
     public function loginAuth(LoginAuthEvent $event): void

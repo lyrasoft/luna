@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Tree;
 
 use Closure;
-use Traversable;
 use Windwalker\Utilities\Arr;
 
 /**
@@ -17,11 +18,11 @@ class TreeBuilder
      * fromObjects
      *
      * @param  object[]|iterable  $items
-     * @param  string|Closure        $keyName
-     * @param  string|Closure        $parentIdName
-     * @param  string                $nodeClass
+     * @param  string|Closure     $keyName
+     * @param  string|Closure     $parentIdName
+     * @param  string             $nodeClass
      *
-     * @return NodeInterface
+     * @return  NodeInterface
      */
     public static function create(
         iterable $items,

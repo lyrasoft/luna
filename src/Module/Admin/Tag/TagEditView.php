@@ -31,9 +31,9 @@ class TagEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
-        #[Autowire] protected TagRepository $repository
-    ) {
-    }
+        #[Autowire]
+        protected TagRepository $repository
+    ) {}
 
     /**
      * Prepare

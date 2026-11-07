@@ -17,7 +17,6 @@ use Unicorn\Repository\CrudRepositoryTrait;
 use Unicorn\Repository\Event\PrepareSaveEvent;
 use Windwalker\Core\Form\Exception\ValidateFailException;
 use Windwalker\Core\Language\TranslatorTrait;
-use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\EntityMapper;
 
 /**
@@ -33,8 +32,7 @@ class RegistrationRepository implements CrudRepositoryInterface
     public function __construct(
         protected LunaPackage $luna,
         protected ActivationService $activationService,
-    ) {
-    }
+    ) {}
 
     public function register(array|object $user, mixed $form = null): object
     {

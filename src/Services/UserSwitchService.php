@@ -99,8 +99,8 @@ class UserSwitchService
      *
      * @return  static
      *
-     * @throws InvalidArgumentException
-     * @throws DefinitionException
+     * @throws  InvalidArgumentException
+     * @throws  DefinitionException
      * @since  1.7
      */
     public function switch(UserEntityInterface $targetUser, array $options = []): self
@@ -128,7 +128,7 @@ class UserSwitchService
      *
      * @return  static
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      * @since  1.7.14
      */
     public function frontendLogin(UserEntityInterface $targetUser, array $options = []): self
@@ -179,8 +179,8 @@ class UserSwitchService
      *
      * @return  static
      *
-     * @throws InvalidArgumentException
-     * @throws DefinitionException
+     * @throws  InvalidArgumentException
+     * @throws  DefinitionException
      * @since  1.7
      */
     public function recover(): self

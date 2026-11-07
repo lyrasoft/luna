@@ -7,7 +7,6 @@ namespace Lyrasoft\Luna\Module\Core;
 use InvalidArgumentException;
 use Lyrasoft\Luna\Captcha\CaptchaDriverInterface;
 use Lyrasoft\Luna\Captcha\CaptchaImageInterface;
-use Lyrasoft\Luna\Captcha\CaptchaManager;
 use Psr\Http\Message\ResponseInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Attributes\Controller;

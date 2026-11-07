@@ -16,7 +16,6 @@ use Windwalker\Core\Utilities\Base64Url;
 use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\ORM;
 use Windwalker\Session\Bridge\PhpBridge;
-use Windwalker\Session\Cookie\CookiesConfigurableInterface;
 use Windwalker\Session\Cookie\CookiesOptions;
 use Windwalker\Session\Handler\DatabaseHandler;
 use Windwalker\Session\Session;
@@ -35,8 +34,7 @@ class RememberMeService
         protected PasswordHasherInterface $passwordHasher,
         protected int $selectorLength = 16,
         protected int $validatorLength = 32,
-    ) {
-    }
+    ) {}
 
     public function createSelector(): string
     {
@@ -167,8 +165,8 @@ class RememberMeService
      *
      * @return  array{ RememberToken, string, string }
      *
-     * @throws \JsonException
-     * @throws \ReflectionException
+     * @throws  \JsonException
+     * @throws  \ReflectionException
      */
     public function createAndSaveRememberToken(
         mixed $userId,

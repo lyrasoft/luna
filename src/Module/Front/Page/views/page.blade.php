@@ -24,8 +24,8 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 /**
- * @var \Lyrasoft\Luna\Entity\Page $page
- * @var array            $rows
+ * @var  \Lyrasoft\Luna\Entity\Page  $page
+ * @var  array                       $rows
  */
 
 $builder = $app->service(\Lyrasoft\Luna\PageBuilder\PageBuilder::class);

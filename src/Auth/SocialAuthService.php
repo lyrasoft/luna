@@ -35,17 +35,16 @@ class SocialAuthService
         protected Navigator $nav,
         protected ORM $orm,
         protected CsrfService $csrfService
-    ) {
-    }
+    ) {}
 
     /**
      * @param  string  $provider
      *
      * @return  array{ 0: User, 1: UserSocial }|null
      *
-     * @throws DefinitionException
-     * @throws \JsonException
-     * @throws \ReflectionException
+     * @throws  DefinitionException
+     * @throws  \JsonException
+     * @throws  \ReflectionException
      */
     public function auth(string $provider): ?array
     {
@@ -135,9 +134,9 @@ class SocialAuthService
      *
      * @return  AdapterInterface
      *
-     * @throws InvalidArgumentException
-     * @throws UnexpectedValueException
-     * @throws DefinitionException
+     * @throws  InvalidArgumentException
+     * @throws  UnexpectedValueException
+     * @throws  DefinitionException
      */
     protected function getAdapter(string $provider, mixed $providers): AdapterInterface
     {

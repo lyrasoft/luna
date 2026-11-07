@@ -39,8 +39,7 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     public function __construct(
         protected PasswordHasherInterface $password,
         protected LunaPackage $lunaPackage,
-    ) {
-    }
+    ) {}
 
     public function getListSelector(): ListSelector
     {
@@ -98,7 +97,7 @@ class UserRepository implements ManageRepositoryInterface, ListRepositoryInterfa
     }
 
     /**
-     * @throws ValidateFailException
+     * @throws  ValidateFailException
      */
     public function checkUserLoginNameExists(array|User $user): void
     {

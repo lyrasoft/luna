@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Menu\View;
 
-use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Page;
-use Lyrasoft\Luna\Field\ArticleModalField;
 use Lyrasoft\Luna\Field\PageModalField;
 use Lyrasoft\Luna\Menu\AbstractMenuView;
 use Psr\Http\Message\UriInterface;
@@ -24,9 +22,7 @@ class PageMenuView extends AbstractMenuView
 {
     use TranslatorTrait;
 
-    public function __construct(protected ORM $orm)
-    {
-    }
+    public function __construct(protected ORM $orm) {}
 
     /**
      * @inheritDoc
@@ -63,9 +59,7 @@ class PageMenuView extends AbstractMenuView
     /**
      * @inheritDoc
      */
-    protected function defineParamsForm(Form $form): void
-    {
-    }
+    protected function defineParamsForm(Form $form): void {}
 
     /**
      * @inheritDoc

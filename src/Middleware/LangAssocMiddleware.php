@@ -137,8 +137,8 @@ class LangAssocMiddleware implements MiddlewareInterface
 
         $config = $this->app->config('luna.i18n.types.' . $type) ?? [];
 
-        $routeCallback = $config['edit_route'] ??
-            function (
+        $routeCallback = $config['edit_route']
+            ?? function (
                 Navigator $nav,
                 object $item
             ) use (

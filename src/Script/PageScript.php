@@ -12,9 +12,7 @@ use Windwalker\Core\Asset\AbstractScript;
  */
 class PageScript extends AbstractScript
 {
-    public function __construct(protected UnicornScript $unicornScript)
-    {
-    }
+    public function __construct(protected UnicornScript $unicornScript) {}
 
     public static function wowToAOS(string $animationName): string
     {

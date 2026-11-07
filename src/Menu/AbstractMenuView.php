@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Menu;
 
 use Psr\Http\Message\UriInterface;
@@ -8,7 +10,6 @@ use Windwalker\Core\Event\CoreEventAwareTrait;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\DI\Attributes\Inject;
 use Windwalker\Event\EventAwareInterface;
-use Windwalker\Event\EventAwareTrait;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
 use Windwalker\Utilities\Contract\LanguageInterface;
@@ -29,7 +30,7 @@ abstract class AbstractMenuView implements
     /**
      * Property tabs.
      *
-     * @var array
+     * @var  array
      */
     protected array $tabs = [];
 
@@ -128,8 +129,8 @@ abstract class AbstractMenuView implements
     /**
      * tab
      *
-     * @param  string  $fieldset
-     * @param  string  $title
+     * @param  string    $fieldset
+     * @param  string    $title
      * @param  callable  $callback
      *
      * @return  static

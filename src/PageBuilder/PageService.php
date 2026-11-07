@@ -22,9 +22,7 @@ class PageService
     use InstanceCacheTrait;
     use TranslatorTrait;
 
-    public function __construct(protected ApplicationInterface $app, protected ORM $orm)
-    {
-    }
+    public function __construct(protected ApplicationInterface $app, protected ORM $orm) {}
 
     /**
      * getAddonType

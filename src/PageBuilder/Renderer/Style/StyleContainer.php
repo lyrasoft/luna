@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder\Renderer\Style;
 
 /**
@@ -12,7 +14,7 @@ class StyleContainer
     /**
      * Property prefix.
      *
-     * @var string
+     * @var  string
      */
     protected string $prefix = '';
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\Captcha;
 
 use DomainException;
@@ -137,7 +139,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
     /**
      * build
      *
-     * @return CaptchaBuilder
+     * @return  CaptchaBuilder
      *
      * @since  1.5.2
      */

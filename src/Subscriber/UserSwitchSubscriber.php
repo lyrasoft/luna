@@ -7,7 +7,6 @@ namespace Lyrasoft\Luna\Subscriber;
 use Closure;
 use Lyrasoft\Luna\Services\UserSwitchService;
 use Lyrasoft\Luna\User\UserService;
-use Throwable;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Language\TranslatorTrait;
@@ -62,7 +61,7 @@ class UserSwitchSubscriber
     }
 
     /**
-     * @return Closure|null
+     * @return  Closure|null
      */
     public function getMessageHandler(): ?Closure
     {

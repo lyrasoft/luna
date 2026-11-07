@@ -33,9 +33,7 @@ class CategoryRepository implements ManageRepositoryInterface, ListRepositoryInt
     /**
      * CategoryRepository constructor.
      */
-    public function __construct(protected AppRequest $request)
-    {
-    }
+    public function __construct(protected AppRequest $request) {}
 
     public function getListSelector(): ListSelector
     {

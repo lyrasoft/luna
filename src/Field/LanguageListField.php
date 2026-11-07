@@ -89,7 +89,7 @@ JS;
     }
 
     /**
-     * @return bool
+     * @return  bool
      */
     public function isDefaultAsFallback(): bool
     {
@@ -111,7 +111,7 @@ JS;
     /**
      * getAccessors
      *
-     * @return    array
+     * @return  array
      */
     protected function getAccessors(): array
     {

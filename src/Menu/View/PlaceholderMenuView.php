@@ -64,9 +64,7 @@ class PlaceholderMenuView extends AbstractMenuView implements LayoutRenderedMenu
     /**
      * @inheritDoc
      */
-    protected function defineParamsForm(Form $form): void
-    {
-    }
+    protected function defineParamsForm(Form $form): void {}
 
     /**
      * @inheritDoc

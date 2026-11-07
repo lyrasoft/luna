@@ -7,13 +7,13 @@ namespace App\View;
 /**
  * Global variables
  * --------------------------------------------------------------
- * @var  $app       AppContext      Application context.
- * @var  $vm        WidgetListView The view model object.
- * @var  $uri       SystemUri       System Uri information.
- * @var  $chronos   ChronosService  The chronos datetime service.
- * @var  $nav       Navigator       Navigator object to build route.
- * @var  $asset     AssetService    The Asset manage service.
- * @var  $lang      LangService     The language translation service.
+ * @var    $app       AppContext      Application context.
+ * @var    $vm        WidgetListView The view model object.
+ * @var    $uri       SystemUri       System Uri information.
+ * @var    $chronos   ChronosService  The chronos datetime service.
+ * @var    $nav       Navigator       Navigator object to build route.
+ * @var    $asset     AssetService    The Asset manage service.
+ * @var    $lang      LangService     The language translation service.
  */
 
 use Lyrasoft\Luna\Entity\Widget;
@@ -29,7 +29,7 @@ use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\SystemUri;
 
 /**
- * @var Widget $entity
+ * @var  Widget  $entity
  */
 
 $workflow = $app->service(BasicStateWorkflow::class);
@@ -136,8 +136,8 @@ $localeService = $app->service(LocaleService::class);
                     @foreach($items as $i => $item)
                             <?php
                             $entity = $vm->prepareItem($item);
-                            $widgetType = $vm->getWidgetType($entity->type);
-                            ?>
+$widgetType = $vm->getWidgetType($entity->type);
+?>
                         <tr>
                             {{-- Checkbox --}}
                             <td>
@@ -183,10 +183,10 @@ $localeService = $app->service(LocaleService::class);
                                     ">
                                     @if ($entity->position)
                                             <?php
-                                            $position = $entity->position;
+                $position = $entity->position;
 
-                                            $posName = $widgetService->getAllPositions()[$position] ?? null;
-                                            ?>
+$posName = $widgetService->getAllPositions()[$position] ?? null;
+?>
                                         {{ $position }}
                                         @if ($position !== $posName)
                                             ({{ $posName }})

@@ -9,7 +9,7 @@ interface UserEnabledEntityInterface
     /**
      * Check if user is enabled.
      *
-     * @return bool
+     * @return  bool
      */
     public function isEnabled(): bool;
 }

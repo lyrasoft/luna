@@ -44,8 +44,8 @@ class AuthLoginView implements ViewModelInterface
      * @param  AppContext  $app   The web app context.
      * @param  View        $view  The view object.
      *
-     * @return array|RouteUri
-     * @throws InvalidArgumentException
+     * @return  array|RouteUri
+     * @throws  InvalidArgumentException
      */
     public function prepare(AppContext $app, View $view): array|RouteUri
     {

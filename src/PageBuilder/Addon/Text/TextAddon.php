@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna\PageBuilder\Addon\Text;
 
 use Lyrasoft\Luna\PageBuilder\AbstractAddon;
@@ -86,7 +88,7 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @return  string|null
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      * @since  1.5.2
      */
     public static function loadVueComponent(AppContext $app): ?string

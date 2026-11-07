@@ -41,8 +41,7 @@ class MenuService
     public function __construct(
         protected ApplicationInterface $app,
         protected ORM $orm
-    ) {
-    }
+    ) {}
 
     public function createBuilder(string $name): MenuBuilder
     {
@@ -82,7 +81,7 @@ class MenuService
      *
      * @return  array
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      * @since  1.7
      */
     public function getViews(bool $group = false): array
@@ -114,9 +113,9 @@ class MenuService
      *
      * @return  AbstractMenuView|null
      *
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
-     * @throws InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
+     * @throws  InvalidArgumentException
      *
      * @since  1.7
      */
@@ -187,9 +186,9 @@ class MenuService
      *
      * @return  DbMenuNode|DbMenuNode[]
      *
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
      * @since  1.7
      */
     public function getMenusTree(string $type, bool $onlyAvailable = true, int|Menu $parent = 1): Node
@@ -214,9 +213,9 @@ class MenuService
      *
      * @return  Node
      *
-     * @throws DependencyResolutionException
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
+     * @throws  DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
      */
     public function buildTree(iterable $menus, object|int|string $root = 1): Node
     {
@@ -244,7 +243,7 @@ class MenuService
      *
      * @return  DbMenuNode[]
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      *
      * @since  1.7.6
      */
@@ -279,9 +278,9 @@ class MenuService
      *
      * @return  Collection
      *
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
      * @since  1.7
      */
     public function getMenus(string $type, bool $onlyAvailable = true, int|Menu $parent = 1): Collection
@@ -337,9 +336,9 @@ class MenuService
      *
      * @return  DbMenuNode|null
      *
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
      *
      * @since  1.7.6
      */
@@ -367,7 +366,7 @@ class MenuService
      *
      * @return  DbMenuNode|null
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      *
      * @since  1.7.6
      */
@@ -390,9 +389,9 @@ class MenuService
      *
      * @return  static
      *
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
      *
      * @since  1.7.12
      */
@@ -421,9 +420,9 @@ class MenuService
      *
      * @return  MenuService
      *
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
      *
      * @since  1.7.12
      */
@@ -458,7 +457,7 @@ class MenuService
      *
      * @return  static
      *
-     * @throws InvalidArgumentException
+     * @throws  InvalidArgumentException
      *
      * @since  1.7.6
      */
@@ -494,9 +493,9 @@ class MenuService
      *
      * @return  string
      *
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
      *
      * @since  1.7.6
      */
@@ -530,9 +529,9 @@ class MenuService
      *
      * @return  string
      *
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws DependencyResolutionException
+     * @throws  InvalidArgumentException
+     * @throws  ReflectionException
+     * @throws  DependencyResolutionException
      * @since  1.7
      */
     public function renderMenuItems($menus, array $data = [], string $layout = 'luna.menu.menu-items'): string

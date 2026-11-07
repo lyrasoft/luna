@@ -6,8 +6,6 @@ namespace Lyrasoft\Luna\Module\Admin\Article;
 
 use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\TagMap;
-use Lyrasoft\Luna\Field\ArticleModalField;
-use Lyrasoft\Luna\Field\LocaleSwitchField;
 use Lyrasoft\Luna\Locale\LanguageAssocTrait;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Module\Admin\Article\Form\EditForm;
@@ -39,9 +37,9 @@ class ArticleEditView implements ViewModelInterface
         protected ORM $orm,
         protected FormFactory $formFactory,
         protected Navigator $nav,
-        #[Autowire] protected ArticleRepository $repository
-    ) {
-    }
+        #[Autowire]
+        protected ArticleRepository $repository
+    ) {}
 
     /**
      * Prepare

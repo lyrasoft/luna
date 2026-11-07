@@ -78,7 +78,7 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                 @foreach($items as $i => $item)
                     <?php
                     $entity = $vm->prepareItem($item);
-                    ?>
+?>
                     @php($data = [
                         'title' => $item->title,
                         'value' => $item->id,

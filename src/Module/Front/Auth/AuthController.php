@@ -162,7 +162,8 @@ class AuthController
 
     public function activate(
         AppContext $app,
-        #[Autowire] RegistrationRepository $repository,
+        #[Autowire]
+        RegistrationRepository $repository,
         Navigator $nav
     ): RouteUri {
         $token = $app->input('token');
@@ -180,7 +181,8 @@ class AuthController
 
     public function resend(
         AppContext $app,
-        #[Autowire] RegistrationRepository $repository,
+        #[Autowire]
+        RegistrationRepository $repository,
         Navigator $nav
     ): RouteUri {
         $email = $app->getState()->getAndForget(ActivationService::RE_ACTIVATE_SESSION_KEY);

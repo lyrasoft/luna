@@ -54,8 +54,8 @@ class LanguageAjaxController
 
         $config = $app->config('luna.i18n.types.' . $type) ?? [];
 
-        $routeCallback = $config['edit_route'] ??
-            static function (
+        $routeCallback = $config['edit_route']
+            ?? static function (
                 Navigator $nav,
                 object $item
             ) use (

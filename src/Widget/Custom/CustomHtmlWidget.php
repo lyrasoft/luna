@@ -7,7 +7,6 @@ namespace Lyrasoft\Luna\Widget\Custom;
 use Lyrasoft\Luna\Widget\AbstractWidget;
 use Unicorn\Field\TinymceEditorField;
 use Windwalker\Core\Application\AppContext;
-use Windwalker\Core\Attributes\ViewModel;
 use Windwalker\Core\Language\LangService;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;

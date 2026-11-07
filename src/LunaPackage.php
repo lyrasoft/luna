@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lyrasoft\Luna;
 
 use Faker\Generator;
@@ -63,9 +65,7 @@ use Windwalker\Utilities\StrNormalize;
  */
 class LunaPackage extends AbstractPackage implements ServiceProviderInterface, RequestBootableProviderInterface
 {
-    public function __construct(public ApplicationInterface $app)
-    {
-    }
+    public function __construct(public ApplicationInterface $app) {}
 
     public function getLoginName(): string
     {
@@ -267,9 +267,9 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
         $installer->installModules(
             [
-                static::path("src/Entity/UserRole.php") => '@source/Entity',
-                static::path("src/Entity/UserRoleMap.php") => '@source/Entity',
-                static::path("src/Entity/Rule.php") => '@source/Entity',
+                static::path('src/Entity/UserRole.php') => '@source/Entity',
+                static::path('src/Entity/UserRoleMap.php') => '@source/Entity',
+                static::path('src/Entity/Rule.php') => '@source/Entity',
             ],
             [
                 'Lyrasoft\\Luna\\Entity' => 'App\\Entity',
@@ -279,8 +279,8 @@ class LunaPackage extends AbstractPackage implements ServiceProviderInterface, R
 
         $installer->installModules(
             [
-                static::path("src/Module/Front/Profile/**/*") => "@source/Module/Front/Profile",
-                static::path("src/Repository/UserRepository.php") => '@source/Repository',
+                static::path('src/Module/Front/Profile/**/*') => '@source/Module/Front/Profile',
+                static::path('src/Repository/UserRepository.php') => '@source/Repository',
             ],
             ['Lyrasoft\\Luna\\Module\\Front' => 'App\\Module\\Front'],
             ['modules', 'front_profile']

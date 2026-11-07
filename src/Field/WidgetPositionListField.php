@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Field;
 
-use Lyrasoft\Luna\Entity\Language;
-use Lyrasoft\Luna\Entity\Widget;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Lyrasoft\Luna\Widget\WidgetService;
-use Unicorn\Field\SqlListField;
 use Unicorn\Script\UnicornScript;
 use Windwalker\DI\Attributes\Service;
 use Windwalker\DOM\HTMLElement;
 use Windwalker\Form\Field\ListField;
-use Windwalker\Query\Query;
-
-use function Windwalker\raw;
 
 /**
  * The LanguageListField class.
  *
- * @method $this allowCreate(bool $value)
- * @method bool isAllowCreate()
+ * @method  $this  allowCreate(bool $value)
+ * @method  bool   isAllowCreate()
  */
 class WidgetPositionListField extends ListField
 {
@@ -78,7 +72,7 @@ JS;
     /**
      * getAccessors
      *
-     * @return    array
+     * @return  array
      */
     protected function getAccessors(): array
     {

@@ -22,16 +22,14 @@ use function Windwalker\Query\val;
  */
 class AssociationService
 {
-    public function __construct(protected ORM $orm, protected Navigator $nav)
-    {
-    }
+    public function __construct(protected ORM $orm, protected Navigator $nav) {}
 
     /**
      * getMapper
      *
      * @return  EntityMapper<Association>
      *
-     * @throws \ReflectionException
+     * @throws  \ReflectionException
      */
     public function getMapper(): EntityMapper
     {
@@ -39,15 +37,15 @@ class AssociationService
     }
 
     /**
-     * @param  string|\BackedEnum    $type           The association type.
-     * @param  string                $key            Current association key to save.
-     * @param  string|int            $targetId       Current target ID to save.
-     * @param  array<string, mixed>  $associations   The associations array, the array key is the association key,
-     *                                               array value is target ID.
+     * @param  string|\BackedEnum    $type          The association type.
+     * @param  string                $key           Current association key to save.
+     * @param  string|int            $targetId      Current target ID to save.
+     * @param  array<string, mixed>  $associations  The associations array, the array key is the association key,
+     *                                              array value is target ID.
      *
      * @return  void
-     * @throws \JsonException
-     * @throws \ReflectionException
+     * @throws  \JsonException
+     * @throws  \ReflectionException
      */
     public function saveAssociations(
         string|\UnitEnum $type,
@@ -89,8 +87,8 @@ class AssociationService
      *                                              array value is target ID.
      *
      * @return  void
-     * @throws \JsonException
-     * @throws \ReflectionException
+     * @throws  \JsonException
+     * @throws  \ReflectionException
      */
     public function createAssociations(string|\UnitEnum $type, array $associations): void
     {
@@ -192,7 +190,7 @@ class AssociationService
      * @param  string            $hash
      * @param  string|int|null   $id
      *
-     * @return iterable<Association>
+     * @return  iterable<Association>
      */
     public function getRelativeItemsByHash(string|\UnitEnum $type, string $hash, string|int|null $id = null): iterable
     {
@@ -211,8 +209,8 @@ class AssociationService
      * @param  string|\UnitEnum  $type
      * @param  string|int        $id
      *
-     * @return iterable<Association>
-     * @throws \ReflectionException
+     * @return  iterable<Association>
+     * @throws  \ReflectionException
      */
     public function getRelativeItemsByTargetId(string|\UnitEnum $type, string|int $id): iterable
     {
@@ -249,8 +247,8 @@ class AssociationService
      * @param  string|int        $id
      * @param  string            $key
      *
-     * @return Association|null
-     * @throws \ReflectionException
+     * @return  Association|null
+     * @throws  \ReflectionException
      */
     public function getRelativeItemByIdAndKey(string|\UnitEnum $type, string|int $id, string $key): ?Association
     {
@@ -293,7 +291,7 @@ class AssociationService
      *
      * @return  \Generator<Association>
      *
-     * @throws \ReflectionException
+     * @throws  \ReflectionException
      */
     public function getAssociationItemsByTargetId(string|\UnitEnum $type, string|int $id): iterable
     {
@@ -337,7 +335,7 @@ class AssociationService
         }
 
         if (class_exists($type) && ORM::isEntity($type)) {
-            $table = Collection::explode("\\", $type)
+            $table = Collection::explode('\\', $type)
                 ->last();
 
             return StrNormalize::toSnakeCase($table);
@@ -364,7 +362,7 @@ class AssociationService
      *
      * @return  T|C|null
      *
-     * @throws \ReflectionException
+     * @throws  \ReflectionException
      */
     public function getRelatedTargetItem(
         string|\UnitEnum $type,
@@ -396,7 +394,7 @@ class AssociationService
      *
      * @return  Collection<T|C>
      *
-     * @throws \ReflectionException
+     * @throws  \ReflectionException
      */
     public function getRelatedTargetItems(
         string|\UnitEnum $type,

@@ -27,9 +27,7 @@ class EditForm implements FieldDefinitionInterface
     use TranslatorTrait;
     use LocaleAwareTrait;
 
-    public function __construct(protected PageService $pageService)
-    {
-    }
+    public function __construct(protected PageService $pageService) {}
 
     /**
      * Define the form fields.

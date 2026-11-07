@@ -42,8 +42,7 @@ class CategoryListView implements ViewModelInterface
         #[Autowire]
         protected CategoryRepository $repository,
         protected FormFactory $formFactory,
-    ) {
-    }
+    ) {}
 
     public function prepare(AppContext $app, View $view): array
     {
@@ -92,7 +91,7 @@ class CategoryListView implements ViewModelInterface
     /**
      * Get default ordering.
      *
-     * @return    string
+     * @return  string
      */
     public static function getDefaultOrdering(): string
     {
@@ -102,7 +101,7 @@ class CategoryListView implements ViewModelInterface
     /**
      * Get search fields.
      *
-     * @return    string[]
+     * @return  string[]
      */
     public static function getSearchFields(): array
     {
@@ -119,7 +118,7 @@ class CategoryListView implements ViewModelInterface
      *
      * @param  array  $filter
      *
-     * @return    bool
+     * @return  bool
      */
     public function showFilterBar(array $filter): bool
     {

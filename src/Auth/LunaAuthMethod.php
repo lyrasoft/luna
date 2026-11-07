@@ -62,9 +62,9 @@ class LunaAuthMethod implements MethodInterface
      *
      * @param  array  $credential
      *
-     * @return AuthResult
-     * @throws ReflectionException
-     * @throws NumberFormatException
+     * @return  AuthResult
+     * @throws  ReflectionException
+     * @throws  NumberFormatException
      */
     public function authenticate(array $credential): AuthResult
     {
@@ -97,7 +97,7 @@ class LunaAuthMethod implements MethodInterface
         return new AuthResult(AuthResult::SUCCESS, $credential);
     }
 
-    protected function getUser(array $usernames): Collection|null
+    protected function getUser(array $usernames): ?Collection
     {
         $mapper = $this->getMapper();
 
@@ -119,7 +119,7 @@ class LunaAuthMethod implements MethodInterface
      * @param  array       $credential
      *
      * @return  void
-     * @throws ReflectionException
+     * @throws  ReflectionException
      * @since  1.4.6
      */
     protected function rehash(Collection $user, array $credential): void
@@ -136,7 +136,7 @@ class LunaAuthMethod implements MethodInterface
      *
      * @return  EntityMapper<User>
      *
-     * @throws ReflectionException
+     * @throws  ReflectionException
      */
     public function getMapper(): EntityMapper
     {

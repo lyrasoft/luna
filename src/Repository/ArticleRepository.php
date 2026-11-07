@@ -65,7 +65,7 @@ class ArticleRepository implements ManageRepositoryInterface, ListRepositoryInte
     }
 
     /**
-     * @return string|null
+     * @return  string|null
      */
     public function getType(): ?string
     {

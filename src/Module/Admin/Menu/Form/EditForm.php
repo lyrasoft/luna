@@ -27,9 +27,7 @@ class EditForm implements FieldDefinitionInterface
 {
     use TranslatorTrait;
 
-    public function __construct(protected string|int|null $id, protected string $type, protected ORM $orm)
-    {
-    }
+    public function __construct(protected string|int|null $id, protected string $type, protected ORM $orm) {}
 
     /**
      * Define the form fields.

@@ -38,8 +38,7 @@ class WidgetListView implements ViewModelInterface
         protected WidgetRepository $repository,
         protected FormFactory $formFactory,
         protected WidgetService $widgetService,
-    ) {
-    }
+    ) {}
 
     /**
      * Prepare view data.
