@@ -34,6 +34,9 @@ class ForgetController
 
     protected const int REQUEST_COOLDOWN = 120;
 
+    // Minimum response time (seconds) of request(), to hide account existence by timing.
+    protected const float REQUEST_MIN_DURATION = 3.0;
+
     /**
      * TODO: Add per-IP rate limiting once a storage is available.
      */
@@ -45,9 +48,13 @@ class ForgetController
         ORM $orm,
         MailerInterface $mailer
     ): RouteUri {
+        $start = microtime(true);
+
         $email = $app->input('email');
 
         if (!$email) {
+            $this->waitUntilMinDuration($start);
+
             return $nav->back();
         }
 
@@ -55,11 +62,15 @@ class ForgetController
         $user = $userService->load(['email' => $email]);
 
         if (!$user) {
+            $this->waitUntilMinDuration($start);
+
             return $nav->self()->layout('complete');
         }
 
         // Per-account cooldown. Respond the same way to avoid revealing whether the account exists.
         if ($user->lastReset && $user->lastReset->getTimestamp() > time() - static::REQUEST_COOLDOWN) {
+            $this->waitUntilMinDuration($start);
+
             return $nav->self()->layout('complete');
         }
 
@@ -88,7 +99,7 @@ class ForgetController
 
         $name = $user->name;
 
-        $message = $mailer->createMessage(
+        $mailer->createMessage(
             $this->trans('luna.forget.request.mail.subject')
         )
             ->to("{$name} <$email>")
@@ -100,7 +111,21 @@ class ForgetController
             )
             ->send();
 
+        $this->waitUntilMinDuration($start);
+
         return $nav->self()->layout('complete');
+    }
+
+    /**
+     * Sleep until REQUEST_MIN_DURATION has passed since $start, to hide account existence by timing.
+     */
+    protected function waitUntilMinDuration(float $start): void
+    {
+        $remaining = static::REQUEST_MIN_DURATION - (microtime(true) - $start);
+
+        if ($remaining > 0) {
+            usleep((int) ($remaining * 1_000_000));
+        }
     }
 
     public function confirm(AppContext $app, UserService $userService, Navigator $nav): RouteUri
