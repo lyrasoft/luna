@@ -14,6 +14,7 @@
         "upgrade": "yarn up '**' -R"
     },
     "dependencies": {
+        "@asika32764/vue-animate": "^3.0",
         "@lyrasoft/ts-toolkit": "^0.2.1",
         "aos": "^2.3.4"
     },

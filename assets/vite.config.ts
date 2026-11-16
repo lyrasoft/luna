@@ -74,7 +74,7 @@ export default defineConfig(({ mode }) => {
           '@unicorn/*',
           'bootstrap',
           'sortablejs',
-          '@asika32764/vue-animate',
+          /^@asika32764\/vue-animate/,
           'bootstrap',
           'vue',
           'vue-draggable-plus',

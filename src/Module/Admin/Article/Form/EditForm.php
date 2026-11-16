@@ -12,9 +12,10 @@ use Lyrasoft\Luna\Field\TagListField;
 use Lyrasoft\Luna\Field\UserModalField;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
 use Unicorn\Field\CalendarField;
+use Unicorn\Field\NuxtFieldOptions;
 use Unicorn\Field\SingleImageDragField;
 use Unicorn\Field\SwitcherField;
-use Unicorn\Field\TinymceEditorField;
+use Unicorn\Field\NuxtEditorField;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\Attributes\Fieldset;
 use Windwalker\Form\Attributes\FormDefine;
@@ -56,21 +57,21 @@ class EditForm
     #[Fieldset('text')]
     public function text(Form $form): void
     {
-        $form->add('introtext', TinymceEditorField::class)
+        $form->add('introtext', NuxtEditorField::class)
             ->label($this->trans('luna.article.field.introtext'))
             ->editorOptions(
-                [
-                    'height' => 400,
-                ]
+                new NuxtFieldOptions(
+                    captionFigure: true
+                )
             );
 
-        $form->add('fulltext', TinymceEditorField::class)
+        $form->add('fulltext', NuxtEditorField::class)
             ->label($this->trans('luna.article.field.fulltext'))
             ->rows(7)
             ->editorOptions(
-                [
-                    'height' => 550,
-                ]
+                new NuxtFieldOptions(
+                    captionFigure: true
+                )
             );
     }
 
