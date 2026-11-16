@@ -6,6 +6,7 @@ namespace Lyrasoft\Luna\Module\Front\Auth;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Lyrasoft\Luna\Entity\RememberToken;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\User\UserService;
 use Windwalker\Core\Application\AppContext;
@@ -29,6 +30,13 @@ class ForgetController
 {
     use TranslatorTrait;
 
+    protected const int TOKEN_TTL = 3600;
+
+    protected const int REQUEST_COOLDOWN = 120;
+
+    /**
+     * TODO: Add per-IP rate limiting once a storage is available.
+     */
     public function request(
         AppContext $app,
         RendererService $rendererService,
@@ -50,9 +58,19 @@ class ForgetController
             return $nav->self()->layout('complete');
         }
 
+        // Per-account cooldown. Respond the same way to avoid revealing whether the account exists.
+        if ($user->lastReset && $user->lastReset->getTimestamp() > time() - static::REQUEST_COOLDOWN) {
+            return $nav->self()->layout('complete');
+        }
+
+        $now = time();
+
         $token = JWT::encode(
             [
                 'email' => $email,
+                'iat' => $now,
+                'exp' => $now + static::TOKEN_TTL,
+                'jti' => bin2hex(random_bytes(16)),
             ],
             $app->getSecret('password.forget'),
             'HS256'
@@ -62,7 +80,8 @@ class ForgetController
             ->var('locale', false)
             ->full();
 
-        $user->resetToken = $token;
+        // Only store the hash so a DB leak can not be used to reset passwords.
+        $user->resetToken = static::hashToken($token);
         $user->lastReset = 'now';
 
         $orm->updateOne(User::class, $user);
@@ -86,29 +105,9 @@ class ForgetController
 
     public function confirm(AppContext $app, UserService $userService, Navigator $nav): RouteUri
     {
-        $token = $app->input('token');
+        $token = (string) $app->input('token');
 
-        $payload = JWT::decode(
-            $token,
-            new Key($app->getSecret('password.forget'), 'HS256'),
-        );
-
-        $email = $payload->email ?? null;
-
-        if (!$email) {
-            throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
-        }
-
-        /** @var User $user */
-        $user = $userService->load(['email' => $email]);
-
-        if (!$user) {
-            throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
-        }
-
-        if ($user->resetToken !== $token) {
-            throw new ValidateFailException($this->trans('luna.forget.request.message.invalid.token'));
-        }
+        $this->loadUserByToken($app, $userService, $token);
 
         $app->getState()->remember('reset.token', $token);
 
@@ -121,52 +120,79 @@ class ForgetController
         ORM $orm,
         Navigator $nav
     ): RouteUri {
-        $token = $app->input('token');
+        $token = (string) $app->input('token');
 
-        if (!$token) {
+        if ($token === '') {
             throw new ValidateFailException('No Token');
         }
 
-        $payload = JWT::decode(
-            $token,
-            new Key($app->getSecret('password.forget'), 'HS256'),
-        );
+        $user = $this->loadUserByToken($app, $userService, $token);
 
-        $email = $payload->email ?? null;
+        $password = (string) $app->input('password');
+        $password2 = (string) $app->input('password2');
 
-        /** @var User $user */
-        $user = $userService->load(['email' => (string) $email]);
-
-        if (!$user) {
-            throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
+        // Password strength rules should be implemented by each project.
+        if ($password === '') {
+            throw new ValidateFailException($this->trans('luna.forget.reset.message.password.empty'));
         }
-
-        if ($user->resetToken !== $token) {
-            throw new ValidateFailException($this->trans('luna.forget.request.message.invalid.token'));
-        }
-
-        $password = $app->input('password');
-        $password2 = $app->input('password2');
-
-        $hasher = $app->retrieve(PasswordHasherInterface::class);
 
         if ($password !== $password2) {
             throw new ValidateFailException($this->trans('luna.forget.reset.message.password.not.match'));
         }
+
+        $hasher = $app->retrieve(PasswordHasherInterface::class);
 
         $user->password = $hasher->hash($password);
 
         $user->resetToken = '';
         $user->lastReset = 'now';
 
-
         $orm->updateOne(
             User::class,
             $user
         );
 
+        // Revoke all remember-me tokens so old logins can not survive a reset.
+        $orm->deleteBulk(RememberToken::class, ['user_id' => $user->id]);
+
         $app->getState()->forget('reset.token');
 
         return $nav->to('forget_complete');
+    }
+
+    protected function loadUserByToken(AppContext $app, UserService $userService, string $token): User
+    {
+        try {
+            $payload = JWT::decode(
+                $token,
+                new Key($app->getSecret('password.forget'), 'HS256'),
+            );
+        } catch (\Throwable) {
+            throw new ValidateFailException($this->trans('luna.forget.request.message.invalid.token'));
+        }
+
+        $email = $payload->email ?? null;
+
+        if (!$email) {
+            throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
+        }
+
+        /** @var User|null $user */
+        $user = $userService->load(['email' => (string) $email]);
+
+        if (!$user) {
+            throw new ValidateFailException($this->trans('luna.forget.request.message.user.not.found'));
+        }
+
+        if ($user->resetToken === '' || !hash_equals($user->resetToken, static::hashToken($token))) {
+            throw new ValidateFailException($this->trans('luna.forget.request.message.invalid.token'));
+        }
+
+        return $user;
+    }
+
+    protected static function hashToken(string $token): string
+    {
+        return hash('sha256', $token);
     }
 }
