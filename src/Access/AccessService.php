@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Access;
 
+use JetBrains\PhpStorm\ExpectedValues;
 use Lyrasoft\Luna\Entity\Rule;
 use Lyrasoft\Luna\Entity\User;
 use Lyrasoft\Luna\Entity\UserRole;
@@ -370,6 +371,81 @@ class AccessService
     public function getSuperUserRoles(): array
     {
         return $this->getRolesAllowAction(static::SUPERUSER_ACTION);
+    }
+
+    /**
+     * Compare privilege sets of two role lists.
+     *
+     * @param  array<UserRole>  $rolesA
+     * @param  array<UserRole>  $rolesB
+     * @param  string           $operator  One of: >, >=, =, <, <=
+     */
+    public function compareRolesPrivileges(
+        array $rolesA,
+        array $rolesB,
+        #[ExpectedValues(['>', '>=', '=', '<', '<='])]
+        string $operator
+    ): bool {
+        return $this->comparePrivileges(
+            fn(string $action) => $this->checkRolesAllowAction($rolesA, $action)
+                || $this->checkRolesAllowAction($rolesA, static::SUPERUSER_ACTION),
+            fn(string $action) => $this->checkRolesAllowAction($rolesB, $action)
+                || $this->checkRolesAllowAction($rolesB, static::SUPERUSER_ACTION),
+            $operator
+        );
+    }
+
+    /**
+     * Compare privilege sets of two users.
+     *
+     * @param  string  $operator  One of: >, >=, =, <, <=
+     */
+    public function compareUserPrivileges(
+        mixed $userA,
+        mixed $userB,
+        #[ExpectedValues(['>', '>=', '=', '<', '<='])]
+        string $operator
+    ): bool {
+        return $this->comparePrivileges(
+            fn(string $action) => $this->check($action, $userA),
+            fn(string $action) => $this->check($action, $userB),
+            $operator
+        );
+    }
+
+    /**
+     * @param  \Closure(string): bool  $hasA
+     * @param  \Closure(string): bool  $hasB
+     * @param  string                  $operator
+     *
+     * @return  bool
+     */
+    protected function comparePrivileges(\Closure $hasA, \Closure $hasB, string $operator): bool
+    {
+        $actions = array_unique([
+            static::SUPERUSER_ACTION,
+            ...array_map(static fn(Rule $rule) => $rule->name, $this->loadStaticRules()),
+        ]);
+
+        $aExtra = false;
+        $bExtra = false;
+
+        foreach ($actions as $action) {
+            $a = $hasA($action);
+            $b = $hasB($action);
+
+            $aExtra = $aExtra || ($a && !$b);
+            $bExtra = $bExtra || ($b && !$a);
+        }
+
+        return match ($operator) {
+            '>' => $aExtra && !$bExtra,
+            '>=' => !$bExtra,
+            '=' => !$aExtra && !$bExtra,
+            '<' => $bExtra && !$aExtra,
+            '<=' => !$aExtra,
+            default => throw new \InvalidArgumentException("Invalid privilege operator: $operator"),
+        };
     }
 
     /**

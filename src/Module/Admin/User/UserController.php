@@ -131,6 +131,27 @@ class UserController
             return;
         }
 
+        // Privilege ceiling: a non-superuser cannot grant roles carrying privileges they lack
+        if (!$iAmSuperUser) {
+            $newRoles = [];
+
+            foreach ($roles as $role) {
+                $userRole = $accessService->wrapUserRole($role);
+
+                if ($userRole === null) {
+                    throw new ValidateFailException('Invalid role: ' . $role);
+                }
+
+                $newRoles[] = $userRole;
+            }
+
+            if ($accessService->compareRolesPrivileges($newRoles, $accessService->getEnabledUserRoles($me), '>')) {
+                throw new ValidateFailException(
+                    'Forbidden: You cannot assign roles with higher privileges.'
+                );
+            }
+        }
+
         $basicRoles = array_map(static fn(UserRole $role) => $role->id, $accessService->getBasicRoles());
 
         // Add basic role if is empty
@@ -277,7 +298,8 @@ class UserController
         AppContext $app,
         Navigator $nav,
         UserService $userService,
-        UserSwitchService $userSwitchService
+        UserSwitchService $userSwitchService,
+        AccessService $accessService
     ): mixed {
         $ids = $app->input('id');
         $id = array_shift($ids);
@@ -297,6 +319,13 @@ class UserController
             $app->addMessage('User not found', 'warning');
 
             return $nav->back();
+        }
+
+        // Privilege ceiling: a non-superuser cannot switch to a user holding privileges they lack
+        if ($accessService->compareUserPrivileges($user, $accessService->getUser(), '>')) {
+            throw new ValidateFailException(
+                'Forbidden: You cannot switch to a user with higher privileges.'
+            );
         }
 
         if ($stage === 'front') {
