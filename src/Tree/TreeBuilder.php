@@ -54,7 +54,7 @@ class TreeBuilder
             $pk = static::getValue($data, $keyName);
             $parentId = static::getValue($data, $parentIdName);
 
-            if ($pk === null || !$parentId) {
+            if ($pk === null || $parentId === null || $parentId === '') {
                 continue;
             }
 
@@ -70,9 +70,10 @@ class TreeBuilder
         foreach ($tree as $node) {
             $data = $node->getValue();
 
+            $pk = static::getValue($data, $keyName);
             $parentId = static::getValue($data, $parentIdName);
 
-            if (!$parentId) {
+            if ($parentId === null || $parentId === '' || (string) $parentId === (string) $pk) {
                 continue;
             }
 
