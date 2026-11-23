@@ -853,7 +853,7 @@ class AccessService
 
                 return $this->orm->from(Rule::class)
                     ->where('name', $action)
-                    ->orWhere(
+                    ->orWhereGroup(
                         function (Query $query) use ($ns, $act, $id) {
                             if ($id) {
                                 $query->whereRaw('type = :ns AND action = :action AND target_id = :target')

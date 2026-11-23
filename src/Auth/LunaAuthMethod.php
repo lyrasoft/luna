@@ -102,7 +102,7 @@ class LunaAuthMethod implements MethodInterface
         $mapper = $this->getMapper();
 
         return $mapper->select()
-            ->orWhere(
+            ->orWhereGroup(
                 function (Query $query) use ($usernames) {
                     foreach ($usernames as $field => $username) {
                         $query->where($field, $username);
