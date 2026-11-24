@@ -262,6 +262,29 @@ class AbstractPageRendererTest extends TestCase
     }
 
     #[Test]
+    public function prepareBackgroundCSSAddsColorBackground(): void
+    {
+        $renderer = $this->createRenderer();
+        $styles = new StyleContainer('.page');
+
+        $renderer->backgroundForTest(
+            Collection::wrap([
+                'background' => [
+                    'overlay' => '',
+                    'type' => 'color',
+                    'color' => '#123456',
+                ],
+            ]),
+            $styles
+        );
+
+        $css = $styles->render();
+
+        self::assertStringContainsString('background-color: #123456', $css);
+        self::assertStringNotContainsString('background-image', $css);
+    }
+
+    #[Test]
     public function prepareBackgroundCSSAddsOverlayAndImage(): void
     {
         $renderer = $this->createRenderer();
@@ -321,6 +344,29 @@ class AbstractPageRendererTest extends TestCase
             'linear-gradient(90deg, #fff 0%, #000 100%)',
             $styles->render()
         );
+    }
+
+    #[Test]
+    public function prepareBackgroundCSSSkipsImageWithoutUrl(): void
+    {
+        $renderer = $this->createRenderer();
+        $styles = new StyleContainer('.page');
+
+        $renderer->backgroundForTest(
+            Collection::wrap([
+                'background' => [
+                    'type' => 'image',
+                    'color' => '#abc',
+                    'image' => ['url' => '', 'size' => 'cover'],
+                ],
+            ]),
+            $styles
+        );
+
+        $css = $styles->render();
+
+        self::assertStringNotContainsString('background-image', $css);
+        self::assertStringContainsString('background-color: #abc', $css);
     }
 
     #[Test]

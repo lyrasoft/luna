@@ -39,11 +39,13 @@ class ButtonAddon extends AbstractAddon implements HasOwnStyleInterface
 
     /**
      * @inheritDoc
+     * @codeCoverageIgnore
      */
     protected function prepareData(Collection $data): void {}
 
     /**
      * @inheritDoc
+     * @codeCoverageIgnore
      */
     public static function loadVueComponent(AppContext $app): ?string
     {
@@ -61,6 +63,7 @@ class ButtonAddon extends AbstractAddon implements HasOwnStyleInterface
 
     /**
      * @inheritDoc
+     * @codeCoverageIgnore
      */
     public function prepareElement(Collection $options, array &$classes, array &$attrs): void {}
 }

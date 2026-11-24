@@ -32,7 +32,7 @@ class UserSwitchServiceTest extends TestCase
 
     protected static function prepareTablesBeforeClass(): void
     {
-        TestDatabaseFixtures::migrate();
+        TestDatabaseFixtures::resetAndMigrate();
     }
 
     protected function clearTables(): void

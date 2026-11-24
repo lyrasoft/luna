@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Data\Collection;
+use Windwalker\Renderer\CompositeRenderer;
 
 class RowRendererTest extends TestCase
 {
@@ -104,13 +105,85 @@ class RowRendererTest extends TestCase
         );
     }
 
-    private function createRenderer(?AssetService $asset = null): TestRowRenderer
+    #[Test]
+    public function prepareCSSRendersCustomCssWhenProvided(): void
     {
+        $asset = $this->createMock(AssetService::class);
+        $asset->expects($this->atLeastOnce())
+            ->method('internalCSS')
+            ->with($this->logicalOr(
+                $this->stringContains('#luna-5'),
+                $this->stringContains('color: red'),
+            ));
+
+        $renderer = $this->createRenderer($asset);
+
+        $renderer->callPrepareCSS(
+            new Collection([
+                'id' => 5,
+                'options' => [
+                    'html_id' => 'luna-5',
+                    'text_color' => '',
+                    'valign' => 'top',
+                    'title_align' => 'left',
+                    'padding' => ['lg' => '0,0,0,0', 'md' => '0,0,0,0', 'xs' => '0,0,0,0'],
+                    'margin' => ['lg' => '0,0,0,0', 'md' => '0,0,0,0', 'xs' => '0,0,0,0'],
+                    'html_css' => 'color: red;',
+                ],
+            ])
+        );
+    }
+
+    #[Test]
+    public function renderWrapsRowInPageRowLayoutWithDefaultHtmlId(): void
+    {
+        $composite = $this->createMock(CompositeRenderer::class);
+        $composite->expects($this->once())
+            ->method('render')
+            ->with(
+                'resolved-row-layout',
+                $this->callback(
+                    fn (array $data): bool => $data['row']->getDeep('options.html_id') === 'luna-7'
+                        && $data['path'] === '/row/path'
+                        && $data['pageRenderer'] instanceof RowRenderer
+                )
+            )
+            ->willReturn('<section>row</section>');
+
+        $rendererService = $this->createStub(RendererService::class);
+        $rendererService->method('resolveLayout')->willReturn('resolved-row-layout');
+        $rendererService->method('createRenderer')->willReturn($composite);
+
+        $renderer = $this->createRenderer(rendererService: $rendererService);
+
+        $html = $renderer->render(
+            [
+                'id' => 7,
+                'options' => [
+                    'html_id' => '',
+                    'text_color' => '',
+                    'valign' => 'top',
+                    'title_align' => 'left',
+                    'padding' => ['lg' => '0,0,0,0', 'md' => '0,0,0,0', 'xs' => '0,0,0,0'],
+                    'margin' => ['lg' => '0,0,0,0', 'md' => '0,0,0,0', 'xs' => '0,0,0,0'],
+                    'html_css' => '',
+                ],
+            ],
+            '/row/path'
+        );
+
+        self::assertSame('<section>row</section>', $html);
+    }
+
+    private function createRenderer(
+        ?AssetService $asset = null,
+        ?RendererService $rendererService = null,
+    ): TestRowRenderer {
         $factory = $this->createStub(PageRendererFactory::class);
         $factory->method('getAnimationDriver')->willReturn('none');
         $factory->method('getAsset')->willReturn($asset ?? $this->createStub(AssetService::class));
 
-        return new TestRowRenderer($factory, $this->createStub(RendererService::class));
+        return new TestRowRenderer($factory, $rendererService ?? $this->createStub(RendererService::class));
     }
 }
 

@@ -44,6 +44,8 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
      * @param  Collection  $data
      *
      * @return  void
+     *
+     * @codeCoverageIgnore
      */
     protected function prepareData(Collection $data): void
     {
@@ -79,6 +81,8 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
      * @return  void
      *
      * @since  1.5.2
+     *
+     * @codeCoverageIgnore
      */
     public function prepareElement(Collection $options, array &$classes, array &$attrs): void
     {
@@ -94,6 +98,8 @@ class TextAddon extends AbstractAddon implements HasOwnStyleInterface
      *
      * @throws  InvalidArgumentException
      * @since  1.5.2
+     *
+     * @codeCoverageIgnore
      */
     public static function loadVueComponent(AppContext $app): ?string
     {

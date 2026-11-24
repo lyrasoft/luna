@@ -57,4 +57,20 @@ class StyleRulesTest extends TestCase
 
         self::assertStringContainsString('color: blue;', $css);
     }
+
+    #[Test]
+    public function renderNestedContainerAndRulesTogether(): void
+    {
+        $rules = new StyleRules();
+        $rules->add('width', 10, 'px');
+
+        $nested = new StyleContainer();
+        $nested->self()->add('color', 'blue');
+        $rules->addStyles($nested);
+
+        $css = $rules->render('.box');
+
+        self::assertStringContainsString('width: 10px;', $css);
+        self::assertStringContainsString('color: blue;', $css);
+    }
 }

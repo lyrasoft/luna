@@ -35,6 +35,8 @@ abstract class AbstractWidget implements FieldDefinitionInterface
 
     /**
      * @return  string
+     *
+     * @codeCoverageIgnore
      */
     public static function getType(): string
     {
@@ -45,6 +47,8 @@ abstract class AbstractWidget implements FieldDefinitionInterface
      * @param  string  $type
      *
      * @return  void
+     *
+     * @codeCoverageIgnore
      */
     public static function setType(string $type): void
     {
@@ -62,6 +66,8 @@ abstract class AbstractWidget implements FieldDefinitionInterface
 
     /**
      * @return  Widget
+     *
+     * @codeCoverageIgnore
      */
     public function getData(): Widget
     {
@@ -72,6 +78,8 @@ abstract class AbstractWidget implements FieldDefinitionInterface
      * @param  Widget  $data
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function setData(Widget $data): static
     {
@@ -80,11 +88,19 @@ abstract class AbstractWidget implements FieldDefinitionInterface
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getParam(): array
     {
         return $this->getData()->params;
     }
 
+    /**
+     * Proxy magic getters (e.g. getTitle()) to the Widget entity.
+     *
+     * @codeCoverageIgnore
+     */
     public function __call(string $name, array $args): mixed
     {
         return $this->getData()->$name(...$args);

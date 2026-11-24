@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    bootstrap="tests/bootstrap.app.php"
+    colors="false"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd"
+    cacheDirectory=".phpunit.cache"
+>
+	<php>
+		<ini name="error_reporting" value="-1" />
+
+        <!--
+            Host app mode: run from vendor/lyrasoft/luna using the host's vendor/ and
+            Runtime. Run `vendor/bin/phpunit -c phpunit.sqlite.xml` from this directory
+            (use the host's vendor/bin/phpunit). Uses a file-based SQLite database, so
+            no MySQL server is needed. The file is dropped and recreated on every run.
+        -->
+		<env name="WINDWALKER_TEST_APP_ROOT" value="../../.." />
+
+        <env name="WINDWALKER_TEST_DB_DSN" value="pdo_sqlite:dbname=.phpunit.cache/luna_test.sqlite;prefix=luna_" />
+	</php>
+
+	<testsuites>
+		<testsuite name="Unit">
+			<directory>tests</directory>
+		</testsuite>
+	</testsuites>
+
+    <source ignoreIndirectDeprecations="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
+</phpunit>

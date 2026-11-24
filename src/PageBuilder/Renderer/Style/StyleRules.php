@@ -75,14 +75,10 @@ class StyleRules
                 continue;
             }
 
-            if ((string) $value === '') {
-                continue;
-            }
-
             $css[] = $name . ': ' . $value . ';';
         }
 
-        $lf = WINDWALKER_DEBUG ? "\n" : ' ';
+        $lf = \WINDWALKER_DEBUG ? "\n" : ' ';
 
         $body = implode($lf, $css);
 

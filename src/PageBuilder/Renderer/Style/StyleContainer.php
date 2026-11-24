@@ -179,7 +179,7 @@ class StyleContainer
             $styles[] = $rules->render($selector);
         }
 
-        $lf = WINDWALKER_DEBUG ? "\n\n" : ' ';
+        $lf = \WINDWALKER_DEBUG ? "\n\n" : ' ';
 
         return implode($lf, $styles);
     }

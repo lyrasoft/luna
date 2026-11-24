@@ -129,14 +129,14 @@ abstract class AbstractAddon implements AdminVueComponentInterface
     {
         $paths = $renderer->getPaths();
 
-        $paths->insert(WINDWALKER_VIEWS . '/addons/' . static::getType(), PriorityQueue::LOW);
+        $paths->insert(\WINDWALKER_VIEWS . '/addons/' . static::getType(), PriorityQueue::LOW);
 
         $paths->insert(
             dirname(static::getReflector()->getFileName()) . '/views',
             PriorityQueue::LOW
         );
 
-        $paths->insert(WINDWALKER_SOURCE . '/Module/Front/Page/views', PriorityQueue::LOW);
+        $paths->insert(\WINDWALKER_SOURCE . '/Module/Front/Page/views', PriorityQueue::LOW);
         $paths->insert(LunaPackage::path('views'), PriorityQueue::LOW);
     }
 

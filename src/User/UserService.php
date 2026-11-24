@@ -208,17 +208,17 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     ) {
         $resultSet ??= new ResultSet();
 
-        if ($resultSet->isSuccess()) {
-            $result = $resultSet->getMatchedResult();
-        } else {
-            $result = new AuthResult(AuthResult::SUCCESS, $credential);
-        }
-
         if (is_array($credential)) {
             $user = $this->load($credential);
         } else {
             $user = $credential;
             $credential = [];
+        }
+
+        if ($resultSet->isSuccess()) {
+            $result = $resultSet->getMatchedResult();
+        } else {
+            $result = new AuthResult(AuthResult::SUCCESS, $credential);
         }
 
         try {
@@ -261,6 +261,8 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         array $options = [],
         ?ResultSet &$resultSet = null
     ): false|AuthResult {
+        $resultSet ??= new ResultSet();
+
         $event = $this->emit(
             new BeforeLoginEvent(
                 credential: $credential,

@@ -58,6 +58,14 @@ if (!defined('WINDWALKER_CACHE')) {
     define('WINDWALKER_CACHE', $root . '/cache');
 }
 
+if (!defined('WINDWALKER_VIEWS')) {
+    define('WINDWALKER_VIEWS', $root . '/views');
+}
+
+if (!defined('WINDWALKER_SOURCE')) {
+    define('WINDWALKER_SOURCE', $root . '/src');
+}
+
 $init = include $root . '/vendor/windwalker/core/src/Core/Testing/test.init.php';
 
 /** @var Container $container */

@@ -130,7 +130,7 @@ class PageBuilder
                 //
             }
 
-            $css = $customCSS . (WINDWALKER_DEBUG ? "\n\n" : ' ') . $css;
+            $css = $customCSS . (\WINDWALKER_DEBUG ? "\n\n" : ' ') . $css;
         }
 
         return "<style>$css</style>" . implode("\n", $html);
@@ -145,6 +145,6 @@ class PageBuilder
 
     public function getCacheFile(int $id): FileObject
     {
-        return fs(WINDWALKER_CACHE . '/renderer/pages/' . $id . '.data');
+        return fs(\WINDWALKER_CACHE . '/renderer/pages/' . $id . '.data');
     }
 }

@@ -21,7 +21,7 @@ class ConfigServiceTest extends TestCase
 
     protected static function prepareTablesBeforeClass(): void
     {
-        TestDatabaseFixtures::migrate();
+        TestDatabaseFixtures::resetAndMigrate();
     }
 
     #[Before]

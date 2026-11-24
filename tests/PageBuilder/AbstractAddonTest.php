@@ -15,6 +15,7 @@ use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Data\Collection;
+use Windwalker\Renderer\CompositeRenderer;
 use Windwalker\Utilities\Contract\LanguageInterface;
 
 #[AllowMockObjectsWithoutExpectations]
@@ -108,6 +109,83 @@ class AbstractAddonTest extends TestCase
 
         self::assertSame(['c-own-class'], $data['classes']);
         self::assertSame(['data-color' => 'blue'], $data['attrs']);
+    }
+
+    #[Test]
+    public function registerPathsAddsAddonViewDirectories(): void
+    {
+        $renderer = new CompositeRenderer();
+
+        FallbackFixtureAddon::registerPaths($renderer);
+
+        $paths = [];
+        foreach (clone $renderer->getPaths() as $path) {
+            $paths[] = str_replace('\\', '/', $path);
+        }
+
+        self::assertCount(4, $paths);
+        self::assertContains(
+            str_replace('\\', '/', \WINDWALKER_VIEWS . '/addons/fixture'),
+            $paths
+        );
+        self::assertContains(
+            str_replace('\\', '/', dirname((new \ReflectionClass(FallbackFixtureAddon::class))->getFileName()) . '/views'),
+            $paths
+        );
+    }
+
+    #[Test]
+    public function getDirReturnsAddonFileDirectory(): void
+    {
+        self::assertSame(
+            str_replace('\\', '/', __DIR__),
+            str_replace('\\', '/', FallbackFixtureAddon::getDir())
+        );
+    }
+
+    #[Test]
+    public function renderPassesDataAndTypeToRenderer(): void
+    {
+        $asset = $this->createMock(AssetService::class);
+        $asset->expects($this->once())->method('internalCSS');
+
+        $factory = $this->createStub(PageRendererFactory::class);
+        $factory->method('getAsset')->willReturn($asset);
+
+        $renderer = $this->createMock(CompositeRenderer::class);
+        $renderer->expects($this->once())
+            ->method('render')
+            ->with('fixture', $this->arrayHasKey('styles'))
+            ->willReturn('<rendered>');
+
+        $styles = new StyleContainer('#r');
+        $addon = new FallbackFixtureAddon($factory, ['styles' => $styles]);
+
+        self::assertSame('<rendered>', $addon->render($renderer));
+    }
+
+    #[Test]
+    public function getVueComponentTemplateReturnsEmptyWhenFormMissing(): void
+    {
+        $renderer = new CompositeRenderer();
+
+        self::assertSame('', FallbackFixtureAddon::getVueComponentTemplate($renderer));
+    }
+
+    #[Test]
+    public function getVueComponentTemplateRendersFormWhenAvailable(): void
+    {
+        $renderer = $this->createMock(CompositeRenderer::class);
+        $renderer->method('has')->with('form')->willReturn(true);
+        $renderer->expects($this->once())
+            ->method('render')
+            ->with('form', ['x' => 1])
+            ->willReturn('<form/>');
+
+        self::assertSame(
+            '<form/>',
+            FallbackFixtureAddon::getVueComponentTemplate($renderer, ['x' => 1])
+        );
     }
 }
 

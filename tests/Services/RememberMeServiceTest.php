@@ -47,7 +47,7 @@ class RememberMeServiceTest extends TestCase
             ),
         );
 
-        TestDatabaseFixtures::migrate();
+        TestDatabaseFixtures::resetAndMigrate();
     }
 
     #[AfterClass]

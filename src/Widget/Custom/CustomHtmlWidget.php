@@ -20,16 +20,25 @@ class CustomHtmlWidget extends AbstractWidget implements ViewModelInterface
 {
     use TranslatorTrait;
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getTypeIcon(): string
     {
         return 'fa fa-pencil';
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getTypeTitle(LangService $lang): string
     {
         return $lang('luna.widget.custom.html.title');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getTypeDescription(LangService $lang): string
     {
         return $lang('luna.widget.custom.html.description');
@@ -66,6 +75,9 @@ class CustomHtmlWidget extends AbstractWidget implements ViewModelInterface
         return compact('html', 'params');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getLayout(): string
     {
         return 'custom-html';

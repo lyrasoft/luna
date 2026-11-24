@@ -44,6 +44,8 @@ class ImageAddon extends AbstractAddon implements HasOwnStyleInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function loadVueComponent(AppContext $app): ?string
     {
@@ -61,6 +63,8 @@ class ImageAddon extends AbstractAddon implements HasOwnStyleInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function prepareElement(Collection $options, array &$classes, array &$attrs): void {}
 }

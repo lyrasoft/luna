@@ -63,6 +63,26 @@ class MenuService
             $menus->setDefaultItemClass(Menu::class);
         }
 
+        // The root row itself is in the result set; TreeBuilder would keep it as a child
+        // and attach its children there, so promote it to the tree root instead.
+        if ($root instanceof Menu || is_int($root) || is_string($root)) {
+            $rootId = $root instanceof Menu ? $root->id : $root;
+            $items = [];
+            $rootMenu = null;
+
+            foreach ($menus as $menu) {
+                if ($rootMenu === null && (string) $menu->id === (string) $rootId) {
+                    $rootMenu = $menu;
+                    continue;
+                }
+
+                $items[] = $menu;
+            }
+
+            $menus = $items;
+            $root = $rootMenu ?? $rootId;
+        }
+
         return TreeBuilder::create(
             $menus,
             'id',

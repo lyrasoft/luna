@@ -152,6 +152,111 @@ class PageBuilderTest extends TestCase
         self::assertStringEndsWith('/renderer/pages/7.data', $path);
     }
 
+    #[Test]
+    public function renderPageRendersRowsAndPreparesAssets(): void
+    {
+        $builder = $this->createBuilder($this->createRowFactory(['.a{}']));
+
+        self::assertSame('<style>.a{}</style>', $builder->renderPage([]));
+    }
+
+    #[Test]
+    public function renderByEntityAndCacheWritesCacheOnMiss(): void
+    {
+        $id = 987650001;
+        $builder = $this->createBuilder($this->createRowFactory(['.a{}']));
+        $cache = $builder->getCacheFile($id);
+
+        try {
+            if ($cache->isFile()) {
+                $cache->delete();
+            }
+
+            $page = new Page();
+            $page->id = $id;
+            $page->content = [];
+            $page->css = '';
+
+            $html = $builder->renderByEntityAndCache($page);
+
+            self::assertSame('<style>.a{}</style>', $html);
+            self::assertSame($html, (string) $cache->read());
+        } finally {
+            $this->removeCache($cache);
+        }
+    }
+
+    #[Test]
+    public function renderByEntityAndCacheReturnsCachedContentOnHit(): void
+    {
+        $id = 987650002;
+        $builder = $this->createBuilder($this->createRowFactory(['.a{}']));
+        $cache = $builder->getCacheFile($id);
+
+        try {
+            $cache->write('<cached/>');
+
+            $page = new Page();
+            $page->id = $id;
+            $page->content = [];
+            $page->css = '';
+
+            self::assertSame('<cached/>', $builder->renderByEntityAndCache($page));
+        } finally {
+            $this->removeCache($cache);
+        }
+    }
+
+    #[Test]
+    public function renderByEntityAndCacheRefreshesCacheWhenRequested(): void
+    {
+        $id = 987650003;
+        $builder = $this->createBuilder($this->createRowFactory(['.a{}']));
+        $cache = $builder->getCacheFile($id);
+
+        try {
+            $cache->write('<stale/>');
+
+            $page = new Page();
+            $page->id = $id;
+            $page->content = [];
+            $page->css = '';
+
+            $html = $builder->renderByEntityAndCache($page, true);
+
+            self::assertSame('<style>.a{}</style>', $html);
+            self::assertSame($html, (string) $cache->read());
+        } finally {
+            $this->removeCache($cache);
+        }
+    }
+
+    #[Test]
+    public function renderFrontendUsesCacheAndPreparesAssets(): void
+    {
+        $id = 987650004;
+        $builder = $this->createBuilder($this->createRowFactory([]));
+        $cache = $builder->getCacheFile($id);
+
+        try {
+            $cache->write('<cached/>');
+
+            $page = new Page();
+            $page->id = $id;
+
+            self::assertSame('<cached/>', $builder->renderFrontend($page));
+        } finally {
+            $this->removeCache($cache);
+        }
+    }
+
+    private function removeCache(\Windwalker\Filesystem\FileObject $cache): void
+    {
+        if ($cache->isFile()) {
+            $cache->delete();
+        }
+    }
+
     private function createBuilder(
         PageRendererFactory $factory,
         ?AssetService $asset = null,
