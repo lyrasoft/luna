@@ -14,6 +14,9 @@ use Windwalker\DI\ServiceProviderInterface;
  */
 class UserProvider implements ServiceProviderInterface
 {
+    /**
+     * @codeCoverageIgnore  Single container registration, no logic to assert.
+     */
     public function register(Container $container): void
     {
         $container->prepareSharedObject(UserService::class);

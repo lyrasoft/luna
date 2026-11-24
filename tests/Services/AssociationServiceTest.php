@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Tests\Services;
 
+use Lyrasoft\Luna\Entity\Article;
 use Lyrasoft\Luna\Entity\Association;
 use Lyrasoft\Luna\Entity\Tag;
 use Lyrasoft\Luna\Services\AssociationService;
@@ -155,5 +156,117 @@ class AssociationServiceTest extends TestCase
         self::assertSame('tag', AssociationService::toTypeString(Tag::class));
         self::assertSame('custom', AssociationService::toTypeString('custom'));
         self::assertSame('stdClass', AssociationService::toTypeString(new \stdClass()));
+    }
+
+    private function createArticle(string $title): int
+    {
+        return self::$orm->createOne(
+            Article::class,
+            [
+                'title' => $title,
+                'alias' => strtolower($title),
+                'type' => 'article',
+                'state' => 1,
+                'language' => '*',
+            ]
+        )->id;
+    }
+
+    #[Test]
+    public function getRelatedTargetItemReturnsLinkedEntityByKey(): void
+    {
+        $service = $this->createService();
+        $en = $this->createArticle('EN');
+        $ja = $this->createArticle('JA');
+        $service->saveAssociations(Article::class, 'en', $en, ['ja' => $ja]);
+
+        $item = $service->getRelatedTargetItem(Article::class, $en, 'ja');
+
+        self::assertInstanceOf(Article::class, $item);
+        self::assertSame($ja, $item->id);
+        self::assertNull($service->getRelatedTargetItem(Article::class, $en, 'fr'));
+    }
+
+    #[Test]
+    public function getRelatedTargetItemsReturnsSiblingsExcludingSelf(): void
+    {
+        $service = $this->createService();
+        $en = $this->createArticle('EN');
+        $ja = $this->createArticle('JA');
+        $zh = $this->createArticle('ZH');
+        $service->saveAssociations(Article::class, 'en', $en, ['ja' => $ja, 'zh' => $zh]);
+
+        $items = $service->getRelatedTargetItems(Article::class, $en);
+
+        self::assertCount(2, $items);
+        self::assertEqualsCanonicalizing([$ja, $zh], $items->column('id')->dump());
+    }
+
+    #[Test]
+    public function getRelatedTargetItemsReturnsEmptyWhenUnlinked(): void
+    {
+        $service = $this->createService();
+        $en = $this->createArticle('EN');
+
+        self::assertCount(0, $service->getRelatedTargetItems(Article::class, $en));
+        self::assertNull($service->getRelatedTargetItem(Article::class, $en, 'ja'));
+    }
+
+    #[Test]
+    public function getAllTargetIdMapsByOneTargetIdIncludesSelf(): void
+    {
+        $service = $this->createService();
+        $service->saveAssociations('article', 'en', 1, ['ja' => 2, 'zh' => 3]);
+
+        self::assertEqualsCanonicalizing(
+            ['en' => 1, 'ja' => 2, 'zh' => 3],
+            $service->getAllTargetIdMapsByOneTargetId('article', 2)
+        );
+        self::assertSame([], $service->getAllTargetIdMapsByOneTargetId('article', 99));
+    }
+
+    #[Test]
+    public function getAssociationItemsByTargetIdYieldsWholeGroup(): void
+    {
+        $service = $this->createService();
+        $service->saveAssociations('article', 'en', 1, ['ja' => 2, 'zh' => 3]);
+
+        $items = iterator_to_array($service->getAssociationItemsByTargetId('article', 1));
+
+        self::assertCount(3, $items);
+        self::assertSame([], iterator_to_array($service->getAssociationItemsByTargetId('article', 99)));
+    }
+
+    #[Test]
+    public function getRelativeItemsByTargetIdExcludesSelf(): void
+    {
+        $service = $this->createService();
+        $service->saveAssociations('article', 'en', 1, ['ja' => 2, 'zh' => 3]);
+
+        $items = iterator_to_array($service->getRelativeItemsByTargetId('article', 1));
+
+        self::assertEqualsCanonicalizing([2, 3], array_map(static fn($i) => $i->targetId, $items));
+        self::assertSame([], iterator_to_array($service->getRelativeItemsByTargetId('article', 99)));
+    }
+
+    #[Test]
+    public function smartJoinLinksSiblingRowByKey(): void
+    {
+        $service = $this->createService();
+        $en = $this->createArticle('EN');
+        $ja = $this->createArticle('JA');
+        $service->saveAssociations(Article::class, 'en', $en, ['ja' => $ja]);
+
+        $query = AssociationService::smartJoin(
+            self::$orm->from(Article::class, 'article'),
+            'en',
+            'ja_article',
+            'ja',
+        )->where('article.id', $en)
+            ->select('ja_article.id');
+
+        $row = $query->get()->dump();
+
+        self::assertSame($ja, (int) $row['id']);
     }
 }

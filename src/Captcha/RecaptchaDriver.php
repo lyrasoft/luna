@@ -99,7 +99,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
             $attrs['data-callback'] = 'recaptchaCallback_' . uid();
         }
 
-        $attrs['data-js-verify'] = $options['js_verify'] ? '1' : null;
+        $attrs['data-js-verify'] = !empty($options['js_verify']) ? '1' : null;
 
         $attrs['uni-captcha-recaptcha'] = $this->type;
 

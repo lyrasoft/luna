@@ -24,6 +24,7 @@ composer.lock
 # Test #
 phpunit.xml
 phpunit.app.xml
+phpunit.sqlite.xml
 .phpunit.cache
 .phpunit.result.cache
 
