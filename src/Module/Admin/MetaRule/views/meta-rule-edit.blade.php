@@ -94,6 +94,15 @@ use Windwalker\Form\Form;
                     is="card"
                 >
                 </x-fieldset>
+
+                @if ($item?->id)
+                    <x-fieldset name="info" :title="$lang('luna.meta.rule.fieldset.info')"
+                        :form="$form"
+                        class="mb-4"
+                        is="card"
+                    >
+                    </x-fieldset>
+                @endif
             </div>
         </div>
 

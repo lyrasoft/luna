@@ -16,6 +16,7 @@ use Windwalker\Core\Html\HtmlFrame;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\View\View;
 use Windwalker\DI\Attributes\Autowire;
+use Windwalker\Utilities\Wrapper\RawWrapper;
 
 /**
  * The MetaRuleEditView class.
@@ -46,9 +47,19 @@ class MetaRuleEditView
         // Bind item for injection
         $view[MetaRule::class] = $item;
 
+        // Form::fill() would decode a JSON string into an array, so keep JSON-LD raw.
+        $data = $this->orm->extractEntity($item);
+        $data['json_ld'] = new RawWrapper((string) ($item?->jsonLd ?? ''));
+
+        $editData = (array) $this->repository->getState()->getAndForget('edit.data');
+
+        if (isset($editData['json_ld']) && is_string($editData['json_ld'])) {
+            $editData['json_ld'] = new RawWrapper($editData['json_ld']);
+        }
+
         $form = $this->createForm(MetaRuleEditForm::class)
-            ->fillTo('item', $this->orm->extractEntity($item))
-            ->fillTo('item', $this->repository->getState()->getAndForget('edit.data'));
+            ->fillTo('item', $data)
+            ->fillTo('item', $editData);
 
         return compact('form', 'id', 'item');
     }

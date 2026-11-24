@@ -86,6 +86,11 @@ class MetaRuleListView implements FilterAwareViewModelInterface
         return 'meta_rule.ordering ASC';
     }
 
+    public function reorderEnabled(string $ordering): bool
+    {
+        return $ordering === 'meta_rule.ordering ASC';
+    }
+
     /**
      * Get search fields.
      *

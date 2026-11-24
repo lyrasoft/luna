@@ -17,6 +17,7 @@ namespace App\View;
  */
 
 use Lyrasoft\Luna\Entity\MetaRule;
+use Lyrasoft\Luna\Services\LocaleService;
 use Unicorn\Workflow\BasicStateWorkflow;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Asset\AssetService;
@@ -30,6 +31,7 @@ use Lyrasoft\Luna\Module\Admin\MetaRule\MetaRuleListView;
  * @var $item MetaRule
  */
 
+$localeService = $app->service(LocaleService::class);
 $workflow = $app->service(BasicStateWorkflow::class);
 ?>
 
@@ -98,11 +100,24 @@ $workflow = $app->service(BasicStateWorkflow::class);
                     </th>
 
                     {{-- Ordering --}}
-                    <th style="width: 8%" class="text-nowrap text-end">
-                        <x-sort field="meta_rule.ordering">
-                            @lang('unicorn.field.ordering')
-                        </x-sort>
+                    <th style="width: 15%" class="text-nowrap">
+                        <div class="d-flex w-100 justify-content-end">
+                            <x-order-sort field="meta_rule.ordering"
+                                :enabled="$vm->reorderEnabled($ordering)"
+                                asc="meta_rule.ordering ASC"
+                                desc="meta_rule.ordering DESC"
+                            ></x-order-sort>
+                        </div>
                     </th>
+
+                    @if ($localeService->isEnabled())
+                        {{-- Language --}}
+                        <th style="width: 8%" class="text-nowrap">
+                            <x-sort field="meta_rule.language">
+                                @lang('luna.field.language')
+                            </x-sort>
+                        </th>
+                    @endif
 
                     {{-- Delete --}}
                     <th style="width: 1%" class="text-nowrap">
@@ -158,8 +173,20 @@ $workflow = $app->service(BasicStateWorkflow::class);
 
                         {{-- Ordering --}}
                         <td class="text-end">
-                            {{ $item->ordering }}
+                            <x-order-control
+                                :enabled="$vm->reorderEnabled($ordering)"
+                                :row="$i"
+                                :id="$item->id"
+                                :value="$item->ordering"
+                            ></x-order-control>
                         </td>
+
+                        @if ($localeService->isEnabled())
+                            {{-- Language --}}
+                            <td>
+                                <x-lang-label :item="$item" :lang="$item->lang"></x-lang-label>
+                            </td>
+                        @endif
 
                         {{-- Delete --}}
                         <td class="text-center">

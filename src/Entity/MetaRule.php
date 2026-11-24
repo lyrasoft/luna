@@ -6,6 +6,7 @@ namespace Lyrasoft\Luna\Entity;
 
 use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
+use Unicorn\Attributes\NewOrdering;
 use Lyrasoft\Luna\Data\MetaData;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
@@ -29,6 +30,7 @@ use Windwalker\ORM\Metadata\EntityMetadata;
  * The MetaRule class.
  */
 #[Table('meta_rules', 'meta_rule')]
+#[NewOrdering(NewOrdering::LAST)]
 #[\AllowDynamicProperties]
 class MetaRule implements EntityInterface
 {

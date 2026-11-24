@@ -28,6 +28,19 @@ class MetaData extends ValueObject
 
     public string $ogTitle = '';
 
+    public string $robots = '';
+
+    public function getRobots(): string
+    {
+        return $this->robots;
+    }
+
+    public function setRobots(string $robots): static
+    {
+        $this->robots = $robots;
+
+        return $this;
+    }
     /**
      * @return  string
      */
@@ -202,6 +215,10 @@ class MetaData extends ValueObject
         }
 
         $htmlFrame->setDescriptionIfNotEmpty($this->getDescription(), $descriptionTruncate);
+
+        if ($this->getRobots()) {
+            $htmlFrame->setRobotsMeta($this->getRobots());
+        }
 
         if ($this->getOgDescription()) {
             $htmlFrame->addOpenGraph('og:description', $this->getOgDescription(), true);

@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\MetaRule;
 
-use Unicorn\Enum\BasicState;
+use Lyrasoft\Luna\Field\LanguageListField;
+use Lyrasoft\Luna\Field\UserModalField;
+use Lyrasoft\Luna\Locale\LocaleAwareTrait;
+use Unicorn\Field\CalendarField;
+use Unicorn\Field\SingleImageDragField;
+use Unicorn\Field\SwitcherField;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\Attributes\Fieldset;
 use Windwalker\Form\Attributes\FormDefine;
 use Windwalker\Form\Attributes\NS;
 use Windwalker\Form\Field\HiddenField;
 use Windwalker\Form\Field\ListField;
-use Windwalker\Form\Field\NumberField;
 use Windwalker\Form\Field\TextareaField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Form\Form;
@@ -19,6 +23,7 @@ use Windwalker\Form\Form;
 class MetaRuleEditForm
 {
     use TranslatorTrait;
+    use LocaleAwareTrait;
 
     #[FormDefine]
     #[NS('item')]
@@ -64,15 +69,39 @@ class MetaRuleEditForm
     #[NS('item')]
     public function publishing(Form $form): void
     {
-        $form->add('state', ListField::class)
-            ->label($this->trans('unicorn.field.state'))
-            ->registerFromEnums(BasicState::class, $this->lang)
+        $form->add('state', SwitcherField::class)
+            ->label($this->trans('unicorn.field.published'))
+            ->circle(true)
+            ->color('success')
             ->defaultValue('1');
 
-        $form->add('ordering', NumberField::class)
-            ->label($this->trans('unicorn.field.ordering'))
-            ->description($this->trans('luna.meta.rule.field.ordering.desc'))
-            ->defaultValue(0);
+        if ($this->isLocaleEnabled()) {
+            $form->add('language', LanguageListField::class)
+                ->label($this->trans('luna.field.language'))
+                ->option($this->trans('luna.language.all'), '*');
+        }
+    }
+
+    #[FormDefine]
+    #[Fieldset('info')]
+    #[NS('item')]
+    public function info(Form $form): void
+    {
+        $form->add('created', CalendarField::class)
+            ->label($this->trans('unicorn.field.created'))
+            ->disabled(true);
+
+        $form->add('created_by', UserModalField::class)
+            ->label($this->trans('unicorn.field.author'))
+            ->disabled(true);
+
+        $form->add('modified', CalendarField::class)
+            ->label($this->trans('unicorn.field.modified'))
+            ->disabled(true);
+
+        $form->add('modified_by', UserModalField::class)
+            ->label($this->trans('unicorn.field.modified.by'))
+            ->disabled(true);
     }
 
     #[FormDefine]
@@ -90,14 +119,26 @@ class MetaRuleEditForm
         $form->add('keywords', TextField::class)
             ->label($this->trans('luna.page.field.meta.keyword'));
 
-        $form->add('og_title', TextField::class)
+        $form->add('robots', ListField::class)
+            ->label($this->trans('luna.meta.rule.field.robots'))
+            ->option($this->trans('unicorn.select.placeholder'), '')
+            ->option('index, follow', 'index,follow')
+            ->option('noindex, follow', 'noindex,follow')
+            ->option('index, nofollow', 'index,nofollow')
+            ->option('noindex, nofollow', 'noindex,nofollow');
+
+        $form->add('ogTitle', TextField::class)
             ->label($this->trans('luna.page.field.og.title'));
 
-        $form->add('og_description', TextareaField::class)
+        $form->add('ogDescription', TextareaField::class)
             ->label($this->trans('luna.page.field.og.desc'))
             ->rows(3);
 
-        $form->add('og_image', TextField::class)
+        $form->add('ogImage', SingleImageDragField::class)
+            ->maxWidth(2000)
+            ->maxHeight(2000)
+            ->crop(false)
+            ->showSizeNotice(true)
             ->label($this->trans('luna.page.field.og.image'));
     }
 
