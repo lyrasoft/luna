@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg id="svg548" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="480" width="640" version="1" y="0" x="0" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<svg id="svg548" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="512" width="512" version="1" y="0" x="0" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
  <metadata id="metadata4794">
   <rdf:RDF>
    <cc:Work rdf:about="">
@@ -9,14 +9,14 @@
   </rdf:RDF>
  </metadata>
  <defs id="defs550">
-  <clipPath id="clipPath5675" clipPathUnits="userSpaceOnUse">
-   <rect id="rect5677" fill-opacity="0.67" height="512" width="682.67" y="-.0000039058" x="-85.333"/>
+  <clipPath id="clipPath5627" clipPathUnits="userSpaceOnUse">
+   <rect id="rect5629" fill-opacity="0.67" height="496.06" width="496.06" y="-.000044216" x="124.02"/>
   </clipPath>
  </defs>
- <g id="flag" fill-rule="evenodd" clip-path="url(#clipPath5675)" transform="matrix(.9375 0 0 .9375 80 .0000036617)">
-  <rect id="rect815" height="512" width="768" y="-.0000039058" x="-128" stroke-width="1pt" fill="#1b0073"/>
-  <rect id="rect837" height="256" width="768" y="128" x="-128" stroke-width="1pt" fill="#e60006"/>
-  <g id="g1595" stroke="#e60000" fill="#fff" transform="matrix(1.0321 0 0 1.0321 -128 .00022675)">
+ <g id="flag" fill-rule="evenodd" clip-path="url(#clipPath5627)" transform="matrix(1.0321 0 0 1.0321 -128 .000045636)">
+  <rect id="rect815" height="496.06" width="744.09" y="-0.000048" x="0" stroke-width="1pt" fill="#1b0073"/>
+  <rect id="rect837" height="248.03" width="744.09" y="124.02" x="0" stroke-width="1pt" fill="#e60006"/>
+  <g id="g1595" stroke="#e60000" fill="#fff" transform="translate(0 .00017548)">
    <rect id="rect1035" transform="translate(0 354.33)" height="50.992" width="315.35" y="-113.98" x="214.37" stroke-width="1.1702"/>
    <path id="path632" d="m220 280-5 15h320l-5-15h-310z" transform="matrix(1.0187 0 0 .79988 -9.9654 67.378)" stroke-width="1.25"/>
    <path id="path982" d="m245 280-5 15h60l-5-15h-50z" transform="matrix(1.2359 0 0 .79988 160.47 67.379)" stroke-width="1.1225"/>

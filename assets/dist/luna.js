@@ -71,7 +71,7 @@ function useSrp() {
   return import("./chunks/srp.js");
 }
 async function usePageBuilder(rootContainer = "page-builder-app") {
-  import("./chunks/page-builder.js").then((n) => n.p);
+  import("./chunks/page-builder.js");
 }
 function createLuna() {
   return {

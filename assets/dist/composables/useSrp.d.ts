@@ -1,1 +1,1 @@
-export declare function useSrp(): Promise<typeof import("../modules/srp")>;
+export declare function useSrp(): Promise<typeof import('../modules/srp')>;

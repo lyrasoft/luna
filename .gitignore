@@ -23,6 +23,8 @@ composer.lock
 
 # Test #
 phpunit.xml
+phpunit.app.xml
+.phpunit.cache
 .phpunit.result.cache
 
 # Extra #

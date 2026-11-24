@@ -1,1 +1,1 @@
-export declare function useCaptcha(): Promise<typeof import("../modules/captcha")>;
+export declare function useCaptcha(): Promise<typeof import('../modules/captcha')>;

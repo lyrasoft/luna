@@ -1,4 +1,4 @@
-import { g as getDefaultExportFromCjs } from "./page-builder.js";
+import { g as getDefaultExportFromCjs } from "./_commonjsHelpers.js";
 import { r as requireCodemirror } from "./codemirror3.js";
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {

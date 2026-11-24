@@ -5,6 +5,13 @@ __metadata:
   version: 8
   cacheKey: 10
 
+"@asika32764/vue-animate@npm:^3.0":
+  version: 3.0.2
+  resolution: "@asika32764/vue-animate@npm:3.0.2"
+  checksum: 10/21ecd3d5c687476d7c3d37aae704b019492670f46cb8b32f7dac2bccdf9b076e2777c66490f11f1c141f311dd3a3a78f63a2ddb6d3e419ffd9f8d4231d7e51ac
+  languageName: node
+  linkType: hard
+
 "@babel/helper-string-parser@npm:^7.29.11":
   version: 7.29.13
   resolution: "@babel/helper-string-parser@npm:7.29.13"
@@ -279,6 +286,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lyrasoft/luna@workspace:."
   dependencies:
+    "@asika32764/vue-animate": "npm:^3.0"
     "@lyrasoft/ts-toolkit": "npm:^0.2.1"
     "@types/alpinejs": "npm:^3"
     "@types/aos": "npm:^3.0.7"

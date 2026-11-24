@@ -114,4 +114,122 @@ useUniDirective<HTMLElement>('captcha-recaptcha', {
   }
 });
 
+let turnstileLoading: Promise<void> | null = null;
+
+function loadTurnstile(): Promise<void> {
+  if (window.turnstile) {
+    return Promise.resolve();
+  }
+
+  turnstileLoading ??= new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => {
+      turnstileLoading = null;
+      reject(new Error('Failed to load Cloudflare Turnstile.'));
+    };
+    document.head.append(script);
+  });
+
+  return turnstileLoading;
+}
+
+class CloudflareCaptcha {
+  public key: string;
+  public form: HTMLFormElement | null;
+  public invisible: boolean;
+  public jsVerify: boolean;
+  public widgetId: string | null = null;
+
+  constructor(public el: HTMLElement, public type: string) {
+    this.key = this.el.dataset.sitekey || '';
+    this.form = this.el.closest('form');
+    this.invisible = type === 'invisible';
+    this.jsVerify = !!this.el.dataset.jsVerify;
+
+    if (this.form && (this.invisible || this.jsVerify)) {
+      this.hookForm(this.form);
+    }
+
+    this.render();
+  }
+
+  async render() {
+    try {
+      await loadTurnstile();
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+
+    const options: Record<string, any> = {
+      sitekey: this.key,
+      callback: (token: string) => this.onSuccess(token),
+      'expired-callback': () => this.onExpired(),
+      'error-callback': () => this.onExpired(),
+    };
+
+    for (const name of ['theme', 'size', 'language']) {
+      const value = this.el.dataset[name];
+
+      if (value) {
+        options[name] = value;
+      }
+    }
+
+    options.appearance = this.invisible ? 'execute' : (this.el.dataset.appearance || 'always');
+
+    this.widgetId = turnstile.render(this.el, options);
+  }
+
+  hookForm(form: HTMLFormElement) {
+    form.addEventListener('submit', (e) => {
+      if (form.dataset.passCaptcha) {
+        delete form.dataset.passCaptcha;
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      if (this.invisible) {
+        if (this.widgetId !== null) {
+          turnstile.execute(this.widgetId);
+        }
+      } else {
+        simpleAlert(__('luna.field.captcha.message.please.check.first'));
+      }
+    });
+  }
+
+  onSuccess(token: string) {
+    if (this.form && (this.invisible || this.jsVerify)) {
+      this.form.dataset.passCaptcha = 'true';
+
+      if (this.invisible) {
+        this.form.requestSubmit();
+      }
+    }
+  }
+
+  onExpired() {
+    if (this.form) {
+      delete this.form.dataset.passCaptcha;
+    }
+  }
+}
+
+useUniDirective<HTMLElement>('captcha-cloudflare', {
+  mounted(el, { value }) {
+    module(
+      el,
+      'captcha.cloudflare',
+      (el) => new CloudflareCaptcha(el as HTMLElement, value)
+    );
+  }
+});
+
 

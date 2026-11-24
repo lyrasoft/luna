@@ -41,6 +41,17 @@ class CaptchaFactory implements ServiceFactoryInterface
         };
     }
 
+    public static function cloudflare(string $key, string $secret, array $options = []): \Closure
+    {
+        return #[Factory]
+        function (Container $container) use ($options, $secret, $key) {
+            return $container->newInstance(
+                CloudflareDriver::class,
+                compact('key', 'secret', 'options'),
+            );
+        };
+    }
+
     public static function gregwar(array $options = []): \Closure
     {
         return #[Factory]

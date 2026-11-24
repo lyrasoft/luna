@@ -17,7 +17,12 @@
         "windwalker/framework": "dev-master",
         "windwalker/core": "dev-master",
         "windwalker/unicorn": "dev-main",
-        "friendsofphp/php-cs-fixer": "^3.95"
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpunit/phpunit": "^13.4"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:app": "phpunit -c phpunit.app.xml"
     },
     "suggest": {
         "hybridauth/hybridauth": "Install ^3.0 to support social login.",
@@ -32,6 +37,11 @@
         "files": [
             "src/bootstrap.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lyrasoft\\Luna\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "windwalker":{

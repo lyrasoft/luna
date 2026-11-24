@@ -1,1 +1,1 @@
-export declare function useLocaleSwitch(): Promise<typeof import("../modules/locale-switch")>;
+export declare function useLocaleSwitch(): Promise<typeof import('../modules/locale-switch')>;
