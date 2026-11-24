@@ -70,13 +70,6 @@ use Windwalker\Form\Form;
                 >
                 </x-fieldset>
 
-                <x-fieldset name="json_ld" :title="$lang('luna.meta.rule.fieldset.json.ld')"
-                    :form="$form"
-                    class="mb-4"
-                    is="card"
-                >
-                </x-fieldset>
-
                 <x-fieldset name="custom_code" :title="$lang('luna.meta.rule.fieldset.custom.code')"
                     :form="$form"
                     class="mb-4"
@@ -89,6 +82,13 @@ use Windwalker\Form\Form;
             </div>
             <div class="col-lg-5">
                 <x-fieldset name="publishing" :title="$lang('luna.meta.rule.fieldset.publishing')"
+                    :form="$form"
+                    class="mb-4"
+                    is="card"
+                >
+                </x-fieldset>
+
+                <x-fieldset name="json_ld" :title="$lang('luna.meta.rule.fieldset.json.ld')"
                     :form="$form"
                     class="mb-4"
                     is="card"

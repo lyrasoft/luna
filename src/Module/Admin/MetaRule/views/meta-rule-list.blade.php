@@ -85,11 +85,9 @@ $workflow = $app->service(BasicStateWorkflow::class);
                         </x-sort>
                     </th>
 
-                    {{-- Pattern --}}
-                    <th class="text-nowrap">
-                        <x-sort field="meta_rule.pattern">
-                            @lang('luna.meta.rule.field.pattern')
-                        </x-sort>
+                    {{-- Robots --}}
+                    <th style="width: 12%" class="text-nowrap">
+                        @lang('luna.meta.rule.field.robots')
                     </th>
 
                     {{-- Override Mode --}}
@@ -159,16 +157,31 @@ $workflow = $app->service(BasicStateWorkflow::class);
                                     {{ $item->title }}
                                 </a>
                             </div>
+                            <div class="small mt-1">
+                                <i class="text-muted fas fa-earth"></i>
+                                <code>{{ $item->pattern }}</code>
+                            </div>
+                            @if (trim($item->description))
+                                <div class="small text-muted mt-1">
+                                    <div class="fas fa-note-sticky"></div>
+                                    {{ $item->description }}
+                                </div>
+                            @endif
                         </td>
 
-                        {{-- Pattern --}}
+                        {{-- Robots --}}
                         <td>
-                            <code>{{ $item->pattern }}</code>
+                            @if ($item->meta->robots)
+                                <code>{{ $item->meta->robots }}</code>
+                            @endif
                         </td>
 
                         {{-- Override Mode --}}
                         <td>
-                            @lang('luna.meta.rule.override.mode.' . $item->overrideMode)
+                            <span data-bs-toggle="tooltip"
+                                title="{{ $item->overrideMode->getDescription($lang) }}">
+                                {{ $item->overrideMode->getTitle($lang) }}
+                            </span>
                         </td>
 
                         {{-- Ordering --}}

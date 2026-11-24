@@ -8,6 +8,7 @@ use Lyrasoft\Luna\Attributes\Author;
 use Lyrasoft\Luna\Attributes\Modifier;
 use Unicorn\Attributes\NewOrdering;
 use Lyrasoft\Luna\Data\MetaData;
+use Lyrasoft\Luna\Enum\MetaRuleOverrideMode;
 use Unicorn\Enum\BasicState;
 use Windwalker\Core\DateTime\Chronos;
 use Windwalker\Core\DateTime\ServerTimeCast;
@@ -49,7 +50,10 @@ class MetaRule implements EntityInterface
     public string $excludePattern = '';
 
     #[Column('override_mode')]
-    public string $overrideMode = 'fallback';
+    #[Cast(MetaRuleOverrideMode::class)]
+    public MetaRuleOverrideMode $overrideMode = MetaRuleOverrideMode::FALLBACK {
+        set(string|MetaRuleOverrideMode $value) => $this->overrideMode = MetaRuleOverrideMode::wrap($value);
+    }
 
     #[Column('meta')]
     #[JsonObject]

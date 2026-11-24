@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Module\Admin\MetaRule;
 
+use Lyrasoft\Luna\Enum\MetaRuleOverrideMode;
 use Lyrasoft\Luna\Field\LanguageListField;
 use Lyrasoft\Luna\Field\UserModalField;
 use Lyrasoft\Luna\Locale\LocaleAwareTrait;
@@ -52,16 +53,6 @@ class MetaRuleEditForm
             ->label($this->trans('luna.meta.rule.field.exclude.pattern'))
             ->description($this->trans('luna.meta.rule.field.exclude.pattern.desc'))
             ->rows(4);
-
-        $form->add('override_mode', ListField::class)
-            ->label($this->trans('luna.meta.rule.field.override.mode'))
-            ->option($this->trans('luna.meta.rule.override.mode.fallback'), 'fallback')
-            ->option($this->trans('luna.meta.rule.override.mode.force'), 'force')
-            ->required(true);
-
-        $form->add('description', TextareaField::class)
-            ->label($this->trans('luna.meta.rule.field.description'))
-            ->rows(3);
     }
 
     #[FormDefine]
@@ -80,6 +71,21 @@ class MetaRuleEditForm
                 ->label($this->trans('luna.field.language'))
                 ->option($this->trans('luna.language.all'), '*');
         }
+
+        $overrideMode = $form->add('override_mode', ListField::class)
+            ->label($this->trans('luna.meta.rule.field.override.mode'))
+            ->required(true);
+
+        foreach (MetaRuleOverrideMode::cases() as $mode) {
+            $overrideMode->option(
+                $mode->getTitle($this->lang) . ' - ' . $mode->getDescription($this->lang),
+                $mode->value
+            );
+        }
+
+        $form->add('description', TextareaField::class)
+            ->label($this->trans('luna.meta.rule.field.description'))
+            ->rows(3);
     }
 
     #[FormDefine]
@@ -121,7 +127,7 @@ class MetaRuleEditForm
 
         $form->add('robots', ListField::class)
             ->label($this->trans('luna.meta.rule.field.robots'))
-            ->option($this->trans('unicorn.select.placeholder'), '')
+            ->option($this->trans('luna.meta.rule.robots.none'), '')
             ->option('index, follow', 'index,follow')
             ->option('noindex, follow', 'noindex,follow')
             ->option('index, nofollow', 'index,nofollow')
@@ -134,12 +140,13 @@ class MetaRuleEditForm
             ->label($this->trans('luna.page.field.og.desc'))
             ->rows(3);
 
+        // Facebook link cover size (1.91:1). Cropped in the browser, then uploaded with the form.
         $form->add('ogImage', SingleImageDragField::class)
-            ->maxWidth(2000)
-            ->maxHeight(2000)
-            ->crop(false)
-            ->showSizeNotice(true)
-            ->label($this->trans('luna.page.field.og.image'));
+            ->label($this->trans('luna.page.field.og.image'))
+            ->crop(true)
+            ->width(1200)
+            ->height(630)
+            ->showSizeNotice(true);
     }
 
     #[FormDefine]
