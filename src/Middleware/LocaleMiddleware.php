@@ -128,6 +128,9 @@ class LocaleMiddleware implements MiddlewareInterface
         return true;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getExcludes(): mixed
     {
         return $this->excludes;

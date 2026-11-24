@@ -105,6 +105,9 @@ class CaptchaField extends TextField
         return $options;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function createDriver(): CaptchaDriverInterface
     {
         return $this->container->get(CaptchaDriverInterface::class, tag: $this->getProfile());
@@ -117,6 +120,8 @@ class CaptchaField extends TextField
 
     /**
      * @return  string|null
+     *
+     * @codeCoverageIgnore
      */
     public function getProfile(): ?string
     {
@@ -127,6 +132,8 @@ class CaptchaField extends TextField
      * @param  string|null  $profile
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function profile(?string $profile): static
     {

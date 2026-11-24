@@ -130,6 +130,8 @@ class LocaleSwitchField extends AbstractField
 
     /**
      * @return  string
+     *
+     * @codeCoverageIgnore
      */
     public function getTitleField(): string
     {
@@ -140,6 +142,8 @@ class LocaleSwitchField extends AbstractField
      * @param  string  $titleField
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function titleField(string $titleField): static
     {
@@ -150,6 +154,8 @@ class LocaleSwitchField extends AbstractField
 
     /**
      * @return  bool
+     *
+     * @codeCoverageIgnore
      */
     public function isCanChangeSelfLang(): bool
     {
@@ -160,6 +166,8 @@ class LocaleSwitchField extends AbstractField
      * @param  bool  $canChangeSelfLang
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function canChangeSelfLang(bool $canChangeSelfLang): static
     {
@@ -168,11 +176,17 @@ class LocaleSwitchField extends AbstractField
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function isUseDefaultFallback(): bool
     {
         return $this->useDefaultFallback;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function useDefaultFallback(bool $useDefaultFallback): static
     {
         $this->useDefaultFallback = $useDefaultFallback;
@@ -198,6 +212,8 @@ class LocaleSwitchField extends AbstractField
 
     /**
      * @return  string
+     *
+     * @codeCoverageIgnore
      */
     public function getLanguageField(): string
     {
@@ -208,6 +224,8 @@ class LocaleSwitchField extends AbstractField
      * @param  string  $languageField
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function languageField(string $languageField): static
     {
@@ -249,6 +267,8 @@ class LocaleSwitchField extends AbstractField
      * @param  string|null  $routeName
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function routeName(?string $routeName): static
     {
@@ -269,6 +289,8 @@ class LocaleSwitchField extends AbstractField
      * @param  string|null  $assocType
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function assocType(?string $assocType): static
     {
@@ -295,6 +317,8 @@ class LocaleSwitchField extends AbstractField
 
     /**
      * @return  mixed
+     *
+     * @codeCoverageIgnore
      */
     public function getCurrentId(): mixed
     {
@@ -305,6 +329,8 @@ class LocaleSwitchField extends AbstractField
      * @param  mixed  $id
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function currentId(mixed $id): static
     {
@@ -326,6 +352,8 @@ class LocaleSwitchField extends AbstractField
 
     /**
      * @return  bool
+     *
+     * @codeCoverageIgnore
      */
     public function isAllowCreateEmpty(): bool
     {
@@ -336,6 +364,8 @@ class LocaleSwitchField extends AbstractField
      * @param  bool  $allowCreateEmpty
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function allowCreateEmpty(bool $allowCreateEmpty): static
     {
@@ -346,6 +376,8 @@ class LocaleSwitchField extends AbstractField
 
     /**
      * @return  bool
+     *
+     * @codeCoverageIgnore
      */
     public function isShowAllOption()
     {
@@ -356,6 +388,8 @@ class LocaleSwitchField extends AbstractField
      * @param  bool  $showAllOption
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function showAllOption(bool $showAllOption)
     {

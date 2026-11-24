@@ -85,11 +85,7 @@ class ActivationService
         $user->activation = $token;
 
         $this->orm->updateOne(User::class, $user);
-        $link = $this->nav->to(
-            'front::registration_activate',
-            ['token' => $token]
-        )
-            ->full();
+        $link = $this->nav->toNotifyLink('front::registration_activate', ['token' => $token]);
 
         $site = $this->app->config('company.site_name') ?: 'Confirm';
 

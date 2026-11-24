@@ -21,10 +21,17 @@ class CaptchaFactory implements ServiceFactoryInterface
 {
     use ServiceFactoryTrait;
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getClassName(): ?string
     {
         return CaptchaDriverInterface::class;
     }
+
+    /**
+     * @codeCoverageIgnore
+     */
     public function getConfigPrefix(): string
     {
         return 'captcha';

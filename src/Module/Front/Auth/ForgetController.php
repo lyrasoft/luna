@@ -87,9 +87,7 @@ class ForgetController
             'HS256'
         );
 
-        $link = $nav->to('forget_confirm', ['token' => $token, 'email' => idn_to_ascii($email)])
-            ->var('locale', false)
-            ->full();
+        $link = $nav->toNotifyLink('forget_confirm', ['token' => $token, 'email' => idn_to_ascii($email)]);
 
         // Only store the hash so a DB leak can not be used to reset passwords.
         $user->resetToken = static::hashToken($token);

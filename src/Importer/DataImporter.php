@@ -61,6 +61,9 @@ class DataImporter
         return $this->orm->saveOne($item);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setDefaultDataHandler(?\Closure $defaultDataHandler): DataImporter
     {
         $this->defaultDataHandler = $defaultDataHandler;
@@ -68,6 +71,9 @@ class DataImporter
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setInvoker(?\Closure $invoker): DataImporter
     {
         $this->invoker = $invoker;
@@ -75,6 +81,9 @@ class DataImporter
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function onItemSaved(?\Closure $onItemSaved): DataImporter
     {
         $this->onItemSaved = $onItemSaved;

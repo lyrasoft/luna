@@ -9,6 +9,7 @@ use Lyrasoft\Luna\Entity\Rule;
 use Lyrasoft\Luna\Entity\UserRole;
 use Lyrasoft\Luna\Tree\Node;
 use Lyrasoft\Luna\User\UserEntityInterface;
+use Lyrasoft\Luna\User\UserService;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -506,5 +507,345 @@ class AccessServiceTest extends TestCase
         $user = $this->createMock(UserEntityInterface::class);
 
         self::assertSame($user, $this->createService()->getUser($user));
+    }
+
+    #[Test]
+    public function getUserLooksUpThroughUserServiceForNonEntityInput(): void
+    {
+        $user = $this->createStub(UserEntityInterface::class);
+
+        $userService = $this->createMock(UserService::class);
+        $userService->expects($this->once())
+            ->method('getUser')
+            ->with(5)
+            ->willReturn($user);
+
+        $app = $this->createStub(ApplicationInterface::class);
+        $app->method('service')->willReturn($userService);
+
+        $service = new AccessService($app, $this->authorization, $this->orm, $this->session);
+
+        self::assertSame($user, $service->getUser(5));
+    }
+
+    /**
+     * Builds: admin (with child editor), viewer.
+     *
+     * @return  array{UserRole, UserRole, UserRole}
+     */
+    private function configureRoleTree(): array
+    {
+        $admin = $this->makeRole('admin');
+        $editor = $this->makeRole('editor');
+        $viewer = $this->makeRole('viewer');
+
+        $adminNode = new Node($admin);
+        $adminNode->addChild(new Node($editor));
+
+        $this->config['access.roles'] = [
+            'admin' => $adminNode,
+            'viewer' => $viewer,
+        ];
+
+        return [$admin, $editor, $viewer];
+    }
+
+    #[Test]
+    public function getParentRolesReturnsAncestorsExcludingRoot(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService();
+
+        self::assertSame(['admin'], array_keys($service->getParentRoles('editor')));
+        self::assertSame([], $service->getParentRoles('viewer'));
+    }
+
+    #[Test]
+    public function getParentRolesCanIncludeSelf(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService();
+
+        self::assertSame(['admin', 'editor'], array_keys($service->getParentRoles('editor', true)));
+    }
+
+    #[Test]
+    public function getDescendantRolesReturnsChildrenAndOptionallySelf(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService();
+
+        self::assertSame(['editor'], array_keys($service->getDescendantRoles('admin')));
+        self::assertSame(['admin', 'editor'], array_keys($service->getDescendantRoles('admin', true)));
+        self::assertSame([], $service->getDescendantRoles('editor'));
+    }
+
+    #[Test]
+    public function isParentRoleDetectsDirectAncestor(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService();
+
+        self::assertTrue($service->isParentRole('admin', 'editor'));
+        self::assertFalse($service->isParentRole('admin', 'viewer'));
+        self::assertFalse($service->isParentRole('editor', 'admin'));
+    }
+
+    #[Test]
+    public function isChildRoleDetectsDescendantOfRole(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService();
+
+        self::assertTrue($service->isChildRole('editor', 'admin'));
+        self::assertFalse($service->isChildRole('viewer', 'admin'));
+        self::assertFalse($service->isChildRole('admin', 'editor'));
+    }
+
+    #[Test]
+    public function isSuperiorDetectsAncestorRole(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService();
+
+        self::assertTrue($service->isSuperior('admin', 'editor'));
+        self::assertFalse($service->isSuperior('editor', 'admin'));
+        self::assertFalse($service->isSuperior('admin', 'viewer'));
+    }
+
+    #[Test]
+    public function unknownRolesAreIgnoredWithoutErrors(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService();
+
+        self::assertSame([], $service->getParentRoles('missing'));
+        self::assertSame([], $service->getDescendantRoles('missing'));
+        self::assertSame(['admin'], array_keys($service->getParentRoles(['missing', 'editor'])));
+        self::assertSame(['editor'], array_keys($service->getDescendantRoles(['missing', 'admin'])));
+        self::assertFalse($service->isParentRole('missing', 'editor'));
+        self::assertFalse($service->isChildRole('editor', 'missing'));
+        self::assertFalse($service->isSuperior('admin', 'missing'));
+    }
+
+    #[Test]
+    public function getEnabledUserRolesFiltersUnpublishedRoles(): void
+    {
+        $service = $this->createService(['getUserRoles']);
+        $service->method('getUserRoles')->willReturn([
+            $this->makeRole('a'),
+            $this->makeRole('b', false),
+        ]);
+
+        $roles = array_values($service->getEnabledUserRoles($this->createStub(UserEntityInterface::class)));
+
+        self::assertCount(1, $roles);
+        self::assertSame('a', $roles[0]->id);
+    }
+
+    #[Test]
+    public function userIsRoleMatchesRoleIdAsStringOrInt(): void
+    {
+        $user = $this->createStub(UserEntityInterface::class);
+
+        $service = $this->createService(['getUserRoles']);
+        $service->method('getUserRoles')->willReturn([$this->makeRole(3)]);
+
+        self::assertTrue($service->userIsRole($user, 3));
+        self::assertTrue($service->userIsRole($user, '3'));
+        self::assertFalse($service->userIsRole($user, '4'));
+    }
+
+    #[Test]
+    public function userInRolesReturnsTrueWhenAnyRoleMatches(): void
+    {
+        $user = $this->createStub(UserEntityInterface::class);
+
+        $service = $this->createService(['getUserRoles']);
+        $service->method('getUserRoles')->willReturn([$this->makeRole('admin')]);
+
+        self::assertTrue($service->userInRoles($user, ['viewer', 'admin']));
+        self::assertTrue($service->userInRoles($user, 'admin'));
+        self::assertFalse($service->userInRoles($user, ['viewer']));
+        self::assertFalse($service->userInRoles($user, []));
+    }
+
+    #[Test]
+    public function isSuperUserChecksSuperUserActionForUser(): void
+    {
+        $service = $this->createService(['check']);
+        $service->expects($this->once())
+            ->method('check')
+            ->with(AccessService::SUPERUSER_ACTION, null)
+            ->willReturn(true);
+
+        self::assertTrue($service->isSuperUser());
+    }
+
+    #[Test]
+    public function isSuperUserRoleResolvesRoleBeforeChecking(): void
+    {
+        $this->configureRoleTree();
+
+        $service = $this->createService(['checkRoleAllowAction']);
+        $service->expects($this->once())
+            ->method('checkRoleAllowAction')
+            ->with(
+                $this->callback(static fn(UserRole $role) => $role->id === 'admin'),
+                AccessService::SUPERUSER_ACTION
+            )
+            ->willReturn(true);
+
+        self::assertTrue($service->isSuperUserRole('admin'));
+    }
+
+    #[Test]
+    public function compareUserPrivilegesComparesUsersByActionPermissions(): void
+    {
+        $this->config['access.actions'] = [
+            'edit' => ['A' => true],
+            'delete' => ['B' => true],
+        ];
+
+        $permissions = [
+            'A' => ['edit'],
+            'B' => ['edit', 'delete'],
+            'C' => ['edit'],
+        ];
+
+        $service = $this->createService(['check']);
+        $service->method('check')
+            ->willReturnCallback(
+                static fn(string $action, mixed $user = null) => in_array($action, $permissions[$user] ?? [], true)
+            );
+
+        self::assertTrue($service->compareUserPrivileges('A', 'B', '<'));
+        self::assertTrue($service->compareUserPrivileges('B', 'A', '>'));
+        self::assertTrue($service->compareUserPrivileges('A', 'C', '='));
+        self::assertFalse($service->compareUserPrivileges('A', 'B', '>'));
+    }
+
+    #[Test]
+    public function getBasicRolesWrapsConfiguredRoleIds(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService();
+
+        self::assertSame([], $service->getBasicRoles());
+
+        $this->config['access.basic_roles'] = 'viewer';
+
+        self::assertSame(['viewer'], array_map(static fn(UserRole $role) => $role->id, $service->getBasicRoles()));
+
+        $this->config['access.basic_roles'] = ['admin', 'viewer'];
+
+        self::assertSame(
+            ['admin', 'viewer'],
+            array_map(static fn(UserRole $role) => $role->id, $service->getBasicRoles())
+        );
+    }
+
+    #[Test]
+    public function getSelectableRolesReadsConfigOrDefaultsToEmpty(): void
+    {
+        $service = $this->createService();
+
+        self::assertSame([], $service->getSelectableRoles());
+
+        $this->config['access.selectable_roles'] = ['admin', 'editor'];
+
+        self::assertSame(['admin', 'editor'], $service->getSelectableRoles());
+    }
+
+    private function makeUser(int $id): UserEntityInterface
+    {
+        return new class ($id) implements UserEntityInterface {
+            public function __construct(public int $id) {}
+
+            public function getId(): mixed
+            {
+                return $this->id;
+            }
+
+            public function getName(): string
+            {
+                return 'user' . $this->id;
+            }
+
+            public function isLogin(): bool
+            {
+                return true;
+            }
+
+            public function isEnabled(): bool
+            {
+                return true;
+            }
+
+            public function isVerified(): bool
+            {
+                return true;
+            }
+        };
+    }
+
+    #[Test]
+    public function checkDelegatesToAuthorizationPolicyWhenDefined(): void
+    {
+        $this->authorization = $this->createMock(AuthorizationInterface::class);
+        $this->authorization->expects($this->once())
+            ->method('hasPolicy')
+            ->with('article.edit')
+            ->willReturn(true);
+        $this->authorization->expects($this->once())
+            ->method('authorize')
+            ->with('article.edit')
+            ->willReturn(false);
+
+        $service = $this->createService();
+
+        self::assertFalse($service->check('article.edit', $this->makeUser(1)));
+    }
+
+    #[Test]
+    public function checkReturnsTrueWhenSuperUserRoleAllowsAction(): void
+    {
+        $service = $this->createService(['getEnabledUserRoles', 'checkRolesAllowAction']);
+        $service->method('getEnabledUserRoles')->willReturn([$this->makeRole('admin')]);
+        $service->method('checkRolesAllowAction')->willReturn(true);
+
+        self::assertTrue($service->check('article.edit', $this->makeUser(1)));
+    }
+
+    #[Test]
+    public function checkReturnsTrueWhenActionRulesAllowAfterSuperUserDenies(): void
+    {
+        $service = $this->createService(['getEnabledUserRoles', 'checkRolesAllowAction']);
+        $service->method('getEnabledUserRoles')->willReturn([$this->makeRole('editor')]);
+        $service->method('checkRolesAllowAction')->willReturnOnConsecutiveCalls(false, true);
+
+        self::assertTrue($service->check('article.edit', $this->makeUser(1)));
+    }
+
+    #[Test]
+    public function checkReturnsFalseWhenNeitherSuperUserNorRulesAllow(): void
+    {
+        $service = $this->createService(['getEnabledUserRoles', 'checkRolesAllowAction']);
+        $service->method('getEnabledUserRoles')->willReturn([$this->makeRole('viewer')]);
+        $service->method('checkRolesAllowAction')->willReturn(false);
+
+        self::assertFalse($service->check('article.edit', $this->makeUser(1)));
+    }
+
+    #[Test]
+    public function getAllowedRolesForUserIncludesUserRoleItself(): void
+    {
+        $this->configureRoleTree();
+        $service = $this->createService(['getUserRoles']);
+        $service->method('getUserRoles')->willReturn([$this->makeRole('editor')]);
+
+        $allowed = $service->getAllowedRolesForUser($this->makeUser(1));
+
+        self::assertArrayHasKey('editor', $allowed);
     }
 }

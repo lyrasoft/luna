@@ -461,7 +461,7 @@ class AccessService
         }
 
         /** @var UserRole[] $roles */
-        $roles = array_map($this->wrapUserRole(...), $roles);
+        $roles = array_filter(array_map($this->wrapUserRole(...), $roles));
 
         $parents = [];
 
@@ -495,7 +495,7 @@ class AccessService
 
         $targetNode = $this->getRoleNodeById($parentRole);
 
-        if ($targetNode->isLeaf()) {
+        if (!$targetNode || $targetNode->isLeaf()) {
             return false;
         }
 
@@ -515,7 +515,7 @@ class AccessService
         }
 
         /** @var UserRole[] $roles */
-        $roles = array_map($this->wrapUserRole(...), $roles);
+        $roles = array_filter(array_map($this->wrapUserRole(...), $roles));
 
         $descendants = [];
 
@@ -550,7 +550,7 @@ class AccessService
 
         $roleNode = $this->getRoleNodeById($role);
 
-        if ($roleNode->isLeaf()) {
+        if (!$roleNode || $roleNode->isLeaf()) {
             return false;
         }
 
@@ -565,18 +565,7 @@ class AccessService
 
     public function isSuperior(UserRole|string|int $superiorRole, UserRole|string|int $role): bool
     {
-        $superiorRole = (string) $this->unwrapRole($superiorRole);
-
-        $targetNode = $this->getRoleNodeById($superiorRole);
-
-        if ($targetNode->isLeaf()) {
-            return false;
-        }
-
-        return array_any(
-            $this->getDescendantRoles($role),
-            fn($descendantRole) => $descendantRole->getId() === $targetNode->getValue()->id
-        );
+        return $this->isParentRole($superiorRole, $role);
     }
 
     /**
@@ -714,7 +703,11 @@ class AccessService
         return $this->once(
             'roles.db',
             function () {
-                $items = $this->orm->findList(UserRole::class)->all();
+                $items = array_filter(
+                    iterator_to_array($this->orm->findList(UserRole::class)->all(), false),
+                    // Skip the NestedSet root row (parent 0); its children attach to TreeBuilder's root (id 1).
+                    static fn(UserRole $role) => (int) $role->parentId !== 0
+                );
 
                 return TreeBuilder::create(
                     $items,
@@ -851,34 +844,29 @@ class AccessService
             function () use ($action) {
                 [$ns, $act, $id] = static::extractAction($action);
 
-                return $this->orm->from(Rule::class)
-                    ->where('name', $action)
-                    ->orWhereGroup(
-                        function (Query $query) use ($ns, $act, $id) {
-                            if ($id) {
-                                $query->whereRaw('type = :ns AND action = :action AND target_id = :target')
-                                    ->bind('ns', $ns)
-                                    ->bind('action', $act)
-                                    ->bind('target', $id);
+                $query = $this->orm->from(Rule::class);
 
-                                return;
-                            }
+                // name = :action OR (type = :ns AND action = :act AND target_id = :id)
+                $query->orWhereGroup(
+                    function (Query $q) use ($action, $ns, $act, $id) {
+                        $q->where('name', $action)
+                            ->andWhereGroup(
+                                function (Query $q) use ($ns, $act, $id) {
+                                    if ($id || $ns) {
+                                        $q->where('type', (string) $ns)
+                                            ->where('action', $act)
+                                            ->where('target_id', (string) $id);
+                                    } else {
+                                        $q->where('type', '')
+                                            ->where('action', $act)
+                                            ->where('target_id', '');
+                                    }
+                                }
+                            );
+                    }
+                );
 
-                            if ($ns) {
-                                $query->whereRaw('type = :ns AND action = :action AND target_id = :target')
-                                    ->bind('ns', $ns)
-                                    ->bind('action', $act)
-                                    ->bind('target', (string) $id);
-
-                                return;
-                            }
-
-                            $query->whereRaw('type = \'\' AND action = :action AND target_id = \'\'')
-                                ->bind('action', $act);
-                        }
-                    )
-                    ->all(Rule::class)
-                    ->dump();
+                return $query->all(Rule::class)->dump();
             }
         );
     }

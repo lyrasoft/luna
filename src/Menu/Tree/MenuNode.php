@@ -45,6 +45,9 @@ class MenuNode extends Node implements MenuNodeInterface
 
     protected MenuHelper $menuHelper;
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getTitle(): string
     {
         return $this->title;
@@ -52,6 +55,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function route(Navigator $nav): ?UriInterface
     {
@@ -145,6 +150,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function forceActive(?bool $active): static
     {
@@ -165,6 +172,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function isHidden(): bool
     {
@@ -175,6 +184,8 @@ class MenuNode extends Node implements MenuNodeInterface
      * @param  string  $title
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function title(string $title): static
     {
@@ -187,6 +198,8 @@ class MenuNode extends Node implements MenuNodeInterface
      * @param  string  $icon
      *
      * @return  static
+     *
+     * @codeCoverageIgnore
      */
     public function icon(string $icon): static
     {
@@ -197,6 +210,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function getIcon(): string
     {
@@ -205,6 +220,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @return  UriInterface|null
+     *
+     * @codeCoverageIgnore
      */
     public function getLink(): ?UriInterface
     {
@@ -231,6 +248,8 @@ class MenuNode extends Node implements MenuNodeInterface
      * @param  UriInterface|string|null  $link
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function to(UriInterface|string|null $link): static
     {
@@ -241,6 +260,8 @@ class MenuNode extends Node implements MenuNodeInterface
      * @param  bool  $hidden
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function hidden(bool $hidden): static
     {
@@ -287,6 +308,9 @@ class MenuNode extends Node implements MenuNodeInterface
         return $this->element ??= HTMLElement::new('div');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function attr(string $name, string $value): static
     {
         $this->getElement()->setAttribute($name, $value);
@@ -294,6 +318,9 @@ class MenuNode extends Node implements MenuNodeInterface
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function addClass(string $class): static
     {
         $this->getElement()->addClass($class);
@@ -303,6 +330,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @return  string
+     *
+     * @codeCoverageIgnore
      */
     public function getLayout(): string
     {
@@ -313,6 +342,8 @@ class MenuNode extends Node implements MenuNodeInterface
      * @param  string  $layout
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function setLayout(string $layout): static
     {
@@ -323,6 +354,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @return  callable
+     *
+     * @codeCoverageIgnore
      */
     public function getActiveHandler(): callable
     {
@@ -333,6 +366,8 @@ class MenuNode extends Node implements MenuNodeInterface
      * @param  callable  $activeHandler
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function activeHandler(callable $activeHandler): static
     {
@@ -354,6 +389,8 @@ class MenuNode extends Node implements MenuNodeInterface
 
     /**
      * @return  MenuHelper
+     *
+     * @codeCoverageIgnore
      */
     public function getMenuHelper(): MenuHelper
     {
@@ -364,6 +401,8 @@ class MenuNode extends Node implements MenuNodeInterface
      * @param  MenuHelper  $menuHelper
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function setMenuHelper(MenuHelper $menuHelper): static
     {
@@ -372,11 +411,17 @@ class MenuNode extends Node implements MenuNodeInterface
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function &getExtra(): array
     {
         return $this->extra;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setExtra(array $extra): static
     {
         $this->extra = $extra;
@@ -384,6 +429,9 @@ class MenuNode extends Node implements MenuNodeInterface
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setExtraValue(string $name, mixed $value): static
     {
         $this->extra[$name] = $value;

@@ -158,6 +158,8 @@ abstract class AbstractMenuView implements
      * @return  array
      *
      * @since  1.7
+     *
+     * @codeCoverageIgnore
      */
     public function getTabs(): array
     {

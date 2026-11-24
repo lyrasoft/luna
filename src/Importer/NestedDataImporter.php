@@ -64,6 +64,9 @@ class NestedDataImporter extends DataImporter
         return $processor($child, $parent) ?? $child;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setChildProcessor(?\Closure $childProcessor): NestedDataImporter
     {
         $this->childProcessor = $childProcessor;

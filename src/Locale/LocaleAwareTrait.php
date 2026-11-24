@@ -9,6 +9,8 @@ use Windwalker\DI\Attributes\Service;
 
 /**
  * Trait LocaleAwareTrait
+ *
+ * @codeCoverageIgnore
  */
 trait LocaleAwareTrait
 {

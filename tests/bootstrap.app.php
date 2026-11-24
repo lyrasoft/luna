@@ -29,6 +29,7 @@ use Windwalker\Session\Bridge\PhpBridge;
 use Windwalker\Session\Cookie\CookiesInterface;
 use Windwalker\Session\Handler\ArrayHandler;
 use Windwalker\Session\SessionPackage;
+use Windwalker\Core\Asset\AssetProvider;
 use Windwalker\Core\Testing\TestAppRegistry;
 use Windwalker\Core\Theme\BootstrapTheme;
 use Windwalker\Core\Theme\ThemeInterface;
@@ -171,6 +172,7 @@ TestApp::$instance->getContainer()->registerByConfig(
             UnicornPackage::class,
             SessionPackage::class,
             LunaPackage::class,
+            AssetProvider::class,
         ],
         'bindings' => [
             ThemeInterface::class => BootstrapTheme::class,

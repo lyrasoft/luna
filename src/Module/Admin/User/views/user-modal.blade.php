@@ -43,6 +43,27 @@ $loginName = $luna->getLoginName();
                 parent.postMessage([el.dataset.instanceId, JSON.parse(el.dataset.payload)]);
             });
         }
+
+        for (const el of document.querySelectorAll('[data-task="select-row"]')) {
+            el.addEventListener('change', () => {
+                parent.postMessage({
+                    task: 'select-row',
+                    checked: el.checked,
+                    id: el.dataset.instanceId,
+                    value: JSON.parse(el.dataset.payload)
+                }, '{{ $uri->root() }}');
+            });
+        }
+
+        parent.addEventListener('message', (event) => {
+            if (event.data?.task === 'remove-row') {
+                const el = document.querySelector(`input[value="${event.data.value.value}"]`);
+
+                if (el && event.data.id === el.dataset.instanceId) {
+                    el.checked = false;
+                }
+            }
+        });
     </script>
 @endpush
 

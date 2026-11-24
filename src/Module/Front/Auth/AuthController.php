@@ -224,7 +224,7 @@ class AuthController
     ): RouteUri {
         if (($msg = $app->input('error_message')) || $app->input('error_code')) {
             if ($msg) {
-                $app->addMessage($msg, 'warning');
+                $app->addMessage(htmlspecialchars((string) $msg, ENT_QUOTES, 'UTF-8'), 'warning');
             }
 
             return $nav->to('login');

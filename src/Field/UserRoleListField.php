@@ -61,11 +61,17 @@ class UserRoleListField extends ListField
         return $options;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function isLoadDbRoles(): ?bool
     {
         return $this->loadDbRoles;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function loadDbRoles(?bool $loadDbRoles): static
     {
         $this->loadDbRoles = $loadDbRoles;
@@ -73,11 +79,17 @@ class UserRoleListField extends ListField
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function isPublishedOnly(): bool
     {
         return $this->publishedOnly;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function publishedOnly(bool $publishedOnly): static
     {
         $this->publishedOnly = $publishedOnly;

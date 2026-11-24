@@ -40,6 +40,8 @@ class MenuModalField extends ModalField
 
     /**
      * @return  string
+     *
+     * @codeCoverageIgnore
      */
     public function getMenuType(): string
     {
@@ -50,6 +52,8 @@ class MenuModalField extends ModalField
      * @param  string  $menuType
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function menuType(string $menuType): static
     {

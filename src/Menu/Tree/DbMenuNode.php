@@ -55,6 +55,8 @@ class DbMenuNode extends Node implements MenuNodeInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function getIcon(): string
     {
@@ -86,6 +88,8 @@ class DbMenuNode extends Node implements MenuNodeInterface
      * @return  ?AbstractMenuView
      *
      * @since  1.7
+     *
+     * @codeCoverageIgnore
      */
     public function getViewInstance(): ?AbstractMenuView
     {
@@ -100,6 +104,8 @@ class DbMenuNode extends Node implements MenuNodeInterface
      * @return  static  Return self to support chaining.
      *
      * @since  1.7
+     *
+     * @codeCoverageIgnore
      */
     public function setViewInstance(?AbstractMenuView $viewInstance): static
     {
@@ -235,6 +241,8 @@ class DbMenuNode extends Node implements MenuNodeInterface
      * @return  static
      *
      * @since  1.7.6
+     *
+     * @codeCoverageIgnore
      */
     public function forceActive(?bool $active): static
     {
@@ -270,6 +278,8 @@ class DbMenuNode extends Node implements MenuNodeInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function getTarget(): MenuTarget
     {

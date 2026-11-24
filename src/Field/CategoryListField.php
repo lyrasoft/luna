@@ -40,6 +40,8 @@ class CategoryListField extends SqlListField
 
     /**
      * @return  string
+     *
+     * @codeCoverageIgnore
      */
     public function getCategoryType(): string
     {
@@ -50,6 +52,8 @@ class CategoryListField extends SqlListField
      * @param  string  $categoryType
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function categoryType(string $categoryType): static
     {
@@ -60,6 +64,8 @@ class CategoryListField extends SqlListField
 
     /**
      * @return  int|null
+     *
+     * @codeCoverageIgnore
      */
     public function getMaxLevel(): ?int
     {
@@ -70,6 +76,8 @@ class CategoryListField extends SqlListField
      * @param  int|null  $maxLevel
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function maxLevel(?int $maxLevel): static
     {
@@ -80,6 +88,8 @@ class CategoryListField extends SqlListField
 
     /**
      * @return  bool
+     *
+     * @codeCoverageIgnore
      */
     public function isShowRoot(): bool
     {
@@ -90,6 +100,8 @@ class CategoryListField extends SqlListField
      * @param  bool  $showRoot
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function showRoot(bool $showRoot): static
     {

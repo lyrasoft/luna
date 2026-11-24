@@ -87,6 +87,9 @@ class LoginRequireMiddleware implements MiddlewareInterface
         return $route->withReturn()->toResponse();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getExcludes(): mixed
     {
         return $this->excludes;

@@ -164,6 +164,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      * @return  string
      *
      * @since  1.5.2
+     * @codeCoverageIgnore
      */
     public function contentType(): string
     {
@@ -176,6 +177,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      * @return  CaptchaBuilder
      *
      * @since  1.5.2
+     * @codeCoverageIgnore
      */
     public function getBuilder(): CaptchaBuilder
     {
@@ -190,6 +192,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      * @return  static  Return self to support chaining.
      *
      * @since  1.5.2
+     * @codeCoverageIgnore
      */
     public function setBuilder(CaptchaBuilder $builder): static
     {

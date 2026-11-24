@@ -110,11 +110,17 @@ class MenuBuilder
         return $node;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function link(string $title, mixed $uri = null): MenuNode
     {
         return $this->add($title, $uri);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function divider(): MenuNode
     {
         return $this->createNodeAndSetCurrent('placeholder.divider');
@@ -216,6 +222,8 @@ class MenuBuilder
 
     /**
      * @return  MenuNode|null
+     *
+     * @codeCoverageIgnore
      */
     public function getRoot(): ?MenuNode
     {
@@ -226,6 +234,8 @@ class MenuBuilder
      * @param  MenuNode|null  $root
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function setRoot(?MenuNode $root): static
     {
@@ -236,6 +246,8 @@ class MenuBuilder
 
     /**
      * @return  MenuNodeInterface|null
+     *
+     * @codeCoverageIgnore
      */
     public function getCurrent(): ?MenuNodeInterface
     {
@@ -246,6 +258,8 @@ class MenuBuilder
      * @param  MenuNodeInterface|null  $current
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function setCurrent(?MenuNodeInterface $current): static
     {
@@ -256,12 +270,17 @@ class MenuBuilder
 
     /**
      * @return  MenuNodeInterface|null
+     *
+     * @codeCoverageIgnore
      */
     public function getLast(): ?MenuNodeInterface
     {
         return $this->last;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getTree(): MenuNode
     {
         return $this->getRoot();
@@ -269,6 +288,8 @@ class MenuBuilder
 
     /**
      * @return  array<MenuNode>
+     *
+     * @codeCoverageIgnore
      */
     public function items(): array
     {

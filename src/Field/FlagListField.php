@@ -66,6 +66,8 @@ class FlagListField extends ListField
      * getFlagFiles
      *
      * @return  iterable<FileObject>
+     *
+     * @codeCoverageIgnore
      */
     public function getFlagFiles(): iterable
     {

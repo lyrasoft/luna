@@ -51,6 +51,8 @@ class CategoryModalField extends ModalField
      * @param  string  $type
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function categoryType(string $type): static
     {

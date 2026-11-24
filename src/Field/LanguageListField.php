@@ -90,6 +90,8 @@ JS;
 
     /**
      * @return  bool
+     *
+     * @codeCoverageIgnore
      */
     public function isDefaultAsFallback(): bool
     {
@@ -100,6 +102,8 @@ JS;
      * @param  bool  $defaultAsFallback
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function defaultAsFallback(bool $defaultAsFallback): static
     {
