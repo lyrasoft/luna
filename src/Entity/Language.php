@@ -20,8 +20,6 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The Language class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('languages', 'language')]
 #[\AllowDynamicProperties]
 class Language implements EntityInterface

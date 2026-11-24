@@ -29,8 +29,6 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The User class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('users', 'user')]
 #[\AllowDynamicProperties]
 class User implements EntityInterface, LunaUserEntityInterface

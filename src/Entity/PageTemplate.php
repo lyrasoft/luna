@@ -24,8 +24,6 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The PageTemplate class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('page_templates', 'page_template')]
 #[\AllowDynamicProperties]
 class PageTemplate implements EntityInterface

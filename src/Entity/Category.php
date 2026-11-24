@@ -27,8 +27,6 @@ use Windwalker\ORM\Nested\NestedPathableTrait;
 /**
  * The Category class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[NestedSet('categories', 'category')]
 #[\AllowDynamicProperties]
 class Category implements NestedPathableInterface

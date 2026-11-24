@@ -29,8 +29,6 @@ use Windwalker\ORM\Nested\NestedEntityTrait;
 /**
  * The Menu class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[NestedSet('menus', 'menu')]
 #[\AllowDynamicProperties]
 class Menu implements NestedEntityInterface

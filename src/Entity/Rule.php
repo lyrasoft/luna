@@ -16,8 +16,6 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The Access class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('rules', 'rule')]
 #[\AllowDynamicProperties]
 class Rule implements EntityInterface

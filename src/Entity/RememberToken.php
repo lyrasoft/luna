@@ -18,8 +18,6 @@ use Windwalker\ORM\EntityInterface;
 use Windwalker\ORM\EntityTrait;
 use Windwalker\ORM\Metadata\EntityMetadata;
 
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('remember_tokens', 'remember_token')]
 #[\AllowDynamicProperties]
 class RememberToken implements EntityInterface

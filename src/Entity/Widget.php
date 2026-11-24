@@ -27,8 +27,6 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The Widget class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('widgets', 'widget')]
 #[\AllowDynamicProperties]
 class Widget implements EntityInterface

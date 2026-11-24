@@ -21,8 +21,6 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The Config class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('configs', 'config')]
 #[\AllowDynamicProperties]
 class Config implements EntityInterface

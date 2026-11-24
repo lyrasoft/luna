@@ -16,8 +16,6 @@ use function Windwalker\unwrap_enum;
 /**
  * The TagMap class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('tag_maps', 'tag_map')]
 #[\AllowDynamicProperties]
 class TagMap implements EntityInterface

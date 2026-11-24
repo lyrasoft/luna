@@ -29,8 +29,6 @@ use Windwalker\ORM\Metadata\EntityMetadata;
 /**
  * The Tag class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[Table('tags', 'tag')]
 #[\AllowDynamicProperties]
 class Tag implements EntityInterface

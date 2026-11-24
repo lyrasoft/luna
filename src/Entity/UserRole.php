@@ -28,8 +28,6 @@ use Windwalker\ORM\Nested\NestedEntityTrait;
 /**
  * The UserRoles class.
  */
-// phpcs:disable
-// todo: remove this when phpcs supports 8.4
 #[NestedSet('user_roles', 'user_role')]
 #[\AllowDynamicProperties]
 class UserRole implements NestedEntityInterface
