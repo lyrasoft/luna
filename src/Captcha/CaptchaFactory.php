@@ -48,6 +48,22 @@ class CaptchaFactory implements ServiceFactoryInterface
         };
     }
 
+    public static function recaptchaEnterprise(
+        string $siteKey,
+        string $projectId,
+        string $apiKey,
+        string $type = 'checkbox',
+        array $options = [],
+    ): \Closure {
+        return #[Factory]
+        function (Container $container) use ($options, $type, $apiKey, $projectId, $siteKey) {
+            return $container->newInstance(
+                RecaptchaEnterpriseDriver::class,
+                compact('siteKey', 'projectId', 'apiKey', 'type', 'options'),
+            );
+        };
+    }
+
     public static function cloudflare(string $key, string $secret, array $options = []): \Closure
     {
         return #[Factory]

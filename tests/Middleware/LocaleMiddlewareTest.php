@@ -14,6 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Http\BrowserNext;
 use Windwalker\Core\Router\Event\AfterRouteBuildEvent;
+use Windwalker\Core\Router\NavOptions;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\Route;
 use Windwalker\Core\Router\Router;
@@ -253,6 +254,82 @@ class LocaleMiddlewareTest extends TestCase
 
         self::assertSame('/ja/article/1', (string) $nav->to('with_locale', ['id' => 1]));
         self::assertSame('/about', (string) $nav->to('without_locale'));
+    }
+
+    /**
+     * @return  array{Navigator, LocaleMiddleware}
+     */
+    private function setupLocalePrefixNavigator(): array
+    {
+        $state = $this->createStub(AppState::class);
+        $state->method('get')->willReturn('ja-JP');
+
+        $lang = new Language();
+        $lang->alias = 'ja';
+
+        $localeService = $this->createStub(LocaleService::class);
+        $localeService->method('isUriPrefixEnabled')->willReturn(true);
+        $localeService->method('getCurrentLanguage')->willReturn($lang);
+
+        $nav = null;
+        $app = $this->createStub(AppContext::class);
+        $app->method('config')->willReturn(true);
+        $app->method('getState')->willReturn($state);
+        $app->method('retrieve')->willReturn($this->createStub(BrowserNext::class));
+        $app->method('service')->willReturnCallback(
+            function (string $class) use (&$nav, $localeService) {
+                return match ($class) {
+                    LocaleService::class => $localeService,
+                    Navigator::class => $nav,
+                    default => null,
+                };
+            },
+        );
+        $app->method('getSystemUri')->willReturn(new SystemUri('http://example.com'));
+        $app->method('getMatchedRoute')->willReturn(new Route('with_locale', '/article/{id}'));
+
+        $middleware = $this->createMiddleware($app, uriPrefix: true);
+
+        $router = new Router([
+            'with_locale' => new Route(
+                'with_locale',
+                '/article/{id}',
+                ['extra' => ['middlewares' => [$middleware]]],
+            ),
+        ]);
+
+        $nav = new Navigator($router, new EventEmitter(), $app);
+
+        $localeService->method('listenNavigatorBuildEventOnce')->willReturnCallback(
+            fn(Navigator $n, \Closure $listener) => $n->on(AfterRouteBuildEvent::class, $listener)
+        );
+
+        $middleware->process(
+            $this->createStub(ServerRequestInterface::class),
+            $this->createHandler(),
+        );
+
+        return [$nav, $middleware];
+    }
+
+    #[Test]
+    public function explicitLocaleOptionOverridesCurrentLanguageAlias(): void
+    {
+        [$nav] = $this->setupLocalePrefixNavigator();
+
+        $uri = $nav->to('with_locale', ['id' => 1], new NavOptions(extra: ['locale_prefix' => 'en']));
+
+        self::assertSame('/en/article/1', (string) $uri);
+    }
+
+    #[Test]
+    public function localeOptionFalseSkipsLocalePrefix(): void
+    {
+        [$nav] = $this->setupLocalePrefixNavigator();
+
+        $uri = $nav->to('with_locale', ['id' => 1], new NavOptions(extra: ['locale_prefix' => false]));
+
+        self::assertSame('/article/1', (string) $uri);
     }
 
     #[Test]

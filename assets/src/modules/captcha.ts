@@ -114,6 +114,113 @@ useUniDirective<HTMLElement>('captcha-recaptcha', {
   }
 });
 
+let recaptchaEnterpriseLoading: Promise<void> | null = null;
+
+function loadRecaptchaEnterprise(): Promise<void> {
+  if (window.grecaptcha?.enterprise?.render) {
+    return Promise.resolve();
+  }
+
+  recaptchaEnterpriseLoading ??= new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/enterprise.js?render=explicit';
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => {
+      recaptchaEnterpriseLoading = null;
+      reject(new Error('Failed to load reCAPTCHA Enterprise.'));
+    };
+    document.head.append(script);
+  });
+
+  return recaptchaEnterpriseLoading;
+}
+
+class RecaptchaEnterpriseCaptcha {
+  public key: string;
+  public form: HTMLFormElement | null;
+  public invisible: boolean;
+  public jsVerify: boolean;
+  public widgetId: number | null = null;
+
+  constructor(public el: HTMLElement, public type: string) {
+    this.key = this.el.dataset.sitekey || '';
+    this.form = this.el.closest('form');
+    this.invisible = type === 'invisible';
+    this.jsVerify = !!this.el.dataset.jsVerify;
+
+    if (this.form && (this.invisible || this.jsVerify)) {
+      this.hookForm(this.form);
+    }
+
+    this.render();
+  }
+
+  async render() {
+    try {
+      await loadRecaptchaEnterprise();
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+
+    this.widgetId = grecaptcha.enterprise.render(this.el, {
+      sitekey: this.key,
+      size: this.invisible ? 'invisible' : undefined,
+      callback: (token: string) => this.onSuccess(token),
+      'expired-callback': () => this.onExpired(),
+      'error-callback': () => this.onExpired(),
+    } as any);
+  }
+
+  hookForm(form: HTMLFormElement) {
+    form.addEventListener('submit', (e) => {
+      if (form.dataset.passCaptcha) {
+        delete form.dataset.passCaptcha;
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      if (this.invisible) {
+        if (this.widgetId !== null) {
+          grecaptcha.enterprise.execute(this.widgetId);
+        }
+      } else {
+        simpleAlert(__('luna.field.captcha.message.please.check.first'));
+      }
+    });
+  }
+
+  onSuccess(token: string) {
+    if (this.form && (this.invisible || this.jsVerify)) {
+      this.form.dataset.passCaptcha = 'true';
+
+      if (this.invisible) {
+        this.form.requestSubmit();
+      }
+    }
+  }
+
+  onExpired() {
+    if (this.form) {
+      delete this.form.dataset.passCaptcha;
+    }
+  }
+}
+
+useUniDirective<HTMLElement>('captcha-recaptcha-enterprise', {
+  mounted(el, { value }) {
+    module(
+      el,
+      'captcha.recaptcha-enterprise',
+      (el) => new RecaptchaEnterpriseCaptcha(el as HTMLElement, value)
+    );
+  }
+});
+
 let turnstileLoading: Promise<void> | null = null;
 
 function loadTurnstile(): Promise<void> {

@@ -38,6 +38,10 @@ trait DataImporterTrait
 
     protected function invoker(\Closure $callback): mixed
     {
+        if ($this instanceof AbstractSeeder) {
+            return $callback($this->faker());
+        }
+
         if (isset($this->app)) {
             return $callback($this->faker);
         }

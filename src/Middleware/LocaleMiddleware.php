@@ -76,17 +76,25 @@ class LocaleMiddleware implements MiddlewareInterface
                     $nav = $event->navigator;
                     $route = $nav->findRoute($event->route);
                     $matched = $nav->getMatchedRoute();
+                    $locale = $event->options->extra['locale_prefix'] ?? null;
 
-                    if (!$matched || !$route) {
+                    if (!$matched || !$route || $locale === false) {
                         return;
                     }
 
                     foreach ((array) $route->getExtraValue('middlewares') as $item) {
                         if ($this->isSame($item)) {
-                            $lang = $localeService->getCurrentLanguage();
+                            $alias = $locale;
 
-                            if ($lang) {
-                                $alias = $lang->alias;
+                            if ($alias === null) {
+                                $lang = $localeService->getCurrentLanguage();
+
+                                if ($lang) {
+                                    $alias = $lang->alias;
+                                }
+                            }
+
+                            if ($alias) {
                                 $event->url = $alias . '/' . $event->url;
                             }
 
