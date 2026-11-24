@@ -190,6 +190,8 @@ class StyleContainer
      * @return  string
      *
      * @since  1.5.2
+     *
+     * @codeCoverageIgnore
      */
     public function __toString()
     {

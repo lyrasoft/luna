@@ -18,6 +18,7 @@ use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Router\Navigator;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Data\Collection;
+use Windwalker\ORM\EntityMapper;
 use Windwalker\ORM\Metadata\EntityMetadata;
 use Windwalker\ORM\ORM;
 
@@ -221,6 +222,147 @@ class LangAssocMiddlewareTest extends TestCase
         );
 
         self::assertSame($response, $result);
+    }
+
+    #[Test]
+    public function createCopiesCurrentItemWithRewrittenTitleAndLanguage(): void
+    {
+        $copied = (object) ['id' => 9, 'title' => 'Hello (ja-JP)', 'lang' => 'ja-JP'];
+        $capturedCopyData = null;
+
+        $mapper = $this->createMock(EntityMapper::class);
+        $mapper->expects($this->once())
+            ->method('copy')
+            ->with(['id' => 5], $this->isInstanceOf(Closure::class))
+            ->willReturnCallback(
+                function (array $where, Closure $handler) use (&$capturedCopyData, $copied) {
+                    $capturedCopyData = $handler(
+                        ['title' => 'Hello', 'lang' => 'en-US'],
+                        ['id' => 5, 'title' => 'Hello', 'lang' => 'en-US'],
+                    );
+
+                    return [$copied];
+                }
+            );
+        $mapper->method('toCollection')->willReturn(new Collection(['id' => 9]));
+
+        $associationService = $this->createMock(AssociationService::class);
+        $associationService->method('getRelativeItemsByTargetId')->willReturn([]);
+        $associationService->expects($this->once())
+            ->method('saveAssociations')
+            ->with('article', 'ja-JP', 9, ['en-US' => 5]);
+
+        [$orm, $nav, $app] = $this->createCreateDependencies($mapper, '/article/edit/9');
+        $nav->expects($this->once())->method('redirect')->with('/article/edit/9')
+            ->willReturn($this->createStub(ResponseInterface::class));
+
+        $this->createMiddleware(
+            app: $app,
+            associationService: $associationService,
+            orm: $orm,
+            nav: $nav,
+        )->run(
+            $this->createRequest([
+                'lang_assoc' => $this->createPayload(['copy' => 'current', 'currentId' => 5]),
+            ]),
+            $this->createNext($this->createStub(ResponseInterface::class)),
+        );
+
+        self::assertSame(
+            ['title' => 'Hello (ja-JP)', 'lang' => 'ja-JP'],
+            $capturedCopyData,
+        );
+    }
+
+    #[Test]
+    public function createWithoutCopyCreatesBlankTranslationAndLinksOriginal(): void
+    {
+        $original = new Collection(['id' => 3, 'title' => 'Hello', 'lang' => 'en-US']);
+        $created = (object) ['id' => 9, 'title' => 'Hello (ja-JP)', 'lang' => 'ja-JP'];
+
+        $mapper = $this->createMock(EntityMapper::class);
+        $mapper->expects($this->once())
+            ->method('createOne')
+            ->with(['title' => 'Hello (ja-JP)', 'lang' => 'ja-JP'])
+            ->willReturn($created);
+        $mapper->method('toCollection')->willReturn(new Collection(['id' => 9]));
+
+        $orm = $this->createMock(ORM::class);
+        $orm->method('mapper')->willReturn($mapper);
+        $orm->method('getEntityMetadata')->willReturn($this->createEntityMetadata('id'));
+        $orm->expects($this->once())
+            ->method('findOne')
+            ->with('articles', 3, Collection::class)
+            ->willReturn($original);
+
+        $associationService = $this->createMock(AssociationService::class);
+        $associationService->method('getRelativeItemsByTargetId')->willReturn([]);
+        $associationService->expects($this->once())
+            ->method('saveAssociations')
+            ->with('article', 'ja-JP', 9, ['en-US' => 3]);
+
+        $app = $this->createStub(AppContext::class);
+        $app->method('config')->willReturn(null);
+        $app->method('call')->willReturn('/article/edit/9');
+
+        $nav = $this->createMock(Navigator::class);
+        $nav->expects($this->once())->method('redirect')->with('/article/edit/9')
+            ->willReturn($this->createStub(ResponseInterface::class));
+
+        $this->createMiddleware(
+            app: $app,
+            associationService: $associationService,
+            orm: $orm,
+            nav: $nav,
+        )->run(
+            $this->createRequest([
+                'lang_assoc' => $this->createPayload(['copy' => '', 'currentId' => 3]),
+            ]),
+            $this->createNext($this->createStub(ResponseInterface::class)),
+        );
+    }
+
+    /**
+     * @return  array{ORM, Navigator, AppContext}
+     */
+    private function createCreateDependencies(EntityMapper $mapper, string $redirectTarget): array
+    {
+        $orm = $this->createStub(ORM::class);
+        $orm->method('mapper')->willReturn($mapper);
+        $orm->method('getEntityMetadata')->willReturn($this->createEntityMetadata('id'));
+
+        $app = $this->createStub(AppContext::class);
+        $app->method('config')->willReturn(null);
+        $app->method('call')->willReturn($redirectTarget);
+
+        $nav = $this->createMock(Navigator::class);
+
+        return [$orm, $nav, $app];
+    }
+
+    private function createPayload(array $overrides): array
+    {
+        return array_merge(
+            [
+                'task' => 'create',
+                'type' => 'article',
+                'table' => 'articles',
+                'code' => 'ja-JP',
+                'defaultId' => 3,
+                'langField' => 'lang',
+                'titleField' => 'title',
+                'routeName' => 'article_edit',
+            ],
+            $overrides,
+        );
+    }
+
+    private function createEntityMetadata(string $mainKey): EntityMetadata
+    {
+        $metadata = $this->createStub(EntityMetadata::class);
+        $metadata->method('getMainKey')->willReturn($mainKey);
+
+        return $metadata;
     }
 
     #[Test]

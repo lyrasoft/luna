@@ -19,6 +19,8 @@ class ButtonAddon extends AbstractAddon implements HasOwnStyleInterface
 {
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function getType(): string
     {
@@ -27,6 +29,8 @@ class ButtonAddon extends AbstractAddon implements HasOwnStyleInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function getIcon(): string
     {

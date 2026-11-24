@@ -49,6 +49,11 @@ if (!preg_match('#^([a-z]:)?[\\\\/]#i', $root)) {
     $root = realpath($package . '/' . $root) ?: $root;
 }
 
+// Normally defined by the host app's etc/define.php, which tests do not load.
+if (!defined('WINDWALKER_DEBUG')) {
+    define('WINDWALKER_DEBUG', true);
+}
+
 $init = include $root . '/vendor/windwalker/core/src/Core/Testing/test.init.php';
 
 /** @var Container $container */

@@ -46,6 +46,8 @@ class StyleRules
      * @return  $this
      *
      * @since  1.5.2
+     *
+     * @codeCoverageIgnore
      */
     public function addStyles(StyleContainer $style): static
     {

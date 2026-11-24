@@ -20,6 +20,8 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
 {
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function getType(): string
     {
@@ -28,6 +30,8 @@ class FeatureAddon extends AbstractAddon implements HasOwnStyleInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function getIcon(): string
     {

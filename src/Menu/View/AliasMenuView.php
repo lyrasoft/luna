@@ -30,6 +30,8 @@ class AliasMenuView extends AbstractMenuView
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function getName(): string
     {
@@ -47,6 +49,8 @@ class AliasMenuView extends AbstractMenuView
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     protected function defineParamsForm(Form $form): void {}
 

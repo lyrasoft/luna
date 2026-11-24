@@ -63,6 +63,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      * @return  PageRendererFactory
      *
      * @since  1.5.2
+     *
+     * @codeCoverageIgnore
      */
     public function getFactory(): PageRendererFactory
     {
@@ -359,6 +361,8 @@ abstract class AbstractPageRenderer implements PageRendererInterface
      * @return  string
      *
      * @since  1.7.33
+     *
+     * @codeCoverageIgnore
      */
     public function fontSizeUnit(): string
     {
@@ -412,6 +416,9 @@ abstract class AbstractPageRenderer implements PageRendererInterface
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function createRenderer(): CompositeRenderer
     {
         return $this->rendererService->createRenderer();

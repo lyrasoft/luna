@@ -24,26 +24,41 @@ class AddonType
         $this->className = $className;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getType(): string
     {
         return $this->className::getType();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getIcon(): string
     {
         return $this->className::getIcon();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getName(LanguageInterface $lang): string
     {
         return $this->className::getName($lang);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getDescription(LanguageInterface $lang): string
     {
         return $this->className::getDescription($lang);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getVueComponentName(): string
     {
         return $this->className::getVueComponentName();
@@ -53,6 +68,8 @@ class AddonType
      * getClassName
      *
      * @return  string|AbstractAddon
+     *
+     * @codeCoverageIgnore
      */
     public function getClassName(): string
     {

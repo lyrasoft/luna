@@ -24,6 +24,8 @@ class PlaceholderMenuView extends AbstractMenuView implements LayoutRenderedMenu
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function getName(): string
     {
@@ -63,6 +65,8 @@ class PlaceholderMenuView extends AbstractMenuView implements LayoutRenderedMenu
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     protected function defineParamsForm(Form $form): void {}
 

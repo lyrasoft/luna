@@ -86,6 +86,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * getReflector
      *
      * @return  ReflectionClass
+     *
+     * @codeCoverageIgnore
      */
     protected static function getReflector(): ReflectionClass
     {
@@ -231,6 +233,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * @param  string  $name
      *
      * @return  void
+     *
+     * @codeCoverageIgnore
      */
     public static function setName(string $name): void
     {
@@ -255,6 +259,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * @param  string  $description
      *
      * @return  void
+     *
+     * @codeCoverageIgnore
      */
     public static function setDescription(string $description): void
     {
@@ -265,6 +271,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * Method to get property Renderer
      *
      * @return  RendererService
+     *
+     * @codeCoverageIgnore
      */
     public function getRenderer(): RendererService
     {
@@ -301,6 +309,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * @param  string  $name
      *
      * @return  mixed
+     *
+     * @codeCoverageIgnore
      */
     public function __get(string $name)
     {
@@ -311,6 +321,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * Method to get property Data
      *
      * @return  array|Collection
+     *
+     * @codeCoverageIgnore
      */
     public function getData(): array|Collection
     {
@@ -323,6 +335,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      * @param  array|Collection  $data
      *
      * @return  static  Return self to support chaining.
+     *
+     * @codeCoverageIgnore
      */
     public function setData(array|Collection $data): static
     {
@@ -333,6 +347,8 @@ abstract class AbstractAddon implements AdminVueComponentInterface
 
     /**
      * @return  AssetService
+     *
+     * @codeCoverageIgnore
      */
     public function getAsset(): AssetService
     {

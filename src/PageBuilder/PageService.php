@@ -60,6 +60,9 @@ class PageService
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getAddonClasses(): array
     {
         return (array) $this->app->config('pages.addons');

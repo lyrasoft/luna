@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Tests\Middleware;
 
+use Lyrasoft\Luna\Entity\Language;
 use Lyrasoft\Luna\Middleware\LocaleMiddleware;
 use Lyrasoft\Luna\Services\LocaleService;
 use PHPUnit\Framework\Attributes\Test;
@@ -12,8 +13,13 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Windwalker\Core\Application\AppContext;
 use Windwalker\Core\Http\BrowserNext;
+use Windwalker\Core\Router\Event\AfterRouteBuildEvent;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\Core\Router\Route;
+use Windwalker\Core\Router\Router;
+use Windwalker\Core\Router\SystemUri;
 use Windwalker\Core\State\AppState;
+use Windwalker\Event\EventEmitter;
 use Windwalker\Http\Response\Response;
 
 class LocaleMiddlewareTest extends TestCase
@@ -191,6 +197,62 @@ class LocaleMiddlewareTest extends TestCase
             $this->createStub(ServerRequestInterface::class),
             $this->createHandler(),
         );
+    }
+
+    #[Test]
+    public function navigatorBuildAddsLocalePrefixOnlyToRoutesWithLocaleMiddleware(): void
+    {
+        $state = $this->createStub(AppState::class);
+        $state->method('get')->willReturn('ja-JP');
+
+        $lang = new Language();
+        $lang->alias = 'ja';
+
+        $localeService = $this->createStub(LocaleService::class);
+        $localeService->method('isUriPrefixEnabled')->willReturn(true);
+        $localeService->method('getCurrentLanguage')->willReturn($lang);
+
+        $nav = null;
+        $app = $this->createStub(AppContext::class);
+        $app->method('config')->willReturn(true);
+        $app->method('getState')->willReturn($state);
+        $app->method('retrieve')->willReturn($this->createStub(BrowserNext::class));
+        $app->method('service')->willReturnCallback(
+            function (string $class) use (&$nav, $localeService) {
+                return match ($class) {
+                    LocaleService::class => $localeService,
+                    Navigator::class => $nav,
+                    default => null,
+                };
+            },
+        );
+        $app->method('getSystemUri')->willReturn(new SystemUri('http://example.com'));
+        $app->method('getMatchedRoute')->willReturn(new Route('with_locale', '/article/{id}'));
+
+        $middleware = $this->createMiddleware($app, uriPrefix: true);
+
+        $router = new Router([
+            'with_locale' => new Route(
+                'with_locale',
+                '/article/{id}',
+                ['extra' => ['middlewares' => [$middleware]]],
+            ),
+            'without_locale' => new Route('without_locale', '/about'),
+        ]);
+
+        $nav = new Navigator($router, new EventEmitter(), $app);
+
+        $localeService->method('listenNavigatorBuildEventOnce')->willReturnCallback(
+            fn(Navigator $n, \Closure $listener) => $n->on(AfterRouteBuildEvent::class, $listener)
+        );
+
+        $middleware->process(
+            $this->createStub(ServerRequestInterface::class),
+            $this->createHandler(),
+        );
+
+        self::assertSame('/ja/article/1', (string) $nav->to('with_locale', ['id' => 1]));
+        self::assertSame('/about', (string) $nav->to('without_locale'));
     }
 
     #[Test]

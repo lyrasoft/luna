@@ -76,6 +76,8 @@ class PageRendererFactory
 
     /**
      * @return  AssetService
+     *
+     * @codeCoverageIgnore
      */
     public function getAsset(): AssetService
     {

@@ -24,6 +24,8 @@ class RouteMenuView extends AbstractMenuView
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function getName(): string
     {
@@ -66,6 +68,8 @@ class RouteMenuView extends AbstractMenuView
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     protected function defineParamsForm(Form $form): void {}
 

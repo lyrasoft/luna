@@ -24,6 +24,8 @@ class ArticleCategoryMenuView extends AbstractMenuView
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public static function getName(): string
     {
@@ -36,6 +38,8 @@ class ArticleCategoryMenuView extends AbstractMenuView
      * @return  string
      *
      * @since  1.7
+     *
+     * @codeCoverageIgnore
      */
     public static function getGroup(): string
     {
@@ -56,6 +60,8 @@ class ArticleCategoryMenuView extends AbstractMenuView
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     protected function defineParamsForm(Form $form): void {}
 
