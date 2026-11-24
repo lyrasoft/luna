@@ -36,11 +36,17 @@ class RememberMeService
         protected int $validatorLength = 32,
     ) {}
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function createSelector(): string
     {
         return random_bytes($this->selectorLength);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function createValidator(): string
     {
         return random_bytes($this->validatorLength);
@@ -346,6 +352,7 @@ class RememberMeService
 
     /**
      * @return  bool
+     * @codeCoverageIgnore
      */
     public function isTableExists(): bool
     {

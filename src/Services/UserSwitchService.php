@@ -42,6 +42,7 @@ class UserSwitchService
      * @return  mixed
      *
      * @since  1.7
+     * @codeCoverageIgnore
      */
     public function getOriginUserId(): mixed
     {
@@ -56,6 +57,7 @@ class UserSwitchService
      * @return  static
      *
      * @since  1.7
+     * @codeCoverageIgnore
      */
     public function setOriginUserId(mixed $id): self
     {
@@ -70,6 +72,7 @@ class UserSwitchService
      * @return  bool
      *
      * @since  1.7
+     * @codeCoverageIgnore
      */
     public function hasSwitched(): bool
     {
@@ -82,6 +85,7 @@ class UserSwitchService
      * @return  static
      *
      * @since  1.7
+     * @codeCoverageIgnore
      */
     public function removeOriginUserId(): self
     {

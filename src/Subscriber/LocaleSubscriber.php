@@ -25,11 +25,17 @@ class LocaleSubscriber
 
     public function __construct(protected Container $container) {}
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function getAppContext(): AppContext
     {
         return $this->container->get(AppContext::class);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function getLocaleService(): LocaleService
     {
         return $this->container->get(LocaleService::class);

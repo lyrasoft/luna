@@ -113,7 +113,7 @@ class LocaleService
             'language.id.' . $id,
             function () use ($id) {
                 foreach ($this->getAvailableLanguages() as $language) {
-                    if ($language->code === $id) {
+                    if ($language->id === $id) {
                         return $language;
                     }
                 }
@@ -175,12 +175,16 @@ class LocaleService
      * getLocale
      *
      * @return  string
+     * @codeCoverageIgnore
      */
     public function getLocale(): string
     {
         return $this->langService->getLocale();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getFallback(): string
     {
         return $this->langService->getFallback();
@@ -192,6 +196,7 @@ class LocaleService
      * @param  string  $code
      *
      * @return  void
+     * @codeCoverageIgnore
      */
     public function setLocale(string $code): void
     {

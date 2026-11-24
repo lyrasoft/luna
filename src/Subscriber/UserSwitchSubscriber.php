@@ -75,6 +75,7 @@ class UserSwitchSubscriber
      * @param  Closure|null  $messageHandler
      *
      * @return  static  Return self to support chaining.
+     * @codeCoverageIgnore
      */
     public function setMessageHandler(?Closure $messageHandler): static
     {

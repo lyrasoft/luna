@@ -88,9 +88,7 @@ class PageService
             $extends[$extend] = $name;
         }
 
-        $extends->sortKeys();
-
-        return $extends;
+        return $extends->sortKeys();
     }
 
     public function genPreviewSecret(string|int $id): string

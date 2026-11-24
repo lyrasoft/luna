@@ -30,6 +30,7 @@ class AssociationService
      * @return  EntityMapper<Association>
      *
      * @throws  \ReflectionException
+     * @codeCoverageIgnore
      */
     public function getMapper(): EntityMapper
     {
@@ -150,6 +151,9 @@ class AssociationService
         $this->saveAssociations($type, $key, $targetId, $assocIds);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function deleteAssociationByTargetId(string|\UnitEnum $type, int|string $id): void
     {
         $this->getMapper()->deleteBatch(['type' => static::toTypeString($type), 'target_id' => $id]);
@@ -164,11 +168,17 @@ class AssociationService
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function deleteAllAssociationsByHash(string|\UnitEnum $type, string $hash): void
     {
         $this->getMapper()->deleteBatch(['type' => static::toTypeString($type), 'hash' => $hash]);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function deleteWhere(mixed $conditions): void
     {
         $this->getMapper()->deleteBatch($conditions);

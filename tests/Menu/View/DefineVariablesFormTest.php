@@ -106,10 +106,8 @@ class DefineVariablesFormTest extends TestCase
      */
     private function define(AbstractMenuView $view): Form
     {
-        $lang = $this->createMock(LangService::class);
-        $lang->expects($this->any())
-            ->method('trans')
-            ->willReturnArgument(0);
+        $lang = $this->createStub(LangService::class);
+        $lang->method('trans')->willReturnArgument(0);
 
         new \ReflectionProperty($view, 'lang')->setValue($view, $lang);
 

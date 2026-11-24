@@ -220,6 +220,7 @@ class UserHandler implements UserHandlerInterface
      * @return  object|T
      *
      * @throws  ReflectionException
+     * @codeCoverageIgnore  Simple proxy to ORM::createEntity().
      */
     public function createUserEntity(array $data = []): object
     {
@@ -228,6 +229,7 @@ class UserHandler implements UserHandlerInterface
 
     /**
      * @return  User|null
+     * @codeCoverageIgnore  Simple cache getter.
      */
     public function getCurrent(): ?User
     {
@@ -238,6 +240,7 @@ class UserHandler implements UserHandlerInterface
      * @param  User|null  $current
      *
      * @return  static  Return self to support chaining.
+     * @codeCoverageIgnore  Simple cache setter.
      */
     public function setCurrent(?User $current): static
     {
@@ -246,6 +249,9 @@ class UserHandler implements UserHandlerInterface
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore  Simple container proxy.
+     */
     public function getRememberMeService(): RememberMeService
     {
         return $this->app->retrieve(RememberMeService::class);

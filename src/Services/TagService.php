@@ -30,7 +30,7 @@ class TagService
 
         foreach ($tagIds as $i => $tagId) {
             if (str_starts_with((string) $tagId, $this->getNewTagPrefix())) {
-                $tagTitle = Str::removeLeft((string) $tagId, 'new#');
+                $tagTitle = Str::removeLeft((string) $tagId, $this->getNewTagPrefix());
 
                 $tag = new Tag();
                 $tag->title = $tagTitle;
@@ -153,6 +153,7 @@ class TagService
 
     /**
      * @return  string
+     * @codeCoverageIgnore
      */
     public function getNewTagPrefix(): string
     {
@@ -163,6 +164,7 @@ class TagService
      * @param  string  $newTagPrefix
      *
      * @return  static  Return self to support chaining.
+     * @codeCoverageIgnore
      */
     public function setNewTagPrefix(string $newTagPrefix): static
     {

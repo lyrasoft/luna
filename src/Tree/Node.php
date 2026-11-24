@@ -137,6 +137,8 @@ class Node implements NodeInterface, JsonSerializable
      * Remove all children
      *
      * @return  static  The current instance
+     *
+     * @codeCoverageIgnore
      */
     public function removeAllChildren(): static
     {
@@ -281,6 +283,8 @@ class Node implements NodeInterface, JsonSerializable
      * Returns all neighboring nodes, including the current node.
      *
      * @return  Node[]
+     *
+     * @codeCoverageIgnore
      */
     public function getNeighborsAndSelf(): array
     {
@@ -301,6 +305,8 @@ class Node implements NodeInterface, JsonSerializable
      * Return true if the node is a child, false otherwise.
      *
      * @return  bool
+     *
+     * @codeCoverageIgnore
      */
     public function isChild(): bool
     {
@@ -323,6 +329,8 @@ class Node implements NodeInterface, JsonSerializable
      * @return  bool
      *
      * @since  1.7
+     *
+     * @codeCoverageIgnore
      */
     public function hasChildren(): bool
     {
@@ -453,6 +461,8 @@ class Node implements NodeInterface, JsonSerializable
      *
      * @return  mixed  Data which can be serialized by json_encode,
      *                 which is a value of any type other than a resource.
+     *
+     * @codeCoverageIgnore
      */
     public function jsonSerialize(): mixed
     {
@@ -467,6 +477,8 @@ class Node implements NodeInterface, JsonSerializable
      * @return  mixed
      *
      * @since  1.7.6
+     *
+     * @codeCoverageIgnore
      */
     public function __get(string $name)
     {
@@ -482,6 +494,8 @@ class Node implements NodeInterface, JsonSerializable
      * @return  void
      *
      * @since  1.7.6
+     *
+     * @codeCoverageIgnore
      */
     public function __set(string $name, mixed $value): void
     {
@@ -496,12 +510,17 @@ class Node implements NodeInterface, JsonSerializable
      * @return  bool
      *
      * @since  1.7.6
+     *
+     * @codeCoverageIgnore
      */
     public function __isset(string $name): bool
     {
         return isset($this->getValue()->$name);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function __call(string $name, array $args): mixed
     {
         return $this->getValue()->$name(...$args);

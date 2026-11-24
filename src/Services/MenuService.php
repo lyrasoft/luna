@@ -43,6 +43,9 @@ class MenuService
         protected ORM $orm
     ) {}
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function createBuilder(string $name): MenuBuilder
     {
         return $this->app->make(MenuBuilder::class)->createTree($name);

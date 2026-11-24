@@ -276,7 +276,7 @@ abstract class AbstractAddon implements AdminVueComponentInterface
      */
     public function getRenderer(): RendererService
     {
-        return $this->renderer;
+        return $this->data['renderer'];
     }
 
     /**

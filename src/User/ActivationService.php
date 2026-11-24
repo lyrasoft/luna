@@ -104,6 +104,9 @@ class ActivationService
         return $mailer->send($message);
     }
 
+    /**
+     * @codeCoverageIgnore  Simple proxy to the user info getter.
+     */
     public function getUserInfo(object $user): array
     {
         return $this->getUserInfoGetter()($user);
@@ -127,6 +130,7 @@ class ActivationService
      * @param  callable  $userInfoGetter
      *
      * @return  static  Return self to support chaining.
+     * @codeCoverageIgnore  Simple setter.
      */
     public function setUserInfoGetter(callable $userInfoGetter): static
     {

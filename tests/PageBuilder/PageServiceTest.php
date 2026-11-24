@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lyrasoft\Luna\Tests\PageBuilder;
 
+use Lyrasoft\Luna\PageBuilder\Addon\Image\ImageAddon;
+use Lyrasoft\Luna\PageBuilder\Addon\Text\TextAddon;
 use Lyrasoft\Luna\PageBuilder\PageService;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -69,11 +71,52 @@ class PageServiceTest extends TestCase
         self::assertTrue($service->secretVerify('abc', $secret));
     }
 
+    #[Test]
+    public function getAddonTypesIndexesAddonClassesByType(): void
+    {
+        $service = new TestPageService(
+            $this->createStub(ApplicationInterface::class),
+            $this->createStub(ORM::class),
+            [TextAddon::class, ImageAddon::class]
+        );
+
+        $types = $service->getAddonTypes();
+
+        self::assertSame(['text', 'image'], array_keys($types));
+        self::assertSame(TextAddon::class, $types['text']->getClassName());
+    }
+
+    #[Test]
+    public function getAddonTypeReturnsMatchingTypeOrNull(): void
+    {
+        $service = new TestPageService(
+            $this->createStub(ApplicationInterface::class),
+            $this->createStub(ORM::class),
+            [TextAddon::class]
+        );
+
+        self::assertNotNull($service->getAddonType('text'));
+        self::assertNull($service->getAddonType('missing'));
+    }
+
     private function createService(string $appSecret): PageService
     {
         $app = $this->createStub(ApplicationInterface::class);
         $app->method('getSecret')->willReturn($appSecret);
 
         return new PageService($app, $this->createStub(ORM::class));
+    }
+}
+
+class TestPageService extends PageService
+{
+    public function __construct(ApplicationInterface $app, ORM $orm, private array $addonClasses)
+    {
+        parent::__construct($app, $orm);
+    }
+
+    public function getAddonClasses(): array
+    {
+        return $this->addonClasses;
     }
 }

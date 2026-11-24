@@ -77,7 +77,7 @@ class FontAwesomeScript extends AbstractScript
         $package = "vendor/$package/js";
 
         if (($options & static::ALL) === static::ALL) {
-            $this->asset->js("$package/all.min.css");
+            $this->asset->js("$package/all.min.js");
         } else {
             $this->asset->js("$package/fontawesome.min.js");
 

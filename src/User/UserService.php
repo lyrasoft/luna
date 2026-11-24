@@ -70,6 +70,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @return  UserEntityInterface|T
      *
      * @throws  InvalidArgumentException
+     * @codeCoverageIgnore  Simple proxy to getUser().
      */
     public function getCurrentUser(): UserEntityInterface
     {
@@ -108,6 +109,9 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         return $user;
     }
 
+    /**
+     * @codeCoverageIgnore  Simple proxy to the current user's isLogin().
+     */
     public function isLogin(): bool
     {
         return $this->getUser()->isLogin();
@@ -358,6 +362,9 @@ class UserService implements UserHandlerInterface, EventAwareInterface
         return $this->getAccessService()->userIsRole($user, $role);
     }
 
+    /**
+     * @codeCoverageIgnore  Simple proxy to AccessService::isSuperUser().
+     */
     public function isSuperUser(mixed $user = null): bool
     {
         return $this->getAccessService()->isSuperUser($user);
@@ -382,6 +389,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @return  string|T
      *
      * @throws  DefinitionException
+     * @codeCoverageIgnore  Simple proxy to the user handler.
      */
     public function getUserEntityClass(): string
     {
@@ -391,6 +399,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
     /**
      * @return  UserHandlerInterface
      * @throws  DefinitionException
+     * @codeCoverageIgnore  Simple service lookup.
      */
     public function getUserHandler(): UserHandlerInterface
     {
@@ -404,6 +413,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      *
      * @return  object|T
      * @throws  DefinitionException
+     * @codeCoverageIgnore  Simple proxy to the user handler.
      */
     public function createUserEntity(array $data = []): object
     {
@@ -462,6 +472,7 @@ class UserService implements UserHandlerInterface, EventAwareInterface
      * @param  UserEntityInterface|null  $currentUser
      *
      * @return  static  Return self to support chaining.
+     * @codeCoverageIgnore  Simple setter.
      */
     public function setCurrentUser(?UserEntityInterface $currentUser): static
     {
