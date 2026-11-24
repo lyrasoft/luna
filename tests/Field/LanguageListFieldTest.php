@@ -10,7 +10,6 @@ use Lyrasoft\Luna\Services\LocaleService;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Unicorn\Script\UnicornScript;
-use Windwalker\DOM\HTMLElement;
 use Windwalker\Query\Query;
 
 use function Windwalker\DOM\h;

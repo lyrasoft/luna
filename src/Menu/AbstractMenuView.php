@@ -34,6 +34,13 @@ abstract class AbstractMenuView implements
      */
     protected array $tabs = [];
 
+    /**
+     * The form currently being defined, used by tab().
+     *
+     * @var  ?Form
+     */
+    protected ?Form $currentForm = null;
+
     #[Inject]
     protected MenuHelper $menuHelper;
 
@@ -91,6 +98,8 @@ abstract class AbstractMenuView implements
      */
     public function define(Form $form): void
     {
+        $this->currentForm = $form;
+
         $form->ns('variables', function (Form $form) {
             $this->defineVariablesForm($form);
         });
@@ -147,7 +156,7 @@ abstract class AbstractMenuView implements
             'title' => $title,
         ];
 
-        $this->fieldset($fieldset, $callback);
+        $this->currentForm?->fieldset($fieldset, $callback);
 
         return $this;
     }

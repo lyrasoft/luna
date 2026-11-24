@@ -11,11 +11,26 @@ use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use Windwalker\Core\Testing\Database\TestDatabaseFixtures;
 use Windwalker\Core\Router\Route;
 use Windwalker\Core\Router\Router;
+use Windwalker\Core\Testing\Database\TestDatabaseFixtures;
 use Windwalker\Core\Testing\Traits\DatabaseTestTrait;
+use Windwalker\Database\DatabaseAdapter;
 use Windwalker\DI\Container;
+
+/**
+ * Test-only subclass of UserModalField that reads through the test database adapter
+ * instead of the DatabaseManager, which has no default connection name in the test container.
+ */
+class UserModalFieldFixture extends UserModalField
+{
+    public ?DatabaseAdapter $fixtureDb = null;
+
+    public function getDb(): DatabaseAdapter
+    {
+        return $this->fixtureDb ?? parent::getDb();
+    }
+}
 
 /**
  * Covers UserModalField's own configuration: the `user_list` route and User table bound in configure(),
@@ -52,9 +67,12 @@ class UserModalFieldTest extends TestCase
         $this->diContainer = $container;
     }
 
-    private function createField(): UserModalField
+    private function createField(): UserModalFieldFixture
     {
-        return $this->diContainer->newInstance(UserModalField::class, ['name' => 'user']);
+        $field = $this->diContainer->newInstance(UserModalFieldFixture::class, ['name' => 'user']);
+        $field->fixtureDb = self::$orm->getDb();
+
+        return $field;
     }
 
     private function saveUser(string $name): User

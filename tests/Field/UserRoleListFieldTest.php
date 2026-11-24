@@ -208,10 +208,10 @@ class UserRoleListFieldTest extends TestCase
     }
 
     /**
-     * @param  array<int|string, mixed>  $selectable
-     * @param  array<string, UserRole|null>  $wrapped  Map of role value to wrapUserRole() result.
-     * @param  string[]  $superUserRoles  Role values that count as super user roles.
-     * @param  UserRole[]  $dbRoles
+     * @param  array<int|string, mixed>      $selectable
+     * @param  array<string, UserRole|null>  $wrapped         Map of role value to wrapUserRole() result.
+     * @param  string[]                      $superUserRoles  Role values that count as super user roles.
+     * @param  UserRole[]                    $dbRoles
      */
     private function createAccessService(
         array $selectable = [],

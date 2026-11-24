@@ -34,7 +34,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
      *
      * @var  AbstractMenuView|null
      */
-    protected ?AbstractMenuView $viewInstance;
+    protected ?AbstractMenuView $viewInstance = null;
 
     /**
      * Property active.
@@ -147,10 +147,10 @@ class DbMenuNode extends Node implements MenuNodeInterface
             return $this->forceActive;
         }
 
-        $active = $this->getViewInstance()->isActive(
+        $active = $this->getViewInstance()?->isActive(
             $this->getValue()->variables,
             $this->getValue()->params
-        );
+        ) ?? false;
 
         if (!$active && $checkChildren) {
             /** @var DbMenuNode $child */
@@ -176,7 +176,7 @@ class DbMenuNode extends Node implements MenuNodeInterface
     public function getMenuById(mixed $id): ?static
     {
         return $this->findFirst(function (self $item) use ($id) {
-            return (int) $item->getValue()->id === $id;
+            return (int) $item->getValue()->id === (int) $id;
         });
     }
 

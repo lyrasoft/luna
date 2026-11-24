@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Windwalker\Core\Testing\Database\TestDatabaseFixtures;
 use Windwalker\Core\Testing\Traits\DatabaseTestTrait;
+use Windwalker\Database\DatabaseAdapter;
 
 /**
  * Runs CategoryListField's query preparation (type filter, level limit, root
@@ -50,9 +51,16 @@ class CategoryListFieldTest extends TestCase
         return self::$orm->createOne(Category::class, $category);
     }
 
-    private function createField(): CategoryListField
+    /**
+     * The field resolves its DB by connection name, and the test config has no
+     * default connection, so the fixture hands it the test adapter directly.
+     */
+    private function createField(): CategoryListFieldTestFixture
     {
-        return static::make(CategoryListField::class, ['name' => 'category']);
+        $field = static::make(CategoryListFieldTestFixture::class, ['name' => 'category']);
+        $field->adapter = static::$db;
+
+        return $field;
     }
 
     /**
@@ -167,6 +175,19 @@ class CategoryListFieldTest extends TestCase
             [(string) $b->id, (string) $a->id, (string) $a1->id],
             array_map(fn($option) => (string) $option->getAttribute('value'), $options)
         );
-        self::assertSame(['B', '- A', '- - A1'], array_map(fn($option) => trim($option->textContent), $options));
+        self::assertSame(['B', 'A', '- A1'], array_map(fn($option) => trim($option->textContent), $options));
+    }
+}
+
+/**
+ * Test double that supplies the test adapter instead of resolving a named connection.
+ */
+class CategoryListFieldTestFixture extends CategoryListField
+{
+    public ?DatabaseAdapter $adapter = null;
+
+    public function getDb(): DatabaseAdapter
+    {
+        return $this->adapter;
     }
 }

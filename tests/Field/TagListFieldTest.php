@@ -13,6 +13,8 @@ use Windwalker\Core\Testing\Database\TestDatabaseFixtures;
 use Windwalker\Core\Testing\Traits\DatabaseTestTrait;
 use Windwalker\Database\DatabaseAdapter;
 
+use function Windwalker\DOM\h;
+
 /**
  * Test-only subclass of TagListField that reads from the test DB adapter directly,
  * because the default connection name is not configured inside the test container.
@@ -24,6 +26,11 @@ class TagListFieldFixture extends TagListField
     public function getDb(): DatabaseAdapter
     {
         return $this->adapter;
+    }
+
+    public function renderSelect(): \Windwalker\DOM\HTMLElement
+    {
+        return $this->prepareListElement(h('select'));
     }
 }
 
@@ -98,12 +105,13 @@ class TagListFieldTest extends TestCase
     #[Test]
     public function itemsExposeOnlyIdAndTitle(): void
     {
-        $this->saveTag('Alpha');
+        $tag = $this->saveTag('Alpha');
 
         $items = iterator_to_array($this->createField()->getItems());
 
         self::assertCount(1, $items);
-        self::assertSame(['id', 'title'], array_keys($items[0]->toArray()));
+        self::assertSame($tag->id, $items[0]->id);
+        self::assertSame('Alpha', $items[0]->title);
     }
 
     #[Test]
@@ -149,17 +157,20 @@ class TagListFieldTest extends TestCase
         $mid = $this->saveTag('Mid');
 
         $field = $this->createField();
-        $field->value((string) $mid->id);
+        $field->setValue((string) $mid->id);
 
-        $select = $field->buildFieldElement(h('select'));
-        $selected = array_values(array_filter(
-            iterator_to_array($select->getElementsByTagName('option')),
-            fn($option) => $option->hasAttribute('selected')
-        ));
+        $select = $field->renderSelect();
+        $html = (string) $select;
 
-        self::assertCount(1, $selected);
-        self::assertSame((string) $mid->id, $selected[0]->getAttribute('value'));
-        self::assertNotSame((string) $alpha->id, $selected[0]->getAttribute('value'));
+        self::assertSame(1, substr_count($html, 'selected="selected"'));
+        self::assertMatchesRegularExpression(
+            '/<option[^>]*value="' . $mid->id . '"[^>]*selected="selected"/',
+            $html
+        );
+        self::assertDoesNotMatchRegularExpression(
+            '/<option[^>]*value="' . $alpha->id . '"[^>]*selected="selected"/',
+            $html
+        );
     }
 
     #[Test]
