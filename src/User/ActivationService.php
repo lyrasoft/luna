@@ -14,6 +14,7 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Mailer\Mailer;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\Core\Router\NavOptions;
 use Windwalker\ORM\ORM;
 
 /**
@@ -85,7 +86,15 @@ class ActivationService
         $user->activation = $token;
 
         $this->orm->updateOne(User::class, $user);
-        $link = $this->nav->toNotifyLink('front::registration_activate', ['token' => $token]);
+        $link = $this->nav->toNotifyLink(
+            'front::registration_activate',
+            ['token' => $token],
+            options: new NavOptions(
+                extra: [
+                    'locale_prefix' => false
+                ]
+            )
+        );
 
         $site = $this->app->config('company.site_name') ?: 'Confirm';
 

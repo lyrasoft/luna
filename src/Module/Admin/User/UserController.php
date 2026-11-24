@@ -55,6 +55,7 @@ class UserController
                 $data = &$event->data;
 
                 $app->call($this->checkSuperUserAccess(...), ['user' => $event->tempEntity]);
+                $app->call($this->checkPrivilegeCeiling(...), ['user' => $event->tempEntity]);
             }
         );
 
@@ -111,7 +112,30 @@ class UserController
 
         if ($userService->isSuperUser($user) && !$iAmSuperUser) {
             throw new ValidateFailException(
-                'Forbidden: You cannot modify a superuser account.'
+                $this->trans('luna.user.message.forbidden.superuser.modify')
+            );
+        }
+    }
+
+    /**
+     * Prevent a non-superuser from modifying an existing account (other than their own)
+     * whose privileges are equal to or higher than their own.
+     */
+    protected function checkPrivilegeCeiling(AccessService $accessService, mixed $user): void
+    {
+        if ($accessService->isSuperUser()) {
+            return;
+        }
+
+        $me = $accessService->getUser();
+
+        if (!$user?->id || (int) $user->id === (int) $me?->id) {
+            return;
+        }
+
+        if ($accessService->compareUserPrivileges($user, $me, '>')) {
+            throw new ValidateFailException(
+                $this->trans('luna.user.message.forbidden.higher.modify')
             );
         }
     }
@@ -139,7 +163,7 @@ class UserController
                 $userRole = $accessService->wrapUserRole($role);
 
                 if ($userRole === null) {
-                    throw new ValidateFailException('Invalid role: ' . $role);
+                    throw new ValidateFailException($this->trans('luna.user.message.invalid.role', $role));
                 }
 
                 $newRoles[] = $userRole;
@@ -147,7 +171,7 @@ class UserController
 
             if ($accessService->compareRolesPrivileges($newRoles, $accessService->getEnabledUserRoles($me), '>')) {
                 throw new ValidateFailException(
-                    'Forbidden: You cannot assign roles with higher privileges.'
+                    $this->trans('luna.user.message.forbidden.assign.roles')
                 );
             }
         }
@@ -324,7 +348,7 @@ class UserController
         // Privilege ceiling: a non-superuser cannot switch to a user holding privileges they lack
         if ($accessService->compareUserPrivileges($user, $accessService->getUser(), '>')) {
             throw new ValidateFailException(
-                'Forbidden: You cannot switch to a user with higher privileges.'
+                $this->trans('luna.user.message.forbidden.switch.user')
             );
         }
 

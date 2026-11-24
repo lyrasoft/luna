@@ -16,6 +16,7 @@ use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Core\Mailer\MailerInterface;
 use Windwalker\Core\Renderer\RendererService;
 use Windwalker\Core\Router\Navigator;
+use Windwalker\Core\Router\NavOptions;
 use Windwalker\Core\Router\RouteUri;
 use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\ORM;
@@ -87,7 +88,15 @@ class ForgetController
             'HS256'
         );
 
-        $link = $nav->toNotifyLink('forget_confirm', ['token' => $token, 'email' => idn_to_ascii($email)]);
+        $link = $nav->toNotifyLink(
+            'forget_confirm',
+            ['token' => $token, 'email' => idn_to_ascii($email)],
+            options: new NavOptions(
+                extra: [
+                    'locale_prefix' => false
+                ]
+            )
+        );
 
         // Only store the hash so a DB leak can not be used to reset passwords.
         $user->resetToken = static::hashToken($token);
