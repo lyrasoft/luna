@@ -11,7 +11,7 @@ use Windwalker\Core\Seed\SeedClear;
 use Windwalker\Core\Seed\SeedImport;
 use Windwalker\ORM\EntityMapper;
 
-return new /** Config Seeder */ class extends AbstractSeeder {
+return new /** Config Seeder */ class () extends AbstractSeeder {
     #[SeedImport]
     public function import(): void
     {

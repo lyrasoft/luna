@@ -11,7 +11,7 @@ use Windwalker\Core\Migration\MigrateDown;
 use Windwalker\Core\Migration\MigrateUp;
 use Windwalker\Database\Schema\Schema;
 
-return new /** 2021112206280001_TagInit */ class extends AbstractMigration {
+return new /** 2021112206280001_TagInit */ class () extends AbstractMigration {
     #[MigrateUp]
     public function up(): void
     {

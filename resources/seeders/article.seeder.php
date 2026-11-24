@@ -17,7 +17,7 @@ use Windwalker\Core\Seed\SeedImport;
 use Windwalker\ORM\EntityMapper;
 use Windwalker\Utilities\Utf8String;
 
-return new /** Article Seeder */ class extends AbstractSeeder {
+return new /** Article Seeder */ class () extends AbstractSeeder {
     #[SeedImport]
     public function import(): void
     {

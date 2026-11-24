@@ -9,7 +9,7 @@ use Windwalker\Core\Seed\AbstractSeeder;
 use Windwalker\Core\Seed\SeedClear;
 use Windwalker\Core\Seed\SeedImport;
 
-return new /** Language Seeder */ class extends AbstractSeeder {
+return new /** Language Seeder */ class () extends AbstractSeeder {
     #[SeedImport]
     public function import(): void
     {

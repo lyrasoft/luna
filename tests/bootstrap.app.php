@@ -142,7 +142,7 @@ $lunaBindings = [];
 
 foreach (glob($package . '/etc/*.config.php') as $file) {
     $factory = include $file;
-    $attr = (new ReflectionFunction($factory))->getAttributes(ConfigModule::class)[0]->newInstance();
+    $attr = new ReflectionFunction($factory)->getAttributes(ConfigModule::class)[0]->newInstance();
     $moduleConfig = $factory();
 
     $container->loadParameters([$attr->name => $moduleConfig]);

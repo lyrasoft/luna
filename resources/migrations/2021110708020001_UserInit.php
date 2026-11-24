@@ -19,7 +19,7 @@ use Windwalker\Database\Schema\Schema;
 use Windwalker\ORM\NestedSetMapper;
 use Windwalker\ORM\ORM;
 
-return new /** 2021110708020001_UserInit */ class extends AbstractMigration {
+return new /** 2021110708020001_UserInit */ class () extends AbstractMigration {
     #[MigrateUp]
     public function up(UserService $userService, ORM $orm, PasswordHasherInterface $hasher): void
     {

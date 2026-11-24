@@ -12,7 +12,7 @@ use Windwalker\Core\Migration\MigrateDown;
 use Windwalker\Core\Migration\MigrateUp;
 use Windwalker\Database\Schema\Schema;
 
-return new /** 2021110708050001_ArticleInit */ class extends AbstractMigration {
+return new /** 2021110708050001_ArticleInit */ class () extends AbstractMigration {
     use DataImporterTrait;
 
     #[MigrateUp]

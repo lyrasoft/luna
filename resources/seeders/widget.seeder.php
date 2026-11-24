@@ -14,12 +14,10 @@ use Windwalker\Core\Seed\AbstractSeeder;
 use Windwalker\Core\Seed\SeedClear;
 use Windwalker\Core\Seed\Seeder;
 use Windwalker\Core\Seed\SeedImport;
-use Windwalker\Database\DatabaseAdapter;
 use Windwalker\ORM\EntityMapper;
-use Windwalker\ORM\ORM;
 use Windwalker\Utilities\Utf8String;
 
-return new /** Widget Seeder */ class extends AbstractSeeder {
+return new /** Widget Seeder */ class () extends AbstractSeeder {
     #[SeedImport]
     public function import(WidgetService $widgetService): void
     {

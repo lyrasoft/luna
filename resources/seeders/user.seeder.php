@@ -12,7 +12,7 @@ use Windwalker\Core\Seed\SeedImport;
 use Windwalker\Crypt\Hasher\PasswordHasherInterface;
 use Windwalker\ORM\EntityMapper;
 
-return new /** Article Seeder */ class extends AbstractSeeder {
+return new /** Article Seeder */ class () extends AbstractSeeder {
     #[SeedImport]
     public function import(PasswordHasherInterface $password, AccessService $accessService): void
     {

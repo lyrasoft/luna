@@ -14,7 +14,7 @@ use Windwalker\Core\Seed\SeedImport;
 use Windwalker\ORM\Nested\Position;
 use Windwalker\ORM\NestedSetMapper;
 
-return new /** Menu Seeder */ class extends AbstractSeeder {
+return new /** Menu Seeder */ class () extends AbstractSeeder {
     #[SeedImport]
     public function import(): void
     {

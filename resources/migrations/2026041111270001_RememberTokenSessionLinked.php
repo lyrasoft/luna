@@ -11,7 +11,7 @@ use Windwalker\Core\Migration\MigrateUp;
 use Windwalker\Core\Migration\MigrateDown;
 use Windwalker\Database\Schema\Schema;
 
-return new /** 2026041111270001_RememberTokenSessionLinked */ class extends AbstractMigration {
+return new /** 2026041111270001_RememberTokenSessionLinked */ class () extends AbstractMigration {
     #[MigrateUp]
     public function up(): void
     {

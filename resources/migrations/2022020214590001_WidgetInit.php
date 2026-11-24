@@ -10,7 +10,7 @@ use Windwalker\Core\Migration\MigrateDown;
 use Windwalker\Core\Migration\MigrateUp;
 use Windwalker\Database\Schema\Schema;
 
-return new /** 2022020214590001_WidgetInit */ class extends AbstractMigration {
+return new /** 2022020214590001_WidgetInit */ class () extends AbstractMigration {
     #[MigrateUp]
     public function up(): void
     {

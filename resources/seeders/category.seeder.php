@@ -19,11 +19,11 @@ use Windwalker\Utilities\Utf8String;
 
 use function Windwalker\include_glob;
 
-return new /** Category Seeder */ class extends AbstractSeeder {
+return new /** Category Seeder */ class () extends AbstractSeeder {
     use DataImporterTrait;
 
     /**
-     * @var int[][]
+     * @var  int[][]
      */
     protected array $existsRecordIds = [];
 

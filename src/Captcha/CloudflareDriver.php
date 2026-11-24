@@ -26,17 +26,16 @@ class CloudflareDriver implements CaptchaDriverInterface
      * CloudflareDriver constructor.
      *
      * @param  LunaScript  $lunaScript
-     * @param  string      $key      Turnstile site key.
-     * @param  string      $secret   Turnstile secret key.
-     * @param  array       $options  Widget options: theme, size, appearance, language.
+     * @param  string      $key         Turnstile site key.
+     * @param  string      $secret      Turnstile secret key.
+     * @param  array       $options     Widget options: theme, size, appearance, language.
      */
     public function __construct(
         protected LunaScript $lunaScript,
         protected string $key,
         protected string $secret,
         protected array $options = [],
-    ) {
-    }
+    ) {}
 
     /**
      * input
@@ -95,7 +94,7 @@ class CloudflareDriver implements CaptchaDriverInterface
                 'response' => $token,
                 'remoteip' => $ip,
             ],
-            static fn ($v) => $v !== null && $v !== '',
+            static fn($v) => $v !== null && $v !== '',
         );
 
         $response = $this->getHttp()->post(self::VERIFY_URL, http_build_query($body));

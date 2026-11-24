@@ -12,7 +12,7 @@ use Windwalker\Database\Schema\Schema;
 
 use function Windwalker\fs;
 
-return new /** 2022011603100001_LanguageInit */ class extends AbstractMigration {
+return new /** 2022011603100001_LanguageInit */ class () extends AbstractMigration {
     #[MigrateUp]
     public function up(): void
     {

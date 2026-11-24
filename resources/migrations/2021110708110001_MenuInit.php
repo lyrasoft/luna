@@ -12,7 +12,7 @@ use Windwalker\Database\Schema\Schema;
 use Windwalker\ORM\NestedSetMapper;
 use Windwalker\ORM\ORM;
 
-return new /** 2021110708110001_MenuInit */ class extends AbstractMigration {
+return new /** 2021110708110001_MenuInit */ class () extends AbstractMigration {
     #[MigrateUp]
     public function up(ORM $orm): void
     {
