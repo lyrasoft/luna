@@ -798,7 +798,7 @@ class AccessService
         }
 
         if ($role instanceof UserRole) {
-            return $role->id;
+            return $role->id === null ? null : (string) $role->id;
         }
 
         if ($role instanceof UserRoleMap) {

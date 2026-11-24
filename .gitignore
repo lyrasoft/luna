@@ -27,5 +27,11 @@ phpunit.app.xml
 .phpunit.cache
 .phpunit.result.cache
 
+# Code Style #
+.php-cs-fixer.cache
+.php-cs-fixer.php
+.php_cs.cache
+.php_cs
+
 # Extra #
 !.gitkeep
