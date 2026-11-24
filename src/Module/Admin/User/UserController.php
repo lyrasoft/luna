@@ -216,13 +216,15 @@ class UserController
         UserRepository $repository,
         CrudController $controller
     ): mixed {
-        $controller->beforeDelete(function (BeforeDeleteEvent $event) use ($app) {
+        $userService = $app->retrieve(UserService::class);
+
+        $controller->beforeDelete(function (BeforeDeleteEvent $event) use ($userService, $app) {
             /** @var User $entity */
             $entity = $event->entity;
 
             $app->call($this->checkSuperUserAccess(...), ['user' => $entity]);
+            $app->call($this->checkPrivilegeCeiling(...), ['user' => $entity]);
 
-            $userService = $app->service(UserService::class);
             $user = $userService->getCurrentUser();
 
             if ($entity->id === $user->id) {
@@ -251,9 +253,18 @@ class UserController
         GridController $controller
     ): mixed {
         $ids = (array) $app->input('id');
+        $userService = $app->retrieve(UserService::class);
 
         foreach ($ids as $id) {
-            $app->call($this->checkSuperUserAccess(...), ['user' => $id]);
+            // Resolve the target entity first: getUser($id) returns the current user when already set
+            $target = $userService->load(['id' => $id]);
+
+            if (!$target) {
+                continue;
+            }
+
+            $app->call($this->checkSuperUserAccess(...), ['user' => $target]);
+            $app->call($this->checkPrivilegeCeiling(...), ['user' => $target]);
         }
 
         if ($app->input('task') === 'resend') {
