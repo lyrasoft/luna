@@ -53,6 +53,7 @@ class MetaRule implements EntityInterface
     #[JsonObject]
     public MetaData $meta {
         get => $this->meta ??= new MetaData();
+        set(MetaData|array $value) => $this->meta = MetaData::wrap($value);
     }
 
     #[Column('json_ld')]
