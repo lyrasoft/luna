@@ -177,22 +177,17 @@ TestApp::createInstance(
         '@migrations' => $package . '/resources/migrations',
         '@seeders' => $package . '/resources/seeders',
     ],
+    providers: [
+        RendererProvider::class,
+        EdgeProvider::class,
+        UnicornPackage::class,
+        SessionPackage::class,
+        LunaPackage::class,
+        AssetProvider::class,
+    ],
+    bindings: [
+        ThemeInterface::class => BootstrapTheme::class,
+    ] + $lunaBindings,
 );
 
 TestAppRegistry::use(TestApp::$instance);
-
-TestApp::$instance->getContainer()->registerByConfig(
-    [
-        'providers' => [
-            RendererProvider::class,
-            EdgeProvider::class,
-            UnicornPackage::class,
-            SessionPackage::class,
-            LunaPackage::class,
-            AssetProvider::class,
-        ],
-        'bindings' => [
-            ThemeInterface::class => BootstrapTheme::class,
-        ] + $lunaBindings,
-    ],
-);
