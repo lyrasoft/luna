@@ -29,7 +29,7 @@ class RememberMeSubscriberTest extends TestCase
     ): RememberMeSubscriber {
         $app = $this->createStub(AppContext::class);
         $app->method('call')->willReturnCallback(
-            static fn (callable $callback, array $args) => $callback(...$args)
+            static fn(callable $callback, array $args) => $callback(...$args)
         );
 
         return new RememberMeSubscriber(
@@ -70,7 +70,7 @@ class RememberMeSubscriberTest extends TestCase
         $service = $this->createMock(RememberMeService::class);
         $service->expects(self::never())->method('startNewRemember');
 
-        $conditions = static fn (AfterLoginSessionEvent $event, array $options): bool => false;
+        $conditions = static fn(AfterLoginSessionEvent $event, array $options): bool => false;
 
         $event = new AfterLoginSessionEvent($this->createUser(), true, ['remember' => true]);
 
@@ -85,7 +85,7 @@ class RememberMeSubscriberTest extends TestCase
             ->method('startNewRemember')
             ->with(5);
 
-        $conditions = static fn (AfterLoginSessionEvent $event, array $options): bool => $event->result === true;
+        $conditions = static fn(AfterLoginSessionEvent $event, array $options): bool => $event->result === true;
 
         $event = new AfterLoginSessionEvent($this->createUser(), true);
 

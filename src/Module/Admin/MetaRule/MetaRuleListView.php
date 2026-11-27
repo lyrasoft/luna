@@ -39,8 +39,7 @@ class MetaRuleListView implements FilterAwareViewModelInterface
     public function __construct(
         #[Autowire]
         protected MetaRuleRepository $repository,
-    ) {
-    }
+    ) {}
 
     #[ViewPrepare]
     public function prepare(AppContext $app, View $view): array

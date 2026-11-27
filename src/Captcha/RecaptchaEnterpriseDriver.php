@@ -27,11 +27,11 @@ class RecaptchaEnterpriseDriver implements CaptchaDriverInterface
      * RecaptchaEnterpriseDriver constructor.
      *
      * @param  LunaScript  $lunaScript
-     * @param  string      $siteKey    reCAPTCHA Enterprise site key (the new key format is supported).
-     * @param  string      $projectId  Google Cloud project ID.
-     * @param  string      $apiKey     Google Cloud API key with reCAPTCHA Enterprise API enabled.
-     * @param  string      $type       checkbox | invisible
-     * @param  array       $options    Extra options: action (expected action name), min_score (float, default 0.5).
+     * @param  string      $siteKey     reCAPTCHA Enterprise site key (the new key format is supported).
+     * @param  string      $projectId   Google Cloud project ID.
+     * @param  string      $apiKey      Google Cloud API key with reCAPTCHA Enterprise API enabled.
+     * @param  string      $type        checkbox | invisible
+     * @param  array       $options     Extra options: action (expected action name), min_score (float, default 0.5).
      */
     public function __construct(
         protected LunaScript $lunaScript,

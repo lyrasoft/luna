@@ -111,7 +111,7 @@ class MetaRuleController
                     $repository->save($item);
                 }
 
-                if (array_filter($data, static fn ($v) => (string) $v !== '') === []) {
+                if (array_filter($data, static fn($v) => (string) $v !== '') === []) {
                     $app->addMessage($lang->trans('unicorn.message.batch.update.success', count($ids)), 'success');
 
                     return $nav->back();

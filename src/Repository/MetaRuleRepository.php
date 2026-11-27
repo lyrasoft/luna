@@ -18,7 +18,6 @@ use Unicorn\Repository\ListRepositoryTrait;
 use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\ManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
-use Windwalker\ORM\SelectorQuery;
 
 #[Repository(entityClass: MetaRule::class)]
 class MetaRuleRepository implements ManageRepositoryInterface, ListRepositoryInterface

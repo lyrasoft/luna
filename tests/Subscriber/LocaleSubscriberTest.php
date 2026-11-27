@@ -16,7 +16,6 @@ use Windwalker\Core\Router\SystemUri;
 use Windwalker\Core\State\AppState;
 use Windwalker\DI\Container;
 
-
 class LocaleSubscriberTest extends TestCase
 {
     private AppContext $app;
@@ -37,7 +36,7 @@ class LocaleSubscriberTest extends TestCase
         // In-memory state so assertions can read what the subscriber wrote.
         $this->state = $this->createStub(AppState::class);
         $this->state->method('get')
-            ->willReturnCallback(fn (string $key, mixed $default = null) => $this->store[$key] ?? $default);
+            ->willReturnCallback(fn(string $key, mixed $default = null) => $this->store[$key] ?? $default);
         $this->state->method('set')
             ->willReturnCallback(function (string $key, mixed $value): AppState {
                 $this->store[$key] = $value;

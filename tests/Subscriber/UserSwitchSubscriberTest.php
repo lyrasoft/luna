@@ -34,7 +34,7 @@ class UserSwitchSubscriberTest extends TestCase
     }
 
     /**
-     * @return array{0: Container, 1: AppContext}
+     * @return  array{0: Container, 1: AppContext}
      */
     private function createContainer(
         string $namespace,
@@ -50,7 +50,7 @@ class UserSwitchSubscriberTest extends TestCase
 
         $route = $this->createStub(Route::class);
         $route->method('getExtraValue')->willReturnCallback(
-            static fn (string $key) => $key === 'namespace' ? $namespace : null
+            static fn(string $key) => $key === 'namespace' ? $namespace : null
         );
 
         $services = [
@@ -61,7 +61,7 @@ class UserSwitchSubscriberTest extends TestCase
 
         $app = $this->createStub(AppContext::class);
         $app->method('service')->willReturnCallback(
-            static fn (string $id) => $services[$id]
+            static fn(string $id) => $services[$id]
         );
         $app->method('getMatchedRoute')->willReturn($route);
 
@@ -174,7 +174,7 @@ class UserSwitchSubscriberTest extends TestCase
         self::assertInstanceOf(\Closure::class, $default);
         self::assertSame($default, $subscriber->getMessageHandler());
 
-        $custom = static fn (string $message): null => null;
+        $custom = static fn(string $message): null => null;
         $subscriber->setMessageHandler($custom);
 
         self::assertSame($custom, $subscriber->getMessageHandler());

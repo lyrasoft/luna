@@ -22,10 +22,10 @@ class EntityBuildingSubscriberTest extends TestCase
     {
         $builder = $this->createStub(EntityMemberBuilder::class);
         $builder->method('attribute')->willReturnCallback(
-            static fn (string $name): Attribute => new Attribute(new Name($name))
+            static fn(string $name): Attribute => new Attribute(new Name($name))
         );
         $builder->method('attributeGroup')->willReturnCallback(
-            static fn (Attribute $attr): AttributeGroup => new AttributeGroup([$attr])
+            static fn(Attribute $attr): AttributeGroup => new AttributeGroup([$attr])
         );
 
         return $builder;
@@ -62,7 +62,7 @@ class EntityBuildingSubscriberTest extends TestCase
     {
         $event = $this->createEvent('alias');
 
-        (new EntityBuildingSubscriber())->buildEntityProperty($event);
+        new EntityBuildingSubscriber()->buildEntityProperty($event);
 
         self::assertSame(['Slugify'], $this->attrNames($event->prop));
     }
@@ -72,7 +72,7 @@ class EntityBuildingSubscriberTest extends TestCase
     {
         $event = $this->createEvent('alias');
 
-        (new EntityBuildingSubscriber(['slug_column' => false]))->buildEntityProperty($event);
+        new EntityBuildingSubscriber(['slug_column' => false])->buildEntityProperty($event);
 
         self::assertSame([], $this->attrNames($event->prop));
     }
@@ -104,7 +104,7 @@ class EntityBuildingSubscriberTest extends TestCase
 
         $event = $this->createEvent('created_by', $prop);
 
-        (new EntityBuildingSubscriber())->buildEntityProperty($event);
+        new EntityBuildingSubscriber()->buildEntityProperty($event);
 
         self::assertSame(['Author', 'Uuid'], $this->attrNames($event->prop));
     }
@@ -114,7 +114,7 @@ class EntityBuildingSubscriberTest extends TestCase
     {
         $event = $this->createEvent('modified_by');
 
-        (new EntityBuildingSubscriber())->buildEntityProperty($event);
+        new EntityBuildingSubscriber()->buildEntityProperty($event);
 
         self::assertSame(['Modifier'], $this->attrNames($event->prop));
     }
@@ -124,7 +124,7 @@ class EntityBuildingSubscriberTest extends TestCase
     {
         $event = $this->createEvent('ordering');
 
-        (new EntityBuildingSubscriber())->buildEntityProperty($event);
+        new EntityBuildingSubscriber()->buildEntityProperty($event);
 
         self::assertSame([], $this->attrNames($event->prop));
     }

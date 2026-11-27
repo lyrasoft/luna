@@ -49,7 +49,7 @@ class AddonRendererTest extends TestCase
             ->with(
                 'text',
                 $this->callback(
-                    fn (array $data): bool => (string) $data['options']['html_id'] === 'luna-7'
+                    fn(array $data): bool => (string) $data['options']['html_id'] === 'luna-7'
                         && $data['path'] === 'page-1'
                 )
             )
@@ -76,7 +76,7 @@ class AddonRendererTest extends TestCase
             ->with(
                 'text',
                 $this->callback(
-                    fn (array $data): bool => (string) $data['options']['html_id'] === 'custom-id'
+                    fn(array $data): bool => (string) $data['options']['html_id'] === 'custom-id'
                 )
             )
             ->willReturn($addon);

@@ -32,9 +32,9 @@ class MetaRuleEditView
     use FormAwareViewModelTrait;
 
     public function __construct(
-        #[Autowire] protected MetaRuleRepository $repository,
-    ) {
-    }
+        #[Autowire]
+        protected MetaRuleRepository $repository,
+    ) {}
 
     #[ViewPrepare]
     public function prepare(AppContext $app, View $view): mixed

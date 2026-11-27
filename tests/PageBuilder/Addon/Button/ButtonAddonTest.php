@@ -15,7 +15,7 @@ class ButtonAddonTest extends TestCase
     #[Test]
     public function prepareCSSSetsBorderRadiusOnButton(): void
     {
-        $addon = (new \ReflectionClass(ButtonAddon::class))->newInstanceWithoutConstructor();
+        $addon = new \ReflectionClass(ButtonAddon::class)->newInstanceWithoutConstructor();
         $styles = new StyleContainer('#page');
 
         $addon->prepareCSS(new Collection(['border_radius' => 8]), $styles);

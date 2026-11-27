@@ -15,7 +15,7 @@ class TextAddonTest extends TestCase
     #[Test]
     public function prepareCSSSetsResponsiveFontSizeAndLineHeight(): void
     {
-        $addon = (new \ReflectionClass(TextAddon::class))->newInstanceWithoutConstructor();
+        $addon = new \ReflectionClass(TextAddon::class)->newInstanceWithoutConstructor();
         $styles = new StyleContainer('#page');
 
         $addon->prepareCSS(

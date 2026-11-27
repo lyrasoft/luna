@@ -66,7 +66,7 @@ class MetaRule implements EntityInterface
     public string $jsonLd = '';
 
     /**
-     * @var array{ head?: string, body?: string }
+     * @var  array{ head?: string, body?: string }
      */
     #[Column('custom_codes')]
     #[JsonObject]

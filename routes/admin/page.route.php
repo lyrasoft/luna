@@ -7,7 +7,6 @@ namespace App\Routes;
 use Lyrasoft\Luna\Module\Admin\Page\PageController;
 use Lyrasoft\Luna\Module\Admin\Page\PageEditView;
 use Lyrasoft\Luna\Module\Admin\Page\PageListView;
-use Windwalker\Core\Middleware\JsonApiMiddleware;
 use Windwalker\Core\Router\RouteCreator;
 
 /** @var  RouteCreator $router */

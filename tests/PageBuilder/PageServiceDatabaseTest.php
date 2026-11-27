@@ -128,7 +128,7 @@ class PageServiceDatabaseTest extends TestCase
         $lang->method('trans')
             ->willReturnCallback(fn(string $id) => $messages[$id] ?? $id);
 
-        (new \ReflectionProperty(PageService::class, 'lang'))->setValue($service, $lang);
+        new \ReflectionProperty(PageService::class, 'lang')->setValue($service, $lang);
 
         return $service;
     }

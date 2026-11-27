@@ -15,7 +15,7 @@ class EmptyspaceAddonTest extends TestCase
     #[Test]
     public function prepareCSSSetsResponsiveHeight(): void
     {
-        $addon = (new \ReflectionClass(EmptyspaceAddon::class))->newInstanceWithoutConstructor();
+        $addon = new \ReflectionClass(EmptyspaceAddon::class)->newInstanceWithoutConstructor();
         $styles = new StyleContainer('#page');
 
         $addon->prepareCSS(

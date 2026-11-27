@@ -15,7 +15,7 @@ class ImageAddonTest extends TestCase
     #[Test]
     public function prepareCSSSetsBorderRadiusOnImage(): void
     {
-        $addon = (new \ReflectionClass(ImageAddon::class))->newInstanceWithoutConstructor();
+        $addon = new \ReflectionClass(ImageAddon::class)->newInstanceWithoutConstructor();
         $styles = new StyleContainer('#page');
 
         $addon->prepareCSS(new Collection(['border_radius' => 12]), $styles);

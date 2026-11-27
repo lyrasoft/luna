@@ -24,7 +24,11 @@
     },
     "scripts": {
         "test": "phpunit",
-        "test:app": "phpunit -c phpunit.app.xml"
+        "test:app": "phpunit -c phpunit.app.xml",
+        "cs-check": "bin/cs-fixer.php check --diff",
+        "cs-fix": "bin/cs-fixer.php fix",
+        "prepare-hooks": "git config core.hooksPath .githooks",
+        "remove-hooks": "git config --local --unset core.hooksPath"
     },
     "suggest": {
         "hybridauth/hybridauth": "Install ^3.0 to support social login.",

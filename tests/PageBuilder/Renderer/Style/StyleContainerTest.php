@@ -128,6 +128,6 @@ class StyleContainerTest extends TestCase
     #[Test]
     public function renderReturnsEmptyStringWithoutSelectors(): void
     {
-        self::assertSame('', (new StyleContainer())->render());
+        self::assertSame('', new StyleContainer()->render());
     }
 }

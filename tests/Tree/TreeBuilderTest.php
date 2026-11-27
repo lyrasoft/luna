@@ -155,6 +155,4 @@ class TreeBuilderTest extends TestCase
     }
 }
 
-class TreeBuilderTestNode extends Node
-{
-}
+class TreeBuilderTestNode extends Node {}
