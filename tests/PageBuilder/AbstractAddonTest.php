@@ -129,7 +129,7 @@ class AbstractAddonTest extends TestCase
             $paths
         );
         self::assertContains(
-            str_replace('\\', '/', dirname((new \ReflectionClass(FallbackFixtureAddon::class))->getFileName()) . '/views'),
+            str_replace('\\', '/', dirname(new \ReflectionClass(FallbackFixtureAddon::class)->getFileName()) . '/views'),
             $paths
         );
     }

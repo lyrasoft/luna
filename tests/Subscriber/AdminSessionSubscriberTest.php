@@ -29,7 +29,7 @@ class AdminSessionSubscriberTest extends TestCase
     {
         $matched = $this->createStub(Route::class);
         $matched->method('getExtraValue')->willReturnCallback(
-            static fn (string $key) => $key === 'namespace' ? $namespace : null
+            static fn(string $key) => $key === 'namespace' ? $namespace : null
         );
 
         return new AfterRoutingEvent(
@@ -41,7 +41,7 @@ class AdminSessionSubscriberTest extends TestCase
     }
 
     /**
-     * @return array{0: Container, 1: Container}  [child, parent]
+     * @return  array{0: Container, 1: Container}  [child, parent]
      */
     private function createContainers(?Session $session): array
     {
@@ -65,7 +65,7 @@ class AdminSessionSubscriberTest extends TestCase
 
         [$child, $parent] = $this->createContainers($session);
 
-        (new AdminSessionSubscriber($child))->afterRouting($this->createEvent('admin'));
+        new AdminSessionSubscriber($child)->afterRouting($this->createEvent('admin'));
 
         self::assertSame(
             'WINDWALKER_ADMIN_REMEMBER',
@@ -81,7 +81,7 @@ class AdminSessionSubscriberTest extends TestCase
 
         [$child, $parent] = $this->createContainers($session);
 
-        (new AdminSessionSubscriber($child))->afterRouting($this->createEvent('front'));
+        new AdminSessionSubscriber($child)->afterRouting($this->createEvent('front'));
 
         self::assertNull($parent->getParameters()->getDeep('user.remember.cookie_name'));
     }
@@ -91,7 +91,7 @@ class AdminSessionSubscriberTest extends TestCase
     {
         [$child, $parent] = $this->createContainers(null);
 
-        (new AdminSessionSubscriber($child))->afterRouting($this->createEvent('admin'));
+        new AdminSessionSubscriber($child)->afterRouting($this->createEvent('admin'));
 
         self::assertNull($parent->getParameters()->getDeep('user.remember.cookie_name'));
     }
@@ -111,7 +111,7 @@ class AdminSessionSubscriberTest extends TestCase
 
         [$child, $parent] = $this->createContainers($session);
 
-        (new AdminSessionSubscriber($child))->afterRouting($this->createEvent('admin'));
+        new AdminSessionSubscriber($child)->afterRouting($this->createEvent('admin'));
 
         self::assertSame(
             'CUSTOM_REMEMBER',

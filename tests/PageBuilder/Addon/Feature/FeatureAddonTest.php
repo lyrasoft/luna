@@ -15,7 +15,7 @@ class FeatureAddonTest extends TestCase
     #[Test]
     public function prepareCSSAddsIconStylesWhenLayoutIsIcon(): void
     {
-        $addon = (new \ReflectionClass(FeatureAddon::class))->newInstanceWithoutConstructor();
+        $addon = new \ReflectionClass(FeatureAddon::class)->newInstanceWithoutConstructor();
         $styles = new StyleContainer('#page');
 
         $addon->prepareCSS(
@@ -64,7 +64,7 @@ class FeatureAddonTest extends TestCase
     #[Test]
     public function prepareCSSSkipsIconStylesForOtherLayouts(): void
     {
-        $addon = (new \ReflectionClass(FeatureAddon::class))->newInstanceWithoutConstructor();
+        $addon = new \ReflectionClass(FeatureAddon::class)->newInstanceWithoutConstructor();
         $styles = new StyleContainer('#page');
 
         $addon->prepareCSS(

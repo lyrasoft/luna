@@ -34,13 +34,9 @@ final class FakeMenuView extends AbstractMenuView
         return 'fake';
     }
 
-    protected function defineVariablesForm(Form $form): void
-    {
-    }
+    protected function defineVariablesForm(Form $form): void {}
 
-    protected function defineParamsForm(Form $form): void
-    {
-    }
+    protected function defineParamsForm(Form $form): void {}
 
     public function route(Navigator $nav, array $variables, array $params): UriInterface
     {
@@ -123,7 +119,7 @@ class MenuServiceTest extends TestCase
 
     /**
      * @param  class-string<AbstractMenuView>[]  $views
-     * @param  array                              $types
+     * @param  array                             $types
      */
     private function createService(
         array $views = [],

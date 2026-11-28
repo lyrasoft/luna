@@ -38,7 +38,7 @@ class BuildFormFieldSubscriberTest extends TestCase
 
         $event = $this->createEvent('created_by', $builder, 'Creator');
 
-        (new BuildFormFieldSubscriber())->buildFormField($event);
+        new BuildFormFieldSubscriber()->buildFormField($event);
 
         self::assertStringContainsString("\$form->add('created_by', UserModalField::class)", (string) $event->code);
         self::assertStringContainsString('->label(Creator)', (string) $event->code);
@@ -52,7 +52,7 @@ class BuildFormFieldSubscriberTest extends TestCase
 
         $event = $this->createEvent('modified_by', $builder);
 
-        (new BuildFormFieldSubscriber())->buildFormField($event);
+        new BuildFormFieldSubscriber()->buildFormField($event);
 
         self::assertStringContainsString("\$form->add('modified_by', UserModalField::class)", (string) $event->code);
     }
@@ -86,7 +86,7 @@ class BuildFormFieldSubscriberTest extends TestCase
 
         $event = $this->createEvent('image', $builder);
 
-        (new BuildFormFieldSubscriber())->buildFormField($event);
+        new BuildFormFieldSubscriber()->buildFormField($event);
 
         $code = (string) $event->code;
 
@@ -104,7 +104,7 @@ class BuildFormFieldSubscriberTest extends TestCase
 
         $event = $this->createEvent('title', $builder);
 
-        (new BuildFormFieldSubscriber())->buildFormField($event);
+        new BuildFormFieldSubscriber()->buildFormField($event);
 
         self::assertNull($event->code);
     }

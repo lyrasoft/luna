@@ -68,10 +68,10 @@ class PageRendererFactoryTest extends TestCase
             ->method('make')
             ->with(
                 FactoryFixtureAddon::class,
-                $this->callback(fn (array $args): bool => $args['data'] === ['text' => 'hello'])
+                $this->callback(fn(array $args): bool => $args['data'] === ['text' => 'hello'])
             )
             ->willReturnCallback(
-                fn (string $class, array $args) => new FactoryFixtureAddon($args['factory'], $args['data'])
+                fn(string $class, array $args) => new FactoryFixtureAddon($args['factory'], $args['data'])
             );
 
         $factory = $this->createFactory($pageService, $app);
@@ -108,7 +108,7 @@ class PageRendererFactoryTest extends TestCase
             ->method('make')
             ->with(
                 RowRenderer::class,
-                self::callback(fn (array $args): bool => isset($args['factory']))
+                self::callback(fn(array $args): bool => isset($args['factory']))
             )
             ->willReturn($renderer);
 

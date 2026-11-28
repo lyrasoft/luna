@@ -14,7 +14,7 @@ class StyleRulesTest extends TestCase
     #[Test]
     public function addAppendsUnitToValue(): void
     {
-        $rules = (new StyleRules())->add('width', 10, 'px');
+        $rules = new StyleRules()->add('width', 10, 'px');
 
         $css = $rules->render('.box');
 
@@ -25,7 +25,7 @@ class StyleRulesTest extends TestCase
     #[Test]
     public function addSkipsEmptyValue(): void
     {
-        $rules = (new StyleRules())->add('color', '', 'px');
+        $rules = new StyleRules()->add('color', '', 'px');
 
         self::assertSame('', $rules->render('.box'));
     }
@@ -41,7 +41,7 @@ class StyleRulesTest extends TestCase
     #[Test]
     public function renderReturnsEmptyStringWithoutRules(): void
     {
-        self::assertSame('', (new StyleRules())->render('.box'));
+        self::assertSame('', new StyleRules()->render('.box'));
     }
 
     #[Test]

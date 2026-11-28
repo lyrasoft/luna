@@ -143,7 +143,7 @@ class RowRendererTest extends TestCase
             ->with(
                 'resolved-row-layout',
                 $this->callback(
-                    fn (array $data): bool => $data['row']->getDeep('options.html_id') === 'luna-7'
+                    fn(array $data): bool => $data['row']->getDeep('options.html_id') === 'luna-7'
                         && $data['path'] === '/row/path'
                         && $data['pageRenderer'] instanceof RowRenderer
                 )

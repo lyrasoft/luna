@@ -44,7 +44,7 @@ class ColumnRendererTest extends TestCase
             ->with(
                 'resolved-layout',
                 $this->callback(
-                    fn (array $data): bool => (string) $data['col']->getDeep('options.html_id') === 'luna-3'
+                    fn(array $data): bool => (string) $data['col']->getDeep('options.html_id') === 'luna-3'
                         && $data['path'] === 'page-1'
                 )
             )
